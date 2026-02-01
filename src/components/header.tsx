@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
@@ -33,6 +34,7 @@ import { ContactForm } from "./contact-form";
 import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 
 
 const allCoursesCategories = [
@@ -152,7 +154,10 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
+  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
+  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -284,9 +289,38 @@ export function Header() {
   };
 
 
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      const result = await getUpdates(3);
+      if (result.success && result.data) {
+        const fetchedUpdates = result.data as Update[];
+        setUpdates(fetchedUpdates);
+
+        if (fetchedUpdates.length > 0) {
+          const lastChecked = localStorage.getItem('lastCheckedUpdate');
+          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
+          
+          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
+            setHasNewUpdates(true);
+          }
+        }
+      }
+    };
+    if (!isIdlFoundationPage) {
+        fetchUpdates();
+    }
+  }, [isIdlFoundationPage]);
+  
   const handleLogout = async () => {
     await logout();
     router.push('/');
+  };
+
+  const handleNotificationOpenChange = (open: boolean) => {
+    if (open) {
+      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
+      setHasNewUpdates(false);
+    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -299,7 +333,7 @@ export function Header() {
     return `/${user.role}/profile`;
   }
 
-  const logoHref = isIdlFoundationPage ? "/idl-foundation" : "/";
+  const logoHref = "/";
 
   const handleMouseEnter = (menu: string) => {
     if (menuTimeoutRef.current) {
@@ -322,7 +356,7 @@ export function Header() {
   ];
 
   const renderAuthSection = () => {
-    if (!mounted || loading) {
+    if (loading) {
       return <Skeleton className="h-10 w-10 rounded-full" />;
     }
 
@@ -468,14 +502,42 @@ export function Header() {
         );
     }
     if (user) {
-      return null;
+      return (
+        <div className="p-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="w-full justify-start h-auto p-2">
+                <Avatar className="h-10 w-10">
+                  <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? 'User'} fill className="rounded-full object-cover" />
+                  <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : <User />}</AvatarFallback>
+                </Avatar>
+                <div className="ml-3 text-left">
+                  <p className="text-sm font-medium leading-none">{user.name}</p>
+                  <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                </div>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-56 mb-2" align="start" side="top">
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut className="mr-2 h-4 w-4" />
+                <span>Logout</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
     }
-    return null;
+    return (
+        <div className="p-2 grid grid-cols-2 gap-2">
+            <Button asChild><Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link></Button>
+            <Button asChild variant="outline"><Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link></Button>
+        </div>
+    );
   };
   
 
   const headerClasses = cn(
-    "sticky top-0 z-50 transition-transform duration-300 h-16",
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-12",
     show ? "translate-y-0" : "-translate-y-full",
     "bg-background/95 backdrop-blur-sm"
   );
@@ -488,177 +550,177 @@ export function Header() {
         id="razorpay-checkout-js"
         src="https://checkout.razorpay.com/v1/checkout.js"
       />
-      <Collapsible asChild open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-        <header className={cn(headerClasses, 'z-50')}>
-            <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                <Link href={logoHref} className="flex items-center gap-2">
-                    <Image src="/logo.png" alt="IDL Education Logo" width={isIdlFoundationPage ? 40 : 48} height={isIdlFoundationPage ? 40 : 48} className={cn("h-auto", isIdlFoundationPage ? "w-10" : "w-12")} />
-                    {isIdlFoundationPage && (
-                        <span className="text-xl font-bold text-primary">IDL Foundation</span>
-                    )}
-                </Link>
+      <header className={cn(headerClasses, 'z-50')}>
+        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
+            <Link href={logoHref} className="flex items-center justify-center -ml-2">
+              <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
+            </Link>
+            
+             <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+                <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                      {!isIdlFoundationPage ? (
+                        <>
+                          <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
+                            <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                Explore
+                            </Button>
+                          </div>
+                          <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
+                            <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                              Apply For
+                            </Button>
+                          </div>
+                           <div className="h-full flex items-center">
+                            <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
+                              <Link href="/store" target="_blank" rel="noopener noreferrer">
+                                IDL Store
+                              </Link>
+                            </Button>
+                          </div>
+                        </>
+                      ) : null}
+                </nav>
+            </div>
+            <div className="flex items-center gap-1">
+                <div className="hidden md:flex items-center gap-2">
+                     <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
+                        <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                            <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                        </div>
+                        <div>
+                            <p className="text-xs text-muted-foreground leading-tight">Call now</p>
+                            <p className="text-base font-bold text-foreground leading-tight">70-1111-7585</p>
+                        </div>
+                    </a>
+                </div>
                 
-                 <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
-                          {!isIdlFoundationPage ? (
-                            <>
-                              <div onMouseEnter={() => handleMouseEnter('all-courses')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'all-courses'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    All Courses <ChevronDown className={cn("ml-1 h-4 w-4 transition-transform", activeMenu === 'all-courses' && "rotate-180")} />
-                                </Button>
-                              </div>
-                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                  Apply For
-                                </Button>
-                              </div>
-                               <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    More
-                                </Button>
-                              </div>
-                               <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto p-2 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
-                                  <Link href="/store" target="_blank" rel="noopener noreferrer">
-                                    <StoreIcon />
-                                  </Link>
-                                </Button>
-                              </div>
-                            </>
-                          ) : null}
-                    </nav>
-                 </div>
                 <div className="flex items-center gap-1">
-                    <div className="hidden md:flex items-center gap-2">
-                         <a href="tel:7011117585" className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
-                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                {mounted && renderAuthSection()}
+                </div>
+                
+                 <div className="md:hidden">
+                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+                        <SheetTrigger asChild>
+                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
+                                <Menu className="h-5 w-5" />
+                                <span className="sr-only">Toggle navigation menu</span>
+                            </Button>
+                        </SheetTrigger>
+                        <SheetContent side="left" className="p-0 w-80">
+                            <SheetHeader className="p-4 border-b">
+                                <SheetTitle>
+                                    <Link href={logoHref} className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                                        <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
+                                        <span className="text-lg font-bold text-primary">{isIdlFoundationPage ? "IDL Foundation" : "IDL EDUCATION"}</span>
+                                    </Link>
+                                </SheetTitle>
+                            </SheetHeader>
+                            <div className="h-[calc(100vh-4.5rem)] flex flex-col">
+                                <ScrollArea className="flex-1">
+                                    {!isIdlFoundationPage && (
+                                    <div className="p-2">
+                                        <nav className="grid gap-2 p-2">
+                                        <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
+                                            <CollapsibleTrigger asChild>
+                                                <Button variant="ghost" className="w-full justify-between text-base py-3 px-4 h-auto rounded-lg">
+                                                    <span className="flex items-center gap-3 font-semibold"><BookOpen className="h-5 w-5" /> All Courses</span>
+                                                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+                                                </Button>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent className="p-2">
+                                                <div className="grid grid-cols-1 gap-1">
+                                                    {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
+                                                        <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                            <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
+                                                            <div>
+                                                                <p className="font-semibold text-sm">{label}</p>
+                                                                <p className="text-xs text-muted-foreground">{description}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </CollapsibleContent>
+                                        </Collapsible>
+                                        <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
+                                            <CollapsibleTrigger asChild>
+                                                <Button variant="ghost" className="w-full justify-between text-base py-3 px-4 h-auto rounded-lg">
+                                                    <span className="flex items-center gap-3 font-semibold"><GraduationCap className="h-5 w-5" /> Apply For</span>
+                                                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+                                                </Button>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent className="p-2">
+                                                <div className="grid grid-cols-1 gap-1">
+                                                    {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
+                                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                            <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
+                                                            <div>
+                                                                <p className="font-semibold text-sm">{label}</p>
+                                                                <p className="text-xs text-muted-foreground">{description}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </CollapsibleContent>
+                                        </Collapsible>
+                                        <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
+                                            <CollapsibleTrigger asChild>
+                                                <Button variant="ghost" className="w-full justify-between text-base py-3 px-4 h-auto rounded-lg">
+                                                    <span className="flex items-center gap-3 font-semibold"><MoreHorizontal className="h-5 w-5" /> More</span>
+                                                    <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
+                                                </Button>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent className="p-2">
+                                                <div className="grid grid-cols-1 gap-1">
+                                                    {navLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
+                                                        <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                                            <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
+                                                            <div>
+                                                                <p className="font-semibold text-sm">{label}</p>
+                                                                <p className="text-xs text-muted-foreground">{description}</p>
+                                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </CollapsibleContent>
+                                        </Collapsible>
+                                        <Button asChild variant="ghost" className="w-full justify-start text-base p-3 h-auto rounded-lg">
+                                        <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 font-semibold">
+                                            <ShoppingCart className="h-5 w-5" />
+                                            IDL Store
+                                        </Link>
+                                        </Button>
+                                        <Button asChild variant="ghost" className="w-full justify-start text-base p-3 h-auto rounded-lg">
+                                        <a href="tel:7011117585" className="flex items-center gap-3 font-semibold">
+                                            <Phone className="h-5 w-5" />
+                                            Call Now
+                                        </a>
+                                        </Button>
+                                        </nav>
+                                    </div>
+                                    )}
+                                </ScrollArea>
+                                <div className="p-2 border-t">
+                                    {renderMobileAuthSection()}
+                                </div>
                             </div>
-                            <div>
-                                <p className="text-xs text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-sm font-bold text-foreground leading-tight">70-1111-7585</p>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div className="flex items-center gap-1">
-                      {mounted && renderAuthSection()}
-                    </div>
-                    
-                    <CollapsibleTrigger asChild className="md:hidden">
-                        <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
-                            {isMobileMenuOpen ? <X className="h-4 w-4" /> : <AlignJustify className="h-4 w-4" />}
-                            <span className="sr-only">Toggle navigation menu</span>
-                        </Button>
-                    </CollapsibleTrigger>
+                        </SheetContent>
+                    </Sheet>
                 </div>
             </div>
-             <CollapsibleContent asChild>
-                <div className={cn(
-                    "overflow-hidden transition-all data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down md:hidden",
-                    "duration-200"
-                )}>
-                    <div className="border-t bg-background">
-                        {!isIdlFoundationPage && (
-                        <div className="p-2">
-                            <nav className="grid gap-1">
-                                <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="ghost" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><BookOpen className="h-4 w-4" /> All Courses</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
-                                            {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
-                                                <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                     <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm">{label}</p>
-                                                        <p className="text-xs text-muted-foreground">{description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
-                                <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="ghost" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4" /> Apply For</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
-                                            {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
-                                                <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm">{label}</p>
-                                                        <p className="text-xs text-muted-foreground">{description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
-                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
-                                    <CollapsibleTrigger asChild>
-                                        <Button variant="ghost" className="w-full justify-between text-sm">
-                                            <span className="flex items-center gap-3"><MoreHorizontal className="h-4 w-4" /> More</span>
-                                            <ChevronDown className="h-4 w-4 transition-transform data-[state=open]:rotate-180" />
-                                        </Button>
-                                    </CollapsibleTrigger>
-                                    <CollapsibleContent className="p-2">
-                                        <div className="grid grid-cols-1 gap-1">
-                                            {navLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
-                                                <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                    <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
-                                                    <div>
-                                                        <p className="font-semibold text-sm">{label}</p>
-                                                        <p className="text-xs text-muted-foreground">{description}</p>
-                                                    </div>
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </CollapsibleContent>
-                                </Collapsible>
-                                <Button asChild variant="ghost" className="w-full justify-start text-sm">
-                                  <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3">
-                                    <ShoppingCart className="h-4 w-4" />
-                                    IDL Store
-                                  </Link>
-                                </Button>
-                                <Button asChild variant="ghost" className="w-full justify-start text-sm">
-                                   <a href="tel:7011117585" className="flex items-center gap-3">
-                                      <Phone className="h-4 w-4" />
-                                      Call Now (70-1111-7585)
-                                  </a>
-                                </Button>
-                            </nav>
-                        </div>
-                        )}
-                        {renderMobileAuthSection()}
-                    </div>
-                </div>
-            </CollapsibleContent>
-        </header>
-      </Collapsible>
+        </div>
+      </header>
        <div 
         onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
-          "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+          "fixed top-12 left-0 w-full z-40 transition-all duration-300 ease-in-out",
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
