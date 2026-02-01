@@ -15,6 +15,7 @@ import { X, Heart, IndianRupee, Banknote, CheckCircle } from 'lucide-react';
 import { FoundationHero } from "@/components/foundation/foundation-hero";
 import { VolunteerDialog } from "@/components/foundation/volunteer-dialog";
 import { VisionMission } from "@/components/foundation/vision-mission";
+import { OurApproach } from "@/components/foundation/our-approach";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -192,6 +193,7 @@ export default function IDLFoundationPage() {
             </section>
             <FoundationMotive />
             <About />
+            <OurApproach />
             <VisionMission />
             <Activities />
             <Donors />
