@@ -503,7 +503,7 @@ export function Header() {
     }
     if (user) {
       return (
-        <div className="p-2">
+        <div className="p-2 border-t">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="w-full justify-start h-auto p-2">
@@ -528,7 +528,7 @@ export function Header() {
       );
     }
     return (
-        <div className="p-2 grid grid-cols-2 gap-2">
+        <div className="p-2 grid grid-cols-2 gap-2 border-t">
             <Button asChild><Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link></Button>
             <Button asChild variant="outline"><Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link></Button>
         </div>
@@ -556,13 +556,13 @@ export function Header() {
               <Image src="/logo.png" alt="IDL Education Logo" width={40} height={40} className="h-10 w-auto" />
             </Link>
             
-             <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
+             <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
                 <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
                       {!isIdlFoundationPage ? (
                         <>
-                          <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                            <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                Explore
+                          <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
+                            <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                More <ChevronDown className={cn('ml-1 h-4 w-4 transition-transform', activeMenu === 'more' && 'rotate-180')} />
                             </Button>
                           </div>
                           <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
@@ -690,10 +690,10 @@ export function Header() {
                                         </Link>
                                         </Button>
                                         <Button asChild variant="ghost" className="w-full justify-start text-base p-3 h-auto rounded-lg">
-                                        <a href="tel:7011117585" className="flex items-center gap-3 font-semibold">
-                                            <Phone className="h-5 w-5" />
-                                            Call Now
-                                        </a>
+                                           <a href="tel:7011117585" className="flex items-center gap-3 font-semibold">
+                                              <Phone className="h-5 w-5" />
+                                              Call Now
+                                          </a>
                                         </Button>
                                         </nav>
                                     </div>
@@ -719,7 +719,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
@@ -738,3 +738,4 @@ export function Header() {
     </>
   );
 }
+
