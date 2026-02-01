@@ -46,34 +46,26 @@ function ExamcatPageContent() {
     const resourceCards = [
         {
           title: "PDF Bank",
-          description: "Access Our PDF Bank",
-          icon: <FileText className="w-6 h-6 text-pink-600" />,
-          borderColor: "border-pink-500",
-          bgColor: "bg-pink-100 dark:bg-pink-900/30",
+          icon: <FileText className="w-8 h-8 text-white" />,
+          gradient: "from-pink-500 to-rose-500",
           href: "#"
         },
         {
           title: "Test Series",
-          description: "Explore Our Test Series",
-          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          borderColor: "border-green-500",
-          bgColor: "bg-green-100 dark:bg-green-900/30",
+          icon: <ClipboardList className="w-8 h-8 text-white" />,
+          gradient: "from-green-500 to-emerald-500",
           href: "#"
         },
         {
           title: "Books",
-          description: "Find Preparation Books",
-          icon: <BookOpen className="w-6 h-6 text-sky-600" />,
-          borderColor: "border-sky-500",
-          bgColor: "bg-sky-100 dark:bg-sky-900/30",
+          icon: <BookOpen className="w-8 h-8 text-white" />,
+          gradient: "from-sky-500 to-blue-500",
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
-          description: "Read Our Latest Blogs",
-          icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          borderColor: "border-blue-500",
-          bgColor: "bg-blue-100 dark:bg-blue-900/30",
+          icon: <Monitor className="w-8 h-8 text-white" />,
+          gradient: "from-indigo-500 to-purple-500",
           href: "/blog"
         }
     ];
@@ -214,13 +206,13 @@ function ExamcatPageContent() {
             <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
-                            <CardContent className="p-4 flex flex-col items-center text-center text-foreground h-full">
-                                <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
+                        <Card className={`h-full rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 bg-gradient-to-br ${card.gradient}`}>
+                            <div className="p-6 flex flex-col items-center text-center text-white h-full bg-black/10 backdrop-blur-sm">
+                                <div className="mb-4 bg-white/20 p-4 rounded-full">
                                     {card.icon}
                                 </div>
-                                <h3 className="text-md font-bold mb-1">{card.title}</h3>
-                            </CardContent>
+                                <h3 className="text-lg font-bold">{card.title}</h3>
+                            </div>
                         </Card>
                     </Link>
                 ))}
@@ -267,7 +259,7 @@ function ExamcatPageContent() {
                                     <p className="text-2xl font-bold">₹{course.price}</p>
                                     <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
                                 </div>
-                                <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
+                               <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
                                     Discount of {course.discount}% applied
                                 </div>
                                 <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
