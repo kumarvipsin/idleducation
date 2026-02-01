@@ -25,34 +25,26 @@ export default function IitJeePage() {
     const resourceCards = [
         {
           title: "PDF Bank",
-          description: "Access Our PDF Bank",
-          icon: <FileText className="w-4 h-4 text-pink-600" />,
-          bgColor: "bg-pink-50 dark:bg-pink-900/30",
-          borderColor: "border-pink-100 dark:border-pink-800",
+          icon: <FileText className="w-6 h-6 text-pink-600" />,
+          gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
           href: "#"
         },
         {
           title: "Test Series",
-          description: "Explore Our Test Series",
-          icon: <ClipboardList className="w-4 h-4 text-green-600" />,
-          bgColor: "bg-green-50 dark:bg-green-900/30",
-          borderColor: "border-green-100 dark:border-green-800",
+          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
+          gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30",
           href: "#"
         },
         {
           title: "Books",
-          description: "Find Preparation Books",
-          icon: <BookOpen className="w-4 h-4 text-indigo-600" />,
-          bgColor: "bg-sky-50 dark:bg-sky-900/30",
-          borderColor: "border-sky-100 dark:border-sky-800",
+          icon: <BookOpen className="w-6 h-6 text-sky-600" />,
+          gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30",
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
-          description: "Read Our Latest Blogs",
-          icon: <Monitor className="w-4 h-4 text-blue-600" />,
-          bgColor: "bg-blue-50 dark:bg-blue-900/20",
-          borderColor: "border-blue-100 dark:border-blue-800",
+          icon: <Monitor className="w-6 h-6 text-blue-600" />,
+          gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30",
           href: "/blog"
         }
     ];
@@ -234,15 +226,15 @@ export default function IitJeePage() {
                 <Button onClick={() => setActiveTab('neet')} variant={activeTab === 'neet' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">NEET</Button>
             </div>
 
-            <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
-                            <CardContent className="p-4 flex flex-col items-center text-center text-foreground h-full">
-                                <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
+                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient} bg-background/50 backdrop-blur-sm border border-white/20`}>
+                            <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
+                                <div className={`mb-3 p-3 rounded-full bg-white/30`}>
                                     {card.icon}
                                 </div>
-                                <h3 className="text-md font-bold mb-1">{card.title}</h3>
+                                <h3 className="text-lg font-bold mb-1">{card.title}</h3>
                             </CardContent>
                         </Card>
                     </Link>
@@ -368,11 +360,11 @@ export default function IitJeePage() {
                             </div>
                             <CardContent className="p-4 flex flex-col flex-grow">
                               <div className="flex justify-between items-start mb-2">
-                                <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
+                                  <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
+                                  <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
                                   <span>{course.language}</span>
                                   <MessageSquare className="w-4 h-4" />
-                                </div>
+                                  </div>
                               </div>
                               <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
                               <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>

@@ -34,34 +34,26 @@ export default function NewWorkPage() {
     const resourceCards = [
         {
           title: "PDF Bank",
-          description: "Access Our PDF Bank",
           icon: <FileText className="w-6 h-6 text-pink-600" />,
-          borderColor: "border-pink-500",
-          bgColor: "bg-pink-100 dark:bg-pink-900/30",
+          gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
           href: "#"
         },
         {
           title: "Test Series",
-          description: "Explore Our Test Series",
           icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          borderColor: "border-green-500",
-          bgColor: "bg-green-100 dark:bg-green-900/30",
+          gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30",
           href: "#"
         },
         {
           title: "Books",
-          description: "Find Preparation Books",
           icon: <BookOpen className="w-6 h-6 text-sky-600" />,
-          borderColor: "border-sky-500",
-          bgColor: "bg-sky-100 dark:bg-sky-900/30",
+          gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30",
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
-          description: "Read Our Latest Blogs",
           icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          borderColor: "border-blue-500",
-          bgColor: "bg-blue-100 dark:bg-blue-900/30",
+          gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30",
           href: "/blog"
         }
     ];
@@ -151,12 +143,12 @@ export default function NewWorkPage() {
             <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
-                            <CardContent className="p-4 flex flex-col items-center text-center text-foreground h-full">
-                                <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
+                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient} bg-background/50 backdrop-blur-sm border border-white/20`}>
+                            <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
+                                <div className={`mb-3 p-3 rounded-full bg-white/30`}>
                                     {card.icon}
                                 </div>
-                                <h3 className="text-md font-bold mb-1">{card.title}</h3>
+                                <h3 className="text-lg font-bold mb-1">{card.title}</h3>
                             </CardContent>
                         </Card>
                     </Link>

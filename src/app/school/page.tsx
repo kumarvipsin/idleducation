@@ -1,376 +1,358 @@
 
 'use client';
 
-import { useState } from "react";
+import { useState, useEffect, Suspense, useRef } from 'react';
+import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
+import { ArrowRight, BookOpen, Calendar, Users, MessageSquare, Tag, Tv, Zap, UserCheck, Home, BookCopy, BookCheck as BookCheckIcon, ClipboardEdit, FileText, PlayCircle, Eye, Download } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams, useRouter } from 'next/navigation';
+import { TeacherCard } from '@/components/landing/teacher-card';
+import { useLanguage } from '@/context/language-context';
+import { useIsMobile } from "@/hooks/use-is-mobile";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-import { MessageSquare, Users, Calendar } from "lucide-react";
+import { getExamCategories, getTeachers, getSignedUrlForPdf } from '@/app/actions';
+import type { TExamCategory, VideoLesson, SyllabusItem } from '@/app/actions/types';
+import { Skeleton } from '@/components/ui/skeleton';
+import { GcsImage } from '@/components/gcs-image';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
+import { syllabusData } from '@/lib/syllabus-data';
 
-const CheckIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2Z" fill="url(#paint0_linear_jee_blog)"/>
-        <path d="M8 12.5L11 15.5L16.5 9.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <defs>
-            <linearGradient id="paint0_linear_jee_blog" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F97316"/>
-                <stop offset="1" stopColor="#16A34A"/>
-            </linearGradient>
-        </defs>
-    </svg>
-);
+const resourceCards = [
+    {
+      title: "Notes",
+      icon: <ClipboardEdit className="w-6 h-6 text-pink-600" />,
+      gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
+      href: "/resources/notes"
+    },
+    {
+      title: "NCERT Solutions",
+      icon: <BookCheckIcon className="w-6 h-6 text-green-600" />,
+      gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30",
+      href: "/resources/ncert-solutions"
+    },
+    {
+      title: "Previous Year Questions",
+      icon: <FileText className="w-6 h-6 text-sky-600" />,
+      gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30",
+      href: "/resources/previous-year-questions"
+    },
+     {
+      title: "Reference Books",
+      icon: <BookCopy className="w-6 h-6 text-blue-600" />,
+      gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30",
+      href: "/resources/reference-books"
+    }
+];
+
+interface Teacher {
+  id: string;
+  name: string;
+  designation: string;
+  experience: string;
+  photoURL?: string;
+  avatar: string;
+  biography?: string;
+  socialLinks?: {
+      instagram?: string;
+      facebook?: string;
+      twitter?: string;
+  };
+}
+
+function SchoolPageContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const classParam = searchParams.get('class');
+  const [activeClass, setActiveClass] = useState('');
+  const [classes, setClasses] = useState<TExamCategory[]>([]);
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [animationKey, setAnimationKey] = useState(0);
+  const { toast } = useToast();
+  
+  const [isLoadingPdf, setIsLoadingPdf] = useState(false);
+  const [pdfSrc, setPdfSrc] = useState<string | null>(null);
+  const [isPdfDialogOpen, setIsPdfDialogOpen] = useState(false);
+  const [dialogTitle, setDialogTitle] = useState("PDF Viewer");
+  
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      const [categoriesResult, teachersResult] = await Promise.all([
+        getExamCategories(),
+        getTeachers(),
+      ]);
+
+      if (categoriesResult.success && categoriesResult.data) {
+        const schoolExams = (categoriesResult.data as TExamCategory[])
+          .filter(cat => cat.group === 'school')
+          .sort((a, b) => (a.order || 99) - (b.order || 99));
+        setClasses(schoolExams);
+
+        if (schoolExams.length > 0) {
+          const initialClass = classParam && schoolExams.some(c => c.name === classParam)
+            ? classParam 
+            : schoolExams.find(c => c.name.includes('8'))?.name || schoolExams[0].name;
+          setActiveClass(initialClass);
+        }
+      }
+      if (teachersResult.success && teachersResult.data) {
+        setTeachers(teachersResult.data as Teacher[]);
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, [classParam]);
+
+
+  useEffect(() => {
+    setAnimationKey(prev => prev + 1);
+  }, [activeClass]);
+
+  const handleClassChange = (className: string) => {
+    setActiveClass(className);
+    router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
+  };
+  
+    const handleAction = async (pdfUrl: string, title?: string) => {
+        if (!pdfUrl) {
+            toast({ variant: 'destructive', title: 'Not Available', description: 'The syllabus PDF is not yet available for this subject.' });
+            return;
+        }
+        setIsLoadingPdf(true);
+        setIsPdfDialogOpen(true);
+        if (title) setDialogTitle(title);
+        
+        const result = await getSignedUrlForPdf(pdfUrl);
+        if (result.success && result.url) {
+            setPdfSrc(result.url);
+        } else {
+            toast({ variant: "destructive", title: "Error", description: result.message });
+            setIsPdfDialogOpen(false);
+        }
+        setIsLoadingPdf(false);
+    };
+  
+  const activeCategory = classes.find(c => c.name === activeClass);
+  const activeTeachers = activeCategory?.teacherIds
+    ? teachers.filter(t => activeCategory.teacherIds?.includes(t.id))
+    : [];
+    
+  const videoLessons: VideoLesson[] = activeCategory?.videoLessons || [];
+  const syllabusItems: SyllabusItem[] = activeCategory?.syllabus || [];
+
+  return (
+    <div className="relative min-h-screen w-full bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 overflow-y-auto">
+        <Link href="/" className="absolute top-4 right-4 z-20">
+            <Button variant="ghost" size="icon">
+                <Home className="h-6 w-6 text-primary" />
+                <span className="sr-only">Home</span>
+            </Button>
+        </Link>
+        <div className="container mx-auto py-8 px-4 md:px-6">
+          <section className="mb-8">
+            <Card className="overflow-hidden shadow-lg">
+              <div className="relative w-full aspect-[16/4]">
+                {loading || !activeCategory?.imageUrl ? (
+                  <Skeleton className="w-full h-full" />
+                ) : (
+                    <GcsImage
+                        filePath={activeCategory.imageUrl}
+                        alt={`Banner for ${activeCategory.name}`}
+                        fill
+                        className="object-cover"
+                    />
+                )}
+              </div>
+            </Card>
+          </section>
+
+          <div className="mb-8">
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                {loading ? (
+                  [...Array(8)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-md" />)
+                ) : (
+                  classes.map((c) => (
+                    <button
+                      key={c.id}
+                      onClick={() => handleClassChange(c.name)}
+                      className={`py-2 px-4 whitespace-nowrap text-sm font-medium transition-colors border
+                        ${activeClass === c.name 
+                          ? 'border-primary text-primary bg-primary/10 rounded-md' 
+                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted rounded-md'}`}
+                    >
+                      {c.name}
+                    </button>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="w-full">
+          {activeTeachers.length > 0 && (
+            <section key={animationKey} className="w-full pb-12 md:pb-24 animate-fade-in-up">
+              <div className="container mx-auto px-4 md:px-[10%]">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-bold">
+                    <span className="text-primary">Know Your </span>
+                    <span style={{ color: '#adb5bd' }}>Teachers</span>
+                  </h2>
+                  <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                    Our dedicated team of educators is here to guide you on your learning journey.
+                  </p>
+                </div>
+              </div>
+            </section>
+            )}
+           
+          {videoLessons.length > 0 && (
+            <section className="w-full my-8">
+                <div className="relative">
+                <div className="overflow-x-auto pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex gap-6 px-4 md:px-[10%]">
+                        {videoLessons.map((lesson, index) => {
+                            const videoId = lesson.youtubeLink.split('v=')[1]?.split('&')[0];
+                            return (
+                                <Dialog key={index}>
+                                    <DialogTrigger asChild>
+                                        <div className="block flex-shrink-0 w-60 h-80 cursor-pointer">
+                                            <Card className="group overflow-hidden h-full rounded-2xl shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                                                <CardContent className="p-0">
+                                                    <div className="relative aspect-[9/12]">
+                                                        <Image
+                                                            src={`https://img.youtube.com/vi/${videoId}/hqdefault.jpg`}
+                                                            alt={`${lesson.subject} video lesson`}
+                                                            data-ai-hint={`${lesson.subject} lesson poster`}
+                                                            fill
+                                                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                                        />
+                                                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col justify-end p-4">
+                                                            <div className="absolute inset-0 flex items-center justify-center">
+                                                                <button className="bg-white/80 backdrop-blur-sm rounded-full h-14 w-14 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                                                                    <PlayCircle className="w-8 h-8 text-primary/80" />
+                                                                </button>
+                                                            </div>
+                                                            <h3 className="text-white text-xl font-bold">{lesson.subject}</h3>
+                                                            <div className="text-xs text-white/80 mt-1 flex items-center gap-4">
+                                                                <span>By {lesson.teacher}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </CardContent>
+                                            </Card>
+                                        </div>
+                                    </DialogTrigger>
+                                     <DialogContent className="max-w-3xl p-0">
+                                        <DialogHeader className="p-4">
+                                            <DialogTitle>{lesson.subject} by {lesson.teacher}</DialogTitle>
+                                        </DialogHeader>
+                                        <div className="aspect-video">
+                                            <iframe
+                                                className="w-full h-full"
+                                                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
+                                                title={`YouTube video player for ${lesson.subject}`}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                                allowFullScreen
+                                            ></iframe>
+                                        </div>
+                                    </DialogContent>
+                                </Dialog>
+                        )})}
+                    </div>
+                </div>
+                </div>
+            </section>
+          )}
+
+          <section className="w-full pb-12 md:pb-24 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <div className="container mx-auto px-4 md:px-[10%]">
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-bold text-primary">
+                      {`${activeClass} Online Coaching 2025-2026`}
+                    </h2>
+                    <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        Everything you need to know about the curriculum, exams, and resources.
+                    </p>
+                </div>
+                <Card className="shadow-lg">
+                    <CardContent className="p-6 space-y-8">
+                         {syllabusItems.length > 0 && (
+                            <div>
+                                <div className="mb-4">
+                                    <h3 className="font-bold text-xl text-primary">CBSE {activeClass} Syllabus 2025-26</h3>
+                                    <p className="text-muted-foreground mt-1">The following table provides the subject-wise {activeClass} Syllabus NCERT Links. Students can use them to access the FREE PDF for the Syllabus of all subjects in NCERT {activeClass}.</p>
+                                </div>
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow className="bg-orange-500 hover:bg-orange-600">
+                                            <TableHead className="w-[100px] text-white font-bold">S.No.</TableHead>
+                                            <TableHead className="text-white font-bold">Subject-Wise Links CBSE | {activeClass} | Syllabus 2025-26</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {syllabusItems.map((item) => (
+                                            <TableRow key={item.sno}>
+                                                <TableCell className="font-medium">{item.sno}</TableCell>
+                                                <TableCell>
+                                                  <span className="font-medium hover:underline cursor-pointer" onClick={() => { if(item.pdfUrl) handleAction(item.pdfUrl, item.name) }}>
+                                                    {item.name}
+                                                  </span>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                        )}
+                        <div>
+                            <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
+                            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {resourceCards.map((card, index) => (
+                                    <Link key={index} href={card.href} className="block group h-full">
+                                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient} bg-background/50 backdrop-blur-sm border border-white/20`}>
+                                            <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
+                                                <div className={`mb-3 p-3 rounded-full bg-white/30`}>
+                                                    {card.icon}
+                                                </div>
+                                                <h3 className="text-lg font-bold mb-1">{card.title}</h3>
+                                            </CardContent>
+                                        </Card>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
+              </div>
+          </section>
+        </div>
+         <Dialog>
+            <DialogContent className="max-w-4xl h-[90vh] p-2">
+                {isLoadingPdf || !pdfSrc ? (
+                    <div className="flex items-center justify-center h-full">
+                        <p>Loading PDF...</p>
+                    </div>
+                ) : (
+                    <iframe src={pdfSrc} className="w-full h-full rounded-md" />
+                )}
+            </DialogContent>
+        </Dialog>
+    </div>
+  );
+}
 
 export default function SchoolPage() {
-    const [activeTab, setActiveTab] = useState('class10');
-    
-    const resourceCards = [
-        {
-          title: "PDF Bank",
-          description: "Access Our PDF Bank",
-          icon: <FileText className="w-6 h-6 text-pink-600" />,
-          borderColor: "border-pink-500",
-          bgColor: "bg-pink-100 dark:bg-pink-900/30",
-          href: "#"
-        },
-        {
-          title: "Test Series",
-          description: "Explore Our Test Series",
-          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          borderColor: "border-green-500",
-          bgColor: "bg-green-100 dark:bg-green-900/30",
-          href: "#"
-        },
-        {
-          title: "Books",
-          description: "Find Preparation Books",
-          icon: <BookOpen className="w-6 h-6 text-sky-600" />,
-          borderColor: "border-sky-500",
-          bgColor: "bg-sky-100 dark:bg-sky-900/30",
-          href: "/resources/reference-books"
-        },
-         {
-          title: "Blogs",
-          description: "Read Our Latest Blogs",
-          icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          borderColor: "border-blue-500",
-          bgColor: "bg-blue-100 dark:bg-blue-900/30",
-          href: "/blog"
-        }
-    ];
-
-    const class10Courses = [
-      {
-        title: "CBSE Class 10 Board Exam Crash Course 2026",
-        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-commerce-3.png",
-        imageHint: "Students studying",
-        language: "Hinglish",
-        startDate: "01 Dec, 2025",
-        endDate: "15 Feb, 2026",
-        price: 999,
-        originalPrice: 4000,
-        discount: 75,
-        target: "For CBSE Class 10 Board Aspirants"
-      },
-      {
-        title: "CBSE Class 10 Full Year Course 2025-26",
-        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-ug-gat.png",
-        imageHint: "Teacher with students",
-        language: "Hinglish",
-        startDate: "15 Apr, 2025",
-        endDate: "28 Feb, 2026",
-        price: 2499,
-        originalPrice: 10000,
-        discount: 75,
-        target: "For CBSE Class 10 Aspirants"
-      },
-    ];
-
-    const class10Faqs = [
-        {
-          question: "What is the syllabus for CBSE Class 10 2026?",
-          answer: "The syllabus is prescribed by CBSE and covers subjects like Mathematics, Science, Social Science, English, and Hindi. It focuses on building a strong foundation for higher studies."
-        },
-        {
-          question: "What is the exam pattern for CBSE Class 10?",
-          answer: "The exam pattern includes a final board examination at the end of the year, along with internal assessments conducted by the school. The board exam consists of questions of varying difficulty levels, including MCQs, short answer, and long answer questions."
-        },
-        {
-          question: "How can I score well in CBSE Class 10 exams?",
-          answer: "Consistent study, solving previous year question papers, regular revisions, and clearing doubts with teachers are key to scoring well. Joining a good coaching program like ours can provide structured guidance."
-        },
-    ];
-
-    const class12Courses = [
-        {
-            title: "CBSE Class 12 Science Board Exam Course 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-part-a.png",
-            imageHint: "Science lab",
-            language: "Hinglish",
-            startDate: "10 Apr, 2025",
-            endDate: "15 Mar, 2026",
-            price: 2999,
-            originalPrice: 12000,
-            discount: 75,
-            target: "For CBSE Class 12 Science Students"
-        },
-        {
-            title: "CBSE Class 12 Commerce Board Exam Course 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-mba.png",
-            imageHint: "Business charts",
-            language: "English",
-            startDate: "10 Apr, 2025",
-            endDate: "15 Mar, 2026",
-            price: 2999,
-            originalPrice: 12000,
-            discount: 75,
-            target: "For CBSE Class 12 Commerce Students"
-        },
-    ];
-
-    const class12Faqs = [
-        {
-          question: "What are the main subjects in CBSE Class 12 Science?",
-          answer: "The main subjects are Physics, Chemistry, Mathematics (PCM) or Physics, Chemistry, Biology (PCB). English is a compulsory subject. Students can also opt for an optional subject like Computer Science."
-        },
-        {
-          question: "Is Class 12 board exam difficult?",
-          answer: "The difficulty level is moderate to high. With consistent preparation and a clear understanding of concepts, students can score very well. It is important to focus on NCERT books and practice sample papers."
-        },
-    ];
-
-    const class10BlogLinks = [
-        { text: "CBSE Class 10 Syllabus 2026", href: "#" },
-        { text: "CBSE Class 10 Exam Pattern 2026", href: "#" },
-        { text: "CBSE Class 10 Best Reference Books", href: "#" },
-        { text: "CBSE Class 10 Previous Year Papers", href: "#" },
-        { text: "How to Make Notes for Class 10", href: "#" },
-        { text: "CBSE Class 10 Preparation Tips", href: "#" },
-    ];
-    
-    const class12BlogLinks = [
-        { text: "CBSE Class 12 Syllabus 2026", href: "#" },
-        { text: "CBSE Class 12 Exam Pattern 2026", href: "#" },
-        { text: "How to manage board exams with competitive exams", href: "#" },
-        { text: "CBSE Class 12 Previous Year Papers", href: "#" },
-        { text: "CBSE Class 12 Project Work Guide", href: "#" },
-        { text: "Best Career Options after Class 12", href: "#" },
-    ];
-
     return (
-        <div className="container mx-auto py-12 px-4 md:px-6">
-            <section className="mb-20 animate-fade-in-up">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
-                CBSE Board {activeTab === 'class10' ? 'Class 10' : 'Class 12'} 2026: Exam Date, Syllabus, Pattern & Results
-              </h1>
-              <p className="mt-6 max-w-4xl text-left text-muted-foreground text-lg">
-                Get complete details for CBSE Board exams for Class 10 and 12, including exam dates, syllabus, pattern, and preparation resources.
-              </p>
-            </section>
-            
-            <div className="flex justify-center gap-4 mb-12">
-                <Button onClick={() => setActiveTab('class10')} variant={activeTab === 'class10' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">Class 10</Button>
-                <Button onClick={() => setActiveTab('class12')} variant={activeTab === 'class12' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">Class 12</Button>
-            </div>
-    
-            <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                {resourceCards.map((card, index) => (
-                    <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card border-t-4 ${card.borderColor}`}>
-                            <CardContent className="p-4 flex flex-col items-center text-center text-foreground h-full">
-                                <div className={`mb-3 p-2.5 rounded-full ${card.bgColor}`}>
-                                    {card.icon}
-                                </div>
-                                <h3 className="text-md font-bold mb-1">{card.title}</h3>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
-            </section>
-    
-            {activeTab === 'class10' ? (
-                <div key="class10-content">
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">CBSE Class 10 Courses</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {class10Courses.map((course, index) => (
-                            <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-                                <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
-                                <div className="relative w-full aspect-[16/9]">
-                                    <Image
-                                    src={course.imageUrl}
-                                    alt={course.title}
-                                    data-ai-hint={course.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    />
-                                </div>
-                                </div>
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                                    <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
-                                    <span>{course.language}</span>
-                                    <MessageSquare className="w-4 h-4" />
-                                    </div>
-                                </div>
-                                <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
-                                <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>
-                                
-                                <div className="flex items-center gap-2 mb-1">
-                                    <p className="text-2xl font-bold">₹{course.price}</p>
-                                    <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
-                                </div>
-                                <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
-                                    Discount of {course.discount}% applied
-                                </div>
-                                <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
-                                </CardContent>
-                                <div className="p-4 pt-0 mt-auto">
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" className="w-full">EXPLORE</Button>
-                                        <Button className="w-full">BUY NOW</Button>
-                                    </div>
-                                </div>
-                            </Card>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold">Explore More CBSE Class 10 Resources</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-                            {class10BlogLinks.map((link, index) => (
-                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
-                                    <Link href={link.href}>
-                                        <div className="flex items-center gap-2">
-                                            <CheckIcon />
-                                            <span className="text-sm font-medium text-left">{link.text}</span>
-                                        </div>
-                                        <ArrowRight className="h-5 w-5 text-gray-400" />
-                                    </Link>
-                                </Button>
-                            ))}
-                            </div>
-                        </div>
-                    </section>
-            
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
-                      <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">CBSE Class 10 FAQs</h2>
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                          {class10Faqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
-                              <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                              <AccordionContent className="p-4 pt-0 text-left">
-                               {faq.answer}
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
-                      </div>
-                    </section>
-                </div>
-            ) : (
-                <div key="class12-content">
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">CBSE Class 12 Courses</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {class12Courses.map((course, index) => (
-                            <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-                                <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
-                                <div className="relative w-full aspect-[16/9]">
-                                    <Image
-                                    src={course.imageUrl}
-                                    alt={course.title}
-                                    data-ai-hint={course.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    />
-                                </div>
-                                </div>
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                  <div className="flex justify-between items-start mb-2">
-                                      <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                                      <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
-                                      <span>{course.language}</span>
-                                      <MessageSquare className="w-4 h-4" />
-                                      </div>
-                                  </div>
-                                  <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
-                                  <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>
-                                  
-                                  <div className="flex items-center gap-2 mb-1">
-                                      <p className="text-2xl font-bold">₹{course.price}</p>
-                                      <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
-                                  </div>
-                                  <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
-                                      Discount of {course.discount}% applied
-                                  </div>
-                                  <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
-                                </CardContent>
-                                <div className="p-4 pt-0 mt-auto">
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" className="w-full">EXPLORE</Button>
-                                        <Button className="w-full">BUY NOW</Button>
-                                    </div>
-                                </div>
-                            </Card>
-                            ))}
-                        </div>
-                    </section>
-
-                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold">Explore More CBSE Class 12 Resources</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-                            {class12BlogLinks.map((link, index) => (
-                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
-                                    <Link href={link.href}>
-                                        <div className="flex items-center gap-2">
-                                            <CheckIcon />
-                                            <span className="text-sm font-medium text-left">{link.text}</span>
-                                        </div>
-                                        <ArrowRight className="h-5 w-5 text-gray-400" />
-                                    </Link>
-                                </Button>
-                            ))}
-                            </div>
-                        </div>
-                    </section>
-            
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
-                      <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">CBSE Class 12 FAQs</h2>
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                          {class12Faqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
-                              <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                              <AccordionContent className="p-4 pt-0 text-left">
-                               {faq.answer}
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
-                      </div>
-                    </section>
-                </div>
-            )}
-        </div>
-    );
+        <Suspense fallback={<div>Loading...</div>}>
+            <SchoolPageContent />
+        </Suspense>
+    )
 }
