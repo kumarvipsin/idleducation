@@ -46,25 +46,25 @@ function ExamcatPageContent() {
     const resourceCards = [
         {
           title: "PDF Bank",
-          icon: <FileText className="w-8 h-8 text-white" />,
+          icon: <FileText className="w-6 h-6 text-white" />,
           gradient: "from-pink-500 to-rose-500",
           href: "#"
         },
         {
           title: "Test Series",
-          icon: <ClipboardList className="w-8 h-8 text-white" />,
+          icon: <ClipboardList className="w-6 h-6 text-white" />,
           gradient: "from-green-500 to-emerald-500",
           href: "#"
         },
         {
           title: "Books",
-          icon: <BookOpen className="w-8 h-8 text-white" />,
+          icon: <BookOpen className="w-6 h-6 text-white" />,
           gradient: "from-sky-500 to-blue-500",
           href: "/resources/reference-books"
         },
          {
           title: "Blogs",
-          icon: <Monitor className="w-8 h-8 text-white" />,
+          icon: <Monitor className="w-6 h-6 text-white" />,
           gradient: "from-indigo-500 to-purple-500",
           href: "/blog"
         }
@@ -207,11 +207,11 @@ function ExamcatPageContent() {
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
                         <Card className={`h-full rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 bg-gradient-to-br ${card.gradient}`}>
-                            <div className="p-6 flex flex-col items-center text-center text-white h-full bg-black/10 backdrop-blur-sm">
-                                <div className="mb-4 bg-white/20 p-4 rounded-full">
+                            <div className="p-4 flex flex-col items-center text-center text-white h-full bg-black/10 backdrop-blur-sm">
+                                <div className="mb-2 bg-white/20 p-2 rounded-full">
                                     {card.icon}
                                 </div>
-                                <h3 className="text-lg font-bold">{card.title}</h3>
+                                <h3 className="text-base font-bold">{card.title}</h3>
                             </div>
                         </Card>
                     </Link>
