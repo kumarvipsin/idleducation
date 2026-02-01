@@ -20,31 +20,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useToast } from '@/hooks/use-toast';
 import { syllabusData } from '@/lib/syllabus-data';
 
-const resourceCards = [
-    {
-      title: "Notes",
-      icon: <ClipboardEdit className="w-6 h-6 text-pink-600" />,
-      gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
-      href: "/resources/notes"
-    },
-    {
-      title: "NCERT Solutions",
-      icon: <BookCheckIcon className="w-6 h-6 text-green-600" />,
-      gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30",
-      href: "/resources/ncert-solutions"
-    },
-    {
-      title: "Previous Year Questions",
-      icon: <FileText className="w-6 h-6 text-sky-600" />,
-      gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30",
-      href: "/resources/previous-year-questions"
-    },
-     {
-      title: "Reference Books",
-      icon: <BookCopy className="w-6 h-6 text-blue-600" />,
-      gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30",
-      href: "/resources/reference-books"
-    }
+const resourceLinks = [
+    { href: '/resources/notes', label: 'Notes', icon: <ClipboardEdit className="w-6 h-6 text-pink-600" />, gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30" },
+    { href: '/resources/ncert-solutions', label: 'NCERT Solutions', icon: <BookCheckIcon className="w-6 h-6 text-green-600" />, gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30" },
+    { href: '/resources/previous-year-questions', label: 'Previous Year Questions', icon: <FileText className="w-6 h-6 text-sky-600" />, gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30" },
+    { href: '/resources/reference-books', label: 'Reference Books', icon: <BookCopy className="w-6 h-6 text-blue-600" />, gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30" },
 ];
 
 interface Teacher {
@@ -315,14 +295,14 @@ function SchoolPageContent() {
                         <div>
                             <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                {resourceCards.map((card, index) => (
-                                    <Link key={index} href={card.href} className="block group h-full">
-                                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient} bg-background/50 backdrop-blur-sm border border-white/20`}>
+                                {resourceLinks.map(link => (
+                                    <Link key={link.href} href={link.href} className="block group h-full">
+                                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${link.gradient}`}>
                                             <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
                                                 <div className={`mb-3 p-3 rounded-full bg-white/30`}>
-                                                    {card.icon}
+                                                    {link.icon}
                                                 </div>
-                                                <h3 className="text-lg font-bold mb-1">{card.title}</h3>
+                                                <h3 className="text-lg font-bold mb-1">{link.label}</h3>
                                             </CardContent>
                                         </Card>
                                     </Link>

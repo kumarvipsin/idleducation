@@ -221,7 +221,7 @@ export default function CuetPage() {
             <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 {resourceCards.map((card, index) => (
                     <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient} bg-background/50 backdrop-blur-sm border border-white/20`}>
+                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient}`}>
                             <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
                                 <div className={`mb-3 p-3 rounded-full bg-white/30`}>
                                     {card.icon}
