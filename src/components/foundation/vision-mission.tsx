@@ -48,7 +48,6 @@ export function VisionMission() {
                             We envision a world where every individual has access to the resources and opportunities they need to thrive. Our mission is to empower communities through education, healthcare, and sustainable development, creating a ripple effect of positive change for generations to come.
                         </p>
                         <div className="flex items-center gap-8 pt-4">
-                             <SunIcon className="w-16 h-16 text-yellow-500 animate-spin-slow" />
                              <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
                                 <Link href="#">
                                     Discover More <ArrowRight className="ml-2 h-4 w-4" />
