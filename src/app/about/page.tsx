@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
@@ -70,7 +69,7 @@ export default function AboutPage() {
                     <CardContent className="p-8 md:p-12">
                         <div className="grid md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
                         <div className="md:col-span-1 flex flex-col items-center text-center animate-fade-in-up">
-                            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-lg bg-muted border-4 border-primary/20">
+                            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-lg bg-muted border-4 border-primary">
                                 {loading ? (
                                     <Skeleton className="w-full h-full rounded-full" />
                                 ) : director?.photoUrl ? (
@@ -78,14 +77,14 @@ export default function AboutPage() {
                                     filePath={director.photoUrl}
                                     alt={director.name || "Director's Photo"}
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     />
                                 ) : (
                                     <Image
                                     src="/teacher.png"
                                     alt="Director's Photo"
                                     fill
-                                    className="object-cover"
+                                    className="object-cover object-top"
                                     />
                                 )}
                             </div>
