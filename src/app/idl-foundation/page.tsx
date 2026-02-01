@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Header } from "@/components/header";
@@ -123,58 +124,6 @@ export default function IDLFoundationPage() {
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
-                        <div className="mt-6">
-                            <Dialog open={isDonateOpen} onOpenChange={(open) => { setIsDonateOpen(open); if (!open) setDonationStep(1); }}>
-                                <DialogTrigger asChild>
-                                    <Button onClick={() => setIsDonateOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-12 px-6">
-                                        <Heart className="w-6 h-6 mr-2 fill-white" />
-                                        <span className="text-lg">DONATE</span>
-                                    </Button>
-                                </DialogTrigger>
-                                <DialogContent className="sm:max-w-md">
-                                    <DialogHeader>
-                                        <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
-                                        <DialogDescription className="text-center">
-                                            Your generosity helps us create a better world. Please choose where you'd like to make an impact.
-                                        </DialogDescription>
-                                    </DialogHeader>
-                                    {donationStep === 1 ? (
-                                        <div className="py-4 space-y-4">
-                                            <RadioGroup onValueChange={setDonationCategory} value={donationCategory}>
-                                                {donationCategories.map(category => (
-                                                    <div key={category.title} className="flex items-center space-x-2">
-                                                        <RadioGroupItem value={category.title} id={category.title} />
-                                                        <Label htmlFor={category.title}>{category.title}</Label>
-                                                    </div>
-                                                ))}
-                                            </RadioGroup>
-                                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full">
-                                                Donate to {donationCategory || "..."}
-                                            </Button>
-                                        </div>
-                                    ) : (
-                                        <div className="pt-4 space-y-3">
-                                            <p className="text-center font-semibold text-sm">You are donating to "{donationCategory}".</p>
-                                            <div className="relative">
-                                                <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
-                                            </div>
-                                            <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
-                                            <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
-                                            <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
-                                            <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
-                                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
-                                                <Banknote className="mr-2 h-4 w-4" />
-                                                Proceed to Final Payment
-                                            </Button>
-                                            <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1">
-                                                Change Category
-                                            </Button>
-                                        </div>
-                                    )}
-                                </DialogContent>
-                            </Dialog>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -190,6 +139,50 @@ export default function IDLFoundationPage() {
             <Team />
             <FoundationFooter openDonateDialog={() => setIsDonateOpen(true)} openVolunteerDialog={() => setIsVolunteerDialogOpen(true)} />
             <VolunteerDialog isOpen={isVolunteerDialogOpen} onOpenChange={setIsVolunteerDialogOpen} />
+             <Dialog open={isDonateOpen} onOpenChange={(open) => { setIsDonateOpen(open); if (!open) setDonationStep(1); }}>
+                <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                        <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
+                        <DialogDescription className="text-center">
+                            Your generosity helps us create a better world. Please choose where you'd like to make an impact.
+                        </DialogDescription>
+                    </DialogHeader>
+                    {donationStep === 1 ? (
+                        <div className="py-4 space-y-4">
+                            <RadioGroup onValueChange={setDonationCategory} value={donationCategory}>
+                                {donationCategories.map(category => (
+                                    <div key={category.title} className="flex items-center space-x-2">
+                                        <RadioGroupItem value={category.title} id={category.title} />
+                                        <Label htmlFor={category.title}>{category.title}</Label>
+                                    </div>
+                                ))}
+                            </RadioGroup>
+                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full">
+                                Donate to {donationCategory || "..."}
+                            </Button>
+                        </div>
+                    ) : (
+                        <div className="pt-4 space-y-3">
+                            <p className="text-center font-semibold text-sm">You are donating to "{donationCategory}".</p>
+                            <div className="relative">
+                                <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
+                            </div>
+                            <Input id="name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
+                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
+                                <Banknote className="mr-2 h-4 w-4" />
+                                Proceed to Final Payment
+                            </Button>
+                            <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1">
+                                Change Category
+                            </Button>
+                        </div>
+                    )}
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
