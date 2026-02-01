@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
@@ -35,7 +34,7 @@ import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { useIsMobile } from "@/hooks/use-is-mobile";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 
 const allCoursesCategories = [
@@ -268,12 +267,7 @@ export function Header() {
   });
   
   const onScholarshipSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
-    const result = await registerForScholarship({
-        ...data,
-        guardianName: data.studentName, // Use student name as guardian name for quick registration
-        country: 'India',
-        state: 'N/A',
-      });
+    const result = await registerForScholarship(data as any);
     if (result.success) {
       toast({
         title: "Registration Successful",
@@ -475,7 +469,6 @@ export function Header() {
     { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
@@ -483,7 +476,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
 
   const loggedInNavLinks = [
@@ -622,7 +614,7 @@ export function Header() {
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">
-                                    More <ChevronDown className={cn('ml-1 h-4 w-4 transition-transform', activeMenu === 'more' && 'rotate-180')} />
+                                    More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
@@ -667,7 +659,7 @@ export function Header() {
                             </div>
                             <div>
                                 <p className="text-xs text-muted-foreground leading-tight">Call now</p>
-                                <p className="text-sm font-semibold text-foreground leading-tight">70-1111-7585</p>
+                                <p className="text-sm font-bold text-foreground leading-tight">70-1111-7585</p>
                             </div>
                         </a>
                     </div>
@@ -676,14 +668,12 @@ export function Header() {
                       {isClient && renderAuthSection()}
                     </div>
                     
-                     <div className="md:hidden">
-                        <SheetTrigger asChild>
-                            <Button variant="ghost" size="icon" className={cn("text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
-                                <Menu className="h-5 w-5" />
-                                <span className="sr-only">Toggle navigation menu</span>
-                            </Button>
-                        </SheetTrigger>
-                    </div>
+                     <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon" className={cn("md:hidden text-foreground hover:bg-black/10 dark:hover:bg-white/20 hover:text-foreground h-10 w-10")}>
+                            <Menu className="h-5 w-5" />
+                            <span className="sr-only">Toggle navigation menu</span>
+                        </Button>
+                    </SheetTrigger>
                 </div>
             </div>
             <SheetContent side="left" className="p-0 w-80">
