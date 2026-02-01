@@ -484,38 +484,6 @@ export function Header() {
     { href: getProfilePath(user), label: 'Profile', icon: <User className="h-4 w-4" /> },
   ];
 
-  const renderMobileAuthSection = () => {
-    if (loading) {
-        return null;
-    }
-    if (user) {
-      return (
-        <div className="p-2 border-t">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="w-full justify-start h-auto p-2">
-                <Avatar className="h-10 w-10">
-                  <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? 'User'} fill className="rounded-full object-cover" />
-                  <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : <User />}</AvatarFallback>
-                </Avatar>
-                <div className="ml-3 text-left">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                </div>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 mb-2" align="start" side="top">
-              <DropdownMenuItem onClick={handleLogout}>
-                <LogOut className="mr-2 h-4 w-4" />
-                <span>Logout</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      );
-    }
-    return null;
-  };
   
   const notificationDropdown = (
     <Popover onOpenChange={handleNotificationOpenChange}>
@@ -643,7 +611,7 @@ export function Header() {
                     <div className="hidden md:flex items-center gap-2">
                          <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
                             <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                                <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <p className="text-xs text-muted-foreground leading-tight">Call now</p>
@@ -653,6 +621,7 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
+                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
                     </div>
                     
@@ -735,7 +704,7 @@ export function Header() {
                                 <CollapsibleContent className="p-2">
                                     <div className="grid grid-cols-1 gap-1">
                                         {navLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
-                                            <Link key={href} href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                            <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
                                                 <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                 <div>
                                                     <p className="font-semibold text-sm">{label}</p>
@@ -762,9 +731,6 @@ export function Header() {
                         </div>
                         )}
                     </ScrollArea>
-                    <div className="p-2 border-t">
-                        {renderMobileAuthSection()}
-                    </div>
                 </div>
             </SheetContent>
         </header>
