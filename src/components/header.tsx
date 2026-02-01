@@ -211,7 +211,7 @@ export function Header() {
                 paymentId: response.razorpay_payment_id,
             };
             await recordDonation(donationData);
-            toast({ title: 'Payment Successful', description: `Thank you for your donation of ₹${amount}!` });
+            toast({ title: 'Payment Successful', description: `Thank you for your donation of \u20b9${amount}!` });
             setDonationStep(1);
             setDonationCategory('');
             setDonationAmount('');
@@ -466,9 +466,9 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
-    { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: 'Gallery', icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
+    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
+    { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
   ];
   
@@ -486,15 +486,7 @@ export function Header() {
 
   const renderMobileAuthSection = () => {
     if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
+        return null;
     }
     if (user) {
       return (
@@ -522,12 +514,7 @@ export function Header() {
         </div>
       );
     }
-    return (
-        <div className="p-2 grid grid-cols-2 gap-2 border-t">
-            <Button asChild><Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>Login</Link></Button>
-            <Button asChild variant="outline"><Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>Sign Up</Link></Button>
-        </div>
-    );
+    return null;
   };
   
   const notificationDropdown = (
@@ -614,7 +601,7 @@ export function Header() {
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
-                                    <Button asChild variant="ghost" className="h-auto px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize">
+                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                         <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                             <svg
                                                 xmlns="http://www.w3.org/2000/svg"
@@ -681,7 +668,7 @@ export function Header() {
                 <SheetHeader className="p-4 border-b">
                     <SheetTitle>
                         <Link href={logoHref} className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                            <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
+                            <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
                             <div className="flex flex-col leading-tight">
                                 <span className="text-lg font-extrabold text-primary">{isIdlFoundationPage ? "IDL Foundation" : "IDL EDUCATION"}</span>
                                 <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-extrabold">
@@ -691,7 +678,7 @@ export function Header() {
                         </Link>
                     </SheetTitle>
                 </SheetHeader>
-                <div className="h-[calc(100vh-4.5rem)] flex flex-col">
+                <div className="h-[calc(100vh-5.5rem)] flex flex-col">
                     <ScrollArea className="flex-1">
                         {!isIdlFoundationPage && (
                         <div className="p-2">
