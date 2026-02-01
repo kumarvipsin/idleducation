@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -10,7 +10,6 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { getUpdates, registerForScholarship, createRazorpayOrder, recordDonation } from "@/app/actions";
-import { formatDistanceToNow } from 'date-fns';
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
@@ -153,10 +152,7 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
-  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hasNewUpdates, setHasNewUpdates] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const isMobile = useIsMobile();
@@ -288,38 +284,9 @@ export function Header() {
   };
 
 
-  useEffect(() => {
-    const fetchUpdates = async () => {
-      const result = await getUpdates(3);
-      if (result.success && result.data) {
-        const fetchedUpdates = result.data as Update[];
-        setUpdates(fetchedUpdates);
-
-        if (fetchedUpdates.length > 0) {
-          const lastChecked = localStorage.getItem('lastCheckedUpdate');
-          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
-          
-          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
-            setHasNewUpdates(true);
-          }
-        }
-      }
-    };
-    if (!isIdlFoundationPage) {
-        fetchUpdates();
-    }
-  }, [isIdlFoundationPage]);
-  
   const handleLogout = async () => {
     await logout();
     router.push('/');
-  };
-
-  const handleNotificationOpenChange = (open: boolean) => {
-    if (open) {
-      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
-      setHasNewUpdates(false);
-    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -506,44 +473,6 @@ export function Header() {
     return null;
   };
   
-  const notificationDropdown = (
-    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
-        <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
-                <Bell className="h-5 w-5" />
-                {hasNewUpdates && (
-                    <span className="absolute top-1 right-1 flex h-3 w-3">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
-                    </span>
-                )}
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {updates.length > 0 ? (
-            updates.map(update => (
-                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
-                    <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
-                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                    </p>
-                </DropdownMenuItem>
-            ))
-            ) : (
-            <DropdownMenuItem>No new updates.</DropdownMenuItem>
-            )}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-            <Link href="/notifications" className="text-center justify-center">
-                View all notifications
-            </Link>
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-  );
 
   const headerClasses = cn(
     "sticky top-0 z-50 transition-transform duration-300 h-16",
@@ -601,21 +530,18 @@ export function Header() {
                  </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
-                         {isIdlFoundationPage ? null : (
-                            <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                                <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                                    <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
-                                </div>
-                                <div>
-                                    <p className="text-[0.6rem] text-muted-foreground leading-tight">Call now</p>
-                                    <p className="text-xs font-semibold text-foreground leading-tight">70-1111-7585</p>
-                                </div>
-                            </a>
-                        )}
+                         <a href="tel:7011117585" className="flex items-center gap-2 p-2 rounded-lg hover:bg-muted transition-colors">
+                            <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                                <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div>
+                                <p className="text-xs text-muted-foreground leading-tight">Call now</p>
+                                <p className="text-sm font-bold text-foreground leading-tight">70-1111-7585</p>
+                            </div>
+                        </a>
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
                       {mounted && renderAuthSection()}
                     </div>
                     
@@ -732,7 +658,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'all-courses' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
