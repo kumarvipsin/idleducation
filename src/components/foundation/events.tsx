@@ -58,11 +58,6 @@ export function Events() {
         <section className="w-full py-16 md:py-24 bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-12">
-                    <div className="flex justify-center mb-4">
-                        <div className="bg-primary/10 p-4 rounded-full">
-                            <Video className="w-12 h-12 text-primary" />
-                        </div>
-                    </div>
                     <h2 className="text-3xl md:text-4xl font-black text-black dark:text-white">Events & Highlights</h2>
                     <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                         Watch highlights from our recent events and see the impact we're making together.
