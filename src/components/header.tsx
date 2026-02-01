@@ -120,13 +120,28 @@ const donationCategories = [
 ];
 
 const scholarshipSchema = z.object({
-    studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-    class: z.string().min(1, { message: "Please select a class." }),
-    mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  });
-  
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  class: z.string().min(1, { message: "Please select a class." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+});
+
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+
+interface Update {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+}
+
+type CartItem = {
+    id: number;
+    name: string;
+    price: number;
+    quantity: number;
+    image: string;
+};
 
 export function Header() {
   const { t } = useLanguage();
@@ -605,16 +620,16 @@ export function Header() {
                                   Apply For
                                 </Button>
                               </div>
+                              <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                    More <ChevronDown className={cn('ml-1 h-4 w-4 transition-transform', activeMenu === 'more' && 'rotate-180')} />
+                                </Button>
+                              </div>
                                <div className="h-full flex items-center">
                                 <Button asChild variant="ghost" className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   <Link href="/store" target="_blank" rel="noopener noreferrer">
                                     IDL Store
                                   </Link>
-                                </Button>
-                              </div>
-                              <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-8 px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
-                                    More <ChevronDown className={cn('ml-1 h-4 w-4 transition-transform', activeMenu === 'more' && 'rotate-180')} />
                                 </Button>
                               </div>
                             </>
@@ -765,8 +780,8 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <AllCoursesMegaMenu />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
           </div>
         </div>
       </div>
@@ -784,4 +799,3 @@ export function Header() {
     </>
   );
 }
-    
