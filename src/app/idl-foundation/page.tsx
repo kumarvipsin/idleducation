@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Header } from "@/components/header";
@@ -24,14 +23,15 @@ import { useToast } from "@/hooks/use-toast";
 import { createRazorpayOrder, recordDonation } from "@/app/actions";
 import Script from "next/script";
 import { Activities } from "@/components/foundation/activities";
+import { FoundationMotive } from "@/components/foundation/motive";
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
     { title: "Street & Slum Children Education", description: "Light up a child's future with the gift of education.", imageUrl: "https://picsum.photos/seed/slum/1600/450", imageHint: "children studying", goal: 100000, raised: 2200 },
     { title: "Environment / Tree Plantation", description: "Help us nurture a greener and healthier planet.", imageUrl: "https://picsum.photos/seed/tree/1600/450", imageHint: "planting tree", goal: 100000, raised: 1800 },
-    { title: "Women Empowerment", description: "Support initiatives that uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/1600/450", imageHint: "women group", goal: 100000, raised: 2800 },
-    { title: "Medical Assistance", description: "Provide critical healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 100000, raised: 1200 },
-    { title: "Senior Citizen/Old Age Home", description: "Ensure our elders live with dignity and care.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 100000, raised: 2500 },
+    { title: "Women Empowerment", description: "Support initiatives that uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/1600/450", imageHint: "women group", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Provide critical healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Senior Citizen/Old Age Home", description: "Ensure our elders live with dignity and care.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
 export default function IDLFoundationPage() {
@@ -129,7 +129,9 @@ export default function IDLFoundationPage() {
                                     </svg>
                                 </div>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black text-foreground">Make World <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Happier</span></h1>
+                        <h1 className="text-4xl md:text-5xl font-black text-foreground">
+                            Make World <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Happier</span>
+                        </h1>
                         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
@@ -188,6 +190,7 @@ export default function IDLFoundationPage() {
                     </div>
                 </div>
             </section>
+            <FoundationMotive />
             <About />
             <VisionMission />
             <Activities />
