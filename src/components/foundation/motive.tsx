@@ -13,7 +13,7 @@ export function FoundationMotive() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="space-y-4 text-left relative z-10">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
-                Our Core Motive: <span className="text-orange-500">Service to Humanity</span>
+                Service to Humanity
               </h2>
               <p className="text-muted-foreground">
                 At the heart of IDL Foundation is a simple yet profound motive: 'Service to Humanity'. We are driven by the belief that every act of kindness, no matter how small, contributes to a better world. Our goal is to provide education, healthcare, and opportunities to those in need, fostering a community built on compassion and empowerment.
