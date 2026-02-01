@@ -25,6 +25,7 @@ import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
 import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
@@ -34,7 +35,6 @@ import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
 
 
 const allCoursesCategories = [
@@ -152,17 +152,18 @@ export function Header() {
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
   const [updates, setUpdates] = useState<Update[]>([]);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
+  const isMobile = useIsMobile();
   const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
   
@@ -465,9 +466,9 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: '/about', label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
-    { href: '#', label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
+    { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, description: "Learn more about our mission and vision.", colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400" },
+    { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
+    { href: '/gallery', label: 'Gallery', icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
   ];
   
@@ -599,22 +600,17 @@ export function Header() {
                 </Link>
                 
                  <div className="flex-1 justify-end items-center gap-1 ml-4 hidden md:flex">
-                    <nav className="items-center flex gap-x-4 h-full" onMouseLeave={handleMouseLeave}>
+                    <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                     Explore
                                 </Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
                                   Apply For
-                                </Button>
-                              </div>
-                              <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">
-                                    More
                                 </Button>
                               </div>
                                <div className="h-full flex items-center">
@@ -641,6 +637,11 @@ export function Header() {
                                         </Link>
                                     </Button>
                                 </div>
+                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
+                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary focus-visible:ring-0 focus-visible:ring-offset-0 data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize" style={{ fontSize: '90%' }}>
+                                      More
+                                  </Button>
+                              </div>
                             </>
                           ) : (
                             <div className="flex items-center gap-x-4 text-xs font-semibold">
@@ -681,7 +682,12 @@ export function Header() {
                     <SheetTitle>
                         <Link href={logoHref} className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                             <Image src="/logo.png" alt="IDL Education Logo" width={32} height={32} />
-                            <span className="text-lg font-bold text-primary">{isIdlFoundationPage ? "IDL Foundation" : "IDL EDUCATION"}</span>
+                            <div className="flex flex-col leading-tight">
+                                <span className="text-lg font-extrabold text-primary">{isIdlFoundationPage ? "IDL Foundation" : "IDL EDUCATION"}</span>
+                                <span className="text-[0.4rem] text-primary/80 tracking-wider -mt-1 font-extrabold">
+                                (Institute of Distance Learning Pvt. Ltd.)
+                                </span>
+                            </div>
                         </Link>
                     </SheetTitle>
                 </SheetHeader>
@@ -788,7 +794,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setActiveMenu(null)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => { setIsContactOpen(true); setActiveMenu(null); }}/>}
           </div>
         </div>
       </div>
