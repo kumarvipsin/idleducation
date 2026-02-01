@@ -7,7 +7,7 @@ import { HandHeart } from "lucide-react";
 
 export function FoundationMotive() {
   return (
-    <section className="w-full py-16 md:py-24 bg-muted/30 dark:bg-gray-900/50">
+    <section className="w-full py-16 md:py-24 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="rounded-2xl bg-white dark:bg-card p-6 md:p-8 border">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">

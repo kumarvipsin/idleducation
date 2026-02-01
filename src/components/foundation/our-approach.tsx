@@ -7,7 +7,7 @@ import { ArrowRight, Target } from "lucide-react";
 
 export function OurApproach() {
     return (
-        <section id="approach" className="w-full py-16 md:py-24 bg-muted/30 dark:bg-gray-900/50 scroll-mt-20">
+        <section id="approach" className="w-full py-16 md:py-24 bg-white dark:bg-background scroll-mt-20">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
@@ -33,7 +33,7 @@ export function OurApproach() {
                         </p>
                         <div className="flex items-center gap-8 pt-4">
                             <Target className="w-16 h-16 text-teal-500" />
-                            <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
+                             <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
                                 <Link href="#">
                                     Our Programs <ArrowRight className="ml-2 h-4 w-4" />
                                 </Link>
