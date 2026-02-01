@@ -1,16 +1,20 @@
 'use client';
 
+import { useState, useMemo } from 'react';
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home, User, Calendar, ArrowRight, X } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Search, User, Calendar, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 const blogPosts = [
   {
     slug: "power-of-personalized-learning",
-    title: "The Power of Personalized Learning in Today's Education",
-    excerpt: "Discover how tailoring education to individual student needs can unlock unprecedented potential and foster a lifelong love for learning. We explore the tools and techniques making it a reality. In this post, we'll dive deep into adaptive learning technologies, the role of AI in creating customized study plans, and how data analytics can provide insights into a student's progress. We also discuss the challenges and benefits of implementing personalized learning in traditional classroom settings, and share success stories from schools that have embraced this innovative approach. Learn how this educational revolution is preparing students not just for exams, but for a lifetime of curiosity and growth.",
+    title: "The Power of Personalized Learning",
+    category: "Education",
+    excerpt: "Discover how tailoring education to individual student needs can unlock unprecedented potential and foster a lifelong love for learning.",
     author: "Dr. Jane Doe",
     date: "July 15, 2024",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
@@ -18,8 +22,9 @@ const blogPosts = [
   },
   {
     slug: "future-of-stem-education",
-    title: "The Future of STEM: Preparing Students for Tomorrow's Careers",
-    excerpt: "STEM fields are evolving at a rapid pace. This post delves into how we can adapt our teaching methods to equip students with the skills needed for the jobs of the future. We'll examine the importance of interdisciplinary projects, hands-on experiments, and coding literacy from an early age. Furthermore, we explore the integration of robotics, artificial intelligence, and data science into the K-12 curriculum. Find out how educators can inspire the next generation of innovators and problem-solvers who will tackle the world's most pressing challenges.",
+    title: "The Future of STEM: Preparing for Tomorrow",
+    category: "STEM",
+    excerpt: "STEM fields are evolving at a rapid pace. This post delves into how we can adapt our teaching methods to equip students with the skills needed.",
     author: "John Smith",
     date: "July 10, 2024",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
@@ -27,17 +32,19 @@ const blogPosts = [
   },
   {
     slug: "importance-of-arts-in-education",
-    title: "Why Arts and Humanities are Crucial in a Tech-Driven World",
-    excerpt: "While technology is important, the arts and humanities cultivate critical thinking, empathy, and creativity. Learn why a balanced education is more important than ever. This article makes a case for the arts by showing how they improve communication skills, foster cultural understanding, and encourage out-of-the-box thinking. We'll share practical tips for integrating arts into any subject, from history to mathematics, and showcase how students who engage with humanities are often better equipped to navigate complex social and ethical issues in their personal and professional lives.",
+    title: "Why Arts & Humanities are Crucial",
+    category: "Humanities",
+    excerpt: "While technology is important, the arts and humanities cultivate critical thinking, empathy, and creativity. Learn why a balanced education is key.",
     author: "Emily White",
     date: "July 5, 2024",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "art painting"
   },
-    {
+  {
     slug: "mastering-exam-preparation",
-    title: "Mastering Exam Preparation: Tips for Less Stress and More Success",
-    excerpt: "Exams can be stressful, but they don't have to be. We share proven strategies to help students study smarter, manage their time effectively, and approach exams with confidence. This guide covers everything from creating a realistic study schedule to using active recall techniques like flashcards and practice tests. We also address the importance of a healthy lifestyle, including proper sleep, nutrition, and exercise, in boosting cognitive performance. Learn how to conquer exam anxiety and walk into the test hall feeling prepared and self-assured.",
+    title: "Mastering Exam Preparation",
+    category: "Exams",
+    excerpt: "Exams can be stressful, but they don't have to be. We share proven strategies to help students study smarter and manage their time effectively.",
     author: "Amod Sharma",
     date: "July 1, 2024",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
@@ -46,6 +53,7 @@ const blogPosts = [
   {
     slug: "jee-main-2026-admit-cards",
     title: "JEE Main 2026 Session 1 Admit Cards Released",
+    category: "Exams",
     excerpt: "Aspirants can Download the Admit Cards from jeemain.nta.nic.in...",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "student exam preparation",
@@ -55,6 +63,7 @@ const blogPosts = [
   {
     slug: "know-which-college-forms-to-fill-after-jee-main-2026",
     title: "Know Which College Forms to Fill After JEE Main 2026",
+    category: "Exams",
     excerpt: "Here's a Complete Guide About India's Premium Private, Researc...",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "student thinking future",
@@ -63,7 +72,8 @@ const blogPosts = [
   },
   {
     slug: "shepherds-son-from-rajasthan-to-become-villages-first-doctor",
-    title: "A Shepherd's Son from ALLEN Kota to Become Village's First...",
+    title: "A Shepherd's Son from ALLEN Kota to Become Village's First Doctor",
+    category: "Stories",
     excerpt: "Gordhanram from Barmer's Beriwala Tala village gets...",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "father son",
@@ -73,6 +83,7 @@ const blogPosts = [
   {
     slug: "nta-revises-jee-main-2026-session-1-exam-schedule",
     title: "NTA Revises JEE Main 2026 Session 1 Exam Schedule",
+    category: "Exams",
     excerpt: "Check the Revised Exam Dates Here The National Testing Agenc...",
     imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
     imageHint: "student exam schedule",
@@ -82,10 +93,23 @@ const blogPosts = [
 ];
 
 export default function BlogPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = useMemo(() => ['All', ...Array.from(new Set(blogPosts.map(p => p.category)))], []);
+  
+  const filteredPosts = useMemo(() => {
+    return blogPosts.filter(post => {
+      const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
+      const matchesSearch = post.title.toLowerCase().includes(searchTerm.toLowerCase()) || post.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesCategory && matchesSearch;
+    });
+  }, [searchTerm, selectedCategory]);
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-        <div className="text-center mb-12 animate-fade-in-up">
-            <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+        <div className="text-center mb-8 animate-fade-in-up">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
                 IDL <span className="text-orange-500">Blog</span>
                 <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
             </h1>
@@ -94,21 +118,52 @@ export default function BlogPage() {
             </p>
         </div>
 
+        <div className="mb-8 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="relative mx-auto max-w-md">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input
+                    type="text"
+                    placeholder="Search articles..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 w-full rounded-full h-10"
+                />
+            </div>
+            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                    {categories.map(category => (
+                        <button
+                            key={category}
+                            onClick={() => setSelectedCategory(category)}
+                            className={cn(`py-2 px-4 text-sm font-medium transition-colors border rounded-full`,
+                                selectedCategory === category 
+                                ? 'border-primary text-primary bg-primary/10' 
+                                : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                            )}
+                            >
+                            {category}
+                        </button>
+                    ))}
+                </div>
+            </div>
+        </div>
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {blogPosts.map((post, index) => (
+          {filteredPosts.map((post, index) => (
             <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
-              <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group">
+              <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group bg-card">
                 <div className="relative w-full aspect-video">
                   <Image 
                     src={post.imageUrl}
                     alt={post.title}
                     data-ai-hint={post.imageHint}
                     fill
-                    className="object-cover"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                   />
+                  <div className="absolute top-2 left-2 bg-background/80 text-foreground text-xs font-bold px-2 py-1 rounded-full">{post.category}</div>
                 </div>
                 <CardHeader>
-                  <CardTitle className="text-xl h-16">{post.title}</CardTitle>
+                  <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors h-14">{post.title}</CardTitle>
                    <div className="flex items-center gap-4 text-xs text-muted-foreground pt-2">
                       <div className="flex items-center gap-1.5">
                         <User className="h-3 w-3" />
@@ -120,15 +175,26 @@ export default function BlogPage() {
                       </div>
                     </div>
                 </CardHeader>
-                <CardContent className="flex-grow h-32 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                  <p className="text-sm text-muted-foreground">
+                <CardContent className="flex-grow">
+                  <p className="text-sm text-muted-foreground line-clamp-2">
                       {post.excerpt}
                   </p>
                 </CardContent>
+                 <div className="p-4 pt-0">
+                    <span className="font-semibold text-primary text-sm flex items-center group-hover:underline">
+                        Read More <ArrowRight className="ml-1 h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                    </span>
+                </div>
               </Card>
             </Link>
           ))}
         </div>
+
+        {filteredPosts.length === 0 && (
+            <div className="text-center py-16 col-span-full">
+                 <p className="text-muted-foreground">No blog posts found for your criteria.</p>
+            </div>
+        )}
     </div>
   );
 }
