@@ -1,16 +1,14 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { getUpdates, registerForScholarship, createRazorpayOrder, recordDonation } from "@/app/actions";
-import { formatDistanceToNow } from 'date-fns';
+import { registerForScholarship, createRazorpayOrder, recordDonation } from "@/app/actions";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
@@ -128,13 +126,6 @@ const scholarshipSchema = z.object({
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
 
-interface Update {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-}
-
 type CartItem = {
     id: number;
     name: string;
@@ -151,9 +142,7 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
-  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -286,38 +275,10 @@ export function Header() {
   };
 
 
-  useEffect(() => {
-    const fetchUpdates = async () => {
-      const result = await getUpdates(3);
-      if (result.success && result.data) {
-        const fetchedUpdates = result.data as Update[];
-        setUpdates(fetchedUpdates);
-
-        if (fetchedUpdates.length > 0) {
-          const lastChecked = localStorage.getItem('lastCheckedUpdate');
-          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
-          
-          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
-            setHasNewUpdates(true);
-          }
-        }
-      }
-    };
-    if (!isIdlFoundationPage) {
-        fetchUpdates();
-    }
-  }, [isIdlFoundationPage]);
   
   const handleLogout = async () => {
     await logout();
     router.push('/');
-  };
-
-  const handleNotificationOpenChange = (open: boolean) => {
-    if (open) {
-      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
-      setHasNewUpdates(false);
-    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -484,55 +445,24 @@ export function Header() {
     { href: getProfilePath(user), label: 'Profile', icon: <User className="h-4 w-4" /> },
   ];
 
-  
-  const notificationDropdown = (
-    <Popover onOpenChange={handleNotificationOpenChange}>
-        <PopoverTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
-                <Bell className="h-4 w-4" />
-                {hasNewUpdates && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                )}
-            </Button>
-        </PopoverTrigger>
-        <PopoverContent align="end" className="w-80">
-            <div className="grid gap-4">
-                <div className="space-y-2">
-                    <h4 className="font-medium leading-none">Recent Updates</h4>
-                    <p className="text-sm text-muted-foreground">
-                        Latest announcements from IDL.
-                    </p>
+  const renderMobileAuthSection = () => {
+    if (loading) {
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
                 </div>
-                <Separator />
-                <div className="grid gap-2">
-                    {updates.length > 0 ? (
-                    updates.map(update => (
-                        <div key={update.id} className="group grid grid-cols-[25px_1fr_80px] items-start gap-4">
-                            <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
-                            <div className="grid gap-1">
-                                <p className="text-sm font-medium">{update.title}</p>
-                                <p className="text-sm text-muted-foreground">{update.description}</p>
-                            </div>
-                            <p className="text-xs text-muted-foreground justify-self-end">
-                                {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                            </p>
-                        </div>
-                    ))
-                    ) : (
-                    <p className="text-sm text-muted-foreground">No new updates.</p>
-                    )}
-                </div>
-                 <Button asChild variant="outline" className="w-full">
-                    <Link href="/notifications">View all notifications</Link>
-                </Button>
             </div>
-        </PopoverContent>
-    </Popover>
-  );
-
+        );
+    }
+    if (user) {
+      return null;
+    }
+    return null;
+  };
+  
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
@@ -621,7 +551,6 @@ export function Header() {
                     </div>
                     
                     <div className="flex items-center gap-1">
-                      {!isIdlFoundationPage && notificationDropdown}
                       {isClient && renderAuthSection()}
                     </div>
                     
@@ -747,7 +676,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => { setIsContactOpen(true); setActiveMenu(null); }}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setIsContactOpen(true)}/>}
           </div>
         </div>
       </div>
