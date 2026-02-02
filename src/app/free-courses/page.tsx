@@ -167,7 +167,6 @@ export default function FreeCoursesPage() {
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 9th CBSE Board
             </span>
-            <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">(FREE COURSES)</span>
           </h1>
         </div>
 
@@ -218,7 +217,6 @@ export default function FreeCoursesPage() {
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 10th CBSE Board
             </span>
-             <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">(FREE COURSES)</span>
           </h1>
         </div>
 
