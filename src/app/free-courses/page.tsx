@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -292,7 +291,7 @@ export default function FreeCoursesPage() {
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-bold text-primary">₹0000.00</p>
+                      <p className="text-2xl font-bold text-primary">₹0.00</p>
                       <p className="text-sm text-muted-foreground line-through">₹9999</p>
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
