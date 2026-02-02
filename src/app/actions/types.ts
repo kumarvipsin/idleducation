@@ -136,6 +136,40 @@ export interface TPreviousYearQuestion {
   createdAt: string;
 }
 
+export interface TFreeCourseVideo {
+  title: string;
+  youtubeLink: string;
+  order: number;
+  description?: string;
+}
+
+export interface TFreeCourseChapter {
+  name: string;
+  number?: number;
+  description?: string;
+  status: 'show' | 'hide';
+  videos: TFreeCourseVideo[];
+}
+
+export interface TFreeCourse {
+  id: string;
+  title: string;
+  class: string;
+  board: string;
+  subject: string;
+  medium: string;
+  batchName: string;
+  validity: string;
+  price: number;
+  originalPrice: number;
+  description?: string;
+  coverImageUrl?: string;
+  status: 'active' | 'inactive';
+  chapters: TFreeCourseChapter[];
+  createdAt: string;
+}
+
+
 export interface THeroSlide {
   id: string;
   title: string;

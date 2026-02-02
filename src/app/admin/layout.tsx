@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -175,6 +176,12 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/free-courses')}>
+                           <Link href="/admin/free-courses">
+                                <BookOpen />
+                                <span>Free Courses</span>
+                           </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/study-resources')}>
                            <Link href="/admin/study-resources">
                                 <BookCheck />
