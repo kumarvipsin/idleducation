@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -160,9 +161,19 @@ const PlaylistDialog = ({ subject, videos }: { subject: string, videos: any[] })
             {videos.map((video, index) => (
                 <Dialog key={index}>
                     <DialogTrigger asChild>
-                        <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer">
-                            <h3 className="font-semibold text-sm flex-grow">{video.title}</h3>
-                            <PlayCircle className="w-6 h-6 text-muted-foreground" />
+                        <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors w-full">
+                            <div className="relative h-16 w-28 flex-shrink-0">
+                                <Image
+                                    src={`https://img.youtube.com/vi/${video.videoId}/mqdefault.jpg`}
+                                    alt={video.title}
+                                    fill
+                                    className="object-cover rounded-md"
+                                />
+                                <div className="absolute inset-0 bg-black/20 flex items-center justify-center rounded-md">
+                                    <PlayCircle className="w-8 h-8 text-white/80" />
+                                </div>
+                            </div>
+                            <h3 className="font-semibold text-sm flex-grow text-left">{video.title}</h3>
                         </div>
                     </DialogTrigger>
                     <VideoPlayer videoId={video.videoId} title={video.title} />
@@ -243,7 +254,7 @@ export default function FreeCoursesPage() {
                             </DialogTrigger>
                              <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
-                                    <DialogTitle>{`Class 9 ${subject} – Free Complete Chapter Offline Course`}</DialogTitle>
+                                    <DialogTitle>Class 9 {subject} – Free Complete Chapter Offline Course</DialogTitle>
                                     <DialogDescription>
                                         <div className="space-y-2 mt-2 text-sm text-left">
                                             <p>This FREE offline course is designed to cover all chapters of Class 9 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</p>
