@@ -50,6 +50,51 @@ const playlists = {
   ],
 };
 
+const playlistsClass10 = {
+  "Science": [
+    {
+      title: "Chemical Reactions and Equations",
+      videoId: "Q6bY-J2Vj-E",
+      thumbnail: "https://picsum.photos/seed/c10science1/800/450",
+      hint: "chemistry reaction"
+    },
+    {
+      title: "Life Processes",
+      videoId: "vG1-BBUXjB8",
+      thumbnail: "https://picsum.photos/seed/c10science2/800/450",
+      hint: "biology human body"
+    }
+  ],
+  "Mathematics": [
+    {
+      title: "Real Numbers",
+      videoId: "oeO6z21u2yI",
+      thumbnail: "https://picsum.photos/seed/c10math1/800/450",
+      hint: "math numbers"
+    },
+    {
+      title: "Triangles",
+      videoId: "F_5gvi2A-A0",
+      thumbnail: "https://picsum.photos/seed/c10math2/800/450",
+      hint: "geometry triangles"
+    }
+  ],
+  "Social Studies": [
+    {
+      title: "The Rise of Nationalism in Europe",
+      videoId: "91o0e5x73fI",
+      thumbnail: "https://picsum.photos/seed/c10social1/800/450",
+      hint: "europe history map"
+    },
+    {
+      title: "Resources and Development",
+      videoId: "Yv2yQ_tH6y0",
+      thumbnail: "https://picsum.photos/seed/c10social2/800/450",
+      hint: "earth resources"
+    }
+  ],
+};
+
 const VideoPlayer = ({ videoId, title }: { videoId: string; title: string }) => (
   <DialogContent className="max-w-3xl p-0">
     <DialogHeader className="p-4">
@@ -106,6 +151,11 @@ export default function FreeCoursesPage() {
     ...Object.fromEntries(Object.entries(playlists).filter(([key]) => key !== "Science"))
   };
 
+  const orderedPlaylistsClass10 = {
+    "Science": playlistsClass10["Science"],
+    ...Object.fromEntries(Object.entries(playlistsClass10).filter(([key]) => key !== "Science"))
+  };
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="mb-12 text-left">
@@ -116,6 +166,39 @@ export default function FreeCoursesPage() {
 
       <div className="flex gap-8 overflow-x-auto pb-4">
         {Object.entries(orderedPlaylists).map(([subject, videos]) => (
+          <Dialog key={subject}>
+            <DialogTrigger asChild>
+                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
+                    <div className="relative w-full aspect-video">
+                    <Image 
+                        src={videos[0].thumbnail} // Use first video's thumbnail as cover
+                        alt={subject}
+                        data-ai-hint={videos[0].hint}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                        <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
+                    </div>
+                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ListVideo className="w-16 h-16 text-white/80" />
+                    </div>
+                    </div>
+                </Card>
+            </DialogTrigger>
+            <PlaylistDialog subject={subject} videos={videos} />
+          </Dialog>
+        ))}
+      </div>
+
+      <div className="mt-20 mb-12 text-left">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          Class 10th <span className="text-primary">CBSE Board</span>
+        </h1>
+      </div>
+
+      <div className="flex gap-8 overflow-x-auto pb-4">
+        {Object.entries(orderedPlaylistsClass10).map(([subject, videos]) => (
           <Dialog key={subject}>
             <DialogTrigger asChild>
                 <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
