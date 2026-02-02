@@ -226,7 +226,7 @@ export default function FreeCoursesPage() {
               <CardContent className="p-4 flex flex-col flex-grow">
                   <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 9th</CardTitle>
                   <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="secondary">Medium: Hindi</Badge>
+                      <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
@@ -237,7 +237,7 @@ export default function FreeCoursesPage() {
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
-                        <span>Discount of {videos[0].discount}% applied</span>
+                        <span>Discount of 100% applied</span>
                     </div>
                     <p className="text-xs text-muted-foreground mt-1">(FULL COURSE)</p>
                   </div>
@@ -284,7 +284,7 @@ export default function FreeCoursesPage() {
               <CardContent className="p-4 flex flex-col flex-grow">
                   <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 10th</CardTitle>
                   <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="secondary">Medium: Hindi</Badge>
+                      <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
