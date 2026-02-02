@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -166,9 +167,6 @@ export default function FreeCoursesPage() {
             </span>
             <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">(FREE COURSES)</span>
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-              A curated collection of free video lessons to help you excel in your studies.
-          </p>
         </div>
 
         <div className="flex gap-8 overflow-x-auto pb-4">
@@ -207,9 +205,6 @@ export default function FreeCoursesPage() {
             </span>
              <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">(FREE COURSES)</span>
           </h1>
-            <p className="mt-2 text-sm text-muted-foreground">
-              A curated collection of free video lessons to help you excel in your studies.
-            </p>
         </div>
 
         <div className="flex gap-8 overflow-x-auto pb-4">
