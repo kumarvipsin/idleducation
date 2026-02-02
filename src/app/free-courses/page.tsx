@@ -28,13 +28,10 @@ const videos = [
 export default function FreeCoursesPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="text-center mb-12">
+      <div className="mb-12">
         <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight">
           CLASS IX CBSE Board
         </h1>
-        <p className="mt-2 text-lg text-muted-foreground">
-          Enjoy these free video lessons to get a taste of our quality education.
-        </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
