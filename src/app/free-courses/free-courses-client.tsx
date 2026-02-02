@@ -1,17 +1,16 @@
-
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, ListVideo, Tag, Youtube } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseChapter } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const VideoPlayer = ({ videoId, title }: { videoId: string; title: string }) => (
   <DialogContent className="max-w-3xl p-0">
