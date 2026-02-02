@@ -173,10 +173,7 @@ export default function FreeCoursesPage() {
         <div className="flex gap-8 overflow-x-auto pb-4">
           {Object.entries(orderedPlaylists).map(([subject, videos]) => (
             <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col w-80 flex-shrink-0 bg-card">
-              <div className="relative">
-                  <div className="absolute top-0 left-0 bg-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-br-lg z-10">
-                      FREE
-                  </div>
+              <div className="relative group">
                   <div className="relative w-full aspect-video">
                       <Image
                           src={videos[0].thumbnail}
@@ -185,6 +182,9 @@ export default function FreeCoursesPage() {
                           fill
                           className="object-cover"
                       />
+                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <PlayCircle className="w-16 h-16 text-white/80" />
+                      </div>
                   </div>
               </div>
               <CardContent className="p-4 flex flex-col flex-grow">
@@ -194,6 +194,7 @@ export default function FreeCoursesPage() {
                       <Badge variant="outline">CBSE</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                       <p className="text-2xl font-bold text-primary">Free</p>
                   </div>
@@ -224,10 +225,7 @@ export default function FreeCoursesPage() {
         <div className="flex gap-8 overflow-x-auto pb-4">
           {Object.entries(orderedPlaylistsClass10).map(([subject, videos]) => (
             <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col w-80 flex-shrink-0 bg-card">
-              <div className="relative">
-                  <div className="absolute top-0 left-0 bg-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-br-lg z-10">
-                      FREE
-                  </div>
+              <div className="relative group">
                   <div className="relative w-full aspect-video">
                       <Image
                           src={videos[0].thumbnail}
@@ -236,6 +234,9 @@ export default function FreeCoursesPage() {
                           fill
                           className="object-cover"
                       />
+                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <PlayCircle className="w-16 h-16 text-white/80" />
+                      </div>
                   </div>
               </div>
               <CardContent className="p-4 flex flex-col flex-grow">
@@ -245,6 +246,7 @@ export default function FreeCoursesPage() {
                       <Badge variant="outline">CBSE</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                       <p className="text-2xl font-bold text-primary">Free</p>
                   </div>
