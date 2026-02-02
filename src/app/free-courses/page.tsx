@@ -205,9 +205,9 @@ export default function FreeCoursesPage() {
           </h1>
         </div>
 
-        <div className="flex gap-8 overflow-x-auto pb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Object.entries(orderedPlaylists).map(([subject, videos]) => (
-            <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col w-80 flex-shrink-0 bg-card">
+            <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card">
               <div className="relative group">
                   <div className="relative w-full aspect-video">
                       <Image
@@ -264,9 +264,9 @@ export default function FreeCoursesPage() {
           </h1>
         </div>
 
-        <div className="flex gap-8 overflow-x-auto pb-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {Object.entries(orderedPlaylistsClass10).map(([subject, videos]) => (
-            <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col w-80 flex-shrink-0 bg-card">
+            <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col bg-card">
               <div className="relative group">
                   <div className="relative w-full aspect-video">
                       <Image
