@@ -222,19 +222,19 @@ export default function FreeCoursesPage() {
                       </div>
                   </div>
               </div>
-              <CardContent className="p-4 flex flex-col flex-grow">
-                  <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 9th</CardTitle>
-                  <div className="flex items-center gap-2 mt-2">
+              <CardContent className="p-3 flex flex-col flex-grow">
+                  <CardTitle className="text-base font-bold text-foreground leading-tight">{subject} for Class 9th</CardTitle>
+                  <div className="flex items-center gap-2 mt-1">
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
-                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
-                  <div className="mt-4">
+                  <p className="text-xs text-muted-foreground mt-1">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground">Medium: Hindi</p>
+                  <div className="mt-2">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹{videos[0].price.toFixed(2)}</p>
                       <p className="text-sm text-muted-foreground line-through">₹{videos[0].originalPrice}</p>
                     </div>
-                    <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
+                    <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-1 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
                         <span>Discount of {videos[0].discount}% applied</span>
                     </div>
@@ -253,7 +253,7 @@ export default function FreeCoursesPage() {
                     </Dialog>
                   </div>
               </CardContent>
-              <div className="p-4 pt-0 mt-auto">
+              <div className="p-3 pt-0 mt-auto">
                   <Dialog>
                       <DialogTrigger asChild>
                           <Button className="w-full bg-primary hover:bg-primary/90">View Course</Button>
@@ -292,19 +292,19 @@ export default function FreeCoursesPage() {
                       </div>
                   </div>
               </div>
-              <CardContent className="p-4 flex flex-col flex-grow">
-                  <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 10th</CardTitle>
-                  <div className="flex items-center gap-2 mt-2">
+              <CardContent className="p-3 flex flex-col flex-grow">
+                  <CardTitle className="text-base font-bold text-foreground leading-tight">{subject} for Class 10th</CardTitle>
+                  <div className="flex items-center gap-2 mt-1">
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
-                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
-                  <div className="mt-4">
+                  <p className="text-xs text-muted-foreground mt-1">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground">Medium: Hindi</p>
+                  <div className="mt-2">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹0.00</p>
                       <p className="text-sm text-muted-foreground line-through">₹9999</p>
                     </div>
-                    <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
+                    <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-1 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
                         <span>Discount of 100% applied</span>
                     </div>
@@ -323,7 +323,7 @@ export default function FreeCoursesPage() {
                     </Dialog>
                   </div>
               </CardContent>
-              <div className="p-4 pt-0 mt-auto">
+              <div className="p-3 pt-0 mt-auto">
                   <Dialog>
                       <DialogTrigger asChild>
                           <Button className="w-full bg-primary hover:bg-primary/90">View Course</Button>
