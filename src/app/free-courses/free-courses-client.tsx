@@ -10,70 +10,95 @@ import type { TFreeCourse, TFreeCourseChapter } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
+import { cn } from "@/lib/utils";
 
 const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
-    const [selectedVideo, setSelectedVideo] = useState<{videoId: string; title: string} | null>(null);
+    const allVideos = useMemo(() => course.chapters?.flatMap(chapter => 
+        chapter.videos.map(video => ({ ...video, chapterName: chapter.name }))
+    ) || [], [course.chapters]);
+
+    const [selectedVideo, setSelectedVideo] = useState(allVideos[0] || null);
+
+    useEffect(() => {
+        if (!selectedVideo && allVideos.length > 0) {
+            setSelectedVideo(allVideos[0]);
+        }
+    }, [allVideos, selectedVideo]);
+
+    const selectedVideoId = selectedVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-    <DialogContent className={selectedVideo ? "max-w-3xl p-0" : "sm:max-w-lg"}>
-        {selectedVideo ? (
-            <>
-                <DialogHeader className="p-4 flex flex-row items-center justify-between">
-                    <DialogTitle>{selectedVideo.title}</DialogTitle>
-                    <Button variant="ghost" size="sm" onClick={() => setSelectedVideo(null)}>Back to Playlist</Button>
-                </DialogHeader>
-                <div className="aspect-video">
-                    <iframe
-                        className="w-full h-full"
-                        src={`https://www.youtube.com/embed/${selectedVideo.videoId}?autoplay=1&rel=0`}
-                        title={`YouTube video player for ${selectedVideo.title}`}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
+        <DialogContent className="max-w-4xl p-0 h-[80vh]">
+            <div className="grid grid-cols-1 md:grid-cols-3 h-full">
+                {/* Video Player & Info */}
+                <div className="md:col-span-2 flex flex-col">
+                    <div className="aspect-video w-full bg-black">
+                        {selectedVideoId ? (
+                            <iframe
+                                className="w-full h-full"
+                                src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0`}
+                                title={selectedVideo.title}
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowFullScreen
+                            ></iframe>
+                        ) : (
+                            <div className="w-full h-full flex items-center justify-center text-white bg-black">
+                                <p>No video selected or available.</p>
+                            </div>
+                        )}
+                    </div>
+                     <div className="p-4 border-t">
+                        <h2 className="text-xl font-bold">{selectedVideo?.title || course.title}</h2>
+                        <p className="text-sm text-muted-foreground">{selectedVideo?.chapterName || course.description}</p>
+                    </div>
                 </div>
-            </>
-        ) : (
-            <>
-                <DialogHeader>
-                    <DialogTitle className="text-2xl">{course.subject}</DialogTitle>
-                    <DialogDescription>{course.title}</DialogDescription>
-                </DialogHeader>
-                <ScrollArea className="max-h-[60vh] overflow-y-auto space-y-2 p-1">
-                    {course.chapters?.map((chapter, chapterIndex) => (
-                        <div key={chapterIndex}>
-                            <h3 className="font-semibold text-lg my-2">{chapter.name}</h3>
-                            {chapter.videos.map((video, videoIndex) => {
-                                const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
-                                if (!videoId) return null;
-                                return (
-                                     <button key={videoIndex} onClick={() => setSelectedVideo({ videoId, title: video.title })} className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors w-full text-left">
-                                        <div className="relative h-16 w-28 flex-shrink-0">
-                                            <Image
-                                                src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
-                                                alt={video.title}
-                                                fill
-                                                className="object-cover rounded-md"
-                                            />
-                                            <div className="absolute inset-0 bg-black/20 flex items-center justify-center rounded-md">
-                                                <PlayCircle className="w-8 h-8 text-white/80" />
-                                            </div>
-                                        </div>
-                                        <h3 className="font-semibold text-sm flex-grow text-left">{video.title}</h3>
-                                    </button>
-                                )
-                            })}
+
+                {/* Playlist */}
+                <div className="md:col-span-1 border-l flex flex-col">
+                    <DialogHeader className="p-4 border-b shrink-0">
+                        <DialogTitle>Course Playlist</DialogTitle>
+                        <DialogDescription>{course.title}</DialogDescription>
+                    </DialogHeader>
+                    <ScrollArea className="flex-grow">
+                        <div className="p-2 space-y-1">
+                            {course.chapters?.map(chapter => (
+                                <div key={chapter.name}>
+                                    <h4 className="font-semibold text-sm p-2 sticky top-0 bg-background/95 backdrop-blur-sm z-10">{chapter.name}</h4>
+                                    {chapter.videos.map(video => {
+                                        const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
+                                        if (!videoId) return null;
+                                        return (
+                                            <button 
+                                                key={video.youtubeLink} 
+                                                onClick={() => setSelectedVideo({...video, chapterName: chapter.name})}
+                                                className={cn(
+                                                    "w-full text-left flex items-center gap-2 p-2 rounded-md hover:bg-muted",
+                                                    selectedVideo?.youtubeLink === video.youtubeLink && "bg-muted"
+                                                )}
+                                            >
+                                                <div className="relative h-10 w-16 rounded overflow-hidden shrink-0">
+                                                    <Image
+                                                        src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
+                                                        alt={video.title}
+                                                        fill
+                                                        className="object-cover"
+                                                    />
+                                                </div>
+                                                <span className="text-xs font-medium truncate">{video.title}</span>
+                                            </button>
+                                        )
+                                    })}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </ScrollArea>
-                <DialogFooter>
-                    <Button onClick={() => window.open('https://www.youtube.com/@idleducation', '_blank')}>Watch on YouTube</Button>
-                </DialogFooter>
-            </>
-        )}
-    </DialogContent>
-)};
+                    </ScrollArea>
+                </div>
+            </div>
+        </DialogContent>
+    );
+};
 
 export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
   const [groupedCourses, setGroupedCourses] = useState<{[key: string]: TFreeCourse[]}>({});
