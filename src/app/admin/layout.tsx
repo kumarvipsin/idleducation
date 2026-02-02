@@ -114,12 +114,6 @@ function AdminLayout({
                                 <span>Teachers</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/staff')}>
-                            <Link href="/admin/staff">
-                                <Users />
-                                <span>Staff</span>
-                            </Link>
-                        </SidebarMenuButton>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
                 <SidebarMenuSub value="submissions">
@@ -207,7 +201,7 @@ function AdminLayout({
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
-                <SidebarMenuSub value="site-content">
+                <SidebarMenuSub value="site-management">
                     <SidebarMenuSubButton>
                         <Settings2 />
                         <span>Site Management</span>
