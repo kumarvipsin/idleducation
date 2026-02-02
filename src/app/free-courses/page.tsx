@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -190,7 +191,7 @@ export default function FreeCoursesPage() {
               <CardContent className="p-4 flex flex-col flex-grow">
                   <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 9th</CardTitle>
                   <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="secondary">Hinglish</Badge>
+                      <Badge variant="secondary">Medium: Hindi</Badge>
                       <Badge variant="outline">CBSE</Badge>
                   </div>
                   <div className="mt-4">
@@ -240,7 +241,7 @@ export default function FreeCoursesPage() {
               <CardContent className="p-4 flex flex-col flex-grow">
                   <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 10th</CardTitle>
                   <div className="flex items-center gap-2 mt-2">
-                      <Badge variant="secondary">Hinglish</Badge>
+                      <Badge variant="secondary">Medium: Hindi</Badge>
                       <Badge variant="outline">CBSE</Badge>
                   </div>
                   <div className="mt-4">
