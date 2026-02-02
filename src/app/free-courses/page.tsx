@@ -1,10 +1,9 @@
-
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, ListVideo, Tag } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -255,20 +254,20 @@ export default function FreeCoursesPage() {
                              <DialogContent className="sm:max-w-md">
                                 <DialogHeader>
                                     <DialogTitle>Class 9 {subject} – Free Complete Chapter Offline Course</DialogTitle>
-                                    <DialogDescription>
-                                        <div className="space-y-2 mt-2 text-sm text-left">
-                                            <p>This FREE offline course is designed to cover all chapters of Class 9 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</p>
-                                            <p className="font-semibold pt-2">🔹 Course Highlights:</p>
-                                            <ul className="list-none space-y-1">
+                                    <DialogDescription asChild>
+                                        <div className="space-y-2 mt-2 text-sm text-left text-muted-foreground">
+                                            <div>This FREE offline course is designed to cover all chapters of Class 9 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</div>
+                                            <div className="font-semibold pt-2 text-foreground">🔹 Course Highlights:</div>
+                                            <ul className="list-none space-y-1 pl-4">
                                                 <li>✅ Complete Class 9 {subject} syllabus (All Chapters)</li>
                                                 <li>✅ 100% FREE Offline Classes</li>
                                                 <li>✅ Chapter-wise Recorded Videos – Free Access</li>
-                                                <li>✅ Concept-based & Exam-focused Teaching</li>
+                                                <li>✅ Concept-based &amp; Exam-focused Teaching</li>
                                                 <li>✅ Notes and Doubt Support</li>
                                                 <li>✅ Course Validity Till Final Exam</li>
                                             </ul>
-                                            {subject === 'Science' && <p className="pt-2"><strong className="font-semibold">🔹 Subjects Covered:</strong> Physics | Chemistry | Biology</p>}
-                                            <p className="pt-2">This course is ideal for students who want a strong foundation, clear understanding, and confidence in exams—at no cost.</p>
+                                            {subject === 'Science' && <div className="pt-2"><strong className="font-semibold text-foreground">🔹 Subjects Covered:</strong> Physics | Chemistry | Biology</div>}
+                                            <div className="pt-2">This course is ideal for students who want a strong foundation, clear understanding, and confidence in exams—at no cost.</div>
                                         </div>
                                     </DialogDescription>
                                 </DialogHeader>
@@ -346,20 +345,20 @@ export default function FreeCoursesPage() {
                       <DialogContent className="sm:max-w-md">
                           <DialogHeader>
                               <DialogTitle>Class 10 {subject} – Free Complete Chapter Offline Course</DialogTitle>
-                              <DialogDescription>
-                                    <div className="space-y-2 mt-2 text-sm text-left">
-                                      <p>This FREE offline course is designed to cover all chapters of Class 10 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</p>
-                                      <p className="font-semibold pt-2">🔹 Course Highlights:</p>
-                                      <ul className="list-none space-y-1">
+                              <DialogDescription asChild>
+                                    <div className="space-y-2 mt-2 text-sm text-left text-muted-foreground">
+                                      <div>This FREE offline course is designed to cover all chapters of Class 10 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</div>
+                                      <div className="font-semibold pt-2 text-foreground">🔹 Course Highlights:</div>
+                                      <ul className="list-none space-y-1 pl-4">
                                           <li>✅ Complete Class 10 {subject} syllabus (All Chapters)</li>
                                           <li>✅ 100% FREE Offline Classes</li>
                                           <li>✅ Chapter-wise Recorded Videos – Free Access</li>
-                                          <li>✅ Concept-based & Exam-focused Teaching</li>
+                                          <li>✅ Concept-based &amp; Exam-focused Teaching</li>
                                           <li>✅ Notes and Doubt Support</li>
                                           <li>✅ Course Validity Till Final Exam</li>
                                       </ul>
-                                      {subject === 'Science' && <p className="pt-2"><strong className="font-semibold">🔹 Subjects Covered:</strong> Physics | Chemistry | Biology</p>}
-                                      <p className="pt-2">This course is ideal for students who want a strong foundation, clear understanding, and confidence in exams—at no cost.</p>
+                                      {subject === 'Science' && <div className="pt-2"><strong className="font-semibold text-foreground">🔹 Subjects Covered:</strong> Physics | Chemistry | Biology</div>}
+                                      <div className="pt-2">This course is ideal for students who want a strong foundation, clear understanding, and confidence in exams—at no cost.</div>
                                   </div>
                               </DialogDescription>
                           </DialogHeader>
