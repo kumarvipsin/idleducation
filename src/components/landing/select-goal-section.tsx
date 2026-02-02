@@ -2,51 +2,57 @@
 
 import Link from "next/link";
 import React from 'react';
-import { ArrowRight, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark, MoreHorizontal, BookOpen, IndianRupee, ClipboardList } from "lucide-react";
+import { ArrowRight, Dna, Building, Trophy, BookHeart, Users, GraduationCap, Landmark, MoreHorizontal, BookOpen, IndianRupee, ClipboardList, Atom } from "lucide-react";
 
 const goals = [
-  {
-    name: "FREE COURSES",
-    icon: <BookOpen className="w-8 h-8" />,
-    href: "#",
-    color: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
-  },
-  {
-    name: "PAID COURSES",
-    icon: <IndianRupee className="w-8 h-8" />,
-    href: "#",
-    color: "bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400",
-  },
-  {
-    name: "CBSE BOARD",
-    icon: <GraduationCap className="w-8 h-8" />,
-    href: "/school",
-    color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
-  },
-  {
-    name: "CUET UG/PG",
-    icon: <GraduationCap className="w-8 h-8" />,
-    href: "/category/cuet",
-    color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
-  },
-  {
-    name: "IIT-JEE/NEET",
-    icon: <GraduationCap className="w-8 h-8" />,
-    href: "/category/iit-jee",
-    color: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
-  },
-  {
-    name: "GOVT. EXAMS",
-    icon: <Landmark className="w-8 h-8" />,
-    href: "/examcat?category=govt-job-exams",
-    color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
-  },
-  {
-    name: "TEST SERIES",
-    icon: <ClipboardList className="w-8 h-8" />,
-    href: "#",
-    color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
-  },
+    {
+        name: "FREE COURSES",
+        icon: <BookOpen className="w-8 h-8" />,
+        href: "#",
+        color: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
+    },
+    {
+        name: "PAID COURSES",
+        icon: <IndianRupee className="w-8 h-8" />,
+        href: "#",
+        color: "bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400",
+    },
+    {
+        name: "CBSE BOARD",
+        icon: <GraduationCap className="w-8 h-8" />,
+        href: "/school",
+        color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
+    },
+    {
+        name: "CUET UG/PG",
+        icon: <GraduationCap className="w-8 h-8" />,
+        href: "/category/cuet",
+        color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
+    },
+    {
+        name: "JEE",
+        icon: <Atom className="w-8 h-8" />,
+        href: "/category/iit-jee",
+        color: "bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400",
+    },
+    {
+        name: "NEET",
+        icon: <Dna className="w-8 h-8" />,
+        href: "/category/neet",
+        color: "bg-rose-100 dark:bg-rose-900/30 text-rose-600 dark:text-rose-400",
+    },
+    {
+        name: "GOVT. EXAMS",
+        icon: <Landmark className="w-8 h-8" />,
+        href: "/examcat?category=govt-job-exams",
+        color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
+    },
+    {
+        name: "TEST SERIES",
+        icon: <ClipboardList className="w-8 h-8" />,
+        href: "#",
+        color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
+    },
 ];
 
 export function SelectGoalSection() {
