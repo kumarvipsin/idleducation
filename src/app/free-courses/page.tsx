@@ -229,7 +229,6 @@ export default function FreeCoursesPage() {
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
                   <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
-                  <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹{videos[0].price.toFixed(2)}</p>
@@ -300,7 +299,6 @@ export default function FreeCoursesPage() {
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
                   <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
-                  <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹0.00</p>
