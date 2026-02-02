@@ -158,75 +158,79 @@ export default function FreeCoursesPage() {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="mb-12 text-left">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-            Class 9th CBSE Board
-          </span>
-        </h1>
-      </div>
+      <section className="mb-16">
+        <div className="mb-12 text-left">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+              Class 9th CBSE Board
+            </span>
+          </h1>
+        </div>
 
-      <div className="flex gap-8 overflow-x-auto pb-4">
-        {Object.entries(orderedPlaylists).map(([subject, videos]) => (
-          <Dialog key={subject}>
-            <DialogTrigger asChild>
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
-                    <div className="relative w-full aspect-video">
-                    <Image 
-                        src={videos[0].thumbnail} // Use first video's thumbnail as cover
-                        alt={subject}
-                        data-ai-hint={videos[0].hint}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                        <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
-                    </div>
-                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ListVideo className="w-16 h-16 text-white/80" />
-                    </div>
-                    </div>
-                </Card>
-            </DialogTrigger>
-            <PlaylistDialog subject={subject} videos={videos} />
-          </Dialog>
-        ))}
-      </div>
+        <div className="flex gap-8 overflow-x-auto pb-4">
+          {Object.entries(orderedPlaylists).map(([subject, videos]) => (
+            <Dialog key={subject}>
+              <DialogTrigger asChild>
+                  <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
+                      <div className="relative w-full aspect-video">
+                      <Image 
+                          src={videos[0].thumbnail} // Use first video's thumbnail as cover
+                          alt={subject}
+                          data-ai-hint={videos[0].hint}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                          <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
+                      </div>
+                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ListVideo className="w-16 h-16 text-white/80" />
+                      </div>
+                      </div>
+                  </Card>
+              </DialogTrigger>
+              <PlaylistDialog subject={subject} videos={videos} />
+            </Dialog>
+          ))}
+        </div>
+      </section>
 
-      <div className="mt-20 mb-12 text-left">
-        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
-            Class 10th CBSE Board
-          </span>
-        </h1>
-      </div>
+      <section>
+        <div className="mb-12 text-left">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+              Class 10th CBSE Board
+            </span>
+          </h1>
+        </div>
 
-      <div className="flex gap-8 overflow-x-auto pb-4">
-        {Object.entries(orderedPlaylistsClass10).map(([subject, videos]) => (
-          <Dialog key={subject}>
-            <DialogTrigger asChild>
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
-                    <div className="relative w-full aspect-video">
-                    <Image 
-                        src={videos[0].thumbnail} // Use first video's thumbnail as cover
-                        alt={subject}
-                        data-ai-hint={videos[0].hint}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                        <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
-                    </div>
-                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ListVideo className="w-16 h-16 text-white/80" />
-                    </div>
-                    </div>
-                </Card>
-            </DialogTrigger>
-            <PlaylistDialog subject={subject} videos={videos} />
-          </Dialog>
-        ))}
-      </div>
+        <div className="flex gap-8 overflow-x-auto pb-4">
+          {Object.entries(orderedPlaylistsClass10).map(([subject, videos]) => (
+            <Dialog key={subject}>
+              <DialogTrigger asChild>
+                  <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
+                      <div className="relative w-full aspect-video">
+                      <Image 
+                          src={videos[0].thumbnail} // Use first video's thumbnail as cover
+                          alt={subject}
+                          data-ai-hint={videos[0].hint}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                          <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
+                      </div>
+                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ListVideo className="w-16 h-16 text-white/80" />
+                      </div>
+                      </div>
+                  </Card>
+              </DialogTrigger>
+              <PlaylistDialog subject={subject} videos={videos} />
+            </Dialog>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
