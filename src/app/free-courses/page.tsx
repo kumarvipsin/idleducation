@@ -159,8 +159,10 @@ export default function FreeCoursesPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="mb-12 text-left">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-          Class 9th <span className="text-primary">CBSE Board</span>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            Class 9th CBSE Board
+          </span>
         </h1>
       </div>
 
@@ -192,8 +194,10 @@ export default function FreeCoursesPage() {
       </div>
 
       <div className="mt-20 mb-12 text-left">
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-          Class 10th <span className="text-primary">CBSE Board</span>
+        <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            Class 10th CBSE Board
+          </span>
         </h1>
       </div>
 
