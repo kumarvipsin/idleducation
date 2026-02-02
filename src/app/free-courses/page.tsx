@@ -14,18 +14,18 @@ const playlists = {
       videoId: "mKEz0NVA7bA", // Example video ID
       thumbnail: "https://picsum.photos/seed/video2/800/450",
       hint: "cell biology",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     },
     {
       title: "Atoms and Molecules",
       videoId: "5zprgDRqL3M", // Example video ID
       thumbnail: "https://picsum.photos/seed/science2/800/450",
       hint: "atomic structure",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     }
   ],
   "Mathematics": [
@@ -34,18 +34,18 @@ const playlists = {
       videoId: "O3a-bX53NAc", // Example video ID
       thumbnail: "https://picsum.photos/seed/video1/800/450",
       hint: "math equations",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     },
     {
       title: "Linear Equations in Two Variables",
       videoId: "N-4_g2hhn0k", // Example video ID
       thumbnail: "https://picsum.photos/seed/math2/800/450",
       hint: "graphs equations",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     }
   ],
   "Social Studies": [
@@ -54,18 +54,18 @@ const playlists = {
       videoId: "IIDzc-VE_fE", // Example video ID
       thumbnail: "https://picsum.photos/seed/video3/800/450",
       hint: "french revolution",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     },
     {
       title: "India: Size and Location",
       videoId: "f8qYCp_e4fE", // Example video ID
       thumbnail: "https://picsum.photos/seed/social2/800/450",
       hint: "india map",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     }
   ],
 };
@@ -77,18 +77,18 @@ const playlistsClass10 = {
       videoId: "Q6bY-J2Vj-E",
       thumbnail: "https://picsum.photos/seed/c10science1/800/450",
       hint: "chemistry reaction",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     },
     {
       title: "Life Processes",
       videoId: "vG1-BBUXjB8",
       thumbnail: "https://picsum.photos/seed/c10science2/800/450",
       hint: "biology human body",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     }
   ],
   "Mathematics": [
@@ -97,18 +97,18 @@ const playlistsClass10 = {
       videoId: "oeO6z21u2yI",
       thumbnail: "https://picsum.photos/seed/c10math1/800/450",
       hint: "math numbers",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     },
     {
       title: "Triangles",
       videoId: "F_5gvi2A-A0",
       thumbnail: "https://picsum.photos/seed/c10math2/800/450",
       hint: "geometry triangles",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     }
   ],
   "Social Studies": [
@@ -117,18 +117,18 @@ const playlistsClass10 = {
       videoId: "91o0e5x73fI",
       thumbnail: "https://picsum.photos/seed/c10social1/800/450",
       hint: "europe history map",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     },
     {
       title: "Resources and Development",
       videoId: "Yv2yQ_tH6y0",
       thumbnail: "https://picsum.photos/seed/c10social2/800/450",
       hint: "earth resources",
-      price: 2499,
-      originalPrice: 8249,
-      discount: 70
+      price: 0,
+      originalPrice: 9999,
+      discount: 100
     }
   ],
 };
@@ -231,14 +231,14 @@ export default function FreeCoursesPage() {
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-bold text-primary">₹{videos[0].price}</p>
-                      <p className="text-sm text-muted-foreground line-through">₹{videos[0].originalPrice}</p>
+                      <p className="text-2xl font-bold text-primary">₹0000.00</p>
+                      <p className="text-sm text-muted-foreground line-through">₹9999</p>
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
-                        <span>Discount of {videos[0].discount}% applied</span>
+                        <span>100%</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">(FOR FULL BATCH)</p>
+                    <p className="text-xs text-muted-foreground mt-1">FULL COURSE</p>
                   </div>
               </CardContent>
               <div className="p-4 pt-0 mt-auto">
@@ -289,14 +289,14 @@ export default function FreeCoursesPage() {
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-bold text-primary">₹{videos[0].price}</p>
-                      <p className="text-sm text-muted-foreground line-through">₹{videos[0].originalPrice}</p>
+                      <p className="text-2xl font-bold text-primary">₹0000.00</p>
+                      <p className="text-sm text-muted-foreground line-through">₹9999</p>
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
-                        <span>Discount of {videos[0].discount}% applied</span>
+                        <span>100%</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">(FOR FULL BATCH)</p>
+                    <p className="text-xs text-muted-foreground mt-1">FULL COURSE</p>
                   </div>
               </CardContent>
               <div className="p-4 pt-0 mt-auto">
