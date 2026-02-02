@@ -3,7 +3,7 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, ListVideo, Tag } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -237,9 +237,21 @@ export default function FreeCoursesPage() {
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
-                        <span>Discount of 100% applied</span>
+                        <span>Discount of {videos[0].discount}% applied</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">(FULL COURSE)</p>
+                    <Dialog>
+                      <DialogTrigger asChild>
+                          <Button variant="link" className="text-xs p-0 h-auto mt-1 text-muted-foreground hover:text-primary">View Full Course Details</Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                              <DialogTitle>{videos[0].title}</DialogTitle>
+                              <DialogDescription>
+                                  This is a comprehensive course for {subject} covering all chapters and topics as per the CBSE syllabus. Get access to high-quality video lectures, detailed notes, and practice questions to excel in your exams.
+                              </DialogDescription>
+                          </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </div>
               </CardContent>
               <div className="p-4 pt-0 mt-auto">
@@ -298,7 +310,19 @@ export default function FreeCoursesPage() {
                         <Tag className="w-3 h-3" />
                         <span>Discount of 100% applied</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">(FULL COURSE)</p>
+                     <Dialog>
+                      <DialogTrigger asChild>
+                          <Button variant="link" className="text-xs p-0 h-auto mt-1 text-muted-foreground hover:text-primary">View Full Course Details</Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                              <DialogTitle>{videos[0].title}</DialogTitle>
+                              <DialogDescription>
+                                  This is a comprehensive course for {subject} covering all chapters and topics as per the CBSE syllabus. Get access to high-quality video lectures, detailed notes, and practice questions to excel in your exams.
+                              </DialogDescription>
+                          </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </div>
               </CardContent>
               <div className="p-4 pt-0 mt-auto">
