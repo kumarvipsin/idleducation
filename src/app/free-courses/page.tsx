@@ -160,10 +160,11 @@ export default function FreeCoursesPage() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <section className="mb-16">
         <div className="mb-12 text-left">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-2">
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 9th CBSE Board
             </span>
+            <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-md">(FREE COURSES)</span>
           </h1>
         </div>
 
@@ -197,10 +198,11 @@ export default function FreeCoursesPage() {
 
       <section>
         <div className="mb-12 text-left">
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight flex items-center gap-2">
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 10th CBSE Board
             </span>
+             <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-md">(FREE COURSES)</span>
           </h1>
         </div>
 
