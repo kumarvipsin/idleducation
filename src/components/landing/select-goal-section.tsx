@@ -59,21 +59,19 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        <div className="flex gap-4">
-                            {goals.map((goal) => (
-                                <Link key={goal.name} href={goal.href} className="group flex-shrink-0 w-40">
-                                    <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
-                                        <div className="mb-2">
-                                            {goal.icon}
-                                        </div>
-                                        <p className="text-sm font-semibold text-center text-foreground">{goal.name}</p>
-                                        
-                                        <ArrowRight className="w-4 h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
+                    <div className="flex flex-wrap justify-center gap-4">
+                        {goals.map((goal) => (
+                            <Link key={goal.name} href={goal.href} className="group w-40">
+                                <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
+                                    <div className="mb-2">
+                                        {goal.icon}
                                     </div>
-                                </Link>
-                            ))}
-                        </div>
+                                    <p className="text-sm font-semibold text-center text-foreground">{goal.name}</p>
+                                    
+                                    <ArrowRight className="w-4 h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
+                                </div>
+                            </Link>
+                        ))}
                     </div>
                 </div>
             </div>
