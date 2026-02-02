@@ -1,7 +1,7 @@
 
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle, Building, Users } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -143,7 +143,9 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
+  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
@@ -276,10 +278,38 @@ export function Header() {
   };
 
 
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      //const result = await getUpdates(3);
+      //if (result.success && result.data) {
+        //const fetchedUpdates = result.data as Update[];
+        //setUpdates(fetchedUpdates);
+
+        //if (fetchedUpdates.length > 0) {
+        //  const lastChecked = localStorage.getItem('lastCheckedUpdate');
+         // const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
+          
+         // if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
+           // setHasNewUpdates(true);
+         // }
+       // }
+      //}
+    };
+    if (!isIdlFoundationPage) {
+        fetchUpdates();
+    }
+  }, [isIdlFoundationPage]);
   
   const handleLogout = async () => {
     await logout();
     router.push('/');
+  };
+
+  const handleNotificationOpenChange = (open: boolean) => {
+    if (open) {
+      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
+      setHasNewUpdates(false);
+    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -432,6 +462,8 @@ export function Header() {
     { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us for any queries.", colorClasses: "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey.", colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400" },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
+    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, description: "Visit our centers for in-person learning.", colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400" },
+    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, description: "Join our hands-on workshops.", colorClasses: "bg-lime-100 text-lime-600 dark:bg-lime-900/30 dark:text-lime-400" },
     { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
@@ -466,6 +498,45 @@ export function Header() {
     return null;
   };
   
+  const notificationDropdown = (
+    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
+        <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
+                <Bell className="h-5 w-5" />
+                {hasNewUpdates && (
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                )}
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {updates.length > 0 ? (
+            updates.map(update => (
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
+                    <p className="font-semibold">{update.title}</p>
+                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
+                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                    </p>
+                </DropdownMenuItem>
+            ))
+            ) : (
+            <DropdownMenuItem>No new updates.</DropdownMenuItem>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+            <Link href="/notifications" className="text-center justify-center">
+                View all notifications
+            </Link>
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
     show ? "translate-y-0" : "-translate-y-full",
@@ -680,7 +751,13 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => setIsContactOpen(true)}/>}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => {
+                const contactLink = navLinks.find(l => l.onClick);
+                if (contactLink?.onClick) {
+                    setIsContactOpen(true);
+                }
+                setActiveMenu(null);
+            }}/>}
           </div>
         </div>
       </div>
@@ -699,4 +776,4 @@ export function Header() {
   );
 }
 
-  
+    
