@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -272,18 +271,6 @@ function AdminLayout({
                                 <span>Gallery</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/director')}>
-                            <Link href="/admin/director">
-                                <UserCircle />
-                                <span>Director Profile</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/team')}>
-                            <Link href="/admin/team">
-                                <Users />
-                                <span>Team Members</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/updates')}>
                             <Link href="/admin/updates">
                                 <Bell />
@@ -329,6 +316,5 @@ function AdminLayout({
 }
 
 export default withAuth(AdminLayout, ['admin']);
-
     
     

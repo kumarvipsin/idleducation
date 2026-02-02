@@ -614,90 +614,6 @@ export async function deleteExamCategory(id: string) {
     }
 }
 
-// Team Member Management
-export async function addTeamMember(formData: FormData) {
-  const rawData = Object.fromEntries(formData.entries());
-  const avatarFile = rawData.avatar as File | null;
-  
-  const memberData = {
-    name: rawData.name as string,
-    designation: rawData.designation as string,
-    experience: rawData.experience as string,
-    biography: rawData.biography as string || '',
-    order: parseInt(rawData.order as string, 10) || 99,
-    socialLinks: {
-      instagram: rawData.instagram as string || '',
-      facebook: rawData.facebook as string || '',
-      twitter: rawData.twitter as string || '',
-    },
-  };
-
-  try {
-    let avatarUrl = '';
-    if (avatarFile && avatarFile.size > 0) {
-      const destination = `team-members/${Date.now()}-${avatarFile.name}`;
-      avatarUrl = await uploadFileToGCS(avatarFile, destination);
-    }
-    
-    await addDoc(collection(db, "teamMembers"), {
-      ...memberData,
-      avatarUrl,
-      createdAt: serverTimestamp(),
-    });
-    
-    return { success: true, message: "Team member added successfully." };
-  } catch (error) {
-    console.error("Error adding team member:", error);
-    return { success: false, message: "Failed to add team member." };
-  }
-}
-
-export async function editTeamMember(id: string, formData: FormData) {
-    const rawData = Object.fromEntries(formData.entries());
-    const avatarFile = rawData.avatar as File | null;
-
-    const memberData: any = {
-      name: rawData.name as string,
-      designation: rawData.designation as string,
-      experience: rawData.experience as string,
-      biography: rawData.biography as string || '',
-      order: parseInt(rawData.order as string, 10) || 99,
-      socialLinks: {
-        instagram: rawData.instagram as string || '',
-        facebook: rawData.facebook as string || '',
-        twitter: rawData.twitter as string || '',
-      },
-    };
-    
-    try {
-        if (avatarFile && avatarFile.size > 0) {
-            const destination = `team-members/${Date.now()}-${avatarFile.name}`;
-            memberData.avatarUrl = await uploadFileToGCS(avatarFile, destination);
-        } else if (rawData.removePhoto === 'true') {
-            memberData.avatarUrl = '';
-        }
-
-        const docRef = doc(db, "teamMembers", id);
-        await updateDoc(docRef, memberData);
-        
-        return { success: true, message: "Team member updated successfully." };
-    } catch (error) {
-        console.error("Error updating team member:", error);
-        return { success: false, message: "Failed to update team member." };
-    }
-}
-
-export async function deleteTeamMember(id: string) {
-    try {
-        const docRef = doc(db, "teamMembers", id);
-        await deleteDoc(docRef);
-        return { success: true, message: "Team member deleted successfully." };
-    } catch (error) {
-        console.error("Error deleting team member:", error);
-        return { success: false, message: "Failed to delete team member." };
-    }
-}
-
 export async function editAdminProfile(userId: string, formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const photoFile = rawData.photo as File | null;
@@ -754,34 +670,6 @@ export async function getDirectorProfile() {
   } catch (error) {
     console.error("Error fetching director profile:", error);
     return { success: false, message: "Failed to fetch director profile." };
-  }
-}
-
-export async function editDirectorProfile(formData: FormData) {
-  const rawData = Object.fromEntries(formData.entries());
-  const photoFile = rawData.photo as File | null;
-  const name = rawData.name as string;
-  
-  const dataToUpdate: any = { name };
-
-  try {
-    if (photoFile && photoFile.size > 0) {
-      const destination = `site_assets/director_photo.jpg`;
-      dataToUpdate.photoUrl = await uploadFileToGCS(photoFile, destination);
-    }
-
-    const docRef = doc(db, "siteContent", "director");
-    await setDoc(docRef, dataToUpdate, { merge: true });
-    
-    const updatedDoc = await getDoc(docRef);
-    if (updatedDoc.exists()) {
-      return { success: true, message: "Director profile updated successfully.", data: serializeFirestoreData(updatedDoc.data()) };
-    }
-
-    return { success: true, message: "Director profile updated successfully." };
-  } catch (error) {
-    console.error("Error updating director profile:", error);
-    return { success: false, message: "Failed to update director profile." };
   }
 }
 
