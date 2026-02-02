@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,20 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useState } from "react";
 
 const playlists = {
-  "Mathematics": [
-    {
-      title: "Introduction to Polynomials",
-      videoId: "O3a-bX53NAc", // Example video ID
-      thumbnail: "https://picsum.photos/seed/video1/800/450",
-      hint: "math equations"
-    },
-    {
-      title: "Linear Equations in Two Variables",
-      videoId: "N-4_g2hhn0k", // Example video ID
-      thumbnail: "https://picsum.photos/seed/math2/800/450",
-      hint: "graphs equations"
-    }
-  ],
   "Science": [
     {
       title: "The Fundamental Unit of Life",
@@ -34,6 +21,20 @@ const playlists = {
       videoId: "5zprgDRqL3M", // Example video ID
       thumbnail: "https://picsum.photos/seed/science2/800/450",
       hint: "atomic structure"
+    }
+  ],
+  "Mathematics": [
+    {
+      title: "Introduction to Polynomials",
+      videoId: "O3a-bX53NAc", // Example video ID
+      thumbnail: "https://picsum.photos/seed/video1/800/450",
+      hint: "math equations"
+    },
+    {
+      title: "Linear Equations in Two Variables",
+      videoId: "N-4_g2hhn0k", // Example video ID
+      thumbnail: "https://picsum.photos/seed/math2/800/450",
+      hint: "graphs equations"
     }
   ],
   "Social Studies": [
@@ -79,7 +80,7 @@ export default function FreeCoursesPage() {
         </h1>
       </div>
 
-      <Accordion type="multiple" defaultValue={["Mathematics"]} className="w-full space-y-4">
+      <Accordion type="multiple" defaultValue={["Science"]} className="w-full space-y-4">
         {Object.entries(playlists).map(([subject, videos]) => (
           <AccordionItem value={subject} key={subject} className="border rounded-lg bg-card shadow-sm">
             <AccordionTrigger className="p-4 text-xl font-semibold hover:no-underline">{subject}</AccordionTrigger>
