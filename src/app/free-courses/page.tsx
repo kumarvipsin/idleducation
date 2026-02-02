@@ -202,7 +202,7 @@ export default function FreeCoursesPage() {
               <div className="p-4 pt-0 mt-auto">
                   <Dialog>
                       <DialogTrigger asChild>
-                          <Button className="w-full bg-primary hover:bg-primary/90">View Playlist</Button>
+                          <Button className="w-full bg-primary hover:bg-primary/90">View Course</Button>
                       </DialogTrigger>
                       <PlaylistDialog subject={subject} videos={videos} />
                   </Dialog>
@@ -253,7 +253,7 @@ export default function FreeCoursesPage() {
               <div className="p-4 pt-0 mt-auto">
                   <Dialog>
                       <DialogTrigger asChild>
-                          <Button className="w-full bg-primary hover:bg-primary/90">View Playlist</Button>
+                          <Button className="w-full bg-primary hover:bg-primary/90">View Course</Button>
                       </DialogTrigger>
                       <PlaylistDialog subject={subject} videos={videos} />
                   </Dialog>
