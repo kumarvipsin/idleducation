@@ -203,7 +203,7 @@ export default function FreeCoursesPage() {
                 <span className="relative z-10">Class 9th CBSE Board</span>
                 <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2 z-0">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
-                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="2.5" fill="none" />
+                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="3.5" fill="none" />
                     </svg>
                 </span>
             </span>
@@ -228,11 +228,11 @@ export default function FreeCoursesPage() {
                   </div>
               </div>
               <CardContent className="p-3 flex flex-col flex-grow">
-                  <CardTitle className="text-base font-bold text-foreground leading-tight">{subject} for Class 9th</CardTitle>
-                  <div className="flex items-center gap-2 mt-1">
+                  <CardTitle className="text-base font-bold text-foreground leading-tight mb-2">{subject} for Class 9th</CardTitle>
+                  <div className="flex items-center gap-2">
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
                   <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
                   <div className="mt-2">
                     <div className="flex items-baseline gap-2">
@@ -243,7 +243,7 @@ export default function FreeCoursesPage() {
                         <Tag className="w-3 h-3" />
                         <span>Discount of 100% applied</span>
                     </div>
-                    <Dialog>
+                     <Dialog>
                       <DialogTrigger asChild>
                           <Button variant="link" className="text-xs p-0 h-auto mt-1 text-muted-foreground hover:text-primary">View Full Course Details</Button>
                       </DialogTrigger>
@@ -278,7 +278,7 @@ export default function FreeCoursesPage() {
                 <span className="relative z-10">Class 10th CBSE Board</span>
                 <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2 z-0">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
-                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="2.5" fill="none" />
+                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="3.5" fill="none" />
                     </svg>
                 </span>
             </span>
@@ -303,11 +303,11 @@ export default function FreeCoursesPage() {
                   </div>
               </div>
               <CardContent className="p-3 flex flex-col flex-grow">
-                  <CardTitle className="text-base font-bold text-foreground leading-tight">{subject} for Class 10th</CardTitle>
-                  <div className="flex items-center gap-2 mt-1">
+                  <CardTitle className="text-base font-bold text-foreground leading-tight mb-2">{subject} for Class 10th</CardTitle>
+                  <div className="flex items-center gap-2">
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
                   <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
                   <div className="mt-2">
                     <div className="flex items-baseline gap-2">
