@@ -48,22 +48,10 @@ const goals = [
     color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
   },
   {
-    name: "Offline Centres",
-    icon: <Building className="w-8 h-8" />,
-    href: "/offline-centers",
-    color: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
-  },
-  {
     name: "Achievement",
     icon: <Trophy className="w-8 h-8" />,
     href: "/achievements",
     color: "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400",
-  },
-  {
-    name: "Workshop",
-    icon: <Users className="w-8 h-8" />,
-    href: "/workshop",
-    color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
   },
 ];
 
@@ -77,7 +65,7 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                         {goals.map((goal) => (
                             <Link key={goal.name} href={goal.href} className="group">
                                 <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
