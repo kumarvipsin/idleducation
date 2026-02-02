@@ -3,7 +3,7 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, ListVideo, Tag } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -224,7 +224,6 @@ export default function FreeCoursesPage() {
                           className="object-cover"
                       />
                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <PlayCircle className="w-16 h-16 text-white/80" />
                       </div>
                   </div>
               </div>
@@ -262,7 +261,7 @@ export default function FreeCoursesPage() {
                                                 <li>✅ Complete Class 9 {subject} syllabus (All Chapters)</li>
                                                 <li>✅ 100% FREE Offline Classes</li>
                                                 <li>✅ Chapter-wise Recorded Videos – Free Access</li>
-                                                <li>✅ Concept-based &amp; Exam-focused Teaching</li>
+                                                <li>✅ Concept-based & Exam-focused Teaching</li>
                                                 <li>✅ Notes and Doubt Support</li>
                                                 <li>✅ Course Validity Till Final Exam</li>
                                             </ul>
@@ -288,11 +287,11 @@ export default function FreeCoursesPage() {
           ))}
         </div>
       </section>
-
-      <section>
+      
+       <section>
         <div className="mb-12 text-left">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-            <span className="relative inline-block">
+             <span className="relative inline-block">
                 <span className="relative z-10">Class 10th CBSE Board</span>
                 <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2.5 z-0">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
@@ -316,7 +315,6 @@ export default function FreeCoursesPage() {
                           className="object-cover"
                       />
                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <PlayCircle className="w-16 h-16 text-white/80" />
                       </div>
                   </div>
               </div>
@@ -345,7 +343,7 @@ export default function FreeCoursesPage() {
                       <DialogContent className="sm:max-w-md">
                           <DialogHeader>
                               <DialogTitle>Class 10 {subject} – Free Complete Chapter Offline Course</DialogTitle>
-                              <DialogDescription asChild>
+                              <DialogDescription>
                                     <div className="space-y-2 mt-2 text-sm text-left text-muted-foreground">
                                       <div>This FREE offline course is designed to cover all chapters of Class 10 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</div>
                                       <div className="font-semibold pt-2 text-foreground">🔹 Course Highlights:</div>
@@ -353,7 +351,7 @@ export default function FreeCoursesPage() {
                                           <li>✅ Complete Class 10 {subject} syllabus (All Chapters)</li>
                                           <li>✅ 100% FREE Offline Classes</li>
                                           <li>✅ Chapter-wise Recorded Videos – Free Access</li>
-                                          <li>✅ Concept-based &amp; Exam-focused Teaching</li>
+                                          <li>✅ Concept-based & Exam-focused Teaching</li>
                                           <li>✅ Notes and Doubt Support</li>
                                           <li>✅ Course Validity Till Final Exam</li>
                                       </ul>
