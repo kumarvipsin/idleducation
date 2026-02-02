@@ -161,7 +161,7 @@ export default function FreeCoursesPage() {
       <section className="mb-16">
         <div className="mb-12 text-left">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 9th CBSE Board
             </span>
           </h1>
@@ -198,7 +198,7 @@ export default function FreeCoursesPage() {
       <section>
         <div className="mb-12 text-left">
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
-            <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 10th CBSE Board
             </span>
           </h1>
