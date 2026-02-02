@@ -17,7 +17,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -154,18 +154,6 @@ function AdminLayout({
                                 <span>Student Enquiries</span>
                             </Link>
                         </SidebarMenuButton>
-                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/volunteer-applications')}>
-                            <Link href="/admin/volunteer-applications">
-                                <HandHeart />
-                                <span>Volunteer</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/donations')}>
-                            <Link href="/admin/donations">
-                                <IndianRupee />
-                                <span>Donations</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/feedback')}>
                             <Link href="/admin/feedback">
                                 <FeedbackIcon />
@@ -281,6 +269,27 @@ function AdminLayout({
                             <Link href="/admin/excellence-results">
                                 <Star />
                                 <span>Excellence Results</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                <SidebarMenuSub value="idl-foundation">
+                    <SidebarMenuSubButton>
+                        <Heart />
+                        <span>IDL Foundation</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/volunteer-applications')}>
+                            <Link href="/admin/volunteer-applications">
+                                <HandHeart />
+                                <span>Volunteer</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/donations')}>
+                            <Link href="/admin/donations">
+                                <IndianRupee />
+                                <span>Donations</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
