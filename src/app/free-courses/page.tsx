@@ -229,6 +229,7 @@ export default function FreeCoursesPage() {
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
@@ -287,6 +288,7 @@ export default function FreeCoursesPage() {
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
+                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
