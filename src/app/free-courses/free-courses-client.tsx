@@ -1,9 +1,10 @@
+
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, ListVideo, Tag, Youtube } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseChapter } from "@/app/actions/types";
@@ -29,28 +30,30 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
     const selectedVideoId = selectedVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-        <DialogContent className="max-w-4xl p-0 h-[85vh] flex flex-col">
-            <div className="w-full aspect-video bg-black shrink-0">
-                {selectedVideoId ? (
-                    <iframe
-                        className="w-full h-full"
-                        src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0`}
-                        title={selectedVideo.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white bg-black">
-                        <p>No video selected or available.</p>
-                    </div>
-                )}
+        <DialogContent className="max-w-6xl h-[90vh] flex flex-col md:flex-row p-0">
+            <div className="w-full md:w-2/3 h-1/2 md:h-full flex flex-col">
+                <div className="w-full aspect-video bg-black shrink-0">
+                    {selectedVideoId ? (
+                        <iframe
+                            className="w-full h-full"
+                            src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0`}
+                            title={selectedVideo.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white bg-black">
+                            <p>No video selected or available.</p>
+                        </div>
+                    )}
+                </div>
+                <div className="p-4 border-b md:border-b-0 md:border-t">
+                    <h2 className="text-xl font-bold">{selectedVideo?.title || course.title}</h2>
+                    <p className="text-sm text-muted-foreground">{selectedVideo?.chapterName || course.description}</p>
+                </div>
             </div>
-            <div className="p-4 border-b">
-                <h2 className="text-xl font-bold">{selectedVideo?.title || course.title}</h2>
-                <p className="text-sm text-muted-foreground">{selectedVideo?.chapterName || course.description}</p>
-            </div>
-            <div className="flex-grow overflow-hidden">
+            <div className="w-full md:w-1/3 h-1/2 md:h-full flex-grow overflow-hidden border-l">
                 <ScrollArea className="h-full">
                     <div className="p-2 space-y-1">
                         {course.chapters?.map(chapter => (
@@ -64,11 +67,11 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
                                             key={video.youtubeLink} 
                                             onClick={() => setSelectedVideo({...video, chapterName: chapter.name})}
                                             className={cn(
-                                                "w-full text-left flex items-center gap-2 p-2 rounded-md hover:bg-muted",
+                                                "w-full text-left flex items-center gap-4 p-2 rounded-lg hover:bg-muted",
                                                 selectedVideo?.youtubeLink === video.youtubeLink && "bg-muted"
                                             )}
                                         >
-                                            <div className="relative h-10 w-16 rounded overflow-hidden shrink-0">
+                                            <div className="relative h-16 w-28 rounded-md overflow-hidden shrink-0">
                                                 <Image
                                                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                                                     alt={video.title}
@@ -76,7 +79,10 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
                                                     className="object-cover"
                                                 />
                                             </div>
-                                            <span className="text-xs font-medium truncate">{video.title}</span>
+                                            <div className="flex-grow">
+                                                <p className="text-sm font-semibold leading-tight line-clamp-2">{video.title}</p>
+                                                <p className="text-xs text-muted-foreground mt-1">{chapter.name}</p>
+                                            </div>
                                         </button>
                                     )
                                 })}
@@ -161,17 +167,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                             <DialogHeader>
                                 <DialogTitle>{course.class} {course.subject} – Free Complete Chapter Offline Course</DialogTitle>
                                 <DialogDescription>
-                                      <div className="space-y-2 mt-2 text-sm text-left text-muted-foreground">
+                                    <div className="space-y-2 mt-2 text-sm text-left text-muted-foreground">
                                         <p>{course.description}</p>
-                                        <p className="font-semibold pt-2 text-foreground">🔹 Course Highlights:</p>
-                                        <ul className="list-none space-y-1 pl-4">
-                                            <li>✅ Complete {course.class} {course.subject} syllabus</li>
-                                            <li>✅ 100% FREE Offline Classes</li>
-                                            <li>✅ Chapter-wise Recorded Videos – Free Access</li>
-                                            <li>✅ Concept-based & Exam-focused Teaching</li>
-                                            <li>✅ Notes and Doubt Support</li>
-                                            <li>✅ Course Validity Till Final Exam</li>
-                                        </ul>
                                     </div>
                                 </DialogDescription>
                             </DialogHeader>
