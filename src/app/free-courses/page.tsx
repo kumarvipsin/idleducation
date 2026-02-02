@@ -161,15 +161,6 @@ const PlaylistDialog = ({ subject, videos }: { subject: string, videos: any[] })
                 <Dialog key={index}>
                     <DialogTrigger asChild>
                         <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer">
-                            <div className="relative h-16 w-28 flex-shrink-0">
-                                <Image 
-                                    src={video.thumbnail}
-                                    alt={video.title}
-                                    data-ai-hint={video.hint}
-                                    fill
-                                    className="object-cover rounded-md"
-                                />
-                            </div>
                             <h3 className="font-semibold text-sm flex-grow">{video.title}</h3>
                             <PlayCircle className="w-6 h-6 text-muted-foreground" />
                         </div>
@@ -201,9 +192,9 @@ export default function FreeCoursesPage() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
             <span className="relative inline-block">
                 <span className="relative z-10">Class 9th CBSE Board</span>
-                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2 z-0">
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2.5 z-0">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
-                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="3.5" fill="none" />
+                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="4" fill="none" />
                     </svg>
                 </span>
             </span>
@@ -222,7 +213,7 @@ export default function FreeCoursesPage() {
                           fill
                           className="object-cover"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <PlayCircle className="w-16 h-16 text-white/80" />
                       </div>
                   </div>
@@ -232,8 +223,10 @@ export default function FreeCoursesPage() {
                   <div className="flex items-center gap-2">
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
-                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
+                  <div className="text-xs text-muted-foreground mt-2 space-y-0.5">
+                    <p>Validity: Till Exam</p>
+                    <p>Medium: Hindi</p>
+                  </div>
                   <div className="mt-2">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹0.00</p>
@@ -243,19 +236,34 @@ export default function FreeCoursesPage() {
                         <Tag className="w-3 h-3" />
                         <span>Discount of 100% applied</span>
                     </div>
-                     <Dialog>
-                      <DialogTrigger asChild>
-                          <Button variant="link" className="text-xs p-0 h-auto mt-1 text-muted-foreground hover:text-primary">View Full Course Details</Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                          <DialogHeader>
-                              <DialogTitle>{videos[0].title}</DialogTitle>
-                              <DialogDescription>
-                                  This is a comprehensive course for {subject} covering all chapters and topics as per the CBSE syllabus. Get access to high-quality video lectures, detailed notes, and practice questions to excel in your exams.
-                              </DialogDescription>
-                          </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
+                    <div className="mt-auto pt-2">
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button variant="link" className="text-xs p-0 h-auto text-muted-foreground hover:text-primary">View Full Course Details</Button>
+                            </DialogTrigger>
+                             <DialogContent className="sm:max-w-md">
+                                <DialogHeader>
+                                    <DialogTitle>{`Class 9 ${subject} – Free Complete Chapter Offline Course`}</DialogTitle>
+                                    <DialogDescription>
+                                        <div className="space-y-2 mt-2 text-sm text-left">
+                                            <p>This FREE offline course is designed to cover all chapters of Class 9 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</p>
+                                            <p className="font-semibold pt-2">🔹 Course Highlights:</p>
+                                            <ul className="list-none space-y-1">
+                                                <li>✅ Complete Class 9 {subject} syllabus (All Chapters)</li>
+                                                <li>✅ 100% FREE Offline Classes</li>
+                                                <li>✅ Chapter-wise Recorded Videos – Free Access</li>
+                                                <li>✅ Concept-based & Exam-focused Teaching</li>
+                                                <li>✅ Notes and Doubt Support</li>
+                                                <li>✅ Course Validity Till Final Exam</li>
+                                            </ul>
+                                            {subject === 'Science' && <p className="pt-2"><strong className="font-semibold">🔹 Subjects Covered:</strong> Physics | Chemistry | Biology</p>}
+                                            <p className="pt-2">This course is ideal for students who want a strong foundation, clear understanding, and confidence in exams—at no cost.</p>
+                                        </div>
+                                    </DialogDescription>
+                                </DialogHeader>
+                            </DialogContent>
+                        </Dialog>
+                    </div>
                   </div>
               </CardContent>
               <div className="p-3 pt-0 mt-auto">
@@ -276,9 +284,9 @@ export default function FreeCoursesPage() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
             <span className="relative inline-block">
                 <span className="relative z-10">Class 10th CBSE Board</span>
-                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2 z-0">
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2.5 z-0">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
-                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="3.5" fill="none" />
+                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="4" fill="none" />
                     </svg>
                 </span>
             </span>
@@ -297,7 +305,7 @@ export default function FreeCoursesPage() {
                           fill
                           className="object-cover"
                       />
-                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <PlayCircle className="w-16 h-16 text-white/80" />
                       </div>
                   </div>
@@ -307,8 +315,10 @@ export default function FreeCoursesPage() {
                   <div className="flex items-center gap-2">
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-2">Validity: Till Exam</p>
-                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
+                  <div className="text-xs text-muted-foreground mt-2 space-y-0.5">
+                    <p>Validity: Till Exam</p>
+                    <p>Medium: Hindi</p>
+                  </div>
                   <div className="mt-2">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹0.00</p>
@@ -324,9 +334,22 @@ export default function FreeCoursesPage() {
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-md">
                           <DialogHeader>
-                              <DialogTitle>{videos[0].title}</DialogTitle>
+                              <DialogTitle>Class 10 {subject} – Free Complete Chapter Offline Course</DialogTitle>
                               <DialogDescription>
-                                  This is a comprehensive course for {subject} covering all chapters and topics as per the CBSE syllabus. Get access to high-quality video lectures, detailed notes, and practice questions to excel in your exams.
+                                    <div className="space-y-2 mt-2 text-sm text-left">
+                                      <p>This FREE offline course is designed to cover all chapters of Class 10 {subject} in a clear and structured way. The course is fully exam-oriented and helps students build strong concepts for excellent exam performance.</p>
+                                      <p className="font-semibold pt-2">🔹 Course Highlights:</p>
+                                      <ul className="list-none space-y-1">
+                                          <li>✅ Complete Class 10 {subject} syllabus (All Chapters)</li>
+                                          <li>✅ 100% FREE Offline Classes</li>
+                                          <li>✅ Chapter-wise Recorded Videos – Free Access</li>
+                                          <li>✅ Concept-based & Exam-focused Teaching</li>
+                                          <li>✅ Notes and Doubt Support</li>
+                                          <li>✅ Course Validity Till Final Exam</li>
+                                      </ul>
+                                      {subject === 'Science' && <p className="pt-2"><strong className="font-semibold">🔹 Subjects Covered:</strong> Physics | Chemistry | Biology</p>}
+                                      <p className="pt-2">This course is ideal for students who want a strong foundation, clear understanding, and confidence in exams—at no cost.</p>
+                                  </div>
                               </DialogDescription>
                           </DialogHeader>
                       </DialogContent>
