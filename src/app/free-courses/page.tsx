@@ -108,9 +108,9 @@ export default function FreeCoursesPage() {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="mb-12 text-center">
-        <h1 className="text-3xl md:text-4xl font-semibold tracking-tight text-foreground">
-          Explore Our <span className="text-primary">Free</span> Courses
+      <div className="mb-12 text-left">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          Class 9th <span className="text-primary">CBSE Board</span>
         </h1>
       </div>
 
