@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -231,14 +232,14 @@ export default function FreeCoursesPage() {
                   <p className="text-xs text-muted-foreground mt-1">Mode: Recoded</p>
                   <div className="mt-4">
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-bold text-primary">₹0000.00</p>
-                      <p className="text-sm text-muted-foreground line-through">₹9999</p>
+                      <p className="text-2xl font-bold text-primary">₹{videos[0].price.toFixed(2)}</p>
+                      <p className="text-sm text-muted-foreground line-through">₹{videos[0].originalPrice}</p>
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-2 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
-                        <span>Discount of 100% applied</span>
+                        <span>Discount of {videos[0].discount}% applied</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">FULL COURSE</p>
+                    <p className="text-xs text-muted-foreground mt-1">(FULL COURSE)</p>
                   </div>
               </CardContent>
               <div className="p-4 pt-0 mt-auto">
@@ -296,7 +297,7 @@ export default function FreeCoursesPage() {
                         <Tag className="w-3 h-3" />
                         <span>Discount of 100% applied</span>
                     </div>
-                    <p className="text-xs text-muted-foreground mt-1">FULL COURSE</p>
+                    <p className="text-xs text-muted-foreground mt-1">(FULL COURSE)</p>
                   </div>
               </CardContent>
               <div className="p-4 pt-0 mt-auto">
