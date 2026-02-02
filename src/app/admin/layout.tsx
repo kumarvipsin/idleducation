@@ -181,12 +181,6 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/exam-categories')}>
-                            <Link href="/admin/exam-categories">
-                                <Tags />
-                                <span>Exam Categories</span>
-                            </Link>
-                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/study-resources')}>
                            <Link href="/admin/study-resources">
                                 <BookCheck />
@@ -198,12 +192,6 @@ function AdminLayout({
                                 <FileText />
                                 <span>Prev. Year Questions</span>
                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/reference-books')}>
-                            <Link href="/admin/reference-books">
-                                <BookOpen />
-                                <span>Reference Books</span>
-                            </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/testimonials')}>
                             <Link href="/admin/testimonials">

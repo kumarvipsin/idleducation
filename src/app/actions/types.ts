@@ -101,31 +101,6 @@ export interface TGalleryImage {
     createdAt: string;
 }
 
-export type VideoLesson = {
-  subject: string;
-  teacher: string;
-  youtubeLink: string;
-};
-
-export type SyllabusItem = {
-  sno: string;
-  name: string;
-  pdfUrl?: string;
-};
-
-export interface TExamCategory {
-  id: string;
-  name: string;
-  group: 'school' | 'competitive' | 'open-school' | 'foundation';
-  order: number;
-  createdAt: string;
-  teacherIds?: string[];
-  imageUrl?: string;
-  href: string;
-  videoLessons?: VideoLesson[];
-  syllabus?: SyllabusItem[];
-}
-
 export interface TTeamMember {
   id: string;
   name: string;
@@ -140,24 +115,6 @@ export interface TTeamMember {
     facebook?: string;
     twitter?: string;
   };
-}
-
-export interface TReferenceBook {
-    id: string;
-    title: string;
-    author: string;
-    price: number;
-    originalPrice: number;
-    rating: number;
-    imageUrl: string;
-    class: string;
-    subject: string;
-    edition: string;
-    set: string;
-    category: 'IDL Store' | 'Reference Books';
-    buyLink?: string;
-    createdAt: string;
-    productId?: number;
 }
 
 export interface Paper {
