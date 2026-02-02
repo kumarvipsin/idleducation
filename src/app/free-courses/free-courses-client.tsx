@@ -29,72 +29,61 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
     const selectedVideoId = selectedVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-        <DialogContent className="max-w-4xl p-0 h-[80vh]">
-            <div className="grid grid-cols-1 md:grid-cols-3 h-full">
-                {/* Video Player & Info */}
-                <div className="md:col-span-2 flex flex-col">
-                    <div className="aspect-video w-full bg-black">
-                        {selectedVideoId ? (
-                            <iframe
-                                className="w-full h-full"
-                                src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0`}
-                                title={selectedVideo.title}
-                                frameBorder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                allowFullScreen
-                            ></iframe>
-                        ) : (
-                            <div className="w-full h-full flex items-center justify-center text-white bg-black">
-                                <p>No video selected or available.</p>
+        <DialogContent className="max-w-4xl p-0 h-[85vh] flex flex-col">
+            <div className="w-full aspect-video bg-black shrink-0">
+                {selectedVideoId ? (
+                    <iframe
+                        className="w-full h-full"
+                        src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0`}
+                        title={selectedVideo.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                    ></iframe>
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white bg-black">
+                        <p>No video selected or available.</p>
+                    </div>
+                )}
+            </div>
+            <div className="p-4 border-b">
+                <h2 className="text-xl font-bold">{selectedVideo?.title || course.title}</h2>
+                <p className="text-sm text-muted-foreground">{selectedVideo?.chapterName || course.description}</p>
+            </div>
+            <div className="flex-grow overflow-hidden">
+                <ScrollArea className="h-full">
+                    <div className="p-2 space-y-1">
+                        {course.chapters?.map(chapter => (
+                            <div key={chapter.name}>
+                                <h4 className="font-semibold text-sm p-2 sticky top-0 bg-background/95 backdrop-blur-sm z-10">{chapter.name}</h4>
+                                {chapter.videos.map(video => {
+                                    const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
+                                    if (!videoId) return null;
+                                    return (
+                                        <button 
+                                            key={video.youtubeLink} 
+                                            onClick={() => setSelectedVideo({...video, chapterName: chapter.name})}
+                                            className={cn(
+                                                "w-full text-left flex items-center gap-2 p-2 rounded-md hover:bg-muted",
+                                                selectedVideo?.youtubeLink === video.youtubeLink && "bg-muted"
+                                            )}
+                                        >
+                                            <div className="relative h-10 w-16 rounded overflow-hidden shrink-0">
+                                                <Image
+                                                    src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
+                                                    alt={video.title}
+                                                    fill
+                                                    className="object-cover"
+                                                />
+                                            </div>
+                                            <span className="text-xs font-medium truncate">{video.title}</span>
+                                        </button>
+                                    )
+                                })}
                             </div>
-                        )}
+                        ))}
                     </div>
-                     <div className="p-4 border-t">
-                        <h2 className="text-xl font-bold">{selectedVideo?.title || course.title}</h2>
-                        <p className="text-sm text-muted-foreground">{selectedVideo?.chapterName || course.description}</p>
-                    </div>
-                </div>
-
-                {/* Playlist */}
-                <div className="md:col-span-1 border-l flex flex-col">
-                    <DialogHeader className="p-4 border-b shrink-0">
-                        <DialogTitle>Course Playlist</DialogTitle>
-                        <DialogDescription>{course.title}</DialogDescription>
-                    </DialogHeader>
-                    <ScrollArea className="flex-grow">
-                        <div className="p-2 space-y-1">
-                            {course.chapters?.map(chapter => (
-                                <div key={chapter.name}>
-                                    <h4 className="font-semibold text-sm p-2 sticky top-0 bg-background/95 backdrop-blur-sm z-10">{chapter.name}</h4>
-                                    {chapter.videos.map(video => {
-                                        const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
-                                        if (!videoId) return null;
-                                        return (
-                                            <button 
-                                                key={video.youtubeLink} 
-                                                onClick={() => setSelectedVideo({...video, chapterName: chapter.name})}
-                                                className={cn(
-                                                    "w-full text-left flex items-center gap-2 p-2 rounded-md hover:bg-muted",
-                                                    selectedVideo?.youtubeLink === video.youtubeLink && "bg-muted"
-                                                )}
-                                            >
-                                                <div className="relative h-10 w-16 rounded overflow-hidden shrink-0">
-                                                    <Image
-                                                        src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
-                                                        alt={video.title}
-                                                        fill
-                                                        className="object-cover"
-                                                    />
-                                                </div>
-                                                <span className="text-xs font-medium truncate">{video.title}</span>
-                                            </button>
-                                        )
-                                    })}
-                                </div>
-                            ))}
-                        </div>
-                    </ScrollArea>
-                </div>
+                </ScrollArea>
             </div>
         </DialogContent>
     );
@@ -173,8 +162,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 <DialogTitle>{course.class} {course.subject} – Free Complete Chapter Offline Course</DialogTitle>
                                 <DialogDescription>
                                       <div className="space-y-2 mt-2 text-sm text-left text-muted-foreground">
-                                        <div>{course.description}</div>
-                                        <div className="font-semibold pt-2 text-foreground">🔹 Course Highlights:</div>
+                                        <p>{course.description}</p>
+                                        <p className="font-semibold pt-2 text-foreground">🔹 Course Highlights:</p>
                                         <ul className="list-none space-y-1 pl-4">
                                             <li>✅ Complete {course.class} {course.subject} syllabus</li>
                                             <li>✅ 100% FREE Offline Classes</li>
