@@ -36,12 +36,6 @@ const goals = [
     color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
   },
   {
-    name: "NIOS BOARD",
-    icon: <GraduationCap className="w-8 h-8" />,
-    href: "/new-work",
-    color: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400",
-  },
-  {
     name: "GOVT. EXAMS",
     icon: <Landmark className="w-8 h-8" />,
     href: "/examcat?category=govt-job-exams",
