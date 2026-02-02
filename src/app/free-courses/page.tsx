@@ -1,10 +1,11 @@
-
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, ListVideo } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 const playlists = {
   "Science": [
@@ -171,28 +172,40 @@ export default function FreeCoursesPage() {
 
         <div className="flex gap-8 overflow-x-auto pb-4">
           {Object.entries(orderedPlaylists).map(([subject, videos]) => (
-            <Dialog key={subject}>
-              <DialogTrigger asChild>
-                  <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
-                      <div className="relative w-full aspect-video">
-                      <Image 
-                          src={videos[0].thumbnail} // Use first video's thumbnail as cover
+            <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col w-80 flex-shrink-0 bg-card">
+              <div className="relative">
+                  <div className="absolute top-0 left-0 bg-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-br-lg z-10">
+                      FREE
+                  </div>
+                  <div className="relative w-full aspect-video">
+                      <Image
+                          src={videos[0].thumbnail}
                           alt={subject}
                           data-ai-hint={videos[0].hint}
                           fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          className="object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                          <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
-                      </div>
-                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ListVideo className="w-16 h-16 text-white/80" />
-                      </div>
-                      </div>
-                  </Card>
-              </DialogTrigger>
-              <PlaylistDialog subject={subject} videos={videos} />
-            </Dialog>
+                  </div>
+              </div>
+              <CardContent className="p-4 flex flex-col flex-grow">
+                  <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 9th</CardTitle>
+                  <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="secondary">Hinglish</Badge>
+                      <Badge variant="outline">CBSE</Badge>
+                  </div>
+                  <div className="mt-4">
+                      <p className="text-2xl font-bold text-primary">Free</p>
+                  </div>
+              </CardContent>
+              <div className="p-4 pt-0 mt-auto">
+                  <Dialog>
+                      <DialogTrigger asChild>
+                          <Button className="w-full bg-primary hover:bg-primary/90">View Playlist</Button>
+                      </DialogTrigger>
+                      <PlaylistDialog subject={subject} videos={videos} />
+                  </Dialog>
+              </div>
+            </Card>
           ))}
         </div>
       </section>
@@ -209,28 +222,40 @@ export default function FreeCoursesPage() {
 
         <div className="flex gap-8 overflow-x-auto pb-4">
           {Object.entries(orderedPlaylistsClass10).map(([subject, videos]) => (
-            <Dialog key={subject}>
-              <DialogTrigger asChild>
-                  <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
-                      <div className="relative w-full aspect-video">
-                      <Image 
-                          src={videos[0].thumbnail} // Use first video's thumbnail as cover
+            <Card key={subject} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col w-80 flex-shrink-0 bg-card">
+              <div className="relative">
+                  <div className="absolute top-0 left-0 bg-primary text-primary-foreground text-xs font-bold px-4 py-1 rounded-br-lg z-10">
+                      FREE
+                  </div>
+                  <div className="relative w-full aspect-video">
+                      <Image
+                          src={videos[0].thumbnail}
                           alt={subject}
                           data-ai-hint={videos[0].hint}
                           fill
-                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                          className="object-cover"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
-                          <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
-                      </div>
-                       <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ListVideo className="w-16 h-16 text-white/80" />
-                      </div>
-                      </div>
-                  </Card>
-              </DialogTrigger>
-              <PlaylistDialog subject={subject} videos={videos} />
-            </Dialog>
+                  </div>
+              </div>
+              <CardContent className="p-4 flex flex-col flex-grow">
+                  <CardTitle className="text-base font-bold text-foreground leading-tight h-10">{subject} for Class 10th</CardTitle>
+                  <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="secondary">Hinglish</Badge>
+                      <Badge variant="outline">CBSE</Badge>
+                  </div>
+                  <div className="mt-4">
+                      <p className="text-2xl font-bold text-primary">Free</p>
+                  </div>
+              </CardContent>
+              <div className="p-4 pt-0 mt-auto">
+                  <Dialog>
+                      <DialogTrigger asChild>
+                          <Button className="w-full bg-primary hover:bg-primary/90">View Playlist</Button>
+                      </DialogTrigger>
+                      <PlaylistDialog subject={subject} videos={videos} />
+                  </Dialog>
+              </div>
+            </Card>
           ))}
         </div>
       </section>
