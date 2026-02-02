@@ -201,7 +201,11 @@ export default function FreeCoursesPage() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
             <span className="relative inline-block">
                 <span className="relative z-10">Class 9th CBSE Board</span>
-                <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2 z-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
+                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="2.5" fill="none" />
+                    </svg>
+                </span>
             </span>
           </h1>
         </div>
@@ -229,15 +233,15 @@ export default function FreeCoursesPage() {
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">Validity: Till Exam</p>
-                  <p className="text-xs text-muted-foreground">Medium: Hindi</p>
+                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
                   <div className="mt-2">
                     <div className="flex items-baseline gap-2">
-                      <p className="text-2xl font-bold text-primary">₹{videos[0].price.toFixed(2)}</p>
-                      <p className="text-sm text-muted-foreground line-through">₹{videos[0].originalPrice}</p>
+                      <p className="text-2xl font-bold text-primary">₹0.00</p>
+                      <p className="text-sm text-muted-foreground line-through">₹9999</p>
                     </div>
                     <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mt-1 flex items-center gap-1 w-fit">
                         <Tag className="w-3 h-3" />
-                        <span>Discount of {videos[0].discount}% applied</span>
+                        <span>Discount of 100% applied</span>
                     </div>
                     <Dialog>
                       <DialogTrigger asChild>
@@ -272,7 +276,11 @@ export default function FreeCoursesPage() {
           <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
             <span className="relative inline-block">
                 <span className="relative z-10">Class 10th CBSE Board</span>
-                <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+                <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-11/12 h-2 z-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none" className="w-full h-full">
+                        <path d="M0,4 C25,0,75,8,100,4" stroke="#fcd34d" strokeWidth="2.5" fill="none" />
+                    </svg>
+                </span>
             </span>
           </h1>
         </div>
@@ -300,7 +308,7 @@ export default function FreeCoursesPage() {
                       <Badge variant="secondary">PRARAMBH BATCH 2.O</Badge>
                   </div>
                   <p className="text-xs text-muted-foreground mt-1">Validity: Till Exam</p>
-                  <p className="text-xs text-muted-foreground">Medium: Hindi</p>
+                  <p className="text-xs text-muted-foreground mt-1">Medium: Hindi</p>
                   <div className="mt-2">
                     <div className="flex items-baseline gap-2">
                       <p className="text-2xl font-bold text-primary">₹0.00</p>
