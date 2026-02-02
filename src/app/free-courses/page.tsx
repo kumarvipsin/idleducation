@@ -1,12 +1,9 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { PlayCircle, ListVideo } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
 
 const playlists = {
   "Science": [
@@ -71,7 +68,44 @@ const VideoPlayer = ({ videoId, title }: { videoId: string; title: string }) => 
   </DialogContent>
 );
 
+const PlaylistDialog = ({ subject, videos }: { subject: string, videos: any[] }) => (
+    <DialogContent className="sm:max-w-lg">
+        <DialogHeader>
+            <DialogTitle className="text-2xl">{subject}</DialogTitle>
+        </DialogHeader>
+        <div className="max-h-[60vh] overflow-y-auto space-y-2 p-1">
+            {videos.map((video, index) => (
+                <Dialog key={index}>
+                    <DialogTrigger asChild>
+                        <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer">
+                            <div className="relative h-16 w-28 flex-shrink-0">
+                                <Image 
+                                    src={video.thumbnail}
+                                    alt={video.title}
+                                    data-ai-hint={video.hint}
+                                    fill
+                                    className="object-cover rounded-md"
+                                />
+                            </div>
+                            <h3 className="font-semibold text-sm flex-grow">{video.title}</h3>
+                            <PlayCircle className="w-6 h-6 text-muted-foreground" />
+                        </div>
+                    </DialogTrigger>
+                    <VideoPlayer videoId={video.videoId} title={video.title} />
+                </Dialog>
+            ))}
+        </div>
+    </DialogContent>
+);
+
+
 export default function FreeCoursesPage() {
+  // Re-ordering playlists to have Science first.
+  const orderedPlaylists = {
+    "Science": playlists["Science"],
+    ...Object.fromEntries(Object.entries(playlists).filter(([key]) => key !== "Science"))
+  };
+
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="mb-12">
@@ -80,41 +114,32 @@ export default function FreeCoursesPage() {
         </h1>
       </div>
 
-      <Accordion type="multiple" defaultValue={["Science"]} className="w-full space-y-4">
-        {Object.entries(playlists).map(([subject, videos]) => (
-          <AccordionItem value={subject} key={subject} className="border rounded-lg bg-card shadow-sm">
-            <AccordionTrigger className="p-4 text-xl font-semibold hover:no-underline">{subject}</AccordionTrigger>
-            <AccordionContent className="p-4 pt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {videos.map((video, index) => (
-                  <Dialog key={index}>
-                    <DialogTrigger asChild>
-                      <Card className="overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 group cursor-pointer">
-                        <div className="relative w-full aspect-video">
-                          <Image 
-                            src={video.thumbnail}
-                            alt={video.title}
-                            data-ai-hint={video.hint}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                          />
-                          <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                            <PlayCircle className="w-16 h-16 text-white" />
-                          </div>
-                        </div>
-                        <CardContent className="p-4">
-                          <h3 className="font-bold text-base line-clamp-2 h-12">{video.title}</h3>
-                        </CardContent>
-                      </Card>
-                    </DialogTrigger>
-                    <VideoPlayer videoId={video.videoId} title={video.title} />
-                  </Dialog>
-                ))}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
+      <div className="flex gap-8 overflow-x-auto pb-4">
+        {Object.entries(orderedPlaylists).map(([subject, videos]) => (
+          <Dialog key={subject}>
+            <DialogTrigger asChild>
+                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group cursor-pointer flex-shrink-0 w-80">
+                    <div className="relative w-full aspect-video">
+                    <Image 
+                        src={videos[0].thumbnail} // Use first video's thumbnail as cover
+                        alt={subject}
+                        data-ai-hint={videos[0].hint}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-4">
+                        <h2 className="text-2xl font-bold text-white [text-shadow:0_1px_3px_rgba(0,0,0,0.5)]">{subject}</h2>
+                    </div>
+                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ListVideo className="w-16 h-16 text-white/80" />
+                    </div>
+                    </div>
+                </Card>
+            </DialogTrigger>
+            <PlaylistDialog subject={subject} videos={videos} />
+          </Dialog>
         ))}
-      </Accordion>
+      </div>
     </div>
   );
 }
