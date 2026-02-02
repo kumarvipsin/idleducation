@@ -12,41 +12,43 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const VideoPlayer = ({ videoId, title }: { videoId: string; title: string }) => (
-  <DialogContent className="max-w-3xl p-0">
-    <DialogHeader className="p-4">
-        <DialogTitle>{title}</DialogTitle>
-    </DialogHeader>
-    <div className="aspect-video">
-        <iframe
-            className="w-full h-full"
-            src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`}
-            title={`YouTube video player for ${title}`}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            allowFullScreen
-        ></iframe>
-    </div>
-  </DialogContent>
-);
+const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
+    const [selectedVideo, setSelectedVideo] = useState<{videoId: string; title: string} | null>(null);
 
-const PlaylistDialog = ({ course }: { course: TFreeCourse }) => (
-    <DialogContent className="sm:max-w-lg">
-        <DialogHeader>
-            <DialogTitle className="text-2xl">{course.subject}</DialogTitle>
-            <DialogDescription>{course.title}</DialogDescription>
-        </DialogHeader>
-        <ScrollArea className="max-h-[60vh] overflow-y-auto space-y-2 p-1">
-            {course.chapters?.map((chapter, chapterIndex) => (
-                <div key={chapterIndex}>
-                    <h3 className="font-semibold text-lg my-2">{chapter.name}</h3>
-                    {chapter.videos.map((video, videoIndex) => {
-                        const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
-                        if (!videoId) return null;
-                        return (
-                             <Dialog key={videoIndex}>
-                                <DialogTrigger asChild>
-                                    <div className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors w-full">
+    return (
+    <DialogContent className={selectedVideo ? "max-w-3xl p-0" : "sm:max-w-lg"}>
+        {selectedVideo ? (
+            <>
+                <DialogHeader className="p-4 flex flex-row items-center justify-between">
+                    <DialogTitle>{selectedVideo.title}</DialogTitle>
+                    <Button variant="ghost" size="sm" onClick={() => setSelectedVideo(null)}>Back to Playlist</Button>
+                </DialogHeader>
+                <div className="aspect-video">
+                    <iframe
+                        className="w-full h-full"
+                        src={`https://www.youtube.com/embed/${selectedVideo.videoId}?autoplay=1&rel=0`}
+                        title={`YouTube video player for ${selectedVideo.title}`}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+            </>
+        ) : (
+            <>
+                <DialogHeader>
+                    <DialogTitle className="text-2xl">{course.subject}</DialogTitle>
+                    <DialogDescription>{course.title}</DialogDescription>
+                </DialogHeader>
+                <ScrollArea className="max-h-[60vh] overflow-y-auto space-y-2 p-1">
+                    {course.chapters?.map((chapter, chapterIndex) => (
+                        <div key={chapterIndex}>
+                            <h3 className="font-semibold text-lg my-2">{chapter.name}</h3>
+                            {chapter.videos.map((video, videoIndex) => {
+                                const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
+                                if (!videoId) return null;
+                                return (
+                                     <button key={videoIndex} onClick={() => setSelectedVideo({ videoId, title: video.title })} className="flex items-center gap-4 p-2 rounded-lg hover:bg-muted cursor-pointer transition-colors w-full text-left">
                                         <div className="relative h-16 w-28 flex-shrink-0">
                                             <Image
                                                 src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
@@ -59,20 +61,19 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => (
                                             </div>
                                         </div>
                                         <h3 className="font-semibold text-sm flex-grow text-left">{video.title}</h3>
-                                    </div>
-                                </DialogTrigger>
-                                <VideoPlayer videoId={videoId} title={video.title} />
-                            </Dialog>
-                        )
-                    })}
-                </div>
-            ))}
-        </ScrollArea>
-        <DialogFooter>
-            <Button onClick={() => window.open('https://www.youtube.com/@idleducation', '_blank')}>Watch on YouTube</Button>
-        </DialogFooter>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    ))}
+                </ScrollArea>
+                <DialogFooter>
+                    <Button onClick={() => window.open('https://www.youtube.com/@idleducation', '_blank')}>Watch on YouTube</Button>
+                </DialogFooter>
+            </>
+        )}
     </DialogContent>
-);
+)};
 
 export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
   const [groupedCourses, setGroupedCourses] = useState<{[key: string]: TFreeCourse[]}>({});
@@ -117,6 +118,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                             fill
                             className="object-cover"
                         />
+                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                     </div>
                 </div>
                 <CardContent className="p-3 flex flex-col flex-grow">
