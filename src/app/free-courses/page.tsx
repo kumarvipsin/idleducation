@@ -164,8 +164,11 @@ export default function FreeCoursesPage() {
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 9th CBSE Board
             </span>
-            <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-md">(FREE COURSES)</span>
+            <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">(FREE COURSES)</span>
           </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+              A curated collection of free video lessons to help you excel in your studies.
+          </p>
         </div>
 
         <div className="flex gap-8 overflow-x-auto pb-4">
@@ -202,8 +205,11 @@ export default function FreeCoursesPage() {
             <span className="bg-gradient-to-r from-blue-500 to-indigo-600 bg-clip-text text-transparent">
               Class 10th CBSE Board
             </span>
-             <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-md">(FREE COURSES)</span>
+             <span className="text-xs font-bold text-white bg-red-500 px-2 py-1 rounded-full">(FREE COURSES)</span>
           </h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              A curated collection of free video lessons to help you excel in your studies.
+            </p>
         </div>
 
         <div className="flex gap-8 overflow-x-auto pb-4">
