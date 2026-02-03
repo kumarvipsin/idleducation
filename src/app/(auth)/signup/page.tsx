@@ -170,7 +170,7 @@ export default function SignupPage() {
                       className="w-full h-12 rounded-2xl text-sm font-bold bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2 shadow-none" 
                       disabled={studentForm.formState.isSubmitting}
                     >
-                      {studentForm.formState.isSubmitting ? 'Creating Account...' : 'Get Started'}
+                      {studentForm.formState.isSubmitting ? 'Creating Account...' : 'Signup'}
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </form>
@@ -243,7 +243,7 @@ export default function SignupPage() {
                       className="w-full h-12 rounded-2xl text-sm font-bold bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2 shadow-none" 
                       disabled={teacherForm.formState.isSubmitting}
                     >
-                      {teacherForm.formState.isSubmitting ? 'Creating Account...' : 'Join as Teacher'}
+                      {teacherForm.formState.isSubmitting ? 'Creating Account...' : 'Signup'}
                       <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                     </Button>
                   </form>
