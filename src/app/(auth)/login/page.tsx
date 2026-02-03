@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Mail, Lock, ArrowRight, BookOpen, GraduationCap, Briefcase } from "lucide-react";
+import { Mail, Lock, ArrowRight, GraduationCap, Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +15,7 @@ import { loginUser } from "@/app/actions";
 import Link from "next/link";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -75,11 +76,18 @@ export default function LoginPage() {
       >
         <Card className="border-0 shadow-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-[2.5rem] overflow-hidden ring-1 ring-black/5 dark:ring-white/5">
           <CardHeader className="pt-10 pb-4 text-center">
-            <div className="mx-auto w-12 h-12 rounded-2xl bg-primary flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
-              <BookOpen className="h-6 w-6 text-white" />
-            </div>
-            <CardTitle className="text-2xl font-black tracking-tight mb-1 text-gray-900 dark:text-white">LearnScape</CardTitle>
-            <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400">Your portal to academic excellence</CardDescription>
+            <Link href="/" className="mx-auto block w-fit mb-4">
+              <Image 
+                src="/logo.png" 
+                alt="LearnScape Logo" 
+                width={80} 
+                height={80} 
+                priority 
+                className="drop-shadow-md"
+              />
+            </Link>
+            <CardTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Welcome Back</CardTitle>
+            <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400">Enter your credentials to access your portal</CardDescription>
           </CardHeader>
 
           <CardContent className="px-8">
