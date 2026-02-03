@@ -1,4 +1,3 @@
-
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
 import { StudyResources } from '@/components/landing/study-resources';
@@ -10,7 +9,6 @@ import { TrustedPlatform } from '@/components/landing/trusted-platform';
 import { DiscoverAdvantage } from '@/components/landing/discover-advantage';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
-import { BlogSection } from '@/components/landing/blog-section';
 import { SelectGoalSection } from '@/components/landing/select-goal-section';
 import { BookDemoSection } from '@/components/landing/book-demo-section';
 
@@ -38,7 +36,6 @@ export default async function Home() {
       <DiscoverAdvantage />
       <StudyResources />
       <ToppersTestimonials testimonials={testimonials} />
-      <BlogSection />
       <GetAppSection />
     </div>
   );
