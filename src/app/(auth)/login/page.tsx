@@ -70,7 +70,7 @@ export default function LoginPage() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-[380px] z-10"
       >
-        <Card className="border shadow-2xl bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden">
+        <Card className="border bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-none">
           <CardHeader className="pt-10 pb-4 text-center">
             <Link href="/" className="mx-auto block w-fit mb-4">
               <Image 
@@ -79,7 +79,7 @@ export default function LoginPage() {
                 width={80} 
                 height={80} 
                 priority 
-                className="drop-shadow-md"
+                className="drop-shadow-sm"
               />
             </Link>
             <CardTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Welcome Back</CardTitle>
@@ -149,7 +149,7 @@ export default function LoginPage() {
                 />
                 <Button 
                   type="submit" 
-                  className="w-full h-12 rounded-2xl text-sm font-bold shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2" 
+                  className="w-full h-12 rounded-2xl text-sm font-bold bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2 shadow-none" 
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? 'Authenticating...' : 'Sign In'}
