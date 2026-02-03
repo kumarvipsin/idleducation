@@ -1,7 +1,6 @@
-
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle, Building, Users } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle, Building, Users, ClipboardList } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -38,39 +37,46 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 
 const allCoursesCategories = [
     {
-        name: "IIT-JEE/NEET",
-        description: "Prepare for engineering and medical entrance exams.",
-        href: "/category/iit-jee",
-        icon: <Atom className="h-5 w-5" />,
-        colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
-    },
-    {
-        name: "CUET UG/PG",
-        description: "MBA, IPMAT, IIT JAM, CSIR NET, LAW, CUET, UGC NET...",
-        href: "/category/cuet",
-        icon: <GraduationCap className="h-5 w-5" />,
+        name: "FREE COURSES",
+        description: "Access our high-quality free video lessons and materials.",
+        href: "/free-courses",
+        icon: <BookOpen className="h-5 w-5" />,
         colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
     },
     {
-        name: "CBSE BOARD",
-        description: "CBSE Arts, CBSE Science, CBSE Commerce, ICSE, UP Board...",
+        name: "PAID COURSES",
+        description: "Premium structured courses for in-depth learning.",
+        href: "#",
+        icon: <IndianRupee className="h-5 w-5" />,
+        colorClasses: "bg-lime-100 text-lime-600 dark:bg-lime-900/30 dark:text-lime-400"
+    },
+    {
+        name: "SCHOOL BOARD",
+        description: "Comprehensive preparation for Class 5 to 12.",
         href: "/school",
-        icon: <Award className="h-5 w-5" />,
-        colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400"
+        icon: <GraduationCap className="h-5 w-5" />,
+        colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400"
     },
     {
-        name: "NIOS BOARD",
-        description: "Flexible learning with the National Institute of Open Schooling.",
-        href: "/new-work",
-        icon: <BookOpen className="h-5 w-5" />,
-        colorClasses: "bg-sky-100 text-sky-600 dark:bg-sky-900/30 dark:text-sky-400"
+        name: "CUET UG/PG",
+        description: "Prepare for Central University Entrance Tests.",
+        href: "/category/cuet",
+        icon: <GraduationCap className="h-5 w-5" />,
+        colorClasses: "bg-cyan-100 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400"
     },
     {
-        name: "GOVT EXAM",
-        description: "SSC, Banking, Judiciary, Teaching, Railway, UP Exams...",
+        name: "GOVT. EXAMS",
+        description: "SSC, Banking, Railway, and other competitive exams.",
         href: "/examcat?category=govt-job-exams",
         icon: <Landmark className="h-5 w-5" />,
-        colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400"
+        colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400"
+    },
+    {
+        name: "TEST SERIES",
+        description: "Assess your preparation with our rigorous tests.",
+        href: "#",
+        icon: <ClipboardList className="h-5 w-5" />,
+        colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
     },
 ];
 
@@ -775,5 +781,3 @@ export function Header() {
     </>
   );
 }
-
-    
