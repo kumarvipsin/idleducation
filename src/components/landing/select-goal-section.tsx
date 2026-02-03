@@ -3,7 +3,7 @@
 
 import Link from "next/link";
 import React from 'react';
-import { ArrowRight, Building, Trophy, BookHeart, Users, GraduationCap, Landmark, MoreHorizontal, BookOpen, IndianRupee, ClipboardList, Atom } from "lucide-react";
+import { ArrowRight, BookOpen, IndianRupee, GraduationCap, Landmark, ClipboardList } from "lucide-react";
 
 const goals = [
     {
@@ -54,14 +54,14 @@ export function SelectGoalSection() {
                             Popular Courses
                         </div>
                     </div>
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 items-stretch">
                         {goals.map((goal) => (
-                            <Link key={goal.name} href={goal.href} className="group w-40">
+                            <Link key={goal.name} href={goal.href} className="group block h-full">
                                 <div className={`flex flex-col items-center justify-center p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1`}>
                                     <div className="mb-2">
                                         {goal.icon}
                                     </div>
-                                    <p className="text-sm font-semibold text-center text-foreground">{goal.name}</p>
+                                    <p className="text-sm font-bold text-center text-foreground whitespace-nowrap">{goal.name}</p>
                                     
                                     <ArrowRight className="w-4 h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
                                 </div>
