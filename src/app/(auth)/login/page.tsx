@@ -63,20 +63,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-teal-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden">
-      {/* Refined decorative elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-        <div className="absolute -top-[10%] -right-[10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
-        <div className="absolute -bottom-[10%] -left-[10%] w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-[100px]" />
-      </div>
-
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-white dark:bg-gray-950 relative overflow-hidden">
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="w-full max-w-[380px] z-10"
       >
-        <Card className="border-0 shadow-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-[2.5rem] overflow-hidden ring-1 ring-black/5 dark:ring-white/5">
+        <Card className="border shadow-2xl bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden">
           <CardHeader className="pt-10 pb-4 text-center">
             <Link href="/" className="mx-auto block w-fit mb-4">
               <Image 
@@ -125,7 +119,7 @@ export default function LoginPage() {
                           <Input 
                             placeholder="Email address" 
                             {...field} 
-                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border-0 focus:ring-2 focus:ring-primary/20 rounded-2xl transition-all text-sm" 
+                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-2xl transition-all text-sm" 
                           />
                         </div>
                       </FormControl>
@@ -145,7 +139,7 @@ export default function LoginPage() {
                             type="password" 
                             placeholder="Password" 
                             {...field} 
-                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border-0 focus:ring-2 focus:ring-primary/20 rounded-2xl transition-all text-sm" 
+                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-2xl transition-all text-sm" 
                           />
                         </div>
                       </FormControl>
