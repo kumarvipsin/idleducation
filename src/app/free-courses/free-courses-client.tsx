@@ -23,8 +23,8 @@ const VideoItem = ({ video, chapterName }: { video: TFreeCourseVideo, chapterNam
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <button className="w-full text-left flex items-center gap-4 p-3 rounded-xl border bg-card hover:bg-muted/50 transition-all duration-200 group shadow-sm hover:shadow-md border-border/50">
-                    <div className="relative h-16 w-28 rounded-lg overflow-hidden shrink-0 shadow-inner bg-muted">
+                <button className="w-full text-left flex items-center gap-3 p-2 rounded-xl border bg-card hover:bg-muted/50 transition-all duration-200 group shadow-sm hover:shadow-md border-border/50">
+                    <div className="relative h-14 w-24 rounded-lg overflow-hidden shrink-0 shadow-inner bg-muted">
                         <Image
                             src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                             alt={video.title}
@@ -32,17 +32,17 @@ const VideoItem = ({ video, chapterName }: { video: TFreeCourseVideo, chapterNam
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                         <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                            <PlayCircle className="w-6 h-6 text-white/90 drop-shadow-md" />
+                            <PlayCircle className="w-5 h-5 text-white/90 drop-shadow-md" />
                         </div>
                     </div>
                     <div className="flex-grow min-w-0">
-                        <p className="text-sm font-bold leading-tight line-clamp-2 group-hover:text-primary transition-colors">{video.title}</p>
+                        <p className="text-xs font-bold leading-tight line-clamp-2 group-hover:text-primary transition-colors">{video.title}</p>
                         <div className="flex items-center gap-2 mt-1">
-                            <span className="text-[10px] font-semibold text-muted-foreground uppercase tracking-wider">{chapterName}</span>
+                            <span className="text-[9px] font-semibold text-muted-foreground uppercase tracking-wider">{chapterName}</span>
                         </div>
                     </div>
-                    <div className="shrink-0 h-8 w-8 rounded-full flex items-center justify-center bg-muted group-hover:bg-primary group-hover:text-white transition-all">
-                        <ArrowRight className="w-4 h-4" />
+                    <div className="shrink-0 h-7 w-7 rounded-full flex items-center justify-center bg-muted group-hover:bg-primary group-hover:text-white transition-all">
+                        <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                 </button>
             </DialogTrigger>
@@ -69,28 +69,28 @@ const VideoItem = ({ video, chapterName }: { video: TFreeCourseVideo, chapterNam
  */
 const CourseContentDialog = ({ course }: { course: TFreeCourse }) => {
     return (
-        <DialogContent className="max-w-2xl h-[85vh] flex flex-col p-0 overflow-hidden rounded-2xl border-none shadow-2xl">
-            <DialogHeader className="p-6 border-b bg-card shrink-0 space-y-1">
+        <DialogContent className="max-w-lg h-[75vh] flex flex-col p-0 overflow-hidden rounded-2xl border-none shadow-2xl">
+            <DialogHeader className="p-4 border-b bg-card shrink-0 space-y-1">
                 <div className="flex items-center gap-2 text-primary">
-                    <BookOpen className="w-5 h-5" />
-                    <span className="text-xs font-bold uppercase tracking-widest">Course Content</span>
+                    <BookOpen className="w-4 h-4" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest">Course Content</span>
                 </div>
-                <DialogTitle className="text-2xl font-black tracking-tight">{course.title}</DialogTitle>
-                <DialogDescription className="text-sm line-clamp-1">Explore all lessons and chapters available in this course.</DialogDescription>
+                <DialogTitle className="text-xl font-black tracking-tight">{course.title}</DialogTitle>
+                <DialogDescription className="text-xs line-clamp-1">Explore all lessons and chapters available in this course.</DialogDescription>
             </DialogHeader>
             
             <ScrollArea className="flex-1 bg-muted/5">
-                <div className="p-6 space-y-8">
+                <div className="p-4 space-y-6">
                     {course.chapters && course.chapters.length > 0 ? (
                         course.chapters.map((chapter, cIdx) => (
-                            <div key={`chapter-${cIdx}`} className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-sm">
+                            <div key={`chapter-${cIdx}`} className="space-y-3">
+                                <div className="flex items-center gap-2">
+                                    <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
                                         {cIdx + 1}
                                     </div>
-                                    <h4 className="font-extrabold text-lg tracking-tight text-foreground/90">{chapter.name}</h4>
+                                    <h4 className="font-extrabold text-base tracking-tight text-foreground/90">{chapter.name}</h4>
                                 </div>
-                                <div className="grid grid-cols-1 gap-3 pl-2 sm:pl-11 border-l-2 border-primary/10 ml-4">
+                                <div className="grid grid-cols-1 gap-2 pl-2 sm:pl-9 border-l-2 border-primary/10 ml-3.5">
                                     {chapter.videos.map((video, vIdx) => (
                                         <VideoItem 
                                             key={`video-${cIdx}-${vIdx}`} 
@@ -102,18 +102,18 @@ const CourseContentDialog = ({ course }: { course: TFreeCourse }) => {
                             </div>
                         ))
                     ) : (
-                        <div className="flex flex-col items-center justify-center py-20 text-center space-y-4">
-                            <div className="p-4 bg-muted rounded-full">
-                                <PlayCircle className="w-12 h-12 text-muted-foreground opacity-20" />
+                        <div className="flex flex-col items-center justify-center py-16 text-center space-y-3">
+                            <div className="p-3 bg-muted rounded-full">
+                                <PlayCircle className="w-10 h-10 text-muted-foreground opacity-20" />
                             </div>
-                            <p className="text-muted-foreground font-medium">No videos available for this course yet.</p>
+                            <p className="text-sm text-muted-foreground font-medium">No videos available for this course yet.</p>
                         </div>
                     )}
                 </div>
             </ScrollArea>
             
-            <div className="p-4 bg-card border-t text-center shrink-0">
-                <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold">Free Course by IDL Education</p>
+            <div className="p-3 bg-card border-t text-center shrink-0">
+                <p className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold">Free Course by IDL Education</p>
             </div>
         </DialogContent>
     );
