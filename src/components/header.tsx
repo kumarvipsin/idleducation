@@ -102,7 +102,7 @@ const MegaMenu = ({ links, title, children, onLinkClick }: { links?: { href: str
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
-                <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {link.onClick?.(); onLinkClick?.();}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) {link.onClick();} onLinkClick?.();}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
                     <div className={cn("p-3 rounded-lg mt-1", link.colorClasses || 'bg-muted')}>{link.icon}</div>
                     <div>
                         <p className="font-semibold text-sm text-foreground">{link.label}</p>
@@ -457,9 +457,14 @@ export function Header() {
     }
 
     return (
-      <Button asChild variant="ghost" size="sm" className="rounded-lg text-primary hover:bg-primary/5 hover:text-primary border border-primary/20">
-          <Link href="/login">Login</Link>
-      </Button>
+      <Link href="/login" className="group relative p-[1px] rounded-lg transition-all active:scale-95 shadow-none overflow-hidden h-9">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary" />
+        <div className="relative bg-white dark:bg-gray-950 px-3 py-1.5 h-full flex items-center rounded-[7px] transition-colors group-hover:bg-transparent">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-primary group-hover:text-white transition-colors">
+            Login
+          </span>
+        </div>
+      </Link>
     );
   };
   
