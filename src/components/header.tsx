@@ -758,10 +758,6 @@ export function Header() {
             {activeMenu === 'explore' && <AllCoursesMegaMenu />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'more' && <MegaMenu links={navLinks} title="" onLinkClick={() => {
-                const contactLink = navLinks.find(l => l.onClick);
-                if (contactLink?.onClick) {
-                    setIsContactOpen(true);
-                }
                 setActiveMenu(null);
             }}/>}
           </div>
