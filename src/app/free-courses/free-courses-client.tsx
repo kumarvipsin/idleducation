@@ -1,16 +1,14 @@
-
 'use client';
 
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, ListVideo, Tag, Youtube } from "lucide-react";
+import { PlayCircle, Tag } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { TFreeCourse, TFreeCourseChapter } from "@/app/actions/types";
+import type { TFreeCourse } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Link from "next/link";
 import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 
@@ -56,15 +54,15 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
             <div className="w-full md:w-1/3 h-1/2 md:h-full flex-grow overflow-hidden border-l">
                 <ScrollArea className="h-full">
                     <div className="p-2 space-y-1">
-                        {course.chapters?.map(chapter => (
-                            <div key={chapter.name}>
+                        {course.chapters?.map((chapter, cIdx) => (
+                            <div key={`chapter-${cIdx}`}>
                                 <h4 className="font-semibold text-sm p-2 sticky top-0 bg-background/95 backdrop-blur-sm z-10">{chapter.name}</h4>
-                                {chapter.videos.map(video => {
+                                {chapter.videos.map((video, vIdx) => {
                                     const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
                                     if (!videoId) return null;
                                     return (
                                         <button 
-                                            key={video.youtubeLink} 
+                                            key={`video-${cIdx}-${vIdx}`} 
                                             onClick={() => setSelectedVideo({...video, chapterName: chapter.name})}
                                             className={cn(
                                                 "w-full text-left flex items-center gap-4 p-2 rounded-lg hover:bg-muted",
