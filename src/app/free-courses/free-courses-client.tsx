@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
@@ -162,9 +161,6 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                             className="object-cover transition-transform duration-700 group-hover/card:scale-110"
                         />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                         <div className="absolute top-4 left-4">
-                            <Badge className="bg-red-600 text-white font-black px-3 py-1 rounded-full shadow-lg border-none text-[10px] tracking-wider uppercase">FREE COURSE</Badge>
-                         </div>
                     </div>
                     
                     <CardContent className="p-6 flex flex-col flex-grow">
