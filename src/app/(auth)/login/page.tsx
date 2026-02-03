@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { GraduationCap, Briefcase, Mail, Lock, ArrowRight, BookOpen } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Mail, Lock, ArrowRight, BookOpen, GraduationCap, Briefcase } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
@@ -28,12 +28,7 @@ export default function LoginPage() {
   const { toast } = useToast();
   const { login } = useAuth();
 
-  const studentForm = useForm<LoginValues>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: '', password: '' },
-  });
-
-  const teacherForm = useForm<LoginValues>({
+  const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
     defaultValues: { email: '', password: '' },
   });
@@ -64,181 +59,109 @@ export default function LoginPage() {
     }
   };
 
-  const onStudentSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
-  const onTeacherSubmit: SubmitHandler<LoginValues> = (data) => handleLogin(data);
-
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-[#F0F9FF] via-[#E0F2F1] to-[#F0FFF4] dark:from-background dark:via-background dark:to-background overflow-hidden relative">
-      {/* Abstract Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-[#92C799]/10 rounded-full blur-[120px]" />
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-gradient-to-br from-teal-50 via-white to-green-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 relative overflow-hidden">
+      {/* Refined decorative elements */}
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute -top-[10%] -right-[10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+        <div className="absolute -bottom-[10%] -left-[10%] w-[400px] h-[400px] bg-teal-500/5 rounded-full blur-[100px]" />
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-[420px] relative z-10"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.4 }}
+        className="w-full max-w-[380px] z-10"
       >
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white dark:bg-gray-800 shadow-xl mb-6 ring-1 ring-black/5">
-            <BookOpen className="h-8 w-8 text-primary" />
-          </div>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight mb-2">
-            LearnScape
-          </h1>
-          <p className="text-gray-500 dark:text-gray-400 font-medium">
-            Your bridge to academic excellence
-          </p>
-        </div>
+        <Card className="border-0 shadow-2xl bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-[2.5rem] overflow-hidden ring-1 ring-black/5 dark:ring-white/5">
+          <CardHeader className="pt-10 pb-4 text-center">
+            <div className="mx-auto w-12 h-12 rounded-2xl bg-primary flex items-center justify-center mb-4 shadow-lg shadow-primary/20">
+              <BookOpen className="h-6 w-6 text-white" />
+            </div>
+            <CardTitle className="text-2xl font-black tracking-tight mb-1 text-gray-900 dark:text-white">LearnScape</CardTitle>
+            <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400">Your portal to academic excellence</CardDescription>
+          </CardHeader>
 
-        <Tabs defaultValue="student" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 p-1 bg-white/50 backdrop-blur-md dark:bg-gray-800/50 rounded-xl mb-6 shadow-sm border border-white/20">
-            <TabsTrigger 
-              value="student" 
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm py-2.5 transition-all font-bold text-sm"
-            >
-              <GraduationCap className="mr-2 h-4 w-4" /> Student
-            </TabsTrigger>
-            <TabsTrigger 
-              value="teacher" 
-              className="rounded-lg data-[state=active]:bg-white data-[state=active]:text-primary data-[state=active]:shadow-sm py-2.5 transition-all font-bold text-sm"
-            >
-              <Briefcase className="mr-2 h-4 w-4" /> Teacher
-            </TabsTrigger>
-          </TabsList>
+          <CardContent className="px-8">
+            <Tabs defaultValue="student" className="w-full mb-6">
+              <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl h-11">
+                <TabsTrigger 
+                  value="student" 
+                  className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[11px] font-bold uppercase tracking-tight"
+                >
+                  <GraduationCap className="w-3.5 h-3.5 mr-1.5" /> Student
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="teacher" 
+                  className="rounded-xl data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[11px] font-bold uppercase tracking-tight"
+                >
+                  <Briefcase className="w-3.5 h-3.5 mr-1.5" /> Teacher
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
 
-          <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-xl dark:bg-gray-900/80 rounded-[2rem] overflow-hidden ring-1 ring-black/5">
-            <TabsContent value="student" className="m-0">
-              <CardHeader className="pt-10 pb-6 text-center">
-                <CardTitle className="text-2xl font-bold">Welcome Back</CardTitle>
-                <CardDescription className="text-sm">Enter your credentials to access your portal</CardDescription>
-              </CardHeader>
-              <Form {...studentForm}>
-                <form onSubmit={studentForm.handleSubmit(onStudentSubmit)}>
-                  <CardContent className="space-y-4 px-8">
-                    <FormField
-                      control={studentForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative group">
-                              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
-                              <Input 
-                                placeholder="Email address" 
-                                {...field} 
-                                className="pl-11 h-12 bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 rounded-xl transition-all" 
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={studentForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative group">
-                              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
-                              <Input 
-                                type="password" 
-                                placeholder="Password" 
-                                {...field} 
-                                className="pl-11 h-12 bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 rounded-xl transition-all" 
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </CardContent>
-                  <CardFooter className="flex flex-col gap-4 px-8 pb-10 pt-2">
-                    <Button type="submit" className="w-full h-12 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group" disabled={studentForm.formState.isSubmitting}>
-                      {studentForm.formState.isSubmitting ? 'Authenticating...' : 'Sign In'}
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                    <div className="text-center text-xs text-gray-500 font-medium">
-                      Don&apos;t have an account?{" "}
-                      <Link href="/signup" className="text-primary font-bold hover:underline transition-all">
-                        Create one now
-                      </Link>
-                    </div>
-                  </CardFooter>
-                </form>
-              </Form>
-            </TabsContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative group">
+                          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                          <Input 
+                            placeholder="Email address" 
+                            {...field} 
+                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border-0 focus:ring-2 focus:ring-primary/20 rounded-2xl transition-all text-sm" 
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <div className="relative group">
+                          <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                          <Input 
+                            type="password" 
+                            placeholder="Password" 
+                            {...field} 
+                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border-0 focus:ring-2 focus:ring-primary/20 rounded-2xl transition-all text-sm" 
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button 
+                  type="submit" 
+                  className="w-full h-12 rounded-2xl text-sm font-bold shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2" 
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting ? 'Authenticating...' : 'Sign In'}
+                  <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
 
-            <TabsContent value="teacher" className="m-0">
-              <CardHeader className="pt-10 pb-6 text-center">
-                <CardTitle className="text-2xl font-bold">Teacher Portal</CardTitle>
-                <CardDescription className="text-sm">Manage your classroom and resources</CardDescription>
-              </CardHeader>
-              <Form {...teacherForm}>
-                <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)}>
-                  <CardContent className="space-y-4 px-8">
-                    <FormField
-                      control={teacherForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative group">
-                              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
-                              <Input 
-                                placeholder="Teacher email" 
-                                {...field} 
-                                className="pl-11 h-12 bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 rounded-xl transition-all" 
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={teacherForm.control}
-                      name="password"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <div className="relative group">
-                              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
-                              <Input 
-                                type="password" 
-                                placeholder="Password" 
-                                {...field} 
-                                className="pl-11 h-12 bg-white/50 dark:bg-gray-800/50 border-gray-200 dark:border-gray-700 focus:ring-2 focus:ring-primary/20 rounded-xl transition-all" 
-                              />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </CardContent>
-                  <CardFooter className="flex flex-col gap-4 px-8 pb-10 pt-2">
-                    <Button type="submit" className="w-full h-12 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group" disabled={teacherForm.formState.isSubmitting}>
-                      {teacherForm.formState.isSubmitting ? 'Authenticating...' : 'Sign In'}
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                    </Button>
-                    <div className="text-center text-xs text-gray-500 font-medium">
-                      Interested in joining our faculty?{" "}
-                      <Link href="/contact" className="text-primary font-bold hover:underline transition-all">
-                        Contact us
-                      </Link>
-                    </div>
-                  </CardFooter>
-                </form>
-              </Form>
-            </TabsContent>
-          </Card>
-        </Tabs>
+          <CardFooter className="pb-10 pt-2 flex flex-col gap-4">
+            <div className="text-center text-[10px] uppercase tracking-widest text-gray-400 font-bold">
+              Don&apos;t have an account?{" "}
+              <Link href="/signup" className="text-primary hover:underline transition-all">
+                Sign Up
+              </Link>
+            </div>
+          </CardFooter>
+        </Card>
       </motion.div>
     </div>
   );
