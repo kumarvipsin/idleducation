@@ -16,6 +16,7 @@ import Link from "next/link";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }),
@@ -28,6 +29,7 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { login } = useAuth();
+  const [activeTab, setActiveTab] = useState("student");
 
   const form = useForm<LoginValues>({
     resolver: zodResolver(loginSchema),
@@ -87,11 +89,13 @@ export default function LoginPage() {
               />
             </Link>
             <CardTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Welcome Back</CardTitle>
-            <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400">Enter your credentials to access your portal</CardDescription>
+            <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400 capitalize">
+              {activeTab} login portal
+            </CardDescription>
           </CardHeader>
 
           <CardContent className="px-8">
-            <Tabs defaultValue="student" className="w-full mb-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-6">
               <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl h-11">
                 <TabsTrigger 
                   value="student" 
