@@ -209,7 +209,7 @@ export function Header() {
                 paymentId: response.razorpay_payment_id,
             };
             await recordDonation(donationData);
-            toast({ title: 'Payment Successful', description: `Thank you for your donation of \u20b9${amount}!` });
+            toast({ title: 'Payment Successful', description: `Thank you for your donation of ₹${amount}!` });
             setDonationStep(1);
             setDonationCategory('');
             setDonationAmount('');
@@ -470,6 +470,7 @@ export function Header() {
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates from our team.", colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400" },
     { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, description: "Visit our centers for in-person learning.", colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400" },
     { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, description: "Join our hands-on workshops.", colorClasses: "bg-lime-100 text-lime-600 dark:bg-lime-900/30 dark:text-lime-400" },
+    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
     { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
   ];
   
@@ -478,7 +479,6 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
-      { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
   ];
 
   const loggedInNavLinks = [
