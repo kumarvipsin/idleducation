@@ -69,14 +69,14 @@ const VideoItem = ({ video, chapterName }: { video: TFreeCourseVideo, chapterNam
  */
 const CourseContentDialog = ({ course }: { course: TFreeCourse }) => {
     return (
-        <DialogContent className="max-w-lg h-[75vh] flex flex-col p-0 overflow-hidden rounded-2xl border-none shadow-2xl">
+        <DialogContent className="max-w-sm h-[70vh] flex flex-col p-0 overflow-hidden rounded-2xl border-none shadow-2xl">
             <DialogHeader className="p-4 border-b bg-card shrink-0 space-y-1">
                 <div className="flex items-center gap-2 text-primary">
                     <BookOpen className="w-4 h-4" />
                     <span className="text-[10px] font-bold uppercase tracking-widest">Course Content</span>
                 </div>
-                <DialogTitle className="text-xl font-black tracking-tight">{course.title}</DialogTitle>
-                <DialogDescription className="text-xs line-clamp-1">Explore all lessons and chapters available in this course.</DialogDescription>
+                <DialogTitle className="text-lg font-black tracking-tight">{course.title}</DialogTitle>
+                <DialogDescription className="text-[10px] line-clamp-1">Explore all lessons and chapters available in this course.</DialogDescription>
             </DialogHeader>
             
             <ScrollArea className="flex-1 bg-muted/5">
@@ -85,12 +85,12 @@ const CourseContentDialog = ({ course }: { course: TFreeCourse }) => {
                         course.chapters.map((chapter, cIdx) => (
                             <div key={`chapter-${cIdx}`} className="space-y-3">
                                 <div className="flex items-center gap-2">
-                                    <div className="h-7 w-7 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-xs">
+                                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-[10px]">
                                         {cIdx + 1}
                                     </div>
-                                    <h4 className="font-extrabold text-base tracking-tight text-foreground/90">{chapter.name}</h4>
+                                    <h4 className="font-extrabold text-sm tracking-tight text-foreground/90">{chapter.name}</h4>
                                 </div>
-                                <div className="grid grid-cols-1 gap-2 pl-2 sm:pl-9 border-l-2 border-primary/10 ml-3.5">
+                                <div className="grid grid-cols-1 gap-2 pl-2 sm:pl-8 border-l-2 border-primary/10 ml-3">
                                     {chapter.videos.map((video, vIdx) => (
                                         <VideoItem 
                                             key={`video-${cIdx}-${vIdx}`} 
@@ -112,8 +112,8 @@ const CourseContentDialog = ({ course }: { course: TFreeCourse }) => {
                 </div>
             </ScrollArea>
             
-            <div className="p-3 bg-card border-t text-center shrink-0">
-                <p className="text-[9px] text-muted-foreground uppercase tracking-widest font-bold">Free Course by IDL Education</p>
+            <div className="p-2 bg-card border-t text-center shrink-0">
+                <p className="text-[8px] text-muted-foreground uppercase tracking-widest font-bold">Free Course by IDL Education</p>
             </div>
         </DialogContent>
     );
@@ -190,10 +190,10 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                             <DialogTrigger asChild>
                                 <Button variant="link" className="text-xs p-0 h-auto mt-4 text-muted-foreground hover:text-primary transition-colors font-bold uppercase tracking-tighter">View Full Course Details</Button>
                             </DialogTrigger>
-                            <DialogContent className="sm:max-w-md">
-                                <DialogHeader>
-                                    <DialogTitle className="text-xl font-black">{course.title}</DialogTitle>
-                                    <DialogDescription className="mt-4 text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                            <DialogContent className="sm:max-w-sm">
+                                <DialogHeader className="p-4 sm:p-6">
+                                    <DialogTitle className="text-lg font-black">{course.title}</DialogTitle>
+                                    <DialogDescription className="mt-2 text-xs text-muted-foreground leading-relaxed whitespace-pre-wrap">
                                         {course.description}
                                     </DialogDescription>
                                 </DialogHeader>
