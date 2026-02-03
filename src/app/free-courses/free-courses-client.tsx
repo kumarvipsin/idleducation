@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, Tag } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
@@ -28,7 +28,11 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
     const selectedVideoId = selectedVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-        <DialogContent className="max-w-6xl h-[90vh] flex flex-col md:flex-row p-0">
+        <DialogContent className="max-w-6xl h-[90vh] flex flex-col md:flex-row p-0 overflow-hidden">
+            <DialogTitle className="sr-only">{course.title} - Video Playlist</DialogTitle>
+            <DialogDescription className="sr-only">Watch free video lessons for {course.title}</DialogDescription>
+            
+            {/* Left side: Video Player */}
             <div className="w-full md:w-2/3 h-1/2 md:h-full flex flex-col">
                 <div className="w-full aspect-video bg-black shrink-0">
                     {selectedVideoId ? (
@@ -46,17 +50,23 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
                         </div>
                     )}
                 </div>
-                <div className="p-4 border-b md:border-b-0 md:border-t">
+                <div className="p-4 border-b md:border-b-0 md:border-t overflow-y-auto flex-grow">
                     <h2 className="text-xl font-bold">{selectedVideo?.title || course.title}</h2>
-                    <p className="text-sm text-muted-foreground">{selectedVideo?.chapterName || course.description}</p>
+                    <p className="text-sm text-muted-foreground mt-2">{selectedVideo?.chapterName || course.description}</p>
                 </div>
             </div>
-            <div className="w-full md:w-1/3 h-1/2 md:h-full flex-grow overflow-hidden border-l">
-                <ScrollArea className="h-full">
+            
+            {/* Right side: Playlist */}
+            <div className="w-full md:w-1/3 h-1/2 md:h-full flex flex-col overflow-hidden border-l">
+                <div className="p-4 border-b bg-muted/30">
+                    <h3 className="font-bold">Course Content</h3>
+                    <p className="text-xs text-muted-foreground">{allVideos.length} Lessons</p>
+                </div>
+                <ScrollArea className="flex-1">
                     <div className="p-2 space-y-1">
                         {course.chapters?.map((chapter, cIdx) => (
                             <div key={`chapter-${cIdx}`}>
-                                <h4 className="font-semibold text-sm p-2 sticky top-0 bg-background/95 backdrop-blur-sm z-10">{chapter.name}</h4>
+                                <h4 className="font-semibold text-[10px] uppercase tracking-widest text-muted-foreground p-2 sticky top-0 bg-background/95 backdrop-blur-sm z-10">{chapter.name}</h4>
                                 {chapter.videos.map((video, vIdx) => {
                                     const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
                                     if (!videoId) return null;
@@ -65,7 +75,7 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
                                             key={`video-${cIdx}-${vIdx}`} 
                                             onClick={() => setSelectedVideo({...video, chapterName: chapter.name})}
                                             className={cn(
-                                                "w-full text-left flex items-center gap-4 p-2 rounded-lg hover:bg-muted",
+                                                "w-full text-left flex items-center gap-4 p-2 rounded-lg hover:bg-muted transition-colors",
                                                 selectedVideo?.youtubeLink === video.youtubeLink && "bg-muted"
                                             )}
                                         >
@@ -76,10 +86,18 @@ const PlaylistDialog = ({ course }: { course: TFreeCourse }) => {
                                                     fill
                                                     className="object-cover"
                                                 />
+                                                {selectedVideo?.youtubeLink === video.youtubeLink && (
+                                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                                        <PlayCircle className="w-6 h-6 text-white" />
+                                                    </div>
+                                                )}
                                             </div>
-                                            <div className="flex-grow">
-                                                <p className="text-sm font-semibold leading-tight line-clamp-2">{video.title}</p>
-                                                <p className="text-xs text-muted-foreground mt-1">{chapter.name}</p>
+                                            <div className="flex-grow min-w-0">
+                                                <p className={cn(
+                                                    "text-sm font-semibold leading-tight line-clamp-2",
+                                                    selectedVideo?.youtubeLink === video.youtubeLink ? "text-primary" : "text-foreground"
+                                                )}>{video.title}</p>
+                                                <p className="text-[10px] text-muted-foreground mt-1">{chapter.name}</p>
                                             </div>
                                         </button>
                                     )
@@ -140,7 +158,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                     </div>
                 </div>
                 <CardContent className="p-3 flex flex-col flex-grow">
-                    <CardTitle className="text-base font-bold text-foreground leading-tight mb-2">{course.subject} for {course.class}</CardTitle>
+                    <CardTitleUI className="text-base font-bold text-foreground leading-tight mb-2">{course.subject} for {course.class}</CardTitleUI>
                     <div className="flex items-center gap-2">
                         <Badge variant="secondary">{course.batchName}</Badge>
                     </div>
