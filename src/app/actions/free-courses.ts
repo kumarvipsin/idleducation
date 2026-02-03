@@ -1,11 +1,14 @@
 // src/app/actions/free-courses.ts
 'use server';
 import { db } from "@/lib/firebase";
-import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy } from "firebase/firestore";
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 import { revalidatePath } from 'next/cache';
 
+/**
+ * Fetches all free courses from Firestore, ordered by creation date.
+ */
 export async function getFreeCourses() {
     try {
         const coursesQuery = query(collection(db, "freeCourses"), orderBy("createdAt", "desc"));
@@ -18,7 +21,9 @@ export async function getFreeCourses() {
     }
 }
 
-
+/**
+ * Adds a new free course to Firestore, including uploading a cover image to GCS.
+ */
 export async function addFreeCourse(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const coverImageFile = rawData.coverImage as File | null;
@@ -34,7 +39,7 @@ export async function addFreeCourse(formData: FormData) {
     price: parseFloat(rawData.price as string) || 0,
     originalPrice: parseFloat(rawData.originalPrice as string) || 0,
     description: rawData.description as string,
-    status: rawData.status as 'active' | 'inactive',
+    status: (rawData.status as 'active' | 'inactive') || 'active',
     chapters: [],
     createdAt: serverTimestamp(),
   };
@@ -45,6 +50,7 @@ export async function addFreeCourse(formData: FormData) {
       courseData.coverImageUrl = await uploadFileToGCS(coverImageFile, destination);
     }
     
+    // Parse chapters and videos from nested form field names (e.g., chapters[0].name)
     const chapterEntries: { [key: number]: { name?: string; videos: { [key: number]: { title?: string; youtubeLink?: string } } } } = {};
     for (const [key, value] of formData.entries()) {
         const chapterMatch = key.match(/^chapters\[(\d+)\]\.name$/);
@@ -85,7 +91,6 @@ export async function addFreeCourse(formData: FormData) {
 
     await addDoc(collection(db, "freeCourses"), courseData);
     revalidatePath('/free-courses');
-    revalidatePath('/admin/free-courses');
     return { success: true, message: "Free course added successfully." };
   } catch (error: any) {
     console.error("Error adding free course:", error);
@@ -93,6 +98,9 @@ export async function addFreeCourse(formData: FormData) {
   }
 }
 
+/**
+ * Updates an existing free course in Firestore.
+ */
 export async function editFreeCourse(id: string, formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const coverImageFile = rawData.coverImage as File | null;
@@ -108,7 +116,7 @@ export async function editFreeCourse(id: string, formData: FormData) {
     price: parseFloat(rawData.price as string) || 0,
     originalPrice: parseFloat(rawData.originalPrice as string) || 0,
     description: rawData.description as string,
-    status: rawData.status as 'active' | 'inactive',
+    status: (rawData.status as 'active' | 'inactive') || 'active',
     chapters: [],
   };
 
@@ -162,7 +170,6 @@ export async function editFreeCourse(id: string, formData: FormData) {
     await updateDoc(docRef, courseData);
 
     revalidatePath('/free-courses');
-    revalidatePath('/admin/free-courses');
     return { success: true, message: "Free course updated successfully." };
   } catch (error: any) {
     console.error("Error updating free course:", error);
@@ -170,12 +177,14 @@ export async function editFreeCourse(id: string, formData: FormData) {
   }
 }
 
+/**
+ * Deletes a free course from Firestore.
+ */
 export async function deleteFreeCourse(id: string) {
     try {
         const docRef = doc(db, "freeCourses", id);
         await deleteDoc(docRef);
         revalidatePath('/free-courses');
-        revalidatePath('/admin/free-courses');
         return { success: true, message: "Free course deleted successfully." };
     } catch (error: any) {
         console.error("Error deleting free course:", error);

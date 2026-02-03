@@ -1,14 +1,13 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
-import { getFreeCourses, addFreeCourse, editFreeCourse, deleteFreeCourse } from '@/app/actions/free-courses';
+import { getFreeCourses, deleteFreeCourse } from '@/app/actions/free-courses';
 import type { TFreeCourse } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Image as ImageIcon, Video, BookOpen } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -106,7 +105,7 @@ export default function AdminFreeCoursesPage() {
                         <TableCell>{course.title}</TableCell>
                         <TableCell>{course.class}</TableCell>
                         <TableCell>{course.subject}</TableCell>
-                        <TableCell>{course.status}</TableCell>
+                        <TableCell className="capitalize">{course.status}</TableCell>
                         <TableCell className="text-right space-x-2">
                            <Button variant="outline" size="icon" onClick={() => { setEditingCourse(course); setIsDialogOpen(true); }}>
                              <Edit className="h-4 w-4" />
@@ -138,7 +137,7 @@ export default function AdminFreeCoursesPage() {
           <AlertDialogHeader>
             <AlertDialogTitle>Are you sure?</AlertDialogTitle>
             <AlertDialogDescription>
-              This will permanently delete the course: <span className="font-semibold">{deletingCourse?.title}</span>. This action cannot be undone.
+              This will permanently delete the course: <span className="font-semibold">{deletingCourse?.title}</span> and all associated chapters/videos. This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

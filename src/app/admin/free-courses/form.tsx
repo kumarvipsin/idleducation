@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm, useFieldArray } from 'react-hook-form';
@@ -13,7 +12,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { addFreeCourse, editFreeCourse } from '@/app/actions/free-courses';
 import type { TFreeCourse } from '@/app/actions/types';
 import { PlusCircle, Trash2, XCircle } from 'lucide-react';
@@ -92,7 +91,6 @@ export function FreeCourseForm({ course, onSuccess }: { course?: TFreeCourse | n
         formData.append('existingCoverImageUrl', course.coverImageUrl);
     }
     
-    // Append all other form data
     Object.keys(data).forEach(key => {
         if (key !== 'chapters') {
             const value = data[key as keyof typeof data];
@@ -173,7 +171,7 @@ function ChapterField({ chapIndex, control, removeChapter }: { chapIndex: number
   });
 
   return (
-    <div className="space-y-3 p-3 border rounded-lg bg-muted/50">
+    <div className="space-y-3 p-3 border rounded-lg bg-muted/50 mb-4">
         <div className="flex justify-between items-center">
             <FormField control={control} name={`chapters.${chapIndex}.name`} render={({ field }) => ( <FormItem className="flex-1"><FormControl><Input placeholder="Chapter Name" {...field} /></FormControl><FormMessage /></FormItem> )}/>
             <Button type="button" variant="ghost" size="icon" onClick={() => removeChapter(chapIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
@@ -189,7 +187,7 @@ function ChapterField({ chapIndex, control, removeChapter }: { chapIndex: number
                 </div>
             ))}
         </div>
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-2">
             <Button type="button" variant="outline" size="sm" onClick={() => append({ title: '', youtubeLink: '' })}>
                 <PlusCircle className="mr-2 h-4 w-4" /> Add Video
             </Button>
