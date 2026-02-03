@@ -89,7 +89,7 @@ export default function LoginPage() {
           </CardHeader>
 
           <CardContent className="px-8">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-4">
               <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl h-11">
                 <TabsTrigger 
                   value="student" 

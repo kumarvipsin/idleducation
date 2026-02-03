@@ -88,7 +88,7 @@ export default function SignupPage() {
           </CardHeader>
 
           <CardContent className="px-8">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-2xl h-11">
                 <TabsTrigger 
                   value="student" 
@@ -104,7 +104,7 @@ export default function SignupPage() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="student" className="mt-0">
+              <TabsContent value="student" className="mt-4">
                 <Form {...studentForm}>
                   <form onSubmit={studentForm.handleSubmit(onStudentSubmit)} className="space-y-4">
                     <FormField
@@ -177,7 +177,7 @@ export default function SignupPage() {
                 </Form>
               </TabsContent>
 
-              <TabsContent value="teacher" className="mt-0">
+              <TabsContent value="teacher" className="mt-4">
                 <Form {...teacherForm}>
                   <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)} className="space-y-4">
                     <FormField
