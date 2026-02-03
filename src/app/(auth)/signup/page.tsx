@@ -83,7 +83,7 @@ export default function SignupPage() {
             </Link>
             <CardTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Create Account</CardTitle>
             <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400 capitalize">
-              Join our {activeTab} community
+              Create account for {activeTab}
             </CardDescription>
           </CardHeader>
 
