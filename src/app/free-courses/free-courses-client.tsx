@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, ArrowRight, BookOpen, Info, CheckCircle2, Play } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,7 @@ import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
 /**
  * Component for an individual video item in the course list.
@@ -32,37 +32,29 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-center gap-3 p-2 rounded-lg border transition-all duration-200 group",
+                "w-full text-left flex items-start gap-3 p-3 transition-all duration-200 group border-b border-white/5",
                 isActive
-                    ? "bg-primary/10 border-primary/30"
-                    : "bg-background/40 border-white/10 hover:bg-background/60"
+                    ? "bg-primary/20 border-l-4 border-l-primary"
+                    : "hover:bg-white/5"
             )}
         >
-            <div className="relative h-12 w-20 rounded overflow-hidden shrink-0 bg-muted">
+            <div className="relative h-16 w-28 rounded-md overflow-hidden shrink-0 bg-zinc-800 shadow-lg">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
                     fill
-                    className="object-cover"
+                    className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
                 />
-                <div className={cn(
-                    "absolute inset-0 flex items-center justify-center",
-                    isActive ? "bg-primary/20" : "bg-black/20"
-                )}>
-                    {isActive ? (
-                        <div className="bg-primary rounded-full p-1">
-                            <Play className="w-3 h-3 text-white fill-current" />
-                        </div>
-                    ) : (
-                        <PlayCircle className="w-4 h-4 text-white/90" />
-                    )}
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                    <PlayCircle className={cn("w-6 h-6 transition-transform", isActive ? "text-primary scale-110" : "text-white/70 group-hover:scale-110")} />
                 </div>
             </div>
-            <div className="flex-grow min-w-0">
+            <div className="flex-grow min-w-0 pt-1">
                 <p className={cn(
-                    "text-[11px] font-bold leading-tight line-clamp-2 transition-colors",
-                    isActive ? "text-primary" : "group-hover:text-primary"
+                    "text-xs font-semibold leading-tight line-clamp-2 transition-colors",
+                    isActive ? "text-primary" : "text-white/90 group-hover:text-white"
                 )}>{video.title}</p>
+                {isActive && <span className="text-[10px] text-primary font-bold uppercase mt-1 inline-block">Now Playing</span>}
             </div>
         </button>
     );
@@ -79,51 +71,60 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-        <DialogContent className="p-0 flex flex-col sm:max-w-5xl h-[100dvh] sm:h-[90vh] overflow-hidden rounded-none sm:rounded-xl border-none sm:border bg-background shadow-2xl">
+        <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-white/10 bg-black shadow-2xl transition-all duration-500">
             <DialogHeader className="sr-only">
                 <DialogTitle>{course.title}</DialogTitle>
                 <DialogDescription>Video course curriculum</DialogDescription>
             </DialogHeader>
 
             {/* Video Player Area */}
-            <div className="w-full bg-black aspect-video shrink-0 relative">
-                {activeVideoId ? (
-                    <iframe
-                        className="w-full h-full"
-                        src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0`}
-                        title={activeVideo?.title}
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-white/50 text-sm">
-                        Select a video to start learning
-                    </div>
-                )}
+            <div className="flex-grow bg-black flex flex-col relative h-fit lg:h-full">
+                <div className="aspect-video w-full h-full relative flex items-center justify-center">
+                    {activeVideoId ? (
+                        <iframe
+                            className="w-full h-full"
+                            src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0`}
+                            title={activeVideo?.title}
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                        ></iframe>
+                    ) : (
+                        <div className="w-full h-full flex flex-col items-center justify-center text-white/50 space-y-4">
+                            <PlayCircle className="w-16 h-16 opacity-20" />
+                            <p className="text-sm font-medium">Select a lesson to begin</p>
+                        </div>
+                    )}
+                </div>
+                {/* Desktop Video Info Overlay */}
+                <div className="p-4 bg-zinc-950/50 backdrop-blur-sm border-t border-white/5 hidden lg:block">
+                    <h2 className="text-lg font-bold text-white truncate">{activeVideo?.title || course.title}</h2>
+                    <p className="text-sm text-zinc-400 mt-1 line-clamp-1">{course.title} • {course.subject}</p>
+                </div>
             </div>
 
-            {/* Course Info & Playlist */}
-            <div className="flex-1 flex flex-col min-h-0">
-                <div className="p-4 border-b bg-muted/30">
-                    <h2 className="text-sm font-bold truncate">{activeVideo?.title || course.title}</h2>
-                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest font-bold mt-0.5">
-                        {course.title}
-                    </p>
+            {/* Playlist Panel */}
+            <div className="w-full lg:w-[400px] flex flex-col h-[40vh] lg:h-full bg-zinc-900 border-t lg:border-t-0 lg:border-l border-white/10 shrink-0">
+                <div className="p-4 border-b border-white/10 bg-zinc-950/80 flex items-center justify-between">
+                    <div>
+                        <h2 className="text-sm font-black text-white tracking-tight uppercase">Course Contents</h2>
+                        <p className="text-[10px] text-zinc-500 font-bold mt-0.5">{course.chapters?.length || 0} Modules Available</p>
+                    </div>
+                    <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE</Badge>
                 </div>
 
                 <ScrollArea className="flex-1">
-                    <div className="p-4 space-y-6">
+                    <div className="pb-4">
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
-                                <div key={`chapter-${cIdx}`} className="space-y-2">
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <div className="h-5 w-5 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px]">
+                                <div key={`chapter-${cIdx}`} className="mt-2">
+                                    <div className="px-4 py-2 bg-white/5 flex items-center gap-2">
+                                        <div className="h-5 w-5 rounded-md bg-primary/20 text-primary flex items-center justify-center font-bold text-[10px]">
                                             {cIdx + 1}
                                         </div>
-                                        <h4 className="font-bold text-xs tracking-tight text-foreground/80 uppercase">{chapter.name}</h4>
+                                        <h4 className="font-bold text-[11px] tracking-widest text-zinc-400 uppercase">{chapter.name}</h4>
                                     </div>
-                                    <div className="grid grid-cols-1 gap-2">
+                                    <div className="flex flex-col">
                                         {chapter.videos.map((video, vIdx) => (
                                             <VideoItem
                                                 key={`video-${cIdx}-${vIdx}`}
@@ -136,13 +137,19 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                                 </div>
                             ))
                         ) : (
-                            <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
-                                <PlayCircle className="w-8 h-8 opacity-20 mb-2" />
-                                <p className="text-xs font-medium">No lessons available yet.</p>
+                            <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-600">
+                                <BookOpen className="w-10 h-10 opacity-10 mb-2" />
+                                <p className="text-xs font-bold">No content uploaded</p>
                             </div>
                         )}
                     </div>
                 </ScrollArea>
+                
+                {/* Branding Footer in Playlist */}
+                <div className="p-3 bg-black/40 border-t border-white/5 flex items-center justify-center gap-2">
+                    <Image src="/logo.png" alt="Logo" width={16} height={16} className="opacity-50" />
+                    <span className="text-[9px] font-bold text-zinc-600 tracking-[0.2em] uppercase">Powered by IDL Education</span>
+                </div>
             </div>
         </DialogContent>
     );
