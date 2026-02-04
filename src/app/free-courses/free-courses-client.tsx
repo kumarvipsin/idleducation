@@ -70,6 +70,12 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
+    // Calculate active chapter number
+    const activeChapterIndex = course.chapters.findIndex(chap => 
+        chap.videos.some(v => v.youtubeLink === activeVideo?.youtubeLink)
+    );
+    const activeChapterNumber = activeChapterIndex !== -1 ? activeChapterIndex + 1 : null;
+
     return (
         <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
             <DialogHeader className="sr-only">
@@ -97,8 +103,8 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         </div>
                     )}
                     
-                    {/* Floating Mobile Close Button */}
-                    <div className="absolute top-4 right-4 lg:hidden z-50">
+                    {/* Floating Close Button - Visible on both Mobile and Desktop */}
+                    <div className="absolute top-4 right-4 z-50">
                         <DialogClose asChild>
                             <Button variant="secondary" size="icon" className="rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 text-white border-white/20 shadow-xl h-10 w-10">
                                 <X className="h-5 w-5" />
@@ -110,15 +116,12 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 {/* Lesson Info (Persistent below player) */}
                 <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
                     <div className="flex flex-col gap-1">
-                        <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[9px] font-black uppercase tracking-widest mb-1">
-                            Current Topic
-                        </Badge>
+                        {activeChapterNumber && (
+                            <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest mb-1">
+                                Chapter {activeChapterNumber}
+                            </Badge>
+                        )}
                         <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight">{activeVideo?.title || "No Topic Selected"}</h2>
-                        <div className="flex items-center gap-2 mt-2">
-                            <p className="text-xs md:text-sm text-muted-foreground font-bold">{course.title}</p>
-                            <span className="h-1 w-1 rounded-full bg-zinc-300" />
-                            <p className="text-xs md:text-sm text-primary font-bold">{course.subject}</p>
-                        </div>
                     </div>
                 </div>
             </div>
