@@ -2,8 +2,8 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
@@ -79,7 +79,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
             {/* Video Player Area */}
             <div className="flex-grow bg-zinc-100 flex flex-col relative h-fit lg:h-full">
-                <div className="aspect-video w-full h-full relative flex items-center justify-center">
+                <div className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
                     {activeVideoId ? (
                         <iframe
                             className="w-full h-full"
@@ -95,22 +95,41 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                             <p className="text-sm font-medium">Select a lesson to begin</p>
                         </div>
                     )}
+                    
+                    {/* Floating Mobile Close Button */}
+                    <div className="absolute top-4 right-4 lg:hidden z-50">
+                        <DialogClose asChild>
+                            <Button variant="secondary" size="icon" className="rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 text-white border-white/20 shadow-xl h-10 w-10">
+                                <X className="h-5 w-5" />
+                            </Button>
+                        </DialogClose>
+                    </div>
                 </div>
-                {/* Desktop Video Info Overlay */}
-                <div className="p-4 bg-white/80 backdrop-blur-sm border-t border-border hidden lg:block">
-                    <h2 className="text-lg font-bold text-foreground truncate">{activeVideo?.title || course.title}</h2>
-                    <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{course.title} • {course.subject}</p>
+
+                {/* Unified Video Info Area (Shows on both mobile & desktop) */}
+                <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
+                    <div className="flex flex-col gap-1">
+                        <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[9px] font-black uppercase tracking-widest mb-1">
+                            Current Topic
+                        </Badge>
+                        <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight">{activeVideo?.title || "No Topic Selected"}</h2>
+                        <div className="flex items-center gap-2 mt-2">
+                            <p className="text-xs md:text-sm text-muted-foreground font-bold">{course.title}</p>
+                            <span className="h-1 w-1 rounded-full bg-zinc-300" />
+                            <p className="text-xs md:text-sm text-primary font-bold">{course.subject}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {/* Playlist Panel */}
-            <div className="w-full lg:w-[400px] flex flex-col h-[40vh] lg:h-full bg-zinc-50 border-t lg:border-t-0 lg:border-l border-border shrink-0">
-                <div className="p-4 border-b border-border bg-white flex items-center justify-between">
+            <div className="w-full lg:w-[400px] flex flex-col flex-1 lg:h-full bg-zinc-50 lg:border-l border-border shrink-0 overflow-hidden">
+                <div className="p-4 border-b border-border bg-white flex items-center justify-between sticky top-0 z-10">
                     <div>
-                        <h2 className="text-sm font-black text-foreground tracking-tight uppercase">Course Contents</h2>
+                        <h2 className="text-sm font-black text-foreground tracking-tight uppercase">Curriculum</h2>
                         <p className="text-[10px] text-muted-foreground font-bold mt-0.5">{course.chapters?.length || 0} Modules Available</p>
                     </div>
-                    <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE</Badge>
+                    <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE ACCESS</Badge>
                 </div>
 
                 <ScrollArea className="flex-1">
@@ -146,7 +165,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 </ScrollArea>
                 
                 {/* Branding Footer in Playlist */}
-                <div className="p-3 bg-white border-t border-border flex items-center justify-center gap-2">
+                <div className="p-3 bg-white border-t border-border flex items-center justify-center gap-2 shrink-0">
                     <Image src="/logo.png" alt="Logo" width={16} height={16} className="opacity-50" />
                     <span className="text-[9px] font-bold text-muted-foreground tracking-[0.2em] uppercase">Powered by IDL Education</span>
                 </div>
