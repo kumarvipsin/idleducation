@@ -3,14 +3,14 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X, Maximize } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2, ChevronRight, X } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
@@ -33,13 +33,13 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-center gap-3 py-2 px-4 transition-all duration-200 group border-b border-black/[0.03]",
+                "w-full text-left flex items-center gap-3 py-1.5 px-4 transition-all duration-200 group border-b border-black/[0.03]",
                 isActive
                     ? "bg-primary/[0.04] border-l-[2px] border-l-primary"
                     : "hover:bg-black/[0.02]"
             )}
         >
-            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-9 w-14 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
@@ -47,18 +47,18 @@ const VideoItem = ({
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
+                    <PlayCircle className={cn("w-3.5 h-3.5 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-xs font-bold leading-tight line-clamp-2 transition-colors",
+                    "text-[11px] font-bold leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
                 {isActive && (
-                    <div className="flex items-center gap-1.5 mt-1">
+                    <div className="flex items-center gap-1 mt-0.5">
                         <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[9px] text-primary font-black uppercase tracking-tight">Now Playing</span>
+                        <span className="text-[8px] text-primary font-black uppercase tracking-tight">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -134,8 +134,8 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
-                                    <div className="px-4 py-2 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
-                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground/60 uppercase truncate">
+                                    <div className="px-4 py-1.5 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
+                                        <h4 className="font-bold text-[9px] tracking-widest text-muted-foreground/60 uppercase truncate">
                                             {chapter.name}
                                         </h4>
                                     </div>
@@ -191,12 +191,14 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
 
   const groupedCourses = useMemo(() => {
     return courses.reduce((acc, course) => {
-      const key = course.class || 'Other Courses';
-      const cleanKey = key.toLowerCase().includes('class') ? key : `Class ${key}`;
-      if (!acc[cleanKey]) {
-        acc[cleanKey] = [];
+      const rawClass = (course.class || 'Other Courses').trim();
+      const existingKey = Object.keys(acc).find(k => k.toLowerCase() === rawClass.toLowerCase());
+      const key = existingKey || rawClass;
+
+      if (!acc[key]) {
+        acc[key] = [];
       }
-      acc[cleanKey].push(course);
+      acc[key].push(course);
       return acc;
     }, {} as {[key: string]: TFreeCourse[]});
   }, [courses]);
@@ -213,6 +215,11 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
+      <div className="text-center mb-16 animate-fade-in-up">
+        <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter mb-4">Premium <span className="text-orange-500">Free Courses</span></h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto font-medium">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
+      </div>
+
       {sortedGroupedEntries.length > 0 ? (
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
             <section key={groupTitle} className="mb-16">
