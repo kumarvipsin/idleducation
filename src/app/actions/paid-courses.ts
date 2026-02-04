@@ -5,6 +5,7 @@ import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 import { revalidatePath } from 'next/cache';
+import { TPaidCourse } from './types';
 
 /**
  * Fetches all paid courses from Firestore, ordered by creation date.
@@ -222,5 +223,27 @@ export async function getUserPurchasedCourses(userId: string) {
     } catch (error) {
         console.error("Error fetching user purchases:", error);
         return { success: false, message: "Failed to fetch purchases." };
+    }
+}
+
+/**
+ * Fetches full course details for all courses a student is enrolled in.
+ */
+export async function getStudentEnrolledCourses(userId: string) {
+    try {
+        const purchaseRes = await getUserPurchasedCourses(userId);
+        if (!purchaseRes.success || !purchaseRes.data) return { success: false, data: [] };
+        
+        const courseIds = purchaseRes.data as string[];
+        if (courseIds.length === 0) return { success: true, data: [] };
+
+        const allCoursesRes = await getPaidCourses();
+        if (!allCoursesRes.success || !allCoursesRes.data) return { success: false, data: [] };
+
+        const enrolled = (allCoursesRes.data as TPaidCourse[]).filter(c => courseIds.includes(c.id));
+        return { success: true, data: enrolled };
+    } catch (error) {
+        console.error("Error fetching student enrolled courses:", error);
+        return { success: false, data: [] };
     }
 }

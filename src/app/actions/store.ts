@@ -2,7 +2,7 @@
 'use server';
 
 import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp, getDocs, query, orderBy, doc, updateDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, getDocs, query, where, orderBy, doc, updateDoc } from "firebase/firestore";
 import type { CartItem } from "@/context/cart-context";
 import { serializeFirestoreData } from "./utils";
 
@@ -34,7 +34,7 @@ export async function createOrder(data: OrderData) {
         return { success: true, message: "Order placed successfully!" };
     } catch (error) {
         console.error("Error creating order:", error);
-        return { success: false, message: "Failed to place order." };
+        return { success: true, message: "Failed to place order." };
     }
 }
 
@@ -47,6 +47,25 @@ export async function getStoreOrders() {
     } catch (error) {
         console.error("Error fetching store orders:", error);
         return { success: false, message: "Failed to fetch store orders." };
+    }
+}
+
+/**
+ * Fetches recent orders for a specific student.
+ */
+export async function getStudentOrders(userId: string) {
+    try {
+        const q = query(
+            collection(db, "storeOrders"), 
+            where("userId", "==", userId), 
+            orderBy("createdAt", "desc")
+        );
+        const querySnapshot = await getDocs(q);
+        const orders = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: orders };
+    } catch (error) {
+        console.error("Error fetching student orders:", error);
+        return { success: false, message: "Failed to fetch orders." };
     }
 }
 

@@ -1,23 +1,20 @@
+
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, Target, Award, Calendar as CalendarIcon, Bell, ArrowRight, PlayCircle, Clock, CheckCircle2, MapPin } from "lucide-react";
+import { BookOpen, Target, Award, Calendar as CalendarIcon, Bell, ArrowRight, PlayCircle, Clock, CheckCircle2, MapPin, ShoppingBag, Book } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
-import { getStudentProgressReports, getUpdates } from "@/app/actions";
+import { getStudentProgressReports, getUpdates, getStudentEnrolledCourses, getStudentOrders } from "@/app/actions";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, format } from "date-fns";
 import { cn } from "@/lib/utils";
-
-const activeCourses = [
-  { title: "Algebra 101", instructor: "Manish Sharma", progress: 75, nextLesson: "Quadratic Equations", color: "bg-blue-500" },
-  { title: "World History", instructor: "Vidhi Sharma", progress: 45, nextLesson: "Ancient Rome", color: "bg-orange-500" },
-  { title: "Chemistry", instructor: "Amod Sharma", progress: 60, nextLesson: "Organic Bonds", color: "bg-green-500" },
-];
+import { Skeleton } from "@/components/ui/skeleton";
+import { GcsImage } from "@/components/gcs-image";
 
 const todaySchedule = [
   { time: "09:00 AM", subject: "Mathematics", room: "Room 102" },
@@ -39,23 +36,53 @@ interface Update {
   createdAt: string;
 }
 
+interface EnrolledCourse {
+    id: string;
+    title: string;
+    subject: string;
+    coverImageUrl?: string;
+    batchName: string;
+}
+
+interface OrderItem {
+    id: string;
+    title: string;
+    price: number;
+    quantity: number;
+}
+
+interface StoreOrder {
+    id: string;
+    orderId: string;
+    items: OrderItem[];
+    totalAmount: number;
+    createdAt: string;
+    status: string;
+}
+
 export default function StudentDashboard() {
   const { user } = useAuth();
   const [reports, setReports] = useState<ProgressReport[]>([]);
   const [announcements, setAnnouncements] = useState<Update[]>([]);
+  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
+  const [orders, setOrders] = useState<StoreOrder[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
       const fetchData = async () => {
         setLoading(true);
-        const [reportsRes, updatesRes] = await Promise.all([
+        const [reportsRes, updatesRes, coursesRes, ordersRes] = await Promise.all([
           getStudentProgressReports(user.uid),
-          getUpdates(3)
+          getUpdates(3),
+          getStudentEnrolledCourses(user.uid),
+          getStudentOrders(user.uid)
         ]);
         
         if (reportsRes.success) setReports(reportsRes.data as ProgressReport[]);
         if (updatesRes.success) setAnnouncements(updatesRes.data as Update[]);
+        if (coursesRes.success) setEnrolledCourses(coursesRes.data as any[]);
+        if (ordersRes.success) setOrders(ordersRes.data as any[]);
         setLoading(false);
       };
       fetchData();
@@ -71,7 +98,9 @@ export default function StudentDashboard() {
             Hello, {user?.name?.split(' ')[0] || 'Student'}! 👋
           </h1>
           <p className="text-muted-foreground text-sm font-medium">
-            You have 3 classes today. Your overall progress is looking great!
+            {enrolledCourses.length > 0 
+                ? `You are enrolled in ${enrolledCourses.length} premium courses.` 
+                : "Unlock your potential by exploring our premium courses."}
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -91,55 +120,113 @@ export default function StudentDashboard() {
       </section>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* Main Content: Active Courses */}
+        {/* Main Content: Enrolled Courses & Library */}
         <div className="lg:col-span-8 space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
-                <BookOpen className="w-5 h-5 text-primary" />
-                Active Courses
-            </h2>
-            <Button variant="link" size="sm" asChild className="text-primary font-bold">
-                <Link href="/student/courses">View All <ArrowRight className="ml-1 w-4 h-4" /></Link>
-            </Button>
+          
+          {/* Active Courses */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+                <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
+                    <PlayCircle className="w-5 h-5 text-primary" />
+                    Enrolled Premium Courses
+                </h2>
+                <Button variant="link" size="sm" asChild className="text-primary font-bold">
+                    <Link href="/paid-courses">Explore More <ArrowRight className="ml-1 w-4 h-4" /></Link>
+                </Button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {loading ? (
+                    [...Array(2)].map((_, i) => <Skeleton key={i} className="h-48 w-full rounded-2xl" />)
+                ) : enrolledCourses.length > 0 ? (
+                    enrolledCourses.map((course) => (
+                        <Card key={course.id} className="overflow-hidden hover:shadow-md transition-all group border-muted-foreground/10 flex flex-col">
+                            <div className="relative h-24 w-full bg-muted">
+                                {course.coverImageUrl ? (
+                                    <GcsImage filePath={course.coverImageUrl} alt={course.title} fill className="object-cover" />
+                                ) : (
+                                    <div className="w-full h-full bg-primary/10 flex items-center justify-center text-primary/20">
+                                        <BookOpen className="w-8 h-8" />
+                                    </div>
+                                )}
+                                <Badge className="absolute top-2 right-2 bg-primary/90 text-white font-bold text-[8px] uppercase">Enrolled</Badge>
+                            </div>
+                            <CardContent className="p-4 flex-grow space-y-3">
+                                <div>
+                                    <h3 className="font-bold text-sm leading-tight line-clamp-1">{course.title}</h3>
+                                    <p className="text-[10px] text-muted-foreground mt-1 uppercase tracking-wider font-bold">{course.batchName}</p>
+                                </div>
+                                <Button asChild size="sm" className="w-full rounded-lg text-xs h-8">
+                                    <Link href="/paid-courses">
+                                        Resume Learning <ArrowRight className="ml-1 w-3 h-3" />
+                                    </Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+                    ))
+                ) : (
+                    <Card className="col-span-full border-dashed p-8 flex flex-col items-center justify-center text-center bg-muted/20">
+                        <BookOpen className="w-10 h-10 text-muted-foreground/30 mb-2" />
+                        <p className="text-sm font-medium text-muted-foreground">You haven't enrolled in any premium courses yet.</p>
+                        <Button variant="outline" size="sm" asChild className="mt-4">
+                            <Link href="/paid-courses">Browse Premium Courses</Link>
+                        </Button>
+                    </Card>
+                )}
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {activeCourses.map((course, index) => (
-              <Card key={index} className="overflow-hidden hover:shadow-md transition-all group border-muted-foreground/10">
-                <CardContent className="p-0">
-                  <div className={cn("h-2", course.color)} />
-                  <div className="p-5 space-y-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-bold text-lg leading-tight">{course.title}</h3>
-                        <p className="text-xs text-muted-foreground">Instructor: {course.instructor}</p>
-                      </div>
-                      <Badge variant="secondary" className="bg-primary/5 text-primary border-none text-[10px] font-bold">LATEST</Badge>
-                    </div>
-                    
-                    <div className="space-y-2">
-                        <div className="flex justify-between text-[10px] font-black uppercase tracking-wider text-muted-foreground">
-                            <span>Course Progress</span>
-                            <span>{course.progress}%</span>
+          {/* My Learning Library (Store Purchases) */}
+          <div className="space-y-4 pt-4">
+            <h2 className="text-xl font-bold tracking-tight flex items-center gap-2">
+                <ShoppingBag className="w-5 h-5 text-primary" />
+                Store Purchases & Library
+            </h2>
+            <Card className="border-muted-foreground/10 bg-muted/5">
+                <CardContent className="p-4">
+                    {loading ? (
+                        <div className="space-y-3">
+                            <Skeleton className="h-12 w-full" />
+                            <Skeleton className="h-12 w-full" />
                         </div>
-                        <Progress value={course.progress} className="h-1.5" />
-                    </div>
-
-                    <div className="bg-muted/30 p-3 rounded-lg flex items-center justify-between group-hover:bg-muted/50 transition-colors">
-                        <div className="flex items-center gap-3">
-                            <PlayCircle className="w-5 h-5 text-primary" />
-                            <div className="text-xs">
-                                <p className="text-muted-foreground font-medium">Next: {course.nextLesson}</p>
-                            </div>
+                    ) : orders.length > 0 ? (
+                        <div className="space-y-3">
+                            {orders.slice(0, 3).map((order) => (
+                                <div key={order.id} className="flex items-center justify-between p-3 bg-white dark:bg-card rounded-xl border border-muted-foreground/10 shadow-sm">
+                                    <div className="flex items-center gap-3">
+                                        <div className="bg-primary/10 p-2 rounded-lg">
+                                            <Book className="w-4 h-4 text-primary" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold leading-tight line-clamp-1">
+                                                {order.items.map(i => i.title).join(", ")}
+                                            </p>
+                                            <p className="text-[9px] text-muted-foreground font-medium">
+                                                Order ID: {order.orderId} • {format(new Date(order.createdAt), 'MMM d, yyyy')}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Badge variant="outline" className="text-[9px] capitalize px-2 py-0 h-5">
+                                        {order.status}
+                                    </Badge>
+                                </div>
+                            ))}
+                            {orders.length > 3 && (
+                                <Button variant="ghost" size="sm" asChild className="w-full text-[10px] font-bold text-primary">
+                                    <Link href="/store/orders">VIEW ALL PURCHASES ({orders.length})</Link>
+                                </Button>
+                            )}
                         </div>
-                        <Button size="icon" variant="ghost" className="h-8 w-8 rounded-full">
-                            <ArrowRight className="w-4 h-4" />
-                        </Button>
-                    </div>
-                  </div>
+                    ) : (
+                        <div className="text-center py-6">
+                            <p className="text-xs text-muted-foreground italic">No store purchases found. Visit the IDL Store for books and materials.</p>
+                            <Button variant="link" size="sm" asChild className="text-primary text-[10px] font-bold">
+                                <Link href="/store">VISIT STORE</Link>
+                            </Button>
+                        </div>
+                    )}
                 </CardContent>
-              </Card>
-            ))}
+            </Card>
           </div>
 
           {/* Progress Reports Section */}
