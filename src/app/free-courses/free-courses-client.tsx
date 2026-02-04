@@ -2,14 +2,14 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X, Maximize } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
@@ -67,6 +67,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     const [activeVideo, setActiveVideo] = useState<TFreeCourseVideo | null>(
         course.chapters?.[0]?.videos?.[0] || null
     );
+    const videoContainerRef = useRef<HTMLDivElement>(null);
 
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
@@ -76,6 +77,28 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     );
     const activeChapterNumber = activeChapterIndex !== -1 ? activeChapterIndex + 1 : null;
 
+    const handleFullScreen = async () => {
+        if (!videoContainerRef.current) return;
+        
+        try {
+            const container = videoContainerRef.current;
+            if (container.requestFullscreen) {
+                await container.requestFullscreen();
+            } else if ((container as any).webkitRequestFullscreen) {
+                await (container as any).webkitRequestFullscreen();
+            }
+
+            // Attempt to rotate if screen orientation API is available
+            if (window.screen.orientation && (window.screen.orientation as any).lock) {
+                await (window.screen.orientation as any).lock('landscape').catch(() => {
+                    // Fail silently if lock is not allowed
+                });
+            }
+        } catch (error) {
+            console.error("Error entering fullscreen:", error);
+        }
+    };
+
     return (
         <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
             <DialogHeader className="sr-only">
@@ -83,10 +106,10 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 <DialogDescription>Video course curriculum</DialogDescription>
             </DialogHeader>
 
-            {/* Top Section: Player and Info Panel */}
+            {/* Top Section (Mobile) / Left Section (Desktop): Player */}
             <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
                 {/* Video Container */}
-                <div className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
+                <div ref={videoContainerRef} className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
                     {activeVideoId ? (
                         <iframe
                             className="w-full h-full"
@@ -103,6 +126,19 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         </div>
                     )}
                     
+                    {/* Floating Fullscreen / Rotate Button for Mobile */}
+                    <div className="absolute bottom-4 right-4 z-10 lg:hidden">
+                        <Button 
+                            variant="secondary" 
+                            size="sm" 
+                            onClick={handleFullScreen}
+                            className="rounded-full bg-black/40 backdrop-blur-md text-white border-white/20 hover:bg-black/60 h-9 px-4 text-[10px] font-bold tracking-widest uppercase"
+                        >
+                            <Maximize className="w-3 h-3 mr-2" />
+                            Rotate Fullscreen
+                        </Button>
+                    </div>
+
                     {/* Floating Close Button - Visible on both Mobile and Desktop */}
                     <div className="absolute top-4 right-4 z-50">
                         <DialogClose asChild>
@@ -113,20 +149,24 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     </div>
                 </div>
 
-                {/* Lesson Info (Persistent below player) */}
+                {/* Lesson Info Panel - Clean Chapter/Topic display */}
                 <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1.5">
                         {activeChapterNumber && (
-                            <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest mb-1">
-                                Chapter {activeChapterNumber}
-                            </Badge>
+                            <div className="flex items-center gap-2">
+                                <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest px-2 py-0.5">
+                                    Chapter {activeChapterNumber}
+                                </Badge>
+                                <span className="text-zinc-300">•</span>
+                                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tight">{course.title}</span>
+                            </div>
                         )}
-                        <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight">{activeVideo?.title || "No Topic Selected"}</h2>
+                        <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight tracking-tight mt-1">{activeVideo?.title || "Select a Topic"}</h2>
                     </div>
                 </div>
             </div>
 
-            {/* Bottom Section (Mobile) / Side Section (Desktop): Playlist */}
+            {/* Right Section (Desktop) / Bottom Section (Mobile): Playlist */}
             <div className="flex-1 lg:w-[400px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <div className="p-4 border-b border-border bg-white flex items-center justify-between sticky top-0 z-10">
                     <div>
@@ -153,7 +193,13 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                                                 key={`video-${cIdx}-${vIdx}`}
                                                 video={video}
                                                 isActive={activeVideo?.youtubeLink === video.youtubeLink}
-                                                onSelect={() => setActiveVideo(video)}
+                                                onSelect={() => {
+                                                    setActiveVideo(video);
+                                                    // On mobile, scroll back up to the video if a new one is selected
+                                                    if (window.innerWidth < 1024) {
+                                                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                                                    }
+                                                }}
                                             />
                                         ))}
                                     </div>
