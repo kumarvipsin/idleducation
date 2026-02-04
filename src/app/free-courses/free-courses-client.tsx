@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
@@ -32,13 +32,13 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-center gap-2 p-1.5 transition-all duration-200 group border-b border-black/[0.03]",
+                "w-full text-left flex items-center gap-3 py-2 px-3 transition-all duration-200 group border-b border-black/[0.03]",
                 isActive
-                    ? "bg-primary/[0.03] border-l-[3px] border-l-primary"
+                    ? "bg-primary/[0.04] border-l-[3px] border-l-primary"
                     : "hover:bg-black/[0.02]"
             )}
         >
-            <div className="relative h-8 w-12 rounded-sm overflow-hidden shrink-0 bg-zinc-200">
+            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
@@ -46,18 +46,18 @@ const VideoItem = ({
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                    <PlayCircle className={cn("w-2.5 h-2.5 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
+                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-[10px] font-bold leading-tight line-clamp-2 transition-colors",
-                    isActive ? "text-primary" : "text-foreground/70 group-hover:text-foreground"
+                    "text-[11px] font-bold leading-tight line-clamp-2 transition-colors",
+                    isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
                 {isActive && (
-                    <div className="flex items-center gap-1 mt-0.5">
-                        <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[8px] text-primary font-black uppercase tracking-tighter">Now Playing</span>
+                    <div className="flex items-center gap-1.5 mt-1">
+                        <span className="flex h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                        <span className="text-[9px] text-primary font-black uppercase tracking-tight">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -90,6 +90,16 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
             {/* Top Section (Mobile) / Left Section (Desktop): Player */}
             <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
+                
+                {/* Custom Styled Close Button for Desktop */}
+                <div className="absolute top-4 right-4 z-[60] hidden lg:block">
+                    <DialogClose asChild>
+                        <Button variant="outline" size="icon" className="rounded-full bg-white/80 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white text-black h-10 w-10 transition-all hover:scale-110 active:scale-95">
+                            <X className="h-5 w-5" />
+                        </Button>
+                    </DialogClose>
+                </div>
+
                 {/* Video Container */}
                 <div className="aspect-video w-full relative flex items-center justify-center bg-black">
                     {activeVideoId ? (
@@ -135,12 +145,12 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
-                                    {/* Subtle Chapter Header */}
-                                    <div className="px-3 py-1 flex items-center gap-2 bg-black/[0.01] border-b border-black/[0.02]">
-                                        <span className="text-muted-foreground/30 font-black text-[8px] uppercase tracking-tighter shrink-0">
+                                    {/* Subtitle-like Chapter Header */}
+                                    <div className="px-4 py-2 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
+                                        <span className="text-muted-foreground/40 font-black text-[9px] uppercase tracking-tighter shrink-0">
                                             CH {cIdx + 1}
                                         </span>
-                                        <h4 className="font-bold text-[8px] tracking-widest text-muted-foreground/50 uppercase truncate">
+                                        <h4 className="font-bold text-[9px] tracking-widest text-muted-foreground/60 uppercase truncate">
                                             {chapter.name}
                                         </h4>
                                     </div>
@@ -170,8 +180,17 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     </div>
                 </ScrollArea>
                 
-                {/* Branding Footer */}
-                <div className="p-2.5 bg-white border-t border-border flex items-center justify-center gap-2 shrink-0">
+                {/* Mobile Close Button Container */}
+                <div className="p-4 bg-white border-t border-border lg:hidden">
+                    <DialogClose asChild>
+                        <Button className="w-full bg-zinc-900 text-white font-bold h-12 rounded-xl">
+                            CLOSE PLAYER
+                        </Button>
+                    </DialogClose>
+                </div>
+
+                {/* Branding Footer (Desktop only) */}
+                <div className="p-3 bg-white border-t border-border hidden lg:flex items-center justify-center gap-2 shrink-0">
                     <Image src="/logo.png" alt="Logo" width={14} height={14} className="opacity-40" />
                     <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.2em] uppercase">Powered by IDL Education</span>
                 </div>
@@ -184,35 +203,38 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
  * Main client component for listing free courses.
  */
 export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
-  const [groupedCourses, setGroupedCourses] = useState<{[key: string]: TFreeCourse[]}>({});
-
-  useEffect(() => {
-    const grouped = courses.reduce((acc, course) => {
-      const key = `${course.class} ${course.board}`;
+  const groupedCourses = useMemo(() => {
+    return courses.reduce((acc, course) => {
+      const key = course.class;
       if (!acc[key]) {
         acc[key] = [];
       }
       acc[key].push(course);
       return acc;
     }, {} as {[key: string]: TFreeCourse[]});
-    setGroupedCourses(grouped);
   }, [courses]);
+
+  const sortedGroupedEntries = useMemo(() => {
+    return Object.entries(groupedCourses).sort(([keyA], [keyB]) => {
+      const numA = parseInt(keyA.match(/\d+/)?.[0] || '0', 10);
+      const numB = parseInt(keyB.match(/\d+/)?.[0] || '0', 10);
+      return numA - numB;
+    });
+  }, [groupedCourses]);
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      {Object.entries(groupedCourses).length > 0 ? (
-        Object.entries(groupedCourses).map(([groupTitle, groupCourses]) => (
+      {sortedGroupedEntries.length > 0 ? (
+        sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
             <section key={groupTitle} className="mb-16">
-              <div className="mb-10">
-                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground">
-                  <span className="relative inline-block px-1">
-                      {groupTitle}
-                      <div className="absolute -bottom-3 left-0 w-full h-2">
-                        <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[6] opacity-80">
-                            <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
-                        </svg>
-                      </div>
-                  </span>
+              <div className="mb-10 text-center sm:text-left">
+                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground relative inline-block">
+                  <span className="relative z-10">{groupTitle}</span>
+                  <div className="absolute -bottom-3 left-0 w-full h-3 z-0 overflow-hidden">
+                    <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
+                        <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+                    </svg>
+                  </div>
                 </h2>
               </div>
     
