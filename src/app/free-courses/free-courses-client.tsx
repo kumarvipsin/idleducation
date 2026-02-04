@@ -32,27 +32,27 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-start gap-3 p-3 transition-all duration-200 group border-b border-white/5",
+                "w-full text-left flex items-start gap-3 p-3 transition-all duration-200 group border-b border-black/5",
                 isActive
-                    ? "bg-primary/20 border-l-4 border-l-primary"
-                    : "hover:bg-white/5"
+                    ? "bg-primary/5 border-l-4 border-l-primary"
+                    : "hover:bg-black/5"
             )}
         >
-            <div className="relative h-16 w-28 rounded-md overflow-hidden shrink-0 bg-zinc-800 shadow-lg">
+            <div className="relative h-16 w-28 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
                     fill
-                    className="object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+                    className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <PlayCircle className={cn("w-6 h-6 transition-transform", isActive ? "text-primary scale-110" : "text-white/70 group-hover:scale-110")} />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/5">
+                    <PlayCircle className={cn("w-6 h-6 transition-transform", isActive ? "text-primary scale-110" : "text-black/40 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0 pt-1">
                 <p className={cn(
                     "text-xs font-semibold leading-tight line-clamp-2 transition-colors",
-                    isActive ? "text-primary" : "text-white/90 group-hover:text-white"
+                    isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
                 {isActive && <span className="text-[10px] text-primary font-bold uppercase mt-1 inline-block">Now Playing</span>}
             </div>
@@ -71,14 +71,14 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-        <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-white/10 bg-black shadow-2xl transition-all duration-500">
+        <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
             <DialogHeader className="sr-only">
                 <DialogTitle>{course.title}</DialogTitle>
                 <DialogDescription>Video course curriculum</DialogDescription>
             </DialogHeader>
 
             {/* Video Player Area */}
-            <div className="flex-grow bg-black flex flex-col relative h-fit lg:h-full">
+            <div className="flex-grow bg-zinc-100 flex flex-col relative h-fit lg:h-full">
                 <div className="aspect-video w-full h-full relative flex items-center justify-center">
                     {activeVideoId ? (
                         <iframe
@@ -90,25 +90,25 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                             allowFullScreen
                         ></iframe>
                     ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-white/50 space-y-4">
+                        <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 space-y-4">
                             <PlayCircle className="w-16 h-16 opacity-20" />
                             <p className="text-sm font-medium">Select a lesson to begin</p>
                         </div>
                     )}
                 </div>
                 {/* Desktop Video Info Overlay */}
-                <div className="p-4 bg-zinc-950/50 backdrop-blur-sm border-t border-white/5 hidden lg:block">
-                    <h2 className="text-lg font-bold text-white truncate">{activeVideo?.title || course.title}</h2>
-                    <p className="text-sm text-zinc-400 mt-1 line-clamp-1">{course.title} • {course.subject}</p>
+                <div className="p-4 bg-white/80 backdrop-blur-sm border-t border-border hidden lg:block">
+                    <h2 className="text-lg font-bold text-foreground truncate">{activeVideo?.title || course.title}</h2>
+                    <p className="text-sm text-muted-foreground mt-1 line-clamp-1">{course.title} • {course.subject}</p>
                 </div>
             </div>
 
             {/* Playlist Panel */}
-            <div className="w-full lg:w-[400px] flex flex-col h-[40vh] lg:h-full bg-zinc-900 border-t lg:border-t-0 lg:border-l border-white/10 shrink-0">
-                <div className="p-4 border-b border-white/10 bg-zinc-950/80 flex items-center justify-between">
+            <div className="w-full lg:w-[400px] flex flex-col h-[40vh] lg:h-full bg-zinc-50 border-t lg:border-t-0 lg:border-l border-border shrink-0">
+                <div className="p-4 border-b border-border bg-white flex items-center justify-between">
                     <div>
-                        <h2 className="text-sm font-black text-white tracking-tight uppercase">Course Contents</h2>
-                        <p className="text-[10px] text-zinc-500 font-bold mt-0.5">{course.chapters?.length || 0} Modules Available</p>
+                        <h2 className="text-sm font-black text-foreground tracking-tight uppercase">Course Contents</h2>
+                        <p className="text-[10px] text-muted-foreground font-bold mt-0.5">{course.chapters?.length || 0} Modules Available</p>
                     </div>
                     <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE</Badge>
                 </div>
@@ -118,11 +118,11 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-2">
-                                    <div className="px-4 py-2 bg-white/5 flex items-center gap-2">
-                                        <div className="h-5 w-5 rounded-md bg-primary/20 text-primary flex items-center justify-center font-bold text-[10px]">
+                                    <div className="px-4 py-2 bg-black/5 flex items-center gap-2">
+                                        <div className="h-5 w-5 rounded-md bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px]">
                                             {cIdx + 1}
                                         </div>
-                                        <h4 className="font-bold text-[11px] tracking-widest text-zinc-400 uppercase">{chapter.name}</h4>
+                                        <h4 className="font-bold text-[11px] tracking-widest text-muted-foreground uppercase">{chapter.name}</h4>
                                     </div>
                                     <div className="flex flex-col">
                                         {chapter.videos.map((video, vIdx) => (
@@ -137,8 +137,8 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                                 </div>
                             ))
                         ) : (
-                            <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-600">
-                                <BookOpen className="w-10 h-10 opacity-10 mb-2" />
+                            <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400">
+                                <BookOpen className="w-10 h-10 opacity-20 mb-2" />
                                 <p className="text-xs font-bold">No content uploaded</p>
                             </div>
                         )}
@@ -146,9 +146,9 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 </ScrollArea>
                 
                 {/* Branding Footer in Playlist */}
-                <div className="p-3 bg-black/40 border-t border-white/5 flex items-center justify-center gap-2">
+                <div className="p-3 bg-white border-t border-border flex items-center justify-center gap-2">
                     <Image src="/logo.png" alt="Logo" width={16} height={16} className="opacity-50" />
-                    <span className="text-[9px] font-bold text-zinc-600 tracking-[0.2em] uppercase">Powered by IDL Education</span>
+                    <span className="text-[9px] font-bold text-muted-foreground tracking-[0.2em] uppercase">Powered by IDL Education</span>
                 </div>
             </div>
         </DialogContent>
