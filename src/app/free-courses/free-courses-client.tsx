@@ -32,13 +32,13 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-start gap-3 p-3 transition-all duration-200 group border-b border-black/5",
+                "w-full text-left flex items-start gap-2 p-2 transition-all duration-200 group border-b border-black/5",
                 isActive
-                    ? "bg-primary/5 border-l-4 border-l-primary"
+                    ? "bg-primary/5 border-l-[3px] border-l-primary"
                     : "hover:bg-black/5"
             )}
         >
-            <div className="relative h-16 w-28 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-12 w-20 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
@@ -46,15 +46,15 @@ const VideoItem = ({
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/5">
-                    <PlayCircle className={cn("w-6 h-6 transition-transform", isActive ? "text-primary scale-110" : "text-black/40 group-hover:scale-110")} />
+                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-black/40 group-hover:scale-110")} />
                 </div>
             </div>
-            <div className="flex-grow min-w-0 pt-1">
+            <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-xs font-semibold leading-tight line-clamp-2 transition-colors",
+                    "text-[11px] font-semibold leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
-                {isActive && <span className="text-[10px] text-primary font-bold uppercase mt-1 inline-block">Now Playing</span>}
+                {isActive && <span className="text-[9px] text-primary font-bold uppercase mt-0.5 inline-block">Now Playing</span>}
             </div>
         </button>
     );
@@ -131,25 +131,17 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
             </div>
 
             {/* Right Section (Desktop) / Bottom Section (Mobile): Playlist */}
-            <div className="flex-1 lg:w-[400px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
-                <div className="p-4 border-b border-border bg-white flex items-center justify-between sticky top-0 z-10">
-                    <div>
-                        <h2 className="text-sm font-black text-foreground tracking-tight uppercase">Course Contents</h2>
-                        <p className="text-[10px] text-muted-foreground font-bold mt-0.5">{course.chapters?.length || 0} Modules Available</p>
-                    </div>
-                    <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE</Badge>
-                </div>
-
+            <div className="flex-1 lg:w-[350px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <ScrollArea className="flex-1">
                     <div className="pb-4">
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
-                                <div key={`chapter-${cIdx}`} className="mt-2">
-                                    <div className="px-4 py-2 bg-black/5 flex items-center gap-2">
-                                        <div className="h-5 w-5 rounded-md bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px]">
+                                <div key={`chapter-${cIdx}`} className="mt-1">
+                                    <div className="px-3 py-1.5 bg-black/5 flex items-center gap-2">
+                                        <div className="h-4 w-4 rounded-md bg-primary/10 text-primary flex items-center justify-center font-bold text-[9px]">
                                             {cIdx + 1}
                                         </div>
-                                        <h4 className="font-bold text-[11px] tracking-widest text-muted-foreground uppercase">{chapter.name}</h4>
+                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground uppercase">{chapter.name}</h4>
                                     </div>
                                     <div className="flex flex-col">
                                         {chapter.videos.map((video, vIdx) => (
