@@ -2,7 +2,6 @@
 'use client';
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { BookOpen, Target, Award, Calendar as CalendarIcon, Bell, ArrowRight, PlayCircle, Clock, CheckCircle2, MapPin, ShoppingBag, Book } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
@@ -329,15 +328,15 @@ export default function StudentDashboard() {
             </CardContent>
           </Card>
 
-          {/* Quick Stats / Achievements Summary */}
+          {/* Performance Summary Card */}
           <Card className="bg-primary text-primary-foreground overflow-hidden">
             <div className="absolute top-0 right-0 p-4 opacity-10">
-                <Award className="w-24 h-24 rotate-12" />
+                <Target className="w-24 h-24 rotate-12" />
             </div>
             <CardContent className="p-6 space-y-4 relative z-10">
                 <div className="space-y-1">
-                    <h3 className="text-lg font-black">Level Up!</h3>
-                    <p className="text-xs text-primary-foreground/70">Complete 2 more assignments to reach Bronze tier.</p>
+                    <h3 className="text-lg font-black">Quick Summary</h3>
+                    <p className="text-xs text-primary-foreground/70">You're doing great! Keep up the consistent work to maintain your attendance.</p>
                 </div>
                 <div className="flex items-center gap-3">
                     <div className="flex -space-x-2">
@@ -347,11 +346,8 @@ export default function StudentDashboard() {
                             </div>
                         ))}
                     </div>
-                    <span className="text-[10px] font-bold uppercase tracking-widest">3 New Badges</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest">On Track</span>
                 </div>
-                <Button variant="secondary" size="sm" asChild className="w-full font-bold h-9">
-                    <Link href="/student/achievements">My Achievements</Link>
-                </Button>
             </CardContent>
           </Card>
         </aside>

@@ -10,16 +10,15 @@ import {
   SidebarMenu,
   SidebarMenuItem,
   SidebarMenuButton,
-  SidebarFooter,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Trophy, ClipboardList } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, ClipboardList } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { MobileBottomNav } from '@/components/mobile-bottom-nav';
 import { Header } from '@/components/header';
-import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 
 
@@ -89,17 +88,6 @@ function StudentLayout({
                   <Link href="/student/courses">
                     <BookOpen />
                     <span>My Courses</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === '/student/achievements'}
-                >
-                  <Link href="/student/achievements">
-                    <Trophy />
-                    <span>Achievements</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
