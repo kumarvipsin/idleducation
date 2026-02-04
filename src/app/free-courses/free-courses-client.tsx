@@ -106,7 +106,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     {/* Floating Close Button - Visible on both Mobile and Desktop */}
                     <div className="absolute top-4 right-4 z-50">
                         <DialogClose asChild>
-                            <Button variant="secondary" size="icon" className="rounded-full bg-white/20 backdrop-blur-md hover:bg-white/40 text-white border-white/20 shadow-xl h-10 w-10">
+                            <Button variant="outline" size="icon" className="rounded-full bg-white/80 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white text-black h-10 w-10 transition-all hover:scale-110 active:scale-95">
                                 <X className="h-5 w-5" />
                             </Button>
                         </DialogClose>
