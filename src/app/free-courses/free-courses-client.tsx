@@ -77,8 +77,9 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 <DialogDescription>Video course curriculum</DialogDescription>
             </DialogHeader>
 
-            {/* Video Player Area */}
-            <div className="flex-grow bg-zinc-100 flex flex-col relative h-fit lg:h-full">
+            {/* Top Section: Player and Info Panel */}
+            <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
+                {/* Video Container */}
                 <div className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
                     {activeVideoId ? (
                         <iframe
@@ -106,7 +107,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     </div>
                 </div>
 
-                {/* Unified Video Info Area (Shows on both mobile & desktop) */}
+                {/* Lesson Info (Persistent below player) */}
                 <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
                     <div className="flex flex-col gap-1">
                         <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[9px] font-black uppercase tracking-widest mb-1">
@@ -122,14 +123,14 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 </div>
             </div>
 
-            {/* Playlist Panel */}
-            <div className="w-full lg:w-[400px] flex flex-col flex-1 lg:h-full bg-zinc-50 lg:border-l border-border shrink-0 overflow-hidden">
+            {/* Bottom Section (Mobile) / Side Section (Desktop): Playlist */}
+            <div className="flex-1 lg:w-[400px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <div className="p-4 border-b border-border bg-white flex items-center justify-between sticky top-0 z-10">
                     <div>
-                        <h2 className="text-sm font-black text-foreground tracking-tight uppercase">Curriculum</h2>
+                        <h2 className="text-sm font-black text-foreground tracking-tight uppercase">Course Contents</h2>
                         <p className="text-[10px] text-muted-foreground font-bold mt-0.5">{course.chapters?.length || 0} Modules Available</p>
                     </div>
-                    <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE ACCESS</Badge>
+                    <Badge variant="outline" className="border-primary/50 text-primary text-[9px] font-bold px-2 py-0">FREE</Badge>
                 </div>
 
                 <ScrollArea className="flex-1">
@@ -164,7 +165,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     </div>
                 </ScrollArea>
                 
-                {/* Branding Footer in Playlist */}
+                {/* Branding Footer */}
                 <div className="p-3 bg-white border-t border-border flex items-center justify-center gap-2 shrink-0">
                     <Image src="/logo.png" alt="Logo" width={16} height={16} className="opacity-50" />
                     <span className="text-[9px] font-bold text-muted-foreground tracking-[0.2em] uppercase">Powered by IDL Education</span>
