@@ -6,10 +6,10 @@ import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X, Maximi
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
+import type { TPaidCourse, TFreeCourseVideo } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
@@ -68,7 +68,7 @@ const VideoItem = ({
 /**
  * Dialog component to display the course player and playlist.
  */
-const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
+const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
     const [activeVideo, setActiveVideo] = useState<TFreeCourseVideo | null>(
         course.chapters?.[0]?.videos?.[0] || null
     );
@@ -85,7 +85,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
         <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
             <DialogHeader className="sr-only">
                 <DialogTitle>{course.title}</DialogTitle>
-                <DialogDescription>Video course curriculum</DialogDescription>
+                <DialogDescription>Premium course curriculum</DialogDescription>
             </DialogHeader>
 
             {/* Left Section: Player */}
@@ -103,7 +103,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 space-y-4">
                             <PlayCircle className="w-16 h-16 opacity-20" />
-                            <p className="text-sm font-medium">Select a lesson to begin</p>
+                            <p className="text-sm font-medium">Select a lesson to begin premium learning</p>
                         </div>
                     )}
                 </div>
@@ -174,7 +174,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
                 <div className="p-3 bg-white border-t border-border hidden lg:flex items-center justify-center gap-2 shrink-0">
                     <Image src="/logo.png" alt="Logo" width={14} height={14} className="opacity-40" />
-                    <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.2em] uppercase">Powered by IDL Education</span>
+                    <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.2em] uppercase">Premium Learning by IDL</span>
                 </div>
             </div>
         </DialogContent>
@@ -182,9 +182,9 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 };
 
 /**
- * Main client component for listing free courses.
+ * Main client component for listing paid courses.
  */
-export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
+export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
@@ -197,7 +197,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
       }
       acc[cleanKey].push(course);
       return acc;
-    }, {} as {[key: string]: TFreeCourse[]});
+    }, {} as {[key: string]: TPaidCourse[]});
   }, [courses]);
 
   const sortedGroupedEntries = useMemo(() => {
@@ -212,6 +212,11 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
+      <div className="text-center mb-16 animate-fade-in-up">
+        <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter mb-4">Premium <span className="text-orange-500">Paid Courses</span></h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto font-medium">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
+      </div>
+
       {sortedGroupedEntries.length > 0 ? (
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
             <section key={groupTitle} className="mb-16">
@@ -237,6 +242,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                             className="object-cover transition-transform duration-700 group-hover/card:scale-110"
                         />
                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                         <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-bold text-[10px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
                     </div>
                     
                     <CardContent className="p-6 flex flex-col flex-grow">
@@ -258,9 +264,11 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 <p className="text-xl font-black text-primary">₹{course.price}</p>
                                 {course.originalPrice > 0 && <p className="text-xs text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
                             </div>
-                            <div className="bg-green-500/10 text-green-600 text-[9px] font-black px-2 py-1 rounded mt-1.5 border border-green-500/20 uppercase tracking-tighter w-fit">
-                                100% OFF
-                            </div>
+                            {course.originalPrice > course.price && (
+                                <div className="bg-green-500/10 text-green-600 text-[9px] font-black px-2 py-1 rounded mt-1.5 border border-green-500/20 uppercase tracking-tighter w-fit">
+                                    {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}% OFF
+                                </div>
+                            )}
                           </div>
 
                           <Popover>
@@ -279,7 +287,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 <div className="mt-4 pt-3 border-t border-white/10">
                                     <div className="flex items-center gap-2 text-[9px] font-bold text-green-600">
                                         <CheckCircle2 className="w-3 h-3" />
-                                        <span>Lifetime Access</span>
+                                        <span>Full Syllabus Access</span>
                                     </div>
                                 </div>
                             </PopoverContent>
@@ -292,7 +300,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                             <DialogTrigger asChild>
                                 <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-10 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-xs tracking-widest">
                                     <PlayCircle className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
-                                    VIEW LESSONS
+                                    EXPLORE CONTENT
                                 </Button>
                             </DialogTrigger>
                             <CoursePlayerDialog course={course} />
@@ -308,8 +316,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
             <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
                 <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
             </div>
-            <h2 className="text-2xl font-black text-foreground/40 tracking-tighter">No courses found</h2>
-            <p className="text-sm text-muted-foreground font-bold">New learning material is coming soon!</p>
+            <h2 className="text-2xl font-black text-foreground/40 tracking-tighter">No premium courses found</h2>
+            <p className="text-sm text-muted-foreground font-bold">Exciting premium content is being prepared for you!</p>
         </div>
       )}
     </div>

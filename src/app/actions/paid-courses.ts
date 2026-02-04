@@ -1,0 +1,193 @@
+// src/app/actions/paid-courses.ts
+'use server';
+import { db } from "@/lib/firebase";
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc } from "firebase/firestore";
+import { uploadFileToGCS } from '@/lib/gcs';
+import { serializeFirestoreData } from './utils';
+import { revalidatePath } from 'next/cache';
+
+/**
+ * Fetches all paid courses from Firestore, ordered by creation date.
+ */
+export async function getPaidCourses() {
+    try {
+        const coursesQuery = query(collection(db, "paidCourses"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(coursesQuery);
+        const courses = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+        return { success: true, data: courses };
+    } catch (error) {
+        console.error("Error fetching paid courses:", error);
+        return { success: false, message: "Failed to fetch paid courses." };
+    }
+}
+
+/**
+ * Adds a new paid course to Firestore, including uploading a cover image to GCS.
+ */
+export async function addPaidCourse(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const coverImageFile = rawData.coverImage as File | null;
+  
+  const courseData: any = {
+    title: rawData.title as string,
+    class: rawData.class as string,
+    board: rawData.board as string,
+    subject: rawData.subject as string,
+    medium: rawData.medium as string,
+    batchName: rawData.batchName as string,
+    validity: rawData.validity as string,
+    price: parseFloat(rawData.price as string) || 0,
+    originalPrice: parseFloat(rawData.originalPrice as string) || 0,
+    description: rawData.description as string,
+    status: (rawData.status as 'active' | 'inactive') || 'active',
+    chapters: [],
+    createdAt: serverTimestamp(),
+  };
+
+  try {
+    if (coverImageFile && coverImageFile.size > 0) {
+      const destination = `paid-courses/${Date.now()}-${coverImageFile.name}`;
+      courseData.coverImageUrl = await uploadFileToGCS(coverImageFile, destination);
+    }
+    
+    // Parse chapters and videos from nested form field names (e.g., chapters[0].name)
+    const chapterEntries: { [key: number]: { name?: string; videos: { [key: number]: { title?: string; youtubeLink?: string } } } } = {};
+    for (const [key, value] of formData.entries()) {
+        const chapterMatch = key.match(/^chapters\[(\d+)\]\.name$/);
+        if (chapterMatch) {
+            const index = parseInt(chapterMatch[1], 10);
+            if (!chapterEntries[index]) chapterEntries[index] = { videos: {} };
+            chapterEntries[index].name = value as string;
+        }
+
+        const videoMatch = key.match(/^chapters\[(\d+)\]\.videos\[(\d+)\]\.(title|youtubeLink)$/);
+        if (videoMatch) {
+            const chapIndex = parseInt(videoMatch[1], 10);
+            const videoIndex = parseInt(videoMatch[2], 10);
+            const field = videoMatch[3];
+            if (!chapterEntries[chapIndex]) chapterEntries[chapIndex] = { videos: {} };
+            if (!chapterEntries[chapIndex].videos[videoIndex]) chapterEntries[chapIndex].videos[videoIndex] = {};
+            chapterEntries[chapIndex].videos[videoIndex][field as 'title' | 'youtubeLink'] = value as string;
+        }
+    }
+
+    for (const index in chapterEntries) {
+        const chapterEntry = chapterEntries[index];
+        if (!chapterEntry.name) continue;
+
+        const videos = [];
+        for (const videoIndex in chapterEntry.videos) {
+            const videoEntry = chapterEntry.videos[videoIndex];
+            if (videoEntry.title && videoEntry.youtubeLink) {
+                videos.push({
+                    title: videoEntry.title,
+                    youtubeLink: videoEntry.youtubeLink,
+                    order: parseInt(videoIndex, 10),
+                });
+            }
+        }
+        courseData.chapters.push({ name: chapterEntry.name, videos, status: 'show' });
+    }
+
+    await addDoc(collection(db, "paidCourses"), courseData);
+    revalidatePath('/paid-courses');
+    return { success: true, message: "Paid course added successfully." };
+  } catch (error: any) {
+    console.error("Error adding paid course:", error);
+    return { success: false, message: `Failed to add paid course: ${error.message}` };
+  }
+}
+
+/**
+ * Updates an existing paid course in Firestore.
+ */
+export async function editPaidCourse(id: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const coverImageFile = rawData.coverImage as File | null;
+  
+  const courseData: any = {
+    title: rawData.title as string,
+    class: rawData.class as string,
+    board: rawData.board as string,
+    subject: rawData.subject as string,
+    medium: rawData.medium as string,
+    batchName: rawData.batchName as string,
+    validity: rawData.validity as string,
+    price: parseFloat(rawData.price as string) || 0,
+    originalPrice: parseFloat(rawData.originalPrice as string) || 0,
+    description: rawData.description as string,
+    status: (rawData.status as 'active' | 'inactive') || 'active',
+    chapters: [],
+  };
+
+  try {
+    if (coverImageFile && coverImageFile.size > 0) {
+      const destination = `paid-courses/${id}/${coverImageFile.name}`;
+      courseData.coverImageUrl = await uploadFileToGCS(coverImageFile, destination);
+    } else if (rawData.existingCoverImageUrl) {
+      courseData.coverImageUrl = rawData.existingCoverImageUrl as string;
+    }
+
+    const chapterEntries: { [key: number]: { name?: string; videos: { [key: number]: { title?: string; youtubeLink?: string } } } } = {};
+    for (const [key, value] of formData.entries()) {
+      const chapterMatch = key.match(/^chapters\[(\d+)\]\.name$/);
+        if (chapterMatch) {
+            const index = parseInt(chapterMatch[1], 10);
+            if (!chapterEntries[index]) chapterEntries[index] = { videos: {} };
+            chapterEntries[index].name = value as string;
+        }
+
+        const videoMatch = key.match(/^chapters\[(\d+)\]\.videos\[(\d+)\]\.(title|youtubeLink)$/);
+        if (videoMatch) {
+            const chapIndex = parseInt(videoMatch[1], 10);
+            const videoIndex = parseInt(videoMatch[2], 10);
+            const field = videoMatch[3];
+            if (!chapterEntries[chapIndex]) chapterEntries[chapIndex] = { videos: {} };
+            if (!chapterEntries[chapIndex].videos[videoIndex]) chapterEntries[chapIndex].videos[videoIndex] = {};
+            chapterEntries[chapIndex].videos[videoIndex][field as 'title' | 'youtubeLink'] = value as string;
+        }
+    }
+
+    for (const index in chapterEntries) {
+        const chapterEntry = chapterEntries[index];
+        if (!chapterEntry.name) continue;
+
+        const videos = [];
+        for (const videoIndex in chapterEntry.videos) {
+            const videoEntry = chapterEntry.videos[videoIndex];
+            if (videoEntry.title && videoEntry.youtubeLink) {
+                videos.push({
+                    title: videoEntry.title,
+                    youtubeLink: videoEntry.youtubeLink,
+                    order: parseInt(videoIndex, 10),
+                });
+            }
+        }
+        courseData.chapters.push({ name: chapterEntry.name, videos, status: 'show' });
+    }
+
+    const docRef = doc(db, "paidCourses", id);
+    await updateDoc(docRef, courseData);
+
+    revalidatePath('/paid-courses');
+    return { success: true, message: "Paid course updated successfully." };
+  } catch (error: any) {
+    console.error("Error updating paid course:", error);
+    return { success: false, message: `Failed to update paid course: ${error.message}` };
+  }
+}
+
+/**
+ * Deletes a paid course from Firestore.
+ */
+export async function deletePaidCourse(id: string) {
+    try {
+        const docRef = doc(db, "paidCourses", id);
+        await deleteDoc(docRef);
+        revalidatePath('/paid-courses');
+        return { success: true, message: "Paid course deleted successfully." };
+    } catch (error: any) {
+        console.error("Error deleting paid course:", error);
+        return { success: false, message: `Failed to delete paid course: ${error.message}` };
+    }
+}

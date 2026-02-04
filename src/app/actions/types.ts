@@ -169,6 +169,7 @@ export interface TFreeCourse {
   createdAt: string;
 }
 
+export interface TPaidCourse extends TFreeCourse {}
 
 export interface THeroSlide {
   id: string;

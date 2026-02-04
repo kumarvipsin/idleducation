@@ -12,5 +12,6 @@ export * from './actions/content';
 export * from './actions/content-structure';
 export * from './actions/previous-year-questions';
 export * from './actions/free-courses';
+export * from './actions/paid-courses';
 export * from './actions/store-auth';
 export * from './actions/store';

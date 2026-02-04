@@ -46,7 +46,7 @@ const allCoursesCategories = [
     {
         name: "PAID COURSES",
         description: "Premium structured courses for in-depth learning.",
-        href: "#",
+        href: "/paid-courses",
         icon: <IndianRupee className="h-5 w-5" />,
         colorClasses: "bg-lime-100 text-lime-600 dark:bg-lime-900/30 dark:text-lime-400"
     },
@@ -782,3 +782,4 @@ export function Header() {
     </>
   );
 }
+

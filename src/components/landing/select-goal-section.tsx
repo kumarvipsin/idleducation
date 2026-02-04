@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from "next/link";
@@ -15,7 +14,7 @@ const goals = [
     {
         name: "PAID COURSES",
         icon: <IndianRupee className="w-8 h-8" />,
-        href: "#",
+        href: "/paid-courses",
         color: "bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400",
     },
     {
