@@ -91,15 +91,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
             {/* Top Section (Mobile) / Left Section (Desktop): Player */}
             <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
                 
-                {/* Custom Styled Close Button for Desktop */}
-                <div className="absolute top-4 right-4 z-[60] hidden lg:block">
-                    <DialogClose asChild>
-                        <Button variant="outline" size="icon" className="rounded-full bg-white/80 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white text-black h-10 w-10 transition-all hover:scale-110 active:scale-95">
-                            <X className="h-5 w-5" />
-                        </Button>
-                    </DialogClose>
-                </div>
-
                 {/* Video Container */}
                 <div className="aspect-video w-full relative flex items-center justify-center bg-black">
                     {activeVideoId ? (
