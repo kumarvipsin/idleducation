@@ -1,8 +1,9 @@
+// src/app/paid-courses/paid-courses-client.tsx
 'use client';
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X, Maximize } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2, Play, ChevronRight, X, Maximize, ShoppingCart, Lock } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,11 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { useAuth } from "@/context/auth-context";
+import { getUserPurchasedCourses, recordCoursePurchase, createRazorpayOrder } from "@/app/actions";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import Script from "next/script";
 
 /**
  * Component for an individual video item in the course list.
@@ -32,13 +38,13 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-center gap-2 py-1.5 px-3 transition-all duration-200 group border-b border-black/[0.03]",
+                "w-full text-left flex items-center gap-3 py-2 px-4 transition-all duration-200 group border-b border-black/[0.03]",
                 isActive
                     ? "bg-primary/[0.04] border-l-[2px] border-l-primary"
                     : "hover:bg-black/[0.02]"
             )}
         >
-            <div className="relative h-8 w-12 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
@@ -46,18 +52,18 @@ const VideoItem = ({
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                    <PlayCircle className={cn("w-3 h-3 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
+                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-[10px] font-bold leading-tight line-clamp-2 transition-colors",
+                    "text-xs font-bold leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
                 {isActive && (
-                    <div className="flex items-center gap-1 mt-0.5">
+                    <div className="flex items-center gap-1.5 mt-1">
                         <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[8px] text-primary font-black uppercase tracking-tight">Playing</span>
+                        <span className="text-[9px] text-primary font-black uppercase tracking-tight">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -127,14 +133,14 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
             </div>
 
             {/* Right Section: Playlist */}
-            <div className="flex-1 lg:w-[280px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
+            <div className="flex-1 lg:w-[320px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <ScrollArea className="flex-1">
                     <div className="pb-2">
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
-                                    <div className="px-4 py-1.5 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
-                                        <h4 className="font-bold text-[9px] tracking-widest text-muted-foreground/60 uppercase truncate">
+                                    <div className="px-4 py-2 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
+                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground/60 uppercase truncate">
                                             {chapter.name}
                                         </h4>
                                     </div>
@@ -186,7 +192,78 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
  */
 export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const router = useRouter();
+  const [purchasedCourseIds, setPurchasedCourseIds] = useState<string[]>([]);
+  const [isProcessing, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    if (user) {
+        getUserPurchasedCourses(user.uid).then(res => {
+            if (res.success && res.data) {
+                setPurchasedCourseIds(res.data);
+            }
+        });
+    }
+  }, [user]);
+
+  const handlePurchase = async (course: TPaidCourse) => {
+    if (!user) {
+        toast({
+            title: "Login Required",
+            description: "Please log in to purchase this course.",
+        });
+        router.push('/login');
+        return;
+    }
+
+    setIsSubmitting(true);
+    const result = await createRazorpayOrder({ amount: course.price * 100, currency: 'INR' });
+    
+    if (!result.success || !result.order) {
+        toast({ variant: 'destructive', title: 'Payment Error', description: 'Could not initiate payment.' });
+        setIsSubmitting(false);
+        return;
+    }
+
+    const order = result.order;
+    const options = {
+        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: 'IDL Education',
+        description: `Enroll in ${course.title}`,
+        order_id: order.id,
+        handler: async function (response: any) {
+            const enrollResult = await recordCoursePurchase(user.uid, course.id, response.razorpay_payment_id);
+            if (enrollResult.success) {
+                toast({ title: 'Payment Successful', description: enrollResult.message });
+                setPurchasedCourseIds(prev => [...prev, course.id]);
+            } else {
+                toast({ variant: 'destructive', title: 'Enrollment Error', description: enrollResult.message });
+            }
+            setIsSubmitting(false);
+        },
+        prefill: {
+            name: user.name,
+            email: user.email,
+        },
+        theme: {
+            color: '#0d47a1',
+        },
+        modal: {
+            ondismiss: function() {
+                setIsSubmitting(false);
+            }
+        }
+    };
+    
+    // @ts-ignore
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
 
   const groupedCourses = useMemo(() => {
     return courses.reduce((acc, course) => {
@@ -211,115 +288,131 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
   if (!mounted) return null;
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="text-center mb-16 animate-fade-in-up">
-        <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter mb-4">Premium <span className="text-orange-500">Paid Courses</span></h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-medium">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
-      </div>
+    <>
+      <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
+      <div className="container mx-auto py-12 px-4 md:px-6">
+        <div className="text-center mb-16 animate-fade-in-up">
+          <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter mb-4">Premium <span className="text-orange-500">Paid Courses</span></h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto font-medium">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
+        </div>
 
-      {sortedGroupedEntries.length > 0 ? (
-        sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
-            <section key={groupTitle} className="mb-16">
-              <div className="mb-10 text-center sm:text-left">
-                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground relative inline-block">
-                  <span className="relative z-10">{groupTitle}</span>
-                  <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
-                    <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
-                        <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
-                    </svg>
-                  </div>
-                </h2>
-              </div>
-    
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                {groupCourses.map((course) => (
-                  <Card key={course.id} className="rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col bg-card border group/card relative">
-                    <div className="relative overflow-hidden aspect-[16/9]">
-                        <GcsImage
-                            filePath={course.coverImageUrl || ""}
-                            alt={course.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                        />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                         <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-bold text-[10px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
+        {sortedGroupedEntries.length > 0 ? (
+          sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
+              <section key={groupTitle} className="mb-16">
+                <div className="mb-10 text-center sm:text-left">
+                  <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground relative inline-block">
+                    <span className="relative z-10">{groupTitle}</span>
+                    <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
+                      <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
+                          <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+                      </svg>
                     </div>
-                    
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                        <CardTitleUI className="text-base font-bold text-foreground leading-tight mb-3 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
-                        
-                        <div className="flex flex-wrap items-center gap-2 mb-4">
-                            <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-bold uppercase text-[9px] tracking-widest">{course.batchName}</Badge>
-                            <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[9px] tracking-widest font-bold uppercase">{course.medium}</Badge>
-                        </div>
-
-                        <div className="text-[10px] text-muted-foreground mt-1 space-y-1.5 font-bold uppercase tracking-tight">
-                          <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
-                          <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
-                        </div>
-
-                        <div className="mt-6 flex items-center justify-between">
-                          <div>
-                            <div className="flex items-baseline gap-1.5">
-                                <p className="text-xl font-black text-primary">₹{course.price}</p>
-                                {course.originalPrice > 0 && <p className="text-xs text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
-                            </div>
-                            {course.originalPrice > course.price && (
-                                <div className="bg-green-500/10 text-green-600 text-[9px] font-black px-2 py-1 rounded mt-1.5 border border-green-500/20 uppercase tracking-tighter w-fit">
-                                    {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}% OFF
-                                </div>
-                            )}
+                  </h2>
+                </div>
+      
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {groupCourses.map((course) => {
+                    const isPurchased = purchasedCourseIds.includes(course.id);
+                    return (
+                    <Card key={course.id} className="rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col bg-card border group/card relative">
+                      <div className="relative overflow-hidden aspect-[16/9]">
+                          <GcsImage
+                              filePath={course.coverImageUrl || ""}
+                              alt={course.title}
+                              fill
+                              className="object-cover transition-transform duration-700 group-hover/card:scale-110"
+                          />
+                           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                           <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-bold text-[10px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
+                      </div>
+                      
+                      <CardContent className="p-6 flex flex-col flex-grow">
+                          <CardTitleUI className="text-base font-bold text-foreground leading-tight mb-3 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
+                          
+                          <div className="flex flex-wrap items-center gap-2 mb-4">
+                              <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-bold uppercase text-[9px] tracking-widest">{course.batchName}</Badge>
+                              <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[9px] tracking-widest font-bold uppercase">{course.medium}</Badge>
                           </div>
 
-                          <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-8 w-8">
-                                    <Info className="w-4 h-4" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                <h4 className="font-black text-[10px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
-                                <ScrollArea className="max-h-40">
-                                    <p className="text-[10px] text-foreground font-medium leading-relaxed whitespace-pre-wrap opacity-80">
-                                        {course.description}
-                                    </p>
-                                </ScrollArea>
-                                <div className="mt-4 pt-3 border-t border-white/10">
-                                    <div className="flex items-center gap-2 text-[9px] font-bold text-green-600">
-                                        <CheckCircle2 className="w-3 h-3" />
-                                        <span>Full Syllabus Access</span>
-                                    </div>
-                                </div>
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                    </CardContent>
+                          <div className="text-[10px] text-muted-foreground mt-1 space-y-1.5 font-bold uppercase tracking-tight">
+                            <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
+                            <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
+                          </div>
 
-                    <div className="p-6 pt-0 mt-auto">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-10 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-xs tracking-widest">
-                                    <PlayCircle className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
-                                    EXPLORE CONTENT
-                                </Button>
-                            </DialogTrigger>
-                            <CoursePlayerDialog course={course} />
-                        </Dialog>
-                    </div>
-                  </Card>
-                ))}
+                          <div className="mt-6 flex items-center justify-between">
+                            <div>
+                              <div className="flex items-baseline gap-1.5">
+                                  <p className="text-xl font-black text-primary">₹{course.price}</p>
+                                  {course.originalPrice > 0 && <p className="text-xs text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
+                              </div>
+                              {course.originalPrice > course.price && (
+                                  <div className="bg-green-500/10 text-green-600 text-[9px] font-black px-2 py-1 rounded mt-1.5 border border-green-500/20 uppercase tracking-tighter w-fit">
+                                      {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}% OFF
+                                  </div>
+                              )}
+                            </div>
+
+                            <Popover>
+                              <PopoverTrigger asChild>
+                                  <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-8 w-8">
+                                      <Info className="w-4 h-4" />
+                                  </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
+                                  <h4 className="font-black text-[10px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
+                                  <ScrollArea className="max-h-40">
+                                      <p className="text-[10px] text-foreground font-medium leading-relaxed whitespace-pre-wrap opacity-80">
+                                          {course.description}
+                                      </p>
+                                  </ScrollArea>
+                                  <div className="mt-4 pt-3 border-t border-white/10">
+                                      <div className="flex items-center gap-2 text-[9px] font-bold text-green-600">
+                                          <CheckCircle2 className="w-3 h-3" />
+                                          <span>Full Syllabus Access</span>
+                                      </div>
+                                  </div>
+                              </PopoverContent>
+                            </Popover>
+                          </div>
+                      </CardContent>
+
+                      <div className="p-6 pt-0 mt-auto">
+                          {isPurchased ? (
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-10 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-xs tracking-widest">
+                                        <PlayCircle className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
+                                        EXPLORE CONTENT
+                                    </Button>
+                                </DialogTrigger>
+                                <CoursePlayerDialog course={course} />
+                            </Dialog>
+                          ) : (
+                            <Button 
+                                onClick={() => handlePurchase(course)}
+                                disabled={isProcessing}
+                                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold h-10 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-[0.98] group/btn text-xs tracking-widest"
+                            >
+                                <ShoppingCart className="w-4 h-4 mr-2" />
+                                {isProcessing ? 'PROCESSING...' : 'BUY NOW'}
+                            </Button>
+                          )}
+                      </div>
+                    </Card>
+                  )})}
+                </div>
+              </section>
+            ))
+        ) : (
+          <div className="text-center py-32 space-y-4">
+              <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
+                  <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
               </div>
-            </section>
-          ))
-      ) : (
-        <div className="text-center py-32 space-y-4">
-            <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
-                <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
-            </div>
-            <h2 className="text-2xl font-black text-foreground/40 tracking-tighter">No premium courses found</h2>
-            <p className="text-sm text-muted-foreground font-bold">Exciting premium content is being prepared for you!</p>
-        </div>
-      )}
-    </div>
+              <h2 className="text-2xl font-black text-foreground/40 tracking-tighter">No premium courses found</h2>
+              <p className="text-sm text-muted-foreground font-bold">Exciting premium content is being prepared for you!</p>
+          </div>
+        )}
+      </div>
+    </>
   );
 }

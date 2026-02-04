@@ -1,3 +1,4 @@
+// src/app/free-courses/free-courses-client.tsx
 'use client';
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
@@ -32,13 +33,13 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-center gap-2 py-1.5 px-3 transition-all duration-200 group border-b border-black/[0.03]",
+                "w-full text-left flex items-center gap-3 py-2 px-4 transition-all duration-200 group border-b border-black/[0.03]",
                 isActive
                     ? "bg-primary/[0.04] border-l-[2px] border-l-primary"
                     : "hover:bg-black/[0.02]"
             )}
         >
-            <div className="relative h-8 w-12 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
@@ -46,18 +47,18 @@ const VideoItem = ({
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                    <PlayCircle className={cn("w-3 h-3 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
+                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-[10px] font-bold leading-tight line-clamp-2 transition-colors",
+                    "text-xs font-bold leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
                 {isActive && (
-                    <div className="flex items-center gap-1 mt-0.5">
+                    <div className="flex items-center gap-1.5 mt-1">
                         <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[8px] text-primary font-black uppercase tracking-tight">Playing</span>
+                        <span className="text-[9px] text-primary font-black uppercase tracking-tight">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -127,14 +128,14 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
             </div>
 
             {/* Right Section: Playlist */}
-            <div className="flex-1 lg:w-[280px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
+            <div className="flex-1 lg:w-[320px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <ScrollArea className="flex-1">
                     <div className="pb-2">
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
-                                    <div className="px-4 py-1.5 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
-                                        <h4 className="font-bold text-[9px] tracking-widest text-muted-foreground/60 uppercase truncate">
+                                    <div className="px-4 py-2 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
+                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground/60 uppercase truncate">
                                             {chapter.name}
                                         </h4>
                                     </div>

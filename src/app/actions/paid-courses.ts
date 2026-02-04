@@ -1,7 +1,7 @@
 // src/app/actions/paid-courses.ts
 'use server';
 import { db } from "@/lib/firebase";
-import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc, where } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 import { revalidatePath } from 'next/cache';
@@ -189,5 +189,38 @@ export async function deletePaidCourse(id: string) {
     } catch (error: any) {
         console.error("Error deleting paid course:", error);
         return { success: false, message: `Failed to delete paid course: ${error.message}` };
+    }
+}
+
+/**
+ * Records a course purchase for a user.
+ */
+export async function recordCoursePurchase(userId: string, courseId: string, paymentId: string) {
+    try {
+        await addDoc(collection(db, "coursePurchases"), {
+            userId,
+            courseId,
+            paymentId,
+            purchasedAt: serverTimestamp(),
+        });
+        return { success: true, message: "Enrollment successful!" };
+    } catch (error) {
+        console.error("Error recording course purchase:", error);
+        return { success: false, message: "Failed to record purchase." };
+    }
+}
+
+/**
+ * Fetches IDs of courses purchased by a user.
+ */
+export async function getUserPurchasedCourses(userId: string) {
+    try {
+        const q = query(collection(db, "coursePurchases"), where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+        const courseIds = querySnapshot.docs.map(doc => doc.data().courseId);
+        return { success: true, data: courseIds };
+    } catch (error) {
+        console.error("Error fetching user purchases:", error);
+        return { success: false, message: "Failed to fetch purchases." };
     }
 }
