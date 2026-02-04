@@ -1,87 +1,115 @@
 'use client';
 
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { BookCopy, CheckCircle, PlusCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { BookOpen, PlayCircle, GraduationCap, BookMarked } from "lucide-react";
+import { useAuth } from "@/context/auth-context";
+import { getStudentEnrolledCourses } from "@/app/actions";
+import { Skeleton } from "@/components/ui/skeleton";
+import { GcsImage } from "@/components/gcs-image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
-const courseSections = {
-  "Mathematics": [
-    { title: "Introduction to Algebra", description: "Master the fundamentals of algebra.", progress: 75, enrolled: true },
-    { title: "Calculus I", description: "Explore limits, derivatives, and integrals.", progress: 0, enrolled: false },
-    { title: "Geometry", description: "Learn about shapes, sizes, positions of figures, and properties of space.", progress: 0, enrolled: false },
-  ],
-  "History": [
-    { title: "World History: Ancient Civilizations", description: "Explore the ancient world from Mesopotamia to Rome.", progress: 45, enrolled: true },
-    { title: "The American Revolution", description: "An in-depth study of the American Revolutionary War.", progress: 0, enrolled: false },
-  ],
-  "Science": [
-    { title: "Chemistry 101", description: "Understand the basic principles of chemistry.", progress: 60, enrolled: true },
-    { title: "Physics: Mechanics", description: "Learn about motion, forces, and energy.", progress: 0, enrolled: false },
-    { title: "Biology: The Cell", description: "Discover the fundamental unit of life.", progress: 0, enrolled: false },
-  ],
-  "Arts": [
-      { title: "Creative Writing Workshop", description: "Unleash your inner author.", progress: 20, enrolled: true },
-      { title: "Introduction to Drawing", description: "Learn the basic techniques of drawing and composition.", progress: 0, enrolled: false },
-  ]
-};
+export default function MyCoursesPage() {
+  const { user } = useAuth();
+  const [courses, setCourses] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-export default function CoursesPage() {
+  useEffect(() => {
+    if (user) {
+      const fetchCourses = async () => {
+        setLoading(true);
+        const result = await getStudentEnrolledCourses(user.uid);
+        if (result.success) {
+          setCourses(result.data || []);
+        }
+        setLoading(false);
+      };
+      fetchCourses();
+    }
+  }, [user]);
+
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle>Browse Courses</CardTitle>
-          <CardDescription>Explore our catalog and enroll in new courses.</CardDescription>
+    <div className="space-y-6 max-w-6xl mx-auto">
+      <Card className="border-none shadow-none bg-transparent">
+        <CardHeader className="px-0">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="bg-primary/10 p-2 rounded-lg">
+                <GraduationCap className="w-6 h-6 text-primary" />
+            </div>
+            <div>
+                <CardTitle className="text-2xl md:text-3xl font-black text-primary tracking-tight">My Premium Courses</CardTitle>
+                <CardDescription className="text-sm font-medium">Access and manage your enrolled structured learning programs.</CardDescription>
+            </div>
+          </div>
         </CardHeader>
-        <CardContent>
-          <Accordion type="multiple" defaultValue={["Mathematics"]}>
-            {Object.entries(courseSections).map(([section, courses]) => (
-              <AccordionItem value={section} key={section}>
-                <AccordionTrigger className="text-xl font-semibold text-primary">{section}</AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid gap-4 mt-4 md:grid-cols-2">
-                    {courses.map(course => (
-                      <div key={course.title} className="p-4 border rounded-lg flex flex-col justify-between">
-                        <div>
-                          <div className="flex items-start gap-4">
-                            <BookCopy className="w-8 h-8 text-primary mt-1" />
-                            <div className="flex-1">
-                              <h3 className="font-semibold text-lg">{course.title}</h3>
-                              <p className="text-sm text-muted-foreground">{course.description}</p>
-                            </div>
-                          </div>
-                          {course.enrolled && (
-                            <div className="mt-4">
-                                <div className="flex justify-between items-center mb-1">
-                                  <span className="text-xs font-medium">Progress</span>
-                                  <span className="text-xs font-semibold">{course.progress}%</span>
-                                </div>
-                                <Progress value={course.progress} />
-                            </div>
-                          )}
-                        </div>
-                        <div className="mt-4">
-                            {course.enrolled ? (
-                                <Button variant="outline" className="w-full" disabled>
-                                    <CheckCircle className="mr-2" />
-                                    Enrolled
-                                </Button>
-                            ) : (
-                                <Button className="w-full">
-                                    <PlusCircle className="mr-2" />
-                                    Enroll
-                                </Button>
-                            )}
-                        </div>
+        <CardContent className="px-0">
+          {loading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[...Array(3)].map((_, i) => (
+                <Skeleton key={i} className="h-64 w-full rounded-2xl" />
+              ))}
+            </div>
+          ) : courses.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {courses.map((course) => (
+                <Card key={course.id} className="overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col group border-muted-foreground/10">
+                  <div className="relative aspect-video w-full overflow-hidden bg-muted">
+                    {course.coverImageUrl ? (
+                      <GcsImage
+                        filePath={course.coverImageUrl}
+                        alt={course.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-primary/5">
+                        <BookOpen className="w-12 h-12 text-primary/20" />
                       </div>
-                    ))}
+                    )}
+                    <div className="absolute top-3 left-3">
+                        <Badge className="bg-primary/90 text-white border-none font-bold text-[10px] uppercase px-2 py-0.5 shadow-sm">ENROLLED</Badge>
+                    </div>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                  <CardContent className="p-5 flex flex-col flex-grow">
+                    <h3 className="font-bold text-lg leading-tight line-clamp-2 mb-2 group-hover:text-primary transition-colors">{course.title}</h3>
+                    
+                    <div className="flex items-center gap-2 mb-4">
+                        <Badge variant="secondary" className="text-[9px] font-black uppercase tracking-widest bg-muted/50">{course.subject}</Badge>
+                        <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest">{course.medium}</Badge>
+                    </div>
+
+                    <div className="mt-auto pt-4 border-t border-muted-foreground/5 space-y-3">
+                        <div className="flex items-center justify-between text-[10px] font-bold text-muted-foreground uppercase tracking-tighter">
+                            <span>Batch: {course.batchName}</span>
+                            <span>Validity: {course.validity}</span>
+                        </div>
+                        <Button asChild className="w-full font-bold rounded-xl shadow-lg shadow-primary/10 group/btn h-10">
+                            <Link href="/paid-courses">
+                                <PlayCircle className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
+                                CONTINUE STUDYING
+                            </Link>
+                        </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <Card className="border-dashed py-20 flex flex-col items-center justify-center text-center bg-muted/5 rounded-2xl">
+              <div className="bg-primary/5 p-6 rounded-full mb-4">
+                <BookMarked className="w-12 h-12 text-primary/30" />
+              </div>
+              <h3 className="text-xl font-bold text-foreground">No Enrolled Courses</h3>
+              <p className="text-muted-foreground max-w-xs mx-auto mt-2 mb-6">
+                You haven't enrolled in any premium courses yet. Start your journey today!
+              </p>
+              <Button asChild size="lg" className="rounded-full px-8 font-bold shadow-lg shadow-primary/20">
+                <Link href="/paid-courses">Explore Premium Courses</Link>
+              </Button>
+            </Card>
+          )}
         </CardContent>
       </Card>
     </div>
