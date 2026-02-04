@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { BookOpen, Target, Award, Calendar as CalendarIcon, Bell, ArrowRight, PlayCircle, Clock, CheckCircle2 } from "lucide-react";
+import { BookOpen, Target, Award, Calendar as CalendarIcon, Bell, ArrowRight, PlayCircle, Clock, CheckCircle2, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/auth-context";
 import { getStudentProgressReports, getUpdates } from "@/app/actions";
@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
+import { cn } from "@/lib/utils";
 
 const activeCourses = [
   { title: "Algebra 101", instructor: "Manish Sharma", progress: 75, nextLesson: "Quadratic Equations", color: "bg-blue-500" },
