@@ -32,29 +32,34 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-start gap-2 p-2 transition-all duration-200 group border-b border-black/5",
+                "w-full text-left flex items-center gap-3 p-1.5 transition-all duration-200 group border-b border-black/5",
                 isActive
-                    ? "bg-primary/5 border-l-[3px] border-l-primary"
+                    ? "bg-primary/5 border-l-[2px] border-l-primary"
                     : "hover:bg-black/5"
             )}
         >
-            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-9 w-14 rounded-sm overflow-hidden shrink-0 bg-zinc-200">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
                     fill
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/5">
-                    <PlayCircle className={cn("w-3 h-3 transition-transform", isActive ? "text-primary scale-110" : "text-black/40 group-hover:scale-110")} />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                    <PlayCircle className={cn("w-3 h-3 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-[10px] font-semibold leading-tight line-clamp-2 transition-colors",
-                    isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
+                    "text-[10px] font-bold leading-snug line-clamp-2 transition-colors",
+                    isActive ? "text-primary" : "text-foreground/70 group-hover:text-foreground"
                 )}>{video.title}</p>
-                {isActive && <span className="text-[8px] text-primary font-bold uppercase mt-0.5 inline-block">Now Playing</span>}
+                {isActive && (
+                    <div className="flex items-center gap-1 mt-0.5">
+                        <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
+                        <span className="text-[8px] text-primary font-black uppercase tracking-tighter">Playing</span>
+                    </div>
+                )}
             </div>
         </button>
     );
@@ -70,7 +75,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
-    // Calculate active chapter number
+    // Calculate active chapter index
     const activeChapterIndex = course.chapters.findIndex(chap => 
         chap.videos.some(v => v.youtubeLink === activeVideo?.youtubeLink)
     );
@@ -86,7 +91,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
             {/* Top Section (Mobile) / Left Section (Desktop): Player */}
             <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
                 {/* Video Container */}
-                <div className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
+                <div className="aspect-video w-full relative flex items-center justify-center bg-black">
                     {activeVideoId ? (
                         <iframe
                             className="w-full h-full"
@@ -104,35 +109,40 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     )}
                 </div>
 
-                {/* Lesson Info Panel - Chapter Number and Topic Name */}
+                {/* Lesson Info Panel */}
                 <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
                     <div className="flex flex-col gap-1.5">
-                        {activeChapterNumber && (
-                            <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="w-fit border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest px-2 py-0.5">
+                        <div className="flex items-center gap-2">
+                            {activeChapterNumber && (
+                                <span className="text-[10px] font-black text-primary uppercase tracking-widest">
                                     Chapter {activeChapterNumber}
-                                </Badge>
-                                <span className="text-zinc-300">•</span>
-                                <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tight">{course.title}</span>
-                            </div>
-                        )}
-                        <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight tracking-tight mt-1">{activeVideo?.title || "Select a Topic"}</h2>
+                                </span>
+                            )}
+                            <span className="text-zinc-300">•</span>
+                            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tight">{course.title}</span>
+                        </div>
+                        <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight tracking-tight mt-1">
+                            {activeVideo?.title || "Select a Topic"}
+                        </h2>
                     </div>
                 </div>
             </div>
 
             {/* Right Section (Desktop) / Bottom Section (Mobile): Playlist */}
-            <div className="flex-1 lg:w-[350px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
+            <div className="flex-1 lg:w-[320px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <ScrollArea className="flex-1">
-                    <div className="pb-4">
+                    <div className="pb-2">
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
-                                <div key={`chapter-${cIdx}`} className="mt-1">
-                                    <div className="px-3 py-2 flex items-center gap-2">
-                                        <div className="text-muted-foreground/40 font-bold text-[10px]">
-                                            {cIdx + 1}.
-                                        </div>
-                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground/60 uppercase">{chapter.name}</h4>
+                                <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
+                                    {/* Subtle Chapter Header */}
+                                    <div className="px-3 py-1.5 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
+                                        <span className="text-muted-foreground/40 font-black text-[9px] uppercase tracking-tighter">
+                                            CH {cIdx + 1}
+                                        </span>
+                                        <h4 className="font-bold text-[9px] tracking-widest text-muted-foreground/60 uppercase truncate">
+                                            {chapter.name}
+                                        </h4>
                                     </div>
                                     <div className="flex flex-col">
                                         {chapter.videos.map((video, vIdx) => (
@@ -142,7 +152,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                                                 isActive={activeVideo?.youtubeLink === video.youtubeLink}
                                                 onSelect={() => {
                                                     setActiveVideo(video);
-                                                    // On mobile, scroll back up to the video if a new one is selected
                                                     if (window.innerWidth < 1024) {
                                                         window.scrollTo({ top: 0, behavior: 'smooth' });
                                                     }
@@ -155,16 +164,16 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400">
                                 <BookOpen className="w-10 h-10 opacity-20 mb-2" />
-                                <p className="text-xs font-bold">No content uploaded</p>
+                                <p className="text-xs font-bold">No content available</p>
                             </div>
                         )}
                     </div>
                 </ScrollArea>
                 
                 {/* Branding Footer */}
-                <div className="p-3 bg-white border-t border-border flex items-center justify-center gap-2 shrink-0">
-                    <Image src="/logo.png" alt="Logo" width={16} height={16} className="opacity-50" />
-                    <span className="text-[9px] font-bold text-muted-foreground tracking-[0.2em] uppercase">Powered by IDL Education</span>
+                <div className="p-2.5 bg-white border-t border-border flex items-center justify-center gap-2 shrink-0">
+                    <Image src="/logo.png" alt="Logo" width={14} height={14} className="opacity-40" />
+                    <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.2em] uppercase">Powered by IDL Education</span>
                 </div>
             </div>
         </DialogContent>
