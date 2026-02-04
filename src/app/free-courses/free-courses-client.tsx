@@ -67,7 +67,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     const [activeVideo, setActiveVideo] = useState<TFreeCourseVideo | null>(
         course.chapters?.[0]?.videos?.[0] || null
     );
-    const videoContainerRef = useRef<HTMLDivElement>(null);
 
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
@@ -76,28 +75,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
         chap.videos.some(v => v.youtubeLink === activeVideo?.youtubeLink)
     );
     const activeChapterNumber = activeChapterIndex !== -1 ? activeChapterIndex + 1 : null;
-
-    const handleFullScreen = async () => {
-        if (!videoContainerRef.current) return;
-        
-        try {
-            const container = videoContainerRef.current;
-            if (container.requestFullscreen) {
-                await container.requestFullscreen();
-            } else if ((container as any).webkitRequestFullscreen) {
-                await (container as any).webkitRequestFullscreen();
-            }
-
-            // Attempt to rotate if screen orientation API is available
-            if (window.screen.orientation && (window.screen.orientation as any).lock) {
-                await (window.screen.orientation as any).lock('landscape').catch(() => {
-                    // Fail silently if lock is not allowed
-                });
-            }
-        } catch (error) {
-            console.error("Error entering fullscreen:", error);
-        }
-    };
 
     return (
         <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
@@ -109,7 +86,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
             {/* Top Section (Mobile) / Left Section (Desktop): Player */}
             <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
                 {/* Video Container */}
-                <div ref={videoContainerRef} className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
+                <div className="aspect-video w-full relative flex items-center justify-center bg-black group/player">
                     {activeVideoId ? (
                         <iframe
                             className="w-full h-full"
@@ -126,19 +103,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         </div>
                     )}
                     
-                    {/* Floating Fullscreen / Rotate Button for Mobile */}
-                    <div className="absolute bottom-4 right-4 z-10 lg:hidden">
-                        <Button 
-                            variant="secondary" 
-                            size="sm" 
-                            onClick={handleFullScreen}
-                            className="rounded-full bg-black/40 backdrop-blur-md text-white border-white/20 hover:bg-black/60 h-9 px-4 text-[10px] font-bold tracking-widest uppercase"
-                        >
-                            <Maximize className="w-3 h-3 mr-2" />
-                            Rotate Fullscreen
-                        </Button>
-                    </div>
-
                     {/* Floating Close Button - Visible on both Mobile and Desktop */}
                     <div className="absolute top-4 right-4 z-50">
                         <DialogClose asChild>
