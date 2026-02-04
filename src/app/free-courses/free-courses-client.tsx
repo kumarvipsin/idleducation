@@ -38,7 +38,7 @@ const VideoItem = ({
                     : "hover:bg-black/5"
             )}
         >
-            <div className="relative h-12 w-20 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
@@ -46,15 +46,15 @@ const VideoItem = ({
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
                 <div className="absolute inset-0 flex items-center justify-center bg-black/5">
-                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-black/40 group-hover:scale-110")} />
+                    <PlayCircle className={cn("w-3 h-3 transition-transform", isActive ? "text-primary scale-110" : "text-black/40 group-hover:scale-110")} />
                 </div>
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-[11px] font-semibold leading-tight line-clamp-2 transition-colors",
+                    "text-[10px] font-semibold leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
-                {isActive && <span className="text-[9px] text-primary font-bold uppercase mt-0.5 inline-block">Now Playing</span>}
+                {isActive && <span className="text-[8px] text-primary font-bold uppercase mt-0.5 inline-block">Now Playing</span>}
             </div>
         </button>
     );
@@ -102,18 +102,9 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                             <p className="text-sm font-medium">Select a lesson to begin</p>
                         </div>
                     )}
-                    
-                    {/* Floating Close Button - Visible on both Mobile and Desktop */}
-                    <div className="absolute top-4 right-4 z-50">
-                        <DialogClose asChild>
-                            <Button variant="outline" size="icon" className="rounded-full bg-white/80 backdrop-blur-md border border-black/10 shadow-lg hover:bg-white text-black h-10 w-10 transition-all hover:scale-110 active:scale-95">
-                                <X className="h-5 w-5" />
-                            </Button>
-                        </DialogClose>
-                    </div>
                 </div>
 
-                {/* Lesson Info Panel - Clean Chapter/Topic display */}
+                {/* Lesson Info Panel - Chapter Number and Topic Name */}
                 <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
                     <div className="flex flex-col gap-1.5">
                         {activeChapterNumber && (
