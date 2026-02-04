@@ -128,11 +128,11 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-1">
-                                    <div className="px-3 py-1.5 bg-black/5 flex items-center gap-2">
-                                        <div className="h-4 w-4 rounded-md bg-primary/10 text-primary flex items-center justify-center font-bold text-[9px]">
-                                            {cIdx + 1}
+                                    <div className="px-3 py-2 flex items-center gap-2">
+                                        <div className="text-muted-foreground/40 font-bold text-[10px]">
+                                            {cIdx + 1}.
                                         </div>
-                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground uppercase">{chapter.name}</h4>
+                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground/60 uppercase">{chapter.name}</h4>
                                     </div>
                                     <div className="flex flex-col">
                                         {chapter.videos.map((video, vIdx) => (
