@@ -334,7 +334,7 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="rounded-[2.5rem] bg-white border border-border/50 p-8 md:p-12 relative overflow-hidden shadow-sm">
+        <div className="rounded-[2.5rem] bg-white p-8 md:p-12 relative overflow-hidden shadow-sm">
           {/* Background Texture and India Map Silhouette */}
           <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
           <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
