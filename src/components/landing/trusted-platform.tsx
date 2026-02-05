@@ -11,7 +11,7 @@ export function TrustedPlatform() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-left">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Bharat's Trusted & Affordable Learning Platform
             </h2>
             <p className="text-muted-foreground text-sm md:text-base font-medium">
@@ -24,7 +24,7 @@ export function TrustedPlatform() {
           <div className="relative h-[240px] md:h-[280px] flex items-center justify-center">
             <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
             
-            {/* Character 1 */}
+            {/* Character 1 - Teacher */}
             <div className="absolute left-[5%] bottom-[10%] animate-float">
                 <div className="relative w-[90px] h-[90px] md:w-[105px] md:h-[105px]">
                     <div className="absolute inset-[-12px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow">
@@ -35,12 +35,12 @@ export function TrustedPlatform() {
                     <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
                  <div className="absolute bottom-6 -right-24 md:-right-28 w-32 md:w-36 bg-white text-gray-800 p-2 rounded-lg shadow-lg border">
-                    <p className="text-[9px] md:text-[10px] leading-tight text-primary">IDL is Bharat's trusted and affordable learning platform.</p>
+                    <p className="text-[9px] md:text-[10px] leading-tight text-primary">With Bharat's most trusted and affordable learning platform!</p>
                     <div className="absolute left-0 bottom-[-7px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-white"></div>
                 </div>
             </div>
 
-            {/* Character 2 */}
+            {/* Character 2 - Student */}
             <div className="absolute right-[5%] top-[10%] animate-float" style={{ animationDelay: '0.5s' }}>
                 <div className="relative w-[90px] h-[90px] md:w-[105px] md:h-[105px]">
                      <div className="absolute inset-[-12px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow-reverse">
@@ -51,7 +51,7 @@ export function TrustedPlatform() {
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-4 -left-28 md:-left-32 w-32 md:w-36 bg-green-50 p-2 rounded-lg shadow-lg border border-green-100">
-                    <p className="text-[9px] md:text-[10px] leading-tight text-gray-800">Amod Sir, What is IDL?</p>
+                    <p className="text-[9px] md:text-[10px] leading-tight text-gray-800">Sir, how can I secure my future?</p>
                     <div className="absolute right-[-7px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[7px] border-l-green-50"></div>
                 </div>
             </div>
