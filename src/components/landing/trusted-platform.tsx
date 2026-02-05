@@ -17,7 +17,7 @@ export function TrustedPlatform() {
             <p className="text-muted-foreground text-sm md:text-base font-medium">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild size="sm" className="rounded-full font-bold bg-orange-500 hover:bg-orange-600 text-white border-none shadow-lg shadow-orange-500/20 transition-all active:scale-95">
+            <Button asChild size="sm" className="rounded-lg font-bold bg-orange-500 hover:bg-orange-600 text-white border-none shadow-lg shadow-orange-500/20 transition-all active:scale-95">
               <Link href="/book-demo">Book a Demo</Link>
             </Button>
           </div>

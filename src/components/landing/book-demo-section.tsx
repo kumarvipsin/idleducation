@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,7 @@ export function BookDemoSection() {
               <p className="text-sm text-muted-foreground">
                 Get a free academic counselling session
               </p>
-              <Button asChild size="sm" className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+              <Button asChild size="sm" className="rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
                 <Link href="/book-demo">
                   Book a free demo <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
