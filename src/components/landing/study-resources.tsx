@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -98,13 +99,13 @@ export function StudyResources() {
                           <Link href={resource.href} className="block h-full group">
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
                               <div className="p-4 bg-white">
-                                  <div className="relative aspect-square w-full overflow-hidden rounded-xl shadow-md bg-white">
+                                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
                                       <Image
                                           src={resource.imageUrl}
                                           alt={resource.title}
                                           data-ai-hint={resource.imageHint}
                                           fill
-                                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                          className="object-cover"
                                       />
                                   </div>
                               </div>
