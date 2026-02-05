@@ -1,4 +1,3 @@
-
 // src/app/actions/forms.ts
 'use server';
 
@@ -193,26 +192,26 @@ export async function submitAdmissionForm(formData: FormData) {
         studentId: rawFormData.studentId as string,
         studentName: rawFormData.studentName as string,
         fatherName: rawFormData.fatherName as string,
-        fatherOccupation: rawData.fatherOccupation as string || '',
-        motherName: rawData.motherName as string,
-        motherOccupation: rawData.motherOccupation as string || '',
-        dob: rawData.dob as string,
-        gender: rawData.gender as string,
-        bloodGroup: rawData.bloodGroup as string || '',
-        aadharNumber: rawData.aadharNumber as string || '',
-        apaarId: rawData.apaarId as string || '',
-        email: rawData.email as string,
-        studentPhone: rawData.studentPhone as string || '',
-        fatherPhone: rawData.fatherPhone as string,
-        motherPhone: rawData.motherPhone as string,
-        address: rawData.address as string,
-        pincode: rawData.pincode as string,
-        state: rawData.state as string,
-        classApplied: rawData.classApplied as string,
-        previousSchool: rawData.previousSchool as string || '',
-        additionalInfo: rawData.additionalInfo as string || '',
-        branch: rawData.branch as string,
-        transactionId: rawData.transactionId as string,
+        fatherOccupation: rawFormData.fatherOccupation as string || '',
+        motherName: rawFormData.motherName as string,
+        motherOccupation: rawFormData.motherOccupation as string || '',
+        dob: rawFormData.dob as string,
+        gender: rawFormData.gender as string,
+        bloodGroup: rawFormData.bloodGroup as string || '',
+        aadharNumber: rawFormData.aadharNumber as string || '',
+        apaarId: rawFormData.apaarId as string || '',
+        email: rawFormData.email as string,
+        studentPhone: rawFormData.studentPhone as string || '',
+        fatherPhone: rawFormData.fatherPhone as string,
+        motherPhone: rawFormData.motherPhone as string,
+        address: rawFormData.address as string,
+        pincode: rawFormData.pincode as string,
+        state: rawFormData.state as string,
+        classApplied: rawFormData.classApplied as string,
+        previousSchool: rawFormData.previousSchool as string || '',
+        additionalInfo: rawFormData.additionalInfo as string || '',
+        branch: rawFormData.branch as string,
+        transactionId: rawFormData.transactionId as string,
     };
     
     try {
@@ -349,7 +348,8 @@ export async function createRazorpayOrder(options: { amount: number; currency: s
             currency: options.currency,
             receipt: `receipt_order_${new Date().getTime()}`,
         });
-        return { success: true, order };
+        // Ensure the returned object is plain and serializable
+        return { success: true, order: JSON.parse(JSON.stringify(order)) };
     } catch (error) {
         console.error("Error creating Razorpay order:", error);
         return { success: false, message: "Failed to create Razorpay order." };
@@ -383,5 +383,3 @@ export async function requestCallBack(data: CallBackFormValues) {
     return { success: false, message: "Failed to submit request. Please try again later." };
   }
 }
-
-    
