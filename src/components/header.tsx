@@ -457,13 +457,11 @@ export function Header() {
     }
 
     return (
-      <Link href="/login" className="group relative p-[1px] rounded-lg transition-all active:scale-95 shadow-none overflow-hidden h-9">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary" />
-        <div className="relative bg-white dark:bg-gray-950 px-3 py-1.5 h-full flex items-center rounded-[7px] transition-colors group-hover:bg-transparent">
-          <span className="text-[10px] font-bold uppercase tracking-widest text-primary group-hover:text-white transition-colors">
-            Login
-          </span>
-        </div>
+      <Link href="/login" className="group relative px-5 py-1.5 rounded-full border-2 border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
+        <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
+        <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:text-white transition-colors">
+          Login
+        </span>
       </Link>
     );
   };
@@ -782,4 +780,3 @@ export function Header() {
     </>
   );
 }
-
