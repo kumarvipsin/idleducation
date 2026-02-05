@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
@@ -102,11 +103,15 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   return (
     <section id="testimonials" className="w-full py-6 md:py-10 bg-white dark:bg-background">
       <div className="text-center mb-8 px-4">
-        <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white uppercase">
+        <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white">
           IDL{' '}
           <span className="relative inline-block">
             <span className="relative z-10">Stars</span>
-            <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
+            <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-orange-500 fill-none stroke-current stroke-[10] opacity-70">
+                    <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+                </svg>
+            </div>
           </span>
         </h2>
         <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
