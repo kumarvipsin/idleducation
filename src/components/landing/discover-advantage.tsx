@@ -20,7 +20,7 @@ export function DiscoverAdvantage() {
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
-              <Button asChild size="sm" className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg shadow-orange-500/20 hover:shadow-xl transition-all border-none">
+              <Button asChild size="sm" className="rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg shadow-orange-500/20 hover:shadow-xl transition-all border-none">
                 <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" />
                   IDL Brochure
