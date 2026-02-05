@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, CheckCircle, User, Mail, Phone, Edit, Headset, MessageSquare, Copy } from "lucide-react";
+import { MessageCircle, CheckCircle, User, Mail, Phone, Edit, Headset, MessageSquare, Copy, MapPin } from "lucide-react";
 import Image from "next/image";
 import {
   Dialog,
