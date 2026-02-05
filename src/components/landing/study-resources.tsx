@@ -67,11 +67,15 @@ export function StudyResources() {
     <section className="w-full py-6 md:py-10 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white uppercase">
+          <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white">
             Study{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Resources</span>
-              <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
+              <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
+                    <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+                </svg>
+              </div>
             </span>
           </h2>
           <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
