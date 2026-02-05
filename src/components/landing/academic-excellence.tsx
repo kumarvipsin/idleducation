@@ -90,8 +90,8 @@ export function AcademicExcellence() {
                   className={cn(
                     "py-2 px-5 text-xs font-bold transition-all rounded-full border uppercase tracking-wider",
                     activeIndex === index
-                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20 scale-105"
-                      : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
+                      ? "border-primary text-primary bg-background shadow-md scale-105"
+                      : "border-border text-muted-foreground bg-background hover:border-primary/50 hover:text-primary"
                   )}
                 >
                   {result.categoryName}
