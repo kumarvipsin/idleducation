@@ -214,19 +214,19 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
   if (!mounted) return null;
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="text-center mb-16 animate-fade-in-up">
-        <h1 className="text-3xl md:text-5xl font-black text-primary tracking-tighter mb-4">Premium <span className="text-orange-500">Free Courses</span></h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-medium">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
+    <div className="container mx-auto py-6 md:py-10 px-4 md:px-6">
+      <div className="text-center mb-10 animate-fade-in-up">
+        <h1 className="text-2xl md:text-4xl font-black text-primary tracking-tight uppercase mb-2">Premium <span className="text-orange-500">Free Courses</span></h1>
+        <p className="text-muted-foreground max-w-2xl mx-auto font-medium text-sm">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
       </div>
 
       {sortedGroupedEntries.length > 0 ? (
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
-            <section key={groupTitle} className="mb-16">
-              <div className="mb-10 text-center sm:text-left">
-                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground relative inline-block">
+            <section key={groupTitle} className="mb-12">
+              <div className="mb-6 text-center sm:text-left">
+                <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground uppercase relative inline-block">
                   <span className="relative z-10">{groupTitle}</span>
-                  <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
+                  <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
                     <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
                         <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
                     </svg>
@@ -234,9 +234,9 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                 </h2>
               </div>
     
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {groupCourses.map((course) => (
-                  <Card key={course.id} className="rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col bg-card border group/card relative">
+                  <Card key={course.id} className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex flex-col bg-card border group/card relative">
                     <div className="relative overflow-hidden aspect-[16/9]">
                         <GcsImage
                             filePath={course.coverImageUrl || ""}
@@ -247,38 +247,38 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                     </div>
                     
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                        <CardTitleUI className="text-base font-bold text-foreground leading-tight mb-3 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
+                    <CardContent className="p-4 flex flex-col flex-grow">
+                        <CardTitleUI className="text-sm md:text-base font-bold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                         
-                        <div className="flex flex-wrap items-center gap-2 mb-4">
-                            <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-bold uppercase text-[9px] tracking-widest">{course.batchName}</Badge>
-                            <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[9px] tracking-widest font-bold uppercase">{course.medium}</Badge>
+                        <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                            <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-bold uppercase text-[8px] tracking-widest">{course.batchName}</Badge>
+                            <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-bold uppercase">{course.medium}</Badge>
                         </div>
 
-                        <div className="text-[10px] text-muted-foreground mt-1 space-y-1.5 font-bold uppercase tracking-tight">
+                        <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-bold uppercase tracking-tight">
                           <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
                           <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
                         </div>
 
-                        <div className="mt-6 flex items-center justify-between">
+                        <div className="mt-4 flex items-center justify-between">
                           <div>
                             <div className="flex items-baseline gap-1.5">
-                                <p className="text-xl font-black text-primary">₹{course.price}</p>
-                                {course.originalPrice > 0 && <p className="text-xs text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
+                                <p className="text-lg font-black text-primary">₹{course.price}</p>
+                                {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
                             </div>
-                            <div className="bg-green-500/10 text-green-600 text-[9px] font-black px-2 py-1 rounded mt-1.5 border border-green-500/20 uppercase tracking-tighter w-fit">
+                            <div className="bg-green-500/10 text-green-600 text-[8px] font-black px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
                                 100% OFF
                             </div>
                           </div>
 
                           <Popover>
                             <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-8 w-8">
-                                    <Info className="w-4 h-4" />
+                                <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-7 w-7">
+                                    <Info className="w-3.5 h-3.5" />
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                <h4 className="font-black text-[10px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
+                                <h4 className="font-black text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
                                 <ScrollArea className="max-h-40">
                                     <p className="text-[10px] text-foreground font-medium leading-relaxed whitespace-pre-wrap opacity-80">
                                         {course.description}
@@ -295,11 +295,11 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                         </div>
                     </CardContent>
 
-                    <div className="p-6 pt-0 mt-auto">
+                    <div className="p-4 pt-0 mt-auto">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-10 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-xs tracking-widest">
-                                    <PlayCircle className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
+                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-black h-9 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-widest">
+                                    <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
                                     VIEW LESSONS
                                 </Button>
                             </DialogTrigger>
@@ -316,8 +316,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
             <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
                 <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
             </div>
-            <h2 className="text-2xl font-black text-foreground/40 tracking-tighter">No courses found</h2>
-            <p className="text-sm text-muted-foreground font-bold">New learning material is coming soon!</p>
+            <h2 className="text-xl font-black text-foreground/40 tracking-tight uppercase">No courses found</h2>
+            <p className="text-xs text-muted-foreground font-bold">New learning material is coming soon!</p>
         </div>
       )}
     </div>
