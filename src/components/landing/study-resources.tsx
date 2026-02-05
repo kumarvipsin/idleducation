@@ -71,9 +71,9 @@ export function StudyResources() {
             Study{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Resources</span>
-              <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
-                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
-                    <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+              <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                    <path d="M0,15 Q50,5 100,15" />
                 </svg>
               </div>
             </span>
@@ -104,13 +104,13 @@ export function StudyResources() {
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
                               <div className="p-4 bg-white">
                                   <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-blue-50/50">
-                                      <div className="absolute inset-4">
+                                      <div className="absolute inset-0">
                                           <Image
                                               src={resource.imageUrl}
                                               alt={resource.title}
                                               data-ai-hint={resource.imageHint}
                                               fill
-                                              className="object-contain"
+                                              className="object-cover"
                                           />
                                       </div>
                                   </div>

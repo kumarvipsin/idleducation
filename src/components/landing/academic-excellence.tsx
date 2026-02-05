@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -61,7 +62,15 @@ export function AcademicExcellence() {
             Academic Success
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-            Our Excellence Results
+            Our Excellence{' '}
+            <span className="relative inline-block">
+              <span className="relative z-10">Results</span>
+              <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                    <path d="M0,15 Q50,5 100,15" />
+                </svg>
+              </div>
+            </span>
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-medium">
             Celebrating the consistent hard work and outstanding achievements of our students across various domains.

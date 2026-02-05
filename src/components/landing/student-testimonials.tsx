@@ -30,7 +30,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
                        <button className="absolute inset-0 flex items-center justify-center transition-transform active:scale-95">
-                          <PlayCircle className="w-14 h-14 text-white drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]" />
+                          <PlayCircle className="w-14 h-14 text-white drop-shadow-2xl" />
                       </button>
                     </DialogTrigger>
                   )}
@@ -108,8 +108,8 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
           <span className="relative inline-block">
             <span className="relative z-10">Stars</span>
             <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-orange-500 fill-none stroke-current stroke-[10] opacity-70">
-                    <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                    <path d="M0,15 Q50,5 100,15" />
                 </svg>
             </div>
           </span>
