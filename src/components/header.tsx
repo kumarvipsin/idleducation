@@ -131,7 +131,7 @@ const scholarshipSchema = z.object({
 });
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
-const scholarshipClasses = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10"];
+const scholarshipClasses = ["Class 4", "Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"];
 
 type CartItem = {
     id: number;
@@ -430,7 +430,7 @@ export function Header() {
     }
 
     return (
-      <Link href="/login" className="group relative px-5 py-1.5 rounded-md border-2 border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
+      <Link href="/login" className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
         <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
         <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:text-white transition-colors">
           Login
@@ -493,7 +493,7 @@ export function Header() {
     { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, description: "Visit our centers for in-person learning.", colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400" },
     { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, description: "Join our hands-on workshops.", colorClasses: "bg-lime-100 text-lime-600 dark:bg-lime-900/30 dark:text-lime-400" },
     { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Join our team of volunteers and contribute to our mission.", colorClasses: "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400" },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-rose-900/30 dark:text-rose-400" },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause and make a difference.", colorClasses: "bg-rose-100 text-rose-600 dark:bg-amber-900/30 dark:text-rose-400" },
   ];
   
   const applyForLinks = [
