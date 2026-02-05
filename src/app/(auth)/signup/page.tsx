@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { User, Mail, Lock, ArrowRight, GraduationCap, Briefcase, Shield } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, GraduationCap, Briefcase, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -71,29 +71,33 @@ export default function SignupPage() {
         <Card className="border bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-none">
           <CardHeader className="pt-10 pb-4 text-center">
             <Link href="/" className="mx-auto block w-fit mb-6">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="relative flex items-center justify-center w-20 h-20"
-              >
-                {/* Pulsing Outer Ring */}
+              <div className="relative flex items-center justify-center w-24 h-24">
+                {/* Outer Rotating Ring */}
                 <motion.div
-                  animate={{
-                    scale: [1, 1.2, 1],
-                    opacity: [0.3, 0.1, 0.3],
-                  }}
-                  transition={{
-                    duration: 3,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="absolute w-full h-full rounded-full bg-primary/20"
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-0 border-2 border-dashed border-primary/20 rounded-full"
                 />
-                {/* Inner Shield Container */}
-                <div className="relative z-10 flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-xl border border-white/20">
-                  <Shield className="w-8 h-8 text-white" />
+                
+                {/* Inner Rotating Ring (Opposite Direction) */}
+                <motion.div
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+                  className="absolute inset-2 border-2 border-dotted border-primary/30 rounded-full"
+                />
+
+                {/* Central Pulse Glow */}
+                <motion.div
+                  animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="absolute inset-4 bg-primary/5 rounded-full blur-xl"
+                />
+
+                {/* Shield Icon */}
+                <div className="relative z-10 flex items-center justify-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-2xl border border-white/20">
+                  <ShieldCheck className="w-7 h-7 text-white" />
                 </div>
-              </motion.div>
+              </div>
             </Link>
             <CardTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Create Account</CardTitle>
             <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400 capitalize">
