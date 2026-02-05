@@ -114,17 +114,17 @@ export function GetAppSection() {
     
   return (
     <>
-    <section className="w-full pt-2 pb-10 md:pb-16 bg-white dark:bg-gray-900">
+    <section className="w-full pt-2 pb-8 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
                 <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
-                    <div className="flex items-center gap-3 p-4">
-                        <div className="bg-blue-100 text-blue-600 p-2.5 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                            <Headset className="w-5 h-5" />
+                    <div className="flex items-center gap-3 p-3">
+                        <div className="bg-blue-100 text-blue-600 p-2 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                            <Headset className="w-4 h-4" />
                         </div>
-                        <p className="text-sm font-bold tracking-tight">Technical Support</p>
+                        <p className="text-xs font-bold tracking-tight">Technical Support</p>
                     </div>
                 </Card>
             </DialogTrigger>
@@ -206,11 +206,11 @@ export function GetAppSection() {
           <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
             <DialogTrigger asChild>
               <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
-                <div className="flex items-center gap-3 p-4">
-                  <div className="bg-green-100 text-green-600 p-2.5 rounded-xl group-hover:bg-green-600 group-hover:text-white transition-colors">
-                    <MessageCircle className="w-5 h-5" />
+                <div className="flex items-center gap-3 p-3">
+                  <div className="bg-green-100 text-green-600 p-2 rounded-xl group-hover:bg-green-600 group-hover:text-white transition-colors">
+                    <MessageCircle className="w-4 h-4" />
                   </div>
-                  <p className="text-sm font-bold tracking-tight">Talk to an expert</p>
+                  <p className="text-xs font-bold tracking-tight">Talk to an expert</p>
                 </div>
               </Card>
             </DialogTrigger>
@@ -316,11 +316,11 @@ export function GetAppSection() {
           <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
             <DialogTrigger asChild>
               <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
-                <div className="flex items-center gap-3 p-4">
-                  <div className="bg-amber-100 text-amber-600 p-2.5 rounded-xl group-hover:bg-amber-600 group-hover:text-white transition-colors">
-                    <MessageSquare className="w-5 h-5" />
+                <div className="flex items-center gap-3 p-3">
+                  <div className="bg-amber-100 text-amber-600 p-2 rounded-xl group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                    <MessageSquare className="w-4 h-4" />
                   </div>
-                  <p className="text-sm font-bold tracking-tight">General Enquiry</p>
+                  <p className="text-xs font-bold tracking-tight">General Enquiry</p>
                 </div>
               </Card>
             </DialogTrigger>
@@ -335,7 +335,7 @@ export function GetAppSection() {
         </div>
         
         <div className="relative p-[1.5px] rounded-[2.5rem] bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 overflow-hidden shadow-sm">
-          <div className="rounded-[calc(2.5rem-1.5px)] bg-white p-8 md:p-12 relative overflow-hidden">
+          <div className="rounded-[calc(2.5rem-1.5px)] bg-white p-6 md:p-8 relative overflow-hidden">
             {/* Background Texture and India Map Silhouette */}
             <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
             <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
@@ -347,8 +347,8 @@ export function GetAppSection() {
               />
             </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              <div className="lg:col-span-3 relative h-56 md:h-64 flex items-center justify-center">
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-3 relative h-48 md:h-52 flex items-center justify-center">
                   <div className="relative w-full h-full transform -rotate-6 group hover:rotate-0 transition-transform duration-500">
                       <div className="absolute inset-4 bg-primary/5 rounded-[2rem] blur-2xl" />
                       <Image
@@ -361,52 +361,52 @@ export function GetAppSection() {
                   </div>
               </div>
               
-              <div className="lg:col-span-5 space-y-4 text-left">
-                <div className="space-y-2">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
+              <div className="lg:col-span-5 space-y-3 text-left">
+                <div className="space-y-1.5">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-widest">
                       Available on iOS & Android
                   </div>
-                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                  <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
                       Learn Smart with the <span className="text-primary">IDL App</span>
                   </h2>
                 </div>
                 
-                <ul className="space-y-2">
+                <ul className="space-y-1.5">
                   {[
                       "Access free high-quality video lessons",
                       "Interactive doubt clearing sessions",
                       "Premium study materials and mock tests"
                   ].map((item, idx) => (
-                      <li key={idx} className="flex items-center justify-start gap-3 group">
+                      <li key={idx} className="flex items-center justify-start gap-2.5 group">
                           <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
-                              <CheckCircle2 className="w-3.5 h-3.5 text-primary group-hover:text-white transition-colors" />
+                              <CheckCircle2 className="w-3 h-3 text-primary group-hover:text-white transition-colors" />
                           </div>
-                          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
+                          <span className="text-[11px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
                       </li>
                   ))}
                 </ul>
               </div>
 
-              <div className="lg:col-span-4 flex flex-col items-center justify-center gap-6">
-                  <div className="flex items-center gap-6 p-6 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[2rem] border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
-                      <div className="bg-white p-2 rounded-xl shadow-inner border border-border/50">
+              <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
+                  <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[1.5rem] border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
+                      <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50">
                           <Image
                               src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
                               alt="QR Code"
                               data-ai-hint="qr code"
-                              width={100}
+                              width={80}
                               height={100}
                               className="opacity-80"
                           />
                       </div>
-                      <div className="space-y-1">
-                          <p className="text-xs font-bold uppercase tracking-widest text-primary">Quick Scan</p>
-                          <p className="text-xl font-bold leading-tight">Get the App <br/>Instantly</p>
+                      <div className="space-y-0.5">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
+                          <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
                       </div>
                   </div>
 
-                  <div className="flex items-center gap-3 w-full sm:w-auto">
-                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-11 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                  <div className="flex items-center gap-2.5 w-full sm:w-auto">
+                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-9 w-28 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                               alt="Get it on Google Play"
@@ -414,7 +414,7 @@ export function GetAppSection() {
                               className="object-contain"
                           />
                       </a>
-                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-11 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-9 w-28 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
                               alt="Download on the App Store"
