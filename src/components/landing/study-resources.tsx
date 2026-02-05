@@ -65,15 +65,15 @@ export function StudyResources() {
   return (
     <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
             Study{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Resources</span>
-              <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
             </span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto">
             Your one-stop destination for comprehensive and effective study materials.
           </p>
         </div>
@@ -96,19 +96,18 @@ export function StudyResources() {
                   <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
-                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card">
-                              <CardContent className="p-8 flex-grow flex flex-col">
-                                  
-                                  <h3 className="text-xl font-bold mt-2 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
-                                  <p className="text-sm mt-2 text-muted-foreground flex-grow min-h-[5rem]">{resource.description}</p>
+                              <Card className="h-full rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/5">
+                              <CardContent className="p-5 flex-grow flex flex-col">
+                                  <h3 className="text-lg font-bold mt-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
+                                  <p className="text-xs mt-2 text-muted-foreground flex-grow min-h-[3.5rem] line-clamp-3 font-medium">{resource.description}</p>
                               </CardContent>
-                              <div className="relative aspect-[4/3] w-full mt-auto">
+                              <div className="relative aspect-[16/10] w-full mt-auto overflow-hidden">
                                   <Image
                                       src={resource.imageUrl}
                                       alt={resource.title}
                                       data-ai-hint={resource.imageHint}
                                       fill
-                                      className="object-cover"
+                                      className="object-cover transition-transform duration-500 group-hover:scale-105"
                                   />
                               </div>
                               </Card>
@@ -118,14 +117,14 @@ export function StudyResources() {
               ))}
           </CarouselContent>
       </Carousel>
-      <div className="flex justify-center gap-2 mt-8">
+      <div className="flex justify-center gap-1.5 mt-6">
             {resources.map((_, i) => (
                 <button
                     key={i}
                     onClick={() => scrollTo(i)}
                     className={cn(
-                        "h-1.5 w-1.5 rounded-full transition-all duration-300",
-                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                        "h-1 w-1 rounded-full transition-all duration-300",
+                        current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
                     )}
                 />
             ))}
