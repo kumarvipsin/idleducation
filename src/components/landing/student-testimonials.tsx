@@ -9,7 +9,7 @@ import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "../gcs-image";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogTrigger, DialogContent } from "../ui/dialog";
 import { PlayCircle } from "lucide-react";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
@@ -49,9 +49,6 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       </Card>
       {testimonial.videoId && (
         <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none">
-            <DialogHeader className="p-4 bg-background">
-                <DialogTitle className="font-black tracking-tight">{testimonial.name}'s Story</DialogTitle>
-            </DialogHeader>
             <div className="aspect-video bg-black">
             <iframe
                 className="w-full h-full"
