@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from "react";
@@ -90,7 +89,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             <span className="relative inline-block">
               <span className="relative z-10">Talk</span>
               <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
                     <path d="M0,15 Q50,5 100,15" />
                 </svg>
               </div>
