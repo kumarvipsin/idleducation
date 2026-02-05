@@ -13,9 +13,12 @@ export function TrustedPlatform() {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mt-8">
               Bharat's Trusted & Affordable Educational Platform
             </h2>
-            <p className="text-muted-foreground text-base">
+            <p className="text-muted-foreground text-sm md:text-base">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
+            <Button asChild size="sm" className="rounded-full font-bold">
+              <Link href="/signup">Get Started</Link>
+            </Button>
           </div>
           <div className="relative h-[280px] flex items-center justify-center">
             <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
@@ -30,8 +33,8 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
                     <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-8 -right-28 w-36 bg-white text-gray-800 p-2 rounded-lg shadow-lg">
-                    <p className="text-[0.6rem] leading-tight">IDL is where student learn with love and can grow with guidance</p>
+                 <div className="absolute bottom-8 -right-28 w-36 bg-white text-gray-800 p-2 rounded-lg shadow-lg border">
+                    <p className="text-[0.6rem] leading-tight font-medium">IDL is where student learn with love and can grow with guidance</p>
                     <div className="absolute left-0 bottom-[-7px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-white"></div>
                 </div>
             </div>
@@ -46,9 +49,9 @@ export function TrustedPlatform() {
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
                 </div>
-                 <div className="absolute top-6 -left-32 w-36 bg-green-100 p-2 rounded-lg shadow-lg">
-                    <p className="text-[0.6rem] leading-tight text-gray-800">Amod Sir, What is IDL?</p>
-                    <div className="absolute right-[-10px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[10px] border-t-transparent border-b-[10px] border-b-transparent border-l-[10px] border-l-green-100"></div>
+                 <div className="absolute top-6 -left-32 w-36 bg-green-50 p-2 rounded-lg shadow-lg border border-green-100">
+                    <p className="text-[0.6rem] leading-tight text-gray-800 font-medium">Amod Sir, What is IDL?</p>
+                    <div className="absolute right-[-7px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[7px] border-l-green-50"></div>
                 </div>
             </div>
 
