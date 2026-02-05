@@ -97,14 +97,16 @@ export function StudyResources() {
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
-                              <div className="relative aspect-square w-full overflow-hidden bg-muted">
-                                  <Image
-                                      src={resource.imageUrl}
-                                      alt={resource.title}
-                                      data-ai-hint={resource.imageHint}
-                                      fill
-                                      className="object-cover transition-transform duration-500 group-hover:scale-110"
-                                  />
+                              <div className="p-4 bg-white">
+                                  <div className="relative aspect-square w-full overflow-hidden rounded-xl border-4 border-white shadow-md bg-white">
+                                      <Image
+                                          src={resource.imageUrl}
+                                          alt={resource.title}
+                                          data-ai-hint={resource.imageHint}
+                                          fill
+                                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                                      />
+                                  </div>
                               </div>
                               <CardContent className="p-4 flex-grow flex flex-col text-center">
                                   <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-1">{resource.category}</p>
