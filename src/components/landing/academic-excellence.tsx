@@ -16,7 +16,7 @@ export function AcademicExcellence() {
   const [loading, setLoading] = useState(true);
   const [emblaRef, emblaApi] = useEmblaCarousel({ 
     loop: true, 
-    align: 'center',
+    align: 'start',
     skipSnaps: false 
   }, [Autoplay({ delay: 4000, stopOnInteraction: false })]);
   
@@ -97,32 +97,27 @@ export function AcademicExcellence() {
 
       <div className="relative w-full">
         <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
-          <div className="flex -ml-4">
+          <div className="flex">
             {loading ? (
-              <div className="flex-shrink-0 flex-grow-0 basis-[85%] pl-4">
-                <Skeleton className="w-full aspect-video rounded-3xl" />
+              <div className="flex-shrink-0 flex-grow-0 basis-full">
+                <Skeleton className="w-full aspect-video rounded-none" />
               </div>
             ) : (
-              results.map((result, index) => (
+              results.map((result) => (
                 <div 
                   key={result.id} 
-                  className="flex-shrink-0 flex-grow-0 basis-[85%] md:basis-[60%] lg:basis-[50%] pl-4"
+                  className="flex-shrink-0 flex-grow-0 basis-full"
                 >
-                  <div className={cn(
-                    "transition-all duration-700 ease-out",
-                    index === activeIndex ? "scale-100 opacity-100" : "scale-90 opacity-40 blur-[1px]"
-                  )}>
-                    <Card className="rounded-[2rem] overflow-hidden border-none shadow-2xl bg-muted">
-                      <div className="relative w-full aspect-video">
-                        <GcsImage
-                          filePath={result.imageUrl}
-                          alt={`Result for ${result.categoryName}`}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                    </Card>
-                  </div>
+                  <Card className="rounded-none overflow-hidden border-none shadow-none bg-muted">
+                    <div className="relative w-full aspect-video">
+                      <GcsImage
+                        filePath={result.imageUrl}
+                        alt={`Result for ${result.categoryName}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  </Card>
                 </div>
               ))
             )}
