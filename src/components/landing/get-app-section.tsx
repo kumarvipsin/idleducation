@@ -114,17 +114,21 @@ export function GetAppSection() {
     <>
     <section className="w-full pt-2 pb-8 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 max-w-2xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 max-w-3xl mx-auto">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
-                <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
-                    <div className="flex items-center gap-3 p-3">
-                        <div className="bg-blue-100 text-blue-600 p-2 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                            <Headset className="w-4 h-4" />
-                        </div>
-                        <p className="text-xs font-bold tracking-tight">Technical Support</p>
+                <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-[1.5rem] border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
+                    <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
+                        <Headset className="w-20 h-20 -rotate-12" />
                     </div>
-                </Card>
+                    <div className="bg-blue-500/10 p-3 rounded-2xl group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 shrink-0">
+                        <Headset className="w-5 h-5 text-blue-600 group-hover:text-inherit" />
+                    </div>
+                    <div className="space-y-0.5">
+                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600/60">System Help</p>
+                        <p className="text-[13px] font-bold text-foreground">Technical Support</p>
+                    </div>
+                </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
                 <DialogHeader className="text-center mb-6">
@@ -203,14 +207,18 @@ export function GetAppSection() {
 
           <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
             <DialogTrigger asChild>
-              <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
-                <div className="flex items-center gap-3 p-3">
-                  <div className="bg-green-100 text-green-600 p-2 rounded-xl group-hover:bg-green-600 group-hover:text-white transition-colors">
-                    <MessageCircle className="w-4 h-4" />
-                  </div>
-                  <p className="text-xs font-bold tracking-tight">Talk to an expert</p>
+              <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-[1.5rem] border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
+                <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
+                    <MessageCircle className="w-20 h-20 -rotate-12" />
                 </div>
-              </Card>
+                <div className="bg-green-500/10 p-3 rounded-2xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shrink-0">
+                  <MessageCircle className="w-5 h-5 text-green-600 group-hover:text-inherit" />
+                </div>
+                <div className="space-y-0.5">
+                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-green-600/60">Direct Line</p>
+                    <p className="text-[13px] font-bold text-foreground">Talk to an expert</p>
+                </div>
+              </button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
                 <DialogHeader className="text-center mb-6">
