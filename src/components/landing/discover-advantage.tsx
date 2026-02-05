@@ -22,7 +22,7 @@ export function DiscoverAdvantage() {
               <Button asChild size="sm" className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-600/20 hover:shadow-xl transition-all border-none">
                 <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" />
-                  Download Brochure
+                  IDL Brochure
                 </Link>
               </Button>
             </div>
