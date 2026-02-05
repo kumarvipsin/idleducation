@@ -63,7 +63,7 @@ export function StudyResources() {
     );
 
   return (
-    <section className="w-full py-4 md:py-8 bg-white dark:bg-gray-900">
+    <section className="w-full py-2 md:py-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-10">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">

@@ -91,7 +91,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full py-4 md:py-8 bg-white dark:bg-background">
+    <section className="w-full py-2 md:py-4 bg-white dark:bg-background">
         <div className="text-center mb-10 px-4 md:px-6">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
             Topper's{' '}

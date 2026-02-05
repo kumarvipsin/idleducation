@@ -52,7 +52,7 @@ export function AcademicExcellence() {
 
   return (
     <section 
-      className="w-full mt-8 py-4 md:py-8 bg-white dark:bg-background"
+      className="w-full mt-4 py-2 md:py-4 bg-white dark:bg-background"
     >
       <div className="w-full">
         <div className="text-center mb-10 px-4">
