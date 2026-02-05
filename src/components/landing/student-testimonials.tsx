@@ -24,7 +24,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      className="object-cover"
                   />
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
