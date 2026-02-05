@@ -121,7 +121,7 @@ export function GetAppSection() {
                     <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
                         <Headset className="w-20 h-20 -rotate-12" />
                     </div>
-                    <div className="bg-blue-500/10 p-3 rounded-2xl group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 shrink-0">
+                    <div className="bg-blue-500/10 p-3 rounded-full group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 shrink-0">
                         <Headset className="w-5 h-5 text-blue-600 group-hover:text-inherit" />
                     </div>
                     <div className="space-y-0.5">
@@ -211,7 +211,7 @@ export function GetAppSection() {
                 <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
                     <MessageCircle className="w-20 h-20 -rotate-12" />
                 </div>
-                <div className="bg-green-500/10 p-3 rounded-2xl group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shrink-0">
+                <div className="bg-green-500/10 p-3 rounded-full group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shrink-0">
                   <MessageCircle className="w-5 h-5 text-green-600 group-hover:text-inherit" />
                 </div>
                 <div className="space-y-0.5">
