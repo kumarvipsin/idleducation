@@ -103,7 +103,7 @@ export function StudyResources() {
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
                               <div className="p-4 bg-white">
                                   <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-blue-50/50 flex items-center justify-center">
-                                      <div className="relative w-[70%] h-[70%] transition-transform duration-300 group-hover:scale-110">
+                                      <div className="relative w-[80%] h-[80%] transition-transform duration-300">
                                           <Image
                                               src={resource.imageUrl}
                                               alt={resource.title}
