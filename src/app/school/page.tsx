@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from "react";
@@ -14,6 +13,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useSearchParams, useRouter } from 'next/navigation';
+import { Badge } from "@/components/ui/badge";
 
 const CheckIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
