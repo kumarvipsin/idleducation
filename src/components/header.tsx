@@ -149,7 +149,7 @@ export function Header() {
   const router = useRouter();
   const pathname = usePathname();
   const brandName = "IDL EDUCATION";
-  const [updates, setUpdates] = useState<Update[]>([]);
+  const [updates, setUpdates] = useState<any[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -286,20 +286,7 @@ export function Header() {
 
   useEffect(() => {
     const fetchUpdates = async () => {
-      //const result = await getUpdates(3);
-      //if (result.success && result.data) {
-        //const fetchedUpdates = result.data as Update[];
-        //setUpdates(fetchedUpdates);
-
-        //if (fetchedUpdates.length > 0) {
-        //  const lastChecked = localStorage.getItem('lastCheckedUpdate');
-         // const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
-          
-         // if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
-           // setHasNewUpdates(true);
-         // }
-       // }
-      //}
+      // Logic for fetching updates can go here
     };
     if (!isIdlFoundationPage) {
         fetchUpdates();
@@ -309,13 +296,6 @@ export function Header() {
   const handleLogout = async () => {
     await logout();
     router.push('/');
-  };
-
-  const handleNotificationOpenChange = (open: boolean) => {
-    if (open) {
-      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
-      setHasNewUpdates(false);
-    }
   };
 
   const getDashboardPath = (user: UserProfile | null) => {
@@ -343,13 +323,6 @@ export function Header() {
     }, 200);
   };
   
-  const branches = [
-    { name: "Mukherjee Nagar, Delhi-110009", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
-    { name: "Mangol Puri, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
-    { name: "Budh Vihar, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
-    { name: "Krishan Vihar, Delhi-110086", href: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6" },
-  ];
-
   const renderAuthSection = () => {
     if (loading) {
       return <Skeleton className="h-10 w-10 rounded-full" />;
@@ -457,12 +430,58 @@ export function Header() {
     }
 
     return (
-      <Link href="/login" className="group relative px-5 py-1.5 rounded-full border-2 border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
+      <Link href="/login" className="group relative px-5 py-1.5 rounded-md border-2 border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
         <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
         <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:text-white transition-colors">
           Login
         </span>
       </Link>
+    );
+  };
+
+  const renderMobileAuthSection = () => {
+    if (!isClient) return null;
+    if (loading) {
+      return (
+        <div className="flex items-center gap-3 p-4 border-t mt-auto">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="flex-1 space-y-2">
+            <Skeleton className="h-3 w-1/2" />
+            <Skeleton className="h-3 w-1/3" />
+          </div>
+        </div>
+      );
+    }
+
+    if (user) {
+      return (
+        <div className="p-4 border-t mt-auto flex items-center justify-between bg-muted/30">
+          <Link href={getProfilePath(user)} className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
+            <Avatar className="h-10 w-10">
+              <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
+              <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <span className="text-sm font-bold truncate max-w-[120px]">{user.name}</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-black">{user.role}</span>
+            </div>
+          </Link>
+          <Button variant="ghost" size="icon" onClick={handleLogout} className="text-destructive">
+            <LogOut className="h-5 w-5" />
+          </Button>
+        </div>
+      );
+    }
+
+    return (
+      <div className="p-4 border-t mt-auto grid grid-cols-2 gap-2 bg-muted/10">
+        <Button asChild variant="outline" className="w-full h-10 rounded-lg text-xs font-bold uppercase tracking-widest" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link href="/login">Login</Link>
+        </Button>
+        <Button asChild className="w-full h-10 rounded-lg text-xs font-bold uppercase tracking-widest" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link href="/signup">Sign Up</Link>
+        </Button>
+      </div>
     );
   };
   
@@ -478,73 +497,11 @@ export function Header() {
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form.", colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve.", colorClasses: "bg-yellow-100 text-yellow-600 dark:bg-yellow-900/30 dark:text-yellow-400" },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey with us by filling out the admission form." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style with a free demo class." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Share your valuable feedback to help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Have questions? Send us an enquiry." },
   ];
-
-  const loggedInNavLinks = [
-    { href: getDashboardPath(user), label: 'Dashboard', icon: <LayoutDashboard className="h-4 w-4" /> },
-    { href: getProfilePath(user), label: 'Profile', icon: <User className="h-4 w-4" /> },
-  ];
-
-  const renderMobileAuthSection = () => {
-    if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
-    }
-    if (user) {
-      return null;
-    }
-    return null;
-  };
-  
-  const notificationDropdown = (
-    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
-        <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-10 w-10 rounded-full">
-                <Bell className="h-5 w-5" />
-                {hasNewUpdates && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                )}
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {updates.length > 0 ? (
-            updates.map(update => (
-                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
-                    <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
-                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                    </p>
-                </DropdownMenuItem>
-            ))
-            ) : (
-            <DropdownMenuItem>No new updates.</DropdownMenuItem>
-            )}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-            <Link href="/notifications" className="text-center justify-center">
-                View all notifications
-            </Link>
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-  );
 
   const headerClasses = cn(
     "sticky top-0 z-50 border-b transition-transform duration-300 h-16",
@@ -749,7 +706,7 @@ export function Header() {
         </header>
       </Sheet>
        <div 
-        onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
+        onMouseEnter={() => handleMouseEnter('explore')} 
         onMouseLeave={handleMouseLeave} 
         className={cn(
           "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
