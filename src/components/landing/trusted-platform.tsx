@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -31,11 +32,11 @@ export function TrustedPlatform() {
                         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-orange-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-purple-100 dark:bg-purple-900/30 rounded-full"></div>
-                    <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative" data-ai-hint="teacher profile" />
+                    <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative object-cover object-top" data-ai-hint="teacher profile" />
                 </div>
-                 <div className="absolute bottom-6 -right-32 md:-right-40 w-40 md:w-56 bg-white text-gray-800 p-2 rounded-lg shadow-lg border">
+                 <div className="absolute top-2 -right-44 md:-right-60 w-44 md:w-60 bg-white text-gray-800 p-2 rounded-lg shadow-lg border z-20">
                     <p className="text-[9px] md:text-[10px] leading-tight text-primary font-medium">IDL is where dreams are encouraged, effort is empowered, and every student is guided to rise with confidence and purpose. 💫</p>
-                    <div className="absolute left-0 bottom-[-7px] w-0 h-0 border-l-[7px] border-l-transparent border-t-[7px] border-t-white"></div>
+                    <div className="absolute left-[-7px] top-4 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-r-[7px] border-r-white"></div>
                 </div>
             </div>
 
@@ -47,7 +48,7 @@ export function TrustedPlatform() {
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-2 h-2 bg-green-400 rounded-full"></div>
                     </div>
                     <div className="absolute inset-0 bg-blue-100 dark:bg-blue-900/30 rounded-full"></div>
-                    <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative" data-ai-hint="student profile" />
+                    <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative object-cover object-top" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-4 -left-28 md:-left-32 w-32 md:w-36 bg-green-50 p-2 rounded-lg shadow-lg border border-green-100">
                     <p className="text-[9px] md:text-[10px] leading-tight text-gray-800 font-medium">Amod Sir, What is IDL?</p>
