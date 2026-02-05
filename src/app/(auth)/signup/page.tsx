@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { User, Mail, Lock, ArrowRight, GraduationCap, Briefcase } from "lucide-react";
+import { User, Mail, Lock, ArrowRight, GraduationCap, Briefcase, Shield } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,7 +14,6 @@ import { useToast } from "@/hooks/use-toast";
 import { signUpUser } from "@/app/actions";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import { useState } from "react";
 
 const signupSchema = z.object({
@@ -71,15 +70,30 @@ export default function SignupPage() {
       >
         <Card className="border bg-white dark:bg-gray-900 rounded-[2.5rem] overflow-hidden shadow-none">
           <CardHeader className="pt-10 pb-4 text-center">
-            <Link href="/" className="mx-auto block w-fit mb-4">
-              <Image 
-                src="/logo.png" 
-                alt="LearnScape Logo" 
-                width={80} 
-                height={80} 
-                priority 
-                className="drop-shadow-sm"
-              />
+            <Link href="/" className="mx-auto block w-fit mb-6">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="relative flex items-center justify-center w-20 h-20"
+              >
+                {/* Pulsing Outer Ring */}
+                <motion.div
+                  animate={{
+                    scale: [1, 1.2, 1],
+                    opacity: [0.3, 0.1, 0.3],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="absolute w-full h-full rounded-full bg-primary/20"
+                />
+                {/* Inner Shield Container */}
+                <div className="relative z-10 flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-xl border border-white/20">
+                  <Shield className="w-8 h-8 text-white" />
+                </div>
+              </motion.div>
             </Link>
             <CardTitle className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">Create Account</CardTitle>
             <CardDescription className="text-xs font-medium text-gray-500 dark:text-gray-400 capitalize">
@@ -206,7 +220,7 @@ export default function SignupPage() {
                         <FormItem>
                           <FormControl>
                             <div className="relative group">
-                              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                              <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                               <Input 
                                 placeholder="Professional email" 
                                 {...field} 
@@ -225,7 +239,7 @@ export default function SignupPage() {
                         <FormItem>
                           <FormControl>
                             <div className="relative group">
-                              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
+                              <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                               <Input 
                                 type="password" 
                                 placeholder="Create password" 
