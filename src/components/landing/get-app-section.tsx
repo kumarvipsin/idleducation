@@ -114,7 +114,7 @@ export function GetAppSection() {
     <>
     <section className="w-full pt-2 pb-8 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 max-w-3xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 max-w-3xl mx-auto">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
                 <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-lg border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
@@ -320,7 +320,7 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="relative p-[1.5px] rounded-2xl bg-gradient-to-r from-blue-500/30 via-purple-500/40 to-orange-500/30 overflow-hidden shadow-sm">
+        <div className="relative p-[1.5px] rounded-2xl bg-white overflow-hidden shadow-sm">
           <div className="rounded-[calc(1rem-1.5px)] bg-white p-6 md:p-8 relative overflow-hidden border border-white">
             {/* Background Texture and India Map Silhouette */}
             <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
@@ -374,7 +374,7 @@ export function GetAppSection() {
               </div>
 
               <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
-                  <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[1.5rem] border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
+                  <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-lg border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
                       <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50">
                           <Image
                               src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
