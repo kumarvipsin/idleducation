@@ -392,7 +392,7 @@ export function GetAppSection() {
                   </div>
 
                   <div className="flex items-center gap-2.5 w-full sm:w-auto">
-                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-9 w-28 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-10 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                               alt="Get it on Google Play"
@@ -400,7 +400,7 @@ export function GetAppSection() {
                               className="object-contain"
                           />
                       </a>
-                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-9 w-28 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-10 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
                               alt="Download on the App Store"
