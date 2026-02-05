@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -100,7 +99,7 @@ export function AcademicExcellence() {
           <div className="flex">
             {loading ? (
               <div className="flex-shrink-0 flex-grow-0 basis-full">
-                <Skeleton className="w-full aspect-video rounded-none" />
+                <Skeleton className="w-full aspect-video md:aspect-[21/7] rounded-none" />
               </div>
             ) : (
               results.map((result) => (
@@ -109,7 +108,7 @@ export function AcademicExcellence() {
                   className="flex-shrink-0 flex-grow-0 basis-full"
                 >
                   <Card className="rounded-none overflow-hidden border-none shadow-none bg-muted">
-                    <div className="relative w-full aspect-video">
+                    <div className="relative w-full aspect-video md:aspect-[21/7]">
                       <GcsImage
                         filePath={result.imageUrl}
                         alt={`Result for ${result.categoryName}`}
