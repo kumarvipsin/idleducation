@@ -24,8 +24,8 @@ const TestimonialCard = ({ testimonial, language }: { testimonial: TTestimonial,
       <Card
         className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-xl overflow-hidden"
       >
-          <CardContent className="p-4 flex flex-col text-center items-center">
-              <div className="relative w-full aspect-square mb-4 rounded-lg overflow-hidden group cursor-pointer">
+          <CardContent className="p-3 flex flex-col text-center items-center">
+              <div className="relative w-full aspect-square mb-3 rounded-lg overflow-hidden group cursor-pointer">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
@@ -34,22 +34,22 @@ const TestimonialCard = ({ testimonial, language }: { testimonial: TTestimonial,
                   />
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
-                       <button className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-10 w-10 flex items-center justify-center transition-transform duration-300 hover:scale-110">
-                          <PlayCircle className="w-6 h-6 text-primary/80" />
+                       <button className="absolute bottom-2 right-2 bg-white/80 backdrop-blur-sm rounded-full h-8 w-8 flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                          <PlayCircle className="w-5 h-5 text-primary/80" />
                       </button>
                     </DialogTrigger>
                   )}
               </div>
-              <h3 className="font-bold text-lg">{testimonial.name}</h3>
-              <p className="text-xs text-primary font-semibold mb-4">{testimonial.achievement}</p>
+              <h3 className="font-bold text-base">{testimonial.name}</h3>
+              <p className="text-[10px] text-primary font-semibold mb-3 uppercase tracking-wider">{testimonial.achievement}</p>
               <div className="relative h-24">
-                  <span className="absolute top-0 left-0 text-5xl text-primary/20 font-serif -translate-y-2 -translate-x-2">“</span>
+                  <span className="absolute top-0 left-0 text-4xl text-primary/20 font-serif -translate-y-2 -translate-x-1">“</span>
                   <ScrollArea className="h-full w-full px-2">
-                      <blockquote className="text-sm text-muted-foreground italic">
+                      <blockquote className="text-xs text-muted-foreground italic leading-relaxed">
                       {fullText}
                       </blockquote>
                   </ScrollArea>
-                  <span className="absolute bottom-0 right-0 text-5xl text-primary/20 font-serif translate-y-5 translate-x-2">”</span>
+                  <span className="absolute bottom-0 right-0 text-4xl text-primary/20 font-serif translate-y-4 translate-x-1">”</span>
               </div>
           </CardContent>
       </Card>
@@ -106,25 +106,25 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
 
 
   return (
-    <section id="testimonials" className="w-full py-8 md:py-16 bg-white dark:bg-background">
-      <div className="text-center mb-12 px-4 md:px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+    <section id="testimonials" className="w-full py-4 md:py-8 bg-white dark:bg-background">
+      <div className="text-center mb-10 px-4 md:px-6">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
           IDL{' '}
           <span className="relative inline-block">
             <span className="relative z-10">Stars</span>
-            <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+            <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
           </span>
         </h2>
-        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+        <p className="text-xs text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
           Uncover the Journey to Rise and Shine
         </p>
       </div>
       <div className="container mx-auto px-4 md:px-6">
           {loading ? (
              <div className="flex justify-center gap-6">
-                <Skeleton className="h-96 w-full max-w-sm rounded-xl" />
-                <Skeleton className="h-96 w-full max-w-sm rounded-xl hidden md:block" />
-                <Skeleton className="h-96 w-full max-w-sm rounded-xl hidden lg:block" />
+                <Skeleton className="h-80 w-full max-w-sm rounded-xl" />
+                <Skeleton className="h-80 w-full max-w-sm rounded-xl hidden md:block" />
+                <Skeleton className="h-80 w-full max-w-sm rounded-xl hidden lg:block" />
              </div>
           ) : testimonials && testimonials.length > 0 ? (
             <>
@@ -144,7 +144,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
               >
                   <CarouselContent className="-ml-4">
                       {testimonials.map((testimonial, index) => (
-                          <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                          <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
                               <div className="p-1 h-full">
                                   <TestimonialCard testimonial={testimonial} language={language} />
                               </div>
@@ -152,21 +152,21 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       ))}
                   </CarouselContent>
               </Carousel>
-              <div className="flex justify-center gap-2 mt-4">
+              <div className="flex justify-center gap-1.5 mt-6">
                   {testimonials.map((_, i) => (
                       <button
                           key={i}
                           onClick={() => scrollTo(i)}
                           className={cn(
-                              "h-1.5 w-1.5 rounded-full transition-all duration-300",
-                              current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                              "h-1 w-1 rounded-full transition-all duration-300",
+                              current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
                           )}
                       />
                   ))}
               </div>
             </>
           ) : (
-            <p className="text-center text-muted-foreground">No testimonials available at the moment.</p>
+            <p className="text-center text-xs text-muted-foreground">No testimonials available at the moment.</p>
           )}
         </div>
     </section>

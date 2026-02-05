@@ -37,11 +37,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             />
             <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
             <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="w-12 h-12 text-white/70 transition-transform duration-300 group-hover:scale-110" />
+                <PlayCircle className="w-10 h-10 text-white/70 transition-transform duration-300 group-hover:scale-110" />
             </div>
             <div className="absolute bottom-2 left-2 text-left">
-              <p className="font-bold text-sm text-white drop-shadow-md">{testimonial.studentName}</p>
-              <p className="text-xs text-white/80 drop-shadow-md">{testimonial.studentClass}</p>
+              <p className="font-bold text-xs text-white drop-shadow-md">{testimonial.studentName}</p>
+              <p className="text-[10px] text-white/80 drop-shadow-md">{testimonial.studentClass}</p>
             </div>
         </button>
         </DialogTrigger>
@@ -91,16 +91,16 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full py-12 md:py-24 bg-white dark:bg-background">
-        <div className="text-center mb-12 px-4 md:px-6">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+    <section className="w-full py-4 md:py-8 bg-white dark:bg-background">
+        <div className="text-center mb-10 px-4 md:px-6">
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
             Topper's{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Talk</span>
-              <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+              <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
             </span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-xs text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
              What our students & parents say about us
           </p>
         </div>
@@ -120,9 +120,9 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 ]}
                 className="w-full"
             >
-                <CarouselContent>
+                <CarouselContent className="-ml-4">
                     {testimonials.map((testimonial, index) => (
-                        <CarouselItem key={index} className="sm:basis-1/2 lg:basis-1/3">
+                        <CarouselItem key={index} className="pl-4 basis-[80%] sm:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
                                 <TestimonialCard testimonial={testimonial} />
                             </div>
@@ -130,14 +130,14 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     ))}
                 </CarouselContent>
             </Carousel>
-            <div className="flex justify-center gap-2 mt-4">
+            <div className="flex justify-center gap-1.5 mt-6">
                 {testimonials.map((_, i) => (
                     <button
                         key={i}
                         onClick={() => scrollTo(i)}
                         className={cn(
-                            "h-1.5 w-1.5 rounded-full transition-all duration-300",
-                            current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                            "h-1 w-1 rounded-full transition-all duration-300",
+                            current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
                         )}
                     />
                 ))}
