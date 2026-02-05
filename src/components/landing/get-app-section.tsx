@@ -361,7 +361,7 @@ export function GetAppSection() {
                   </div>
               </div>
               
-              <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
+              <div className="lg:col-span-5 space-y-6 text-left">
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
                       Available on iOS & Android
@@ -377,7 +377,7 @@ export function GetAppSection() {
                       "Interactive doubt clearing sessions",
                       "Premium study materials and mock tests"
                   ].map((item, idx) => (
-                      <li key={idx} className="flex items-center justify-center lg:justify-start gap-3 group">
+                      <li key={idx} className="flex items-center justify-start gap-3 group">
                           <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
                               <CheckCircle2 className="w-4 h-4 text-primary group-hover:text-white transition-colors" />
                           </div>
