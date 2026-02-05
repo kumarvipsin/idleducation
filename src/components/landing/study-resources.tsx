@@ -100,13 +100,15 @@ export function StudyResources() {
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
                               <div className="p-4 bg-white">
                                   <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
-                                      <Image
-                                          src={resource.imageUrl}
-                                          alt={resource.title}
-                                          data-ai-hint={resource.imageHint}
-                                          fill
-                                          className="object-cover"
-                                      />
+                                      <div className="absolute inset-4">
+                                          <Image
+                                              src={resource.imageUrl}
+                                              alt={resource.title}
+                                              data-ai-hint={resource.imageHint}
+                                              fill
+                                              className="object-contain"
+                                          />
+                                      </div>
                                   </div>
                               </div>
                               <CardContent className="p-4 flex-grow flex flex-col text-center">
