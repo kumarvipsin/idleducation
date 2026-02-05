@@ -88,7 +88,11 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             Topper's{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Talk</span>
-              <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
+              <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-yellow-400 fill-none stroke-current stroke-[10] opacity-70">
+                    <path d="M0,10 Q12.5,0 25,10 T50,10 T75,10 T100,10" />
+                </svg>
+              </div>
             </span>
           </h2>
           <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
