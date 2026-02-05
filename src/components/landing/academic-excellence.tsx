@@ -72,7 +72,7 @@ export function AcademicExcellence() {
             </span>
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-medium">
-            Celebrating the outstanding academic achievements of our students.
+            Celebrating consistent hard work and outstanding student achievements.
           </p>
         </div>
       </div>
@@ -88,10 +88,10 @@ export function AcademicExcellence() {
                   key={result.id}
                   onClick={() => handleCategoryClick(index)}
                   className={cn(
-                    "py-2 px-5 text-xs font-bold transition-all rounded-full border uppercase tracking-wider",
+                    "py-2 px-5 text-xs font-bold transition-all rounded-full border-2 uppercase tracking-wider",
                     activeIndex === index
-                      ? "border-primary text-primary bg-background shadow-md scale-105"
-                      : "border-border text-muted-foreground bg-background hover:border-primary/50 hover:text-primary"
+                      ? "border-primary text-primary bg-background shadow-sm"
+                      : "border-transparent text-muted-foreground bg-muted/30 hover:bg-muted/50 hover:border-primary/20"
                   )}
                 >
                   {result.categoryName}
