@@ -361,17 +361,17 @@ export function GetAppSection() {
                   </div>
               </div>
               
-              <div className="lg:col-span-5 space-y-6 text-left">
+              <div className="lg:col-span-5 space-y-4 text-left">
                 <div className="space-y-2">
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
                       Available on iOS & Android
                   </div>
-                  <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                  <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
                       Learn Smart with the <span className="text-primary">IDL App</span>
                   </h2>
                 </div>
                 
-                <ul className="space-y-3">
+                <ul className="space-y-2">
                   {[
                       "Access free high-quality video lessons",
                       "Interactive doubt clearing sessions",
@@ -379,9 +379,9 @@ export function GetAppSection() {
                   ].map((item, idx) => (
                       <li key={idx} className="flex items-center justify-start gap-3 group">
                           <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
-                              <CheckCircle2 className="w-4 h-4 text-primary group-hover:text-white transition-colors" />
+                              <CheckCircle2 className="w-3.5 h-3.5 text-primary group-hover:text-white transition-colors" />
                           </div>
-                          <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
+                          <span className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
                       </li>
                   ))}
                 </ul>
