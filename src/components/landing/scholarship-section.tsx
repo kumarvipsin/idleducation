@@ -24,7 +24,7 @@ export function ScholarshipSection() {
                                 </div>
                             </div>
                             <div className="text-left">
-                                <Button asChild size="sm" className="rounded-full bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+                                <Button asChild size="sm" className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-600/20 hover:shadow-xl transition-all border-none">
                                     <Link href="/scholarship">Register For FREE</Link>
                                 </Button>
                                 <p className="text-[10px] text-muted-foreground mt-1.5 font-medium">Hurry, limited seats are left</p>
