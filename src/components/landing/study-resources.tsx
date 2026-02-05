@@ -17,24 +17,24 @@ import { cn } from "@/lib/utils";
 const resources = [
   {
     category: "REVISION",
-    title: "Notes",
-    description: "Find concise and well-structured notes designed for quick revision.",
+    title: "High-Quality Notes",
+    description: "Find concise and well-structured notes designed for effective daily learning.",
     href: "/resources/notes",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "notebook pen",
   },
   {
-    category: "TEXTBOOK HELP",
-    title: "NCERT Solutions",
-    description: "Access detailed, step-by-step solutions for all your NCERT textbook questions.",
+    category: "SOLUTIONS",
+    title: "NCERT Step-by-Step",
+    description: "Access detailed solutions for all your NCERT textbook questions prepared by experts.",
     href: "/resources/ncert-solutions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "textbooks pile",
   },
   {
     category: "PRACTICE",
-    title: "Previous YQP",
-    description: "Practice with past exam papers to understand the pattern and types of questions.",
+    title: "Previous Year QP",
+    description: "Practice with past exam papers to understand the pattern and score higher.",
     href: "/resources/previous-year-questions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "exam paper test",
@@ -63,17 +63,17 @@ export function StudyResources() {
     );
 
   return (
-    <section className="w-full py-2 md:py-4 bg-white dark:bg-gray-900">
+    <section className="w-full py-6 md:py-10 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white uppercase">
             Study{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Resources</span>
               <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
             Your one-stop destination for comprehensive and effective study materials.
           </p>
         </div>
@@ -96,20 +96,26 @@ export function StudyResources() {
                   <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
-                              <Card className="h-full rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/5">
-                              <CardContent className="p-5 flex-grow flex flex-col">
-                                  <h3 className="text-lg font-bold mt-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
-                                  <p className="text-xs mt-2 text-muted-foreground flex-grow min-h-[3.5rem] line-clamp-3 font-medium">{resource.description}</p>
-                              </CardContent>
-                              <div className="relative aspect-[16/10] w-full mt-auto overflow-hidden">
+                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
+                              <div className="relative aspect-square w-full overflow-hidden bg-muted">
                                   <Image
                                       src={resource.imageUrl}
                                       alt={resource.title}
                                       data-ai-hint={resource.imageHint}
                                       fill
-                                      className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                      className="object-cover transition-transform duration-500 group-hover:scale-110"
                                   />
                               </div>
+                              <CardContent className="p-4 flex-grow flex flex-col text-center">
+                                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-1">{resource.category}</p>
+                                  <h3 className="text-base font-bold tracking-tight text-foreground leading-tight line-clamp-1">{resource.title}</h3>
+                                  <p className="text-xs mt-2 text-muted-foreground font-medium leading-relaxed line-clamp-2">{resource.description}</p>
+                                  <div className="mt-4 pt-4 border-t border-muted-foreground/5">
+                                      <span className="text-[10px] font-black text-primary hover:underline flex items-center justify-center uppercase tracking-widest">
+                                          Explore More <ArrowRight className="ml-1.5 w-3 h-3 transition-transform group-hover:translate-x-1" />
+                                      </span>
+                                  </div>
+                              </CardContent>
                               </Card>
                           </Link>
                       </div>
