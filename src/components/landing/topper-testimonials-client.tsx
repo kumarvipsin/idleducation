@@ -3,7 +3,7 @@
 import * as React from "react";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PlayCircle } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
@@ -36,6 +36,10 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
         </button>
         </DialogTrigger>
         <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none">
+            <DialogHeader className="sr-only">
+                <DialogTitle>{testimonial.studentName} Testimonial</DialogTitle>
+                <DialogDescription>Video testimonial from a top performing student.</DialogDescription>
+            </DialogHeader>
             <div className="aspect-video bg-black">
               <iframe
                   className="w-full h-full"
