@@ -28,8 +28,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                   />
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
-                       <button className="absolute inset-0 bg-black/20 flex items-center justify-center transition-colors hover:bg-black/10">
-                          <PlayCircle className="w-12 h-12 text-white/80 drop-shadow-xl" />
+                       <button className="absolute inset-0 flex items-center justify-center transition-transform active:scale-95">
+                          <PlayCircle className="w-14 h-14 text-white drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]" />
                       </button>
                     </DialogTrigger>
                   )}
