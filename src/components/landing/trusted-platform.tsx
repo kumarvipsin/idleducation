@@ -11,7 +11,7 @@ export function TrustedPlatform() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-left">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-black tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Bharat's Trusted Learning Hub
+              Bharat's Trusted & Affordable Learning Platform
             </h2>
             <p className="text-muted-foreground text-sm md:text-base font-medium">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
