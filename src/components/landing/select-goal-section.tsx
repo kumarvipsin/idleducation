@@ -49,8 +49,8 @@ export function SelectGoalSection() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
                     <div className="flex justify-center mb-6">
-                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-xs uppercase tracking-widest">
-                            Popular Channels
+                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-xs">
+                            Popular Courses
                         </div>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 items-stretch">
