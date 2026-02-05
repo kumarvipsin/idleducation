@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle, Building, Users, ClipboardList } from "lucide-react";
@@ -224,7 +225,13 @@ export function Header() {
             email: donorDetails.email,
             contact: donorDetails.contact,
         },
-        theme: { color: '#0d47a1' },
+        notes: {
+            category: donationCategory,
+            place: donorDetails.place,
+        },
+        theme: {
+            color: '#0d47a1',
+        },
     };
     // @ts-ignore
     const rzp = new window.Razorpay(options);
@@ -380,10 +387,10 @@ export function Header() {
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey today." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Send us an enquiry." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey today.", colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400" },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style.", colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400" },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Help us improve.", colorClasses: "bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400" },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Send us an enquiry.", colorClasses: "bg-purple-100 text-purple-600 dark:bg-purple-900/30 dark:text-purple-400" },
   ];
 
   const headerClasses = cn(
@@ -485,9 +492,9 @@ export function Header() {
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="p-2">
                                     <div className="grid grid-cols-1 gap-1">
-                                        {applyForLinks.map(({ href, label, icon, description }) => (
+                                        {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className="bg-muted p-2 rounded-md mt-1">{icon}</div>
+                                                <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
                                                 <div><p className="font-semibold text-sm">{label}</p><p className="text-xs text-muted-foreground">{description}</p></div>
                                             </Link>
                                         ))}
@@ -547,7 +554,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
                         {applyForLinks.map((link) => (
                             <Link key={link.href} href={link.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
+                                <div className={cn("p-3 rounded-lg mt-1", link.colorClasses)}>{link.icon}</div>
                                 <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
                             </Link>
                         ))}
