@@ -387,7 +387,7 @@ export function GetAppSection() {
             </div>
 
             <div className="lg:col-span-4 flex flex-col items-center justify-center gap-6">
-                <div className="flex items-center gap-6 p-6 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[2rem] border border-slate-200/50 dark:border-white/10 shadow-2xl w-full sm:w-auto">
+                <div className="flex items-center gap-6 p-6 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[2rem] border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
                     <div className="bg-white p-2 rounded-xl shadow-inner border border-border/50">
                         <Image
                             src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
