@@ -10,7 +10,6 @@ import { DiscoverAdvantage } from '@/components/landing/discover-advantage';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
 import { SelectGoalSection } from '@/components/landing/select-goal-section';
-import { BookDemoSection } from '@/components/landing/book-demo-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -29,7 +28,6 @@ export default async function Home() {
       <BuildSkillsSection slides={heroSlides} />
       <TrustedPlatform />
       <SelectGoalSection />
-      <BookDemoSection />
       <AcademicExcellence />
       <ScholarshipSection />
       <StudentTestimonials testimonials={studentTestimonials} />
