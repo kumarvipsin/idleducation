@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Card } from '../ui/card';
 import { cn } from '@/lib/utils';
 import { getExcellenceResults } from '@/app/actions';
@@ -13,8 +14,18 @@ import Autoplay from 'embla-carousel-autoplay';
 export function AcademicExcellence() {
   const [results, setResults] = useState<TExcellenceResult[]>([]);
   const [loading, setLoading] = useState(true);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true, align: 'start' }, [Autoplay({ delay: 3000, stopOnInteraction: false })]);
+  const [emblaRef, emblaApi] = useEmblaCarousel({ 
+    loop: true, 
+    align: 'center',
+    skipSnaps: false 
+  }, [Autoplay({ delay: 4000, stopOnInteraction: false })]);
+  
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    setActiveIndex(emblaApi.selectedScrollSnap());
+  }, [emblaApi]);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -30,99 +41,93 @@ export function AcademicExcellence() {
 
   useEffect(() => {
     if (!emblaApi) return;
-
-    const onSelect = () => {
-      setActiveIndex(emblaApi.selectedScrollSnap());
-    };
-
+    onSelect();
     emblaApi.on('select', onSelect);
     emblaApi.on('reInit', onSelect);
-
     return () => {
       emblaApi.off('select', onSelect);
       emblaApi.off('reInit', onSelect);
     };
-  }, [emblaApi]);
+  }, [emblaApi, onSelect]);
 
   const handleCategoryClick = (index: number) => {
     emblaApi?.scrollTo(index);
   };
-  
-  const activeCategoryName = results[activeIndex]?.categoryName;
 
   return (
-    <section 
-      className="w-full py-6 md:py-10 bg-white dark:bg-background"
-    >
-      <div className="w-full">
-        <div className="text-center mb-8 px-4">
-          <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white uppercase">
-            Excellence{' '}
-            <span className="relative inline-block">
-              <span className="relative z-10">Results</span>
-              <span className="absolute -bottom-1 left-0 w-full h-2 bg-yellow-300 z-0"></span>
-            </span>
+    <section className="w-full py-10 md:py-16 bg-white dark:bg-background overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6 mb-8">
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
+            Academic Success
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+            Our Excellence Results
           </h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
-            Our students' success stories are a testament to our commitment to quality education.
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-medium">
+            Celebrating the consistent hard work and outstanding achievements of our students across various domains.
           </p>
         </div>
+      </div>
 
-        <div className="mb-6 px-4 md:px-6">
-            <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex justify-center items-center gap-2 whitespace-nowrap">
-                {loading ? (
-                  [...Array(6)].map((_, i) => <Skeleton key={i} className="h-8 w-20 rounded-full" />)
-                ) : (
-                  results.map((result, index) => (
-                    <button
-                      key={result.id}
-                      onClick={() => handleCategoryClick(index)}
-                      className={cn(`py-1.5 px-4 whitespace-nowrap text-xs font-bold transition-all rounded-full border uppercase tracking-wider`,
-                        activeCategoryName === result.categoryName
-                          ? 'border-primary text-primary bg-primary/10' 
-                          : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
-                      )}
-                    >
-                      {result.categoryName}
-                    </button>
-                  ))
-                )}
+      <div className="mb-10">
+        <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          <div className="flex justify-center items-center gap-2 px-4 whitespace-nowrap">
+            {loading ? (
+              [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
+            ) : (
+              results.map((result, index) => (
+                <button
+                  key={result.id}
+                  onClick={() => handleCategoryClick(index)}
+                  className={cn(
+                    "py-2 px-5 text-xs font-bold transition-all rounded-full border uppercase tracking-wider",
+                    activeIndex === index
+                      ? "bg-primary text-primary-foreground border-primary shadow-lg shadow-primary/20 scale-105"
+                      : "bg-background text-muted-foreground border-border hover:border-primary hover:text-primary"
+                  )}
+                >
+                  {result.categoryName}
+                </button>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="relative w-full">
+        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
+          <div className="flex -ml-4">
+            {loading ? (
+              <div className="flex-shrink-0 flex-grow-0 basis-[85%] pl-4">
+                <Skeleton className="w-full aspect-video rounded-3xl" />
+              </div>
+            ) : (
+              results.map((result, index) => (
+                <div 
+                  key={result.id} 
+                  className="flex-shrink-0 flex-grow-0 basis-[85%] md:basis-[60%] lg:basis-[50%] pl-4"
+                >
+                  <div className={cn(
+                    "transition-all duration-700 ease-out",
+                    index === activeIndex ? "scale-100 opacity-100" : "scale-90 opacity-40 blur-[1px]"
+                  )}>
+                    <Card className="rounded-[2rem] overflow-hidden border-none shadow-2xl bg-muted">
+                      <div className="relative w-full aspect-video">
+                        <GcsImage
+                          filePath={result.imageUrl}
+                          alt={`Result for ${result.categoryName}`}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    </Card>
+                  </div>
                 </div>
-            </div>
+              ))
+            )}
+          </div>
         </div>
-        
-        <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex px-4 md:px-6">
-                {loading ? (
-                    <Skeleton className="w-full h-64 rounded-2xl flex-shrink-0" />
-                ) : (
-                    results.map((result, index) => (
-                        <div 
-                            key={result.id} 
-                            className="flex-shrink-0 flex-grow-0 basis-[80%] md:basis-1/2 lg:basis-1/3 pr-4"
-                        >
-                            <Card 
-                                className={cn(
-                                  "h-full rounded-2xl overflow-hidden transition-all duration-500 border-muted-foreground/10",
-                                  index === activeIndex ? "shadow-xl" : "opacity-60"
-                                )}
-                            >
-                                <div className="relative w-full aspect-video">
-                                    <GcsImage
-                                        filePath={result.imageUrl}
-                                        alt={`Result for ${result.categoryName}`}
-                                        fill
-                                        className="object-cover"
-                                    />
-                                </div>
-                            </Card>
-                        </div>
-                    ))
-                )}
-            </div>
-        </div>
-
       </div>
     </section>
   );
