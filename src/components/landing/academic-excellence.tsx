@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -62,7 +61,7 @@ export function AcademicExcellence() {
             Academic Success
           </div>
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-            Our Excellence{' '}
+            Excellence{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Results</span>
               <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
