@@ -17,7 +17,7 @@ export function TrustedPlatform() {
             <p className="text-muted-foreground text-sm md:text-base font-medium">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild size="sm" className="rounded-full font-bold bg-blue-600 hover:bg-blue-700 text-white border-none shadow-lg shadow-blue-600/20 transition-all active:scale-95">
+            <Button asChild size="sm" className="rounded-full font-bold bg-primary hover:bg-primary/90 text-white border-none shadow-lg shadow-primary/20 transition-all active:scale-95">
               <Link href="/book-demo">Book a Demo</Link>
             </Button>
           </div>
@@ -44,6 +44,7 @@ export function TrustedPlatform() {
             <div className="absolute right-[5%] top-[10%] animate-float" style={{ animationDelay: '0.5s' }}>
                 <div className="relative w-[90px] h-[90px] md:w-[105px] md:h-[105px]">
                      <div className="absolute inset-[-12px] border-2 border-dashed border-gray-300 rounded-full animate-spin-slow-reverse">
+                        <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-primary rounded-full animate-pulse"></div>
                         <div className="absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-pink-400 rounded-full"></div>
                         <div className="absolute bottom-0 right-0 translate-x-1/2 translate-y-1/2 w-2 h-2 bg-green-400 rounded-full"></div>
                     </div>

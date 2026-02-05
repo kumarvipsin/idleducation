@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +20,7 @@ export function DiscoverAdvantage() {
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
-              <Button asChild size="sm" className="rounded-full bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-lg shadow-blue-600/20 hover:shadow-xl transition-all border-none">
+              <Button asChild size="sm" className="rounded-full bg-primary hover:bg-primary/90 text-white font-semibold shadow-lg shadow-primary/20 hover:shadow-xl transition-all border-none">
                 <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">
                   <Download className="mr-2 h-4 w-4" />
                   IDL Brochure
