@@ -23,11 +23,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                 src={`https://img.youtube.com/vi/${testimonial.videoId}/hqdefault.jpg`}
                 alt={`Testimonial from ${testimonial.studentName}`}
                 fill
-                className="object-cover transition-transform duration-500 group-hover:scale-110"
+                className="object-cover transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
             <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 group-hover:scale-110 drop-shadow-2xl" />
+                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 drop-shadow-2xl" />
             </div>
             <div className="absolute bottom-3 left-3 text-left">
               <p className="font-black text-xs text-white uppercase tracking-tight drop-shadow-md">{testimonial.studentName}</p>
@@ -112,7 +112,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             >
                 <CarouselContent className="-ml-4">
                     {testimonials.map((testimonial, index) => (
-                        <CarouselItem key={index} className="pl-4 basis-[80%] sm:basis-1/2 lg:basis-1/3">
+                        <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
                             <div className="p-1">
                                 <TestimonialCard testimonial={testimonial} />
                             </div>
