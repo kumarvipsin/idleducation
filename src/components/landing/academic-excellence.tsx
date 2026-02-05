@@ -72,7 +72,7 @@ export function AcademicExcellence() {
             </span>
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-medium">
-            Our wall of fame celebrates the relentless dedication and remarkable academic milestones achieved by our students year after year.
+            Celebrating the outstanding academic achievements of our students.
           </p>
         </div>
       </div>
