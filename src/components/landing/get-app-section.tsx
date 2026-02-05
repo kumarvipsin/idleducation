@@ -335,7 +335,7 @@ export function GetAppSection() {
 
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div className="lg:col-span-3 relative h-48 md:h-52 flex items-center justify-center">
-                  <div className="relative w-full h-full transform -rotate-6 group hover:rotate-0 transition-transform duration-500">
+                  <div className="relative w-full h-full">
                       <div className="absolute inset-4 bg-primary/5 rounded-[2rem] blur-2xl" />
                       <Image
                           src="/mobileApp.webp"
