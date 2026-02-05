@@ -93,10 +93,10 @@ export function StudyResources() {
       >
           <CarouselContent className="-ml-4">
               {resources.map((resource, index) => (
-                  <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
+                  <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
-                              <Card className="h-full rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/5">
+                              <Card className="h-full rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/5">
                               <CardContent className="p-5 flex-grow flex flex-col">
                                   <h3 className="text-lg font-bold mt-1 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">{resource.title}</h3>
                                   <p className="text-xs mt-2 text-muted-foreground flex-grow min-h-[3.5rem] line-clamp-3 font-medium">{resource.description}</p>
