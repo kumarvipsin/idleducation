@@ -320,7 +320,7 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="relative p-[1.5px] rounded-[2.5rem] bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 overflow-hidden shadow-sm">
+        <div className="relative p-[1.5px] rounded-[2.5rem] bg-gradient-to-r from-blue-500/30 via-purple-500/40 to-orange-500/30 overflow-hidden shadow-sm">
           <div className="rounded-[calc(2.5rem-1.5px)] bg-white p-6 md:p-8 relative overflow-hidden">
             {/* Background Texture and India Map Silhouette */}
             <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
