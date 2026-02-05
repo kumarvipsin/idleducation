@@ -25,13 +25,13 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                 fill
                 className="object-cover transition-transform duration-500"
             />
-            <div className="absolute inset-0 bg-black/40 transition-colors group-hover:bg-black/20" />
+            {/* Removed the full-frame dark overlay to keep the video 100% visual */}
             <div className="absolute inset-0 flex items-center justify-center">
-                <PlayCircle className="w-12 h-12 text-white/80 transition-transform duration-300 drop-shadow-2xl" />
+                <PlayCircle className="w-14 h-14 text-white transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]" />
             </div>
-            <div className="absolute bottom-3 left-3 text-left">
+            <div className="absolute bottom-0 left-0 right-0 p-3 text-left bg-gradient-to-t from-black/60 to-transparent">
               <p className="font-black text-xs text-white uppercase tracking-tight drop-shadow-md">{testimonial.studentName}</p>
-              <p className="text-[9px] text-white/80 font-bold uppercase tracking-widest drop-shadow-md">{testimonial.studentClass}</p>
+              <p className="text-[9px] text-white/90 font-bold uppercase tracking-widest drop-shadow-md">{testimonial.studentClass}</p>
             </div>
         </button>
         </DialogTrigger>
