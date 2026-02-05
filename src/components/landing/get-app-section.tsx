@@ -117,7 +117,7 @@ export function GetAppSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10 max-w-3xl mx-auto">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
-                <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-[1.5rem] border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
+                <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-none border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
                     <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
                         <Headset className="w-20 h-20 -rotate-12" />
                     </div>
@@ -207,7 +207,7 @@ export function GetAppSection() {
 
           <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
             <DialogTrigger asChild>
-              <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-[1.5rem] border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
+              <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-none border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
                 <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
                     <MessageCircle className="w-20 h-20 -rotate-12" />
                 </div>
