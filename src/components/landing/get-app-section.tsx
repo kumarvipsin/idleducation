@@ -334,95 +334,97 @@ export function GetAppSection() {
           </Dialog>
         </div>
         
-        <div className="rounded-[2.5rem] bg-white p-8 md:p-12 relative overflow-hidden shadow-sm">
-          {/* Background Texture and India Map Silhouette */}
-          <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
-          <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
-             <Image 
-                src="https://upload.wikimedia.org/wikipedia/commons/e/e0/India_map_silhouette.svg" 
-                alt="India Map silhouette" 
-                fill 
-                className="object-contain"
-             />
-          </div>
-
-          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <div className="lg:col-span-3 relative h-56 md:h-64 flex items-center justify-center">
-                <div className="relative w-full h-full transform -rotate-6 group hover:rotate-0 transition-transform duration-500">
-                    <div className="absolute inset-4 bg-primary/5 rounded-[2rem] blur-2xl" />
-                    <Image
-                        src="/mobileApp.webp"
-                        alt="IDL Education App Features"
-                        data-ai-hint="education app mobile"
-                        fill
-                        className="object-contain drop-shadow-xl"
-                    />
-                </div>
+        <div className="relative p-[1.5px] rounded-[2.5rem] bg-gradient-to-r from-primary/10 via-primary/30 to-primary/10 overflow-hidden shadow-sm">
+          <div className="rounded-[calc(2.5rem-1.5px)] bg-white p-8 md:p-12 relative overflow-hidden">
+            {/* Background Texture and India Map Silhouette */}
+            <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
+            <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
+              <Image 
+                  src="https://upload.wikimedia.org/wikipedia/commons/e/e0/India_map_silhouette.svg" 
+                  alt="India Map silhouette" 
+                  fill 
+                  className="object-contain"
+              />
             </div>
-            
-            <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
-              <div className="space-y-2">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
-                    Available on iOS & Android
-                </div>
-                <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
-                    Learn Smart with the <span className="text-primary">IDL App</span>
-                </h2>
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-3 relative h-56 md:h-64 flex items-center justify-center">
+                  <div className="relative w-full h-full transform -rotate-6 group hover:rotate-0 transition-transform duration-500">
+                      <div className="absolute inset-4 bg-primary/5 rounded-[2rem] blur-2xl" />
+                      <Image
+                          src="/mobileApp.webp"
+                          alt="IDL Education App Features"
+                          data-ai-hint="education app mobile"
+                          fill
+                          className="object-contain drop-shadow-xl"
+                      />
+                  </div>
               </div>
               
-              <ul className="space-y-3">
-                {[
-                    "Access free high-quality video lessons",
-                    "Interactive doubt clearing sessions",
-                    "Premium study materials and mock tests"
-                ].map((item, idx) => (
-                    <li key={idx} className="flex items-center justify-center lg:justify-start gap-3 group">
-                        <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
-                            <CheckCircle2 className="w-4 h-4 text-primary group-hover:text-white transition-colors" />
-                        </div>
-                        <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
-                    </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="lg:col-span-4 flex flex-col items-center justify-center gap-6">
-                <div className="flex items-center gap-6 p-6 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[2rem] border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
-                    <div className="bg-white p-2 rounded-xl shadow-inner border border-border/50">
-                        <Image
-                            src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
-                            alt="QR Code"
-                            data-ai-hint="qr code"
-                            width={100}
-                            height={100}
-                            className="opacity-80"
-                        />
-                    </div>
-                    <div className="space-y-1">
-                        <p className="text-xs font-bold uppercase tracking-widest text-primary">Quick Scan</p>
-                        <p className="text-xl font-bold leading-tight">Get the App <br/>Instantly</p>
-                    </div>
+              <div className="lg:col-span-5 space-y-6 text-center lg:text-left">
+                <div className="space-y-2">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
+                      Available on iOS & Android
+                  </div>
+                  <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                      Learn Smart with the <span className="text-primary">IDL App</span>
+                  </h2>
                 </div>
-
-                <div className="flex items-center gap-3 w-full sm:w-auto">
-                    <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-11 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
-                        <Image 
-                            src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
-                            alt="Get it on Google Play"
-                            fill
-                            className="object-contain"
-                        />
-                    </a>
-                     <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-11 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
-                        <Image 
-                            src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
-                            alt="Download on the App Store"
-                            fill
-                            className="object-contain"
-                        />
-                    </a>
-                </div>
+                
+                <ul className="space-y-3">
+                  {[
+                      "Access free high-quality video lessons",
+                      "Interactive doubt clearing sessions",
+                      "Premium study materials and mock tests"
+                  ].map((item, idx) => (
+                      <li key={idx} className="flex items-center justify-center lg:justify-start gap-3 group">
+                          <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
+                              <CheckCircle2 className="w-4 h-4 text-primary group-hover:text-white transition-colors" />
+                          </div>
+                          <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
+                      </li>
+                  ))}
+                </ul>
               </div>
+
+              <div className="lg:col-span-4 flex flex-col items-center justify-center gap-6">
+                  <div className="flex items-center gap-6 p-6 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-[2rem] border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
+                      <div className="bg-white p-2 rounded-xl shadow-inner border border-border/50">
+                          <Image
+                              src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+                              alt="QR Code"
+                              data-ai-hint="qr code"
+                              width={100}
+                              height={100}
+                              className="opacity-80"
+                          />
+                      </div>
+                      <div className="space-y-1">
+                          <p className="text-xs font-bold uppercase tracking-widest text-primary">Quick Scan</p>
+                          <p className="text-xl font-bold leading-tight">Get the App <br/>Instantly</p>
+                      </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 w-full sm:w-auto">
+                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-11 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                          <Image 
+                              src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
+                              alt="Get it on Google Play"
+                              fill
+                              className="object-contain"
+                          />
+                      </a>
+                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="flex-1 relative h-11 w-32 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                          <Image 
+                              src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
+                              alt="Download on the App Store"
+                              fill
+                              className="object-contain"
+                          />
+                      </a>
+                  </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
