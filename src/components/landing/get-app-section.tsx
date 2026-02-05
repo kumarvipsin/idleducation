@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, User, Mail, Phone, Edit, Headset, MessageSquare, Copy, MapPin, CheckCircle2, QrCode } from "lucide-react";
+import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, MapPin, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import {
   Dialog,
@@ -24,7 +24,6 @@ import { requestCallBack, submitSupportTicket } from "@/app/actions/forms";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { allPrograms } from "@/lib/courses";
 import { Textarea } from "@/components/ui/textarea";
-import { ContactForm } from "../contact-form";
 import { cn } from "@/lib/utils";
 
 const callBackSchema = z.object({
@@ -49,7 +48,6 @@ export function GetAppSection() {
     const { toast } = useToast();
     const [isCallbackDialogOpen, setIsCallbackDialogOpen] = useState(false);
     const [isSupportDialogOpen, setIsSupportDialogOpen] = useState(false);
-    const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
     const [submittedTicketId, setSubmittedTicketId] = useState<string | null>(null);
 
     const callBackForm = useForm<CallBackFormValues>({
@@ -116,7 +114,7 @@ export function GetAppSection() {
     <>
     <section className="w-full pt-2 pb-8 md:pb-12 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 max-w-2xl mx-auto">
           <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
             <DialogTrigger asChild>
                 <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
@@ -310,26 +308,6 @@ export function GetAppSection() {
                         </Button>
                     </form>
                 </Form>
-            </DialogContent>
-          </Dialog>
-
-          <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
-            <DialogTrigger asChild>
-              <Card className="bg-white dark:bg-card transition-all hover:shadow-md border cursor-pointer group active:scale-[0.98]">
-                <div className="flex items-center gap-3 p-3">
-                  <div className="bg-amber-100 text-amber-600 p-2 rounded-xl group-hover:bg-amber-600 group-hover:text-white transition-colors">
-                    <MessageSquare className="w-4 h-4" />
-                  </div>
-                  <p className="text-xs font-bold tracking-tight">General Enquiry</p>
-                </div>
-              </Card>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
-                <DialogHeader className="text-center mb-6">
-                    <DialogTitle className="text-2xl font-bold text-primary">Contact Our Team</DialogTitle>
-                    <DialogDescription className="text-muted-foreground text-sm">Have a general question? We're here to help you.</DialogDescription>
-                </DialogHeader>
-                <ContactForm onSuccess={() => setIsContactDialogOpen(false)} />
             </DialogContent>
           </Dialog>
         </div>
