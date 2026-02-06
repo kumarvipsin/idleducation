@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -378,19 +379,38 @@ export function GetAppSection() {
 
               <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
                   <div className="flex items-center gap-4 p-4 bg-primary/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-2xl border border-primary/10 w-full sm:w-auto lg:w-[350px] shadow-sm">
-                      {/* Google Play Part */}
-                      <div className="bg-white p-2 rounded-xl shadow-sm border border-border/50 flex items-center gap-2 shrink-0">
-                          <Image
-                              src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
-                              alt="Google Play"
-                              data-ai-hint="google play"
-                              width={20}
-                              height={20}
-                              className="object-contain"
-                          />
-                          <div className="flex flex-col -space-y-1">
-                              <span className="text-[7px] font-black text-black uppercase tracking-tighter opacity-60">GET IT ON</span>
-                              <span className="text-[11px] font-black text-black tracking-tight">Google Play</span>
+                      {/* Store Badges Section */}
+                      <div className="flex flex-col gap-2 shrink-0">
+                          {/* Google Play */}
+                          <div className="bg-white p-2 rounded-xl shadow-sm border border-border/50 flex items-center gap-2">
+                              <Image
+                                  src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
+                                  alt="Google Play"
+                                  data-ai-hint="google play"
+                                  width={20}
+                                  height={20}
+                                  className="object-contain"
+                              />
+                              <div className="flex flex-col -space-y-1">
+                                  <span className="text-[7px] font-black text-black uppercase tracking-tighter opacity-60">GET IT ON</span>
+                                  <span className="text-[11px] font-black text-black tracking-tight">Google Play</span>
+                              </div>
+                          </div>
+                          
+                          {/* App Store */}
+                          <div className="bg-white p-2 rounded-xl shadow-sm border border-border/50 flex items-center gap-2">
+                              <Image
+                                  src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/apple-app-store-icon.png"
+                                  alt="App Store"
+                                  data-ai-hint="app store"
+                                  width={20}
+                                  height={20}
+                                  className="object-contain"
+                              />
+                              <div className="flex flex-col -space-y-1">
+                                  <span className="text-[7px] font-black text-black uppercase tracking-tighter opacity-60">Download on the</span>
+                                  <span className="text-[11px] font-black text-black tracking-tight">App Store</span>
+                              </div>
                           </div>
                       </div>
 
