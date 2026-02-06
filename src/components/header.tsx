@@ -104,30 +104,6 @@ interface Update {
   createdAt: string;
 }
 
-const MegaMenu = ({ links, title, children }: { links?: { href: string; label: string; icon: React.ReactNode; description: string; target?: string; onClick?: () => void }[], title: string, children?: React.ReactNode }) => (
-    <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-            {links && links.map((link) => (
-                <Link 
-                    key={link.href} 
-                    href={link.onClick ? '#' : link.href} 
-                    target={link.target} 
-                    rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    onClick={link.onClick}
-                    className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
-                >
-                    <div className="bg-primary/10 text-primary p-3 rounded-lg mt-1">{link.icon}</div>
-                    <div>
-                        <p className="font-semibold text-sm text-foreground">{link.label}</p>
-                        <p className="text-xs text-muted-foreground">{link.description}</p>
-                    </div>
-                </Link>
-            ))}
-            {children}
-        </div>
-    </div>
-  );
-
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
@@ -589,8 +565,6 @@ export function Header() {
                                 </Collapsible>
                             </div>
 
-                            <Separator className="bg-muted-foreground/10" />
-
                             {/* CTA Cards */}
                             <div className="space-y-3">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition-all border border-amber-500/5 active:scale-[0.98]">
@@ -657,7 +631,7 @@ export function Header() {
                                 href={link.onClick ? '#' : link.href} 
                                 onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} 
                                 target={link.target} 
-                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                rel={target === '_blank' ? 'noopener noreferrer' : undefined} 
                                 className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all"
                             >
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
