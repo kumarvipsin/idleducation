@@ -29,8 +29,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                   />
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
-                       <button className="absolute inset-0 flex items-center justify-center transition-transform active:scale-95">
-                          <PlayCircle className="w-14 h-14 text-white drop-shadow-2xl" />
+                       <button className="absolute bottom-3 right-3 transition-all duration-300 active:scale-95 group-hover:scale-110">
+                          <PlayCircle className="w-10 h-10 text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]" />
                       </button>
                     </DialogTrigger>
                   )}
@@ -129,7 +129,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                   setApi={setApi}
                   opts={{
                       align: "start",
-                      loop: testimonials.length > 3,
+                      loop: (testimonials || []).length > 3,
                   }}
                   plugins={[
                       Autoplay({
