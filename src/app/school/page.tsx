@@ -3,9 +3,8 @@
 import { useState, useEffect, Suspense } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark, GraduationCap, Users, Calendar, MessageSquare, CheckCircle, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark, GraduationCap, Sparkles } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
 import {
   Accordion,
   AccordionContent,
@@ -13,21 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-
-const CheckIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2Z" fill="url(#paint0_linear_jee_blog)"/>
-        <path d="M8 12.5L11 15.5L16.5 9.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <defs>
-            <linearGradient id="paint0_linear_jee_blog" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F97316"/>
-                <stop offset="1" stopColor="#16A34A"/>
-            </linearGradient>
-        </defs>
-    </svg>
-);
 
 function SchoolPageContent() {
     const searchParams = useSearchParams();
@@ -100,17 +85,6 @@ function SchoolPageContent() {
         }
     ];
 
-    const blogLinks = [
-        { text: `${activeTab.toUpperCase()} Syllabus 2026`, href: "#" },
-        { text: `${activeTab.toUpperCase()} Exam Dates`, href: "#" },
-        { text: "Preparation Strategy", href: "#" },
-        { text: "Previous Year Papers", href: "#" },
-        { text: "Result Updates", href: "#" },
-        { text: "Admit Card Guide", href: "#" },
-        { text: "Top Study Tips", href: "#" },
-        { text: "Career Guidance", href: "#" },
-    ];
-
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl">
             <section className="mb-16 animate-fade-in-up">
@@ -179,35 +153,6 @@ function SchoolPageContent() {
             </section>
     
             <div key={activeTab}>
-                <section className="w-full py-16 bg-[#070A52] text-white mt-24 rounded-[3rem] shadow-2xl relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mr-32 -mt-32"></div>
-                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-[100px] -ml-32 -mb-32"></div>
-                    
-                    <div className="container mx-auto px-4 md:px-6 relative z-10">
-                        <div className="text-center mb-14">
-                            <h2 className="text-2xl md:text-4xl font-black tracking-tighter uppercase leading-tight">
-                                Explore Board <span className="text-yellow-400">Knowledge Hub</span>
-                            </h2>
-                            <p className="text-white/60 mt-3 text-sm font-bold tracking-[0.1em] uppercase opacity-80">Latest Insights & Academic Updates</p>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
-                        {blogLinks.map((link, index) => (
-                            <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white/5 backdrop-blur-xl text-white hover:bg-white/10 hover:text-white border border-white/10 rounded-2xl p-5 h-auto group/blog active:scale-95 transition-all">
-                                <Link href={link.href}>
-                                    <div className="flex items-center gap-4">
-                                        <div className="bg-white/10 p-2 rounded-xl group-hover/blog:bg-primary transition-colors">
-                                            <CheckCircle className="h-4 w-4 text-white" />
-                                        </div>
-                                        <span className="text-xs font-black text-left tracking-tight">{link.text}</span>
-                                    </div>
-                                    <ArrowRight className="h-4 w-4 text-white/40 group-hover/blog:translate-x-1 group-hover/blog:text-white transition-all" />
-                                </Link>
-                            </Button>
-                        ))}
-                        </div>
-                    </div>
-                </section>
-        
                 <section className="mt-24 mb-16">
                   <div className="max-w-4xl mx-auto text-center">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted border mb-6 text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em]">
