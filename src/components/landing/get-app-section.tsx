@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -392,7 +393,7 @@ export function GetAppSection() {
                           <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
                           <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
                       </div>
-                      <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50 ml-auto">
+                      <div className="bg-white p-1.5 rounded-lg shadow-inner ml-auto">
                           <Image
                               src="https://cdn-icons-png.flaticon.com/512/104/104089.png"
                               alt="Google Play"
