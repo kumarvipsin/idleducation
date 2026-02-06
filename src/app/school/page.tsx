@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
@@ -69,14 +69,20 @@ function SchoolPageContent() {
     ];
 
     return (
-        <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl">
+        <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
+            <Link href="/" className="absolute top-4 right-4 z-20">
+                <Button variant="ghost" size="icon">
+                    <Home className="h-6 w-6 text-primary" />
+                    <span className="sr-only">Home</span>
+                </Button>
+            </Link>
             <section className="mb-16 animate-fade-in-up">
               <div className="flex flex-col items-start gap-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Prep
                 </div>
-                <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight">
+                <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
                     {activeTab} Board Prep 2026: <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
@@ -86,20 +92,24 @@ function SchoolPageContent() {
               </div>
             </section>
             
-            <div className="flex flex-wrap justify-center gap-3 mb-16 px-4">
-                {classes.map((className) => (
-                    <Button 
-                        key={className}
-                        onClick={() => handleClassChange(className)} 
-                        variant="outline"
-                        className={cn(
-                            "rounded-full px-6 py-2 text-[10px] font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-9 shadow-none whitespace-nowrap",
-                            activeTab === className ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
-                        )}
-                    >
-                        {className}
-                    </Button>
-                ))}
+            <div className="mb-16">
+                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex justify-start md:justify-center items-center gap-3 whitespace-nowrap px-4 sm:px-0">
+                        {classes.map((className) => (
+                            <Button 
+                                key={className}
+                                onClick={() => handleClassChange(className)} 
+                                variant="outline"
+                                className={cn(
+                                    "rounded-full px-6 py-2 text-[10px] font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-9 shadow-none whitespace-nowrap",
+                                    activeTab === className ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                                )}
+                            >
+                                {className}
+                            </Button>
+                        ))}
+                    </div>
+                </div>
             </div>
     
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
