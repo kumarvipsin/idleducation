@@ -463,17 +463,18 @@ export function Header() {
                 <SheetHeader className="p-4 border-b bg-muted/10">
                     <SheetTitle>
                         <Link href="/" className="flex flex-row items-center justify-start gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
-                            <div className="relative w-12 h-12 shrink-0">
+                            <div className="relative w-16 h-16 shrink-0">
                                 <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                             </div>
-                            <div className="flex flex-col leading-none text-left">
-                                <div className="flex items-end gap-1.5">
-                                    <span className="text-xl font-bold text-primary tracking-tighter uppercase">IDL</span>
-                                    <span className="text-[6px] font-bold text-muted-foreground leading-tight mb-0.5 whitespace-nowrap opacity-60">
-                                        Institute of<br />Distance Learning Pvt. Ltd.
-                                    </span>
+                            <div className="flex flex-col leading-tight text-left">
+                                <div className="flex items-center gap-2.5">
+                                    <span className="text-3xl font-black text-primary tracking-tighter uppercase">IDL</span>
+                                    <div className="flex flex-col text-[8px] font-medium text-muted-foreground tracking-tight leading-[1.1] opacity-60">
+                                        <span>Institute of</span>
+                                        <span>Distance Learning Pvt. Ltd.</span>
+                                    </div>
                                 </div>
-                                <span className="text-2xl font-bold text-primary tracking-tighter -mt-1">
+                                <span className="text-3xl font-black text-primary tracking-tighter -mt-1">
                                     {isIdlFoundationPage ? "Foundation" : "Education"}
                                 </span>
                             </div>
@@ -492,8 +493,8 @@ export function Header() {
                                     </Button>
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="px-1 py-3 space-y-1">
-                                    {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
-                                        <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
+                                    {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
+                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
                                             <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                             <div className="space-y-0.5">
                                                 <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
