@@ -15,7 +15,7 @@ const schoolSubjects = [
 ];
 
 const seniorSubjects = [
-    { name: "Political Science", key: "political-science", icon: <Scale className="w-5 h-5" />, color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400" },
+    { name: "Political", key: "political-science", icon: <Scale className="w-5 h-5" />, color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400" },
     { name: "History", key: "history", icon: <Landmark className="w-5 h-5" />, color: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400" },
     { name: "English", key: "english", icon: <BookText className="w-5 h-5" />, color: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
     { name: "Economics", key: "economics", icon: <TrendingUp className="w-5 h-5" />, color: "bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400" },
