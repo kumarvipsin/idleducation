@@ -375,21 +375,21 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, description: "Learn more about our mission." },
-    { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, description: "Read articles and updates." },
-    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, description: "Visit our learning centers." },
-    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, description: "Join our hands-on workshops." },
-    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, description: "Contribute to our mission." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <HandHeart className="h-4 w-4" />, target: "_blank", description: "Support our cause." },
+    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, color: "bg-blue-100 text-blue-600", description: "Learn more about our mission." },
+    { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, color: "bg-green-100 text-green-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, color: "bg-purple-100 text-purple-600", description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-100 text-orange-600", description: "Read articles and updates." },
+    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-red-100 text-red-600", description: "Visit our learning centers." },
+    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-100 text-indigo-600", description: "Join our hands-on workshops." },
+    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-rose-100 text-rose-600", description: "Contribute to our mission." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, color: "bg-pink-100 text-pink-600", target: "_blank", description: "Support our cause." },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, description: "Start your journey today." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, description: "Send us an enquiry." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary/10 text-primary", description: "Start your journey today." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-100 text-amber-600", description: "Experience our teaching style." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-100 text-sky-600", description: "Help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-violet-100 text-violet-600", description: "Send us an enquiry." },
   ];
 
   const headerClasses = cn(
@@ -461,7 +461,7 @@ export function Header() {
                                 <div className="flex items-end gap-1.5">
                                     <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
                                     <span className="text-[6px] font-medium text-muted-foreground leading-tight mb-0.5 whitespace-nowrap">
-                                        Institute of Distance<br />Learning Pvt. Ltd.
+                                        Institute Of<br />Distance Learning Pvt. Ltd.
                                     </span>
                                 </div>
                                 <span className="text-2xl font-black text-primary tracking-tighter -mt-1">
@@ -485,9 +485,9 @@ export function Header() {
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="p-2">
                                     <div className="grid grid-cols-1 gap-1">
-                                        {allCoursesCategories.map(({ href, name: label, icon, description }, index) => (
+                                        {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
                                             <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className="p-2.5 rounded-full mt-1 bg-black text-gray-400 shadow-sm">{icon}</div>
+                                                <div className={cn("p-2.5 rounded-full mt-1 shadow-sm", colorClasses)}>{icon}</div>
                                                 <div><p className="font-bold text-sm text-foreground">{label}</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">{description}</p></div>
                                             </Link>
                                         ))}
@@ -503,9 +503,9 @@ export function Header() {
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="p-2">
                                     <div className="grid grid-cols-1 gap-1">
-                                        {applyForLinks.map(({ href, label, icon, description }) => (
+                                        {applyForLinks.map(({ href, label, icon, description, color }) => (
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className="p-2.5 rounded-full mt-1 bg-black text-gray-400 shadow-sm">{icon}</div>
+                                                <div className={cn("p-2.5 rounded-full mt-1 shadow-sm", color)}>{icon}</div>
                                                 <div><p className="font-bold text-sm text-foreground">{label}</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">{description}</p></div>
                                             </Link>
                                         ))}
@@ -521,9 +521,9 @@ export function Header() {
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="p-2">
                                     <div className="grid grid-cols-1 gap-1">
-                                        {navLinks.map(({ href, label, icon, description, target, onClick }) => (
+                                        {navLinks.map(({ href, label, icon, description, target, onClick, color }) => (
                                             <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className="p-2.5 rounded-full mt-1 bg-black text-gray-400 shadow-sm">{icon}</div>
+                                                <div className={cn("p-2.5 rounded-full mt-1 shadow-sm", color)}>{icon}</div>
                                                 <div><p className="font-bold text-sm text-foreground">{label}</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">{description}</p></div>
                                             </Link>
                                         ))}
@@ -534,11 +534,11 @@ export function Header() {
                             <Separator className="my-2" />
                             
                             <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className="p-2.5 rounded-full mt-1 bg-black text-gray-400 shadow-sm"><ShoppingCart className="h-5 w-5" /></div>
+                                <div className="p-2.5 rounded-full mt-1 bg-yellow-100 text-yellow-600 shadow-sm"><ShoppingCart className="h-5 w-5" /></div>
                                 <div><p className="font-bold text-sm text-foreground">IDL Store</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">Shop textbooks and premium resources.</p></div>
                             </Link>
                             <a href="tel:7011117585" className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className="p-2.5 rounded-full mt-1 bg-black text-gray-400 shadow-sm"><Phone className="h-5 w-5" /></div>
+                                <div className="p-2.5 rounded-full mt-1 bg-blue-100 text-blue-600 shadow-sm"><Phone className="h-5 w-5" /></div>
                                 <div><p className="font-bold text-sm text-foreground">Call Now</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">Instant academic assistance: 70-1111-7585</p></div>
                             </a>
                             </nav>
@@ -570,7 +570,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
                         {applyForLinks.map((link) => (
                             <Link key={link.href} href={link.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className="p-3 rounded-lg mt-1 bg-muted">{link.icon}</div>
+                                <div className={cn("p-3 rounded-lg mt-1", link.color)}>{link.icon}</div>
                                 <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
                             </Link>
                         ))}
@@ -582,7 +582,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
                         {navLinks.map((link) => (
                             <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className="p-3 rounded-lg mt-1 bg-muted">{link.icon}</div>
+                                <div className={cn("p-3 rounded-lg mt-1", link.color)}>{link.icon}</div>
                                 <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
                             </Link>
                         ))}
