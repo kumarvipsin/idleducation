@@ -38,9 +38,6 @@ export function Footer() {
                         </div>
                         <div className="flex flex-col leading-tight text-center sm:text-left">
                             <span className="text-xl sm:text-lg font-black text-white tracking-[0.05em] uppercase">IDL EDUCATION</span>
-                            <span className="text-[0.6rem] sm:text-[0.5rem] text-white/60 tracking-[0.2em] uppercase font-black mt-1">
-                              (Institute of Distance Learning Pvt. Ltd.)
-                            </span>
                         </div>
                     </Link>
                     <p className="text-[11px] text-gray-400 font-bold leading-relaxed text-center sm:text-left max-w-xs uppercase tracking-wider">
