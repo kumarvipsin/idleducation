@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from "react";
@@ -187,8 +186,8 @@ function SchoolPageContent() {
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Board Prep
                 </div>
-                <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tight text-left uppercase leading-tight">
-                    {activeTab.toUpperCase()} BOARD 2026: <br/>
+                <h1 className="text-2xl md:text-4xl font-black text-foreground tracking-tight text-left leading-tight">
+                    {activeTab === 'cbse' ? 'CBSE' : 'NIOS'} Board 2026: <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
