@@ -544,10 +544,6 @@ export function Header() {
                                 </CollapsibleContent>
                             </Collapsible>
                             
-                            <div className="px-2 py-4">
-                                <Separator className="opacity-50" />
-                            </div>
-                            
                             {/* Integrated Store & Call Items */}
                             <div className="space-y-1">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-amber-50 transition-all active:scale-[0.98]">
