@@ -92,8 +92,8 @@ function SchoolPageContent() {
               </div>
             </section>
             
-            <div className="mb-16">
-                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <div className="mb-12">
+                <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex justify-start md:justify-center items-center gap-3 whitespace-nowrap px-4 sm:px-0">
                         {classes.map((className) => (
                             <Button 
@@ -112,14 +112,15 @@ function SchoolPageContent() {
                 </div>
             </div>
     
-            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            {/* Resources Section */}
+            <section className="mb-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
                     <div className="flex justify-center mb-6">
                         <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider">
                             Explore {activeTab} Resources
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch mb-12">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch">
                         {resourceCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group block h-full">
                                 <div className={cn(
@@ -135,34 +136,46 @@ function SchoolPageContent() {
                             </Link>
                         ))}
                     </div>
+                </div>
+            </section>
 
-                    <div className="mt-8 overflow-hidden rounded-xl border">
-                        <div className="bg-primary/5 p-4 border-b">
-                            <h3 className="font-bold text-sm text-primary uppercase tracking-widest flex items-center gap-2">
-                                <FileText className="w-4 h-4" />
-                                Subject-wise Syllabus
-                            </h3>
+            {/* Separate Syllabus Section */}
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                <div className="bg-white dark:bg-card rounded-2xl shadow-lg border overflow-hidden">
+                    <div className="bg-primary/5 p-4 md:p-6 border-b">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-primary/10 p-2 rounded-lg">
+                                <FileText className="w-5 h-5 text-primary" />
+                            </div>
+                            <div>
+                                <h3 className="font-bold text-sm md:text-base text-primary uppercase tracking-widest">
+                                    Subject-wise Syllabus
+                                </h3>
+                                <p className="text-[10px] md:text-xs text-muted-foreground font-semibold">Official curriculum links for {activeTab}</p>
+                            </div>
                         </div>
+                    </div>
+                    <div className="overflow-x-auto">
                         <Table>
                             <TableHeader>
-                                <TableRow className="bg-muted/50">
-                                    <TableHead className="font-bold text-xs uppercase tracking-tight">Subject</TableHead>
-                                    <TableHead className="text-right font-bold text-xs uppercase tracking-tight">Actions</TableHead>
+                                <TableRow className="bg-muted/50 hover:bg-muted/50">
+                                    <TableHead className="font-bold text-xs uppercase tracking-tight py-4 px-6">Subject</TableHead>
+                                    <TableHead className="text-right font-bold text-xs uppercase tracking-tight py-4 px-6">Actions</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
                                 {subjects.map((subject) => (
-                                    <TableRow key={subject.key} className="hover:bg-muted/30 transition-colors">
-                                        <TableCell className="font-bold text-sm py-4">
+                                    <TableRow key={subject.key} className="hover:bg-muted/30 transition-colors border-b last:border-0">
+                                        <TableCell className="font-bold text-sm py-5 px-6">
                                             {subject.name}
                                         </TableCell>
-                                        <TableCell className="text-right py-4">
-                                            <div className="flex justify-end gap-2">
-                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/10 hover:text-primary transition-all">
+                                        <TableCell className="text-right py-5 px-6">
+                                            <div className="flex justify-end gap-2 sm:gap-3">
+                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/10 hover:text-primary transition-all px-4">
                                                     <Eye className="w-3 h-3 mr-1.5" />
                                                     View Syllabus
                                                 </Button>
-                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 hover:bg-emerald-50 transition-all">
+                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 hover:bg-emerald-50 transition-all px-4">
                                                     <Download className="w-3 h-3 mr-1.5" />
                                                     Download
                                                 </Button>
