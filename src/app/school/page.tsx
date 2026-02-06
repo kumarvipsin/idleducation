@@ -201,8 +201,8 @@ function SchoolPageContent() {
                     onClick={() => handleTabChange('cbse')} 
                     variant="outline"
                     className={cn(
-                        "rounded-full px-12 py-6 text-sm font-black tracking-widest transition-all duration-300 border-2 bg-transparent",
-                        activeTab === 'cbse' ? "border-primary text-primary shadow-lg shadow-primary/10" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-auto",
+                        activeTab === 'cbse' ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                     )}
                 >
                     CBSE
@@ -211,8 +211,8 @@ function SchoolPageContent() {
                     onClick={() => handleTabChange('nios')} 
                     variant="outline"
                     className={cn(
-                        "rounded-full px-12 py-6 text-sm font-black tracking-widest transition-all duration-300 border-2 bg-transparent",
-                        activeTab === 'nios' ? "border-primary text-primary shadow-lg shadow-primary/10" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-auto",
+                        activeTab === 'nios' ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                     )}
                 >
                     NIOS
