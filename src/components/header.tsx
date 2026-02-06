@@ -470,7 +470,7 @@ export function Header() {
                                 <div className="flex items-end gap-1.5">
                                     <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
                                     <span className="text-[6px] font-bold text-muted-foreground leading-tight mb-0.5 whitespace-nowrap opacity-60">
-                                        INSTITUTE OF<br />DISTANCE LEARNING
+                                        Institute of<br />Distance Learning Pvt. Ltd.
                                     </span>
                                 </div>
                                 <span className="text-2xl font-black text-primary tracking-tighter -mt-1 uppercase">
@@ -544,25 +544,28 @@ export function Header() {
                                 </CollapsibleContent>
                             </Collapsible>
                             
-                            <div className="px-2 pt-6 pb-2">
+                            <div className="px-2 py-4">
                                 <Separator className="opacity-50" />
                             </div>
                             
-                            <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-5 rounded-[1.5rem] bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/20 hover:bg-amber-100 transition-all active:scale-[0.98] mb-2 shadow-sm shadow-amber-500/5">
-                                <div className="p-3.5 rounded-full bg-amber-400 text-black shadow-lg shadow-amber-400/20 shrink-0"><ShoppingCart className="h-5 w-5" /></div>
-                                <div className="space-y-0.5">
-                                    <p className="font-black text-[13px] text-amber-700 dark:text-amber-500 uppercase tracking-widest">IDL Store</p>
-                                    <p className="text-[10px] font-bold text-amber-600/80 leading-tight">Shop premium resources & books.</p>
-                                </div>
-                            </Link>
+                            {/* Integrated Store & Call Items */}
+                            <div className="space-y-1">
+                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-amber-50 transition-all active:scale-[0.98]">
+                                    <div className="p-2.5 rounded-full bg-amber-100 text-amber-600 shadow-sm shrink-0"><ShoppingCart className="h-5 w-5" /></div>
+                                    <div className="space-y-0.5">
+                                        <p className="font-black text-[11px] text-foreground uppercase tracking-widest">IDL Store</p>
+                                        <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1">Shop premium resources & books.</p>
+                                    </div>
+                                </Link>
 
-                            <a href="tel:7011117585" className="group flex items-start gap-4 p-5 rounded-[1.5rem] bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/20 hover:bg-indigo-100 transition-all active:scale-[0.98] shadow-sm shadow-indigo-500/5">
-                                <div className="p-3.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 shrink-0"><Phone className="h-5 w-5" /></div>
-                                <div className="space-y-0.5">
-                                    <p className="font-black text-[13px] text-indigo-700 dark:text-indigo-400 uppercase tracking-widest">Call Expert</p>
-                                    <p className="text-[10px] font-bold text-indigo-600/80 leading-tight">Academic support: 70-1111-7585</p>
-                                </div>
-                            </a>
+                                <a href="tel:7011117585" className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-indigo-50 transition-all active:scale-[0.98]">
+                                    <div className="p-2.5 rounded-full bg-indigo-100 text-indigo-600 shadow-sm shrink-0"><Phone className="h-5 w-5" /></div>
+                                    <div className="space-y-0.5">
+                                        <p className="font-black text-[11px] text-foreground uppercase tracking-widest">Call Expert</p>
+                                        <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1">Academic support: 70-1111-7585</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         )}
                         {renderMobileAuthSection()}
@@ -608,7 +611,7 @@ export function Header() {
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {navLinks.map((link) => (
-                            <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
+                            <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
                                 <div className="space-y-1">
                                     <p className="font-black text-xs text-foreground uppercase tracking-widest">{link.label}</p>
