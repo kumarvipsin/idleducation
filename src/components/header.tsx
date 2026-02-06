@@ -38,55 +38,55 @@ import { formatDistanceToNow } from 'date-fns';
 const allCoursesCategories = [
     {
         name: "FREE COURSES",
-        description: "Access our high-quality free video lessons and materials.",
+        description: "High-quality free video lessons.",
         href: "/free-courses",
         icon: <BookOpen className="h-5 w-5" />,
-        colorClasses: "bg-orange-100 text-orange-600 dark:bg-orange-900/30 dark:text-orange-400"
+        colorClasses: "bg-orange-50 text-orange-600 dark:bg-orange-900/20"
     },
     {
         name: "PAID COURSES",
-        description: "Premium structured courses for in-depth learning.",
+        description: "Premium structured learning.",
         href: "/paid-courses",
         icon: <IndianRupee className="h-5 w-5" />,
-        colorClasses: "bg-lime-100 text-lime-600 dark:bg-lime-900/30 dark:text-lime-400"
+        colorClasses: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20"
     },
     {
         name: "SCHOOL BOARD",
-        description: "Comprehensive preparation for Class 5 to 12.",
+        description: "Prep for Class 5 to 12.",
         href: "/school",
         icon: <GraduationCap className="h-5 w-5" />,
-        colorClasses: "bg-teal-100 text-teal-600 dark:bg-teal-900/30 dark:text-teal-400"
+        colorClasses: "bg-blue-50 text-blue-600 dark:bg-blue-900/20"
     },
     {
         name: "CUET UG/PG",
-        description: "Prepare for Central University Entrance Tests.",
+        description: "University entrance tests.",
         href: "/category/cuet",
         icon: <GraduationCap className="h-5 w-5" />,
-        colorClasses: "bg-cyan-100 text-cyan-600 dark:bg-cyan-900/30 dark:text-cyan-400"
+        colorClasses: "bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20"
     },
     {
         name: "GOVT. EXAMS",
-        description: "SSC, Banking, Railway, and other competitive exams.",
+        description: "SSC, Banking, & Railway.",
         href: "/examcat?category=govt-job-exams",
         icon: <Landmark className="h-5 w-5" />,
-        colorClasses: "bg-indigo-100 text-indigo-600 dark:bg-indigo-900/30 dark:text-indigo-400"
+        colorClasses: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20"
     },
     {
         name: "TEST SERIES",
-        description: "Assess your preparation with our rigorous tests.",
+        description: "Rigorous preparation tests.",
         href: "#",
         icon: <ClipboardList className="h-5 w-5" />,
-        colorClasses: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+        colorClasses: "bg-rose-50 text-rose-600 dark:bg-rose-900/20"
     },
 ];
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Empower individuals with valuable skills for a better future.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
-    { title: "Street & Slum Children Education", description: "Light up a child's future with the gift of education.", imageUrl: "https://picsum.photos/seed/slum/1600/450", imageHint: "children studying", goal: 100000, raised: 2200 },
-    { title: "Environment / Tree Plantation", description: "Help us nurture a greener and healthier planet.", imageUrl: "https://picsum.photos/seed/tree/1600/450", imageHint: "planting tree", goal: 100000, raised: 1800 },
-    { title: "Women Empowerment", description: "Support initiatives that uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/1600/450", imageHint: "women group", goal: 5000000, raised: 1250000 },
-    { title: "Medical Assistance", description: "Provide critical healthcare to those who can't afford it.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
-    { title: "Senior Citizen/Old Age Home", description: "Ensure our elders live with dignity and care.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
+    { title: "Skill Trainings", description: "Empower individuals with valuable skills.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
+    { title: "Children Education", description: "The gift of education for all.", imageUrl: "https://picsum.photos/seed/slum/1600/450", imageHint: "children studying", goal: 100000, raised: 2200 },
+    { title: "Tree Plantation", description: "Nurture a greener planet.", imageUrl: "https://picsum.photos/seed/tree/1600/450", imageHint: "planting tree", goal: 100000, raised: 1800 },
+    { title: "Women Empowerment", description: "Uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/1600/450", imageHint: "women group", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Provide critical healthcare.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
+    { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
 const scholarshipSchema = z.object({
@@ -96,6 +96,13 @@ const scholarshipSchema = z.object({
 });
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+
+interface Update {
+  id: string;
+  title: string;
+  description: string;
+  createdAt: string;
+}
 
 export function Header() {
   const { t } = useLanguage();
@@ -377,21 +384,21 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, color: "bg-blue-100 text-blue-600", description: "Learn more about our mission." },
-    { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, color: "bg-green-100 text-green-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, color: "bg-purple-100 text-purple-600", description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-100 text-orange-600", description: "Read articles and updates." },
-    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-red-100 text-red-600", description: "Visit our learning centers." },
-    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-100 text-indigo-600", description: "Join our hands-on workshops." },
-    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-rose-100 text-rose-600", description: "Contribute to our mission." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, color: "bg-pink-100 text-pink-600", target: "_blank", description: "Support our cause." },
+    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, color: "bg-blue-50 text-blue-600", description: "Learn more about our mission." },
+    { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-50 text-emerald-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-50 text-violet-600", description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-50 text-orange-600", description: "Read articles and updates." },
+    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-rose-50 text-rose-600", description: "Visit our learning centers." },
+    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-50 text-indigo-600", description: "Join our hands-on workshops." },
+    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-pink-50 text-pink-600", description: "Contribute to our mission." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, color: "bg-red-50 text-red-600", target: "_blank", description: "Support our cause." },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary/10 text-primary", description: "Start your journey today." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-100 text-amber-600", description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-100 text-sky-600", description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-violet-100 text-violet-600", description: "Send us an enquiry." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary/5 text-primary", description: "Start your journey today." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-50 text-amber-600", description: "Experience our teaching style." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-50 text-sky-600", description: "Help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-50 text-purple-600", description: "Send us an enquiry." },
   ];
 
   const headerClasses = cn(
@@ -414,24 +421,24 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">Explore</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">Apply For</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-semibold text-foreground hover:bg-primary/5 hover:text-primary rounded-md capitalize">
+                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
                                         <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                                            <ShoppingCart className="h-5 w-5" /><span className="font-semibold text-sm">Store</span>
+                                            <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">Store</span>
                                         </Link>
                                     </Button>
                                 </div>
                                 <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-base font-semibold text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md capitalize">More</Button>
+                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
                               </div>
                             </>
                           ) : (
-                            <div className="flex items-center gap-x-4 text-xs font-semibold">
+                            <div className="flex items-center gap-x-4 text-[10px] font-black uppercase tracking-widest">
                               <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
@@ -441,9 +448,9 @@ export function Header() {
                 </div>
                 <div className="flex items-center gap-1">
                     <div className="hidden md:flex items-center gap-2">
-                         <a href="tel:7011117585" className="flex items-center gap-2 p-1 rounded-md hover:bg-muted transition-colors">
-                            <div className="bg-blue-100 p-1.5 rounded-full"><Phone className="h-3 w-3 text-blue-600" /></div>
-                            <div><p className="text-xs text-muted-foreground leading-tight">Call now</p><p className="text-sm font-bold text-foreground leading-tight">70-1111-7585</p></div>
+                         <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition-all">
+                            <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
+                            <div><p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest leading-tight">Call Expert</p><p className="text-xs font-black text-foreground leading-tight">70-1111-7585</p></div>
                         </a>
                     </div>
                     <div className="flex items-center gap-1">{isClient && renderAuthSection()}</div>
@@ -453,7 +460,7 @@ export function Header() {
                 </div>
             </div>
             <SheetContent side="left" className="p-0 w-80">
-                <SheetHeader className="p-4 border-b">
+                <SheetHeader className="p-4 border-b bg-muted/10">
                     <SheetTitle>
                         <Link href="/" className="flex flex-row items-center justify-start gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
                             <div className="relative w-12 h-12 shrink-0">
@@ -462,11 +469,11 @@ export function Header() {
                             <div className="flex flex-col leading-none text-left">
                                 <div className="flex items-end gap-1.5">
                                     <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
-                                    <span className="text-[6px] font-medium text-muted-foreground leading-tight mb-0.5 whitespace-nowrap">
-                                        Institute Of<br />Distance Learning Pvt. Ltd.
+                                    <span className="text-[6px] font-bold text-muted-foreground leading-tight mb-0.5 whitespace-nowrap opacity-60">
+                                        INSTITUTE OF<br />DISTANCE LEARNING
                                     </span>
                                 </div>
-                                <span className="text-2xl font-black text-primary tracking-tighter -mt-1">
+                                <span className="text-2xl font-black text-primary tracking-tighter -mt-1 uppercase">
                                     {isIdlFoundationPage ? "Foundation" : "Education"}
                                 </span>
                             </div>
@@ -476,21 +483,21 @@ export function Header() {
                 <div className="h-[calc(100vh-5.5rem)] flex flex-col">
                     <ScrollArea className="flex-1">
                         {!isIdlFoundationPage && (
-                        <div className="p-2 space-y-1">
+                        <div className="p-3 space-y-2">
                             <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                 <CollapsibleTrigger asChild>
-                                    <Button variant="ghost" className="w-full justify-between text-base py-4 px-4 h-auto rounded-xl bg-muted/30 group">
-                                        <span className="flex items-center gap-3 font-bold"><BookOpen className="h-5 w-5 text-primary" /> All Courses</span>
-                                        <ChevronDown className="h-5 w-5 transition-transform group-data-[state=open]:rotate-180" />
+                                    <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-2xl bg-primary/5 hover:bg-primary/10 transition-all group border border-primary/5">
+                                        <span className="flex items-center gap-3 font-black uppercase tracking-widest"><BookOpen className="h-4 w-4 text-primary" /> All Courses</span>
+                                        <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="p-2 space-y-1">
+                                <CollapsibleContent className="px-1 py-3 space-y-1">
                                     {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
-                                        <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                            <div className={cn("p-2.5 rounded-full mt-1 shadow-sm shrink-0", colorClasses)}>{icon}</div>
+                                        <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
+                                            <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                             <div className="space-y-0.5">
-                                                <p className="font-bold text-xs text-foreground uppercase tracking-tight">{label}</p>
-                                                <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-2">{description}</p>
+                                                <p className="font-black text-[11px] text-foreground uppercase tracking-widest">{label}</p>
+                                                <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                             </div>
                                         </Link>
                                     ))}
@@ -499,18 +506,18 @@ export function Header() {
 
                             <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                 <CollapsibleTrigger asChild>
-                                    <Button variant="ghost" className="w-full justify-between text-base py-4 px-4 h-auto rounded-xl bg-muted/30 group">
-                                        <span className="flex items-center gap-3 font-bold"><GraduationCap className="h-5 w-5 text-primary" /> Apply For</span>
-                                        <ChevronDown className="h-5 w-5 transition-transform group-data-[state=open]:rotate-180" />
+                                    <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-2xl bg-primary/5 hover:bg-primary/10 transition-all group border border-primary/5">
+                                        <span className="flex items-center gap-3 font-black uppercase tracking-widest"><GraduationCap className="h-4 w-4 text-primary" /> Apply For</span>
+                                        <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="p-2 space-y-1">
+                                <CollapsibleContent className="px-1 py-3 space-y-1">
                                     {applyForLinks.map(({ href, label, icon, description, color }) => (
-                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                            <div className={cn("p-2.5 rounded-full mt-1 shadow-sm shrink-0", color)}>{icon}</div>
+                                        <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
+                                            <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                             <div className="space-y-0.5">
-                                                <p className="font-bold text-xs text-foreground uppercase tracking-tight">{label}</p>
-                                                <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-2">{description}</p>
+                                                <p className="font-black text-[11px] text-foreground uppercase tracking-widest">{label}</p>
+                                                <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                             </div>
                                         </Link>
                                     ))}
@@ -519,41 +526,41 @@ export function Header() {
 
                             <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                 <CollapsibleTrigger asChild>
-                                    <Button variant="ghost" className="w-full justify-between text-base py-4 px-4 h-auto rounded-xl bg-muted/30 group">
-                                        <span className="flex items-center gap-3 font-bold"><MoreHorizontal className="h-5 w-5 text-primary" /> More</span>
-                                        <ChevronDown className="h-5 w-5 transition-transform group-data-[state=open]:rotate-180" />
+                                    <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-2xl bg-primary/5 hover:bg-primary/10 transition-all group border border-primary/5">
+                                        <span className="flex items-center gap-3 font-black uppercase tracking-widest"><MoreHorizontal className="h-4 w-4 text-primary" /> More</span>
+                                        <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
-                                <CollapsibleContent className="p-2 space-y-1">
+                                <CollapsibleContent className="px-1 py-3 space-y-1">
                                     {navLinks.map(({ href, label, icon, description, target, onClick, color }) => (
-                                        <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                            <div className={cn("p-2.5 rounded-full mt-1 shadow-sm shrink-0", color)}>{icon}</div>
+                                        <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
+                                            <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                             <div className="space-y-0.5">
-                                                <p className="font-bold text-xs text-foreground uppercase tracking-tight">{label}</p>
-                                                <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-2">{description}</p>
+                                                <p className="font-black text-[11px] text-foreground uppercase tracking-widest">{label}</p>
+                                                <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                             </div>
                                         </Link>
                                     ))}
                                 </CollapsibleContent>
                             </Collapsible>
                             
-                            <div className="px-2 pt-4 pb-2">
-                                <Separator />
+                            <div className="px-2 pt-6 pb-2">
+                                <Separator className="opacity-50" />
                             </div>
                             
-                            <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-4 rounded-2xl bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-100 dark:border-yellow-900/20 hover:bg-yellow-100 transition-all active:scale-[0.98] mb-2">
-                                <div className="p-3 rounded-full bg-yellow-400 text-black shadow-lg shadow-yellow-400/20 shrink-0"><ShoppingCart className="h-5 w-5" /></div>
+                            <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-5 rounded-[1.5rem] bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/20 hover:bg-amber-100 transition-all active:scale-[0.98] mb-2 shadow-sm shadow-amber-500/5">
+                                <div className="p-3.5 rounded-full bg-amber-400 text-black shadow-lg shadow-amber-400/20 shrink-0"><ShoppingCart className="h-5 w-5" /></div>
                                 <div className="space-y-0.5">
-                                    <p className="font-black text-sm text-yellow-700 dark:text-yellow-500 uppercase tracking-tight">IDL Store</p>
-                                    <p className="text-[10px] font-bold text-yellow-600/80 leading-tight">Shop textbooks and premium resources.</p>
+                                    <p className="font-black text-[13px] text-amber-700 dark:text-amber-500 uppercase tracking-widest">IDL Store</p>
+                                    <p className="text-[10px] font-bold text-amber-600/80 leading-tight">Shop premium resources & books.</p>
                                 </div>
                             </Link>
 
-                            <a href="tel:7011117585" className="group flex items-start gap-3 p-4 rounded-2xl bg-blue-50 dark:bg-blue-900/10 border border-blue-100 dark:border-blue-900/20 hover:bg-blue-100 transition-all active:scale-[0.98]">
-                                <div className="p-3 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-600/20 shrink-0"><Phone className="h-5 w-5" /></div>
+                            <a href="tel:7011117585" className="group flex items-start gap-4 p-5 rounded-[1.5rem] bg-indigo-50 dark:bg-indigo-900/10 border border-indigo-100 dark:border-indigo-900/20 hover:bg-indigo-100 transition-all active:scale-[0.98] shadow-sm shadow-indigo-500/5">
+                                <div className="p-3.5 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-600/20 shrink-0"><Phone className="h-5 w-5" /></div>
                                 <div className="space-y-0.5">
-                                    <p className="font-black text-sm text-blue-700 dark:text-blue-400 uppercase tracking-tight">Call Now</p>
-                                    <p className="text-[10px] font-bold text-blue-600/80 leading-tight">Instant academic assistance: 70-1111-7585</p>
+                                    <p className="font-black text-[13px] text-indigo-700 dark:text-indigo-400 uppercase tracking-widest">Call Expert</p>
+                                    <p className="text-[10px] font-bold text-indigo-600/80 leading-tight">Academic support: 70-1111-7585</p>
                                 </div>
                             </a>
                         </div>
@@ -565,15 +572,18 @@ export function Header() {
         </header>
       </Sheet>
        <div onMouseEnter={() => handleMouseEnter(activeMenu || '')} onMouseLeave={handleMouseLeave} className={cn("fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out", activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none")}>
-        <div className="absolute inset-x-0 top-0 shadow-lg bg-background/95 backdrop-blur-sm">
-          <div className="pt-4 pb-4">
+        <div className="absolute inset-x-0 top-0 shadow-2xl bg-background/95 backdrop-blur-xl border-b">
+          <div className="pt-6 pb-8">
             {activeMenu === 'explore' && (
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {allCoursesCategories.map((category, index) => (
-                            <Link key={index} href={category.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className={cn("p-3 rounded-full mt-1", category.colorClasses)}>{category.icon}</div>
-                                <div><p className="font-semibold text-sm text-foreground">{category.name}</p><p className="text-xs text-muted-foreground">{category.description}</p></div>
+                            <Link key={index} href={category.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
+                                <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", category.colorClasses)}>{category.icon}</div>
+                                <div className="space-y-1">
+                                    <p className="font-black text-xs text-foreground uppercase tracking-widest">{category.name}</p>
+                                    <p className="text-[11px] font-medium text-muted-foreground leading-tight">{category.description}</p>
+                                </div>
                             </Link>
                         ))}
                     </div>
@@ -581,11 +591,14 @@ export function Header() {
             )}
             {activeMenu === 'apply' && (
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {applyForLinks.map((link) => (
-                            <Link key={link.href} href={link.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className={cn("p-3 rounded-full mt-1", link.color)}>{link.icon}</div>
-                                <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
+                            <Link key={link.href} href={link.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
+                                <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
+                                <div className="space-y-1">
+                                    <p className="font-black text-xs text-foreground uppercase tracking-widest">{link.label}</p>
+                                    <p className="text-[11px] font-medium text-muted-foreground leading-tight">{link.description}</p>
+                                </div>
                             </Link>
                         ))}
                     </div>
@@ -593,11 +606,14 @@ export function Header() {
             )}
             {activeMenu === 'more' && (
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {navLinks.map((link) => (
-                            <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className={cn("p-3 rounded-full mt-1", link.color)}>{link.icon}</div>
-                                <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
+                            <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
+                                <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
+                                <div className="space-y-1">
+                                    <p className="font-black text-xs text-foreground uppercase tracking-widest">{link.label}</p>
+                                    <p className="text-[11px] font-medium text-muted-foreground leading-tight">{link.description}</p>
+                                </div>
                             </Link>
                         ))}
                     </div>
@@ -609,8 +625,8 @@ export function Header() {
       <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
         <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
             <DialogHeader className="text-center mb-6">
-                <DialogTitle className="text-2xl font-bold text-primary">Contact Us</DialogTitle>
-                <DialogDescription className="text-muted-foreground text-sm">Fill out the form below and we'll get back to you as soon as possible.</DialogDescription>
+                <DialogTitle className="text-2xl font-bold text-primary uppercase tracking-tighter">Contact Us</DialogTitle>
+                <DialogDescription className="text-muted-foreground text-[13px] font-medium">Have a query? Drop us a line below.</DialogDescription>
             </DialogHeader>
             <ContactForm onSuccess={() => setIsContactOpen(false)} />
         </DialogContent>
