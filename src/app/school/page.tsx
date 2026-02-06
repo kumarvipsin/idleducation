@@ -152,7 +152,7 @@ function SchoolPageContent() {
                                     </div>
                                     <div>
                                         <h4 className="font-black text-base text-foreground tracking-tight">{subject.name}</h4>
-                                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Academic Year 2025-26</p>
+                                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Academic Year 2026-27</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center gap-2">
