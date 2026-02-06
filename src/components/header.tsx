@@ -593,34 +593,18 @@ export function Header() {
 
                             {/* CTA Cards */}
                             <div className="space-y-3">
-                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group block relative overflow-hidden p-4 rounded-[1.25rem] bg-gradient-to-br from-amber-50 to-orange-50 border border-orange-100 shadow-sm active:scale-[0.98] transition-all">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
-                                        <ShoppingCart className="w-16 h-16 rotate-12" />
-                                    </div>
-                                    <div className="relative z-10 flex items-center gap-4">
-                                        <div className="p-3 rounded-xl bg-orange-500 text-white shadow-lg shadow-orange-500/20">
-                                            <ShoppingCart className="h-5 w-5" />
-                                        </div>
-                                        <div className="space-y-0.5">
-                                            <p className="font-black text-sm text-orange-900 tracking-tight">IDL Store</p>
-                                            <p className="text-[10px] font-bold text-orange-700/70 uppercase tracking-tighter">Shop Premium Books & Resources</p>
-                                        </div>
-                                    </div>
+                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition-all border border-amber-500/5 active:scale-[0.98]">
+                                    <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-orange-600">
+                                        <ShoppingCart className="h-4 w-4" /> 
+                                        IDL Store
+                                    </span>
                                 </Link>
 
-                                <a href="tel:7011117585" className="group block relative overflow-hidden p-4 rounded-[1.25rem] bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 shadow-sm active:scale-[0.98] transition-all">
-                                    <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:scale-110 transition-transform duration-500">
-                                        <Phone className="w-16 h-16 -rotate-12" />
-                                    </div>
-                                    <div className="relative z-10 flex items-center gap-4">
-                                        <div className="p-3 rounded-xl bg-primary text-white shadow-lg shadow-primary/20">
-                                            <Phone className="h-5 w-5" />
-                                        </div>
-                                        <div className="space-y-0.5">
-                                            <p className="font-black text-sm text-primary tracking-tight">Call Expert</p>
-                                            <p className="text-[10px] font-bold text-primary/60 uppercase tracking-tighter">Support: 70-1111-7585</p>
-                                        </div>
-                                    </div>
+                                <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-blue-500/5 hover:bg-blue-500/10 transition-all border border-blue-500/5 active:scale-[0.98]">
+                                    <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-primary">
+                                        <Phone className="h-4 w-4" /> 
+                                        Call Expert
+                                    </span>
                                 </a>
                             </div>
                         </div>
