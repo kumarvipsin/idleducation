@@ -2,24 +2,16 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home, Sigma, TestTube2, BookText, Landmark } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 
 const subjects = [
-    { name: "Maths", key: "maths" },
-    { name: "Science", key: "science" },
-    { name: "English", key: "english" },
-    { name: "Social Studies", key: "social" },
+    { name: "Mathematics", key: "maths", icon: <Sigma className="w-5 h-5" />, color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
+    { name: "Science", key: "science", icon: <TestTube2 className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
+    { name: "English", key: "english", icon: <BookText className="w-5 h-5" />, color: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
+    { name: "Social Studies", key: "social", icon: <Landmark className="w-5 h-5" />, color: "bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400" },
 ];
 
 function SchoolPageContent() {
@@ -113,7 +105,7 @@ function SchoolPageContent() {
             </div>
     
             {/* Resources Section */}
-            <section className="mb-8 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+            <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
                     <div className="flex justify-center mb-6">
                         <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider">
@@ -141,50 +133,40 @@ function SchoolPageContent() {
 
             {/* Separate Syllabus Section */}
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-                <div className="bg-white dark:bg-card rounded-2xl shadow-lg border overflow-hidden">
-                    <div className="bg-primary/5 p-4 md:p-6 border-b">
-                        <div className="flex items-center gap-3">
-                            <div className="bg-primary/10 p-2 rounded-lg">
-                                <FileText className="w-5 h-5 text-primary" />
-                            </div>
-                            <div>
-                                <h3 className="font-bold text-sm md:text-base text-primary uppercase tracking-widest">
-                                    Subject-wise Syllabus
-                                </h3>
-                                <p className="text-[10px] md:text-xs text-muted-foreground font-semibold">Official curriculum links for {activeTab}</p>
-                            </div>
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
+                        <div>
+                            <h3 className="font-black text-xl md:text-2xl text-foreground uppercase tracking-tight">
+                                Subject-wise Syllabus
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Official curriculum for {activeTab}</p>
                         </div>
                     </div>
-                    <div className="overflow-x-auto">
-                        <Table>
-                            <TableHeader>
-                                <TableRow className="bg-muted/50 hover:bg-muted/50">
-                                    <TableHead className="font-bold text-xs uppercase tracking-tight py-4 px-6">Subject</TableHead>
-                                    <TableHead className="text-right font-bold text-xs uppercase tracking-tight py-4 px-6">Actions</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {subjects.map((subject) => (
-                                    <TableRow key={subject.key} className="hover:bg-muted/30 transition-colors border-b last:border-0">
-                                        <TableCell className="font-bold text-sm py-5 px-6">
-                                            {subject.name}
-                                        </TableCell>
-                                        <TableCell className="text-right py-5 px-6">
-                                            <div className="flex justify-end gap-2 sm:gap-3">
-                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/10 hover:text-primary transition-all px-4">
-                                                    <Eye className="w-3 h-3 mr-1.5" />
-                                                    View Syllabus
-                                                </Button>
-                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 hover:bg-emerald-50 transition-all px-4">
-                                                    <Download className="w-3 h-3 mr-1.5" />
-                                                    Download
-                                                </Button>
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {subjects.map((subject) => (
+                            <div key={subject.key} className="group bg-white dark:bg-card p-4 rounded-2xl shadow-sm border hover:shadow-md transition-all flex items-center justify-between gap-4">
+                                <div className="flex items-center gap-4">
+                                    <div className={cn("p-3 rounded-xl shrink-0", subject.color)}>
+                                        {subject.icon}
+                                    </div>
+                                    <div>
+                                        <h4 className="font-black text-base text-foreground tracking-tight">{subject.name}</h4>
+                                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Academic Year 2025-26</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/5 hover:text-primary transition-all px-4 border border-transparent hover:border-primary/10">
+                                        <Eye className="w-3.5 h-3.5 mr-1.5" />
+                                        <span className="hidden sm:inline">View</span>
+                                    </Button>
+                                    <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-4 border border-emerald-100">
+                                        <Download className="w-3.5 h-3.5 mr-1.5" />
+                                        <span className="hidden sm:inline">Get PDF</span>
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
