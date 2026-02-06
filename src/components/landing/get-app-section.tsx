@@ -126,7 +126,7 @@ export function GetAppSection() {
                         <Headset className="w-5 h-5 text-blue-600 group-hover:text-inherit" />
                     </div>
                     <div className="space-y-0.5">
-                        <p className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600/60">System Help</p>
+                        <p className="text-[9px] font-bold uppercase tracking-tight text-blue-600/60">System Help</p>
                         <p className="text-[13px] font-bold text-foreground">Technical Support</p>
                     </div>
                 </button>
@@ -219,7 +219,7 @@ export function GetAppSection() {
                   <MessageCircle className="w-5 h-5 text-green-600 group-hover:text-inherit" />
                 </div>
                 <div className="space-y-0.5">
-                    <p className="text-[9px] font-black uppercase tracking-[0.2em] text-green-600/60">Direct Line</p>
+                    <p className="text-[9px] font-bold uppercase tracking-tight text-green-600/60">Direct Line</p>
                     <p className="text-[13px] font-bold text-foreground">Talk to an expert</p>
                 </div>
               </button>
@@ -392,8 +392,8 @@ export function GetAppSection() {
                                   className="object-contain"
                               />
                               <div className="flex flex-col -space-y-1">
-                                  <span className="text-[7px] font-black text-black uppercase tracking-tighter opacity-60">GET IT ON</span>
-                                  <span className="text-[11px] font-black text-black tracking-tight">Google Play</span>
+                                  <span className="text-[7px] font-bold text-black uppercase tracking-tight opacity-60">GET IT ON</span>
+                                  <span className="text-[11px] font-bold text-black tracking-tight">Google Play</span>
                               </div>
                           </div>
                           
@@ -408,16 +408,16 @@ export function GetAppSection() {
                                   className="object-contain"
                               />
                               <div className="flex flex-col -space-y-1">
-                                  <span className="text-[7px] font-black text-black uppercase tracking-tighter opacity-60">Download on the</span>
-                                  <span className="text-[11px] font-black text-black tracking-tight">App Store</span>
+                                  <span className="text-[7px] font-bold text-black uppercase tracking-tight opacity-60">Download on the</span>
+                                  <span className="text-[11px] font-bold text-black tracking-tight">App Store</span>
                               </div>
                           </div>
                       </div>
 
                       {/* Text */}
                       <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-primary mb-0.5">Quick Scan</p>
-                          <p className="text-sm font-black leading-tight text-foreground">Get IDL Learning App</p>
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-primary mb-0.5">Quick Scan</p>
+                          <p className="text-sm font-bold leading-tight text-foreground">Get IDL Learning App</p>
                       </div>
 
                       {/* QR Code */}

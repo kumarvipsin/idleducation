@@ -35,8 +35,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     </DialogTrigger>
                   )}
               </div>
-              <h3 className="font-black text-base tracking-tight">{testimonial.name}</h3>
-              <p className="text-[10px] text-primary font-black mb-4 uppercase tracking-[0.15em]">{testimonial.achievement}</p>
+              <h3 className="font-bold text-base tracking-tight">{testimonial.name}</h3>
+              <p className="text-[10px] text-primary font-bold mb-4 uppercase tracking-tight">{testimonial.achievement}</p>
               <div className="relative h-24 w-full">
                   <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                   <ScrollArea className="h-full w-full px-2">
@@ -103,7 +103,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   return (
     <section id="testimonials" className="w-full py-6 md:py-10 bg-white dark:bg-background">
       <div className="text-center mb-8 px-4">
-        <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white">
+        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-800 dark:text-white">
           IDL{' '}
           <span className="relative inline-block">
             <span className="relative z-10">Stars</span>

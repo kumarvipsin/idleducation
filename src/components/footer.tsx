@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Phone, Mail, Youtube } from "lucide-react";
@@ -48,7 +49,7 @@ export function Footer() {
                             <span className="text-3xl font-extrabold text-white tracking-tight -mt-1">Education</span>
                         </div>
                     </Link>
-                    <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wider">
+                    <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wide">
                       Tailored education designed to adapt to your unique needs and help you achieve your full potential.
                     </p>
                     <div className="flex items-center justify-start gap-3">

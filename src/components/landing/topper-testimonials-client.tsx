@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -30,8 +31,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                 <PlayCircle className="w-14 h-14 text-white transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]" />
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-3 text-left bg-gradient-to-t from-black/60 to-transparent">
-              <p className="font-black text-xs text-white uppercase tracking-tight drop-shadow-md">{testimonial.studentName}</p>
-              <p className="text-[9px] text-white/90 font-bold uppercase tracking-widest drop-shadow-md">{testimonial.studentClass}</p>
+              <p className="font-bold text-xs text-white uppercase tracking-tight drop-shadow-md">{testimonial.studentName}</p>
+              <p className="text-[9px] text-white/90 font-bold uppercase tracking-tight drop-shadow-md">{testimonial.studentClass}</p>
             </div>
         </button>
         </DialogTrigger>
@@ -84,7 +85,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   return (
     <section className="w-full py-6 md:py-10 bg-white dark:bg-background">
         <div className="text-center mb-8 px-4 md:px-6">
-          <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white">
+          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-800 dark:text-white">
             Topper's{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Talk</span>

@@ -67,7 +67,7 @@ export function StudyResources() {
     <section className="w-full py-6 md:py-10 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-8">
-          <h2 className="text-2xl md:text-3xl font-black tracking-tight text-gray-800 dark:text-white">
+          <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-800 dark:text-white">
             Study{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Resources</span>
@@ -116,11 +116,11 @@ export function StudyResources() {
                                   </div>
                               </div>
                               <CardContent className="p-4 flex-grow flex flex-col text-center">
-                                  <p className="text-[10px] font-black text-primary uppercase tracking-[0.2em] mb-1">{resource.category}</p>
+                                  <p className="text-[10px] font-bold text-primary uppercase tracking-wider mb-1">{resource.category}</p>
                                   <h3 className="text-base font-bold tracking-tight text-foreground leading-tight line-clamp-1">{resource.title}</h3>
                                   <p className="text-xs mt-2 text-muted-foreground font-medium leading-relaxed line-clamp-2">{resource.description}</p>
                                   <div className="mt-4 pt-4 border-t border-muted-foreground/5">
-                                      <span className="text-[10px] font-black text-primary hover:underline flex items-center justify-center uppercase tracking-widest">
+                                      <span className="text-[10px] font-bold text-primary hover:underline flex items-center justify-center uppercase tracking-wide">
                                           Explore More <ArrowRight className="ml-1.5 w-3 h-3 transition-transform group-hover:translate-x-1" />
                                       </span>
                                   </div>
