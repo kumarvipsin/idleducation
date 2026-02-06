@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect, Suspense } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home, Sigma, TestTube2, BookText, Landmark } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home, Sigma, TestTube2, BookText, Landmark, Book } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
@@ -36,14 +36,14 @@ function SchoolPageContent() {
     const resourceCards = [
         {
           title: "REVISION\nHigh-Quality Notes",
-          icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
-          color: "bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400",
+          icon: <BookOpen />,
+          color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400",
           href: "/resources/reference-books"
         },
          {
           title: "SOLUTIONS\nNCERT Step-by-Step",
-          icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
-          color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
+          icon: <Book />,
+          color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400",
           href: "/resources/ncert-solutions"
         }
     ];
@@ -51,7 +51,7 @@ function SchoolPageContent() {
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <Link href="/" className="absolute top-4 right-4 z-20">
-                <Button variant="ghost" size="icon">
+                <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/5 transition-colors">
                     <Home className="h-6 w-6 text-primary" />
                     <span className="sr-only">Home</span>
                 </Button>
@@ -82,7 +82,7 @@ function SchoolPageContent() {
                                 variant="outline"
                                 className={cn(
                                     "rounded-full px-6 py-2 text-[10px] font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-9 shadow-none whitespace-nowrap",
-                                    activeTab === className ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                                    activeTab === className ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                                 )}
                             >
                                 {className}
@@ -94,29 +94,46 @@ function SchoolPageContent() {
     
             {/* Resources Section */}
             <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
-                    <div className="flex justify-center mb-6">
-                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider">
+                <div className="bg-gradient-to-br from-white to-slate-50 dark:from-card dark:to-slate-900/50 p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-muted-foreground/10 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
+                    
+                    <div className="flex justify-center mb-10 relative z-10">
+                        <div className="bg-yellow-400 text-black px-6 py-1.5 rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-sm border border-yellow-500/20">
                             Explore {activeTab} Resources
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 items-stretch max-w-2xl mx-auto">
-                        {resourceCards.map((card, index) => (
-                            <Link key={index} href={card.href} className="group block h-full">
-                                <div className={cn(
-                                    "flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all duration-300 h-full hover:shadow-lg hover:-translate-y-1 border border-transparent hover:border-white/20",
-                                    card.color
-                                )}>
-                                    <div className="mb-2">
-                                        {card.icon}
+                    
+                    <div className="grid grid-cols-2 gap-4 md:gap-8 items-stretch max-w-3xl mx-auto relative z-10">
+                        {resourceCards.map((card, index) => {
+                            const [header, subtitle] = card.title.split('\n');
+                            return (
+                                <Link key={index} href={card.href} className="group block h-full">
+                                    <div className={cn(
+                                        "flex flex-col items-center justify-center p-6 md:p-8 rounded-[2rem] transition-all duration-500 h-full hover:shadow-2xl hover:-translate-y-2 border border-muted-foreground/5 shadow-sm bg-white dark:bg-black/20",
+                                        "hover:border-primary/20 group-hover:ring-4 group-hover:ring-primary/5"
+                                    )}>
+                                        <div className={cn(
+                                            "mb-6 p-4 rounded-[1.5rem] shadow-inner transition-all duration-500 group-hover:scale-110 group-hover:rotate-3",
+                                            card.color
+                                        )}>
+                                            {React.cloneElement(card.icon as React.ReactElement, { className: "w-8 h-8 md:w-10 md:h-10" })}
+                                        </div>
+                                        <div className="text-center space-y-2">
+                                            <p className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-foreground">
+                                                {header}
+                                            </p>
+                                            <p className="text-[10px] md:text-xs font-bold text-muted-foreground leading-tight max-w-[120px] mx-auto">
+                                                {subtitle}
+                                            </p>
+                                        </div>
+                                        <div className="mt-6 flex items-center gap-2 text-primary font-black text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                                            Access Now
+                                            <ArrowRight className="w-3 h-3" />
+                                        </div>
                                     </div>
-                                    <p className="text-[10px] md:text-xs font-black text-center text-foreground tracking-tight whitespace-pre-line">
-                                        {card.title}
-                                    </p>
-                                    <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            );
+                        })}
                     </div>
                 </div>
             </section>
@@ -126,7 +143,7 @@ function SchoolPageContent() {
                 <div className="space-y-6">
                     <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
                         <div>
-                            <h3 className="font-black text-xl md:text-2xl text-foreground uppercase tracking-tight">
+                            <h3 className="font-black text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
                                 Subject-wise Syllabus
                             </h3>
                             <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Official curriculum for {activeTab}</p>
@@ -135,22 +152,22 @@ function SchoolPageContent() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {subjects.map((subject) => (
-                            <div key={subject.key} className="group bg-white dark:bg-card p-4 rounded-2xl shadow-sm border hover:shadow-md transition-all flex items-center justify-between gap-4">
+                            <div key={subject.key} className="group bg-white dark:bg-card p-4 md:p-5 rounded-[1.5rem] shadow-sm border hover:shadow-md transition-all flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
-                                    <div className={cn("p-3 rounded-xl shrink-0", subject.color)}>
+                                    <div className={cn("p-3.5 rounded-2xl shrink-0 transition-transform duration-500 group-hover:scale-110", subject.color)}>
                                         {subject.icon}
                                     </div>
                                     <div>
-                                        <h4 className="font-black text-base text-foreground tracking-tight">{subject.name}</h4>
+                                        <h4 className="font-black text-base md:text-lg text-foreground tracking-tight">{subject.name}</h4>
                                         <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Academic Year 2026-27</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-black tracking-widest uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-0 border border-blue-100 flex items-center justify-center">
+                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-black tracking-widest uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-0 border border-blue-100 flex items-center justify-center shadow-sm">
                                         <Eye className="w-3.5 h-3.5 mr-1.5" />
                                         <span>VIEW PDF</span>
                                     </Button>
-                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-0 border border-emerald-100 flex items-center justify-center">
+                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-0 border border-emerald-100 flex items-center justify-center shadow-sm">
                                         <Download className="w-3.5 h-3.5 mr-1.5" />
                                         <span>Get PDF</span>
                                     </Button>
