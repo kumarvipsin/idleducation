@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, ChevronRight, X } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2 } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -57,7 +57,7 @@ const VideoItem = ({
                 {isActive && (
                     <div className="flex items-center gap-1 mt-0.5">
                         <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[8px] text-primary font-black uppercase tracking-tight">Now Playing</span>
+                        <span className="text-[8px] text-primary font-extrabold uppercase tracking-tight">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -112,14 +112,14 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     <div className="flex flex-col gap-1.5">
                         <div className="flex items-center gap-2">
                             {activeChapterNumber && (
-                                <span className="text-[10px] font-black text-primary uppercase tracking-widest">
+                                <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">
                                     Module {activeChapterNumber}
                                 </span>
                             )}
                             <span className="text-zinc-300">•</span>
-                            <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-tight">{course.title}</span>
+                            <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-tight">{course.title}</span>
                         </div>
-                        <h2 className="text-lg md:text-2xl font-black text-foreground leading-tight tracking-tight mt-1">
+                        <h2 className="text-lg md:text-2xl font-extrabold text-foreground leading-tight tracking-tight mt-1">
                             {activeVideo?.title || "Select a Topic"}
                         </h2>
                     </div>
@@ -166,7 +166,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                 
                 <div className="p-4 bg-white border-t border-border lg:hidden">
                     <DialogClose asChild>
-                        <Button className="w-full bg-zinc-900 text-white font-bold h-12 rounded-xl">
+                        <Button className="w-full bg-zinc-900 text-white font-extrabold h-12 rounded-xl">
                             CLOSE PLAYER
                         </Button>
                     </DialogClose>
@@ -174,7 +174,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
                 <div className="p-3 bg-white border-t border-border hidden lg:flex items-center justify-center gap-2 shrink-0">
                     <Image src="/logo.png" alt="Logo" width={14} height={14} className="opacity-40" />
-                    <span className="text-[8px] font-black text-muted-foreground/60 tracking-[0.2em] uppercase">Powered by IDL Education</span>
+                    <span className="text-[8px] font-extrabold text-muted-foreground/60 tracking-[0.2em] uppercase">Powered by IDL Education</span>
                 </div>
             </div>
         </DialogContent>
@@ -218,7 +218,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
             <section key={groupTitle} className="mb-12">
               <div className="mb-6 text-center sm:text-left">
-                <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground relative inline-block">
+                <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground relative inline-block">
                   <span className="relative z-10">{groupTitle}</span>
                   <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
                     <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-yellow-400 fill-none stroke-current stroke-[10] opacity-70">
@@ -257,10 +257,10 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                         <div className="mt-4 flex items-center justify-between">
                           <div>
                             <div className="flex items-baseline gap-1.5">
-                                <p className="text-lg font-black text-primary">₹{course.price}</p>
+                                <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
                                 {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
                             </div>
-                            <div className="bg-green-500/10 text-green-600 text-[8px] font-black px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
+                            <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
                                 100% OFF
                             </div>
                           </div>
@@ -272,7 +272,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 </Button>
                             </PopoverTrigger>
                             <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                <h4 className="font-black text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
+                                <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
                                 <ScrollArea className="max-h-40">
                                     <p className="text-[10px] text-foreground font-medium leading-relaxed whitespace-pre-wrap opacity-80">
                                         {course.description}
@@ -292,7 +292,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                     <div className="p-4 pt-0 mt-auto">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-black h-9 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-widest">
+                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-11 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
                                     <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
                                     VIEW LESSONS
                                 </Button>
@@ -310,7 +310,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
             <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
                 <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
             </div>
-            <h2 className="text-xl font-black text-foreground/40 tracking-tight uppercase">No courses found</h2>
+            <h2 className="text-xl font-extrabold text-foreground/40 tracking-tight uppercase">No courses found</h2>
             <p className="text-xs text-muted-foreground font-bold">New learning material is coming soon!</p>
         </div>
       )}

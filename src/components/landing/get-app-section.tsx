@@ -1,9 +1,7 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, MapPin, CheckCircle2 } from "lucide-react";
+import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
 import {
   Dialog,
@@ -25,7 +23,6 @@ import { requestCallBack, submitSupportTicket } from "@/app/actions/forms";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { allPrograms } from "@/lib/courses";
 import { Textarea } from "@/components/ui/textarea";
-import { cn } from "@/lib/utils";
 
 const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
@@ -127,7 +124,7 @@ export function GetAppSection() {
                     </div>
                     <div className="space-y-0.5">
                         <p className="text-[9px] font-bold uppercase tracking-tight text-blue-600/60">System Help</p>
-                        <p className="text-[13px] font-extrabold text-foreground">Technical Support</p>
+                        <p className="text-[13px] font-bold text-foreground">Technical Support</p>
                     </div>
                 </button>
             </DialogTrigger>
@@ -201,7 +198,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full font-extrabold" disabled={supportForm.formState.isSubmitting}>
+                        <Button type="submit" className="w-full font-bold" disabled={supportForm.formState.isSubmitting}>
                             {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Support Ticket'}
                         </Button>
                     </form>
@@ -220,7 +217,7 @@ export function GetAppSection() {
                 </div>
                 <div className="space-y-0.5">
                     <p className="text-[9px] font-bold uppercase tracking-tight text-green-600/60">Direct Line</p>
-                    <p className="text-[13px] font-extrabold text-foreground">Talk to an expert</p>
+                    <p className="text-[13px] font-bold text-foreground">Talk to our expert</p>
                 </div>
               </button>
             </DialogTrigger>
@@ -318,7 +315,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full font-extrabold" disabled={callBackForm.formState.isSubmitting}>
+                        <Button type="submit" className="w-full font-bold" disabled={callBackForm.formState.isSubmitting}>
                             {callBackForm.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
                         </Button>
                     </form>
@@ -462,7 +459,7 @@ export function GetAppSection() {
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={() => setSubmittedTicketId(null)} className="w-full font-extrabold h-11 rounded-xl">
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full font-bold h-11 rounded-xl">
             Close &amp; Return
           </Button>
         </DialogFooter>

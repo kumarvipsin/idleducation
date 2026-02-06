@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -116,11 +115,11 @@ export function StudyResources() {
                                   </div>
                               </div>
                               <CardContent className="p-4 flex-grow flex flex-col text-center">
-                                  <p className="text-[10px] font-extrabold text-primary uppercase tracking-tight mb-1">{resource.category}</p>
+                                  <p className="text-[10px] font-bold text-primary uppercase tracking-tight mb-1">{resource.category}</p>
                                   <h3 className="text-base font-extrabold tracking-tight text-foreground leading-tight line-clamp-1">{resource.title}</h3>
                                   <p className="text-xs mt-2 text-muted-foreground font-bold leading-relaxed line-clamp-2">{resource.description}</p>
                                   <div className="mt-4 pt-4 border-t border-muted-foreground/5">
-                                      <span className="text-[10px] font-extrabold text-primary hover:underline flex items-center justify-center uppercase tracking-wide">
+                                      <span className="text-[10px] font-bold text-primary hover:underline flex items-center justify-center uppercase tracking-wide">
                                           Explore More <ArrowRight className="ml-1.5 w-3 h-3 transition-transform group-hover:translate-x-1" />
                                       </span>
                                   </div>

@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Phone, Mail, Youtube } from "lucide-react";
@@ -75,7 +74,7 @@ export function Footer() {
 
                 {/* Column 2: Quick Links */}
                 <div>
-                    <h3 className="text-xs font-extrabold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Quick Links</h3>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Quick Links</h3>
                     <ul className="space-y-3 text-[11px] font-bold tracking-wide">
                         {quickLinks.map(link => (
                             <li key={link.href}>
@@ -90,7 +89,7 @@ export function Footer() {
                 
                 {/* Column 3: Resources */}
                 <div>
-                    <h3 className="text-xs font-extrabold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Resources</h3>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Resources</h3>
                     <ul className="space-y-3 text-[11px] font-bold tracking-wide">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
@@ -105,7 +104,7 @@ export function Footer() {
 
                 {/* Column 4: Contact Us */}
                  <div>
-                    <h3 className="text-xs font-extrabold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact</h3>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact</h3>
                     <div className="flex flex-col items-start gap-1 text-[11px] font-bold tracking-wide text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
                           <Phone className="h-4 w-4 shrink-0 text-gray-400" />

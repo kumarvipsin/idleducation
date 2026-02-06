@@ -1,25 +1,17 @@
-
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle, Building, Users, ClipboardList } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, GraduationCap, FileText, ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, FileType, UserPlus, IndianRupee, Landmark, ClipboardList, UserCircle, Building, Users, HandHeart } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Avatar, AvatarFallback } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { registerForScholarship, createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
-import { Separator } from "./ui/separator";
-import { Skeleton } from "./ui/skeleton";
+import { createRazorpayOrder, recordDonation } from "@/app/actions";
 import Image from "next/image";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger, DialogFooter } from "./ui/dialog";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Input } from "./ui/input";
 import { Badge } from "./ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
@@ -27,14 +19,13 @@ import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
-import { allPrograms, schoolPrograms, competitivePrograms } from "@/lib/courses";
+import { allPrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
 import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-import { formatDistanceToNow } from 'date-fns';
 
 const allCoursesCategories = [
     {
@@ -90,31 +81,12 @@ const donationCategories = [
     { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
-const scholarshipSchema = z.object({
-  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  class: z.string().min(1, { message: "Please select a class." }),
-  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-});
-
-type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
-
-interface Update {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-}
-
 export function Header() {
   const { t } = useLanguage();
   const { user, loading, logout } = useAuth();
-  const { cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
-  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [hasNewUpdates, setHasNewUpdates] = useState(false);
-  const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const [isClient, setIsClient] = useState(false);
   const [show, setShow] = useState(true);
@@ -154,11 +126,6 @@ export function Header() {
       return () => window.removeEventListener('scroll', controlNavbar);
     }
   }, [controlNavbar]);
-  
-  const form = useForm<ScholarshipFormValues>({
-    resolver: zodResolver(scholarshipSchema),
-    defaultValues: { studentName: '', class: '', mobile: '' },
-  });
   
   const handleLogout = async () => {
     await logout();
@@ -297,13 +264,13 @@ export function Header() {
         return (
             <Dialog open={isDonateDialogOpen} onOpenChange={(open) => { setIsDonateDialogOpen(open); if (!open) setDonationStep(1); }}>
                 <DialogTrigger asChild>
-                    <Button onClick={() => setIsDonateDialogOpen(true)} className="font-extrabold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
+                    <Button onClick={() => setIsDonateDialogOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
                         Donate <Heart className="w-4 h-4 ml-2 fill-white text-white" />
                     </Button>
                 </DialogTrigger>
                 <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle className="text-2xl font-extrabold text-center text-primary">Thank You for Your Support!</DialogTitle>
+                        <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
                         <DialogDescription className="text-center font-bold">Your generosity helps us create a better world.</DialogDescription>
                     </DialogHeader>
                     {donationStep === 1 ? (
@@ -316,13 +283,13 @@ export function Header() {
                                     </div>
                                 ))}
                             </RadioGroup>
-                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-extrabold">
+                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-bold">
                                 Donate to {donationCategory || "..."}
                             </Button>
                         </div>
                     ) : (
                         <div className="pt-4 space-y-3">
-                            <p className="text-center font-extrabold text-sm">You are donating to "{donationCategory}".</p>
+                            <p className="text-center font-bold text-sm">You are donating to "{donationCategory}".</p>
                             <div className="relative">
                                 <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input id="header-amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
@@ -331,7 +298,7 @@ export function Header() {
                             <Input id="header-contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
                             <Input id="header-email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
                             <Input id="header-place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm font-extrabold">
+                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm font-bold">
                                 <Banknote className="mr-2 h-4 w-4" />
                                 Proceed to Final Payment
                             </Button>
@@ -346,7 +313,7 @@ export function Header() {
     return (
       <Link href="/login" className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
         <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
-        <span className="relative z-10 text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
+        <span className="relative z-10 text-[10px] font-bold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
       </Link>
     );
   };
@@ -373,8 +340,8 @@ export function Header() {
               <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="text-sm font-extrabold truncate max-w-[120px]">{user.name}</span>
-              <span className="text-[10px] text-muted-foreground uppercase font-extrabold">{user.role}</span>
+              <span className="text-sm font-bold truncate max-w-[120px]">{user.name}</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-bold">{user.role}</span>
             </div>
           </Link>
           <Button variant="ghost" size="icon" onClick={handleLogout} className="text-destructive"><LogOut className="h-5 w-5" /></Button>
@@ -384,7 +351,7 @@ export function Header() {
     return (
         <div className="p-4 border-t mt-auto">
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="w-full font-extrabold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
+                <Button className="w-full font-bold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
                     SIGN IN TO PORTAL
                 </Button>
             </Link>
@@ -430,24 +397,24 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
+                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
                                         <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                             <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">Store</span>
                                         </Link>
                                     </Button>
                                 </div>
                                 <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
+                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
                               </div>
                             </>
                           ) : (
-                            <div className="flex items-center gap-x-4 text-[10px] font-extrabold tracking-tight">
+                            <div className="flex items-center gap-x-4 text-[10px] font-bold tracking-tight">
                               <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
@@ -459,7 +426,7 @@ export function Header() {
                     <div className="hidden md:flex items-center gap-2">
                          <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition-all">
                             <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
-                            <div><p className="text-[8px] font-bold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
+                            <div><p className="text-[8px] font-bold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p></div>
                         </a>
                     </div>
                     <div className="flex items-center gap-1">{isClient && renderAuthSection()}</div>
@@ -499,7 +466,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-primary/5 hover:bg-primary/10 transition-all border border-primary/5 group/trigger">
-                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                                 <BookOpen className="h-4 w-4" /> 
                                                 All Courses
                                             </span>
@@ -511,7 +478,7 @@ export function Header() {
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                 <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                                 <div className="space-y-0.5">
-                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                                                     <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                 </div>
                                             </Link>
@@ -522,7 +489,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-orange-500/5 hover:bg-orange-500/10 transition-all border border-orange-500/5 group/trigger">
-                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-orange-600">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
                                                 <GraduationCap className="h-4 w-4" /> 
                                                 Apply For
                                             </span>
@@ -534,7 +501,7 @@ export function Header() {
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                 <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                 <div className="space-y-0.5">
-                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                                                     <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                 </div>
                                             </Link>
@@ -545,8 +512,8 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-indigo-500/5 hover:bg-indigo-500/10 transition-all border border-indigo-500/5 group/trigger">
-                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-indigo-600">
-                                                <MoreHorizontal className="h-4 w-4" /> 
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-indigo-600">
+                                                <AlignJustify className="h-4 w-4" /> 
                                                 Resources & Info
                                             </span>
                                             <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
@@ -557,7 +524,7 @@ export function Header() {
                                             <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                 <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                 <div className="space-y-0.5">
-                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                                                     <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                 </div>
                                             </Link>
@@ -569,14 +536,14 @@ export function Header() {
                             {/* CTA Cards */}
                             <div className="space-y-3">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition-all border border-amber-500/5 active:scale-[0.98]">
-                                    <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-orange-600">
+                                    <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
                                         <ShoppingCart className="h-4 w-4" /> 
                                         IDL Store
                                     </span>
                                 </Link>
 
                                 <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-blue-500/5 hover:bg-blue-500/10 transition-all border border-blue-500/5 active:scale-[0.98]">
-                                    <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
+                                    <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                         <Phone className="h-4 w-4" /> 
                                         Call Expert
                                     </span>
@@ -600,7 +567,7 @@ export function Header() {
                             <Link key={index} href={category.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", category.colorClasses)}>{category.icon}</div>
                                 <div className="space-y-1">
-                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{category.name}</p>
+                                    <p className="font-bold text-[13px] text-foreground leading-tight">{category.name}</p>
                                     <p className="text-[11px] font-bold text-muted-foreground leading-tight">{category.description}</p>
                                 </div>
                             </Link>
@@ -615,7 +582,7 @@ export function Header() {
                             <Link key={link.href} href={link.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
                                 <div className="space-y-1">
-                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
+                                    <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
                                     <p className="text-[11px] font-bold text-muted-foreground leading-tight">{link.description}</p>
                                 </div>
                             </Link>
@@ -637,7 +604,7 @@ export function Header() {
                             >
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
                                 <div className="space-y-1">
-                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
+                                    <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
                                     <p className="text-[11px] font-bold text-muted-foreground leading-tight">{link.description}</p>
                                 </div>
                             </Link>
