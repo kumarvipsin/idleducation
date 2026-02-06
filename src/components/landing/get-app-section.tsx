@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -357,7 +356,7 @@ export function GetAppSection() {
               <div className="lg:col-span-5 space-y-3 text-left">
                 <div className="space-y-1.5">
                   <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
-                      <span className="text-primary">IDL Learning App</span>-Learn Smart
+                      <span className="text-primary">IDL Learning App</span>-Learn from anywhere
                   </h2>
                 </div>
                 
