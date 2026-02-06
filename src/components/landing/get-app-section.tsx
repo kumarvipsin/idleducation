@@ -393,13 +393,13 @@ export function GetAppSection() {
                           <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
                           <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
                       </div>
-                      <div className="bg-white p-1.5 rounded-lg shadow-inner ml-auto">
+                      <div className="bg-white p-1.5 rounded-lg shadow-inner ml-auto border border-border/50">
                           <Image
-                              src="https://cdn-icons-png.flaticon.com/512/104/104089.png"
+                              src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
                               alt="Google Play"
                               data-ai-hint="google play"
                               width={80}
-                              height={100}
+                              height={80}
                               className="object-contain"
                           />
                       </div>
