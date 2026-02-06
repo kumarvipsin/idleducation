@@ -156,7 +156,7 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                                    <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/5 hover:text-primary transition-all px-4 border border-transparent hover:border-primary/10">
+                                    <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-4 border border-blue-100">
                                         <Eye className="w-3.5 h-3.5 mr-1.5" />
                                         <span>VIEW PDF</span>
                                     </Button>
