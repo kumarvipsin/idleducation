@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from "react";
@@ -11,19 +10,20 @@ import { cn } from "@/lib/utils";
 function SchoolPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
-    const boardParam = searchParams.get('board') || 'cbse';
+    const classParam = searchParams.get('class') || 'Class 10';
     
-    const [activeTab, setActiveTab] = useState(boardParam);
+    const [activeTab, setActiveTab] = useState(classParam);
+    const classes = ["Class 8", "Class 9", "Class 10", "Class 11", "Class 12"];
     
     useEffect(() => {
-        if(boardParam) {
-            setActiveTab(boardParam);
+        if(classParam) {
+            setActiveTab(classParam);
         }
-    }, [boardParam]);
+    }, [classParam]);
 
-    const handleTabChange = (tab: string) => {
-        setActiveTab(tab);
-        router.push(`/school?board=${tab}`, { scroll: false });
+    const handleClassChange = (className: string) => {
+        setActiveTab(className);
+        router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
     };
     
     const resourceCards = [
@@ -59,46 +59,39 @@ function SchoolPageContent() {
               <div className="flex flex-col items-start gap-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
                     <Sparkles className="w-3 h-3 text-yellow-500" />
-                    Academic Board Prep
+                    Academic Prep
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight">
-                    {activeTab === 'cbse' ? 'Cbse' : 'Nios'} Board 2026: <br/>
+                    {activeTab} Board Prep 2026: <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
-                    Comprehensive preparation resources for {activeTab === 'cbse' ? 'Central Board of Secondary Education' : 'National Institute of Open Schooling'}. Get expert guidance, structured courses, and premium study materials to excel in your board examinations.
+                    Comprehensive preparation resources specifically for {activeTab}. Get expert guidance, structured courses, and premium study materials to excel in your examinations.
                 </p>
               </div>
             </section>
             
-            <div className="flex justify-center gap-4 mb-16">
-                <Button 
-                    onClick={() => handleTabChange('cbse')} 
-                    variant="outline"
-                    className={cn(
-                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-10 shadow-none",
-                        activeTab === 'cbse' ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
-                    )}
-                >
-                    CBSE
-                </Button>
-                <Button 
-                    onClick={() => handleTabChange('nios')} 
-                    variant="outline"
-                    className={cn(
-                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-10 shadow-none",
-                        activeTab === 'nios' ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
-                    )}
-                >
-                    NIOS
-                </Button>
+            <div className="flex flex-wrap justify-center gap-3 mb-16 px-4">
+                {classes.map((className) => (
+                    <Button 
+                        key={className}
+                        onClick={() => handleClassChange(className)} 
+                        variant="outline"
+                        className={cn(
+                            "rounded-full px-6 py-2 text-[10px] font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-9 shadow-none whitespace-nowrap",
+                            activeTab === className ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                        )}
+                    >
+                        {className}
+                    </Button>
+                ))}
             </div>
     
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
                     <div className="flex justify-center mb-6">
-                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-xs uppercase">
-                            Explore Board Resources
+                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-[10px] uppercase tracking-wider">
+                            Explore {activeTab} Resources
                         </div>
                     </div>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch">
@@ -128,7 +121,7 @@ export default function SchoolPage() {
         <Suspense fallback={
             <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-background">
                 <GraduationCap className="w-12 h-12 text-primary animate-bounce" />
-                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground animate-pulse">Loading Board Resources</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.3em] text-muted-foreground animate-pulse">Loading Resources</p>
             </div>
         }>
             <SchoolPageContent />
