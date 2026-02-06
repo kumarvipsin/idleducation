@@ -38,32 +38,32 @@ export function Footer() {
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
                         <div className="flex flex-col leading-tight text-left">
-                            <div className="flex items-center gap-2">
-                                <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
-                                <div className="flex flex-col text-[8px] font-medium text-white/60 tracking-tight leading-[1.1]">
+                            <div className="flex items-center gap-3">
+                                <span className="text-4xl font-black text-white tracking-tighter uppercase">IDL</span>
+                                <div className="flex flex-col text-[9px] font-medium text-white/60 tracking-tight leading-[1.1]">
                                     <span>Institute Of</span>
                                     <span>Distance Learning Pvt. Ltd.</span>
                                 </div>
                             </div>
-                            <span className="text-3xl font-black text-white tracking-tighter -mt-1">Education</span>
+                            <span className="text-4xl font-black text-white tracking-tighter -mt-1">Education</span>
                         </div>
                     </Link>
                     <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wider">
                       Tailored education designed to adapt to your unique needs and help you achieve your full potential.
                     </p>
-                    <div className="flex items-center justify-start gap-3">
+                    <div className="flex items-center justify-start gap-4">
                         {[
-                          { icon: <Instagram className="h-4 w-4" />, label: "Instagram", href: "https://www.instagram.com/idleducation" },
-                          { icon: <Facebook className="h-4 w-4" />, label: "Facebook", href: "https://www.facebook.com/idleducation" },
-                          { icon: <Twitter className="h-4 w-4" />, label: "Twitter", href: "https://x.com/idleducation" },
-                          { icon: <Youtube className="h-4 w-4" />, label: "YouTube", href: "https://www.youtube.com/@idleducation" }
+                          { icon: <Instagram className="h-5 w-5 text-rose-400" />, label: "Instagram", href: "https://www.instagram.com/idleducation" },
+                          { icon: <Facebook className="h-5 w-5 text-blue-500" />, label: "Facebook", href: "https://www.facebook.com/idleducation" },
+                          { icon: <Twitter className="h-5 w-5 text-sky-400" />, label: "Twitter", href: "https://x.com/idleducation" },
+                          { icon: <Youtube className="h-5 w-5 text-red-500" />, label: "YouTube", href: "https://www.youtube.com/@idleducation" }
                         ].map((social) => (
                           <Link 
                             key={social.label}
                             href={social.href} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="h-9 w-9 flex items-center justify-center bg-white/5 hover:bg-primary rounded-xl text-gray-400 hover:text-white transition-all shadow-sm border border-white/5"
+                            className="text-gray-400 hover:text-white transition-colors p-1"
                             aria-label={social.label}
                           >
                             {social.icon}
