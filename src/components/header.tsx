@@ -489,7 +489,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
-                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                                 <GraduationCap className="h-4 w-4" /> 
                                                 Apply For
                                             </span>
@@ -512,7 +512,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
-                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-indigo-600">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                                 <AlignJustify className="h-4 w-4" /> 
                                                 Resources & Info
                                             </span>
