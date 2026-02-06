@@ -379,28 +379,37 @@ export function GetAppSection() {
 
               <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
                   <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-lg border border-slate-200/50 dark:border-white/10 w-full sm:w-auto lg:w-[330px]">
+                      {/* Google Play Part - Now on Left */}
+                      <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50 flex items-center gap-2">
+                          <Image
+                              src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
+                              alt="Google Play"
+                              data-ai-hint="google play"
+                              width={24}
+                              height={24}
+                              className="object-contain"
+                          />
+                          <div className="flex flex-col -space-y-0.5">
+                              <span className="text-[6px] font-bold text-black uppercase tracking-tighter">GET IT ON</span>
+                              <span className="text-[10px] font-black text-black tracking-tighter">Google Play</span>
+                          </div>
+                      </div>
+
+                      {/* Center Text */}
+                      <div className="space-y-0.5 flex-1">
+                          <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
+                          <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
+                      </div>
+
+                      {/* QR Code Section - Now on Right */}
                       <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50">
                           <Image
                               src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
                               alt="QR Code"
                               data-ai-hint="qr code"
-                              width={80}
-                              height={100}
+                              width={60}
+                              height={60}
                               className="opacity-80"
-                          />
-                      </div>
-                      <div className="space-y-0.5">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
-                          <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
-                      </div>
-                      <div className="bg-white p-1.5 rounded-lg shadow-inner ml-auto border border-border/50">
-                          <Image
-                              src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
-                              alt="Google Play"
-                              data-ai-hint="google play"
-                              width={80}
-                              height={80}
-                              className="object-contain"
                           />
                       </div>
                   </div>
