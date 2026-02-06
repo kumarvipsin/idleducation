@@ -93,48 +93,25 @@ function SchoolPageContent() {
             </div>
     
             {/* Resources Section */}
-            <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                <div className="bg-gradient-to-br from-white to-slate-50 dark:from-card dark:to-slate-900/50 p-6 md:p-10 rounded-[2.5rem] shadow-xl border border-muted-foreground/10 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl"></div>
-                    
-                    <div className="flex justify-center mb-10 relative z-10">
-                        <div className="bg-yellow-400 text-black px-6 py-1.5 rounded-full font-black text-[10px] uppercase tracking-[0.2em] shadow-sm border border-yellow-500/20">
-                            Explore {activeTab} Resources
-                        </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-2 gap-4 md:gap-8 items-stretch max-w-3xl mx-auto relative z-10">
-                        {resourceCards.map((card, index) => {
-                            const [header, subtitle] = card.title.split('\n');
-                            return (
-                                <Link key={index} href={card.href} className="group block h-full">
-                                    <div className={cn(
-                                        "flex flex-col items-center justify-center p-6 md:p-8 rounded-[2rem] transition-all duration-500 h-full hover:shadow-2xl hover:-translate-y-2 border border-muted-foreground/5 shadow-sm bg-white dark:bg-black/20",
-                                        "hover:border-primary/20 group-hover:ring-4 group-hover:ring-primary/5"
-                                    )}>
-                                        <div className={cn(
-                                            "mb-6 p-4 rounded-[1.5rem] shadow-inner transition-all duration-500 group-hover:scale-110 group-hover:rotate-3",
-                                            card.color
-                                        )}>
-                                            {React.cloneElement(card.icon as React.ReactElement, { className: "w-8 h-8 md:w-10 md:h-10" })}
-                                        </div>
-                                        <div className="text-center space-y-2">
-                                            <p className="text-xs md:text-sm font-black uppercase tracking-[0.25em] text-foreground">
-                                                {header}
-                                            </p>
-                                            <p className="text-[10px] md:text-xs font-bold text-muted-foreground leading-tight max-w-[120px] mx-auto">
-                                                {subtitle}
-                                            </p>
-                                        </div>
-                                        <div className="mt-6 flex items-center gap-2 text-primary font-black text-[9px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                                            Access Now
-                                            <ArrowRight className="w-3 h-3" />
-                                        </div>
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                    {resourceCards.map((card, index) => {
+                        const [header, subtitle] = card.title.split('\n');
+                        return (
+                            <Link key={index} href={card.href} className="group">
+                                <div className="flex items-center gap-4 p-4 bg-muted/20 hover:bg-white dark:hover:bg-card border border-transparent hover:border-primary/20 rounded-2xl transition-all duration-300 shadow-sm">
+                                    <div className={cn("p-3 rounded-xl shrink-0 group-hover:scale-110 transition-transform", card.color)}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
-                                </Link>
-                            );
-                        })}
-                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="text-[11px] font-black uppercase tracking-widest text-foreground leading-tight">{header}</h4>
+                                        <p className="text-[10px] font-bold text-muted-foreground truncate">{subtitle}</p>
+                                    </div>
+                                    <ArrowRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary transition-all group-hover:translate-x-1" />
+                                </div>
+                            </Link>
+                        );
+                    })}
                 </div>
             </section>
 
