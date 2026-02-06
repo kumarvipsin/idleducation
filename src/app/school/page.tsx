@@ -35,18 +35,6 @@ function SchoolPageContent() {
     
     const resourceCards = [
         {
-          title: "PDF BANK",
-          icon: <FileText className="w-6 h-6 md:w-8 md:h-8" />,
-          color: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400",
-          href: "/resources/notes"
-        },
-        {
-          title: "PRIMUM\nQuestion Bank-With Solutions",
-          icon: <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
-          color: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
-          href: "#"
-        },
-        {
           title: "REVISION\nHigh-Quality Notes",
           icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
           color: "bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400",
@@ -112,7 +100,7 @@ function SchoolPageContent() {
                             Explore {activeTab} Resources
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch">
+                    <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4 items-stretch max-w-2xl mx-auto">
                         {resourceCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group block h-full">
                                 <div className={cn(
