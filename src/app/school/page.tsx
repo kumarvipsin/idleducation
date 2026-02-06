@@ -155,14 +155,14 @@ function SchoolPageContent() {
                                         <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Academic Year 2026-27</p>
                                     </div>
                                 </div>
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
                                     <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/5 hover:text-primary transition-all px-4 border border-transparent hover:border-primary/10">
                                         <Eye className="w-3.5 h-3.5 mr-1.5" />
-                                        <span className="hidden sm:inline">View</span>
+                                        <span>View</span>
                                     </Button>
                                     <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-4 border border-emerald-100">
                                         <Download className="w-3.5 h-3.5 mr-1.5" />
-                                        <span className="hidden sm:inline">Get PDF</span>
+                                        <span>Get PDF</span>
                                     </Button>
                                 </div>
                             </div>
