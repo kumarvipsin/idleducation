@@ -142,6 +142,12 @@ const nextConfig: NextConfig = {
         hostname: 'www.crossword.in',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn-icons-png.flaticon.com',
+        port: '',
+        pathname: '/**',
       }
     ],
   },

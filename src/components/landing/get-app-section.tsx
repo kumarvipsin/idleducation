@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils";
 const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   place: z.string().min(1, { message: "Place is required." }),
   classCourse: z.string().min(1, { message: "Class/Course is required." }),
 });
@@ -391,6 +391,16 @@ export function GetAppSection() {
                       <div className="space-y-0.5">
                           <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
                           <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
+                      </div>
+                      <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50 ml-auto">
+                          <Image
+                              src="https://cdn-icons-png.flaticon.com/512/104/104089.png"
+                              alt="Google Play"
+                              data-ai-hint="google play"
+                              width={80}
+                              height={100}
+                              className="object-contain"
+                          />
                       </div>
                   </div>
                 </div>
