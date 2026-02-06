@@ -156,11 +156,11 @@ function SchoolPageContent() {
                                     </div>
                                 </div>
                                 <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                                    <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-4 border border-blue-100">
+                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-black tracking-widest uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-0 border border-blue-100 flex items-center justify-center">
                                         <Eye className="w-3.5 h-3.5 mr-1.5" />
                                         <span>VIEW PDF</span>
                                     </Button>
-                                    <Button variant="ghost" size="sm" className="h-9 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-4 border border-emerald-100">
+                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-0 border border-emerald-100 flex items-center justify-center">
                                         <Download className="w-3.5 h-3.5 mr-1.5" />
                                         <span>Get PDF</span>
                                     </Button>
