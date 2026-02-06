@@ -1,3 +1,4 @@
+'use client';
 import Link from "next/link";
 import { Facebook, Twitter, Instagram, Phone, Mail, Youtube } from "lucide-react";
 import Image from "next/image";
@@ -38,13 +39,13 @@ export function Footer() {
                         </div>
                         <div className="flex flex-col leading-none">
                             <div className="flex items-center gap-2">
-                                <span className="text-4xl font-black text-white tracking-tighter">IDL</span>
-                                <div className="flex flex-col text-[8px] font-bold text-white/60 tracking-tight leading-[1.1] uppercase">
-                                    <span>Institute of distance</span>
-                                    <span>learning pvt. ltd.</span>
+                                <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
+                                <div className="flex flex-col text-[8px] font-medium text-white/60 tracking-tight leading-[1.1]">
+                                    <span>Institute Of Distance</span>
+                                    <span>Learning Pvt. Ltd.</span>
                                 </div>
                             </div>
-                            <span className="text-4xl font-black text-white tracking-tighter -mt-1">Education</span>
+                            <span className="text-3xl font-black text-white tracking-tighter -mt-1 uppercase">Education</span>
                         </div>
                     </Link>
                     <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs uppercase tracking-wider">

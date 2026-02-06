@@ -460,8 +460,8 @@ export function Header() {
                             <div className="flex flex-col leading-none text-left">
                                 <div className="flex items-end gap-1.5">
                                     <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
-                                    <span className="text-[6px] font-bold text-muted-foreground leading-tight mb-0.5 whitespace-nowrap uppercase">
-                                        Institute of distance<br />learning pvt. ltd.
+                                    <span className="text-[6px] font-medium text-muted-foreground leading-tight mb-0.5 whitespace-nowrap">
+                                        Institute Of Distance<br />Learning Pvt. Ltd.
                                     </span>
                                 </div>
                                 <span className="text-2xl font-black text-primary tracking-tighter -mt-1">
