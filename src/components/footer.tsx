@@ -31,19 +31,20 @@ export function Footer() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
 
                 {/* Column 1: Brand and Socials */}
-                <div className="flex flex-col items-center sm:items-start gap-6">
-                    <Link href="/" className="flex flex-col items-center sm:items-start gap-5 sm:gap-3 group">
-                        <div className="relative w-24 h-24 sm:w-14 sm:h-14 transition-transform duration-300 group-hover:scale-105">
+                <div className="flex flex-col items-start gap-6">
+                    <Link href="/" className="flex items-center gap-4 group">
+                        <div className="relative w-16 h-16 transition-transform duration-300 group-hover:scale-105">
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
-                        <div className="flex flex-col leading-tight text-center sm:text-left">
-                            <span className="text-xl sm:text-lg font-black text-white tracking-[0.05em] uppercase">IDL EDUCATION</span>
+                        <div className="flex flex-col leading-none text-left">
+                            <span className="text-2xl font-black text-white tracking-tighter uppercase">IDL</span>
+                            <span className="text-[10px] font-black text-primary uppercase tracking-[0.3em]">EDUCATION</span>
                         </div>
                     </Link>
-                    <p className="text-[11px] text-gray-400 font-bold leading-relaxed text-center sm:text-left max-w-xs uppercase tracking-wider">
+                    <p className="text-[11px] text-gray-400 font-bold leading-relaxed text-left max-w-xs uppercase tracking-wider">
                       Tailored education designed to adapt to your unique needs and help you achieve your full potential.
                     </p>
-                    <div className="flex items-center justify-center sm:justify-start gap-3">
+                    <div className="flex items-center justify-start gap-3">
                         {[
                           { icon: <Instagram className="h-4 w-4" />, label: "Instagram", href: "https://www.instagram.com/idleducation" },
                           { icon: <Facebook className="h-4 w-4" />, label: "Facebook", href: "https://www.facebook.com/idleducation" },
