@@ -32,12 +32,12 @@ export function Footer() {
 
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col items-center sm:items-start gap-6">
-                    <Link href="/" className="flex flex-col sm:flex-row items-center gap-5 sm:gap-3 group">
-                        <div className="relative w-20 h-20 sm:w-16 sm:h-16 transition-transform duration-300 group-hover:scale-105">
+                    <Link href="/" className="flex flex-col items-center sm:items-start gap-5 sm:gap-3 group">
+                        <div className="relative w-24 h-24 sm:w-14 sm:h-14 transition-transform duration-300 group-hover:scale-105">
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
                         <div className="flex flex-col leading-tight text-center sm:text-left">
-                            <span className="text-xl sm:text-lg font-black text-white tracking-tight uppercase">IDL EDUCATION</span>
+                            <span className="text-xl sm:text-lg font-black text-white tracking-[0.05em] uppercase">IDL EDUCATION</span>
                             <span className="text-[0.6rem] sm:text-[0.5rem] text-white/60 tracking-[0.2em] uppercase font-black mt-1">
                               (Institute of Distance Learning Pvt. Ltd.)
                             </span>
@@ -100,18 +100,18 @@ export function Footer() {
                 {/* Column 4: Contact Us */}
                  <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-center sm:items-start gap-5 text-[10px] font-black uppercase tracking-widest text-gray-400">
-                        <a href="tel:+917011117585" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-center sm:justify-start">
+                    <div className="flex flex-col items-start gap-5 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                        <a href="tel:+917011117585" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
                           <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Phone className="w-4 h-4"/></div>
                           <span>+91 7011117585</span>
                         </a>
-                        <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-center sm:justify-start">
+                        <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
                           <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-green-600 transition-colors shadow-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.14 6.44 2.14 11.9c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08.12 4.79.12h.01c5.46 0 9.9-4.44 9.9-9.9S17.5 2 12.04 2zM12.04 20.1c-1.55 0-3.04-.49-4.28-1.38l-.3-.18-3.18.84.85-3.1-.19-.31c-.98-1.56-1.5-3.39-1.5-5.28 0-4.51 3.67-8.18 8.18-8.18s8.18 3.67 8.18 8.18-3.67 8.18-8.18 8.18zm4.49-5.37c-.27-.13-1.59-.78-1.84-.87-.25-.09-.43-.13-.62.13-.19.27-.7.87-.86 1.04-.16.18-.32.19-.59.06-.27-.13-1.15-.42-2.18-1.34s-1.66-2.09-1.86-2.43c-.2-.35-.02-.54.12-.68.12-.13.27-.32.4-.43.14-.11.18-.18.27-.3.09-.12.05-.23-.02-.32-.07-.09-.62-1.49-.85-2.04-.23-.55-.46-.48-.62-.48-.15 0-.32-.02-.49-.02s-.43.06-.65.3c-.22.25-.85.83-.85 2.02s.87 2.35 1 2.51c.13.16.85 1.35 2.98 2.62.5.31.89.49 1.2.62.5.21.94.18 1.3.11.39-.07 1.15-.47 1.32-.92.16-.45.16-.83.11-.92-.05-.09-.18-.13-.45-.26z"/></svg>
                           </div>
                           <span>+91 8860040010</span>
                         </a>
-                        <a href="mailto:info@idleducation.in" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-center sm:justify-start">
+                        <a href="mailto:info@idleducation.in" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
                           <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Mail className="w-4 h-4"/></div>
                           <span>info@idleducation.in</span>
                         </a>
