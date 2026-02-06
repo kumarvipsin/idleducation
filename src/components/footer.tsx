@@ -39,9 +39,10 @@ export function Footer() {
                         <div className="flex flex-col leading-none">
                             <div className="flex items-end gap-2">
                                 <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
-                                <span className="text-[9px] font-medium text-white/60 leading-tight mb-0.5 whitespace-nowrap uppercase">
-                                    Institute of distance<br />learning pvt. ltd.
-                                </span>
+                                <div className="flex flex-col text-[10px] font-bold text-white/60 tracking-tight leading-[1.1] mb-0.5 whitespace-nowrap uppercase">
+                                    <span>INSTITUTE OF DISTANCE</span>
+                                    <span>LEARNING PVT. LTD.</span>
+                                </div>
                             </div>
                             <span className="text-4xl font-black text-white tracking-tighter -mt-1">Education</span>
                         </div>
@@ -73,7 +74,7 @@ export function Footer() {
                 {/* Column 2: Quick Links */}
                 <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Quick Links</h3>
-                    <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest">
+                    <ul className="space-y-4 text-[11px] font-black tracking-widest">
                         {quickLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -88,7 +89,7 @@ export function Footer() {
                 {/* Column 3: Resources */}
                 <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Resources</h3>
-                    <ul className="space-y-4 text-[10px] font-black uppercase tracking-widest">
+                    <ul className="space-y-4 text-[11px] font-black tracking-widest">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -103,9 +104,9 @@ export function Footer() {
                 {/* Column 4: Contact Us */}
                  <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-start gap-3 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    <div className="flex flex-col items-start gap-3 text-[11px] font-black tracking-widest text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
-                          <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Phone className="w-4 h-4"/></div>
+                          <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Phone className="h-4 w-4"/></div>
                           <span>+91 7011117585</span>
                         </a>
                         <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
