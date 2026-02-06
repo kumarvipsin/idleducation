@@ -214,11 +214,6 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
 
   return (
     <div className="container mx-auto py-6 md:py-10 px-4 md:px-6">
-      <div className="text-center mb-10 animate-fade-in-up">
-        <h1 className="text-2xl md:text-4xl font-black text-primary tracking-tight uppercase mb-2">Premium <span className="text-orange-500">Free Courses</span></h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto font-medium text-sm">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
-      </div>
-
       {sortedGroupedEntries.length > 0 ? (
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
             <section key={groupTitle} className="mb-12">
