@@ -35,7 +35,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </div>
         </button>
         </DialogTrigger>
-        <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none">
+        <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-lg border-none">
             <DialogHeader className="sr-only">
                 <DialogTitle>{testimonial.studentName} Testimonial</DialogTitle>
                 <DialogDescription>Video testimonial from a top performing student.</DialogDescription>
