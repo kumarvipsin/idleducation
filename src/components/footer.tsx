@@ -33,7 +33,7 @@ export function Footer() {
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col items-start gap-6">
                     <Link href="/" className="flex flex-row items-center justify-start gap-4 group">
-                        <div className="relative w-20 h-20 sm:w-14 sm:h-14 transition-transform duration-300 group-hover:scale-105 shrink-0">
+                        <div className="relative w-20 h-20 transition-transform duration-300 group-hover:scale-105 shrink-0">
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
                         <div className="flex flex-col leading-none">
