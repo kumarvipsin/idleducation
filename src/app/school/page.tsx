@@ -186,8 +186,8 @@ function SchoolPageContent() {
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Board Prep
                 </div>
-                <h1 className="text-2xl md:text-4xl font-black text-foreground tracking-tight text-left leading-tight">
-                    {activeTab === 'cbse' ? 'CBSE' : 'NIOS'} Board 2026: <br/>
+                <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight">
+                    {activeTab === 'cbse' ? 'Cbse' : 'Nios'} Board 2026: <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
@@ -196,26 +196,26 @@ function SchoolPageContent() {
               </div>
             </section>
             
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
+            <div className="flex justify-center gap-4 mb-16">
                 <Button 
                     onClick={() => handleTabChange('cbse')} 
-                    variant={activeTab === 'cbse' ? 'default' : 'outline'} 
+                    variant="outline"
                     className={cn(
-                        "rounded-xl px-10 py-6 text-sm font-black tracking-[0.1em] shadow-xl transition-all duration-300",
-                        activeTab === 'cbse' ? "shadow-primary/20 scale-105" : "hover:bg-muted"
+                        "rounded-full px-12 py-6 text-sm font-black tracking-widest transition-all duration-300 border-2 bg-transparent",
+                        activeTab === 'cbse' ? "border-primary text-primary shadow-lg shadow-primary/10" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                     )}
                 >
-                    CBSE BOARD
+                    CBSE
                 </Button>
                 <Button 
                     onClick={() => handleTabChange('nios')} 
-                    variant={activeTab === 'nios' ? 'default' : 'outline'} 
+                    variant="outline"
                     className={cn(
-                        "rounded-xl px-10 py-6 text-sm font-black tracking-[0.1em] shadow-xl transition-all duration-300",
-                        activeTab === 'nios' ? "shadow-primary/20 scale-105" : "hover:bg-muted"
+                        "rounded-full px-12 py-6 text-sm font-black tracking-widest transition-all duration-300 border-2 bg-transparent",
+                        activeTab === 'nios' ? "border-primary text-primary shadow-lg shadow-primary/10" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                     )}
                 >
-                    NIOS BOARD
+                    NIOS
                 </Button>
             </div>
     
