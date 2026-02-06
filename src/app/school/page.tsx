@@ -2,10 +2,25 @@
 
 import { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+
+const subjects = [
+    { name: "Maths", key: "maths" },
+    { name: "Science", key: "science" },
+    { name: "English", key: "english" },
+    { name: "Social Studies", key: "social" },
+];
 
 function SchoolPageContent() {
     const searchParams = useSearchParams();
@@ -94,7 +109,7 @@ function SchoolPageContent() {
                             Explore {activeTab} Resources
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch">
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch mb-12">
                         {resourceCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group block h-full">
                                 <div className={cn(
@@ -109,6 +124,44 @@ function SchoolPageContent() {
                                 </div>
                             </Link>
                         ))}
+                    </div>
+
+                    <div className="mt-8 overflow-hidden rounded-xl border">
+                        <div className="bg-primary/5 p-4 border-b">
+                            <h3 className="font-bold text-sm text-primary uppercase tracking-widest flex items-center gap-2">
+                                <FileText className="w-4 h-4" />
+                                Subject-wise Syllabus
+                            </h3>
+                        </div>
+                        <Table>
+                            <TableHeader>
+                                <TableRow className="bg-muted/50">
+                                    <TableHead className="font-bold text-xs uppercase tracking-tight">Subject</TableHead>
+                                    <TableHead className="text-right font-bold text-xs uppercase tracking-tight">Actions</TableHead>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                {subjects.map((subject) => (
+                                    <TableRow key={subject.key} className="hover:bg-muted/30 transition-colors">
+                                        <TableCell className="font-bold text-sm py-4">
+                                            {subject.name}
+                                        </TableCell>
+                                        <TableCell className="text-right py-4">
+                                            <div className="flex justify-end gap-2">
+                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase hover:bg-primary/10 hover:text-primary transition-all">
+                                                    <Eye className="w-3 h-3 mr-1.5" />
+                                                    View Syllabus
+                                                </Button>
+                                                <Button variant="ghost" size="sm" className="h-8 rounded-full text-[10px] font-black tracking-widest uppercase text-emerald-600 hover:bg-emerald-50 transition-all">
+                                                    <Download className="w-3 h-3 mr-1.5" />
+                                                    Download
+                                                </Button>
+                                            </div>
+                                        </TableCell>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
                     </div>
                 </div>
             </section>
