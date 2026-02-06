@@ -75,7 +75,7 @@ function SchoolPageContent() {
                     Academic Prep
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
-                    {activeTab} Board Prep 2026: <br/>
+                    {activeTab} CBSE 2026-2027 <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
