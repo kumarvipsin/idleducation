@@ -76,7 +76,11 @@ export async function getUpdates(count?: number) {
         updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"));
     }
     const querySnapshot = await getDocs(updatesQuery);
-    const updates = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    const updates = querySnapshot.docs.map(doc => {
+        const docData = doc.data();
+        if (!docData) return null;
+        return { id: doc.id, ...serializeFirestoreData(docData) };
+    }).filter(Boolean);
     return { success: true, data: updates };
   } catch (error) {
     console.error("Error fetching updates:", error);
@@ -229,11 +233,13 @@ export async function getExamCategories() {
         const categoriesQuery = query(collection(db, "examCategories"), orderBy("order", "asc"));
         const querySnapshot = await getDocs(categoriesQuery);
         const categories = querySnapshot.docs.map(doc => {
-            const data = doc.data();
-            const slug = data.name.toLowerCase().replace(/\s+/g, '-');
-            const href = data.group === 'school' ? `/school?class=${encodeURIComponent(data.name)}` : `/examcat?category=${encodeURIComponent(slug)}`;
-            return { id: doc.id, ...serializeFirestoreData(data), href };
-        });
+            const docData = doc.data();
+            if (!docData) return null;
+            const name = docData.name || 'Unknown Category';
+            const slug = name.toLowerCase().replace(/\s+/g, '-');
+            const href = docData.group === 'school' ? `/school?class=${encodeURIComponent(name)}` : `/examcat?category=${encodeURIComponent(slug)}`;
+            return { id: doc.id, ...serializeFirestoreData(docData), href };
+        }).filter(Boolean);
         return { success: true, data: categories };
     } catch (error) {
         console.error("Error fetching exam categories:", error);

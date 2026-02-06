@@ -3,48 +3,56 @@ import { Timestamp } from "firebase/firestore";
 
 /**
  * Recursively serializes Firestore data to a format safe for Next.js Server Actions.
- * Handles Timestamps, Dates, NaN, and Infinity.
+ * Handles Timestamps, Dates, NaN, Infinity, and converts undefined to null.
+ * This is crucial for Next.js 15+ which is strict about undefined values in server action returns.
  */
 export const serializeFirestoreData = (data: any): any => {
-    // Handle null, undefined, or primitive types that don't need transformation
-    if (data === null || data === undefined) {
-        return data;
+    // 1. Handle undefined (Server Actions cannot serialize undefined)
+    if (data === undefined) {
+        return null;
     }
 
-    // Ensure numbers are serializable (handle NaN and Infinity)
-    if (typeof data === 'number') {
-        if (Number.isNaN(data) || !Number.isFinite(data)) {
-            return 0; // Fallback to 0 for non-serializable numbers
+    // 2. Handle null or primitives that are already serializable
+    if (data === null || typeof data !== 'object') {
+        if (typeof data === 'number') {
+            if (Number.isNaN(data) || !Number.isFinite(data)) {
+                return 0; // Fallback for non-serializable numbers
+            }
         }
         return data;
     }
 
-    // Handle Firestore Timestamps
-    if (data instanceof Timestamp) {
-        return data.toDate().toISOString();
+    // 3. Handle Firestore Timestamps
+    // Check both instanceof and common properties to be resilient across environments
+    if (data instanceof Timestamp || (data && typeof data.toDate === 'function')) {
+        try {
+            return data.toDate().toISOString();
+        } catch (e) {
+            return new Date().toISOString(); 
+        }
     }
 
-    // Handle standard JavaScript Date objects
+    // 4. Handle standard JavaScript Date objects
     if (data instanceof Date) {
-        return data.toISOString();
+        try {
+            return data.toISOString();
+        } catch (e) {
+            return new Date().toISOString();
+        }
     }
 
-    // Recursively handle arrays
+    // 5. Handle Arrays
     if (Array.isArray(data)) {
         return data.map(item => serializeFirestoreData(item));
     }
 
-    // Recursively handle objects, ensuring we only touch own properties
-    if (typeof data === 'object') {
-        const newData: { [key: string]: any } = {};
-        for (const key in data) {
-            if (Object.prototype.hasOwnProperty.call(data, key)) {
-                newData[key] = serializeFirestoreData(data[key]);
-            }
+    // 6. Handle Objects (Plain objects and class instances)
+    // We create a new plain object to ensure it's clean for serialization
+    const newData: { [key: string]: any } = {};
+    for (const key in data) {
+        if (Object.prototype.hasOwnProperty.call(data, key)) {
+            newData[key] = serializeFirestoreData(data[key]);
         }
-        return newData;
     }
-
-    // Return other primitives (strings, booleans) as-is
-    return data;
+    return newData;
 };
