@@ -218,7 +218,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
             <section key={groupTitle} className="mb-12">
               <div className="mb-6 text-center sm:text-left">
-                <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground uppercase relative inline-block">
+                <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground relative inline-block">
                   <span className="relative z-10">{groupTitle}</span>
                   <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
                     <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
