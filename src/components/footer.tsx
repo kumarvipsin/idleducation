@@ -39,13 +39,13 @@ export function Footer() {
                         </div>
                         <div className="flex flex-col leading-tight text-left">
                             <div className="flex items-center gap-2.5">
-                                <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
+                                <span className="text-3xl font-extrabold text-white tracking-tight uppercase">IDL</span>
                                 <div className="flex flex-col text-[8px] font-medium text-white/60 tracking-tight leading-[1.1]">
                                     <span>Institute Of</span>
                                     <span>Distance Learning Pvt. Ltd.</span>
                                 </div>
                             </div>
-                            <span className="text-3xl font-black text-white tracking-tighter -mt-1">Education</span>
+                            <span className="text-3xl font-extrabold text-white tracking-tight -mt-1">Education</span>
                         </div>
                     </Link>
                     <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wider">
@@ -74,8 +74,8 @@ export function Footer() {
 
                 {/* Column 2: Quick Links */}
                 <div>
-                    <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Quick Links</h3>
-                    <ul className="space-y-4 text-[11px] font-medium tracking-widest">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Quick Links</h3>
+                    <ul className="space-y-3 text-[11px] font-medium tracking-wide">
                         {quickLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -89,8 +89,8 @@ export function Footer() {
                 
                 {/* Column 3: Resources */}
                 <div>
-                    <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Resources</h3>
-                    <ul className="space-y-4 text-[11px] font-medium tracking-widest">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Resources</h3>
+                    <ul className="space-y-3 text-[11px] font-medium tracking-wide">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -104,8 +104,8 @@ export function Footer() {
 
                 {/* Column 4: Contact Us */}
                  <div>
-                    <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-start gap-1 text-[11px] font-medium tracking-widest text-gray-400">
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact</h3>
+                    <div className="flex flex-col items-start gap-1 text-[11px] font-medium tracking-wide text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
                           <Phone className="h-4 w-4 shrink-0 text-gray-400" />
                           <span>+91 7011117585</span>
