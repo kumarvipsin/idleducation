@@ -473,7 +473,7 @@ export function Header() {
                                         Institute of<br />Distance Learning Pvt. Ltd.
                                     </span>
                                 </div>
-                                <span className="text-2xl font-bold text-primary tracking-tighter -mt-1 uppercase">
+                                <span className="text-2xl font-bold text-primary tracking-tighter -mt-1">
                                     {isIdlFoundationPage ? "Foundation" : "Education"}
                                 </span>
                             </div>
@@ -487,7 +487,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-none transition-all group border-b border-muted hover:bg-transparent">
-                                        <span className="flex items-center gap-3 font-bold tracking-tight"><BookOpen className="h-4 w-4 text-primary" /> All Courses</span>
+                                        <span className="flex items-center gap-3"><BookOpen className="h-4 w-4 text-primary" /> All Courses</span>
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -507,7 +507,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-none transition-all group border-b border-muted hover:bg-transparent">
-                                        <span className="flex items-center gap-3 font-bold tracking-tight"><GraduationCap className="h-4 w-4 text-primary" /> Apply For</span>
+                                        <span className="flex items-center gap-3"><GraduationCap className="h-4 w-4 text-primary" /> Apply For</span>
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -527,7 +527,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-none transition-all group border-b border-muted hover:bg-transparent">
-                                        <span className="flex items-center gap-3 font-bold tracking-tight"><MoreHorizontal className="h-4 w-4 text-primary" /> More</span>
+                                        <span className="flex items-center gap-3"><MoreHorizontal className="h-4 w-4 text-primary" /> More</span>
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
