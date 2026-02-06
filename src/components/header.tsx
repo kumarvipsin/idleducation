@@ -8,7 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { registerForScholarship, createRazorpayOrder, recordDonation } from "@/app/actions";
+import { registerForScholarship, createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import Image from "next/image";
@@ -33,7 +33,7 @@ import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
-
+import { formatDistanceToNow } from 'date-fns';
 
 const allCoursesCategories = [
     {
@@ -103,7 +103,9 @@ export function Header() {
   const { cartCount } = useCart();
   const router = useRouter();
   const pathname = usePathname();
+  const [updates, setUpdates] = useState<Update[]>([]);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
   const [isScholarshipDialogOpen, setIsScholarshipDialogOpen] = useState(false);
   const { toast } = useToast();
   const [isClient, setIsClient] = useState(false);
@@ -558,7 +560,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                         {allCoursesCategories.map((category, index) => (
                             <Link key={index} href={category.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className={cn("p-3 rounded-lg mt-1", category.colorClasses)}>{category.icon}</div>
+                                <div className={cn("p-3 rounded-full mt-1", category.colorClasses)}>{category.icon}</div>
                                 <div><p className="font-semibold text-sm text-foreground">{category.name}</p><p className="text-xs text-muted-foreground">{category.description}</p></div>
                             </Link>
                         ))}
@@ -570,7 +572,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
                         {applyForLinks.map((link) => (
                             <Link key={link.href} href={link.href} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className={cn("p-3 rounded-lg mt-1", link.color)}>{link.icon}</div>
+                                <div className={cn("p-3 rounded-full mt-1", link.color)}>{link.icon}</div>
                                 <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
                             </Link>
                         ))}
@@ -582,7 +584,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
                         {navLinks.map((link) => (
                             <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                                <div className={cn("p-3 rounded-lg mt-1", link.color)}>{link.icon}</div>
+                                <div className={cn("p-3 rounded-full mt-1", link.color)}>{link.icon}</div>
                                 <div><p className="font-semibold text-sm text-foreground">{link.label}</p><p className="text-xs text-muted-foreground">{link.description}</p></div>
                             </Link>
                         ))}
