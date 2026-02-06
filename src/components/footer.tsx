@@ -51,19 +51,19 @@ export function Footer() {
                     <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wider">
                       Tailored education designed to adapt to your unique needs and help you achieve your full potential.
                     </p>
-                    <div className="flex items-center justify-start gap-4">
+                    <div className="flex items-center justify-start gap-3">
                         {[
-                          { icon: <Instagram className="h-5 w-5" />, label: "Instagram", href: "https://www.instagram.com/idleducation" },
-                          { icon: <Facebook className="h-5 w-5" />, label: "Facebook", href: "https://www.facebook.com/idleducation" },
-                          { icon: <Twitter className="h-5 w-5" />, label: "Twitter", href: "https://x.com/idleducation" },
-                          { icon: <Youtube className="h-5 w-5" />, label: "YouTube", href: "https://www.youtube.com/@idleducation" }
+                          { icon: <Instagram className="h-4 w-4" />, label: "Instagram", href: "https://www.instagram.com/idleducation" },
+                          { icon: <Facebook className="h-4 w-4" />, label: "Facebook", href: "https://www.facebook.com/idleducation" },
+                          { icon: <Twitter className="h-4 w-4" />, label: "Twitter", href: "https://x.com/idleducation" },
+                          { icon: <Youtube className="h-4 w-4" />, label: "YouTube", href: "https://www.youtube.com/@idleducation" }
                         ].map((social) => (
                           <Link 
                             key={social.label}
                             href={social.href} 
                             target="_blank" 
                             rel="noopener noreferrer" 
-                            className="text-gray-400 hover:text-white transition-colors p-1"
+                            className="bg-black text-gray-400 hover:text-white transition-all p-2.5 rounded-full shadow-sm"
                             aria-label={social.label}
                           >
                             {social.icon}
