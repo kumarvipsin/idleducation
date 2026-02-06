@@ -345,7 +345,7 @@ export function Header() {
     return (
       <Link href="/login" className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
         <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
-        <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-primary group-hover:text-white transition-colors">Login</span>
+        <span className="relative z-10 text-[10px] font-bold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
       </Link>
     );
   };
@@ -373,7 +373,7 @@ export function Header() {
             </Avatar>
             <div className="flex flex-col">
               <span className="text-sm font-bold truncate max-w-[120px]">{user.name}</span>
-              <span className="text-[10px] text-muted-foreground uppercase font-black">{user.role}</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-bold">{user.role}</span>
             </div>
           </Link>
           <Button variant="ghost" size="icon" onClick={handleLogout} className="text-destructive"><LogOut className="h-5 w-5" /></Button>
@@ -383,7 +383,7 @@ export function Header() {
     return (
         <div className="p-4 border-t mt-auto">
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="w-full font-black uppercase tracking-widest h-12 rounded-xl shadow-lg shadow-primary/20">
+                <Button className="w-full font-bold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
                     SIGN IN TO PORTAL
                 </Button>
             </Link>
@@ -476,13 +476,13 @@ export function Header() {
                             </div>
                             <div className="flex flex-col leading-tight text-left">
                                 <div className="flex items-center gap-2.5">
-                                    <span className="text-3xl font-black text-primary tracking-tighter uppercase">IDL</span>
+                                    <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
                                     <div className="flex flex-col text-[8px] font-medium text-muted-foreground tracking-tight leading-[1.1] opacity-60">
                                         <span>Institute of</span>
                                         <span>Distance Learning Pvt. Ltd.</span>
                                     </div>
                                 </div>
-                                <span className="text-3xl font-black text-primary tracking-tighter -mt-1">
+                                <span className="text-3xl font-extrabold text-primary tracking-tight -mt-1">
                                     {isIdlFoundationPage ? "Foundation" : "Education"}
                                 </span>
                             </div>
@@ -498,7 +498,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-primary/5 hover:bg-primary/10 transition-all border border-primary/5 group/trigger">
-                                            <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-primary">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                                 <BookOpen className="h-4 w-4" /> 
                                                 All Courses
                                             </span>
@@ -521,7 +521,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-orange-500/5 hover:bg-orange-500/10 transition-all border border-orange-500/5 group/trigger">
-                                            <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-orange-600">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
                                                 <GraduationCap className="h-4 w-4" /> 
                                                 Apply For
                                             </span>
@@ -544,7 +544,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-indigo-500/5 hover:bg-indigo-500/10 transition-all border border-indigo-500/5 group/trigger">
-                                            <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-indigo-600">
+                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-indigo-600">
                                                 <MoreHorizontal className="h-4 w-4" /> 
                                                 Resources & Info
                                             </span>
@@ -568,14 +568,14 @@ export function Header() {
                             {/* CTA Cards */}
                             <div className="space-y-3">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition-all border border-amber-500/5 active:scale-[0.98]">
-                                    <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-orange-600">
+                                    <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
                                         <ShoppingCart className="h-4 w-4" /> 
                                         IDL Store
                                     </span>
                                 </Link>
 
                                 <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-blue-500/5 hover:bg-blue-500/10 transition-all border border-blue-500/5 active:scale-[0.98]">
-                                    <span className="flex items-center gap-3 font-black text-xs uppercase tracking-widest text-primary">
+                                    <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                         <Phone className="h-4 w-4" /> 
                                         Call Expert
                                     </span>
