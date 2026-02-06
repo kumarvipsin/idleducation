@@ -73,7 +73,7 @@ function SchoolPageContent() {
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
                     {activeTab} CBSE 2026-2027 <br/>
-                    <span className="text-primary text-lg md:text-xl">Syllabus, Date Sheet & Mock Tests</span>
+                    <span className="text-primary text-base md:text-lg">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
                     Comprehensive preparation resources specifically for {activeTab}. Get expert guidance, structured courses, and premium study materials to excel in your examinations.
