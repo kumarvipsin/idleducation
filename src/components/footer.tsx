@@ -33,19 +33,19 @@ export function Footer() {
 
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col items-start gap-6">
-                    <Link href="/" className="flex flex-row items-center justify-start gap-4 group">
-                        <div className="relative w-20 h-20 shrink-0">
+                    <Link href="/" className="flex flex-row items-center justify-start gap-3 group">
+                        <div className="relative w-16 h-16 shrink-0">
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
                         <div className="flex flex-col leading-tight text-left">
-                            <div className="flex items-center gap-3">
-                                <span className="text-4xl font-black text-white tracking-tighter uppercase">IDL</span>
-                                <div className="flex flex-col text-[9px] font-medium text-white/60 tracking-tight leading-[1.1]">
+                            <div className="flex items-center gap-2.5">
+                                <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
+                                <div className="flex flex-col text-[8px] font-medium text-white/60 tracking-tight leading-[1.1]">
                                     <span>Institute Of</span>
                                     <span>Distance Learning Pvt. Ltd.</span>
                                 </div>
                             </div>
-                            <span className="text-4xl font-black text-white tracking-tighter -mt-1">Education</span>
+                            <span className="text-3xl font-black text-white tracking-tighter -mt-1">Education</span>
                         </div>
                     </Link>
                     <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wider">
