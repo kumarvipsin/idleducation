@@ -461,7 +461,7 @@ export function Header() {
                                 <div className="flex items-end gap-1.5">
                                     <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
                                     <span className="text-[6px] font-medium text-muted-foreground leading-tight mb-0.5 whitespace-nowrap">
-                                        Institute Of Distance<br />Learning Pvt. Ltd.
+                                        Institute of Distance<br />Learning Pvt. Ltd.
                                     </span>
                                 </div>
                                 <span className="text-2xl font-black text-primary tracking-tighter -mt-1">
@@ -479,7 +479,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-base py-3 px-4 h-auto rounded-lg">
-                                        <span className="flex items-center gap-3 font-semibold"><BookOpen className="h-5 w-5" /> All Courses</span>
+                                        <span className="flex items-center gap-3 font-bold"><BookOpen className="h-5 w-5 text-primary" /> All Courses</span>
                                         <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -487,8 +487,8 @@ export function Header() {
                                     <div className="grid grid-cols-1 gap-1">
                                         {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }, index) => (
                                             <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
-                                                <div><p className="font-semibold text-sm">{label}</p><p className="text-xs text-muted-foreground">{description}</p></div>
+                                                <div className={cn("p-2.5 rounded-xl mt-1 shadow-sm", colorClasses)}>{icon}</div>
+                                                <div><p className="font-bold text-sm text-foreground">{label}</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">{description}</p></div>
                                             </Link>
                                         ))}
                                     </div>
@@ -497,7 +497,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-base py-3 px-4 h-auto rounded-lg">
-                                        <span className="flex items-center gap-3 font-semibold"><GraduationCap className="h-5 w-5" /> Apply For</span>
+                                        <span className="flex items-center gap-3 font-bold"><GraduationCap className="h-5 w-5 text-primary" /> Apply For</span>
                                         <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -505,8 +505,8 @@ export function Header() {
                                     <div className="grid grid-cols-1 gap-1">
                                         {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
-                                                <div><p className="font-semibold text-sm">{label}</p><p className="text-xs text-muted-foreground">{description}</p></div>
+                                                <div className={cn("p-2.5 rounded-xl mt-1 shadow-sm", colorClasses)}>{icon}</div>
+                                                <div><p className="font-bold text-sm text-foreground">{label}</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">{description}</p></div>
                                             </Link>
                                         ))}
                                     </div>
@@ -515,7 +515,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-base py-3 px-4 h-auto rounded-lg">
-                                        <span className="flex items-center gap-3 font-semibold"><MoreHorizontal className="h-5 w-5" /> More</span>
+                                        <span className="flex items-center gap-3 font-bold"><MoreHorizontal className="h-5 w-5 text-primary" /> More</span>
                                         <ChevronDown className="h-5 w-5 transition-transform data-[state=open]:rotate-180" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -523,19 +523,24 @@ export function Header() {
                                     <div className="grid grid-cols-1 gap-1">
                                         {navLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
                                             <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
-                                                <div className={cn("p-2 rounded-md mt-1", colorClasses)}>{icon}</div>
-                                                <div><p className="font-semibold text-sm">{label}</p><p className="text-xs text-muted-foreground">{description}</p></div>
+                                                <div className={cn("p-2.5 rounded-xl mt-1 shadow-sm", colorClasses || 'bg-muted')}>{icon}</div>
+                                                <div><p className="font-bold text-sm text-foreground">{label}</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">{description}</p></div>
                                             </Link>
                                         ))}
                                     </div>
                                 </CollapsibleContent>
                             </Collapsible>
-                            <Button asChild variant="ghost" className="w-full justify-start text-base p-3 h-auto rounded-lg">
-                            <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 font-semibold"><ShoppingCart className="h-5 w-5" />IDL Store</Link>
-                            </Button>
-                            <Button asChild variant="ghost" className="w-full justify-start text-base p-3 h-auto rounded-lg">
-                               <a href="tel:7011117585" className="flex items-center gap-3 font-semibold"><Phone className="h-5 w-5" />Call Now (70-1111-7585)</a>
-                            </Button>
+                            
+                            <Separator className="my-2" />
+                            
+                            <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                <div className="p-2.5 rounded-xl mt-1 bg-amber-100 text-amber-600 shadow-sm"><ShoppingCart className="h-5 w-5" /></div>
+                                <div><p className="font-bold text-sm text-foreground">IDL Store</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">Shop textbooks and premium resources.</p></div>
+                            </Link>
+                            <a href="tel:7011117585" className="group flex items-start gap-3 p-3 rounded-lg hover:bg-muted transition-colors">
+                                <div className="p-2.5 rounded-xl mt-1 bg-blue-100 text-blue-600 shadow-sm"><Phone className="h-5 w-5" /></div>
+                                <div><p className="font-bold text-sm text-foreground">Call Now</p><p className="text-[11px] font-medium text-muted-foreground leading-tight">Instant academic assistance: 70-1111-7585</p></div>
+                            </a>
                             </nav>
                         </div>
                         )}
