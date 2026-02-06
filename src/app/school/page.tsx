@@ -74,73 +74,6 @@ function SchoolPageContent() {
         }
     ];
 
-    const cbseCourses = [
-      {
-        title: "Class 10th Board Booster 2026 - All Subjects",
-        imageUrl: "https://picsum.photos/seed/cbse10/800/450",
-        imageHint: "student studying",
-        language: "Hinglish",
-        startDate: "15 Dec, 2025",
-        endDate: "31 Mar, 2026",
-        features: "Revision + Sample Papers",
-        price: 999,
-        originalPrice: 4999,
-        discount: 80,
-        target: "For CBSE Class 10 Aspirants"
-      },
-      {
-        title: "Class 12th Science Victory Batch 2026",
-        imageUrl: "https://picsum.photos/seed/cbse12/800/450",
-        imageHint: "science concept",
-        language: "Hinglish",
-        startDate: "01 Jan, 2026",
-        endDate: "30 May, 2026",
-        price: 1999,
-        originalPrice: 8000,
-        discount: 75,
-        target: "For CBSE Class 12 Science"
-      },
-      {
-        title: "Class 9th Foundation 2026",
-        imageUrl: "https://picsum.photos/seed/cbse9/800/450",
-        imageHint: "classroom students",
-        language: "Hinglish",
-        startDate: "10 Feb, 2026",
-        endDate: "31 Dec, 2026",
-        price: 1499,
-        originalPrice: 6000,
-        discount: 75,
-        target: "For CBSE Class 9 Students"
-      }
-    ];
-
-    const niosCourses = [
-        {
-            title: "NIOS Secondary (Class 10) Full Course",
-            imageUrl: "https://picsum.photos/seed/nios10/800/450",
-            imageHint: "nios books",
-            language: "Hinglish",
-            startDate: "01 Dec, 2025",
-            endDate: "30 Apr, 2026",
-            price: 1299,
-            originalPrice: 5000,
-            discount: 74,
-            target: "For NIOS Class 10 Aspirants"
-        },
-        {
-            title: "NIOS Senior Secondary (Class 12) Science",
-            imageUrl: "https://picsum.photos/seed/nios12/800/450",
-            imageHint: "physics student",
-            language: "Hinglish",
-            startDate: "05 Dec, 2025",
-            endDate: "30 Apr, 2026",
-            price: 1599,
-            originalPrice: 7000,
-            discount: 77,
-            target: "For NIOS Class 12 Science"
-        }
-    ];
-
     const cbseFaqs = [
         {
           question: "When will CBSE Class 10 & 12 Board Exams 2026 start?",
@@ -182,12 +115,12 @@ function SchoolPageContent() {
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl">
             <section className="mb-16 animate-fade-in-up">
               <div className="flex flex-col items-start gap-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Board Prep
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight">
-                    {activeTab === 'cbse' ? 'CBSE' : 'NIOS'} Board 2026: <br/>
+                    {activeTab === 'cbse' ? 'Cbse' : 'Nios'} Board 2026: <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
@@ -246,65 +179,6 @@ function SchoolPageContent() {
             </section>
     
             <div key={activeTab}>
-                <section className="mt-20 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                    <div className="flex items-end justify-between mb-10 border-l-4 border-primary pl-6">
-                        <div>
-                            <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground uppercase">
-                                Featured {activeTab.toUpperCase()} Batches
-                            </h2>
-                            <p className="text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Structured Learning Programs</p>
-                        </div>
-                        <Button variant="ghost" className="font-black text-primary hover:bg-primary/5 tracking-[0.2em] text-[10px] hidden sm:flex">
-                            VIEW ALL <ArrowRight className="ml-2 h-3.5 w-3.5" />
-                        </Button>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {(activeTab === 'cbse' ? cbseCourses : niosCourses).map((course, index) => (
-                        <Card key={index} className="rounded-[2rem] overflow-hidden shadow-xl hover:shadow-primary/10 transition-all duration-500 flex flex-col bg-card border-muted-foreground/10 group">
-                            <div className="relative overflow-hidden aspect-[16/9]">
-                                <Image
-                                    src={course.imageUrl}
-                                    alt={course.title}
-                                    data-ai-hint={course.imageHint}
-                                    fill
-                                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                />
-                                <div className="absolute top-4 left-4">
-                                    <Badge className="bg-primary/90 text-white font-black text-[9px] tracking-widest px-3 py-1 rounded-full uppercase shadow-xl border-none">ONLINE</Badge>
-                                </div>
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60" />
-                            </div>
-                            
-                            <CardContent className="p-6 flex flex-col flex-grow">
-                                <h3 className="font-black text-lg leading-tight line-clamp-2 mb-3 group-hover:text-primary transition-colors">{course.title}</h3>
-                                
-                                <div className="flex flex-wrap items-center gap-2 mb-6">
-                                    <Badge variant="secondary" className="bg-muted text-muted-foreground font-black text-[9px] tracking-widest rounded-lg uppercase border-none px-2.5 py-1">{course.language}</Badge>
-                                    <Badge variant="outline" className="font-black text-[9px] tracking-widest rounded-lg uppercase border-muted-foreground/20 px-2.5 py-1">{activeTab.toUpperCase()}</Badge>
-                                </div>
-
-                                <div className="space-y-2 mb-6 text-[10px] font-black text-muted-foreground uppercase tracking-tighter opacity-80">
-                                    <p className="flex items-center gap-2.5"><Users className="w-3.5 h-3.5 text-primary/60" /> {course.target}</p>
-                                    <p className="flex items-center gap-2.5"><Calendar className="w-3.5 h-3.5 text-primary/60" /> {course.startDate} • {course.endDate}</p>
-                                </div>
-                
-                                <div className="mt-auto pt-6 border-t border-muted-foreground/5">
-                                    <div className="flex items-baseline gap-2 mb-1.5">
-                                        <p className="text-3xl font-black text-primary tracking-tighter">₹{course.price}</p>
-                                        <p className="text-sm text-muted-foreground line-through opacity-40 font-bold">₹{course.originalPrice}</p>
-                                    </div>
-                                    <div className="inline-flex items-center px-2 py-0.5 rounded-md bg-green-500/10 text-green-600 text-[9px] font-black uppercase tracking-tighter mb-6">
-                                        -{course.discount}% Exclusive Offer
-                                    </div>
-                                    <Button className="w-full font-black tracking-[0.2em] uppercase rounded-xl h-12 shadow-lg shadow-primary/20 active:scale-[0.98] transition-all text-[11px]">ENROLL NOW</Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-                        ))}
-                    </div>
-                </section>
-
                 <section className="w-full py-16 bg-[#070A52] text-white mt-24 rounded-[3rem] shadow-2xl relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-[100px] -mr-32 -mt-32"></div>
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-[100px] -ml-32 -mb-32"></div>
