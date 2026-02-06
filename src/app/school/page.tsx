@@ -68,15 +68,15 @@ function SchoolPageContent() {
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-16 animate-fade-in-up">
               <div className="flex flex-col items-start gap-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide">
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Prep
                 </div>
                 <h1 className="text-xl md:text-3xl font-extrabold text-foreground tracking-tight text-left leading-tight text-balance">
                     {activeTab} CBSE 2026-2027 <br/>
-                    <span className="text-primary text-sm md:text-base">Syllabus, Date Sheet & Mock Tests</span>
+                    <span className="text-primary text-sm md:text-base font-bold">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
-                <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
+                <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-bold leading-relaxed">
                     Comprehensive preparation resources specifically for {activeTab}. Get expert guidance, structured courses, and premium study materials to excel in your examinations.
                 </p>
               </div>
@@ -91,7 +91,7 @@ function SchoolPageContent() {
                                 onClick={() => handleClassChange(className)} 
                                 variant="outline"
                                 className={cn(
-                                    "rounded-full px-6 py-2 text-sm font-semibold transition-all duration-300 border bg-transparent h-9 shadow-none whitespace-nowrap",
+                                    "rounded-full px-6 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-9 shadow-none whitespace-nowrap",
                                     activeTab === className ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                                 )}
                             >
@@ -110,12 +110,12 @@ function SchoolPageContent() {
                         return (
                             <Link key={index} href={card.href} className="group">
                                 <div className="flex items-center gap-4 p-4 bg-muted/20 hover:bg-white dark:hover:bg-card border border-transparent hover:border-primary/20 rounded-2xl transition-all duration-300 shadow-sm">
-                                    <div className={cn("p-3 rounded-xl shrink-0 group-hover:scale-110 transition-transform", card.color)}>
+                                    <div className={cn("p-3 rounded-full shrink-0 group-hover:scale-110 transition-transform", card.color)}>
                                         {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-[11px] font-bold uppercase tracking-wide text-foreground leading-tight">{header}</h4>
-                                        <p className="text-[10px] font-medium text-muted-foreground truncate">{subtitle}</p>
+                                        <h4 className="text-[11px] font-extrabold uppercase tracking-wide text-foreground leading-tight">{header}</h4>
+                                        <p className="text-[10px] font-bold text-muted-foreground truncate">{subtitle}</p>
                                     </div>
                                     <ArrowRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary transition-all group-hover:translate-x-1" />
                                 </div>
@@ -133,7 +133,7 @@ function SchoolPageContent() {
                             <h3 className="font-extrabold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
                                 Subject-wise Syllabus
                             </h3>
-                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-widest mt-1">Official curriculum for {activeTab}</p>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-extrabold uppercase tracking-wide mt-1">Official curriculum for {activeTab}</p>
                         </div>
                     </div>
 
@@ -141,22 +141,22 @@ function SchoolPageContent() {
                         {currentSubjects.map((subject) => (
                             <div key={subject.key} className="group bg-white dark:bg-card p-4 md:p-5 rounded-[1.5rem] shadow-sm border hover:shadow-md transition-all flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
-                                    <div className={cn("p-3.5 rounded-2xl shrink-0 transition-transform duration-500 group-hover:scale-110", subject.color)}>
+                                    <div className={cn("p-3.5 rounded-full shrink-0 transition-transform duration-500 group-hover:scale-110", subject.color)}>
                                         {subject.icon}
                                     </div>
                                     <div>
                                         <h4 className="font-extrabold text-base md:text-lg text-foreground tracking-tight">{subject.name}</h4>
-                                        <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-tighter">Academic Year 2026-27</p>
+                                        <p className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-tighter">Academic Year 2026-27</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2">
-                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-bold tracking-widest uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-0 border border-blue-100 flex items-center justify-center shadow-sm">
+                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-extrabold tracking-wide uppercase text-blue-600 bg-blue-50/50 hover:bg-blue-100 transition-all px-0 border border-blue-100 flex items-center justify-center shadow-sm">
                                         <div className="flex items-center">
                                             <Eye className="w-3.5 h-3.5 mr-1.5" />
                                             <span>VIEW PDF</span>
                                         </div>
                                     </Button>
-                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-bold tracking-widest uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-0 border border-emerald-100 flex items-center justify-center shadow-sm">
+                                    <Button variant="ghost" size="sm" className="h-9 w-32 rounded-full text-[10px] font-extrabold tracking-wide uppercase text-emerald-600 bg-emerald-50/50 hover:bg-emerald-100 transition-all px-0 border border-emerald-100 flex items-center justify-center shadow-sm">
                                         <div className="flex items-center">
                                             <Download className="w-3.5 h-3.5 mr-1.5" />
                                             <span>Get PDF</span>

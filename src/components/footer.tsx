@@ -41,7 +41,7 @@ export function Footer() {
                         <div className="flex flex-col leading-tight text-left">
                             <div className="flex items-center gap-2.5">
                                 <span className="text-3xl font-extrabold text-white tracking-tight uppercase">IDL</span>
-                                <div className="flex flex-col text-[8px] font-medium text-white/60 tracking-tight leading-[1.1]">
+                                <div className="flex flex-col text-[8px] font-bold text-white/60 tracking-tight leading-[1.1]">
                                     <span>Institute Of</span>
                                     <span>Distance Learning Pvt. Ltd.</span>
                                 </div>
@@ -49,7 +49,7 @@ export function Footer() {
                             <span className="text-3xl font-extrabold text-white tracking-tight -mt-1">Education</span>
                         </div>
                     </Link>
-                    <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs tracking-wide">
+                    <p className="text-[11px] text-gray-400 font-bold leading-relaxed text-left max-w-xs tracking-wide">
                       Tailored education designed to adapt to your unique needs and help you achieve your full potential.
                     </p>
                     <div className="flex items-center justify-start gap-3">
@@ -75,8 +75,8 @@ export function Footer() {
 
                 {/* Column 2: Quick Links */}
                 <div>
-                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Quick Links</h3>
-                    <ul className="space-y-3 text-[11px] font-medium tracking-wide">
+                    <h3 className="text-xs font-extrabold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Quick Links</h3>
+                    <ul className="space-y-3 text-[11px] font-bold tracking-wide">
                         {quickLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -90,8 +90,8 @@ export function Footer() {
                 
                 {/* Column 3: Resources */}
                 <div>
-                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Resources</h3>
-                    <ul className="space-y-3 text-[11px] font-medium tracking-wide">
+                    <h3 className="text-xs font-extrabold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Resources</h3>
+                    <ul className="space-y-3 text-[11px] font-bold tracking-wide">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -105,8 +105,8 @@ export function Footer() {
 
                 {/* Column 4: Contact Us */}
                  <div>
-                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-start gap-1 text-[11px] font-medium tracking-wide text-gray-400">
+                    <h3 className="text-xs font-extrabold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact</h3>
+                    <div className="flex flex-col items-start gap-1 text-[11px] font-bold tracking-wide text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
                           <Phone className="h-4 w-4 shrink-0 text-gray-400" />
                           <span>+91 7011117585</span>
@@ -125,7 +125,7 @@ export function Footer() {
         </div>
         <div className="bg-white/5 py-2 border-t border-white/5">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-medium tracking-wider text-gray-500">
+                <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px] font-bold tracking-wider text-gray-500">
                     <div className="flex items-center gap-5">
                         <Image 
                             src="https://icon2.cleanpng.com/20180920/zs/kisspng-iso-9-iso-9-1-international-organization-for-s-aidima-implantacin-iso-14-y-gestion-de-sist-5ba370134a6743.6791764215374377153048.jpg" 

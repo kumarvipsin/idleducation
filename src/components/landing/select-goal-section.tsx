@@ -50,7 +50,7 @@ export function SelectGoalSection() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
                     <div className="flex justify-center mb-6">
-                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-xs">
+                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-extrabold text-xs">
                             Discover Our Courses
                         </div>
                     </div>
@@ -61,7 +61,7 @@ export function SelectGoalSection() {
                                     <div className="mb-2">
                                         {goal.icon}
                                     </div>
-                                    <p className="text-[10px] md:text-xs font-bold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
+                                    <p className="text-[10px] md:text-xs font-extrabold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
                                     
                                     <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
                                 </div>

@@ -127,7 +127,7 @@ export function GetAppSection() {
                     </div>
                     <div className="space-y-0.5">
                         <p className="text-[9px] font-bold uppercase tracking-tight text-blue-600/60">System Help</p>
-                        <p className="text-[13px] font-bold text-foreground">Technical Support</p>
+                        <p className="text-[13px] font-extrabold text-foreground">Technical Support</p>
                     </div>
                 </button>
             </DialogTrigger>
@@ -136,8 +136,8 @@ export function GetAppSection() {
                 className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8"
             >
                 <DialogHeader className="text-center mb-6">
-                    <DialogTitle className="text-2xl font-bold text-primary">Raise a Support Ticket</DialogTitle>
-                    <DialogDescription className="text-muted-foreground text-sm">Fill out the form below and our support team will get in touch with you.</DialogDescription>
+                    <DialogTitle className="text-2xl font-extrabold text-primary">Raise a Support Ticket</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-sm font-medium">Fill out the form below and our support team will get in touch with you.</DialogDescription>
                 </DialogHeader>
                 <Form {...supportForm}>
                     <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
@@ -201,7 +201,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full font-bold" disabled={supportForm.formState.isSubmitting}>
+                        <Button type="submit" className="w-full font-extrabold" disabled={supportForm.formState.isSubmitting}>
                             {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Support Ticket'}
                         </Button>
                     </form>
@@ -220,7 +220,7 @@ export function GetAppSection() {
                 </div>
                 <div className="space-y-0.5">
                     <p className="text-[9px] font-bold uppercase tracking-tight text-green-600/60">Direct Line</p>
-                    <p className="text-[13px] font-bold text-foreground">Talk to an expert</p>
+                    <p className="text-[13px] font-extrabold text-foreground">Talk to an expert</p>
                 </div>
               </button>
             </DialogTrigger>
@@ -229,8 +229,8 @@ export function GetAppSection() {
                 className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8"
             >
                 <DialogHeader className="text-center mb-6">
-                    <DialogTitle className="text-2xl font-bold text-primary">Request a Call Back</DialogTitle>
-                    <DialogDescription className="text-muted-foreground text-sm">Our expert will call you back shortly.</DialogDescription>
+                    <DialogTitle className="text-2xl font-extrabold text-primary">Request a Call Back</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-sm font-medium">Our expert will call you back shortly.</DialogDescription>
                 </DialogHeader>
                  <Form {...callBackForm}>
                     <form onSubmit={callBackForm.handleSubmit(onCallBackSubmit)} className="space-y-4">
@@ -318,7 +318,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full font-bold" disabled={callBackForm.formState.isSubmitting}>
+                        <Button type="submit" className="w-full font-extrabold" disabled={callBackForm.formState.isSubmitting}>
                             {callBackForm.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
                         </Button>
                     </form>
@@ -356,7 +356,7 @@ export function GetAppSection() {
               
               <div className="lg:col-span-5 space-y-3 text-left">
                 <div className="space-y-1.5">
-                  <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
+                  <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground">
                       <span className="text-primary">IDL Learning App</span>-Learn from anywhere
                   </h2>
                 </div>
@@ -371,7 +371,7 @@ export function GetAppSection() {
                           <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
                               <CheckCircle2 className="w-3 h-3 text-primary group-hover:text-white transition-colors" />
                           </div>
-                          <span className="text-[11px] font-medium text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
+                          <span className="text-[11px] font-bold text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
                       </li>
                   ))}
                 </ul>
@@ -393,7 +393,7 @@ export function GetAppSection() {
                               />
                               <div className="flex flex-col -space-y-1">
                                   <span className="text-[7px] font-bold text-black uppercase tracking-tight opacity-60">GET IT ON</span>
-                                  <span className="text-[11px] font-bold text-black tracking-tight">Google Play</span>
+                                  <span className="text-[11px] font-extrabold text-black tracking-tight">Google Play</span>
                               </div>
                           </div>
                           
@@ -409,15 +409,15 @@ export function GetAppSection() {
                               />
                               <div className="flex flex-col -space-y-1">
                                   <span className="text-[7px] font-bold text-black uppercase tracking-tight opacity-60">Download on the</span>
-                                  <span className="text-[11px] font-bold text-black tracking-tight">App Store</span>
+                                  <span className="text-[11px] font-extrabold text-black tracking-tight">App Store</span>
                               </div>
                           </div>
                       </div>
 
                       {/* Text */}
                       <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-primary mb-0.5">Quick Scan</p>
-                          <p className="text-sm font-bold leading-tight text-foreground">Get IDL Learning App</p>
+                          <p className="text-[10px] font-bold uppercase tracking-wide text-primary mb-0.5">Quick Scan</p>
+                          <p className="text-sm font-extrabold leading-tight text-foreground">Get IDL Learning App</p>
                       </div>
 
                       {/* QR Code */}
@@ -444,8 +444,8 @@ export function GetAppSection() {
           <div className="flex justify-center mb-4">
             <CheckCircle2 className="w-16 h-16 text-green-500" />
           </div>
-          <DialogTitle className="text-center text-2xl font-bold">Ticket Submitted!</DialogTitle>
-          <DialogDescription className="text-center font-medium">
+          <DialogTitle className="text-center text-2xl font-extrabold">Ticket Submitted!</DialogTitle>
+          <DialogDescription className="text-center font-bold">
             Your support ticket has been successfully submitted. Our team will review it and get back to you shortly.
           </DialogDescription>
         </DialogHeader>
@@ -455,14 +455,14 @@ export function GetAppSection() {
             onClick={handleCopyToClipboard}
           >
             <div className="flex flex-col">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Your Reference ID</span>
-                <span className="font-mono font-bold text-lg text-primary">{submittedTicketId}</span>
+                <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground mb-1">Your Reference ID</span>
+                <span className="font-mono font-extrabold text-lg text-primary">{submittedTicketId}</span>
             </div>
             <Copy className="w-5 h-5 text-primary/60" />
           </div>
         </div>
         <DialogFooter>
-          <Button onClick={() => setSubmittedTicketId(null)} className="w-full font-bold h-11 rounded-xl">
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full font-extrabold h-11 rounded-xl">
             Close &amp; Return
           </Button>
         </DialogFooter>

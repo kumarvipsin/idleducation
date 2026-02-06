@@ -31,8 +31,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                 <PlayCircle className="w-14 h-14 text-white transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]" />
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-3 text-left bg-gradient-to-t from-black/60 to-transparent">
-              <p className="font-bold text-xs text-white uppercase tracking-tight drop-shadow-md">{testimonial.studentName}</p>
-              <p className="text-[9px] text-white/90 font-bold uppercase tracking-tight drop-shadow-md">{testimonial.studentClass}</p>
+              <p className="font-extrabold text-xs text-white uppercase tracking-tight drop-shadow-md">{testimonial.studentName}</p>
+              <p className="text-[9px] text-white/90 font-extrabold uppercase tracking-tight drop-shadow-md">{testimonial.studentClass}</p>
             </div>
         </button>
         </DialogTrigger>
@@ -96,7 +96,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
               </div>
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
+          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
              What our high achievers & parents say about us
           </p>
         </div>

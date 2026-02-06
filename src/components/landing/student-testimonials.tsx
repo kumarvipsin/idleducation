@@ -35,12 +35,12 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     </DialogTrigger>
                   )}
               </div>
-              <h3 className="font-bold text-base tracking-tight">{testimonial.name}</h3>
-              <p className="text-[10px] text-primary font-bold mb-4 uppercase tracking-tight">{testimonial.achievement}</p>
+              <h3 className="font-extrabold text-base tracking-tight">{testimonial.name}</h3>
+              <p className="text-[10px] text-primary font-extrabold mb-4 uppercase tracking-tight">{testimonial.achievement}</p>
               <div className="relative h-24 w-full">
                   <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                   <ScrollArea className="h-full w-full px-2">
-                      <blockquote className="text-xs text-muted-foreground font-medium italic leading-relaxed">
+                      <blockquote className="text-xs text-muted-foreground font-bold italic leading-relaxed">
                       {testimonial.testimonial}
                       </blockquote>
                   </ScrollArea>
@@ -114,7 +114,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
             </div>
           </span>
         </h2>
-        <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-medium">
+        <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
           Uncover the Journey to Rise and Shine
         </p>
       </div>
@@ -163,7 +163,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
               </div>
             </>
           ) : (
-            <p className="text-center text-xs text-muted-foreground italic">New success stories coming soon!</p>
+            <p className="text-center text-xs text-muted-foreground italic font-bold">New success stories coming soon!</p>
           )}
         </div>
     </section>
