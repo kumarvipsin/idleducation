@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home, Sigma, TestTube2, BookText, Landmark, Book, Scale, TrendingUp } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Sigma, TestTube2, BookText, Landmark, Book, Scale, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
@@ -65,12 +65,6 @@ function SchoolPageContent() {
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
-            <Link href="/" className="absolute top-4 right-4 z-20">
-                <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/5 transition-colors">
-                    <Home className="h-6 w-6 text-primary" />
-                    <span className="sr-only">Home</span>
-                </Button>
-            </Link>
             <section className="mb-16 animate-fade-in-up">
               <div className="flex flex-col items-start gap-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-[0.2em]">
