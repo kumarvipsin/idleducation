@@ -37,21 +37,21 @@ import { formatDistanceToNow } from 'date-fns';
 
 const allCoursesCategories = [
     {
-        name: "FREE COURSES",
+        name: "Free Courses",
         description: "High-quality free video lessons.",
         href: "/free-courses",
         icon: <BookOpen className="h-5 w-5" />,
         colorClasses: "bg-orange-50 text-orange-600 dark:bg-orange-900/20"
     },
     {
-        name: "PAID COURSES",
+        name: "Paid Courses",
         description: "Premium structured learning.",
         href: "/paid-courses",
         icon: <IndianRupee className="h-5 w-5" />,
         colorClasses: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20"
     },
     {
-        name: "SCHOOL BOARD",
+        name: "School Board",
         description: "Prep for Class 5 to 12.",
         href: "/school",
         icon: <GraduationCap className="h-5 w-5" />,
@@ -65,14 +65,14 @@ const allCoursesCategories = [
         colorClasses: "bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20"
     },
     {
-        name: "GOVT. EXAMS",
+        name: "Govt. Exams",
         description: "SSC, Banking, & Railway.",
         href: "/examcat?category=govt-job-exams",
         icon: <Landmark className="h-5 w-5" />,
         colorClasses: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20"
     },
     {
-        name: "TEST SERIES",
+        name: "Test Series",
         description: "Rigorous preparation tests.",
         href: "#",
         icon: <ClipboardList className="h-5 w-5" />,
@@ -487,7 +487,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-none transition-all group border-b border-muted hover:bg-transparent">
-                                        <span className="flex items-center gap-3 font-black uppercase tracking-widest"><BookOpen className="h-4 w-4 text-primary" /> All Courses</span>
+                                        <span className="flex items-center gap-3 font-bold tracking-tight"><BookOpen className="h-4 w-4 text-primary" /> All Courses</span>
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -496,7 +496,7 @@ export function Header() {
                                         <Link key={href + index} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
                                             <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                             <div className="space-y-0.5">
-                                                <p className="font-black text-[11px] text-foreground uppercase tracking-widest">{label}</p>
+                                                <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                                                 <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                             </div>
                                         </Link>
@@ -507,7 +507,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-none transition-all group border-b border-muted hover:bg-transparent">
-                                        <span className="flex items-center gap-3 font-black uppercase tracking-widest"><GraduationCap className="h-4 w-4 text-primary" /> Apply For</span>
+                                        <span className="flex items-center gap-3 font-bold tracking-tight"><GraduationCap className="h-4 w-4 text-primary" /> Apply For</span>
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -516,7 +516,7 @@ export function Header() {
                                         <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
                                             <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                             <div className="space-y-0.5">
-                                                <p className="font-black text-[11px] text-foreground uppercase tracking-widest">{label}</p>
+                                                <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                                                 <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                             </div>
                                         </Link>
@@ -527,7 +527,7 @@ export function Header() {
                             <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                 <CollapsibleTrigger asChild>
                                     <Button variant="ghost" className="w-full justify-between text-xs py-4 px-4 h-auto rounded-none transition-all group border-b border-muted hover:bg-transparent">
-                                        <span className="flex items-center gap-3 font-black uppercase tracking-widest"><MoreHorizontal className="h-4 w-4 text-primary" /> More</span>
+                                        <span className="flex items-center gap-3 font-bold tracking-tight"><MoreHorizontal className="h-4 w-4 text-primary" /> More</span>
                                         <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]:rotate-180 opacity-40" />
                                     </Button>
                                 </CollapsibleTrigger>
@@ -536,7 +536,7 @@ export function Header() {
                                         <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-muted transition-all active:scale-[0.98]">
                                             <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                             <div className="space-y-0.5">
-                                                <p className="font-black text-[11px] text-foreground uppercase tracking-widest">{label}</p>
+                                                <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
                                                 <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                             </div>
                                         </Link>
@@ -549,7 +549,7 @@ export function Header() {
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-amber-50 transition-all active:scale-[0.98]">
                                     <div className="p-2.5 rounded-full bg-amber-100 text-amber-600 shadow-sm shrink-0"><ShoppingCart className="h-5 w-5" /></div>
                                     <div className="space-y-0.5">
-                                        <p className="font-black text-[11px] text-foreground uppercase tracking-widest">IDL Store</p>
+                                        <p className="font-bold text-[13px] text-foreground leading-tight">IDL Store</p>
                                         <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1">Shop premium resources & books.</p>
                                     </div>
                                 </Link>
@@ -557,7 +557,7 @@ export function Header() {
                                 <a href="tel:7011117585" className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-indigo-50 transition-all active:scale-[0.98]">
                                     <div className="p-2.5 rounded-full bg-indigo-100 text-indigo-600 shadow-sm shrink-0"><Phone className="h-5 w-5" /></div>
                                     <div className="space-y-0.5">
-                                        <p className="font-black text-[11px] text-foreground uppercase tracking-widest">Call Expert</p>
+                                        <p className="font-bold text-[13px] text-foreground leading-tight">Call Expert</p>
                                         <p className="text-[10px] font-medium text-muted-foreground leading-tight line-clamp-1">Academic support: 70-1111-7585</p>
                                     </div>
                                 </a>
@@ -580,7 +580,7 @@ export function Header() {
                             <Link key={index} href={category.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", category.colorClasses)}>{category.icon}</div>
                                 <div className="space-y-1">
-                                    <p className="font-black text-xs text-foreground uppercase tracking-widest">{category.name}</p>
+                                    <p className="font-bold text-[13px] text-foreground leading-tight">{category.name}</p>
                                     <p className="text-[11px] font-medium text-muted-foreground leading-tight">{category.description}</p>
                                 </div>
                             </Link>
@@ -595,7 +595,7 @@ export function Header() {
                             <Link key={link.href} href={link.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
                                 <div className="space-y-1">
-                                    <p className="font-black text-xs text-foreground uppercase tracking-widest">{link.label}</p>
+                                    <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
                                     <p className="text-[11px] font-medium text-muted-foreground leading-tight">{link.description}</p>
                                 </div>
                             </Link>
@@ -610,7 +610,7 @@ export function Header() {
                             <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
                                 <div className="space-y-1">
-                                    <p className="font-black text-xs text-foreground uppercase tracking-widest">{link.label}</p>
+                                    <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
                                     <p className="text-[11px] font-medium text-muted-foreground leading-tight">{link.description}</p>
                                 </div>
                             </Link>
