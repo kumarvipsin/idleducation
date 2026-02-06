@@ -20,21 +20,34 @@ const getContentDocRef = (collectionType: CollectionType, classId: string) => {
     return doc(db, collectionType, classId);
 };
 
-// ==================================
-// View PDF Action
-// ==================================
+/**
+ * Generates a signed URL for a given public URL or file path.
+ * This server action is essential for accessing private files in GCS.
+ */
 export async function getSignedUrlForPdf(publicUrl: string) {
     if (!publicUrl) {
         return { success: false, message: 'No file URL provided.' };
     }
+    
+    // If it's already a full HTTP URL that doesn't belong to our storage, return it as is
+    if (publicUrl.startsWith('http') && !publicUrl.includes('storage.googleapis.com')) {
+        return { success: true, url: publicUrl };
+    }
+
     try {
         const bucketName = process.env.GCS_BUCKET_NAME || 'idlcloud';
-        const filePath = decodeURIComponent(publicUrl.substring(publicUrl.indexOf(bucketName) + bucketName.length + 1));
+        let filePath = publicUrl;
+
+        // If it's a full GCS URL, extract the path part
+        if (publicUrl.includes(bucketName)) {
+            filePath = decodeURIComponent(publicUrl.substring(publicUrl.indexOf(bucketName) + bucketName.length + 1));
+        }
+        
         const url = await getSignedUrl(filePath);
         return { success: true, url: url };
     } catch (error: any) {
-        console.error("Error generating signed URL for PDF:", error);
-        return { success: false, message: `Could not get viewable link for the PDF. Details: ${error.message || error}` };
+        console.error("Error generating signed URL:", error);
+        return { success: false, message: `Could not get viewable link. Details: ${error.message || error}` };
     }
 }
 
