@@ -44,7 +44,7 @@ function SchoolPageContent() {
           title: "REVISION\nHigh-Quality Notes",
           icon: <BookOpen />,
           color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400",
-          href: "/resources/reference-books"
+          href: "/resources/notes"
         },
          {
           title: "SOLUTIONS\nNCERT Step-by-Step",
