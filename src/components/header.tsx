@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { BookOpen, LogIn, Menu, Phone, Mail, Home as HomeIcon, Info, MessageSquare, Bell, LogOut, User, LayoutDashboard, FileText, ImageIcon, ShoppingCart, Plus, Minus, XCircle, FileType, Award, GraduationCap, X, ChevronDown, AlignJustify, ShoppingBag, HandHeart, HelpCircle, ArrowRight, UserCircle, UserPlus, MapPin, LifeBuoy, Heart, Atom, Landmark, MoreHorizontal, IndianRupee, Banknote, CheckCircle, Building, Users, ClipboardList } from "lucide-react";
@@ -454,9 +453,21 @@ export function Header() {
             <SheetContent side="left" className="p-0 w-80">
                 <SheetHeader className="p-4 border-b">
                     <SheetTitle>
-                        <Link href="/" className="flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
-                            <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
-                            <div className="flex flex-col leading-tight"><span className="text-lg font-extrabold text-primary">{isIdlFoundationPage ? "IDL Foundation" : "IDL EDUCATION"}</span></div>
+                        <Link href="/" className="flex flex-row items-center justify-start gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
+                            <div className="relative w-12 h-12 shrink-0">
+                                <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
+                            </div>
+                            <div className="flex flex-col leading-none text-left">
+                                <div className="flex items-end gap-1.5">
+                                    <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
+                                    <span className="text-[6px] font-bold text-muted-foreground leading-tight mb-0.5 whitespace-nowrap uppercase">
+                                        Institute of distance<br />learning pvt. ltd.
+                                    </span>
+                                </div>
+                                <span className="text-2xl font-black text-primary tracking-tighter -mt-1">
+                                    {isIdlFoundationPage ? "Foundation" : "Education"}
+                                </span>
+                            </div>
                         </Link>
                     </SheetTitle>
                 </SheetHeader>
