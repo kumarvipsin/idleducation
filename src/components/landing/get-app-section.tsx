@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -378,38 +377,38 @@ export function GetAppSection() {
               </div>
 
               <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
-                  <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-lg border border-slate-200/50 dark:border-white/10 w-full sm:w-auto lg:w-[330px]">
-                      {/* Google Play Part - Now on Left */}
-                      <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50 flex items-center gap-2">
+                  <div className="flex items-center gap-4 p-4 bg-primary/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-2xl border border-primary/10 w-full sm:w-auto lg:w-[350px] shadow-sm">
+                      {/* Google Play Part */}
+                      <div className="bg-white p-2 rounded-xl shadow-sm border border-border/50 flex items-center gap-2 shrink-0">
                           <Image
                               src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
                               alt="Google Play"
                               data-ai-hint="google play"
-                              width={24}
-                              height={24}
+                              width={20}
+                              height={20}
                               className="object-contain"
                           />
-                          <div className="flex flex-col -space-y-0.5">
-                              <span className="text-[6px] font-bold text-black uppercase tracking-tighter">GET IT ON</span>
-                              <span className="text-[10px] font-black text-black tracking-tighter">Google Play</span>
+                          <div className="flex flex-col -space-y-1">
+                              <span className="text-[7px] font-black text-black uppercase tracking-tighter opacity-60">GET IT ON</span>
+                              <span className="text-[11px] font-black text-black tracking-tight">Google Play</span>
                           </div>
                       </div>
 
-                      {/* Center Text */}
-                      <div className="space-y-0.5 flex-1">
-                          <p className="text-[10px] font-bold uppercase tracking-widest text-primary">Quick Scan</p>
-                          <p className="text-base font-bold leading-tight">Get the App <br/>Instantly</p>
+                      {/* Text */}
+                      <div className="flex-1 min-w-0">
+                          <p className="text-[10px] font-black uppercase tracking-[0.15em] text-primary mb-0.5">Quick Scan</p>
+                          <p className="text-sm font-black leading-tight text-foreground">Get App Instantly</p>
                       </div>
 
-                      {/* QR Code Section - Now on Right */}
-                      <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50">
+                      {/* QR Code */}
+                      <div className="bg-white p-1.5 rounded-xl shadow-sm border border-border/50 shrink-0">
                           <Image
                               src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
                               alt="QR Code"
                               data-ai-hint="qr code"
-                              width={60}
-                              height={60}
-                              className="opacity-80"
+                              width={48}
+                              height={48}
+                              className="opacity-90"
                           />
                       </div>
                   </div>
