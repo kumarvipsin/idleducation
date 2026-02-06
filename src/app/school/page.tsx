@@ -35,6 +35,12 @@ function SchoolPageContent() {
     
     const resourceCards = [
         {
+          title: "GET THE\nIDL Advantage",
+          icon: <Sparkles />,
+          color: "bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400",
+          href: "/about"
+        },
+        {
           title: "REVISION\nHigh-Quality Notes",
           icon: <BookOpen />,
           color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400",
@@ -94,7 +100,7 @@ function SchoolPageContent() {
     
             {/* Resources Section */}
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
                     {resourceCards.map((card, index) => {
                         const [header, subtitle] = card.title.split('\n');
                         return (
