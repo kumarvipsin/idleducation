@@ -100,7 +100,7 @@ export function Footer() {
                 {/* Column 4: Contact Us */}
                  <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-start gap-5 text-[10px] font-black uppercase tracking-widest text-gray-400">
+                    <div className="flex flex-col items-start gap-3 text-[10px] font-black uppercase tracking-widest text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
                           <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Phone className="w-4 h-4"/></div>
                           <span>+91 7011117585</span>
