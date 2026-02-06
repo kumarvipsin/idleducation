@@ -73,7 +73,7 @@ function SchoolPageContent() {
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
                     {activeTab} CBSE 2026-2027 <br/>
-                    <span className="text-primary text-2xl md:text-3xl">Syllabus, Date Sheet & Mock Tests</span>
+                    <span className="text-primary text-lg md:text-xl">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
                     Comprehensive preparation resources specifically for {activeTab}. Get expert guidance, structured courses, and premium study materials to excel in your examinations.
@@ -90,7 +90,7 @@ function SchoolPageContent() {
                                 onClick={() => handleClassChange(className)} 
                                 variant="outline"
                                 className={cn(
-                                    "rounded-full px-6 py-2 text-[10px] font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-9 shadow-none whitespace-nowrap",
+                                    "rounded-full px-6 py-2 text-sm font-semibold transition-all duration-300 border bg-transparent h-9 shadow-none whitespace-nowrap",
                                     activeTab === className ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                                 )}
                             >
