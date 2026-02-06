@@ -359,7 +359,7 @@ export function GetAppSection() {
                       Available on iOS & Android
                   </div>
                   <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
-                      Learn Smart with the <span className="text-primary">IDL App</span>
+                      <span className="text-primary">IDL Learning App</span>-Learn Smart
                   </h2>
                 </div>
                 
@@ -398,7 +398,7 @@ export function GetAppSection() {
                   </div>
 
                   <div className="flex items-center gap-2 w-full sm:w-auto justify-center lg:justify-start">
-                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="relative h-12 w-36 sm:w-40 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                      <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="relative h-12 w-40 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
                               alt="Get it on Google Play"
@@ -406,7 +406,7 @@ export function GetAppSection() {
                               className="object-contain"
                           />
                       </a>
-                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="relative h-12 w-36 sm:w-40 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
+                      <a href="https://apps.apple.com" target="_blank" rel="noopener noreferrer" className="relative h-12 w-40 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/apple-store-badge.acb101ce.webp"
                               alt="Download on the App Store"
