@@ -15,3 +15,4 @@ export * from './actions/free-courses';
 export * from './actions/paid-courses';
 export * from './actions/store-auth';
 export * from './actions/store';
+export * from './actions/reference-books';
