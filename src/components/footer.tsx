@@ -34,15 +34,15 @@ export function Footer() {
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col items-start gap-6">
                     <Link href="/" className="flex items-center justify-start gap-4 group">
-                        <div className="relative w-20 h-20 transition-transform duration-300 group-hover:scale-105 shrink-0">
+                        <div className="relative w-20 h-20 shrink-0">
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
-                        <div className="flex flex-col leading-none">
+                        <div className="flex flex-col leading-none text-left">
                             <div className="flex items-center gap-2">
                                 <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
                                 <div className="flex flex-col text-[8px] font-medium text-white/60 tracking-tight leading-[1.1]">
-                                    <span>Institute Of Distance</span>
-                                    <span>Learning Pvt. Ltd.</span>
+                                    <span>Institute Of</span>
+                                    <span>Distance Learning Pvt. Ltd.</span>
                                 </div>
                             </div>
                             <span className="text-3xl font-black text-white tracking-tighter -mt-1 uppercase">Education</span>
@@ -105,7 +105,7 @@ export function Footer() {
                 {/* Column 4: Contact Us */}
                  <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-start gap-3 text-[11px] font-medium tracking-widest text-gray-400">
+                    <div className="flex flex-col items-start gap-1 text-[11px] font-medium tracking-widest text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
                           <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Phone className="h-4 w-4"/></div>
                           <span>+91 7011117585</span>
