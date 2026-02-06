@@ -297,7 +297,7 @@ export function Header() {
             <Dialog open={isDonateDialogOpen} onOpenChange={(open) => { setIsDonateDialogOpen(open); if (!open) setDonationStep(1); }}>
                 <DialogTrigger asChild>
                     <Button onClick={() => setIsDonateDialogOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
-                        DONATE <Heart className="w-4 h-4 ml-2 fill-white text-white" />
+                        Donate <Heart className="w-4 h-4 ml-2 fill-white text-white" />
                     </Button>
                 </DialogTrigger>
                 <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md">
@@ -384,9 +384,9 @@ export function Header() {
   };
   
   const navLinks = [
-    { href: "/about", label: t('about'), icon: <Info className="h-4 w-4" />, color: "bg-blue-50 text-blue-600", description: "Learn more about our mission." },
-    { href: "#", label: t('contact'), icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-50 text-emerald-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: t('gallery'), icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-50 text-violet-600", description: "Explore moments from our journey." },
+    { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, color: "bg-blue-50 text-blue-600", description: "Learn more about our mission." },
+    { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-50 text-emerald-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+    { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-50 text-violet-600", description: "Explore moments from our journey." },
     { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-50 text-orange-600", description: "Read articles and updates." },
     { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-rose-50 text-rose-600", description: "Visit our learning centers." },
     { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-50 text-indigo-600", description: "Join our hands-on workshops." },
@@ -421,24 +421,24 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
+                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
                                         <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                             <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">Store</span>
                                         </Link>
                                     </Button>
                                 </div>
                                 <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-black uppercase tracking-widest text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
+                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
                               </div>
                             </>
                           ) : (
-                            <div className="flex items-center gap-x-4 text-[10px] font-black uppercase tracking-widest">
+                            <div className="flex items-center gap-x-4 text-[10px] font-bold tracking-tight">
                               <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
@@ -450,7 +450,7 @@ export function Header() {
                     <div className="hidden md:flex items-center gap-2">
                          <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition-all">
                             <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
-                            <div><p className="text-[8px] font-black text-muted-foreground uppercase tracking-widest leading-tight">Call Expert</p><p className="text-xs font-black text-foreground leading-tight">70-1111-7585</p></div>
+                            <div><p className="text-[8px] font-bold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p></div>
                         </a>
                     </div>
                     <div className="flex items-center gap-1">{isClient && renderAuthSection()}</div>
@@ -468,12 +468,12 @@ export function Header() {
                             </div>
                             <div className="flex flex-col leading-none text-left">
                                 <div className="flex items-end gap-1.5">
-                                    <span className="text-xl font-black text-primary tracking-tighter uppercase">IDL</span>
+                                    <span className="text-xl font-bold text-primary tracking-tighter uppercase">IDL</span>
                                     <span className="text-[6px] font-bold text-muted-foreground leading-tight mb-0.5 whitespace-nowrap opacity-60">
                                         Institute of<br />Distance Learning Pvt. Ltd.
                                     </span>
                                 </div>
-                                <span className="text-2xl font-black text-primary tracking-tighter -mt-1 uppercase">
+                                <span className="text-2xl font-bold text-primary tracking-tighter -mt-1 uppercase">
                                     {isIdlFoundationPage ? "Foundation" : "Education"}
                                 </span>
                             </div>
@@ -544,7 +544,6 @@ export function Header() {
                                 </CollapsibleContent>
                             </Collapsible>
                             
-                            {/* Integrated Store & Call Items */}
                             <div className="space-y-1">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3.5 rounded-2xl hover:bg-amber-50 transition-all active:scale-[0.98]">
                                     <div className="p-2.5 rounded-full bg-amber-100 text-amber-600 shadow-sm shrink-0"><ShoppingCart className="h-5 w-5" /></div>
@@ -607,7 +606,14 @@ export function Header() {
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                         {navLinks.map((link) => (
-                            <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} target={link.target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
+                            <Link 
+                                key={link.href} 
+                                href={link.onClick ? '#' : link.href} 
+                                onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} 
+                                target={link.target} 
+                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all"
+                            >
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
                                 <div className="space-y-1">
                                     <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
