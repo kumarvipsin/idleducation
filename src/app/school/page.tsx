@@ -2,16 +2,23 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home, Sigma, TestTube2, BookText, Landmark, Book } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList, Eye, Download, Home, Sigma, TestTube2, BookText, Landmark, Book, Scale, TrendingUp } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
-const subjects = [
+const schoolSubjects = [
     { name: "Science", key: "science", icon: <TestTube2 className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
     { name: "Mathematics", key: "maths", icon: <Sigma className="w-5 h-5" />, color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
     { name: "English", key: "english", icon: <BookText className="w-5 h-5" />, color: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
     { name: "Social Studies", key: "social", icon: <Landmark className="w-5 h-5" />, color: "bg-rose-50 text-rose-600 dark:bg-rose-900/20 dark:text-rose-400" },
+];
+
+const seniorSubjects = [
+    { name: "Political Science", key: "political-science", icon: <Scale className="w-5 h-5" />, color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400" },
+    { name: "History", key: "history", icon: <Landmark className="w-5 h-5" />, color: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400" },
+    { name: "English", key: "english", icon: <BookText className="w-5 h-5" />, color: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
+    { name: "Economics", key: "economics", icon: <TrendingUp className="w-5 h-5" />, color: "bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400" },
 ];
 
 function SchoolPageContent() {
@@ -33,6 +40,8 @@ function SchoolPageContent() {
         router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
     };
     
+    const currentSubjects = (activeTab === "Class 11" || activeTab === "Class 12") ? seniorSubjects : schoolSubjects;
+
     const resourceCards = [
         {
           title: "GET THE\nIDL Advantage",
@@ -134,7 +143,7 @@ function SchoolPageContent() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {subjects.map((subject) => (
+                        {currentSubjects.map((subject) => (
                             <div key={subject.key} className="group bg-white dark:bg-card p-4 md:p-5 rounded-[1.5rem] shadow-sm border hover:shadow-md transition-all flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
                                     <div className={cn("p-3.5 rounded-2xl shrink-0 transition-transform duration-500 group-hover:scale-110", subject.color)}>
