@@ -406,7 +406,7 @@ export function Header() {
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary/5 text-primary", description: "Start your journey today." },
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-50 text-amber-600", description: "Experience our teaching style." },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-50 text-sky-600", description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-50 text-purple-600", description: "Send us an enquiry." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-50 text-purple-600", description: "Have questions? Send us an enquiry." },
   ];
 
   const headerClasses = cn(
@@ -631,7 +631,7 @@ export function Header() {
                                 href={link.onClick ? '#' : link.href} 
                                 onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} 
                                 target={link.target} 
-                                rel={target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                 className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all"
                             >
                                 <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
