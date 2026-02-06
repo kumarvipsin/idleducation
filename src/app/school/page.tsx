@@ -73,7 +73,7 @@ function SchoolPageContent() {
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
                     {activeTab} CBSE 2026-2027 <br/>
-                    <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
+                    <span className="text-primary text-2xl md:text-3xl">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
                     Comprehensive preparation resources specifically for {activeTab}. Get expert guidance, structured courses, and premium study materials to excel in your examinations.
@@ -140,7 +140,7 @@ function SchoolPageContent() {
                         {currentSubjects.map((subject) => (
                             <div key={subject.key} className="group bg-white dark:bg-card p-4 md:p-5 rounded-[1.5rem] shadow-sm border hover:shadow-md transition-all flex items-center justify-between gap-4">
                                 <div className="flex items-center gap-4">
-                                    <div className={cn("p-3.5 rounded-2xl shrink-0 transition-transform duration-500 group-hover:scale-110", subject.color)}>
+                                    <div className={cn("p-3.5 rounded-full shrink-0 transition-transform duration-500 group-hover:scale-110", subject.color)}>
                                         {subject.icon}
                                     </div>
                                     <div>
