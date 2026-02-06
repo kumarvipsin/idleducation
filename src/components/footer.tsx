@@ -107,7 +107,7 @@ export function Footer() {
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
                     <div className="flex flex-col items-start gap-1 text-[11px] font-medium tracking-widest text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
-                          <Phone className="h-4 w-4 text-primary shrink-0" />
+                          <Phone className="h-4 w-4 text-sky-400 shrink-0" />
                           <span>+91 7011117585</span>
                         </a>
                         <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
@@ -115,7 +115,7 @@ export function Footer() {
                           <span>+91 8860040010</span>
                         </a>
                         <a href="mailto:info@idleducation.in" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
-                          <Mail className="h-4 w-4 text-primary shrink-0" />
+                          <Mail className="h-4 w-4 text-rose-400 shrink-0" />
                           <span>info@idleducation.in</span>
                         </a>
                     </div>
