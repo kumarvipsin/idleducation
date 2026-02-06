@@ -53,10 +53,10 @@ function SchoolPageContent() {
           href: "/resources/reference-books"
         },
          {
-          title: "BLOGS",
+          title: "SOLUTIONS\nNCERT Step-by-Step",
           icon: <Monitor className="w-6 h-6 md:w-8 md:h-8" />,
           color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
-          href: "/blog"
+          href: "/resources/ncert-solutions"
         }
     ];
 
