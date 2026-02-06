@@ -133,7 +133,7 @@ export function Footer() {
                             height={24}
                             className="rounded-full grayscale opacity-30 invert"
                         />
-                        <p className="text-center sm:text-left">&copy; {new Date().getFullYear()} IDL Education. All Rights Reserved.</p>
+                        <p className="text-center sm:text-left" suppressHydrationWarning>&copy; {new Date().getFullYear()} IDL Education. All Rights Reserved.</p>
                     </div>
                     <nav className="flex gap-8">
                         <Link href="#" className="hover:text-white transition-colors">Terms</Link>
