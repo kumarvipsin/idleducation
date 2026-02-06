@@ -291,16 +291,11 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
     <>
       <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
       <div className="container mx-auto py-6 md:py-10 px-4 md:px-6">
-        <div className="text-center mb-10 animate-fade-in-up">
-          <h1 className="text-2xl md:text-4xl font-black text-primary tracking-tight uppercase mb-2">Premium <span className="text-orange-500">Paid Courses</span></h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto font-medium text-sm">Expert-led structured learning programs designed for academic excellence and competitive success.</p>
-        </div>
-
         {sortedGroupedEntries.length > 0 ? (
           sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
               <section key={groupTitle} className="mb-12">
                 <div className="mb-6 text-center sm:text-left">
-                  <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground uppercase relative inline-block">
+                  <h2 className="text-xl md:text-2xl font-black tracking-tight text-foreground relative inline-block">
                     <span className="relative z-10">{groupTitle}</span>
                     <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
                       <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-amber-500 fill-none stroke-current stroke-[8] opacity-90">
