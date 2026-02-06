@@ -41,7 +41,7 @@ function SchoolPageContent() {
           href: "/resources/notes"
         },
         {
-          title: "TEST SERIES",
+          title: "PRIMUM\nQuestion Bank-With Solutions",
           icon: <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
           color: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
           href: "#"
