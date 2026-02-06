@@ -355,9 +355,6 @@ export function GetAppSection() {
               
               <div className="lg:col-span-5 space-y-3 text-left">
                 <div className="space-y-1.5">
-                  <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-widest">
-                      Available on iOS & Android
-                  </div>
                   <h2 className="text-xl md:text-2xl font-bold tracking-tight text-foreground">
                       <span className="text-primary">IDL Learning App</span>-Learn Smart
                   </h2>
@@ -427,7 +424,7 @@ export function GetAppSection() {
         </div>
         <DialogFooter>
           <Button onClick={() => setSubmittedTicketId(null)} className="w-full font-bold h-11 rounded-xl">
-            Close & Return
+            Close &amp; Return
           </Button>
         </DialogFooter>
       </DialogContent>
