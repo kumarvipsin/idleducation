@@ -109,7 +109,7 @@ function SchoolPageContent() {
                         return (
                             <Link key={index} href={card.href} className="group">
                                 <div className="flex items-center gap-4 p-4 bg-muted/20 hover:bg-white dark:hover:bg-card border border-transparent hover:border-primary/20 rounded-2xl transition-all duration-300 shadow-sm">
-                                    <div className={cn("p-3 rounded-xl shrink-0 group-hover:scale-110 transition-transform", card.color)}>
+                                    <div className={cn("p-3 rounded-full shrink-0 group-hover:scale-110 transition-transform", card.color)}>
                                         {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
