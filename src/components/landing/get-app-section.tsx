@@ -380,7 +380,7 @@ export function GetAppSection() {
               </div>
 
               <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
-                  <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-lg border border-slate-200/50 dark:border-white/10 w-full sm:w-auto">
+                  <div className="flex items-center gap-4 p-4 bg-white/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-lg border border-slate-200/50 dark:border-white/10 w-full sm:w-auto lg:w-[330px]">
                       <div className="bg-white p-1.5 rounded-lg shadow-inner border border-border/50">
                           <Image
                               src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
@@ -397,7 +397,7 @@ export function GetAppSection() {
                       </div>
                   </div>
 
-                  <div className="flex items-center gap-2 w-full sm:w-auto justify-center lg:justify-start">
+                  <div className="flex items-center gap-2.5 w-full sm:w-auto justify-center lg:justify-start">
                       <a href="https://play.google.com/store" target="_blank" rel="noopener noreferrer" className="relative h-12 w-40 transition-all hover:-translate-y-1 active:scale-95 grayscale hover:grayscale-0">
                           <Image 
                               src="https://www.pw.live/_next/static/media/google-play-badge.171251c3.webp"
