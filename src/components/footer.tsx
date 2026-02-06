@@ -32,22 +32,22 @@ export function Footer() {
 
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col items-start gap-6">
-                    <Link href="/" className="flex flex-row items-center justify-start gap-4 group">
+                    <Link href="/" className="flex items-center justify-start gap-4 group">
                         <div className="relative w-20 h-20 transition-transform duration-300 group-hover:scale-105 shrink-0">
                             <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                         </div>
                         <div className="flex flex-col leading-none">
-                            <div className="flex items-end gap-2">
-                                <span className="text-3xl font-black text-white tracking-tighter uppercase">IDL</span>
-                                <div className="flex flex-col text-[10px] font-bold text-white/60 tracking-tight leading-[1.1] mb-0.5 whitespace-nowrap uppercase">
-                                    <span>INSTITUTE OF DISTANCE</span>
-                                    <span>LEARNING PVT. LTD.</span>
+                            <div className="flex items-center gap-2">
+                                <span className="text-4xl font-black text-white tracking-tighter">IDL</span>
+                                <div className="flex flex-col text-[8px] font-bold text-white/60 tracking-tight leading-[1.1] uppercase">
+                                    <span>Institute of distance</span>
+                                    <span>learning pvt. ltd.</span>
                                 </div>
                             </div>
                             <span className="text-4xl font-black text-white tracking-tighter -mt-1">Education</span>
                         </div>
                     </Link>
-                    <p className="text-[11px] text-gray-400 font-bold leading-relaxed text-left max-w-xs uppercase tracking-wider">
+                    <p className="text-[11px] text-gray-400 font-medium leading-relaxed text-left max-w-xs uppercase tracking-wider">
                       Tailored education designed to adapt to your unique needs and help you achieve your full potential.
                     </p>
                     <div className="flex items-center justify-start gap-3">
@@ -74,7 +74,7 @@ export function Footer() {
                 {/* Column 2: Quick Links */}
                 <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Quick Links</h3>
-                    <ul className="space-y-4 text-[11px] font-black tracking-widest">
+                    <ul className="space-y-4 text-[11px] font-medium tracking-widest">
                         {quickLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -89,7 +89,7 @@ export function Footer() {
                 {/* Column 3: Resources */}
                 <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Resources</h3>
-                    <ul className="space-y-4 text-[11px] font-black tracking-widest">
+                    <ul className="space-y-4 text-[11px] font-medium tracking-widest">
                         {resourceLinks.map(link => (
                             <li key={link.href}>
                                 <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
@@ -104,7 +104,7 @@ export function Footer() {
                 {/* Column 4: Contact Us */}
                  <div>
                     <h3 className="text-xs font-black text-white uppercase tracking-[0.3em] mb-8 border-l-4 border-primary pl-3">Contact</h3>
-                    <div className="flex flex-col items-start gap-3 text-[11px] font-black tracking-widest text-gray-400">
+                    <div className="flex flex-col items-start gap-3 text-[11px] font-medium tracking-widest text-gray-400">
                         <a href="tel:+917011117585" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
                           <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Phone className="h-4 w-4"/></div>
                           <span>+91 7011117585</span>
@@ -116,7 +116,7 @@ export function Footer() {
                           <span>+91 8860040010</span>
                         </a>
                         <a href="mailto:info@idleducation.in" className="flex items-center gap-4 hover:text-white transition-colors group w-full justify-start">
-                          <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Mail className="w-4 h-4"/></div>
+                          <div className="p-2.5 bg-white/5 rounded-xl group-hover:bg-primary transition-colors shadow-sm"><Mail className="h-4 w-4"/></div>
                           <span>info@idleducation.in</span>
                         </a>
                     </div>
