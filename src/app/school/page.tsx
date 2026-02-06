@@ -49,27 +49,27 @@ function SchoolPageContent() {
     
     const resourceCards = [
         {
-          title: "PDF Bank",
-          icon: <FileText className="w-5 h-5 text-pink-600" />,
-          gradient: "from-pink-50 to-rose-50 dark:from-pink-900/20 dark:to-rose-800/20",
+          title: "PDF BANK",
+          icon: <FileText className="w-6 h-6 md:w-8 md:h-8" />,
+          color: "bg-pink-100 dark:bg-pink-900/30 text-pink-600 dark:text-pink-400",
           href: "/resources/notes"
         },
         {
-          title: "Test Series",
-          icon: <ClipboardList className="w-5 h-5 text-green-600" />,
-          gradient: "from-green-50 to-teal-50 dark:from-green-900/20 dark:to-teal-800/20",
+          title: "TEST SERIES",
+          icon: <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
+          color: "bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400",
           href: "#"
         },
         {
-          title: "Books",
-          icon: <BookOpen className="w-5 h-5 text-sky-600" />,
-          gradient: "from-sky-50 to-blue-50 dark:from-sky-900/20 dark:to-blue-800/20",
+          title: "BOOKS",
+          icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
+          color: "bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400",
           href: "/resources/reference-books"
         },
          {
-          title: "Blogs",
-          icon: <Monitor className="w-5 h-5 text-blue-600" />,
-          gradient: "from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-800/20",
+          title: "BLOGS",
+          icon: <Monitor className="w-6 h-6 md:w-8 md:h-8" />,
+          color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
           href: "/blog"
         }
     ];
@@ -187,7 +187,7 @@ function SchoolPageContent() {
                     Academic Board Prep
                 </div>
                 <h1 className="text-xl md:text-3xl font-black text-foreground tracking-tight text-left leading-tight">
-                    {activeTab === 'cbse' ? 'Cbse' : 'Nios'} Board 2026: <br/>
+                    {activeTab === 'cbse' ? 'CBSE' : 'NIOS'} Board 2026: <br/>
                     <span className="text-primary">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-medium leading-relaxed">
@@ -201,7 +201,7 @@ function SchoolPageContent() {
                     onClick={() => handleTabChange('cbse')} 
                     variant="outline"
                     className={cn(
-                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-auto",
+                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-10 shadow-none",
                         activeTab === 'cbse' ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                     )}
                 >
@@ -211,7 +211,7 @@ function SchoolPageContent() {
                     onClick={() => handleTabChange('nios')} 
                     variant="outline"
                     className={cn(
-                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-auto",
+                        "rounded-full px-8 py-2 text-xs font-black tracking-widest transition-all duration-300 border-2 bg-transparent h-10 shadow-none",
                         activeTab === 'nios' ? "border-primary text-primary" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
                     )}
                 >
@@ -219,22 +219,30 @@ function SchoolPageContent() {
                 </Button>
             </div>
     
-            <section className="grid grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                {resourceCards.map((card, index) => (
-                    <Link key={index} href={card.href} className="block group">
-                        <Card className={cn(
-                            "h-full rounded-[1.5rem] shadow-sm border border-muted-foreground/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br",
-                            card.gradient
-                        )}>
-                            <CardContent className="p-6 flex flex-col items-center justify-center text-center text-foreground h-full min-h-[160px]">
-                                <div className="mb-4 p-4 rounded-[1.25rem] bg-white dark:bg-card shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                                    {card.icon}
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <div className="bg-white dark:bg-card p-4 md:p-6 rounded-2xl shadow-lg border">
+                    <div className="flex justify-center mb-6">
+                        <div className="bg-yellow-400 text-black px-4 py-1 rounded-full font-bold text-xs uppercase">
+                            Explore Board Resources
+                        </div>
+                    </div>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 items-stretch">
+                        {resourceCards.map((card, index) => (
+                            <Link key={index} href={card.href} className="group block h-full">
+                                <div className={cn(
+                                    "flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all duration-300 h-full hover:shadow-lg hover:-translate-y-1 border border-transparent hover:border-white/20",
+                                    card.color
+                                )}>
+                                    <div className="mb-2">
+                                        {card.icon}
+                                    </div>
+                                    <p className="text-[10px] md:text-xs font-black text-center text-foreground whitespace-nowrap tracking-tight uppercase">{card.title}</p>
+                                    <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
                                 </div>
-                                <h3 className="text-sm font-black uppercase tracking-widest">{card.title}</h3>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
+                            </Link>
+                        ))}
+                    </div>
+                </div>
             </section>
     
             <div key={activeTab}>
