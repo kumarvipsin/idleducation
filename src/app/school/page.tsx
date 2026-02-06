@@ -1,16 +1,10 @@
+
 'use client';
 
 import { useState, useEffect, Suspense } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark, GraduationCap, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, FileText, GraduationCap, Sparkles, Monitor, ClipboardList } from "lucide-react";
 import Link from "next/link";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 
@@ -56,32 +50,6 @@ function SchoolPageContent() {
           icon: <Monitor className="w-6 h-6 md:w-8 md:h-8" />,
           color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
           href: "/blog"
-        }
-    ];
-
-    const cbseFaqs = [
-        {
-          question: "When will CBSE Class 10 & 12 Board Exams 2026 start?",
-          answer: "CBSE Board exams typically start in mid-February. The detailed date sheet is usually released by the board in December."
-        },
-        {
-          question: "How can I download CBSE sample papers?",
-          answer: "You can access verified CBSE sample papers and solutions directly through our PDF Bank section on this page."
-        },
-        {
-          question: "What is the passing criteria for CBSE Board?",
-          answer: "For Class 10, students must secure a minimum of 33% marks in theory and practical combined. For Class 12, students must secure 33% separately in theory and practical."
-        }
-    ];
-
-    const niosFaqs = [
-        {
-          question: "Is NIOS certificate valid for regular college admissions?",
-          answer: "Yes, NIOS certificates are fully recognized by the Ministry of Education and are equivalent to CBSE/ICSE for admissions to all universities and government jobs."
-        },
-        {
-          question: "Can I switch from a regular board to NIOS?",
-          answer: "Yes, students who find it difficult to attend regular school or want to improve their marks can easily transfer to NIOS through the Transfer of Credit (TOC) facility."
         }
     ];
 
@@ -151,31 +119,6 @@ function SchoolPageContent() {
                     </div>
                 </div>
             </section>
-    
-            <div key={activeTab}>
-                <section className="mt-24 mb-16">
-                  <div className="max-w-4xl mx-auto text-center">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-muted border mb-6 text-muted-foreground text-[10px] font-black uppercase tracking-[0.2em]">
-                        Help Center
-                    </div>
-                    <h2 className="text-3xl md:text-4xl font-black tracking-tighter text-foreground mb-12 uppercase">
-                        Board FAQ<span className="text-primary">s</span>
-                    </h2>
-                    <Accordion type="single" collapsible className="w-full space-y-4">
-                      {(activeTab === 'cbse' ? cbseFaqs : niosFaqs).map((faq, index) => (
-                        <AccordionItem key={index} value={`item-${index}`} className="bg-white dark:bg-muted/30 rounded-[1.5rem] border border-muted-foreground/10 shadow-sm overflow-hidden px-2">
-                          <AccordionTrigger className="text-left p-6 font-black text-foreground hover:no-underline text-sm md:text-base tracking-tight transition-all data-[state=open]:text-primary group">
-                            {faq.question}
-                          </AccordionTrigger>
-                          <AccordionContent className="p-6 pt-0 text-left text-muted-foreground text-[13px] font-medium leading-relaxed">
-                           {faq.answer}
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
-                  </div>
-                </section>
-            </div>
         </div>
     );
 }
