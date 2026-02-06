@@ -47,7 +47,7 @@ function SchoolPageContent() {
           href: "#"
         },
         {
-          title: "REVISION High-Quality Notes",
+          title: "REVISION\nHigh-Quality Notes",
           icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
           color: "bg-sky-100 dark:bg-sky-900/30 text-sky-600 dark:text-sky-400",
           href: "/resources/reference-books"
@@ -122,7 +122,9 @@ function SchoolPageContent() {
                                     <div className="mb-2">
                                         {card.icon}
                                     </div>
-                                    <p className="text-[10px] md:text-xs font-black text-center text-foreground tracking-tight uppercase">{card.title}</p>
+                                    <p className="text-[10px] md:text-xs font-black text-center text-foreground tracking-tight whitespace-pre-line">
+                                        {card.title}
+                                    </p>
                                     <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
                                 </div>
                             </Link>
