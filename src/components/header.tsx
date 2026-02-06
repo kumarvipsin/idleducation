@@ -465,7 +465,7 @@ export function Header() {
                             <div className="space-y-3">
                                 <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <button className="w-full flex items-center justify-between p-4 rounded-xl bg-primary/5 hover:bg-primary/10 transition-all border border-primary/5 group/trigger">
+                                        <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
                                             <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                                 <BookOpen className="h-4 w-4" /> 
                                                 All Courses
@@ -488,7 +488,7 @@ export function Header() {
 
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <button className="w-full flex items-center justify-between p-4 rounded-xl bg-orange-500/5 hover:bg-orange-500/10 transition-all border border-orange-500/5 group/trigger">
+                                        <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
                                             <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
                                                 <GraduationCap className="h-4 w-4" /> 
                                                 Apply For
@@ -511,7 +511,7 @@ export function Header() {
 
                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
-                                        <button className="w-full flex items-center justify-between p-4 rounded-xl bg-indigo-500/5 hover:bg-indigo-500/10 transition-all border border-indigo-500/5 group/trigger">
+                                        <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
                                             <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-indigo-600">
                                                 <AlignJustify className="h-4 w-4" /> 
                                                 Resources & Info
@@ -535,14 +535,14 @@ export function Header() {
 
                             {/* CTA Cards */}
                             <div className="space-y-3">
-                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-amber-500/5 hover:bg-amber-500/10 transition-all border border-amber-500/5 active:scale-[0.98]">
+                                <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
                                     <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
                                         <ShoppingCart className="h-4 w-4" /> 
                                         IDL Store
                                     </span>
                                 </Link>
 
-                                <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-blue-500/5 hover:bg-blue-500/10 transition-all border border-blue-500/5 active:scale-[0.98]">
+                                <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
                                     <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
                                         <Phone className="h-4 w-4" /> 
                                         Call Expert
