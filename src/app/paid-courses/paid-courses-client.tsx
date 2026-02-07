@@ -361,7 +361,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                           {isPurchased ? (
                             <Dialog>
                                 <DialogTrigger asChild>
-                                    <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-11 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
+                                    <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
                                         <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
                                         EXPLORE CONTENT
                                     </Button>
@@ -372,7 +372,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                             <Button 
                                 onClick={() => handlePurchase(course)}
                                 disabled={isProcessing}
-                                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold h-11 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight"
+                                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight"
                             >
                                 <ShoppingCart className="w-3.5 h-3.5 mr-2" />
                                 {isProcessing ? 'PROCESSING...' : 'BUY NOW'}

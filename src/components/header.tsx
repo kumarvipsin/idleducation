@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, GraduationCap, FileText, ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, FileType, UserPlus, IndianRupee, Landmark, ClipboardList, UserCircle, Building, Users, HandHeart, Banknote } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, GraduationCap, FileText, ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, FileType, UserPlus, IndianRupee, Landmark, ClipboardList, UserCircle, Building, Users, HandHeart, Banknote, Bell, Edit, Headset, Copy, CheckCircle2 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -27,6 +27,7 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Separator } from "./ui/separator";
+import { formatDistanceToNow } from 'date-fns';
 
 const allCoursesCategories = [
     {
@@ -97,6 +98,8 @@ export function Header() {
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
+  const [updates, setUpdates] = useState<Update[]>([]);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
   
   const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
   const [donationCategory, setDonationCategory] = useState<string>("");
@@ -127,10 +130,39 @@ export function Header() {
       return () => window.removeEventListener('scroll', controlNavbar);
     }
   }, [controlNavbar]);
+
+  useEffect(() => {
+    const fetchUpdates = async () => {
+      const result = await getUpdates(3);
+      if (result.success && result.data) {
+        const fetchedUpdates = result.data as Update[];
+        setUpdates(fetchedUpdates);
+
+        if (fetchedUpdates.length > 0) {
+          const lastChecked = localStorage.getItem('lastCheckedUpdate');
+          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
+          
+          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
+            setHasNewUpdates(true);
+          }
+        }
+      }
+    };
+    if (!isIdlFoundationPage) {
+        fetchUpdates();
+    }
+  }, [isIdlFoundationPage]);
   
   const handleLogout = async () => {
     await logout();
     router.push('/');
+  };
+
+  const handleNotificationOpenChange = (open: boolean) => {
+    if (open) {
+      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
+      setHasNewUpdates(false);
+    }
   };
 
   const getDashboardPath = (userProfile: UserProfile | null) => {
@@ -319,47 +351,50 @@ export function Header() {
     );
   };
 
-  const renderMobileAuthSection = () => {
-    if (!isClient) return null;
-    if (loading) {
-      return (
-        <div className="flex items-center gap-3 p-4 border-t mt-auto">
-          <Skeleton className="h-10 w-10 rounded-full" />
-          <div className="flex-1 space-y-2">
-            <Skeleton className="h-3 w-1/2" /><Skeleton className="h-3 w-1/3" />
-          </div>
-        </div>
-      );
-    }
-
-    if (user) {
-      return (
-        <div className="p-4 border-t mt-auto flex items-center justify-between bg-muted/30">
-          <Link href={getProfilePath(user)} className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
-            <Avatar className="h-10 w-10">
-              <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
-              <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="text-sm font-extrabold truncate max-w-[120px]">{user.name}</span>
-              <span className="text-[10px] text-muted-foreground uppercase font-extrabold">{user.role}</span>
-            </div>
-          </Link>
-          <Button variant="ghost" size="icon" onClick={handleLogout} className="text-destructive"><LogOut className="h-5 w-5" /></Button>
-        </div>
-      );
-    }
-    return (
-        <div className="p-4 border-t mt-auto">
-            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="w-full font-extrabold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
-                    SIGN IN TO PORTAL
-                </Button>
+  const notificationDropdown = (
+    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
+        <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
+                <Bell className="h-4 w-4" />
+                {hasNewUpdates && (
+                    <span className="absolute top-1 right-1 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                )}
+            </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-80">
+            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            {updates.length > 0 ? (
+            updates.map(update => (
+                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
+                    <p className="font-semibold">{update.title}</p>
+                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
+                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
+                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                    </p>
+                </DropdownMenuItem>
+            ))
+            ) : (
+            <DropdownMenuItem>No new updates.</DropdownMenuItem>
+            )}
+            <DropdownMenuSeparator />
+            <DropdownMenuItem asChild>
+            <Link href="/notifications" className="text-center justify-center">
+                View all notifications
             </Link>
-        </div>
-    );
-  };
-  
+            </DropdownMenuItem>
+        </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
+  const headerClasses = cn(
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
+    show ? "translate-y-0" : "-translate-y-full"
+  );
+
   const navLinks = [
     { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, color: "bg-blue-50 text-blue-600", description: "Learn more about our mission." },
     { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-50 text-emerald-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
@@ -378,12 +413,21 @@ export function Header() {
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-50 text-purple-600", description: "Have questions? Send us an enquiry." },
   ];
 
-  const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
-    show ? "translate-y-0" : "-translate-y-full"
+  const MegaMenu = ({ links }: { links: any[] }) => (
+    <div className="container mx-auto px-4 md:px-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+            {links.map((link) => (
+                <Link key={link.href} href={link.onClick ? '#' : link.href} onClick={link.onClick} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
+                    <div className={cn("p-3 rounded-lg mt-1 shrink-0", link.color)}>{link.icon}</div>
+                    <div>
+                        <p className="font-extrabold text-sm text-foreground">{link.label}</p>
+                        <p className="text-xs text-muted-foreground font-medium">{link.description}</p>
+                    </div>
+                </Link>
+            ))}
+        </div>
+    </div>
   );
-
-  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
   return (
     <>
@@ -431,7 +475,10 @@ export function Header() {
                             <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
                         </a>
                     </div>
-                    <div className="flex items-center gap-1">{isClient && renderAuthSection()}</div>
+                    <div className="flex items-center gap-1">
+                      {!isIdlFoundationPage && notificationDropdown}
+                      {isClient && renderAuthSection()}
+                    </div>
                      <SheetTrigger asChild>
                         <Button variant="ghost" size="icon" className="md:hidden text-foreground h-10 w-10"><Menu className="h-5 w-5" /><span className="sr-only">Toggle navigation menu</span></Button>
                     </SheetTrigger>
@@ -551,7 +598,26 @@ export function Header() {
                             </div>
                         </div>
                         )}
-                        {renderMobileAuthSection()}
+                        <div className="p-4 border-t mt-auto bg-muted/10">
+                            {user ? (
+                                <Link href={getProfilePath(user)} className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Avatar className="h-10 w-10">
+                                        <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
+                                        <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
+                                    </Avatar>
+                                    <div className="flex flex-col">
+                                        <span className="text-sm font-extrabold truncate max-w-[120px]">{user.name}</span>
+                                        <span className="text-[10px] text-muted-foreground uppercase font-extrabold">{user.role}</span>
+                                    </div>
+                                </Link>
+                            ) : (
+                                <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                    <Button className="w-full font-extrabold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
+                                        SIGN IN TO PORTAL
+                                    </Button>
+                                </Link>
+                            )}
+                        </div>
                     </ScrollArea>
                 </div>
             </SheetContent>
@@ -565,6 +631,22 @@ export function Header() {
                 <ContactForm onSuccess={() => setIsContactOpen(false)} />
             </DialogContent>
         </Dialog>
+        <div 
+            onMouseEnter={() => handleMouseEnter(activeMenu || '')} 
+            onMouseLeave={handleMouseLeave} 
+            className={cn(
+                "fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out",
+                activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
+            )}
+        >
+            <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
+                <div className="pt-4 pb-4">
+                    {activeMenu === 'explore' && <MegaMenu links={navLinks} />}
+                    {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
+                    {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => !['About Us', 'Contact Us'].includes(l.label))} />}
+                </div>
+            </div>
+        </div>
     </>
   );
 }

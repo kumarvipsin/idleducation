@@ -279,7 +279,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                     <div className="p-4 pt-0 mt-auto">
                         <Dialog>
                             <DialogTrigger asChild>
-                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-11 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
+                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
                                     <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
                                     VIEW LESSONS
                                 </Button>
