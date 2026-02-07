@@ -38,7 +38,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 
-const megaMenuBg = "bg-white shadow-xl";
+const megaMenuBg = "bg-white shadow-2xl";
 
 const allCoursesCategories = [
     {
@@ -46,42 +46,42 @@ const allCoursesCategories = [
         description: "High-quality free video lessons.",
         href: "/free-courses",
         icon: <BookOpen className="h-5 w-5" />,
-        colorClasses: "bg-orange-50 text-orange-600 dark:bg-orange-900/20"
+        colorClasses: "bg-orange-500 text-white"
     },
     {
         name: "Paid Courses",
         description: "Premium structured learning.",
         href: "/paid-courses",
         icon: <IndianRupee className="h-5 w-5" />,
-        colorClasses: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20"
+        colorClasses: "bg-emerald-500 text-white"
     },
     {
         name: "School Board",
         description: "Prep for Class 5 to 12.",
         href: "/school",
         icon: <GraduationCap className="h-5 w-5" />,
-        colorClasses: "bg-blue-50 text-blue-600 dark:bg-blue-900/20"
+        colorClasses: "bg-blue-500 text-white"
     },
     {
         name: "CUET UG/PG",
         description: "University entrance tests.",
         href: "/category/cuet",
         icon: <GraduationCap className="h-5 w-5" />,
-        colorClasses: "bg-cyan-50 text-cyan-600 dark:bg-cyan-900/20"
+        colorClasses: "bg-cyan-500 text-white"
     },
     {
         name: "Govt. Exams",
         description: "SSC, Banking, & Railway.",
         href: "/examcat?category=govt-job-exams",
         icon: <Landmark className="h-5 w-5" />,
-        colorClasses: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20"
+        colorClasses: "bg-indigo-500 text-white"
     },
     {
         name: "Test Series",
         description: "Rigorous preparation tests.",
         href: "#",
         icon: <ClipboardList className="h-5 w-5" />,
-        colorClasses: "bg-rose-50 text-rose-600 dark:bg-rose-900/20"
+        colorClasses: "bg-rose-500 text-white"
     },
 ];
 
@@ -262,21 +262,21 @@ export function Header() {
   }
 
   const navLinks = [
-    { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, color: "bg-blue-50 text-blue-600", description: "Learn more about our mission." },
-    { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-50 text-emerald-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-50 text-violet-600", description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-50 text-orange-600", description: "Read articles and updates from our team." },
-    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-rose-50 text-rose-600", description: "Visit our learning centers." },
-    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-50 text-indigo-600", description: "Join our hands-on workshops." },
-    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-pink-50 text-pink-600", description: "Contribute to our mission." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, color: "bg-red-50 text-red-600", target: "_blank", description: "Support our cause." },
+    { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, color: "bg-blue-500 text-white", description: "Learn more about our mission." },
+    { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-500 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+    { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-500 text-white", description: "Explore moments from our journey." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-500 text-white", description: "Read articles and updates from our team." },
+    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-rose-500 text-white", description: "Visit our learning centers." },
+    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-500 text-white", description: "Join our hands-on workshops." },
+    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-pink-500 text-white", description: "Contribute to our mission." },
+    { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, color: "bg-red-500 text-white", target: "_blank", description: "Support our cause." },
   ];
   
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary/5 text-primary", description: "Start your journey today." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-50 text-amber-600", description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-50 text-sky-600", description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-50 text-purple-600", description: "Have questions? Send us an enquiry." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-500 text-white", description: "Experience our teaching style." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-500 text-white", description: "Help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-500 text-white", description: "Have questions? Send us an enquiry." },
   ];
 
   const renderAuthSection = () => {
@@ -383,6 +383,21 @@ export function Header() {
     );
   };
 
+  const renderMobileAuthSection = () => {
+    if (loading) {
+        return (
+            <div className="flex items-center gap-3 p-2 border-t">
+                <Skeleton className="h-10 w-10 rounded-full" />
+                <div className="w-full space-y-1.5">
+                    <Skeleton className="h-3 w-3/4" />
+                    <Skeleton className="h-3 w-1/2" />
+                </div>
+            </div>
+        );
+    }
+    return null;
+  };
+
   return (
     <>
       <header className={cn(
@@ -440,11 +455,22 @@ export function Header() {
                     </SheetTrigger>
                     <SheetContent side="left" className="p-0 w-80">
                         <SheetHeader className="p-4 border-b bg-muted/10 text-left">
-                            <SheetTitle>
-                                <div className="flex flex-col leading-tight">
-                                    <span className="text-2xl font-black text-primary tracking-tighter uppercase">IDL EDUCATION</span>
-                                    <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em] mt-0.5 opacity-60">Institute of Distance Learning</span>
-                                </div>
+                            <SheetTitle asChild>
+                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-row items-center justify-start gap-3 group">
+                                    <div className="relative w-16 h-16 shrink-0">
+                                        <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
+                                    </div>
+                                    <div className="flex flex-col leading-tight text-left">
+                                        <div className="flex items-center gap-2.5">
+                                            <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
+                                            <div className="flex flex-col text-[8px] font-bold text-muted-foreground tracking-tight leading-[1.1]">
+                                                <span>Institute Of</span>
+                                                <span>Distance Learning Pvt. Ltd.</span>
+                                            </div>
+                                        </div>
+                                        <span className="text-3xl font-extrabold text-primary tracking-tight -mt-1">Education</span>
+                                    </div>
+                                </Link>
                             </SheetTitle>
                         </SheetHeader>
                         <div className="h-[calc(100vh-5.5rem)] flex flex-col">
@@ -510,7 +536,7 @@ export function Header() {
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 {navLinks.map(({ href, label, icon, description, target, onClick, color }) => (
-                                                    <Link key={label} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
+                                                    <Link key={label} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {if(onClick) onClick(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                         <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
@@ -577,9 +603,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, color: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
           </div>
         </div>
       </div>
