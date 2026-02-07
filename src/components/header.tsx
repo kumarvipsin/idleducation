@@ -6,7 +6,7 @@ import {
   ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, 
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
-  Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search, Bell
+  Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger 
 } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
+import { createRazorpayOrder, recordDonation } from "@/app/actions";
 import Image from "next/image";
 import { 
   Dialog, DialogContent, DialogDescription, DialogHeader, 
@@ -86,12 +86,12 @@ const allCoursesCategories = [
 ];
 
 const donationCategories = [
-    { title: "Skill Trainings", description: "Empower individuals with valuable skills.", imageUrl: "https://picsum.photos/seed/training/1600/450", imageHint: "team training", goal: 100000, raised: 1500 },
-    { title: "Children Education", description: "The gift of education for all.", imageUrl: "https://picsum.photos/seed/slum/1600/450", imageHint: "children studying", goal: 100000, raised: 2200 },
-    { title: "Tree Plantation", description: "Nurture a greener planet.", imageUrl: "https://picsum.photos/seed/tree/1600/450", imageHint: "planting tree", goal: 100000, raised: 1800 },
-    { title: "Women Empowerment", description: "Uplift and empower women.", imageUrl: "https://picsum.photos/seed/women/1600/450", imageHint: "women group", goal: 5000000, raised: 1250000 },
-    { title: "Medical Assistance", description: "Provide critical healthcare.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
-    { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
+    { title: "Skill Trainings", description: "Empower individuals with valuable skills.", goal: 100000, raised: 1500 },
+    { title: "Children Education", description: "The gift of education for all.", goal: 100000, raised: 2200 },
+    { title: "Tree Plantation", description: "Nurture a greener planet.", goal: 100000, raised: 1800 },
+    { title: "Women Empowerment", description: "Uplift and empower women.", goal: 5000000, raised: 1250000 },
+    { title: "Medical Assistance", description: "Provide critical healthcare.", goal: 3000000, raised: 300000 },
+    { title: "Old Age Home", description: "Dignity and care for elders.", goal: 2500000, raised: 800000 },
 ];
 
 const MegaMenu = ({ links, onLinkClick }: { links?: any[], onLinkClick?: () => void }) => (
@@ -383,14 +383,12 @@ export function Header() {
     );
   };
 
-  const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
-    show ? "translate-y-0" : "-translate-y-full"
-  );
-
   return (
     <>
-      <header className={headerClasses}>
+      <header className={cn(
+        "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
+        show ? "translate-y-0" : "-translate-y-full"
+      )}>
           <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
               <Link href="/" className="flex items-center justify-center -ml-2">
                 <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
@@ -438,28 +436,15 @@ export function Header() {
                   </div>
                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                     <SheetTrigger asChild>
-                        <Button variant="ghost" size="icon" className="md:hidden text-foreground h-10 w-10"><Menu className="h-5 w-5" /><span className="sr-only">Toggle navigation menu</span></Button>
+                        <Button variant="ghost" size="icon" className="md:hidden text-foreground h-10 w-10"><Menu className="h-5 w-5" /><span className="sr-only">Toggle menu</span></Button>
                     </SheetTrigger>
                     <SheetContent side="left" className="p-0 w-80">
-                        <SheetHeader className="p-4 border-b bg-muted/10">
+                        <SheetHeader className="p-4 border-b bg-muted/10 text-left">
                             <SheetTitle>
-                                <Link href="/" className="flex flex-row items-center justify-start gap-3 group" onClick={() => setIsMobileMenuOpen(false)}>
-                                    <div className="relative w-16 h-16 shrink-0">
-                                        <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
-                                    </div>
-                                    <div className="flex flex-col leading-tight text-left">
-                                        <div className="flex items-center gap-2.5">
-                                            <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
-                                            <div className="flex flex-col text-[8px] font-bold text-muted-foreground tracking-tight leading-[1.1] opacity-60">
-                                                <span>Institute of</span>
-                                                <span>Distance Learning Pvt. Ltd.</span>
-                                            </div>
-                                        </div>
-                                        <span className="text-3xl font-extrabold text-primary tracking-tight -mt-1">
-                                            {isIdlFoundationPage ? "Foundation" : "Education"}
-                                        </span>
-                                    </div>
-                                </Link>
+                                <div className="flex flex-col leading-tight">
+                                    <span className="text-2xl font-black text-primary tracking-tighter uppercase">IDL EDUCATION</span>
+                                    <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em] mt-0.5 opacity-60">Institute of Distance Learning</span>
+                                </div>
                             </SheetTitle>
                         </SheetHeader>
                         <div className="h-[calc(100vh-5.5rem)] flex flex-col">
@@ -518,14 +503,14 @@ export function Header() {
                                                 <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
                                                     <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                         <AlignJustify className="h-4 w-4" /> 
-                                                        Resources & Info
+                                                        Explore
                                                     </span>
                                                     <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 {navLinks.map(({ href, label, icon, description, target, onClick, color }) => (
-                                                    <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
+                                                    <Link key={label} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                         <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
@@ -561,7 +546,7 @@ export function Header() {
                                                 <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
                                                 <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
                                             </Avatar>
-                                            <div className="flex flex-col">
+                                            <div className="flex flex-col text-left">
                                                 <span className="text-sm font-extrabold truncate max-w-[120px]">{user.name}</span>
                                                 <span className="text-[10px] text-muted-foreground uppercase font-extrabold">{user.role}</span>
                                             </div>

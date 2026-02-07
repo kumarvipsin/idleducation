@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { Card } from "@/components/ui/card";
 
 const schoolSubjects = [
     { name: "Science", key: "science", icon: <TestTube2 className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
