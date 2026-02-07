@@ -233,7 +233,7 @@ export function Header() {
             <DropdownMenuLabel className="font-normal">
                 <Link href={getProfilePath(user)}>
                     <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-bold leading-none">{user.name}</p>
+                        <p className="text-sm font-extrabold leading-none">{user.name}</p>
                         <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
                     </div>
                 </Link>
@@ -265,13 +265,13 @@ export function Header() {
         return (
             <Dialog open={isDonateDialogOpen} onOpenChange={(open) => { setIsDonateDialogOpen(open); if (!open) setDonationStep(1); }}>
                 <DialogTrigger asChild>
-                    <Button onClick={() => setIsDonateDialogOpen(true)} className="font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
+                    <Button onClick={() => setIsDonateDialogOpen(true)} className="font-extrabold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
                         Donate <Heart className="w-4 h-4 ml-2 fill-white text-white" />
                     </Button>
                 </DialogTrigger>
                 <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
+                        <DialogTitle className="text-2xl font-extrabold text-center text-primary">Thank You for Your Support!</DialogTitle>
                         <DialogDescription className="text-center font-bold">Your generosity helps us create a better world.</DialogDescription>
                     </DialogHeader>
                     {donationStep === 1 ? (
@@ -284,7 +284,7 @@ export function Header() {
                                     </div>
                                 ))}
                             </RadioGroup>
-                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-bold">
+                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-extrabold">
                                 Donate to {donationCategory || "..."}
                             </Button>
                         </div>
@@ -299,7 +299,7 @@ export function Header() {
                             <Input id="header-contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
                             <Input id="header-email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
                             <Input id="header-place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm font-bold">
+                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm font-extrabold">
                                 <Banknote className="mr-2 h-4 w-4" />
                                 Proceed to Final Payment
                             </Button>
@@ -314,7 +314,7 @@ export function Header() {
     return (
       <Link href="/login" className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
         <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
-        <span className="relative z-10 text-[10px] font-bold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
+        <span className="relative z-10 text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
       </Link>
     );
   };
@@ -341,8 +341,8 @@ export function Header() {
               <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <span className="text-sm font-bold truncate max-w-[120px]">{user.name}</span>
-              <span className="text-[10px] text-muted-foreground uppercase font-bold">{user.role}</span>
+              <span className="text-sm font-extrabold truncate max-w-[120px]">{user.name}</span>
+              <span className="text-[10px] text-muted-foreground uppercase font-extrabold">{user.role}</span>
             </div>
           </Link>
           <Button variant="ghost" size="icon" onClick={handleLogout} className="text-destructive"><LogOut className="h-5 w-5" /></Button>
@@ -352,7 +352,7 @@ export function Header() {
     return (
         <div className="p-4 border-t mt-auto">
             <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="w-full font-bold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
+                <Button className="w-full font-extrabold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
                     SIGN IN TO PORTAL
                 </Button>
             </Link>
@@ -383,6 +383,8 @@ export function Header() {
     show ? "translate-y-0" : "-translate-y-full"
   );
 
+  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
+
   return (
     <>
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -397,24 +399,24 @@ export function Header() {
                           {!isIdlFoundationPage ? (
                             <>
                               <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
                               </div>
                               <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
                               </div>
                                <div className="h-full flex items-center">
-                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
+                                <Button asChild variant="ghost" className="h-auto px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
                                         <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                             <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">Store</span>
                                         </Link>
                                     </Button>
                                 </div>
                                 <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
+                                  <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
                               </div>
                             </>
                           ) : (
-                            <div className="flex items-center gap-x-4 text-[10px] font-bold tracking-tight">
+                            <div className="flex items-center gap-x-4 text-[10px] font-extrabold tracking-tight">
                               <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
                               <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                               <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
@@ -426,7 +428,7 @@ export function Header() {
                     <div className="hidden md:flex items-center gap-2">
                          <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition-all">
                             <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
-                            <div><p className="text-[8px] font-bold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-bold text-foreground leading-tight">70-1111-7585</p></div>
+                            <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
                         </a>
                     </div>
                     <div className="flex items-center gap-1">{isClient && renderAuthSection()}</div>
@@ -445,7 +447,7 @@ export function Header() {
                             <div className="flex flex-col leading-tight text-left">
                                 <div className="flex items-center gap-2.5">
                                     <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
-                                    <div className="flex flex-col text-[8px] font-bold text-muted-foreground tracking-tight leading-[1.1] opacity-60">
+                                    <div className="flex flex-col text-[8px] font-extrabold text-muted-foreground tracking-tight leading-[1.1] opacity-60">
                                         <span>Institute of</span>
                                         <span>Distance Learning Pvt. Ltd.</span>
                                     </div>
@@ -461,7 +463,6 @@ export function Header() {
                     <ScrollArea className="flex-1">
                         {!isIdlFoundationPage && (
                         <div className="p-4 space-y-6">
-                            {/* Navigation Sections */}
                             <div className="space-y-3">
                                 <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                     <CollapsibleTrigger asChild>
@@ -473,13 +474,13 @@ export function Header() {
                                             <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
                                         </button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="px-1 py-3 space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                                    <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                         {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                 <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                                 <div className="space-y-0.5">
-                                                    <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
-                                                    <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <p className="text-[10px] font-extrabold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                 </div>
                                             </Link>
                                         ))}
@@ -496,13 +497,13 @@ export function Header() {
                                             <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
                                         </button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="px-1 py-3 space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                                    <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                         {applyForLinks.map(({ href, label, icon, description, color }) => (
                                             <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                 <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                 <div className="space-y-0.5">
-                                                    <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
-                                                    <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <p className="text-[10px] font-extrabold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                 </div>
                                             </Link>
                                         ))}
@@ -519,13 +520,13 @@ export function Header() {
                                             <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
                                         </button>
                                     </CollapsibleTrigger>
-                                    <CollapsibleContent className="px-1 py-3 space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                                    <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                         {navLinks.map(({ href, label, icon, description, target, onClick, color }) => (
                                             <Link key={href} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {onClick?.(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                 <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                 <div className="space-y-0.5">
-                                                    <p className="font-bold text-[13px] text-foreground leading-tight">{label}</p>
-                                                    <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <p className="text-[10px] font-extrabold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                 </div>
                                             </Link>
                                         ))}
@@ -533,7 +534,6 @@ export function Header() {
                                 </Collapsible>
                             </div>
 
-                            {/* CTA Cards */}
                             <div className="space-y-3">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
                                     <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-orange-600">
@@ -555,75 +555,16 @@ export function Header() {
                     </ScrollArea>
                 </div>
             </SheetContent>
-        </header>
-      </Sheet>
-       <div onMouseEnter={() => handleMouseEnter(activeMenu || '')} onMouseLeave={handleMouseLeave} className={cn("fixed top-16 left-0 w-full z-40 transition-all duration-300 ease-in-out", activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none")}>
-        <div className="absolute inset-x-0 top-0 shadow-2xl bg-background/95 backdrop-blur-xl border-b">
-          <div className="pt-6 pb-8">
-            {activeMenu === 'explore' && (
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {allCoursesCategories.map((category, index) => (
-                            <Link key={index} href={category.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
-                                <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", category.colorClasses)}>{category.icon}</div>
-                                <div className="space-y-1">
-                                    <p className="font-bold text-[13px] text-foreground leading-tight">{category.name}</p>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-tight">{category.description}</p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            )}
-            {activeMenu === 'apply' && (
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {applyForLinks.map((link) => (
-                            <Link key={link.href} href={link.href} className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all">
-                                <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
-                                <div className="space-y-1">
-                                    <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-tight">{link.description}</p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            )}
-            {activeMenu === 'more' && (
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                        {navLinks.map((link) => (
-                            <Link 
-                                key={link.href} 
-                                href={link.onClick ? '#' : link.href} 
-                                onClick={() => {if(link.onClick) link.onClick(); setActiveMenu(null);}} 
-                                target={link.target} 
-                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                                className="group flex items-start gap-5 p-4 rounded-2xl hover:bg-muted transition-all"
-                            >
-                                <div className={cn("p-3.5 rounded-full mt-0.5 shadow-sm shrink-0", link.color)}>{link.icon}</div>
-                                <div className="space-y-1">
-                                    <p className="font-bold text-[13px] text-foreground leading-tight">{link.label}</p>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-tight">{link.description}</p>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-        <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
-            <DialogHeader className="text-center mb-6">
-                <DialogTitle className="text-2xl font-extrabold text-primary uppercase tracking-tighter">Contact Us</DialogTitle>
-                <DialogDescription className="text-muted-foreground text-[13px] font-bold">Have a query? Drop us a line below.</DialogDescription>
-            </DialogHeader>
-            <ContactForm onSuccess={() => setIsContactOpen(false)} />
-        </DialogContent>
-      </Dialog>
+        </Sheet>
+        <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
+                <DialogHeader className="text-center mb-6">
+                    <DialogTitle className="text-2xl font-extrabold text-primary uppercase tracking-tighter">Contact Us</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-[13px] font-extrabold">Have a query? Drop us a line below.</DialogDescription>
+                </DialogHeader>
+                <ContactForm onSuccess={() => setIsContactOpen(false)} />
+            </DialogContent>
+        </Dialog>
     </>
   );
 }

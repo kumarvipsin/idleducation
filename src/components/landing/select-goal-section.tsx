@@ -60,7 +60,7 @@ export function SelectGoalSection() {
                                     <div className="mb-2">
                                         {goal.icon}
                                     </div>
-                                    <p className="text-[10px] md:text-xs font-bold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
+                                    <p className="text-[10px] md:text-xs font-extrabold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
                                     
                                     <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
                                 </div>

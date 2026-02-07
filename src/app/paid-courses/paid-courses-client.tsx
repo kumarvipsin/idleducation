@@ -18,9 +18,6 @@ import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import Script from "next/script";
 
-/**
- * Component for an individual video item in the course list.
- */
 const VideoItem = ({
     video,
     isActive,
@@ -70,17 +67,12 @@ const VideoItem = ({
     );
 };
 
-/**
- * Dialog component to display the course player and playlist.
- */
 const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
     const [activeVideo, setActiveVideo] = useState<TFreeCourseVideo | null>(
         course.chapters?.[0]?.videos?.[0] || null
     );
 
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
-
-    // Calculate active chapter index
     const activeChapterIndex = course.chapters.findIndex(chap => 
         chap.videos.some(v => v.youtubeLink === activeVideo?.youtubeLink)
     );
@@ -93,7 +85,6 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                 <DialogDescription>Premium course curriculum</DialogDescription>
             </DialogHeader>
 
-            {/* Left Section: Player */}
             <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
                 <div className="aspect-video w-full relative flex items-center justify-center bg-black">
                     {activeVideoId ? (
@@ -131,7 +122,6 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                 </div>
             </div>
 
-            {/* Right Section: Playlist */}
             <div className="flex-1 lg:w-[320px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <ScrollArea className="flex-1">
                     <div className="pb-2">
@@ -186,9 +176,6 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
     );
 };
 
-/**
- * Main client component for listing paid courses.
- */
 export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
