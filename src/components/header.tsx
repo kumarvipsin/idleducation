@@ -38,7 +38,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 
-const megaMenuBg = "bg-background/95 backdrop-blur-sm";
+const megaMenuBg = "bg-white shadow-xl";
 
 const allCoursesCategories = [
     {
@@ -94,20 +94,37 @@ const donationCategories = [
     { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
-const MegaMenu = ({ links }: { links?: any[] }) => (
+const MegaMenu = ({ links, onLinkClick }: { links?: any[], onLinkClick?: () => void }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
-            {links && links.map((link) => (
-                <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className={cn("p-3 rounded-full mt-1 shadow-sm shrink-0", link.colorClasses || link.color || "bg-primary/10 text-primary")}>
-                        {link.icon}
-                    </div>
-                    <div>
-                        <p className="font-extrabold text-sm text-foreground">{link.label}</p>
-                        <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
-                    </div>
-                </Link>
-            ))}
+            {links && links.map((link) => {
+                const handleClick = (e: React.MouseEvent) => {
+                    if (link.onClick) {
+                        e.preventDefault();
+                        link.onClick();
+                    }
+                    onLinkClick?.();
+                };
+
+                return (
+                    <Link 
+                        key={link.label} 
+                        href={link.href} 
+                        target={link.target} 
+                        rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                        onClick={handleClick}
+                        className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
+                    >
+                        <div className={cn("p-3 rounded-full mt-1 shadow-sm shrink-0", link.colorClasses || link.color || "bg-primary/10 text-primary")}>
+                            {link.icon}
+                        </div>
+                        <div>
+                            <p className="font-extrabold text-sm text-foreground">{link.label}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
+                        </div>
+                    </Link>
+                );
+            })}
         </div>
     </div>
 );
@@ -248,7 +265,7 @@ export function Header() {
     { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, color: "bg-blue-50 text-blue-600", description: "Learn more about our mission." },
     { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-50 text-emerald-600", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
     { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-50 text-violet-600", description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-50 text-orange-600", description: "Read articles and updates." },
+    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-50 text-orange-600", description: "Read articles and updates from our team." },
     { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-rose-50 text-rose-600", description: "Visit our learning centers." },
     { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-50 text-indigo-600", description: "Join our hands-on workshops." },
     { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-pink-50 text-pink-600", description: "Contribute to our mission." },
@@ -575,9 +592,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, color: c.colorClasses }))} />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
+            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, color: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} onLinkClick={() => setActiveMenu(null)} />}
           </div>
         </div>
       </div>
