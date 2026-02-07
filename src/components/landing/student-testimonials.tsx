@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
@@ -19,7 +20,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
         className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border-muted-foreground/10"
       >
           <CardContent className="p-4 flex flex-col text-center items-center">
-              <div className="relative w-full aspect-square mb-4 rounded-full overflow-hidden group cursor-pointer border-4 border-primary/5">
+              <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden group cursor-pointer border-4 border-primary/5">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
