@@ -6,7 +6,7 @@ import {
   ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, 
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
-  Edit, Headset, Copy, CheckCircle2 
+  Edit, Headset, Copy, CheckCircle2, MapPin
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger 
 } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { createRazorpayOrder, recordDonation } from "@/app/actions";
+import { createRazorpayOrder, recordDonation, getUpdates, registerForScholarship } from "@/app/actions";
 import Image from "next/image";
 import { 
   Dialog, DialogContent, DialogDescription, DialogHeader, 
@@ -36,6 +36,10 @@ import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Separator } from "./ui/separator";
+import { Skeleton } from "./ui/skeleton";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import * as z from "zod";
 
 const allCoursesCategories = [
     {
@@ -90,6 +94,8 @@ const donationCategories = [
     { title: "Medical Assistance", description: "Provide critical healthcare.", imageUrl: "https://picsum.photos/seed/medical/1600/450", imageHint: "doctor patient", goal: 3000000, raised: 300000 },
     { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
+
+const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
 const MegaMenu = ({ links }: { links?: any[] }) => (
     <div className="container mx-auto px-4 md:px-6">
@@ -226,6 +232,10 @@ export function Header() {
             email: donorDetails.email,
             contact: donorDetails.contact,
         },
+        notes: {
+            category: donationCategory,
+            place: donorDetails.place,
+        },
         theme: {
             color: '#0d47a1',
         },
@@ -252,13 +262,6 @@ export function Header() {
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-50 text-sky-600", description: "Help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-50 text-purple-600", description: "Have questions? Send us an enquiry." },
   ];
-
-  const headerClasses = cn(
-    "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
-    show ? "translate-y-0" : "-translate-y-full"
-  );
-
-  const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
   const renderAuthSection = () => {
     if (loading) return <Skeleton className="h-10 w-10 rounded-full" />;
@@ -364,6 +367,11 @@ export function Header() {
     );
   };
 
+  const headerClasses = cn(
+    "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
+    show ? "translate-y-0" : "-translate-y-full"
+  );
+
   return (
     <>
       <header className={headerClasses}>
@@ -377,20 +385,20 @@ export function Header() {
                         {!isIdlFoundationPage ? (
                           <>
                             <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Explore</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">EXPLORE</Button>
                             </div>
                             <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">Apply</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
                             </div>
                              <div className="h-full flex items-center">
-                              <Button asChild variant="ghost" className="h-auto px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md">
+                              <Button asChild variant="ghost" className="h-auto px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
                                       <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                                          <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">Store</span>
+                                          <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">STORE</span>
                                       </Link>
                                   </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
                             </div>
                           </>
                         ) : (

@@ -26,7 +26,7 @@ export function AcademicExcellence() {
       setLoading(true);
       const res = await getExcellenceResults();
       if (res.success && res.data) {
-        setResults(res.data as TExcellenceResult[]);
+        setResults(res.data as TExamCategory[]);
       }
       setLoading(false);
     };
@@ -113,12 +113,12 @@ export function AcademicExcellence() {
               {results.map((result) => (
                 <CarouselItem key={result.id}>
                   <Card className="rounded-none overflow-hidden border-none shadow-none bg-muted">
-                    <div className="relative w-full aspect-video md:aspect-[21/7]">
+                    <div className="relative w-full aspect-[2/1] md:aspect-[21/7]">
                       <GcsImage
                         filePath={result.imageUrl}
                         alt={`Result for ${result.categoryName}`}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                       />
                     </div>
                   </Card>
