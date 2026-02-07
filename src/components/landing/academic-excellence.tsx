@@ -26,7 +26,7 @@ export function AcademicExcellence() {
       setLoading(true);
       const res = await getExcellenceResults();
       if (res.success && res.data) {
-        setResults(res.data as TExamCategory[]);
+        setResults(res.data as any[]);
       }
       setLoading(false);
     };
