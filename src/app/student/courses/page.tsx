@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from "react";
@@ -39,7 +40,7 @@ export default function MyCoursesPage() {
                 <GraduationCap className="w-6 h-6 text-primary" />
             </div>
             <div>
-                <CardTitle className="text-2xl md:text-3xl font-black text-primary tracking-tight">My Premium Courses</CardTitle>
+                <CardTitle className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight">My Premium Courses</CardTitle>
                 <CardDescription className="text-sm font-medium">Access and manage your enrolled structured learning programs.</CardDescription>
             </div>
           </div>
@@ -76,8 +77,8 @@ export default function MyCoursesPage() {
                     <h3 className="font-bold text-lg leading-tight line-clamp-2 mb-2 group-hover:text-primary transition-colors">{course.title}</h3>
                     
                     <div className="flex items-center gap-2 mb-4">
-                        <Badge variant="secondary" className="text-[9px] font-black uppercase tracking-widest bg-muted/50">{course.subject}</Badge>
-                        <Badge variant="outline" className="text-[9px] font-black uppercase tracking-widest">{course.medium}</Badge>
+                        <Badge variant="secondary" className="text-[9px] font-bold uppercase tracking-widest bg-muted/50">{course.subject}</Badge>
+                        <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest">{course.medium}</Badge>
                     </div>
 
                     <div className="mt-auto pt-4 border-t border-muted-foreground/5 space-y-3">
@@ -101,7 +102,7 @@ export default function MyCoursesPage() {
               <div className="bg-primary/5 p-6 rounded-full mb-4">
                 <BookMarked className="w-12 h-12 text-primary/30" />
               </div>
-              <h3 className="text-xl font-bold text-foreground">No Enrolled Courses</h3>
+              <h3 className="text-xl font-extrabold text-foreground">No Enrolled Courses</h3>
               <p className="text-muted-foreground max-w-xs mx-auto mt-2 mb-6">
                 You haven't enrolled in any premium courses yet. Start your journey today!
               </p>

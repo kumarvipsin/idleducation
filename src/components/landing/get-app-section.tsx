@@ -1,7 +1,8 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, CheckCircle2 } from "lucide-react";
+import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, CheckCircle2, MapPin } from "lucide-react";
 import Image from "next/image";
 import {
   Dialog,

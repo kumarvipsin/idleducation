@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -361,8 +362,8 @@ export function Header() {
                         Donate <Heart className="w-4 h-4 ml-2 fill-white text-white" />
                     </Button>
                 </DialogTrigger>
-                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md">
-                    <DialogHeader>
+                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8">
+                    <DialogHeader className="text-center mb-6">
                         <DialogTitle className="text-2xl font-extrabold text-center text-primary">Thank You for Your Support!</DialogTitle>
                         <DialogDescription className="text-center font-bold">Your generosity helps us create a better world.</DialogDescription>
                     </DialogHeader>

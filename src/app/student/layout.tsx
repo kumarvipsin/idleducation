@@ -59,7 +59,7 @@ function StudentLayout({
             </Avatar>
             <div className="text-center">
                 <p className="font-bold text-sm truncate max-w-[140px]">{user?.name}</p>
-                <p className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">{user?.role}</p>
+                <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-widest">{user?.role}</p>
             </div>
           </SidebarHeader>
           <SidebarContent className="p-2">
@@ -111,7 +111,7 @@ function StudentLayout({
                       <DropdownMenuContent className="w-56" align="end" forceMount>
                         <DropdownMenuLabel className="font-normal">
                           <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">{user.name}</p>
+                            <p className="text-sm font-bold leading-none">{user.name}</p>
                             <p className="text-xs leading-none text-muted-foreground">
                               {user.email}
                             </p>
