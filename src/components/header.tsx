@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { BookOpen, LogIn, Menu, Phone, Mail, GraduationCap, FileText, ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, FileType, UserPlus, IndianRupee, Landmark, ClipboardList, UserCircle, Building, Users, HandHeart } from "lucide-react";
+import { BookOpen, LogIn, Menu, Phone, Mail, GraduationCap, FileText, ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, FileType, UserPlus, IndianRupee, Landmark, ClipboardList, UserCircle, Building, Users, HandHeart, Banknote } from "lucide-react";
 import { Button } from "./ui/button";
 import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -8,7 +8,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback } from "./ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { createRazorpayOrder, recordDonation } from "@/app/actions";
+import { createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
 import Image from "next/image";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { useToast } from "@/hooks/use-toast";
@@ -26,6 +26,7 @@ import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { Separator } from "./ui/separator";
 
 const allCoursesCategories = [
     {
@@ -384,9 +385,8 @@ export function Header() {
 
   return (
     <>
-      <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
       <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-        <header className={cn(headerClasses, 'z-50')}>
+        <header className={headerClasses}>
             <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                 <Link href="/" className="flex items-center justify-center -ml-2">
                   <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
@@ -466,7 +466,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
-                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
+                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                 <BookOpen className="h-4 w-4" /> 
                                                 All Courses
                                             </span>
@@ -489,7 +489,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'apply'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
-                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
+                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                 <GraduationCap className="h-4 w-4" /> 
                                                 Apply For
                                             </span>
@@ -512,7 +512,7 @@ export function Header() {
                                 <Collapsible open={openMobileAccordion === 'more'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}>
                                     <CollapsibleTrigger asChild>
                                         <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
-                                            <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
+                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                 <AlignJustify className="h-4 w-4" /> 
                                                 Resources & Info
                                             </span>
@@ -536,14 +536,14 @@ export function Header() {
                             {/* CTA Cards */}
                             <div className="space-y-3">
                                 <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
-                                    <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-orange-600">
+                                    <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-orange-600">
                                         <ShoppingCart className="h-4 w-4" /> 
                                         IDL Store
                                     </span>
                                 </Link>
 
                                 <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
-                                    <span className="flex items-center gap-3 font-bold text-xs uppercase tracking-tight text-primary">
+                                    <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                         <Phone className="h-4 w-4" /> 
                                         Call Expert
                                     </span>

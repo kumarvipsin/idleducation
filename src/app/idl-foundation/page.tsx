@@ -130,10 +130,10 @@ export default function IDLFoundationPage() {
                                 </svg>
                             </div>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-black text-foreground">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-foreground">
                             Make World <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">Happier</span>
                         </h1>
-                        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+                        <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
                             Join us in making a difference. Your contribution can change lives.
                         </p>
                     </div>
@@ -155,7 +155,7 @@ export default function IDLFoundationPage() {
                 <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-2xl font-bold text-center text-primary">Thank You for Your Support!</DialogTitle>
-                        <DialogDescription className="text-center">
+                        <DialogDescription className="text-center font-bold">
                             Your generosity helps us create a better world. Please choose where you'd like to make an impact.
                         </DialogDescription>
                     </DialogHeader>
@@ -165,17 +165,17 @@ export default function IDLFoundationPage() {
                                 {donationCategories.map(category => (
                                     <div key={category.title} className="flex items-center space-x-2">
                                         <RadioGroupItem value={category.title} id={category.title} />
-                                        <Label htmlFor={category.title}>{category.title}</Label>
+                                        <Label htmlFor={category.title} className="font-bold">{category.title}</Label>
                                     </div>
                                 ))}
                             </RadioGroup>
-                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full">
+                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-bold">
                                 Donate to {donationCategory || "..."}
                             </Button>
                         </div>
                     ) : (
                         <div className="pt-4 space-y-3">
-                            <p className="text-center font-semibold text-sm">You are donating to "{donationCategory}".</p>
+                            <p className="text-center font-bold text-sm">You are donating to "{donationCategory}".</p>
                             <div className="relative">
                                 <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                                 <Input id="amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
@@ -184,11 +184,11 @@ export default function IDLFoundationPage() {
                             <Input id="contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
                             <Input id="email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
                             <Input id="place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm">
+                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm font-bold">
                                 <Banknote className="mr-2 h-4 w-4" />
                                 Proceed to Final Payment
                             </Button>
-                            <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1">
+                            <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1 font-bold">
                                 Change Category
                             </Button>
                         </div>

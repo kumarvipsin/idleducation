@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -11,15 +12,15 @@ export function About() {
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
                     <div className="space-y-6 flex flex-col items-center lg:items-start text-center lg:text-left">
-                        <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">ABOUT US</p>
-                        <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight">
+                        <p className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">ABOUT US</p>
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-foreground leading-tight tracking-tight">
                             Empowering Communities,
                             <br/>
                             <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                                 Transforming Lives
                             </span>
                         </h2>
-                        <p className="text-muted-foreground leading-relaxed max-w-prose">
+                        <p className="text-muted-foreground leading-relaxed max-w-prose font-bold text-sm">
                             IDL Foundation is a non-profit organization dedicated to creating lasting change through education, healthcare, and skill development. We believe in empowering individuals to build a better future for themselves and their communities.
                         </p>
                         <Button asChild variant="link" className="px-0 text-primary font-bold text-lg">
@@ -28,7 +29,7 @@ export function About() {
                             </Link>
                         </Button>
                     </div>
-                    <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
+                    <div className="relative h-96 rounded-3xl overflow-hidden shadow-lg border-4 border-primary/5">
                         <Image
                             src="https://images.unsplash.com/photo-1652858672796-960164bd632b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxuZ298ZW58MHx8fHwxNzY5ODY5NTMzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                             alt="Children in a classroom at an NGO"

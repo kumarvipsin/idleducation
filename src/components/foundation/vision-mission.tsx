@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -5,28 +6,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-const SunIcon = (props: React.SVGProps<SVGSVGElement>) => (
-    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-        <path d="M12.5 11.5C11 11.5 10 13 10 14.5C10 16 11.5 17.5 13 17.5C14.5 17.5 16 16 16 14.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 9.5C12 9.5 14 8 15.5 8C16.9 8 18 9.1 18 10.5C18 11.9 16.9 13 15.5 13C14.1 13 12.5 11.5 12.5 11.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 3V4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M21 12H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M12 21V20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M4 12H3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M18.364 5.63604L17.6569 6.34315" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M6.34326 17.6569L5.63616 18.364" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M18.364 18.364L17.6569 17.6569" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-        <path d="M6.34326 6.34315L5.63616 5.63604" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-    </svg>
-);
-
-
 export function VisionMission() {
     return (
         <section id="vision-mission" className="w-full py-16 md:py-24 bg-white dark:bg-background scroll-mt-20">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="grid lg:grid-cols-2 gap-12 items-center">
-                    <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
+                    <div className="relative h-96 rounded-3xl overflow-hidden shadow-lg border-4 border-primary/5">
                         <Image
                             src="https://images.unsplash.com/photo-1644726270363-e746b37b482b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxuZ298ZW58MHx8fHwxNzY5ODY5NTMzfDA&ixlib=rb-4.1.0&q=80&w=1080"
                             alt="Volunteers packing food supplies"
@@ -36,15 +21,15 @@ export function VisionMission() {
                         />
                     </div>
                     <div className="space-y-6 flex flex-col items-center lg:items-start text-center lg:text-left">
-                        <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">VISION & MISSION</p>
-                        <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight">
+                        <p className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">VISION & MISSION</p>
+                        <h2 className="text-4xl md:text-5xl font-extrabold text-foreground leading-tight tracking-tight">
                             Our Vision for a
                             <br/>
                             <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">
                                 Brighter Future
                             </span>
                         </h2>
-                        <p className="text-muted-foreground leading-relaxed max-w-prose">
+                        <p className="text-muted-foreground leading-relaxed max-w-prose font-bold text-sm">
                             We envision a world where every individual has access to the resources and opportunities they need to thrive. Our mission is to empower communities through education, healthcare, and sustainable development, creating a ripple effect of positive change for generations to come.
                         </p>
                         <div className="flex items-center gap-8 pt-4">

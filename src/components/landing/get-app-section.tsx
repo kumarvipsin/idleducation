@@ -124,7 +124,7 @@ export function GetAppSection() {
                     </div>
                     <div className="space-y-0.5">
                         <p className="text-[9px] font-bold uppercase tracking-tight text-blue-600/60">System Help</p>
-                        <p className="text-[13px] font-bold text-foreground">Technical Support</p>
+                        <p className="text-[13px] font-extrabold text-foreground">Technical Support</p>
                     </div>
                 </button>
             </DialogTrigger>
@@ -217,7 +217,7 @@ export function GetAppSection() {
                 </div>
                 <div className="space-y-0.5">
                     <p className="text-[9px] font-bold uppercase tracking-tight text-green-600/60">Direct Line</p>
-                    <p className="text-[13px] font-bold text-foreground">Talk to our expert</p>
+                    <p className="text-[13px] font-extrabold text-foreground">Talk to our expert</p>
                 </div>
               </button>
             </DialogTrigger>

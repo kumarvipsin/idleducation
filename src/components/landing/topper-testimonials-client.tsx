@@ -25,7 +25,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                 fill
                 className="object-cover transition-transform duration-500"
             />
-            <div className="absolute inset-0 flex items-center justify-center">
+            <div className="absolute inset-0 flex items-center justify-center bg-black/10">
                 <PlayCircle className="w-14 h-14 text-white transition-transform duration-300 drop-shadow-[0_0_15px_rgba(0,0,0,0.6)]" />
             </div>
             <div className="absolute bottom-0 left-0 right-0 p-3 text-left bg-gradient-to-t from-black/60 to-transparent">

@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -7,24 +8,19 @@ import { getExcellenceResults } from '@/app/actions';
 import type { TExcellenceResult } from '@/app/actions/types';
 import { Skeleton } from '../ui/skeleton';
 import { GcsImage } from '../gcs-image';
-import useEmblaCarousel from 'embla-carousel-react';
-import Autoplay from 'embla-carousel-autoplay';
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 
 export function AcademicExcellence() {
   const [results, setResults] = useState<TExcellenceResult[]>([]);
   const [loading, setLoading] = useState(true);
-  const [emblaRef, emblaApi] = useEmblaCarousel({ 
-    loop: true, 
-    align: 'start',
-    skipSnaps: false 
-  }, [Autoplay({ delay: 4000, stopOnInteraction: false })]);
-  
+  const [api, setApi] = useState<CarouselApi>();
   const [activeIndex, setActiveIndex] = useState(0);
 
   const onSelect = useCallback(() => {
-    if (!emblaApi) return;
-    setActiveIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
+    if (!api) return;
+    setActiveIndex(api.selectedScrollSnap());
+  }, [api]);
 
   useEffect(() => {
     const fetchResults = async () => {
@@ -39,18 +35,18 @@ export function AcademicExcellence() {
   }, []);
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!api) return;
     onSelect();
-    emblaApi.on('select', onSelect);
-    emblaApi.on('reInit', onSelect);
+    api.on('select', onSelect);
+    api.on('reInit', onSelect);
     return () => {
-      emblaApi.off('select', onSelect);
-      emblaApi.off('reInit', onSelect);
+      api.off('select', onSelect);
+      api.off('reInit', onSelect);
     };
-  }, [emblaApi, onSelect]);
+  }, [api, onSelect]);
 
   const handleCategoryClick = (index: number) => {
-    emblaApi?.scrollTo(index);
+    api?.scrollTo(index);
   };
 
   return (
@@ -60,7 +56,7 @@ export function AcademicExcellence() {
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
             Academic Success
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
             Excellence{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Results</span>
@@ -71,7 +67,7 @@ export function AcademicExcellence() {
               </div>
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-medium">
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-bold">
             Celebrating consistent hard work and outstanding student achievements.
           </p>
         </div>
@@ -103,18 +99,20 @@ export function AcademicExcellence() {
       </div>
 
       <div className="relative w-full">
-        <div className="overflow-hidden cursor-grab active:cursor-grabbing" ref={emblaRef}>
-          <div className="flex">
-            {loading ? (
-              <div className="flex-shrink-0 flex-grow-0 basis-full">
-                <Skeleton className="w-full aspect-video md:aspect-[21/7] rounded-none" />
-              </div>
-            ) : (
-              results.map((result) => (
-                <div 
-                  key={result.id} 
-                  className="flex-shrink-0 flex-grow-0 basis-full"
-                >
+        {loading ? (
+          <div className="container mx-auto px-4 md:px-6">
+            <Skeleton className="w-full aspect-video md:aspect-[21/7] rounded-3xl" />
+          </div>
+        ) : (
+          <Carousel
+            setApi={setApi}
+            opts={{ loop: true, align: 'start' }}
+            plugins={[Autoplay({ delay: 4000, stopOnInteraction: false })]}
+            className="w-full"
+          >
+            <CarouselContent>
+              {results.map((result) => (
+                <CarouselItem key={result.id}>
                   <Card className="rounded-none overflow-hidden border-none shadow-none bg-muted">
                     <div className="relative w-full aspect-video md:aspect-[21/7]">
                       <GcsImage
@@ -125,11 +123,11 @@ export function AcademicExcellence() {
                       />
                     </div>
                   </Card>
-                </div>
-              ))
-            )}
-          </div>
-        </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
+        )}
       </div>
     </section>
   );

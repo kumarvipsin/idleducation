@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -9,9 +10,9 @@ export function OurApproach() {
     return (
         <section id="approach" className="w-full py-16 md:py-24 bg-white dark:bg-background scroll-mt-20">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="rounded-2xl bg-white dark:bg-card p-6 md:p-8 border">
+                <div className="rounded-[2.5rem] bg-white dark:bg-card p-6 md:p-10 border shadow-sm overflow-hidden">
                     <div className="grid lg:grid-cols-2 gap-12 items-center">
-                        <div className="relative h-96 rounded-lg overflow-hidden shadow-lg">
+                        <div className="relative h-96 rounded-3xl overflow-hidden shadow-lg border-4 border-primary/5">
                             <Image
                                 src="https://images.unsplash.com/photo-1593113598332-cd288d649433?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                                 alt="People working together on a project"
@@ -21,15 +22,15 @@ export function OurApproach() {
                             />
                         </div>
                         <div className="space-y-6 flex flex-col items-center lg:items-start text-center lg:text-left">
-                            <p className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">OUR APPROACH</p>
-                            <h2 className="text-4xl md:text-5xl font-black text-foreground leading-tight">
+                            <p className="text-xs font-bold tracking-[0.2em] text-muted-foreground uppercase">OUR APPROACH</p>
+                            <h2 className="text-4xl md:text-5xl font-extrabold text-foreground leading-tight tracking-tight">
                                 Strategic & Sustainable
                                 <br/>
                                 <span className="bg-gradient-to-r from-teal-400 to-blue-500 bg-clip-text text-transparent">
                                     Impact
                                 </span>
                             </h2>
-                            <p className="text-muted-foreground leading-relaxed max-w-prose">
+                            <p className="text-muted-foreground leading-relaxed max-w-prose font-bold text-sm">
                                 Our approach is rooted in creating sustainable and scalable solutions. We work closely with local communities to understand their unique challenges and co-create programs that address their needs effectively. By focusing on long-term impact, we ensure that our interventions lead to lasting positive change.
                             </p>
                             <div className="flex items-center gap-8 pt-4">

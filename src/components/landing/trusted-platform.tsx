@@ -11,10 +11,10 @@ export function TrustedPlatform() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-left">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+            <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
               Bharat's Trusted & Affordable Learning Platform
             </h2>
-            <p className="text-muted-foreground text-sm md:text-base font-medium">
+            <p className="text-muted-foreground text-sm md:text-base font-bold">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
             <Button asChild className="h-11 px-6 rounded-lg font-bold bg-orange-500 hover:bg-orange-600 text-white border-none shadow-lg shadow-orange-500/20 transition-all active:scale-95">
@@ -35,7 +35,7 @@ export function TrustedPlatform() {
                     <Image src="/teacher.png" alt="Amod Sir" width={105} height={105} className="rounded-full relative object-cover object-top" data-ai-hint="teacher profile" />
                 </div>
                  <div className="absolute top-2 -right-44 md:-right-60 w-44 md:w-60 bg-white text-gray-800 p-2 rounded-lg shadow-lg border z-20">
-                    <p className="text-[9px] md:text-[10px] leading-tight text-primary font-medium">IDL is where dreams are encouraged, effort is empowered, and every student is guided to rise with confidence and purpose. 💫</p>
+                    <p className="text-[9px] md:text-[10px] leading-tight text-primary font-bold">IDL is where dreams are encouraged, effort is empowered, and every student is guided to rise with confidence and purpose. 💫</p>
                     <div className="absolute left-[-7px] top-4 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-r-[7px] border-r-white"></div>
                 </div>
             </div>
@@ -52,7 +52,7 @@ export function TrustedPlatform() {
                     <Image src="/student.png" alt="Student" width={105} height={105} className="rounded-full relative object-cover object-top" data-ai-hint="student profile" />
                 </div>
                  <div className="absolute top-4 -left-28 md:-left-32 w-32 md:w-36 bg-green-50 p-2 rounded-lg shadow-lg border border-green-100">
-                    <p className="text-[9px] md:text-[10px] leading-tight text-gray-800 font-medium">Amod Sir, What is IDL?</p>
+                    <p className="text-[9px] md:text-[10px] leading-tight text-gray-800 font-bold">Amod Sir, What is IDL?</p>
                     <div className="absolute right-[-7px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[7px] border-t-transparent border-b-[7px] border-b-transparent border-l-[7px] border-l-green-50"></div>
                 </div>
             </div>

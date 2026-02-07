@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -73,14 +74,14 @@ export function BlogSection() {
     <section className="w-full py-12 md:py-24 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 dark:text-white tracking-tight">
             IDL{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Blogs</span>
               <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
             </span>
           </h2>
-          <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
             Stay updated with the latest trends and insights in education.
           </p>
         </div>
@@ -97,7 +98,7 @@ export function BlogSection() {
               <CarouselItem key={index} className="pl-4 md:basis-1/2 lg:basis-1/3">
                 <div className="p-1 h-full">
                   <Link href={`/blog/${post.slug}`} className="block h-full group">
-                    <Card className="h-full rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden flex flex-col bg-card">
+                    <Card className="h-full rounded-2xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col bg-card border-muted-foreground/10">
                       <div className="relative w-full aspect-video">
                         <Image
                           src={post.imageUrl}
@@ -108,10 +109,10 @@ export function BlogSection() {
                         />
                       </div>
                       <CardHeader>
-                        <CardTitle className="text-base font-bold h-16">{post.title}</CardTitle>
+                        <CardTitle className="text-lg font-bold h-16 line-clamp-2 tracking-tight">{post.title}</CardTitle>
                       </CardHeader>
                       <CardContent>
-                        <p className="text-sm text-muted-foreground line-clamp-2 h-10">{post.excerpt}</p>
+                        <p className="text-xs text-muted-foreground line-clamp-2 h-10 font-medium">{post.excerpt}</p>
                       </CardContent>
                     </Card>
                   </Link>
@@ -120,20 +121,20 @@ export function BlogSection() {
             ))}
           </CarouselContent>
         </Carousel>
-        <div className="flex justify-center gap-2 mt-4">
+        <div className="flex justify-center gap-2 mt-6">
             {blogPosts.map((_, i) => (
                 <button
                     key={i}
                     onClick={() => scrollTo(i)}
                     className={cn(
                         "h-1.5 w-1.5 rounded-full transition-all duration-300",
-                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/50"
+                        current === i ? "w-6 bg-primary" : "bg-muted-foreground/30"
                     )}
                 />
             ))}
         </div>
-        <div className="text-center mt-8">
-          <Button variant="outline" asChild>
+        <div className="text-center mt-10">
+          <Button variant="outline" asChild className="rounded-full font-bold">
             <Link href="/blog">
               View All <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
