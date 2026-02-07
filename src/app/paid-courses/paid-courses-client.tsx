@@ -53,7 +53,7 @@ const VideoItem = ({
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-xs font-bold leading-tight line-clamp-2 transition-colors",
+                    "text-xs font-extrabold leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
                 )}>{video.title}</p>
                 {isActive && (
@@ -129,7 +129,7 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
                                     <div className="px-4 py-2 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
-                                        <h4 className="font-bold text-[10px] tracking-widest text-muted-foreground/60 uppercase truncate">
+                                        <h4 className="font-extrabold text-[10px] tracking-widest text-muted-foreground/60 uppercase truncate">
                                             {chapter.name}
                                         </h4>
                                     </div>
@@ -153,7 +153,7 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                         ) : (
                             <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400">
                                 <BookOpen className="w-10 h-10 opacity-20 mb-2" />
-                                <p className="text-xs font-bold">No content available</p>
+                                <p className="text-xs font-extrabold">No content available</p>
                             </div>
                         )}
                     </div>
@@ -304,18 +304,18 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                               className="object-cover transition-transform duration-700 group-hover/card:scale-110"
                           />
                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                           <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-bold text-[9px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
+                           <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-extrabold text-[9px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
                       </div>
                       
                       <CardContent className="p-4 flex flex-col flex-grow">
-                          <CardTitleUI className="text-sm md:text-base font-bold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
+                          <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                           
                           <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                              <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-bold uppercase text-[8px] tracking-widest">{course.batchName}</Badge>
-                              <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-bold uppercase">{course.medium}</Badge>
+                              <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest">{course.batchName}</Badge>
+                              <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.medium}</Badge>
                           </div>
 
-                          <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-bold uppercase tracking-tight">
+                          <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold uppercase tracking-tight">
                             <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
                             <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
                           </div>
@@ -324,7 +324,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                             <div>
                               <div className="flex items-baseline gap-1.5">
                                   <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
-                                  {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-bold">₹{course.originalPrice}</p>}
+                                  {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-extrabold">₹{course.originalPrice}</p>}
                               </div>
                               {course.originalPrice > course.price && (
                                   <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
@@ -342,12 +342,12 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                               <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
                                   <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
                                   <ScrollArea className="max-h-40">
-                                      <p className="text-[10px] text-foreground font-medium leading-relaxed whitespace-pre-wrap opacity-80">
+                                      <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80">
                                           {course.description}
                                       </p>
                                   </ScrollArea>
                                   <div className="mt-4 pt-3 border-t border-white/10">
-                                      <div className="flex items-center gap-2 text-[9px] font-bold text-green-600">
+                                      <div className="flex items-center gap-2 text-[9px] font-extrabold text-green-600">
                                           <CheckCircle2 className="w-3 h-3" />
                                           <span>Full Syllabus Access</span>
                                       </div>
@@ -390,7 +390,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                   <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
               </div>
               <h2 className="text-xl font-extrabold text-foreground/40 tracking-tight uppercase">No premium courses found</h2>
-              <p className="text-xs text-muted-foreground font-bold">Exciting premium content is being prepared for you!</p>
+              <p className="text-xs text-muted-foreground font-extrabold">Exciting premium content is being prepared for you!</p>
           </div>
         )}
       </div>
