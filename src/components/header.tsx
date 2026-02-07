@@ -6,7 +6,7 @@ import {
   ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, 
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
-  Edit, Headset, Copy, CheckCircle2, MapPin
+  Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search, Bell
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -37,9 +37,8 @@ import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import * as z from "zod";
+
+const megaMenuBg = "bg-background/95 backdrop-blur-sm";
 
 const allCoursesCategories = [
     {
@@ -95,14 +94,14 @@ const donationCategories = [
     { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
-const megaMenuBg = "bg-background/95 backdrop-blur-sm";
-
 const MegaMenu = ({ links }: { links?: any[] }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
                 <Link key={link.href} href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors">
-                    <div className={cn("p-3 rounded-lg mt-1", link.color || "bg-primary/10 text-primary")}>{link.icon}</div>
+                    <div className={cn("p-3 rounded-full mt-1 shadow-sm shrink-0", link.colorClasses || link.color || "bg-primary/10 text-primary")}>
+                        {link.icon}
+                    </div>
                     <div>
                         <p className="font-extrabold text-sm text-foreground">{link.label}</p>
                         <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
@@ -231,10 +230,6 @@ export function Header() {
             name: donorDetails.name,
             email: donorDetails.email,
             contact: donorDetails.contact,
-        },
-        notes: {
-            category: donationCategory,
-            place: donorDetails.place,
         },
         theme: {
             color: '#0d47a1',
@@ -576,7 +571,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name }))} />}
+            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, color: c.colorClasses }))} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
             {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => !['About Us', 'Contact Us'].includes(l.label))} />}
           </div>
