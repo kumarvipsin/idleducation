@@ -130,7 +130,7 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8"
+                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8"
             >
                 <DialogHeader className="text-center mb-6">
                     <DialogTitle className="text-2xl font-extrabold text-primary">Raise a Support Ticket</DialogTitle>
@@ -223,7 +223,7 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm p-8"
+                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8"
             >
                 <DialogHeader className="text-center mb-6">
                     <DialogTitle className="text-2xl font-extrabold text-primary">Request a Call Back</DialogTitle>
