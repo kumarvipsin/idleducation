@@ -6,6 +6,7 @@ import { ArrowRight, BookOpen, GraduationCap, Sparkles, Book, Sigma, TestTube2, 
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 const schoolSubjects = [
     { name: "Science", key: "science", icon: <TestTube2 className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
@@ -65,6 +66,20 @@ function SchoolPageContent() {
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
+            <section className="mb-8 animate-fade-in-up">
+                <Card className="overflow-hidden shadow-lg border-none bg-transparent">
+                    <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-muted rounded-2xl overflow-hidden">
+                        <Image
+                            src="/result.jpg"
+                            alt="Academic Banners"
+                            data-ai-hint="students exam success"
+                            fill
+                            className="object-contain"
+                        />
+                    </div>
+                </Card>
+            </section>
+
             <section className="mb-16 animate-fade-in-up">
               <div className="flex flex-col items-start gap-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide">
@@ -101,7 +116,6 @@ function SchoolPageContent() {
                 </div>
             </div>
     
-            {/* Resources Section */}
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
                     {resourceCards.map((card, index) => {
@@ -124,7 +138,6 @@ function SchoolPageContent() {
                 </div>
             </section>
 
-            {/* Separate Syllabus Section */}
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
                 <div className="space-y-6">
                     <div className="flex items-center gap-3 border-l-4 border-primary pl-4">

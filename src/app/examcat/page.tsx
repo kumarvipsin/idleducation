@@ -182,6 +182,20 @@ function ExamcatPageContent() {
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6">
+            <section className="mb-8 animate-fade-in-up">
+                <Card className="overflow-hidden shadow-lg border-none bg-transparent">
+                    <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-muted rounded-2xl overflow-hidden">
+                        <Image
+                            src="/result.jpg"
+                            alt="Competitive Exam Results"
+                            data-ai-hint="exam result banner"
+                            fill
+                            className="object-contain"
+                        />
+                    </div>
+                </Card>
+            </section>
+
             <section className="mb-20 animate-fade-in-up">
               <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
                 {(tabTitleMapping[activeTab] || 'Govt Job')} Exams 2026: Application Form, Exam Date, Syllabus, Pattern
@@ -194,10 +208,10 @@ function ExamcatPageContent() {
             <div className="mb-12">
                 <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex justify-start md:justify-center items-center gap-4 whitespace-nowrap px-4 sm:px-0">
-                        <Button onClick={() => setActiveTab('ssc-mts')} variant={activeTab === 'ssc-mts' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">SSC MTS</Button>
-                        <Button onClick={() => setActiveTab('ssc-chsl')} variant={activeTab === 'ssc-chsl' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">SSC CHSL</Button>
-                        <Button onClick={() => setActiveTab('ssc-cgl')} variant={activeTab === 'ssc-cgl' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">SSC CGL</Button>
-                        <Button onClick={() => setActiveTab('delhi-police')} variant={activeTab === 'delhi-police' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base">DELHI POLICE</Button>
+                        <Button onClick={() => setActiveTab('ssc-mts')} variant={activeTab === 'ssc-mts' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base font-bold h-10">SSC MTS</Button>
+                        <Button onClick={() => setActiveTab('ssc-chsl')} variant={activeTab === 'ssc-chsl' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base font-bold h-10">SSC CHSL</Button>
+                        <Button onClick={() => setActiveTab('ssc-cgl')} variant={activeTab === 'ssc-cgl' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base font-bold h-10">SSC CGL</Button>
+                        <Button onClick={() => setActiveTab('delhi-police')} variant={activeTab === 'delhi-police' ? 'default' : 'outline'} className="rounded-full px-6 py-2 text-base font-bold h-10">DELHI POLICE</Button>
                     </div>
                 </div>
             </div>
@@ -265,15 +279,15 @@ function ExamcatPageContent() {
                                 </CardContent>
                                 <div className="p-4 pt-0 mt-auto">
                                     <div className="flex gap-2">
-                                        <Button variant="outline" className="w-full">EXPLORE</Button>
-                                        <Button className="w-full">BUY NOW</Button>
+                                        <Button variant="outline" className="w-full h-10 font-bold">EXPLORE</Button>
+                                        <Button className="w-full h-10 font-bold">BUY NOW</Button>
                                     </div>
                                 </div>
                             </Card>
                             ))}
                         </div>
                         <div className="text-center mt-8">
-                            <Button variant="ghost" className="text-primary hover:text-primary">
+                            <Button variant="ghost" className="text-primary hover:text-primary font-bold">
                                 View All Batches <ArrowRight className="ml-2 h-4 w-4"/>
                             </Button>
                         </div>

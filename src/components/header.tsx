@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger 
 } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { createRazorpayOrder, recordDonation, getUpdates, registerForScholarship } from "@/app/actions";
+import { createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
 import Image from "next/image";
 import { 
   Dialog, DialogContent, DialogDescription, DialogHeader, 
@@ -230,6 +230,10 @@ export function Header() {
             name: donorDetails.name,
             email: donorDetails.email,
             contact: donorDetails.contact,
+        },
+        notes: {
+            category: donationCategory,
+            place: donorDetails.place,
         },
         theme: {
             color: '#0d47a1',
@@ -573,7 +577,7 @@ export function Header() {
           <div className="pt-4 pb-4">
             {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, color: c.colorClasses }))} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => !['About Us', 'Contact Us'].includes(l.label))} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks} />}
           </div>
         </div>
       </div>
