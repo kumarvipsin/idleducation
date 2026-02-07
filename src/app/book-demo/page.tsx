@@ -135,7 +135,7 @@ export default function BookDemoPage() {
           </div>
 
           <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
+              <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white">
                   <CardContent className="p-8 space-y-6">
                       <div className="text-center">
                           <h2 className="text-2xl font-bold text-primary">Enter Your Details</h2>

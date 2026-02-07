@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -73,7 +74,7 @@ export default function VolunteerPage() {
                 </div>
 
                 <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                    <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm">
+                    <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white">
                         <CardContent className="space-y-6 p-8">
                            <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

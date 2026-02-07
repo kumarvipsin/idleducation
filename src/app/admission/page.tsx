@@ -1,3 +1,4 @@
+
 'use client';
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -327,7 +328,7 @@ export default function AdmissionPage() {
 
 
   const classes = [
-    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
+    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIIICLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
     "JEE", "NEET", "CUET", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
   ];
   
@@ -371,7 +372,7 @@ export default function AdmissionPage() {
                 Fill out the form below to start your journey with IDL Education.
             </p>
         </div>
-        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-background/80 backdrop-blur-sm overflow-hidden animate-fade-in-up md:rounded-2xl" style={{ animationDelay: '0.2s' }}>
+        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white overflow-hidden animate-fade-in-up md:rounded-2xl" style={{ animationDelay: '0.2s' }}>
           <header className="bg-primary text-primary-foreground p-4">
               <div className="flex flex-col items-center justify-center gap-2 text-center">
               <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} />
