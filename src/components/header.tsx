@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -6,11 +5,10 @@ import {
   ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, 
   ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, 
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
-  UserCircle, Building, Users, HandHeart, Banknote, Bell, 
+  UserCircle, Building, Users, HandHeart, Banknote,
   Edit, Headset, Copy, CheckCircle2 
 } from "lucide-react";
 import { Button } from "./ui/button";
-import { useLanguage } from "@/context/language-context";
 import { useAuth, type UserProfile } from "@/context/auth-context";
 import { useRouter, usePathname } from "next/navigation";
 import { Avatar, AvatarFallback } from "./ui/avatar";
@@ -19,7 +17,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger 
 } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
+import { createRazorpayOrder, recordDonation } from "@/app/actions";
 import Image from "next/image";
 import { 
   Dialog, DialogContent, DialogDescription, DialogHeader, 
@@ -27,28 +25,17 @@ import {
 } from "./ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "./ui/input";
-import { Badge } from "./ui/badge";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
 import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
 import { allPrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
-import Script from "next/script";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Separator } from "./ui/separator";
-import { formatDistanceToNow } from 'date-fns';
-
-interface Update {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-}
 
 const allCoursesCategories = [
     {
@@ -104,7 +91,7 @@ const donationCategories = [
     { title: "Old Age Home", description: "Dignity and care for elders.", imageUrl: "https://picsum.photos/seed/elderly/1600/450", imageHint: "elderly people", goal: 2500000, raised: 800000 },
 ];
 
-const MegaMenu = ({ links, title }: { links?: any[], title: string }) => (
+const MegaMenu = ({ links }: { links?: any[] }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => (
@@ -134,8 +121,6 @@ export function Header() {
   const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
   const [isContactOpen, setIsContactOpen] = useState(false);
-  const [updates, setUpdates] = useState<Update[]>([]);
-  const [hasNewUpdates, setHasNewUpdates] = useState(false);
   
   const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
   const [donationCategory, setDonationCategory] = useState<string>("");
@@ -166,39 +151,10 @@ export function Header() {
       return () => window.removeEventListener('scroll', controlNavbar);
     }
   }, [controlNavbar]);
-
-  useEffect(() => {
-    const fetchUpdates = async () => {
-      const result = await getUpdates(3);
-      if (result.success && result.data) {
-        const fetchedUpdates = result.data as Update[];
-        setUpdates(fetchedUpdates);
-
-        if (fetchedUpdates.length > 0) {
-          const lastChecked = localStorage.getItem('lastCheckedUpdate');
-          const latestUpdateTimestamp = new Date(fetchedUpdates[0].createdAt).getTime();
-          
-          if (!lastChecked || latestUpdateTimestamp > parseInt(lastChecked, 10)) {
-            setHasNewUpdates(true);
-          }
-        }
-      }
-    };
-    if (!isIdlFoundationPage) {
-        fetchUpdates();
-    }
-  }, [isIdlFoundationPage]);
   
   const handleLogout = async () => {
     await logout();
     router.push('/');
-  };
-
-  const handleNotificationOpenChange = (open: boolean) => {
-    if (open) {
-      localStorage.setItem('lastCheckedUpdate', Date.now().toString());
-      setHasNewUpdates(false);
-    }
   };
 
   const getDashboardPath = (userProfile: UserProfile | null) => {
@@ -269,10 +225,6 @@ export function Header() {
             name: donorDetails.name,
             email: donorDetails.email,
             contact: donorDetails.contact,
-        },
-        notes: {
-            category: donationCategory,
-            place: donorDetails.place,
         },
         theme: {
             color: '#0d47a1',
@@ -412,45 +364,6 @@ export function Header() {
     );
   };
 
-  const notificationDropdown = (
-    <DropdownMenu onOpenChange={handleNotificationOpenChange}>
-        <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative h-8 w-8 rounded-full">
-                <Bell className="h-4 w-4" />
-                {hasNewUpdates && (
-                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                )}
-            </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Recent Updates</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {updates.length > 0 ? (
-            updates.map(update => (
-                <DropdownMenuItem key={update.id} className="group flex flex-col items-start gap-1 focus:bg-accent data-[highlighted]:text-accent-foreground">
-                    <p className="font-semibold">{update.title}</p>
-                    <p className="text-xs text-muted-foreground group-data-[highlighted]:text-accent-foreground">{update.description}</p>
-                    <p className="text-xs text-muted-foreground self-end group-data-[highlighted]:text-accent-foreground">
-                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                    </p>
-                </DropdownMenuItem>
-            ))
-            ) : (
-            <DropdownMenuItem>No new updates.</DropdownMenuItem>
-            )}
-            <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-            <Link href="/notifications" className="text-center justify-center">
-                View all notifications
-            </Link>
-            </DropdownMenuItem>
-        </DropdownMenuContent>
-    </DropdownMenu>
-  );
-
   return (
     <>
       <header className={headerClasses}>
@@ -476,13 +389,13 @@ export function Header() {
                                       </Link>
                                   </Button>
                               </div>
-                              <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
+                               <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
                                 <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md">More</Button>
                             </div>
                           </>
                         ) : (
                           <div className="flex items-center gap-x-4 text-[10px] font-extrabold tracking-tight">
-                            <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 7011117585</a>
+                            <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 701111 7585</a>
                             <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                             <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
                           </div>
@@ -497,7 +410,6 @@ export function Header() {
                       </a>
                   </div>
                   <div className="flex items-center gap-1">
-                    {!isIdlFoundationPage && notificationDropdown}
                     {isClient && renderAuthSection()}
                   </div>
                    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
@@ -514,7 +426,7 @@ export function Header() {
                                     <div className="flex flex-col leading-tight text-left">
                                         <div className="flex items-center gap-2.5">
                                             <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
-                                            <div className="flex flex-col text-[8px] font-extrabold text-muted-foreground tracking-tight leading-[1.1] opacity-60">
+                                            <div className="flex flex-col text-[8px] font-bold text-muted-foreground tracking-tight leading-[1.1] opacity-60">
                                                 <span>Institute of</span>
                                                 <span>Distance Learning Pvt. Ltd.</span>
                                             </div>
@@ -656,9 +568,9 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
           <div className="pt-4 pb-4">
-            {activeMenu === 'explore' && <MegaMenu links={navLinks} title="" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} title="" />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => !['About Us', 'Contact Us'].includes(l.label))} title="" />}
+            {activeMenu === 'explore' && <MegaMenu links={navLinks} />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks} />}
+            {activeMenu === 'more' && <MegaMenu links={navLinks.filter(l => !['About Us', 'Contact Us'].includes(l.label))} />}
           </div>
         </div>
       </div>
