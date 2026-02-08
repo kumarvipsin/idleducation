@@ -28,28 +28,28 @@ const cities = [
 
 const centers = [
     {
-      name: "Mukherjee Nagar, Delhi",
+      name: "Mukherjee Nagar",
       address: "Mukherjee Nagar, Delhi-110009",
       imageUrl: "https://picsum.photos/seed/center1/400/300",
       imageHint: "classroom students",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
-      name: "Mangol Puri, Delhi",
+      name: "Mangol Puri",
       address: "D-Block Mangol Puri, Delhi-110083",
       imageUrl: "https://picsum.photos/seed/center2/400/300",
       imageHint: "modern classroom",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
-      name: "Budh Vihar, Delhi",
+      name: "Budh Vihar",
       address: "E-Block Budh Vihar Phase-1, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center3/400/300",
       imageHint: "students learning",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
-      name: "Krishan Vihar, Delhi",
+      name: "Krishan Vihar",
       address: "Krishan Vihar, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center4/400/300",
       imageHint: "library books",
