@@ -3,6 +3,9 @@ import Link from "next/link";
 import { Facebook, Twitter, Instagram, Phone, Mail, Youtube } from "lucide-react";
 import Image from "next/image";
 import { Separator } from "./ui/separator";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
+import { ContactForm } from "./contact-form";
 
 const quickLinks = [
   { href: "/about", label: "About Us" },
@@ -20,6 +23,8 @@ const resourceLinks = [
 ];
 
 export function Footer() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   const svgTexture = `<svg xmlns='http://www.w3.org/2000/svg' width='500' height='500' viewBox='0 0 500 500'><g fill='rgba(255,255,255,0.02)' font-family='Arial, sans-serif' font-size='50' font-weight='bold'><text x='25' y='60' transform='rotate(-20)'>π</text><text x='225' y='100' transform='rotate(15)'>Σ</text><text x='125' y='180'>∞</text><text x='275' y='310' transform='rotate(25)'>√</text><text x='40' y='300'>α</text><text x='310' y='200' transform='rotate(-10)'>∫</text><text x='100' y='50'>β</text><text x='190' y='270' transform='rotate(5)'>Δ</text></g></svg>`;
   const textureStyle = {
     backgroundImage: `url("data:image/svg+xml,${encodeURIComponent(svgTexture)}")`,
@@ -78,10 +83,20 @@ export function Footer() {
                     <ul className="space-y-3 text-[11px] font-bold tracking-wide">
                         {quickLinks.map(link => (
                             <li key={link.href}>
-                                <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
-                                    <span className="h-1 w-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
-                                    {link.label}
-                                </Link>
+                                {link.label === "Contact Us" ? (
+                                    <button 
+                                        onClick={() => setIsContactOpen(true)}
+                                        className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group text-left w-full"
+                                    >
+                                        <span className="h-1 w-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
+                                        {link.label}
+                                    </button>
+                                ) : (
+                                    <Link href={link.href} target={link.target} rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} className="text-gray-400 hover:text-white transition-colors flex items-center gap-2 group">
+                                        <span className="h-1 w-1 rounded-full bg-primary/40 group-hover:bg-primary transition-colors" />
+                                        {link.label}
+                                    </Link>
+                                )}
                             </li>
                         ))}
                     </ul>
@@ -142,6 +157,16 @@ export function Footer() {
                 </div>
             </div>
         </div>
+
+        <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8">
+                <DialogHeader className="text-center mb-6">
+                    <DialogTitle className="text-2xl font-extrabold text-primary uppercase tracking-tighter">Contact Us</DialogTitle>
+                    <DialogDescription className="text-muted-foreground text-[13px] font-extrabold">Have a query? Drop us a line below.</DialogDescription>
+                </DialogHeader>
+                <ContactForm onSuccess={() => setIsContactOpen(false)} />
+            </DialogContent>
+        </Dialog>
     </footer>
   );
 }
