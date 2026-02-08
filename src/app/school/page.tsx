@@ -234,7 +234,7 @@ function SchoolPageContent() {
                                     Access expert-led video lessons at no cost. Perfect for foundation building and quick revisions.
                                 </p>
                                 <Button asChild className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
-                                    <Link href="/free-courses">Start Learning</Link>
+                                    <Link href="/free-courses">EXPLORE FREE COURSES</Link>
                                 </Button>
                             </CardContent>
                         </Card>
@@ -253,7 +253,7 @@ function SchoolPageContent() {
                                     Comprehensive curricula with structured paths, premium notes, and 100% syllabus coverage.
                                 </p>
                                 <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
-                                    <Link href="/paid-courses">Enroll Today</Link>
+                                    <Link href="/paid-courses">EXPLORE PAID COURSES</Link>
                                 </Button>
                             </CardContent>
                         </Card>
@@ -272,7 +272,7 @@ function SchoolPageContent() {
                                     Interactive real-time sessions with top faculty. Instant doubt clearing and collaborative peer learning.
                                 </p>
                                 <Button asChild className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
-                                    <Link href="/book-demo">Book Free Demo</Link>
+                                    <Link href="/book-demo">JOIN LIVE SESSION</Link>
                                 </Button>
                             </CardContent>
                         </Card>
