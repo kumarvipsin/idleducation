@@ -126,7 +126,7 @@ export default function AboutPage() {
             </div>
         </section>
         
-        <section className="w-full py-16 md:py-24 bg-muted/30">
+        <section className="w-full py-16 md:py-24 bg-white">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Meet Our{' '}
@@ -152,7 +152,7 @@ export default function AboutPage() {
                                         alt={member.imageAlt}
                                         data-ai-hint={member.imageHint}
                                         fill
-                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105 grayscale"
                                     />
                                 </div>
                                 <div className="p-6 text-center">
