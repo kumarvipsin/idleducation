@@ -120,7 +120,7 @@ export default function AboutPage() {
                                 ) : (
                                     <>
                                     <h3 className="text-base font-bold text-foreground tracking-tight">{director?.name || 'Amod Kumar Sharma'}</h3>
-                                    <p className="text-[10px] font-medium text-primary tracking-wide">Founder & Managing Director</p>
+                                    <p className="text-[10px] font-medium text-primary tracking-wide">Founder &amp; Chairman/CMD</p>
                                     </>
                                 )}
                             </div>
