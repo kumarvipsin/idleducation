@@ -36,7 +36,7 @@ export default function AboutPage() {
       },
       {
         name: "Manish Kumar",
-        title: "Head Of Products",
+        title: "Head Product & Director",
         imageUrl: "/manish.png",
         imageAlt: "Manish Kumar",
         imageHint: "man professional",
