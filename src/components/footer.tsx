@@ -12,7 +12,6 @@ const quickLinks = [
   { href: "/contact", label: "Contact Us" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "IDL Blog" },
-  { href: "/idl-foundation", label: "IDL Foundation", target: "_blank" },
 ];
 
 const resourceLinks = [
