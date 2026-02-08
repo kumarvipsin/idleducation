@@ -151,28 +151,28 @@ function SchoolPageContent() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {currentSubjects.map((subject) => (
-                            <div key={subject.key} className="group bg-white dark:bg-card p-5 md:p-6 rounded-xl shadow-md border hover:shadow-lg transition-all flex flex-col sm:flex-row items-center justify-between gap-6 border-l-4 border-l-primary/10 hover:border-l-primary">
-                                <div className="flex items-center gap-5 w-full">
-                                    <div className={cn("p-4 rounded-xl shrink-0 transition-transform duration-500 group-hover:scale-110 shadow-sm", subject.color)}>
-                                        {React.cloneElement(subject.icon as React.ReactElement, { className: "w-6 h-6" })}
+                            <div key={subject.key} className="group bg-white dark:bg-card p-4 rounded-xl shadow-sm border hover:shadow-md transition-all flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-l-primary/10 hover:border-l-primary">
+                                <div className="flex items-center gap-4 w-full">
+                                    <div className={cn("p-3 rounded-lg shrink-0 transition-transform duration-500 group-hover:scale-105 shadow-sm", subject.color)}>
+                                        {React.cloneElement(subject.icon as React.ReactElement, { className: "w-5 h-5" })}
                                     </div>
-                                    <div className="space-y-1">
-                                        <h4 className="font-black text-lg md:text-xl text-foreground tracking-tight leading-none">{subject.name}</h4>
-                                        <p className="text-[11px] text-muted-foreground font-black uppercase tracking-widest opacity-70">Academic Session 2026-27</p>
+                                    <div className="space-y-0.5">
+                                        <h4 className="font-bold text-base text-foreground tracking-tight leading-tight">{subject.name}</h4>
+                                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide opacity-80">Academic Session 2026-27</p>
                                     </div>
                                 </div>
-                                <div className="flex flex-row items-center gap-3 w-full sm:w-auto shrink-0">
-                                    <Button variant="outline" size="sm" className="flex-1 sm:w-32 h-10 rounded-lg text-[11px] font-black tracking-widest uppercase text-blue-600 border-blue-200 hover:bg-blue-50 transition-all shadow-sm">
+                                <div className="flex flex-row items-center gap-2 w-full sm:w-auto shrink-0">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-28 h-8 rounded-md text-[10px] font-bold tracking-wide uppercase text-blue-600 border-blue-200 hover:bg-blue-50 transition-all shadow-none">
                                         <div className="flex items-center">
-                                            <Eye className="w-4 h-4 mr-2" />
+                                            <Eye className="w-3.5 h-3.5 mr-1.5" />
                                             <span>VIEW PDF</span>
                                         </div>
                                     </Button>
-                                    <Button variant="outline" size="sm" className="flex-1 sm:w-32 h-10 rounded-lg text-[11px] font-black tracking-widest uppercase text-emerald-600 border-emerald-200 hover:bg-emerald-50 transition-all shadow-sm">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-28 h-8 rounded-md text-[10px] font-bold tracking-wide uppercase text-emerald-600 border-emerald-200 hover:bg-emerald-50 transition-all shadow-none">
                                         <div className="flex items-center">
-                                            <Download className="w-4 h-4 mr-2" />
+                                            <Download className="w-3.5 h-3.5 mr-1.5" />
                                             <span>Get PDF</span>
                                         </div>
                                     </Button>
