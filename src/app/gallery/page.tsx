@@ -90,7 +90,7 @@ function GalleryPageContent() {
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
                                 className={cn(
-                                    "text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2",
+                                    "text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2",
                                     selectedCategory === category 
                                     ? 'text-primary border-primary' 
                                     : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
