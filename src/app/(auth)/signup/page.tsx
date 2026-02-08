@@ -68,7 +68,7 @@ export default function SignupPage() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-[360px] z-10"
       >
-        <Card className="border bg-white dark:bg-gray-900 rounded-[2rem] overflow-hidden shadow-none">
+        <Card className="border bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-none">
           <CardHeader className="pt-8 pb-2 text-center">
             <Link href="/" className="mx-auto block w-fit mb-4">
               <div className="relative flex items-center justify-center w-20 h-20">
