@@ -104,17 +104,6 @@ export default function AboutPage() {
                                     <Sparkles className="w-3 h-3 text-yellow-500" />
                                     Director's Message
                                 </div>
-                                <h2 className="text-3xl md:text-5xl font-black text-foreground tracking-tight leading-tight uppercase">
-                                    Vision for <br/>
-                                    <span className="relative inline-block text-primary">
-                                        <span className="relative z-10">Our Founder</span>
-                                        <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                                <path d="M0,15 Q50,5 100,15" />
-                                            </svg>
-                                        </div>
-                                    </span>
-                                </h2>
                             </div>
 
                             <div className="relative">
