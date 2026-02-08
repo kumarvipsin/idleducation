@@ -1,103 +1,80 @@
-
 'use client';
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
+import { 
+    ArrowRight, 
+    BookOpen, 
+    ClipboardList, 
+    Monitor, 
+    FileText, 
+    Landmark,
+    Sparkles,
+    Book,
+    PlayCircle,
+    IndianRupee,
+    Eye,
+    Download,
+    CheckCircle2,
+    Calendar,
+    Users,
+    MessageSquare,
+    ClipboardEdit,
+    BookCheck as BookCheckIcon,
+    BookCopy,
+    GraduationCap,
+    Sigma
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { cn } from "@/lib/utils";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { MessageSquare, Users, Calendar } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
-const CheckIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2Z" fill="url(#paint0_linear_jee_blog)"/>
-        <path d="M8 12.5L11 15.5L16.5 9.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <defs>
-            <linearGradient id="paint0_linear_jee_blog" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F97316"/>
-                <stop offset="1" stopColor="#16A34A"/>
-            </linearGradient>
-        </defs>
-    </svg>
-);
-
+// Subjects for CUET UG/PG
+const cuetSubjects = [
+    { name: "Language (Section IA & IB)", key: "language", icon: <BookOpen className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
+    { name: "Domain Specific Subjects", key: "domain", icon: <Sigma className="w-5 h-5" />, color: "bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400" },
+    { name: "General Test (Section III)", key: "gat", icon: <GraduationCap className="w-5 h-5" />, color: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
+];
 
 export default function CuetPage() {
     const [activeTab, setActiveTab] = useState('ug');
     
     const resourceCards = [
         {
-          title: "PDF Bank",
-          icon: <FileText className="w-6 h-6 text-pink-600" />,
-          gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
-          href: "#"
+          title: "GET THE",
+          subtitle: `CUET ${activeTab.toUpperCase()} Advantage`,
+          icon: <Sparkles />,
+          bgColor: "bg-amber-50 border-amber-100",
+          textColor: "text-amber-900",
+          iconBg: "bg-amber-100 text-amber-600",
+          href: "/about"
         },
         {
-          title: "Test Series",
-          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30",
-          href: "#"
-        },
-        {
-          title: "Books",
-          icon: <BookOpen className="w-6 h-6 text-sky-600" />,
-          gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30",
-          href: "/resources/reference-books"
+          title: "REVISION",
+          subtitle: "High-Quality Notes",
+          icon: <BookOpen />,
+          bgColor: "bg-blue-50 border-blue-100",
+          textColor: "text-blue-900",
+          iconBg: "bg-blue-100 text-blue-600",
+          href: "/resources/notes"
         },
          {
-          title: "Blogs",
-          icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30",
-          href: "/blog"
+          title: "SOLUTIONS",
+          subtitle: "Mock Tests & PYQs",
+          icon: <Book />,
+          bgColor: "bg-indigo-50 border-indigo-100",
+          textColor: "text-indigo-900",
+          iconBg: "bg-indigo-100 text-indigo-600",
+          href: "/resources/ncert-solutions"
         }
-    ];
-
-    const cuetUgCourses = [
-      {
-        title: "Project 45 Class 12th Commerce 2026 + Pravesh CUET Commerce 3.0 2026",
-        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-commerce-3.png",
-        imageHint: "Alakh Pandey",
-        language: "Hinglish",
-        startDate: "18 Nov, 2025",
-        endDate: "31 May, 2026",
-        features: "Premium Features Included",
-        price: 1499,
-        originalPrice: 11000,
-        discount: 86,
-        target: "For CUET UG 2026 Aspirants"
-      },
-      {
-        title: "Pravesh CUET General Aptitude Test (GAT) 2026",
-        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-ug-gat.png",
-        imageHint: "Two teachers",
-        language: "Hinglish",
-        startDate: "19 Jan, 2026",
-        endDate: "30 Jun, 2026",
-        price: 449,
-        originalPrice: 999,
-        discount: 55,
-        target: "For CUET UG 2026 Aspirants"
-      },
-      {
-        title: "Pravesh CUET Commerce 2.0 2026",
-        imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-commerce-2.png",
-        imageHint: "Group of teachers",
-        language: "Hinglish",
-        startDate: "17 Nov, 2025",
-        endDate: "31 May, 2026",
-        price: 1499,
-        originalPrice: 8000,
-        discount: 81,
-        target: "Targeted Batch for CUET UG Commerce 2026"
-      }
     ];
 
     const cuetUgFaqs = [
@@ -119,46 +96,7 @@ export default function CuetPage() {
         },
         {
           question: "Is it mandatory to appear for the General Test in CUET UG?",
-          answer: "It depends on the university and the course you are applying for. Some universities may require the General Test score for admission to certain programs, while others may not. Always check the eligibility criteria of the specific university."
-        }
-    ];
-
-    const cuetPgCourses = [
-        {
-            title: "Pravesh CUET PG (Part A) 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-part-a.png",
-            imageHint: "Abstract design",
-            language: "Hinglish",
-            startDate: "10 Feb, 2026",
-            endDate: "30 Jul, 2026",
-            price: 599,
-            originalPrice: 1999,
-            discount: 70,
-            target: "For CUET PG 2026 Aspirants"
-        },
-        {
-            title: "Pravesh CUET PG (MBA) 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-mba.png",
-            imageHint: "Business students",
-            language: "English",
-            startDate: "15 Feb, 2026",
-            endDate: "31 Jul, 2026",
-            price: 1999,
-            originalPrice: 7000,
-            discount: 71,
-            target: "For CUET PG MBA 2026 Aspirants"
-        },
-        {
-            title: "Pravesh CUET PG (M.Com) 2026",
-            imageUrl: "https://www.pw.live/version14/assets/img/cuet-ug-2024/cuet-pg-mcom.png",
-            imageHint: "Accounting concept",
-            language: "Hinglish",
-            startDate: "20 Feb, 2026",
-            endDate: "31 Jul, 2026",
-            price: 1499,
-            originalPrice: 6000,
-            discount: 75,
-            target: "For CUET PG M.Com 2026 Aspirants"
+          answer: "It depends on the university and the course you are applying for. Some universities may require the General Test score for admission to certain programs, while others may not."
         }
     ];
 
@@ -177,247 +115,237 @@ export default function CuetPage() {
         }
     ];
 
-    const cuetUgBlogLinks = [
-        { text: "CUET UG Syllabus 2026", href: "#" },
-        { text: "CUET UG Eligibility Criteria 2026", href: "#" },
-        { text: "CUET UG Exam Pattern 2026", href: "#" },
-        { text: "CUET UG Previous Year Papers", href: "#" },
-        { text: "CUET UG Participating Colleges 2026", href: "#" },
-        { text: "CUET UG Courses List 2026", href: "#" },
-        { text: "CUET UG Preparation Tips 2026", href: "#" },
-        { text: "CUET UG Cut Off 2026", href: "#" },
-    ];
-    
-    const cuetPgBlogLinks = [
-        { text: "CUET PG Syllabus 2026", href: "#" },
-        { text: "CUET PG Eligibility Criteria 2026", href: "#" },
-        { text: "CUET PG Exam Pattern 2026", href: "#" },
-        { text: "CUET PG Previous Year Papers", href: "#" },
-        { text: "CUET PG Participating Colleges 2026", href: "#" },
-        { text: "CUET PG Courses List 2026", href: "#" },
-        { text: "CUET PG Preparation Tips 2026", href: "#" },
-        { text: "CUET PG Cut Off 2026", href: "#" },
-    ];
-
     return (
-        <div className="container mx-auto py-12 px-4 md:px-6">
-            <section className="mb-20 animate-fade-in-up">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
-                CUET {activeTab.toUpperCase()} 2026: Application Form, Exam Date, Syllabus, Pattern, Colleges, Cutoff
-              </h1>
-              <p className="mt-6 max-w-4xl text-left text-muted-foreground text-lg">
-                CUET {activeTab.toUpperCase()} 2026 is the Common University Entrance Test for {activeTab === 'ug' ? 'undergraduate' : 'postgraduate'} admissions in various Central, State, Private, and Deemed universities across India. 
-                <br />
-                {activeTab === 'ug' && <><strong className="text-foreground">The official notification has been released & the registration started from 3 January to 30 January 2026.</strong> <br /></>}
-                Get complete details including exam date, syllabus, eligibility, pattern, participating universities.
-              </p>
+        <div className="container mx-auto py-2 px-4 md:px-6 max-w-7xl relative">
+            <section className="mb-12 animate-fade-in-up">
+                <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white shadow-sm">
+                    <div className="relative w-full aspect-video md:aspect-[16/6]">
+                        <Image
+                            src="/result.jpg"
+                            alt="CUET Results Banner"
+                            data-ai-hint="exam result banner"
+                            fill
+                            className="object-cover"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <section className="mb-16 animate-fade-in-up">
+              <div className="flex flex-col items-start gap-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide">
+                    <Sparkles className="w-3 h-3 text-yellow-500" />
+                    CUET Preparation
+                </div>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight text-left leading-tight text-balance">
+                    <span className="relative inline-block">
+                        <span className="relative z-10">CUET {activeTab.toUpperCase()} 2026-2027</span>
+                        <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                            </svg>
+                        </div>
+                    </span> <br/>
+                    <span className="text-primary text-sm md:text-base font-bold">Application, Syllabus, Pattern & Cutoff</span>
+                </h1>
+                <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-bold leading-relaxed">
+                    CUET {activeTab.toUpperCase()} 2026 is the Common University Entrance Test for admissions in various Central, State, Private, and Deemed universities across India. 
+                    {activeTab === 'ug' && " The official notification has been released & the registration started from 3 January to 30 January 2026."}
+                </p>
+              </div>
             </section>
             
-            <div className="flex justify-center gap-4 mb-12">
-                <Button onClick={() => setActiveTab('ug')} variant={activeTab === 'ug' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">CUET UG</Button>
-                <Button onClick={() => setActiveTab('pg')} variant={activeTab === 'pg' ? 'default' : 'outline'} className="rounded-full px-8 py-3 text-lg">CUET PG</Button>
+            <div className="mb-12">
+                <div className="flex justify-start md:justify-center items-center gap-3">
+                    <Button 
+                        onClick={() => setActiveTab('ug')} 
+                        variant="outline"
+                        className={cn(
+                            "rounded-full px-8 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-10 shadow-none",
+                            activeTab === 'ug' ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                        )}
+                    >
+                        CUET UG
+                    </Button>
+                    <Button 
+                        onClick={() => setActiveTab('pg')} 
+                        variant="outline"
+                        className={cn(
+                            "rounded-full px-8 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-10 shadow-none",
+                            activeTab === 'pg' ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                        )}
+                    >
+                        CUET PG
+                    </Button>
+                </div>
             </div>
     
-            <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                {resourceCards.map((card, index) => (
-                    <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient}`}>
-                            <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
-                                <div className={`mb-3 p-3 rounded-full bg-white/30`}>
-                                    {card.icon}
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                    {resourceCards.map((card, index) => {
+                        return (
+                            <Link key={index} href={card.href} className="group">
+                                <div className={cn(
+                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-300 shadow-sm border group-hover:shadow-md group-hover:scale-[1.02] active:scale-[0.98]",
+                                    card.bgColor
+                                )}>
+                                    <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:rotate-12 shadow-sm", card.iconBg)}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{card.title}</h4>
+                                        <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{card.subtitle}</p>
+                                    </div>
+                                    <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
                                 </div>
-                                <h3 className="text-lg font-bold mb-1">{card.title}</h3>
+                            </Link>
+                        );
+                    })}
+                </div>
+            </section>
+
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                <div className="space-y-6">
+                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
+                        <div>
+                            <h3 className="font-bold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
+                                Subject-wise Syllabus
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wide mt-1">Official curriculum for CUET {activeTab.toUpperCase()}</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {cuetSubjects.map((subject) => (
+                            <div key={subject.key} className="group bg-white dark:bg-card p-4 rounded-xl shadow-sm border hover:shadow-md transition-all flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-l-primary/10 hover:border-l-primary">
+                                <div className="flex items-center gap-4 w-full">
+                                    <div className={cn("p-3 rounded-lg shrink-0 transition-transform duration-500 group-hover:scale-105 shadow-sm", subject.color)}>
+                                        <BookOpen className="w-5 h-5" />
+                                    </div>
+                                    <div className="space-y-0.5">
+                                        <h4 className="font-bold text-sm text-foreground tracking-tight leading-tight">{subject.name}</h4>
+                                        <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-wide opacity-80">Academic Session 2026-27</p>
+                                    </div>
+                                </div>
+                                <div className="flex flex-row items-center gap-2 w-full sm:w-auto shrink-0">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 rounded-lg text-[9px] font-bold tracking-wide uppercase text-blue-600 border-blue-200 hover:bg-blue-50 transition-all shadow-none">
+                                        <div className="flex items-center">
+                                            <Eye className="w-3.5 h-3.5 mr-1.5" />
+                                            <span>VIEW PDF</span>
+                                        </div>
+                                    </Button>
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 rounded-lg text-[9px] font-bold tracking-wide uppercase text-emerald-600 border-emerald-200 hover:bg-emerald-50 transition-all shadow-none">
+                                        <div className="flex items-center">
+                                            <Download className="w-3.5 h-3.5 mr-1.5" />
+                                            <span>Get PDF</span>
+                                        </div>
+                                    </Button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                <div className="space-y-8">
+                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
+                        <div>
+                            <h3 className="font-bold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
+                                Choose Your Learning Path
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wide mt-1">Premium solutions for every aspirant</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Free Courses */}
+                        <Card className="group relative border bg-white dark:bg-card hover:border-orange-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-orange-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-orange-50 rounded-lg text-orange-600">
+                                        <PlayCircle className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-orange-200 text-orange-600 bg-orange-50/50">ACCESS</Badge>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Free Courses</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Access expert-led video lessons at no cost. Perfect for foundation building and revisions.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/free-courses">Explore Free Courses</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
-                    </Link>
-                ))}
-            </section>
-    
-            {activeTab === 'ug' ? (
-                <div key="ug-content">
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">CUET UG Courses</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {cuetUgCourses.map((course, index) => (
-                            <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-                                <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
-                                <div className="relative w-full aspect-[16/9]">
-                                    <Image
-                                    src={course.imageUrl}
-                                    alt={course.title}
-                                    data-ai-hint={course.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    />
-                                </div>
-                                </div>
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                                    <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
-                                    <span>{course.language}</span>
-                                    <MessageSquare className="w-4 h-4" />
-                                    </div>
-                                </div>
-                                <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
-                                <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>
-                                
-                                {course.features && (
-                                    <div className="bg-gray-800 text-white text-xs font-semibold px-3 py-1.5 rounded-md flex justify-between items-center mb-4">
-                                        <span>{course.features}</span>
-                                        <span className="font-extrabold tracking-widest">INFINITY</span>
-                                    </div>
-                                )}
-                
-                                <div className="flex items-center gap-2 mb-1">
-                                    <p className="text-2xl font-bold">₹{course.price}</p>
-                                    <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
-                                </div>
-                                <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
-                                    Discount of {course.discount}% applied
-                                </div>
-                                <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
-                                </CardContent>
-                                <div className="p-4 pt-0 mt-auto">
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" className="w-full">EXPLORE</Button>
-                                        <Button className="w-full">BUY NOW</Button>
-                                    </div>
-                                </div>
-                            </Card>
-                            ))}
-                        </div>
-                        <div className="text-center mt-8">
-                            <Button variant="ghost" className="text-primary hover:text-primary">
-                                View All Batches <ArrowRight className="ml-2 h-4 w-4"/>
-                            </Button>
-                        </div>
-                    </section>
 
-                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold">Explore Other Category Blogs</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                            {cuetUgBlogLinks.map((link, index) => (
-                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
-                                    <Link href={link.href}>
-                                        <div className="flex items-center gap-2">
-                                            <CheckIcon />
-                                            <span className="text-sm font-medium text-left">{link.text}</span>
-                                        </div>
-                                        <ArrowRight className="h-5 w-5 text-gray-400" />
-                                    </Link>
-                                </Button>
-                            ))}
-                            </div>
-                        </div>
-                    </section>
-            
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.6s' }}>
-                      <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">CUET UG 2026 Exam FAQs</h2>
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                          {cuetUgFaqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
-                              <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                              <AccordionContent className="p-4 pt-0 text-left">
-                               {faq.answer}
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
-                      </div>
-                    </section>
-                </div>
-            ) : (
-                <div key="pg-content">
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                        <h2 className="text-3xl font-bold text-left mb-8">CUET PG Courses</h2>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {cuetPgCourses.map((course, index) => (
-                            <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-                                <div className="relative">
-                                <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
-                                <div className="relative w-full aspect-[16/9]">
-                                    <Image
-                                    src={course.imageUrl}
-                                    alt={course.title}
-                                    data-ai-hint={course.imageHint}
-                                    fill
-                                    className="object-cover"
-                                    />
-                                </div>
-                                </div>
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                  <div className="flex justify-between items-start mb-2">
-                                      <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                                      <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
-                                      <span>{course.language}</span>
-                                      <MessageSquare className="w-4 h-4" />
-                                      </div>
-                                  </div>
-                                  <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
-                                  <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts on {course.startDate} <span className="mx-1">•</span> Ends on {course.endDate}</p>
-                                  
-                                  <div className="flex items-center gap-2 mb-1">
-                                      <p className="text-2xl font-bold">₹{course.price}</p>
-                                      <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
-                                  </div>
-                                  <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
-                                      Discount of {course.discount}% applied
-                                  </div>
-                                  <p className="text-xs text-muted-foreground mb-4">(FOR FULL BATCH)</p>
-                                </CardContent>
-                                <div className="p-4 pt-0 mt-auto">
-                                    <div className="flex gap-2">
-                                        <Button variant="outline" className="w-full">EXPLORE</Button>
-                                        <Button className="w-full">BUY NOW</Button>
+                        {/* Paid Courses */}
+                        <Card className="group relative border bg-white dark:bg-card hover:border-emerald-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-emerald-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
+                                        <IndianRupee className="w-6 h-6" />
                                     </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-emerald-200 text-emerald-600 bg-emerald-50/50">PREMIUM</Badge>
                                 </div>
-                            </Card>
-                            ))}
-                        </div>
-                    </section>
-                    <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
-                        <div className="container mx-auto px-4 md:px-6">
-                            <div className="text-center mb-12">
-                                <h2 className="text-3xl font-bold">Explore Other Category Blogs</h2>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                            {cuetPgBlogLinks.map((link, index) => (
-                                <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
-                                    <Link href={link.href}>
-                                        <div className="flex items-center gap-2">
-                                            <CheckIcon />
-                                            <span className="text-sm font-medium text-left">{link.text}</span>
-                                        </div>
-                                        <ArrowRight className="h-5 w-5 text-gray-400" />
-                                    </Link>
-                                </Button>
-                            ))}
-                            </div>
-                        </div>
-                    </section>
-                    <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '1.4s' }}>
-                      <div className="max-w-4xl mx-auto text-center">
-                        <h2 className="text-3xl font-bold mb-8">CUET PG 2026 Exam FAQs</h2>
-                        <Accordion type="single" collapsible className="w-full space-y-4">
-                          {cuetPgFaqs.map((faq, index) => (
-                            <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
-                              <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                              <AccordionContent className="p-4 pt-0 text-left">
-                               {faq.answer}
-                              </AccordionContent>
-                            </AccordionItem>
-                          ))}
-                        </Accordion>
-                      </div>
-                    </section>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Paid Courses</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Comprehensive curricula with structured paths, premium notes, and 100% coverage.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/paid-courses">Explore Paid Courses</Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Live Classes */}
+                        <Card className="group relative border bg-white dark:bg-card hover:border-indigo-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-indigo-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-indigo-50 rounded-lg text-indigo-600">
+                                        <Monitor className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-indigo-200 text-indigo-600 bg-indigo-50/50">LIVE</Badge>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Live Classes</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Interactive real-time sessions with top faculty. Instant doubt clearing and peer learning.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/book-demo">Join Live Session</Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
                 </div>
-            )}
+            </section>
+
+            <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+              <div className="max-w-4xl mx-auto text-center">
+                <h2 className="text-3xl font-bold mb-8">CUET {activeTab.toUpperCase()} 2026 Exam FAQs</h2>
+                <Accordion type="single" collapsible className="w-full space-y-4">
+                  {(activeTab === 'ug' ? cuetUgFaqs : cuetPgFaqs).map((faq, index) => (
+                    <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
+                      <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
+                      <AccordionContent className="p-4 pt-0 text-left">
+                       {faq.answer}
+                      </AccordionContent>
+                    </AccordionItem>
+                  ))}
+                </Accordion>
+              </div>
+            </section>
         </div>
     );
 }
