@@ -97,7 +97,7 @@ function SchoolPageContent() {
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-12 animate-fade-in-up">
-                <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white">
+                <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white shadow-sm">
                     <div className="relative w-full aspect-[16/6]">
                         <Image
                             src="/result.jpg"
@@ -241,8 +241,8 @@ function SchoolPageContent() {
                                     </p>
                                 </div>
                                 <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-black uppercase tracking-widest text-[10px] h-10 rounded-lg shadow-none transition-all">
-                                        <Link href="/free-courses">EXPLORE FREE COURSES</Link>
+                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/free-courses">Explore Free Courses</Link>
                                     </Button>
                                 </div>
                             </CardContent>
@@ -264,8 +264,8 @@ function SchoolPageContent() {
                                     </p>
                                 </div>
                                 <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-black uppercase tracking-widest text-[10px] h-10 rounded-lg shadow-none transition-all">
-                                        <Link href="/paid-courses">EXPLORE PAID COURSES</Link>
+                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/paid-courses">Explore Paid Courses</Link>
                                     </Button>
                                 </div>
                             </CardContent>
@@ -287,8 +287,8 @@ function SchoolPageContent() {
                                     </p>
                                 </div>
                                 <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-black uppercase tracking-widest text-[10px] h-10 rounded-lg shadow-none transition-all">
-                                        <Link href="/book-demo">JOIN LIVE SESSION</Link>
+                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/book-demo">Join Live Session</Link>
                                     </Button>
                                 </div>
                             </CardContent>
