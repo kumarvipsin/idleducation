@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -73,7 +72,7 @@ const allCoursesCategories = [
     {
         name: "Govt. Exams",
         description: "SSC, Banking, & Railway.",
-        href: "/examcat?category=govt-job-exams",
+        href: "#",
         icon: <Landmark className="h-5 w-5" />,
         colorClasses: "bg-indigo-500 text-white"
     },
