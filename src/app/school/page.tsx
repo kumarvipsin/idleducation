@@ -74,18 +74,18 @@ function SchoolPageContent() {
 
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
-            <section className="mb-8 animate-fade-in-up">
-                <Card className="overflow-hidden shadow-none border-none bg-transparent">
-                    <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-white rounded-2xl overflow-hidden">
+            <section className="mb-12 animate-fade-in-up">
+                <div className="relative rounded-2xl overflow-hidden shadow-sm border border-border/50 bg-white">
+                    <div className="relative w-full aspect-[2/1] md:aspect-[16/6]">
                         <Image
                             src="/result.jpg"
                             alt="Academic Banners"
                             data-ai-hint="students exam success"
                             fill
-                            className="object-contain"
+                            className="object-cover"
                         />
                     </div>
-                </Card>
+                </div>
             </section>
 
             <section className="mb-16 animate-fade-in-up">
