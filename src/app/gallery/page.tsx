@@ -125,9 +125,9 @@ function GalleryPageContent() {
                                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                                <div className="absolute bottom-0 left-0 p-4 transition-transform duration-300 translate-y-full group-hover:translate-y-0">
-                                    <h3 className="text-white font-bold text-lg">{image.title}</h3>
-                                    <p className="text-white/80 text-sm">{image.category}</p>
+                                <div className="absolute bottom-0 left-0 p-3 transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+                                    <h3 className="text-white font-bold text-[10px] uppercase tracking-wide">{image.title}</h3>
+                                    <p className="text-white/70 text-[8px] font-bold uppercase tracking-tighter mt-0.5">{image.category}</p>
                                 </div>
                             </div>
                         ))}
