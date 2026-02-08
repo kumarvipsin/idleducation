@@ -10,7 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { useSearchParams } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 type GalleryImage = {
   id: string;
@@ -145,6 +145,12 @@ function GalleryPageContent() {
                 <DialogContent className="max-w-[90vw] md:max-w-5xl p-0 overflow-hidden border-none bg-transparent shadow-none [&>button]:hidden">
                     {selectedImage && (
                         <div className="relative w-full h-full flex flex-col items-center justify-center group/popup">
+                            <DialogHeader className="sr-only">
+                                <DialogTitle>{selectedImage.title}</DialogTitle>
+                                <DialogDescription>
+                                    View full size image of {selectedImage.title} from the {selectedImage.category} collection.
+                                </DialogDescription>
+                            </DialogHeader>
                             <div className="relative max-h-[80vh] w-full flex items-center justify-center overflow-hidden rounded-2xl">
                                 <GcsImage 
                                     filePath={selectedImage.imageUrl} 
