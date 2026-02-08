@@ -1,40 +1,24 @@
 'use client';
 
 import React, { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     ArrowRight, 
     BookOpen, 
-    ClipboardList, 
-    Monitor, 
-    FileText, 
-    Landmark,
-    Sparkles,
-    Book,
+    Sparkles, 
+    Book, 
     PlayCircle,
     IndianRupee,
     Eye,
     Download,
-    CheckCircle2,
-    Calendar,
-    Users,
-    MessageSquare,
-    ClipboardEdit,
-    BookCheck as BookCheckIcon,
-    BookCopy,
+    Monitor,
     GraduationCap,
     Sigma
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 
 // Subjects for CUET UG/PG
@@ -118,27 +102,29 @@ export default function CuetPage() {
             </section>
             
             <div className="mb-12">
-                <div className="flex justify-start md:justify-center items-center gap-3">
-                    <Button 
-                        onClick={() => setActiveTab('ug')} 
-                        variant="outline"
-                        className={cn(
-                            "rounded-full px-8 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-10 shadow-none",
-                            activeTab === 'ug' ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
-                        )}
-                    >
-                        CUET UG
-                    </Button>
-                    <Button 
-                        onClick={() => setActiveTab('pg')} 
-                        variant="outline"
-                        className={cn(
-                            "rounded-full px-8 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-10 shadow-none",
-                            activeTab === 'pg' ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
-                        )}
-                    >
-                        CUET PG
-                    </Button>
+                <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex justify-start md:justify-center items-center gap-3 whitespace-nowrap px-4 sm:px-0">
+                        <Button 
+                            onClick={() => setActiveTab('ug')} 
+                            variant="outline"
+                            className={cn(
+                                "rounded-full px-6 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-9 shadow-none whitespace-nowrap",
+                                activeTab === 'ug' ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                            )}
+                        >
+                            CUET UG
+                        </Button>
+                        <Button 
+                            onClick={() => setActiveTab('pg')} 
+                            variant="outline"
+                            className={cn(
+                                "rounded-full px-6 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-9 shadow-none whitespace-nowrap",
+                                activeTab === 'pg' ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                            )}
+                        >
+                            CUET PG
+                        </Button>
+                    </div>
                 </div>
             </div>
     
