@@ -116,8 +116,15 @@ function SchoolPageContent() {
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Prep
                 </div>
-                <h1 className="text-xl md:text-3xl font-bold text-foreground tracking-tight text-left leading-tight text-balance">
-                    <span className="text-3xl md:text-6xl font-black">{activeTab} CBSE 2026-2027</span> <br/>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight text-left leading-tight text-balance">
+                    <span className="relative inline-block">
+                        <span className="relative z-10">{activeTab} CBSE 2026-2027</span>
+                        <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                            </svg>
+                        </div>
+                    </span> <br/>
                     <span className="text-primary text-sm md:text-base font-bold">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-bold leading-relaxed">
