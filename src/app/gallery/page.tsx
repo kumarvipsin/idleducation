@@ -169,20 +169,6 @@ function GalleryPageContent() {
                             >
                                 <X className="h-6 w-6" />
                             </Button>
-                            
-                            <div className="mt-4 w-full max-w-2xl px-6 py-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 text-white opacity-0 group-hover/popup:opacity-100 transition-all transform translate-y-4 group-hover/popup:translate-y-0 shadow-2xl">
-                                <div className="flex justify-between items-end">
-                                    <div>
-                                        <h3 className="text-xl font-black tracking-tight uppercase">{selectedImage.title}</h3>
-                                        <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1">{selectedImage.category}</p>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <Button size="sm" variant="secondary" className="h-8 rounded-full text-[10px] font-black uppercase tracking-wider px-4">
-                                            Download
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     )}
                 </DialogContent>
