@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -62,15 +61,15 @@ function GalleryPageContent() {
   return (
     <Dialog>
         <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="mb-8 space-y-4">
-                 <div className="relative mx-auto max-w-md">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <div className="mb-12 space-y-6">
+                 <div className="relative mx-auto max-w-3xl shadow-lg rounded-lg overflow-hidden">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
                     <Input
                         type="text"
                         placeholder="Search by title..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-10 w-full rounded-full h-10"
+                        className="pl-12 w-full rounded-lg h-16 text-lg border-2 border-primary/10 focus-visible:ring-primary/20"
                     />
                 </div>
                  <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
