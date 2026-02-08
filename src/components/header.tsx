@@ -45,42 +45,42 @@ const allCoursesCategories = [
         name: "Free Courses",
         description: "High-quality free video lessons.",
         href: "/free-courses",
-        icon: <BookOpen className="h-5 w-5" />,
+        icon: <BookOpen className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
         name: "Paid Courses",
         description: "Premium structured learning.",
         href: "/paid-courses",
-        icon: <IndianRupee className="h-5 w-5" />,
+        icon: <IndianRupee className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
         name: "School Board",
         description: "Prep for Class 5 to 12.",
         href: "/school",
-        icon: <GraduationCap className="h-5 w-5" />,
+        icon: <GraduationCap className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
         name: "CUET UG/PG",
         description: "University entrance tests.",
         href: "/category/cuet",
-        icon: <GraduationCap className="h-5 w-5" />,
+        icon: <GraduationCap className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
         name: "Govt. Exams",
         description: "SSC, Banking, & Railway.",
         href: "#",
-        icon: <Landmark className="h-5 w-5" />,
+        icon: <Landmark className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
         name: "Test Series",
         description: "Rigorous preparation tests.",
         href: "#",
-        icon: <ClipboardList className="h-5 w-5" />,
+        icon: <ClipboardList className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
 ];
@@ -363,7 +363,7 @@ export function Header() {
                                     </div>
                                 ))}
                             </RadioGroup>
-                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-extrabold">
+                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-bold">
                                 Donate to {donationCategory || "..."}
                             </Button>
                         </div>
@@ -396,6 +396,11 @@ export function Header() {
         <span className="relative z-10 text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
       </Link>
     );
+  };
+
+  const logoutAction = async () => {
+    await logout();
+    router.push('/');
   };
 
   return (
