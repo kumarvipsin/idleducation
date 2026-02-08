@@ -69,7 +69,7 @@ export default function AboutPage() {
                     <div className="grid lg:grid-cols-12 gap-12 items-center">
                         {/* Image Column */}
                         <div className="lg:col-span-5 relative">
-                            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl group bg-muted/20">
+                            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-muted/20">
                                 {loading ? (
                                     <Skeleton className="w-full h-full rounded-2xl" />
                                 ) : director?.photoUrl ? (
@@ -77,24 +77,17 @@ export default function AboutPage() {
                                     filePath={director.photoUrl}
                                     alt={director.name || "Director's Photo"}
                                     fill
-                                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                    className="object-cover object-top scale-110"
                                     />
                                 ) : (
                                     <Image
                                     src="/teacher.png"
                                     alt="Director's Photo"
                                     fill
-                                    className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                    className="object-cover object-top scale-110"
                                     />
                                 )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8">
-                                    <p className="text-white font-black text-xl tracking-tight uppercase">{director?.name || 'AMOD KUMAR SHARMA'}</p>
-                                    <p className="text-white/80 text-xs font-bold uppercase tracking-[0.2em]">Managing Director</p>
-                                </div>
                             </div>
-                            {/* Decorative element behind image */}
-                            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-primary/5 rounded-full -z-10 animate-pulse"></div>
-                            <div className="absolute -top-6 -right-6 w-24 h-24 bg-accent/10 rounded-full -z-10 animate-bounce" style={{ animationDuration: '3s' }}></div>
                         </div>
 
                         {/* Content Column */}
