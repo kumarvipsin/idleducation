@@ -29,7 +29,7 @@ export default function AboutPage() {
     const team = [
       {
         name: "Vijay Verma",
-        title: "Head Of Academics & (MD)",
+        title: "Head Academics & (MD)",
         imageUrl: "/vijay.png",
         imageAlt: "Vijay Verma",
         imageHint: "man smiling",
