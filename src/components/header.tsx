@@ -490,7 +490,7 @@ export function Header() {
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                    <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
+                                                    <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                         <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
@@ -512,9 +512,9 @@ export function Header() {
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {applyForLinks.map(({ href, label, icon, description, color }) => (
-                                                    <Link key={href} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
+                                                {applyForLinks.map(({ href, label, icon, description }) => (
+                                                    <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
+                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", "bg-primary text-white")}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
                                                             <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
