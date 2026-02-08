@@ -1,13 +1,32 @@
+
 'use client';
 
 import React, { useState, useEffect, Suspense, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, BookOpen, GraduationCap, Sparkles, Book, Sigma, TestTube2, BookText, Landmark, Scale, TrendingUp, Eye, Download, Home } from "lucide-react";
+import { 
+    ArrowRight, 
+    BookOpen, 
+    GraduationCap, 
+    Sparkles, 
+    Book, 
+    Sigma, 
+    TestTube2, 
+    BookText, 
+    Landmark, 
+    Scale, 
+    TrendingUp, 
+    Eye, 
+    Download, 
+    Home,
+    PlayCircle,
+    IndianRupee,
+    Monitor
+} from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 const schoolSubjects = [
     { name: "Science", key: "science", icon: <TestTube2 className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
@@ -187,6 +206,76 @@ function SchoolPageContent() {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </section>
+
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                <div className="space-y-8">
+                    <div className="text-center">
+                        <h3 className="text-xl md:text-3xl font-black text-foreground uppercase tracking-tight">
+                            Choose Your <span className="text-primary">Learning Path</span>
+                        </h3>
+                        <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-widest mt-2">Premium solutions for every student</p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        {/* Free Courses */}
+                        <Card className="group relative overflow-hidden border-none bg-orange-50 shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                                <PlayCircle className="w-20 h-20 text-orange-600" />
+                            </div>
+                            <CardContent className="p-8 space-y-4">
+                                <div className="p-3 bg-orange-100 rounded-xl w-fit text-orange-600">
+                                    <PlayCircle className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-xl font-black text-orange-900 uppercase">Free Courses</h4>
+                                <p className="text-sm font-bold text-orange-800/70 leading-relaxed">
+                                    Access expert-led video lessons at no cost. Perfect for foundation building and quick revisions.
+                                </p>
+                                <Button asChild className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
+                                    <Link href="/free-courses">Start Learning</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+
+                        {/* Paid Courses */}
+                        <Card className="group relative overflow-hidden border-none bg-emerald-50 shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                                <IndianRupee className="w-20 h-20 text-emerald-600" />
+                            </div>
+                            <CardContent className="p-8 space-y-4">
+                                <div className="p-3 bg-emerald-100 rounded-xl w-fit text-emerald-600">
+                                    <IndianRupee className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-xl font-black text-emerald-900 uppercase">Paid Courses</h4>
+                                <p className="text-sm font-bold text-emerald-800/70 leading-relaxed">
+                                    Comprehensive curricula with structured paths, premium notes, and 100% syllabus coverage.
+                                </p>
+                                <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
+                                    <Link href="/paid-courses">Enroll Today</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
+
+                        {/* Live Classes */}
+                        <Card className="group relative overflow-hidden border-none bg-indigo-50 shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl">
+                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
+                                <Monitor className="w-20 h-20 text-indigo-600" />
+                            </div>
+                            <CardContent className="p-8 space-y-4">
+                                <div className="p-3 bg-indigo-100 rounded-xl w-fit text-indigo-600">
+                                    <Monitor className="w-6 h-6" />
+                                </div>
+                                <h4 className="text-xl font-black text-indigo-900 uppercase">Live Classes</h4>
+                                <p className="text-sm font-bold text-indigo-800/70 leading-relaxed">
+                                    Interactive real-time sessions with top faculty. Instant doubt clearing and collaborative peer learning.
+                                </p>
+                                <Button asChild className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
+                                    <Link href="/book-demo">Book Free Demo</Link>
+                                </Button>
+                            </CardContent>
+                        </Card>
                     </div>
                 </div>
             </section>
