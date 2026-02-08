@@ -289,9 +289,9 @@ export function Header() {
 
   const applyForLinks = [
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-500 text-white", description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-sky-500 text-white", description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-purple-500 text-white", description: "Have questions? Send us an enquiry." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-primary text-white", description: "Experience our teaching style." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-primary text-white", description: "Help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-primary text-white", description: "Have questions? Send us an enquiry." },
   ];
 
   const renderAuthSection = () => {
