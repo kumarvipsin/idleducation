@@ -49,25 +49,25 @@ function SchoolPageContent() {
         {
           title: "GET THE\nIDL Advantage",
           icon: <Sparkles />,
-          bgColor: "bg-amber-500",
-          textColor: "text-white",
-          iconBg: "bg-white/20",
+          bgColor: "bg-amber-50 border-amber-100",
+          textColor: "text-amber-900",
+          iconBg: "bg-amber-100 text-amber-600",
           href: "/about"
         },
         {
           title: "REVISION\nHigh-Quality Notes",
           icon: <BookOpen />,
-          bgColor: "bg-blue-600",
-          textColor: "text-white",
-          iconBg: "bg-white/20",
+          bgColor: "bg-blue-50 border-blue-100",
+          textColor: "text-blue-900",
+          iconBg: "bg-blue-100 text-blue-600",
           href: "/resources/notes"
         },
          {
           title: "SOLUTIONS\nNCERT Step-by-Step",
           icon: <Book />,
-          bgColor: "bg-indigo-700",
-          textColor: "text-white",
-          iconBg: "bg-white/20",
+          bgColor: "bg-indigo-50 border-indigo-100",
+          textColor: "text-indigo-900",
+          iconBg: "bg-indigo-100 text-indigo-600",
           href: "/resources/ncert-solutions"
         }
     ];
@@ -76,7 +76,7 @@ function SchoolPageContent() {
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-8 animate-fade-in-up">
                 <Card className="overflow-hidden shadow-lg border-none bg-transparent">
-                    <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-muted rounded-2xl overflow-hidden">
+                    <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-white rounded-2xl overflow-hidden">
                         <Image
                             src="/result.jpg"
                             alt="Academic Banners"
@@ -95,7 +95,7 @@ function SchoolPageContent() {
                     Academic Prep
                 </div>
                 <h1 className="text-xl md:text-3xl font-bold text-foreground tracking-tight text-left leading-tight text-balance">
-                    <span className="text-3xl md:text-5xl font-black">{activeTab} CBSE 2026-2027</span> <br/>
+                    <span className="text-3xl md:text-6xl font-black">{activeTab} CBSE 2026-2027</span> <br/>
                     <span className="text-primary text-sm md:text-base font-bold">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-bold leading-relaxed">
@@ -131,15 +131,15 @@ function SchoolPageContent() {
                         return (
                             <Link key={index} href={card.href} className="group">
                                 <div className={cn(
-                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-300 shadow-lg group-hover:scale-[1.02] active:scale-[0.98]",
+                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-300 shadow-sm border group-hover:shadow-md group-hover:scale-[1.02] active:scale-[0.98]",
                                     card.bgColor
                                 )}>
-                                    <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:rotate-12", card.iconBg)}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6 text-white" })}
+                                    <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:rotate-12 shadow-sm", card.iconBg)}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{header}</h4>
-                                        <p className={cn("text-[11px] font-bold opacity-90 truncate", card.textColor)}>{subtitle}</p>
+                                        <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{subtitle}</p>
                                     </div>
                                     <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
                                 </div>
@@ -168,18 +168,18 @@ function SchoolPageContent() {
                                         {React.cloneElement(subject.icon as React.ReactElement, { className: "w-5 h-5" })}
                                     </div>
                                     <div className="space-y-0.5">
-                                        <h4 className="font-bold text-base text-foreground tracking-tight leading-tight">{subject.name}</h4>
-                                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide opacity-80">Academic Session 2026-27</p>
+                                        <h4 className="font-bold text-sm text-foreground tracking-tight leading-tight">{subject.name}</h4>
+                                        <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-wide opacity-80">Academic Session 2026-27</p>
                                     </div>
                                 </div>
                                 <div className="flex flex-row items-center gap-2 w-full sm:w-auto shrink-0">
-                                    <Button variant="outline" size="sm" className="flex-1 sm:w-28 h-8 rounded-md text-[10px] font-bold tracking-wide uppercase text-blue-600 border-blue-200 hover:bg-blue-50 transition-all shadow-none">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 rounded-lg text-[9px] font-bold tracking-wide uppercase text-blue-600 border-blue-200 hover:bg-blue-50 transition-all shadow-none">
                                         <div className="flex items-center">
                                             <Eye className="w-3.5 h-3.5 mr-1.5" />
                                             <span>VIEW PDF</span>
                                         </div>
                                     </Button>
-                                    <Button variant="outline" size="sm" className="flex-1 sm:w-28 h-8 rounded-md text-[10px] font-bold tracking-wide uppercase text-emerald-600 border-emerald-200 hover:bg-emerald-50 transition-all shadow-none">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 rounded-lg text-[9px] font-bold tracking-wide uppercase text-emerald-600 border-emerald-200 hover:bg-emerald-50 transition-all shadow-none">
                                         <div className="flex items-center">
                                             <Download className="w-3.5 h-3.5 mr-1.5" />
                                             <span>Get PDF</span>
