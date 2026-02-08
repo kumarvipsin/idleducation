@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -18,21 +17,21 @@ const centers = [
     },
     {
       name: "Mangol Puri",
-      address: "D-Block Mangol Puri, Delhi-110083",
+      address: "Mangol Puri, Delhi-110083",
       imageUrl: "https://picsum.photos/seed/center2/800/600",
       imageHint: "modern classroom",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Budh Vihar",
-      address: "Budh Vihar Phase-1, Delhi-110086",
+      address: "Budh Vihar, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center3/800/600",
       imageHint: "students learning",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Krishan Vihar",
-      address: "E-Block Krishan Vihar, Delhi-110086",
+      address: "Krishan Vihar, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center4/800/600",
       imageHint: "library books",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
