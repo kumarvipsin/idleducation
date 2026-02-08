@@ -1,0 +1,242 @@
+{
+  "entities": {
+    "User": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "User",
+      "type": "object",
+      "description": "Represents a user of the EduVerse platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the User entity."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "name": {
+          "type": "string",
+          "description": "User's full name."
+        },
+        "registrationDate": {
+          "type": "string",
+          "description": "Date and time the user registered.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "name",
+        "registrationDate"
+      ]
+    },
+    "StudyPlan": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "StudyPlan",
+      "type": "object",
+      "description": "Represents a personalized study plan generated for a user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the StudyPlan entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N StudyPlan)"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "Start date of the study plan.",
+          "format": "date-time"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "End date of the study plan.",
+          "format": "date-time"
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the study plan."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "startDate",
+        "endDate",
+        "description"
+      ]
+    },
+    "Content": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Content",
+      "type": "object",
+      "description": "Represents learning content available on the EduVerse platform.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Content entity."
+        },
+        "contentType": {
+          "type": "string",
+          "description": "Type of content (e.g., video, text, practice test)."
+        },
+        "title": {
+          "type": "string",
+          "description": "Title of the content."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the content."
+        },
+        "url": {
+          "type": "string",
+          "description": "URL of the content.",
+          "format": "uri"
+        },
+        "board": {
+          "type": "string",
+          "description": "Curriculum board this content belongs to (e.g., CBSE, NIOS)."
+        },
+        "classLevel": {
+          "type": "number",
+          "description": "Class level this content is suitable for (4-12)."
+        },
+        "examType": {
+          "type": "string",
+          "description": "Type of exam this content prepares for (e.g., SSC, RRB, Delhi Police)."
+        }
+      },
+      "required": [
+        "id",
+        "contentType",
+        "title",
+        "description",
+        "url",
+        "board",
+        "classLevel"
+      ]
+    },
+    "Progress": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Progress",
+      "type": "object",
+      "description": "Represents user progress on specific content.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Progress entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to User. (Relationship: User 1:N Progress)"
+        },
+        "contentId": {
+          "type": "string",
+          "description": "Reference to Content. (Relationship: Content 1:N Progress)"
+        },
+        "date": {
+          "type": "string",
+          "description": "Date the progress was recorded.",
+          "format": "date-time"
+        },
+        "percentageComplete": {
+          "type": "number",
+          "description": "Percentage of content completed."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "contentId",
+        "date",
+        "percentageComplete"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "User",
+          "schema": {
+            "$ref": "#/backend/entities/User"
+          },
+          "description": "Stores user profile information.  The `userId` parameter corresponds to the Firebase Auth UID.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user, matching their Firebase Auth UID."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/studyPlans/{studyPlanId}",
+        "definition": {
+          "entityName": "StudyPlan",
+          "schema": {
+            "$ref": "#/backend/entities/StudyPlan"
+          },
+          "description": "Stores study plans specific to each user. The path enforces user-based ownership.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user, matching their Firebase Auth UID."
+            },
+            {
+              "name": "studyPlanId",
+              "description": "The unique identifier for the study plan."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/content/{contentId}",
+        "definition": {
+          "entityName": "Content",
+          "schema": {
+            "$ref": "#/backend/entities/Content"
+          },
+          "description": "Stores all learning content available on the EduVerse platform.",
+          "params": [
+            {
+              "name": "contentId",
+              "description": "The unique identifier for the content."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/progress/{progressId}",
+        "definition": {
+          "entityName": "Progress",
+          "schema": {
+            "$ref": "#/backend/entities/Progress"
+          },
+          "description": "Stores user progress data for specific content.  The path enforces user-based ownership.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier for the user, matching their Firebase Auth UID."
+            },
+            {
+              "name": "progressId",
+              "description": "The unique identifier for the progress record."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to support the EduVerse platform's core features, focusing on user personalization and content delivery for academic classes, government exam preparation, and NIOS board classes. It prioritizes authorization independence and efficient querying. The structure leverages path-based ownership for user-specific data like study plans and progress. Content is stored in a separate collection with denormalized data to support efficient filtering and recommendations. Roles are managed via document existence in dedicated collections, avoiding reliance on custom claims and enabling secure administrative functions.\n\n**Authorization Independence:**\n*   User-specific data (StudyPlans and Progress) is stored under the `/users/{userId}` path, ensuring clear ownership. Access control can be implemented based on `request.auth.uid == userId`. No `get()` calls are needed to verify ownership.\n\n**QAPs Support:**\n*   Segregation: Different data types (User profiles, Study Plans, Content, Progress) are stored in separate collections, each with its own security ruleset. This ensures that rules are not filters.\n*   Path-Based Ownership: Utilizing paths like `/users/{userId}/studyPlans/{studyPlanId}` and `/users/{userId}/progress/{progressId}` makes list operations secure, filtering by `userId` to show only the user's own data.\n\n**Denormalization:**\nThe current data structure does not need denormalization. If Content required collaboration in the future a `members` map could be added."
+  }
+}
