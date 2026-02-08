@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -55,7 +56,7 @@ export default function OfflineCentersPage() {
                 </div>
             </div>
 
-            {/* Heading Section - Styled like Excellence Results */}
+            {/* Heading Section */}
             <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
                 <div className="text-center mb-16 animate-fade-in-up">
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">
@@ -99,14 +100,14 @@ export default function OfflineCentersPage() {
                                     <MapPin className="w-4 h-4 mt-1 shrink-0 text-primary" />
                                     <p className="text-[13px] font-bold leading-relaxed">{center.address}</p>
                                 </div>
-                                <div className="grid grid-cols-2 gap-3">
-                                    <Button asChild variant="outline" className="h-12 rounded-xl font-bold border-primary/20 text-primary hover:bg-primary/5 transition-all shadow-none">
+                                <div className="flex flex-col gap-3">
+                                    <Button asChild variant="outline" className="w-full h-12 rounded-xl font-bold border-primary/20 text-primary hover:bg-primary/5 transition-all shadow-none">
                                         <a href="tel:7011117585">
                                             <Phone className="w-4 h-4 mr-2" />
                                             Call Us
                                         </a>
                                     </Button>
-                                    <Button asChild className="h-12 rounded-xl font-bold shadow-lg shadow-primary/10 transition-all active:scale-95 group/btn">
+                                    <Button asChild className="w-full h-12 rounded-xl font-bold shadow-lg shadow-primary/10 transition-all active:scale-95 group/btn">
                                         <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
                                             Visit Centre
                                             <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
