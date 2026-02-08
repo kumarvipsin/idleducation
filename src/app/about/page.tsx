@@ -29,7 +29,7 @@ export default function AboutPage() {
     const team = [
       {
         name: "Vijay Verma",
-        title: "Head Of Academics",
+        title: "Head Of Academics & (MD)",
         imageUrl: "/vijay.png",
         imageAlt: "Vijay Verma",
         imageHint: "man smiling",
@@ -157,7 +157,7 @@ export default function AboutPage() {
                                 </div>
                                 <div className="p-6 text-center">
                                     <h3 className="text-lg font-bold text-foreground tracking-tight">{member.name}</h3>
-                                    <p className="text-xs font-semibold text-primary mt-1 uppercase tracking-wider">{member.title}</p>
+                                    <p className="text-xs font-semibold text-primary mt-1 tracking-wider">{member.title}</p>
                                 </div>
                             </CardContent>
                         </Card>
