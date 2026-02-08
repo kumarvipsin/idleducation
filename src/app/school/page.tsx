@@ -75,7 +75,7 @@ function SchoolPageContent() {
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-8 animate-fade-in-up">
-                <Card className="overflow-hidden shadow-lg border-none bg-transparent">
+                <Card className="overflow-hidden shadow-none border-none bg-transparent">
                     <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-white rounded-2xl overflow-hidden">
                         <Image
                             src="/result.jpg"
