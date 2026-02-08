@@ -69,9 +69,9 @@ export default function AboutPage() {
                     <div className="grid lg:grid-cols-12 gap-12 items-center">
                         {/* Image Column */}
                         <div className="lg:col-span-5 relative">
-                            <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden shadow-2xl group bg-muted/20">
+                            <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl group bg-muted/20">
                                 {loading ? (
-                                    <Skeleton className="w-full h-full rounded-[2.5rem]" />
+                                    <Skeleton className="w-full h-full rounded-2xl" />
                                 ) : director?.photoUrl ? (
                                     <GcsImage
                                     filePath={director.photoUrl}
