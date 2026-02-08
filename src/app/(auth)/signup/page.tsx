@@ -90,7 +90,7 @@ export default function SignupPage() {
                   className="absolute inset-3 bg-primary/5 rounded-full blur-xl"
                 />
 
-                <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-br from-primary to-primary/80 shadow-xl border border-white/20">
+                <div className="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-gradient-to-br from-primary to-primary/80 shadow-xl border border-white/20">
                   <ShieldCheck className="w-6 h-6 text-white" />
                 </div>
               </div>
