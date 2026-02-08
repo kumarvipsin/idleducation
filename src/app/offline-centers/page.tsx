@@ -1,23 +1,11 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award, X, Phone } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Building, MapPin, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
-import { Badge } from "@/components/ui/badge";
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { cn } from "@/lib/utils";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
-
+import React from 'react';
 
 const cities = [
     "Mukherjee Nagar",
@@ -58,71 +46,18 @@ const centers = [
 ];
 
 export default function OfflineCentersPage() {
-    const [api, setApi] = useState<CarouselApi>();
-    const [current, setCurrent] = useState(0);
-
-    useEffect(() => {
-        if (!api) {
-        return;
-        }
-    
-        setCurrent(api.selectedScrollSnap());
-        api.on("select", () => {
-        setCurrent(api.selectedScrollSnap());
-        });
-    }, [api]);
-
-    const scrollTo = useCallback(
-        (index: number) => {
-        api?.scrollTo(index);
-        },
-        [api]
-    );
-    
-    const slides = [
-      { src: "https://picsum.photos/seed/classroom1/1600/700", alt: "IDL Offline Center", hint: "classroom students" },
-      { src: "https://picsum.photos/seed/learning2/1600/700", alt: "Students learning", hint: "students learning" },
-      { src: "https://picsum.photos/seed/collaborate3/1600/700", alt: "Students collaborating", hint: "students collaborating" },
-    ];
-
     return (
         <div className="relative bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                 <div className="relative rounded-2xl overflow-hidden shadow-sm border">
-                    <Carousel
-                      setApi={setApi}
-                      plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
-                      className="w-full"
-                      opts={{ loop: true }}
-                    >
-                        <CarouselContent>
-                            {slides.map((slide, index) => (
-                                <CarouselItem key={index}>
-                                    <div className="relative w-full aspect-video md:aspect-[16/6]">
-                                        <Image
-                                            src={slide.src}
-                                            alt={slide.alt}
-                                            data-ai-hint={slide.hint}
-                                            fill
-                                            className="object-cover"
-                                        />
-                                    </div>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                    <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex justify-center gap-2">
-                        {slides.map((_, i) => (
-                            <button
-                                key={i}
-                                onClick={() => scrollTo(i)}
-                                className={cn(
-                                    "h-2 w-2 rounded-full transition-all duration-300",
-                                    current === i ? "w-6 bg-white" : "bg-white/50"
-                                )}
-                            />
-                        ))}
-                    </div>
+                 <div className="relative rounded-2xl overflow-hidden shadow-sm border aspect-video md:aspect-[16/6]">
+                    <Image
+                        src="https://picsum.photos/seed/offline-center-banner/1600/700"
+                        alt="IDL Offline Center"
+                        data-ai-hint="classroom students"
+                        fill
+                        className="object-cover"
+                        priority
+                    />
                 </div>
             </div>
 
