@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useAuth } from '@/context/auth-context';
@@ -43,7 +42,12 @@ const withAuth = <P extends object>(
       return null;
     }
 
-    return <WrappedComponent {...props} />;
+    // In Next.js 15, params and searchParams are Promises.
+    // Spreading props will trigger enumeration and a warning.
+    // We extract them and pass them through explicitly.
+    const { params, searchParams, ...rest } = props as any;
+
+    return <WrappedComponent {...(rest as P)} params={params} searchParams={searchParams} />;
   };
 
   AuthComponent.displayName = `withAuth(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;

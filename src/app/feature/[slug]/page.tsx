@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Home } from "lucide-react";
@@ -39,8 +38,8 @@ const featureData: { [key: string]: any } = {
   },
 };
 
-export default function FeatureDetailPage({ params }: { params: { slug: string } }) {
-  const slug = params.slug;
+export default async function FeatureDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const feature = featureData[slug];
 
   if (!feature) {
