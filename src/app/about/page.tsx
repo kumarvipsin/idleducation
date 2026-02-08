@@ -107,7 +107,7 @@ export default function AboutPage() {
                             <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
                                 <PenSquare className="w-7 h-7" /> Director's Message
                             </h3>
-                            <blockquote className="italic text-lg text-foreground/80 leading-relaxed">
+                            <blockquote className="text-lg text-foreground/80 leading-relaxed">
                                 "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our unique two-teacher model ensures every student gets the attention they deserve, making learning interactive and effective. We are committed to fostering an environment where students can explore their passions, develop critical thinking skills, and prepare for the challenges of tomorrow. We believe that with the right tools and support, every student can achieve greatness, and our mission is to provide that foundation for success."
                             </blockquote>
                             </div>
