@@ -73,14 +73,14 @@ export default function AboutPage() {
                                     filePath={director.photoUrl}
                                     alt={director.name || "Director's Photo"}
                                     fill
-                                    className="object-cover object-top grayscale"
+                                    className="object-cover object-top"
                                     />
                                 ) : (
                                     <Image
-                                    src="/teacher.png"
+                                    src="/dirpro.png"
                                     alt="Director's Photo"
                                     fill
-                                    className="object-cover object-top grayscale"
+                                    className="object-cover object-top"
                                     />
                                 )}
                             </div>
