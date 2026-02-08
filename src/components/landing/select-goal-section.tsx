@@ -1,8 +1,10 @@
+
 'use client';
 
 import Link from "next/link";
 import React from 'react';
 import { ArrowRight, BookOpen, IndianRupee, GraduationCap, Landmark, ClipboardList } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const goals = [
     {
@@ -25,14 +27,14 @@ const goals = [
     },
     {
         name: "CUET UG/PG",
-        icon: <GraduationCap className="w-6 h-6 md:w-8 md:h-8" />,
+        icon: <GraduationCap className="h-6 w-6 md:h-8 md:w-8" />,
         href: "/category/cuet",
         color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
     },
     {
         name: "GOVT. EXAMS",
         icon: <Landmark className="w-6 h-6 md:w-8 md:h-8" />,
-        href: "/examcat?category=govt-job-exams",
+        href: "#",
         color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
     },
     {
@@ -54,18 +56,33 @@ export function SelectGoalSection() {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 items-stretch">
-                        {goals.map((goal) => (
-                            <Link key={goal.name} href={goal.href} className="group block h-full">
-                                <div className={`flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all duration-300 h-full ${goal.color} hover:shadow-lg hover:-translate-y-1 border border-transparent hover:border-white/20`}>
-                                    <div className="mb-2">
-                                        {goal.icon}
+                        {goals.map((goal) => {
+                            const isDisabled = goal.href === "#";
+                            return (
+                                <Link 
+                                    key={goal.name} 
+                                    href={goal.href} 
+                                    className={cn(
+                                        "group block h-full",
+                                        isDisabled && "pointer-events-none"
+                                    )}
+                                >
+                                    <div className={cn(
+                                        "flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all duration-300 h-full border border-transparent",
+                                        goal.color,
+                                        isDisabled ? "opacity-50 grayscale-[0.5]" : "hover:shadow-lg hover:-translate-y-1 hover:border-white/20"
+                                    )}>
+                                        <div className="mb-2">
+                                            {goal.icon}
+                                        </div>
+                                        <p className="text-[10px] md:text-xs font-bold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
+                                        
+                                        {!isDisabled && <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />}
+                                        {isDisabled && <span className="text-[8px] font-bold opacity-60 mt-2 uppercase tracking-tighter">Coming Soon</span>}
                                     </div>
-                                    <p className="text-[10px] md:text-xs font-bold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
-                                    
-                                    <ArrowRight className="w-3 h-3 md:w-4 md:h-4 mt-2 text-muted-foreground group-hover:text-primary transition-colors" />
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
