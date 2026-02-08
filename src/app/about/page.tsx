@@ -65,11 +65,11 @@ export default function AboutPage() {
     <div className="bg-white dark:bg-background">
         <section className="py-16 md:py-24 bg-white dark:bg-card">
             <div className="container mx-auto px-4 md:px-6">
-                <Card className="rounded-2xl shadow-none border">
-                    <CardContent className="p-8 md:p-12">
-                        <div className="grid md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
-                        <div className="md:col-span-1 flex flex-col items-center text-center animate-fade-in-up">
-                            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-none bg-muted border-4 border-primary">
+                <Card className="rounded-[2rem] shadow-none border-none bg-muted/20">
+                    <CardContent className="p-8 md:p-16">
+                        <div className="grid lg:grid-cols-3 gap-12 items-center max-w-6xl mx-auto">
+                        <div className="lg:col-span-1 flex flex-col items-center text-center animate-fade-in-up">
+                            <div className="relative w-56 h-56 md:w-64 md:h-64 rounded-full overflow-hidden shadow-none bg-background border-8 border-white dark:border-gray-800">
                                 {loading ? (
                                     <Skeleton className="w-full h-full rounded-full" />
                                 ) : director?.photoUrl ? (
@@ -88,7 +88,7 @@ export default function AboutPage() {
                                     />
                                 )}
                             </div>
-                            <div className="text-center mt-4">
+                            <div className="text-center mt-6">
                             {loading ? (
                                 <>
                                 <Skeleton className="h-6 w-48 mx-auto" />
@@ -96,23 +96,26 @@ export default function AboutPage() {
                                 </>
                             ) : (
                                 <>
-                                <h2 className="text-xl font-bold text-foreground">{director?.name || 'AMOD KUMAR SHARMA'}</h2>
-                                <p className="text-sm text-muted-foreground">Founder & Managing Director</p>
+                                <h2 className="text-2xl font-black text-foreground tracking-tight uppercase">{director?.name || 'AMOD KUMAR SHARMA'}</h2>
+                                <p className="text-xs font-bold text-primary uppercase tracking-[0.2em] mt-1">Founder & Managing Director</p>
                                 </>
                             )}
                             </div>
                         </div>
-                        <div className="md:col-span-2 space-y-6 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                            <div>
-                            <h3 className="text-2xl md:text-3xl font-bold text-primary mb-4 flex items-center gap-2">
-                                <PenSquare className="w-7 h-7" /> Director's Message
-                            </h3>
-                            <div className="relative p-6 md:p-8 bg-primary/5 rounded-3xl border border-primary/10">
-                                <Quote className="absolute -top-3 -left-3 w-10 h-10 text-primary opacity-20 transform -rotate-12" />
-                                <blockquote className="text-lg text-foreground/80 leading-relaxed text-left relative z-10">
-                                    "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our unique two-teacher model ensures every student gets the attention they deserve, making learning interactive and effective. We are committed to fostering an environment where students can explore their passions, develop critical thinking skills, and prepare for the challenges of tomorrow. We believe that with the right tools and support, every student can achieve greatness, and our mission is to provide that foundation for success. Together, we can build a brighter future for all learners."
-                                </blockquote>
-                            </div>
+                        <div className="lg:col-span-2 space-y-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                            <div className="space-y-6">
+                                <div className="flex items-center gap-3">
+                                    <div className="h-1 w-12 bg-primary rounded-full" />
+                                    <h3 className="text-sm font-black text-primary uppercase tracking-[0.3em]">
+                                        Director's Message
+                                    </h3>
+                                </div>
+                                <div className="relative p-8 md:p-12 bg-background rounded-[2.5rem] border border-border/50 shadow-sm overflow-hidden">
+                                    <Quote className="absolute -top-4 -right-4 w-24 h-24 text-primary opacity-[0.03] transform rotate-12" />
+                                    <blockquote className="text-base md:text-xl text-foreground/90 font-medium leading-relaxed text-left relative z-10">
+                                        "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our unique two-teacher model ensures every student gets the attention they deserve, making learning interactive and effective. We are committed to fostering an environment where students can explore their passions, develop critical thinking skills, and prepare for the challenges of tomorrow. We believe that with the right tools and support, every student can achieve greatness, and our mission is to provide that foundation for success. Together, we can build a brighter future for all learners."
+                                    </blockquote>
+                                </div>
                             </div>
                         </div>
                         </div>
