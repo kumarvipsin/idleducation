@@ -135,13 +135,20 @@ export default function OfflineCentersPage() {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
-                <div className="text-center mb-8">
-                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white">IDL Learning Centres Now in{' '}
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">IDL Learning Centres Now in{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10">Delhi</span>
-                            <span className="absolute -bottom-1 left-0 w-full h-3 bg-yellow-300 z-0"></span>
+                            <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                    <path d="M0,15 Q50,5 100,15" />
+                                </svg>
+                            </div>
                         </span>
                     </h2>
+                    <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
+                        Experience premium education in person at our state-of-the-art facilities across the capital.
+                    </p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
