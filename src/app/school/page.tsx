@@ -88,7 +88,7 @@ function SchoolPageContent() {
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Prep
                 </div>
-                <h1 className="text-xl md:text-3xl font-bold text-foreground tracking-tight text-left leading-tight text-balance">
+                <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
                     {activeTab} CBSE 2026-2027 <br/>
                     <span className="text-primary text-sm md:text-base font-bold">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
