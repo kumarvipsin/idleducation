@@ -1,9 +1,8 @@
-
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon, Home, ImagePlus } from 'lucide-react';
+import { Search, Image as ImageIcon, Home, ImagePlus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getGalleryImages } from '@/app/actions';
@@ -11,6 +10,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import { useSearchParams } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 type GalleryImage = {
   id: string;
@@ -25,6 +25,7 @@ function GalleryPageContent() {
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   
   const searchParams = useSearchParams();
   const categoryParam = searchParams.get('category');
@@ -100,44 +101,86 @@ function GalleryPageContent() {
         </div>
         
         <main>
-            {loading ? (
-                <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
-                    {[...Array(8)].map((_, i) => <Skeleton key={i} className="w-full h-full rounded-lg" />)}
-                </div>
-            ) : filteredImages.length > 0 ? (
-                 <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
-                    {filteredImages.map((image, index) => (
-                        <div 
-                            key={image.id}
-                            className={cn(
-                                "group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up",
-                                image.className
-                            )}
-                            style={{ animationDelay: `${index * 50}ms` }}
-                        >
-                            <GcsImage
-                                filePath={image.imageUrl}
-                                alt={image.alt}
-                                fill
-                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                            <div className="absolute bottom-0 left-0 p-4 transition-transform duration-300 translate-y-full group-hover:translate-y-0">
-                                <h3 className="text-white font-bold text-lg">{image.title}</h3>
-                                <p className="text-white/80 text-sm">{image.category}</p>
+            <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
+                {loading ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
+                        {[...Array(8)].map((_, i) => <Skeleton key={i} className="w-full h-full rounded-lg" />)}
+                    </div>
+                ) : filteredImages.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-4 auto-rows-[200px] gap-4">
+                        {filteredImages.map((image, index) => (
+                            <div 
+                                key={image.id}
+                                onClick={() => setSelectedImage(image)}
+                                className={cn(
+                                    "group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up cursor-pointer",
+                                    image.className
+                                )}
+                                style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                <GcsImage
+                                    filePath={image.imageUrl}
+                                    alt={image.alt}
+                                    fill
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                <div className="absolute bottom-0 left-0 p-4 transition-transform duration-300 translate-y-full group-hover:translate-y-0">
+                                    <h3 className="text-white font-bold text-lg">{image.title}</h3>
+                                    <p className="text-white/80 text-sm">{image.category}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                ) : (
+                    <div className="text-center py-16">
+                        <ImageIcon className="mx-auto h-16 w-16 text-muted-foreground" />
+                        <h3 className="mt-4 text-lg font-semibold">No Images Found</h3>
+                        <p className="mt-2 text-sm text-muted-foreground">
+                            Your search for "{searchTerm}" in "{selectedCategory}" did not return any results.
+                        </p>
+                    </div>
+                )}
+
+                <DialogContent className="max-w-[90vw] md:max-w-5xl p-0 overflow-hidden border-none bg-transparent shadow-none [&>button]:hidden">
+                    {selectedImage && (
+                        <div className="relative w-full h-full flex flex-col items-center justify-center group/popup">
+                            <div className="relative max-h-[80vh] w-full flex items-center justify-center overflow-hidden rounded-2xl">
+                                <GcsImage 
+                                    filePath={selectedImage.imageUrl} 
+                                    alt={selectedImage.alt} 
+                                    width={1600} 
+                                    height={1200} 
+                                    className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl" 
+                                />
+                            </div>
+                            
+                            <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => setSelectedImage(null)}
+                                className="absolute top-4 right-4 bg-black/40 hover:bg-black/60 text-white rounded-full h-10 w-10 z-50 backdrop-blur-md transition-all opacity-0 group-hover/popup:opacity-100 scale-90 group-hover/popup:scale-100"
+                            >
+                                <X className="h-6 w-6" />
+                            </Button>
+                            
+                            <div className="mt-4 w-full max-w-2xl px-6 py-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 text-white opacity-0 group-hover/popup:opacity-100 transition-all transform translate-y-4 group-hover/popup:translate-y-0 shadow-2xl">
+                                <div className="flex justify-between items-end">
+                                    <div>
+                                        <h3 className="text-xl font-black tracking-tight uppercase">{selectedImage.title}</h3>
+                                        <p className="text-[10px] font-bold text-white/60 uppercase tracking-[0.2em] mt-1">{selectedImage.category}</p>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <Button size="sm" variant="secondary" className="h-8 rounded-full text-[10px] font-black uppercase tracking-wider px-4">
+                                            Download
+                                        </Button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    ))}
-                </div>
-            ) : (
-                <div className="text-center py-16">
-                    <ImageIcon className="mx-auto h-16 w-16 text-muted-foreground" />
-                    <h3 className="mt-4 text-lg font-semibold">No Images Found</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">
-                        Your search for "{searchTerm}" in "{selectedCategory}" did not return any results.
-                    </p>
-                </div>
-            )}
+                    )}
+                </DialogContent>
+            </Dialog>
         </main>
     </div>
   );
