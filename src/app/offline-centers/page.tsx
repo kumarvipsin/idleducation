@@ -94,7 +94,7 @@ export default function OfflineCentersPage() {
                             <CardContent className="p-6 flex-grow flex flex-col">
                                 <div className="flex items-center gap-2 mb-2">
                                     <div className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
-                                    <h3 className="text-xl font-black text-foreground uppercase tracking-tight">{center.name}</h3>
+                                    <h3 className="text-xl font-bold text-foreground tracking-tight">{center.name}</h3>
                                 </div>
                                 <div className="flex items-start gap-2 text-muted-foreground mb-8 flex-grow">
                                     <MapPin className="w-4 h-4 mt-1 shrink-0 text-primary" />
