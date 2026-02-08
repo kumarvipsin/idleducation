@@ -174,7 +174,7 @@ export default function OfflineCentersPage() {
                                     <MapPin className="w-4 h-4 mt-1 shrink-0" />
                                     <p className="text-sm">{center.address}</p>
                                 </div>
-                                <Button asChild variant="outline" className="w-full rounded-full">
+                                <Button asChild variant="outline" className="w-full h-12 rounded-xl font-bold">
                                     <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">Visit Centre</Link>
                                 </Button>
                             </CardContent>
