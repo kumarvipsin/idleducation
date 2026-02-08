@@ -1,15 +1,25 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, ReactElement, cloneElement } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BookOpen, ClipboardList, Monitor, FileText, Landmark } from "lucide-react";
+import { 
+    ArrowRight, 
+    BookOpen, 
+    Sparkles, 
+    Book, 
+    PlayCircle,
+    IndianRupee,
+    Monitor,
+    Users,
+    Calendar,
+    MessageSquare
+} from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
-import { MessageSquare, Users, Calendar } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
 
 const CheckIcon = () => (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,42 +34,50 @@ const CheckIcon = () => (
     </svg>
 );
 
-
 function ExamcatPageContent() {
     const searchParams = useSearchParams();
-    const categoryParam = searchParams.get('category');
-    const [activeTab, setActiveTab] = useState(categoryParam || 'ssc-mts');
+    const router = useRouter();
+    const categoryParam = searchParams.get('category') || 'ssc-cgl';
+    const [activeTab, setActiveTab] = useState(categoryParam);
     
     useEffect(() => {
         if(categoryParam) {
             setActiveTab(categoryParam);
         }
     }, [categoryParam]);
+
+    const handleTabChange = (tab: string) => {
+        setActiveTab(tab);
+        router.push(`/examcat?category=${encodeURIComponent(tab)}`, { scroll: false });
+    };
     
     const resourceCards = [
         {
-          title: "PDF Bank",
-          icon: <FileText className="w-6 h-6 text-pink-600" />,
-          gradient: "from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/30",
-          href: "#"
+          title: "GET THE",
+          subtitle: "Govt Job Advantage",
+          icon: <Sparkles />,
+          bgColor: "bg-amber-50 border-amber-100",
+          textColor: "text-amber-900",
+          iconBg: "bg-amber-100 text-amber-600",
+          href: "/about"
         },
         {
-          title: "Test Series",
-          icon: <ClipboardList className="w-6 h-6 text-green-600" />,
-          gradient: "from-green-100 to-teal-100 dark:from-green-900/30 dark:to-teal-800/30",
-          href: "#"
-        },
-        {
-          title: "Books",
-          icon: <BookOpen className="w-6 h-6 text-sky-600" />,
-          gradient: "from-sky-100 to-blue-100 dark:from-sky-900/30 dark:to-blue-800/30",
-          href: "/resources/reference-books"
+          title: "TEST SERIES",
+          subtitle: "High-Quality Prep",
+          icon: <BookOpen />,
+          bgColor: "bg-blue-50 border-blue-100",
+          textColor: "text-blue-900",
+          iconBg: "bg-blue-100 text-blue-600",
+          href: "/resources/notes"
         },
          {
-          title: "Blogs",
-          icon: <Monitor className="w-6 h-6 text-blue-600" />,
-          gradient: "from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-800/30",
-          href: "/blog"
+          title: "SOLUTIONS",
+          subtitle: "PYQs & Mock Tests",
+          icon: <Book />,
+          bgColor: "bg-indigo-50 border-indigo-100",
+          textColor: "text-indigo-900",
+          iconBg: "bg-indigo-100 text-indigo-600",
+          href: "/resources/ncert-solutions"
         }
     ];
 
@@ -147,117 +165,241 @@ function ExamcatPageContent() {
     const blogLinks = blogLinksData[activeTab] || blogLinksData['govt-job-exams'];
 
     return (
-        <div className="container mx-auto py-12 px-4 md:px-6">
-            <section className="mb-8 animate-fade-in-up">
-                <Card className="overflow-hidden shadow-lg border-none bg-transparent">
-                    <div className="relative w-full aspect-[2/1] md:aspect-[16/5] bg-muted rounded-2xl overflow-hidden">
+        <div className="container mx-auto py-2 px-4 md:px-6 max-w-7xl relative">
+            <section className="mb-12 animate-fade-in-up">
+                <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white shadow-none">
+                    <div className="relative w-full aspect-video md:aspect-[16/6]">
                         <Image
                             src="/result.jpg"
-                            alt="Competitive Exam Results"
+                            alt="Government Exams Results"
                             data-ai-hint="exam result banner"
                             fill
-                            className="object-contain"
+                            className="object-cover"
                         />
                     </div>
-                </Card>
+                </div>
             </section>
 
-            <section className="mb-20 animate-fade-in-up">
-              <h1 className="text-3xl md:text-5xl font-extrabold text-foreground tracking-tight text-left">
-                {(tabTitleMapping[activeTab] || 'Govt Job')} Exams 2026: Application, Syllabus, Pattern
-              </h1>
-              <p className="mt-6 max-w-4xl text-left text-muted-foreground text-lg">
-                Your one-stop destination for all government job exam preparations. Get complete details for SSC, Banking, Railways, and other government exams.
-              </p>
+            <section className="mb-16 animate-fade-in-up">
+              <div className="flex flex-col items-start gap-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-wide">
+                    <Sparkles className="w-3 h-3 text-yellow-500" />
+                    Government Job Prep
+                </div>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-foreground tracking-tight text-left leading-tight text-balance">
+                    <span className="relative inline-block">
+                        <span className="relative z-10">{(tabTitleMapping[activeTab] || 'Govt Job')} 2026-2027</span>
+                        <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                            </svg>
+                        </div>
+                    </span> <br/>
+                    <span className="text-primary text-sm md:text-base font-bold">Application, Syllabus, Pattern & Notifications</span>
+                </h1>
+                <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-bold leading-relaxed">
+                    Your ultimate destination for {(tabTitleMapping[activeTab] || 'Govt Job')} preparation. Access the latest notifications, detailed syllabus, and the most reliable study materials to secure your future.
+                </p>
+              </div>
             </section>
             
             <div className="mb-12">
-                <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex justify-start md:justify-center items-center gap-4 whitespace-nowrap px-4 sm:px-0">
-                        <Button onClick={() => setActiveTab('ssc-mts')} variant={activeTab === 'ssc-mts' ? 'default' : 'outline'} className="rounded-full px-6 h-10 font-bold">SSC MTS</Button>
-                        <Button onClick={() => setActiveTab('ssc-chsl')} variant={activeTab === 'ssc-chsl' ? 'default' : 'outline'} className="rounded-full px-6 h-10 font-bold">SSC CHSL</Button>
-                        <Button onClick={() => setActiveTab('ssc-cgl')} variant={activeTab === 'ssc-cgl' ? 'default' : 'outline'} className="rounded-full px-6 h-10 font-bold">SSC CGL</Button>
-                        <Button onClick={() => setActiveTab('delhi-police')} variant={activeTab === 'delhi-police' ? 'default' : 'outline'} className="rounded-full px-6 h-10 font-bold">DELHI POLICE</Button>
+                <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    <div className="flex justify-start md:justify-center items-center gap-3 whitespace-nowrap px-4 sm:px-0">
+                        {Object.entries(tabTitleMapping).map(([key, label]) => (
+                            <Button 
+                                key={key}
+                                onClick={() => handleTabChange(key)} 
+                                variant="outline"
+                                className={cn(
+                                    "rounded-full px-6 py-2 text-sm font-bold transition-all duration-300 border bg-transparent h-9 shadow-none whitespace-nowrap",
+                                    activeTab === key ? "border-primary text-primary bg-primary/5" : "border-muted-foreground/20 text-muted-foreground hover:border-primary/50"
+                                )}
+                            >
+                                {label}
+                            </Button>
+                        ))}
                     </div>
                 </div>
             </div>
     
-            <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                {resourceCards.map((card, index) => (
-                    <Link key={index} href={card.href} className="block group h-full">
-                        <Card className={`h-full rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${card.gradient}`}>
-                            <CardContent className="p-4 flex flex-col items-center justify-center text-center text-foreground h-full">
-                                <div className={`mb-3 p-3 rounded-full bg-white/30`}>
-                                    {card.icon}
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
+                    {resourceCards.map((card, index) => {
+                        return (
+                            <Link key={index} href={card.href} className="group">
+                                <div className={cn(
+                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-300 shadow-sm border group-hover:shadow-md group-hover:scale-[1.02] active:scale-[0.98]",
+                                    card.bgColor
+                                )}>
+                                    <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:rotate-12 shadow-sm", card.iconBg)}>
+                                        {cloneElement(card.icon as ReactElement, { className: "w-6 h-6" })}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{card.title}</h4>
+                                        <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{card.subtitle}</p>
+                                    </div>
+                                    <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
                                 </div>
-                                <h3 className="text-lg font-bold mb-1">{card.title}</h3>
-                            </CardContent>
-                        </Card>
-                    </Link>
-                ))}
-            </section>
-    
-            <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                <h2 className="text-3xl font-bold text-left mb-8">{(tabTitleMapping[activeTab] || 'Govt Job')} Exam Courses</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sscCourses.map((course, index) => (
-                    <Card key={index} className="rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col">
-                        <div className="relative">
-                        <div className="absolute top-2 left-2 bg-primary text-primary-foreground text-xs font-bold px-2 py-1 rounded-md z-10">ONLINE</div>
-                        <div className="relative w-full aspect-[16/9]">
-                            <Image
-                            src={course.imageUrl}
-                            alt={course.title}
-                            data-ai-hint={course.imageHint}
-                            fill
-                            className="object-cover"
-                            />
-                        </div>
-                        </div>
-                        <CardContent className="p-4 flex flex-col flex-grow">
-                        <div className="flex justify-between items-start mb-2">
-                            <h3 className="font-bold text-base leading-tight flex-1">{course.title}</h3>
-                            <div className="flex items-center gap-1 text-xs text-muted-foreground ml-2">
-                            <span>{course.language}</span>
-                            <MessageSquare className="w-4 h-4" />
-                            </div>
-                        </div>
-                        <p className="text-xs text-muted-foreground mb-2 flex items-center gap-1"><Users className="w-3 h-3" /> {course.target}</p>
-                        <p className="text-xs text-muted-foreground mb-4 flex items-center gap-1"><Calendar className="w-3 h-3" /> Starts {course.startDate} <span className="mx-1">•</span> Ends {course.endDate}</p>
-                        
-                        <div className="flex items-center gap-2 mb-1">
-                            <p className="text-2xl font-bold">₹{course.price}</p>
-                            <p className="text-sm text-muted-foreground line-through">₹{course.originalPrice}</p>
-                        </div>
-                        <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-md mb-4 self-start">
-                            Discount of {course.discount}% applied
-                        </div>
-                        </CardContent>
-                        <div className="p-4 pt-0 mt-auto">
-                            <div className="flex gap-2">
-                                <Button variant="outline" className="w-full h-10 font-bold">EXPLORE</Button>
-                                <Button className="w-full h-10 font-bold">BUY NOW</Button>
-                            </div>
-                        </div>
-                    </Card>
-                    ))}
+                            </Link>
+                        );
+                    })}
                 </div>
             </section>
 
-            <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-lg" style={{ animationDelay: '1.4s' }}>
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                <div className="space-y-8">
+                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
+                        <div>
+                            <h3 className="font-bold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
+                                Popular Exam Courses
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wide mt-1">Structured learning for {(tabTitleMapping[activeTab] || 'Govt Job')}</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {sscCourses.map((course, index) => (
+                        <Card key={index} className="rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 flex flex-col group/card border-muted-foreground/10">
+                            <div className="relative aspect-video w-full overflow-hidden">
+                                <div className="absolute top-2 left-2 bg-primary/90 text-white text-[9px] font-bold px-2 py-0.5 rounded-full z-10 shadow-sm uppercase tracking-wider">ONLINE</div>
+                                <Image
+                                    src={course.imageUrl}
+                                    alt={course.title}
+                                    data-ai-hint={course.imageHint}
+                                    fill
+                                    className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+                                />
+                            </div>
+                            <CardContent className="p-5 flex flex-col flex-grow">
+                                <h3 className="font-extrabold text-base leading-tight mb-2 group-hover/card:text-primary transition-colors line-clamp-2">{course.title}</h3>
+                                
+                                <div className="flex items-center gap-2 mb-3">
+                                    <Badge variant="secondary" className="text-[9px] font-bold uppercase tracking-widest bg-muted/50">{course.language}</Badge>
+                                    <Badge variant="outline" className="text-[9px] font-bold uppercase tracking-widest">{course.target}</Badge>
+                                </div>
+
+                                <div className="space-y-1.5 mb-4">
+                                    <p className="text-[10px] text-muted-foreground flex items-center gap-1.5 font-bold uppercase tracking-tight"><Calendar className="w-3 h-3" /> {course.startDate} - {course.endDate}</p>
+                                </div>
+                                
+                                <div className="mt-auto pt-4 border-t border-muted-foreground/5">
+                                    <div className="flex items-baseline gap-2 mb-3">
+                                        <p className="text-xl font-black text-foreground">₹{course.price}</p>
+                                        <p className="text-xs text-muted-foreground line-through font-bold opacity-60">₹{course.originalPrice}</p>
+                                        <Badge className="bg-green-500/10 text-green-600 border-none font-bold text-[9px] px-1.5 py-0">-{course.discount}%</Badge>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <Button variant="outline" className="w-full font-bold h-9 text-[10px] uppercase tracking-widest rounded-lg border-primary/20 hover:bg-primary/5 transition-all">EXPLORE</Button>
+                                        <Button className="w-full font-bold h-9 text-[10px] uppercase tracking-widest rounded-lg shadow-md shadow-primary/10">BUY NOW</Button>
+                                    </div>
+                                </div>
+                            </CardContent>
+                        </Card>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
+                <div className="space-y-8">
+                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
+                        <div>
+                            <h3 className="font-bold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
+                                Choose Your Learning Path
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wide mt-1">Premium solutions for every aspirant</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {/* Free Courses */}
+                        <Card className="group relative border bg-white dark:bg-card hover:border-orange-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-orange-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-orange-50 rounded-lg text-orange-600">
+                                        <PlayCircle className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-orange-200 text-orange-600 bg-orange-50/50">ACCESS</Badge>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Free Courses</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Access expert-led video lessons at no cost. Perfect for foundation building and revisions.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/free-courses">Explore Free Courses</Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Paid Courses */}
+                        <Card className="group relative border bg-white dark:bg-card hover:border-emerald-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-emerald-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
+                                        <IndianRupee className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-emerald-200 text-emerald-600 bg-emerald-50/50">PREMIUM</Badge>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Paid Courses</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Comprehensive curricula with structured paths, premium notes, and 100% coverage.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/paid-courses">Explore Paid Courses</Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+
+                        {/* Live Classes */}
+                        <Card className="group relative border bg-white dark:bg-card hover:border-indigo-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-indigo-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-indigo-50 rounded-lg text-indigo-600">
+                                        <Monitor className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-indigo-200 text-indigo-600 bg-indigo-50/50">LIVE</Badge>
+                                </div>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Live Classes</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Interactive real-time sessions with top faculty. Instant doubt clearing and peer learning.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
+                                        <Link href="/book-demo">Join Live Session</Link>
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    </div>
+                </div>
+            </section>
+
+            <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-[2rem] overflow-hidden" style={{ animationDelay: '0.5s' }}>
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="text-center mb-12">
-                        <h2 className="text-3xl font-bold">Explore {tabTitleMapping[activeTab] || 'Govt Job'} Blogs</h2>
+                        <h2 className="text-3xl font-black tracking-tight uppercase">Explore {tabTitleMapping[activeTab] || 'Govt Job'} Blogs</h2>
+                        <p className="text-xs font-bold text-white/60 mt-2 uppercase tracking-widest">In-depth insights and latest exam strategies</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
                     {blogLinks.map((link, index) => (
-                        <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-lg p-4 h-auto">
+                        <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-xl p-5 h-auto transition-all shadow-lg active:scale-[0.98]">
                             <Link href={link.href}>
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-3">
                                     <CheckIcon />
-                                    <span className="text-sm font-medium text-left">{link.text}</span>
+                                    <span className="text-[13px] font-black text-left leading-tight">{link.text}</span>
                                 </div>
-                                <ArrowRight className="h-5 w-5 text-gray-400" />
+                                <ArrowRight className="h-5 w-5 text-primary/40 shrink-0" />
                             </Link>
                         </Button>
                     ))}
@@ -270,7 +412,7 @@ function ExamcatPageContent() {
 
 export default function ExamcatPage() {
     return (
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><Skeleton className="h-96 w-full max-w-4xl rounded-[2rem]" /></div>}>
             <ExamcatPageContent />
         </Suspense>
     )
