@@ -65,11 +65,11 @@ export default function AboutPage() {
     <div className="bg-white dark:bg-background">
         <section className="py-16 md:py-24 bg-white dark:bg-card">
             <div className="container mx-auto px-4 md:px-6">
-                <Card className="rounded-2xl shadow-lg border">
+                <Card className="rounded-2xl shadow-none border">
                     <CardContent className="p-8 md:p-12">
                         <div className="grid md:grid-cols-3 gap-8 items-center max-w-6xl mx-auto">
                         <div className="md:col-span-1 flex flex-col items-center text-center animate-fade-in-up">
-                            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-lg bg-muted border-4 border-primary">
+                            <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden shadow-none bg-muted border-4 border-primary">
                                 {loading ? (
                                     <Skeleton className="w-full h-full rounded-full" />
                                 ) : director?.photoUrl ? (
