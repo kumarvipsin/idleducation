@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon, Plus, Home, X } from 'lucide-react';
+import { Search, Image as ImageIcon, Plus, Home, X, ImagePlus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { GcsImage } from '@/components/gcs-image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { Separator } from '@/components/ui/separator';
 
 type GalleryImage = {
   id: string;
@@ -62,16 +63,25 @@ function GalleryPageContent() {
     <Dialog>
         <div className="container mx-auto py-12 px-4 md:px-6">
             <div className="mb-12 space-y-6">
-                 <div className="relative mx-auto max-w-3xl shadow-lg rounded-lg overflow-hidden">
-                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground" />
+                 {/* Premium Search Bar - Matched to Image Reference */}
+                 <div className="relative mx-auto max-w-5xl bg-white border border-gray-300 rounded-sm flex items-center h-16 shadow-none">
+                    <div className="pl-5 pr-3">
+                        <Search className="h-7 w-7 text-black" strokeWidth={2.5} />
+                    </div>
                     <Input
                         type="text"
-                        placeholder="Search by title..."
+                        placeholder="Search the largest collection of Indian images"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="pl-12 w-full rounded-lg h-16 text-lg border-2 border-primary/10 focus-visible:ring-primary/20"
+                        className="flex-1 border-0 shadow-none focus-visible:ring-0 text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full"
                     />
+                    <Separator orientation="vertical" className="h-10 mx-2 hidden sm:block bg-gray-300" />
+                    <Button variant="ghost" className="hidden sm:flex flex-col h-full rounded-none px-8 items-center justify-center gap-0.5 hover:bg-gray-50 transition-colors">
+                        <ImagePlus className="h-6 w-6 text-black" strokeWidth={1.5} />
+                        <span className="text-[9px] font-bold text-gray-600 uppercase tracking-tight">Search by image</span>
+                    </Button>
                 </div>
+
                  <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                     <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
                         {galleryCategories.map(category => (
