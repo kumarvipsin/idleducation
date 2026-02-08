@@ -109,7 +109,7 @@ export default function AboutPage() {
                             </h3>
                             <div className="relative p-6 md:p-8 bg-primary/5 rounded-3xl border border-primary/10">
                                 <Quote className="absolute -top-3 -left-3 w-10 h-10 text-primary opacity-20 transform -rotate-12" />
-                                <blockquote className="text-lg text-foreground/80 leading-relaxed text-justify relative z-10">
+                                <blockquote className="text-lg text-foreground/80 leading-relaxed text-left relative z-10">
                                     "At IDL EDUCATION, we are driven by a single, powerful idea: education should be limitless. We've built this platform to break down barriers and create a space where curiosity thrives, knowledge is shared, and potential is realized. Our unique two-teacher model ensures every student gets the attention they deserve, making learning interactive and effective. We are committed to fostering an environment where students can explore their passions, develop critical thinking skills, and prepare for the challenges of tomorrow. We believe that with the right tools and support, every student can achieve greatness, and our mission is to provide that foundation for success. Together, we can build a brighter future for all learners."
                                 </blockquote>
                             </div>
