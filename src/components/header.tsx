@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -261,16 +262,33 @@ export function Header() {
     rzp.open();
   }
 
-  const navLinks = [
-    { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, color: "bg-blue-500 text-white", description: "Learn more about our mission." },
-    { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, color: "bg-emerald-500 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-    { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, color: "bg-violet-500 text-white", description: "Explore moments from our journey." },
-    { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, color: "bg-orange-500 text-white", description: "Read articles and updates from our team." },
-    { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, color: "bg-rose-500 text-white", description: "Visit our learning centers." },
-    { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, color: "bg-indigo-500 text-white", description: "Join our hands-on workshops." },
-    { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, color: "bg-pink-500 text-white", description: "Contribute to our mission." },
-    { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, color: "bg-red-500 text-white", target: "_blank", description: "Support our cause." },
+  const moreMenuGroups = [
+    {
+        title: "Learning & Updates",
+        links: [
+            { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, colorClasses: "bg-rose-500 text-white", description: "Visit our learning centers." },
+            { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, colorClasses: "bg-indigo-500 text-white", description: "Join our hands-on workshops." },
+            { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, colorClasses: "bg-orange-500 text-white", description: "Read articles and updates from our team." },
+        ]
+    },
+    {
+        title: "Foundation & Volunteer",
+        links: [
+            { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-red-500 text-white", target: "_blank", description: "Support our cause." },
+            { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-pink-500 text-white", description: "Contribute to our mission." },
+        ]
+    },
+    {
+        title: "Company",
+        links: [
+            { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-blue-500 text-white", description: "Learn more about our mission." },
+            { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-emerald-500 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+            { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-violet-500 text-white", description: "Explore moments from our journey." },
+        ]
+    }
   ];
+
+  const flatNavLinks = moreMenuGroups.flatMap(group => group.links);
   
   const applyForLinks = [
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
@@ -383,21 +401,6 @@ export function Header() {
     );
   };
 
-  const renderMobileAuthSection = () => {
-    if (loading) {
-        return (
-            <div className="flex items-center gap-3 p-2 border-t">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <div className="w-full space-y-1.5">
-                    <Skeleton className="h-3 w-3/4" />
-                    <Skeleton className="h-3 w-1/2" />
-                </div>
-            </div>
-        );
-    }
-    return null;
-  };
-
   return (
     <>
       <header className={cn(
@@ -494,7 +497,7 @@ export function Header() {
                                                         <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
-                                                            <p className="text-[10px] font-extrabold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                         </div>
                                                     </Link>
                                                 ))}
@@ -517,7 +520,7 @@ export function Header() {
                                                         <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
-                                                            <p className="text-[10px] font-extrabold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                         </div>
                                                     </Link>
                                                 ))}
@@ -535,12 +538,12 @@ export function Header() {
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {navLinks.map(({ href, label, icon, description, target, onClick, color }) => (
+                                                {flatNavLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
                                                     <Link key={label} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {if(onClick) onClick(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", color)}>{icon}</div>
+                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
-                                                            <p className="text-[10px] font-extrabold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                         </div>
                                                     </Link>
                                                 ))}
@@ -578,11 +581,14 @@ export function Header() {
                                             </div>
                                         </Link>
                                     ) : (
-                                        <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                                            <Button className="w-full font-extrabold uppercase tracking-wide h-12 rounded-xl shadow-lg shadow-primary/20">
-                                                SIGN IN TO PORTAL
-                                            </Button>
-                                        </Link>
+                                        <div className="grid grid-cols-2 gap-3">
+                                            <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                                                <Button variant="outline" className="w-full font-extrabold uppercase tracking-wide h-11 rounded-xl">LOGIN</Button>
+                                            </Link>
+                                            <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                                                <Button className="w-full font-extrabold uppercase tracking-wide h-11 rounded-xl">SIGNUP</Button>
+                                            </Link>
+                                        </div>
                                     )}
                                 </div>
                             </ScrollArea>
@@ -601,11 +607,46 @@ export function Header() {
           activeMenu ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-full pointer-events-none"
         )}
       >
-        <div className={cn("absolute inset-x-0 top-0 shadow-lg", megaMenuBg)}>
-          <div className="pt-4 pb-4">
+        <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
+          <div className="pt-6 pb-8">
             {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
-            {activeMenu === 'more' && <MegaMenu links={navLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'more' && (
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {moreMenuGroups.map((group) => (
+                            <div key={group.title} className="space-y-4">
+                                <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] border-l-4 border-primary pl-3">{group.title}</h4>
+                                <div className="flex flex-col gap-1">
+                                    {group.links.map((link) => (
+                                        <Link 
+                                            key={link.label} 
+                                            href={link.href} 
+                                            target={link.target} 
+                                            onClick={(e) => {
+                                                if (link.onClick) {
+                                                    e.preventDefault();
+                                                    link.onClick();
+                                                }
+                                                setActiveMenu(null);
+                                            }}
+                                            className="group flex items-start gap-4 p-2 rounded-lg hover:bg-muted transition-all duration-200"
+                                        >
+                                            <div className={cn("p-2.5 rounded-full mt-0.5 shrink-0 shadow-sm transition-transform group-hover:scale-110", link.colorClasses)}>
+                                                {link.icon}
+                                            </div>
+                                            <div className="space-y-0.5">
+                                                <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
+                                                <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
           </div>
         </div>
       </div>
