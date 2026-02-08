@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -30,28 +29,28 @@ const cities = [
 const centers = [
     {
       name: "Mukherjee Nagar, Delhi",
-      address: "Plot No 123, Batra Cinema Complex, Dr Mukherjee Nagar, Delhi - 110009",
+      address: "Mukherjee Nagar, Delhi-110009",
       imageUrl: "https://picsum.photos/seed/center1/400/300",
       imageHint: "classroom students",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Mangol Puri, Delhi",
-      address: "Block B, Mangolpuri, New Delhi, Delhi 110083",
+      address: "D-Block Mangol Puri, Delhi-110083",
       imageUrl: "https://picsum.photos/seed/center2/400/300",
       imageHint: "modern classroom",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Budh Vihar, Delhi",
-      address: "Phase 1, Budh Vihar, New Delhi, Delhi 110086",
+      address: "E-Block Budh Vihar Phase-1, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center3/400/300",
       imageHint: "students learning",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Krishan Vihar, Delhi",
-      address: "Near Krishan Vihar Metro, Delhi 110086",
+      address: "Krishan Vihar, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center4/400/300",
       imageHint: "library books",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
