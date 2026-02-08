@@ -22,19 +22,6 @@ import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const CheckIcon = () => (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2Z" fill="url(#paint0_linear_jee_blog)"/>
-        <path d="M8 12.5L11 15.5L16.5 9.5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-        <defs>
-            <linearGradient id="paint0_linear_jee_blog" x1="2" y1="12" x2="22" y2="12" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#F97316"/>
-                <stop offset="1" stopColor="#16A34A"/>
-            </linearGradient>
-        </defs>
-    </svg>
-);
-
 function ExamcatPageContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
@@ -129,41 +116,6 @@ function ExamcatPageContent() {
         'delhi-police': 'Delhi Police',
         'govt-job-exams': 'Govt Job'
     };
-    
-    const blogLinksData: { [key: string]: { text: string; href: string }[] } = {
-        'ssc-cgl': [
-            { text: "SSC CGL Syllabus 2026", href: "#" },
-            { text: "SSC CGL Previous Year Papers", href: "#" },
-            { text: "SSC CGL Salary & Job Profile", href: "#" },
-            { text: "SSC CGL Cut Off 2026", href: "#" },
-        ],
-        'ssc-chsl': [
-            { text: "SSC CHSL Syllabus 2026", href: "#" },
-            { text: "SSC CHSL Exam Pattern 2026", href: "#" },
-            { text: "SSC CHSL Previous Year Papers", href: "#" },
-            { text: "SSC CHSL Salary & Job Profile", href: "#" },
-        ],
-        'ssc-mts': [
-            { text: "SSC MTS Syllabus 2026", href: "#" },
-            { text: "SSC MTS Eligibility Criteria 2026", href: "#" },
-            { text: "SSC MTS Previous Year Papers", href: "#" },
-            { text: "SSC MTS Job Profile 2026", href: "#" },
-        ],
-        'delhi-police': [
-            { text: "Delhi Police Syllabus 2026", href: "#" },
-            { text: "Delhi Police Exam Pattern 2026", href: "#" },
-            { text: "Delhi Police Previous Year Papers", href: "#" },
-            { text: "Delhi Police Salary & Promotion", href: "#" },
-        ],
-        'govt-job-exams': [
-            { text: "How to crack CGL in first attempt", href: "#" },
-            { text: "IBPS PO Exam Strategy 2026", href: "#" },
-            { text: "Best Books for RRB NTPC", href: "#" },
-            { text: "Latest Govt Job Notifications", href: "#" },
-        ]
-    };
-    
-    const blogLinks = blogLinksData[activeTab] || blogLinksData['govt-job-exams'];
 
     return (
         <div className="container mx-auto py-2 px-4 md:px-6 max-w-7xl relative">
@@ -382,28 +334,6 @@ function ExamcatPageContent() {
                                 </div>
                             </CardContent>
                         </Card>
-                    </div>
-                </div>
-            </section>
-
-            <section className="w-full py-16 bg-blue-950 text-white mt-16 animate-fade-in-up rounded-[2rem] overflow-hidden" style={{ animationDelay: '0.5s' }}>
-                <div className="container mx-auto px-4 md:px-6">
-                    <div className="text-center mb-12">
-                        <h2 className="text-3xl font-black tracking-tight uppercase">Explore {tabTitleMapping[activeTab] || 'Govt Job'} Blogs</h2>
-                        <p className="text-xs font-bold text-white/60 mt-2 uppercase tracking-widest">In-depth insights and latest exam strategies</p>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                    {blogLinks.map((link, index) => (
-                        <Button key={index} asChild variant="ghost" className="w-full justify-between bg-white text-black hover:bg-gray-100 rounded-xl p-5 h-auto transition-all shadow-lg active:scale-[0.98]">
-                            <Link href={link.href}>
-                                <div className="flex items-center gap-3">
-                                    <CheckIcon />
-                                    <span className="text-[13px] font-black text-left leading-tight">{link.text}</span>
-                                </div>
-                                <ArrowRight className="h-5 w-5 text-primary/40 shrink-0" />
-                            </Link>
-                        </Button>
-                    ))}
                     </div>
                 </div>
             </section>
