@@ -1,7 +1,7 @@
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
-import { PenSquare, ArrowRight, Linkedin, Quote, Sparkles } from "lucide-react";
+import { PenSquare, ArrowRight, Quote, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getDirectorProfile } from "@/app/actions/admin";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -33,7 +33,6 @@ export default function AboutPage() {
         imageUrl: "/vijay.png",
         imageAlt: "Vijay Verma",
         imageHint: "man smiling",
-        linkedinUrl: "#",
       },
       {
         name: "Manish Kumar",
@@ -41,7 +40,6 @@ export default function AboutPage() {
         imageUrl: "/manish.png",
         imageAlt: "Manish Kumar",
         imageHint: "man professional",
-        linkedinUrl: "#",
       },
       {
         name: "Chandra Prakesh",
@@ -49,7 +47,6 @@ export default function AboutPage() {
         imageUrl: "/chandu.png",
         imageAlt: "Chandra Prakesh",
         imageHint: "man glasses",
-        linkedinUrl: "#",
       },
       {
         name: "Vidhi Sharma",
@@ -57,7 +54,6 @@ export default function AboutPage() {
         imageUrl: "/vidhi.png",
         imageAlt: "Vidhi Sharma",
         imageHint: "woman smiling",
-        linkedinUrl: "#",
       },
     ];
 
@@ -158,14 +154,6 @@ export default function AboutPage() {
                                         fill
                                         className="object-cover transition-transform duration-500 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
-                                        <Link href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
-                                            <Button variant="outline" size="sm" className="rounded-full bg-white/20 backdrop-blur-md border-white/40 text-white hover:bg-white hover:text-blue-600 font-bold">
-                                                <Linkedin className="h-4 w-4 mr-2" />
-                                                LinkedIn
-                                            </Button>
-                                        </Link>
-                                    </div>
                                 </div>
                                 <div className="p-6 text-center">
                                     <h3 className="text-lg font-bold text-foreground tracking-tight">{member.name}</h3>
