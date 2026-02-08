@@ -43,14 +43,14 @@ const centers = [
     },
     {
       name: "Budh Vihar",
-      address: "E-Block Budh Vihar Phase-1, Delhi-110086",
+      address: "Budh Vihar Phase-1, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center3/400/300",
       imageHint: "students learning",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Krishan Vihar",
-      address: "Krishan Vihar, Delhi-110086",
+      address: "E-Block Krishan Vihar, Delhi-110086",
       imageUrl: "https://picsum.photos/seed/center4/400/300",
       imageHint: "library books",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
