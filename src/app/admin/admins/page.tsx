@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useRef } from "react";
@@ -14,7 +13,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAdmins, deleteUser, addAdmin, editAdminProfile, setUserStatus, resetUserPassword } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck, User as UserIcon, View, Mail } from "lucide-react";
+import { Shield, UserPlus, Edit, Trash2, MoreVertical, Upload, Phone, Home, Calendar as CalendarIcon, Droplets, KeyRound, UserX, UserCheck, User as UserIcon, Eye, Mail } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -394,7 +393,7 @@ export default function AdminManagementPage() {
                                     </DropdownMenuTrigger>
                                     <DropdownMenuContent>
                                     <DropdownMenuItem onSelect={() => { setViewingAdmin(admin); }}>
-                                        <View className="mr-2 h-4 w-4" />
+                                        <Eye className="mr-2 h-4 w-4" />
                                         View
                                     </DropdownMenuItem>
                                     <DropdownMenuItem onSelect={() => { setEditingAdmin(admin); setIsFormOpen(true); }}>

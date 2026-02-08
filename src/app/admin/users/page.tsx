@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useRef } from "react";
@@ -20,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { getStudents, getTeachers, assignTeachersToStudent, resetUserPassword, approveUser, denyUser, setUserStatus, deleteUser, editStudentProfile } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { User as UserIcon, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2, Users, Edit, Instagram, Facebook, Twitter, Image as ImageIcon, Upload, Mail, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
+import { User as UserIcon, GraduationCap, ChevronDown, KeyRound, CheckCircle, XCircle, UserCheck, UserX, MoreVertical, Trash2, Users, Edit, Instagram, Facebook, Twitter, Image as ImageIcon, Upload, Mail, Phone, Home, Calendar as CalendarIcon, Droplets, Eye } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -178,7 +177,7 @@ const StudentEditForm = ({ student, onSuccess }: { student: User | null; onSucce
                 </div>
                 <FormMessage />
               </FormItem>
-              <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem> )} />
+              <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="Full Name" {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="phone" render={({ field }) => ( <FormItem><FormLabel>Phone</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="dob" render={({ field }) => ( <FormItem><FormLabel>Date of Birth</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="bloodGroup" render={({ field }) => ( <FormItem><FormLabel>Blood Group</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem> )} />

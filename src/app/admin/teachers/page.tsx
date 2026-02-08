@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useRef } from "react";
@@ -12,11 +11,9 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { getTeachers } from "@/app/actions/user";
-import { resetUserPassword, signUpUser } from "@/app/actions/auth";
-import { approveUser, denyUser, setUserStatus, editTeacher, deleteUser } from "@/app/actions/admin";
+import { getTeachers, deleteUser, addAdmin, editAdminProfile, setUserStatus, resetUserPassword, editTeacher, signUpUser, approveUser, denyUser } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2, Upload, View, Mail, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
+import { Briefcase, KeyRound, CheckCircle, XCircle, UserCheck, UserX, UserPlus, Instagram, Facebook, Twitter, Image as ImageIcon, Edit, MoreVertical, Trash2, Upload, Eye, Mail, Phone, Home, Calendar as CalendarIcon, Droplets } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -150,7 +147,7 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
           twitter: twitter || '',
         }
       };
-      result = await signUpUser(teacherData, photoFile);
+      result = await signUpUser(teacherData as any, photoFile);
     }
     
     if (result.success) {
