@@ -27,6 +27,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const schoolSubjects = [
     { name: "Science", key: "science", icon: <TestTube2 className="w-5 h-5" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400" },
@@ -65,7 +66,8 @@ function SchoolPageContent() {
 
     const resourceCards = [
         {
-          title: `GET THE\nAdvantage For ${activeTab}`,
+          title: "GET THE",
+          subtitle: `Advantage For ${activeTab}`,
           icon: <Sparkles />,
           bgColor: "bg-amber-50 border-amber-100",
           textColor: "text-amber-900",
@@ -73,7 +75,8 @@ function SchoolPageContent() {
           href: "/about"
         },
         {
-          title: "REVISION\nHigh-Quality Notes",
+          title: "REVISION",
+          subtitle: "High-Quality Notes",
           icon: <BookOpen />,
           bgColor: "bg-blue-50 border-blue-100",
           textColor: "text-blue-900",
@@ -81,7 +84,8 @@ function SchoolPageContent() {
           href: "/resources/notes"
         },
          {
-          title: "SOLUTIONS\nNCERT Step-by-Step",
+          title: "SOLUTIONS",
+          subtitle: "NCERT Step-by-Step",
           icon: <Book />,
           bgColor: "bg-indigo-50 border-indigo-100",
           textColor: "text-indigo-900",
@@ -93,8 +97,8 @@ function SchoolPageContent() {
     return (
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-12 animate-fade-in-up">
-                <div className="relative rounded-2xl overflow-hidden shadow-sm border border-border/50 bg-white">
-                    <div className="relative w-full aspect-[2/1] md:aspect-[16/6]">
+                <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white">
+                    <div className="relative w-full aspect-[16/6]">
                         <Image
                             src="/result.jpg"
                             alt="Academic Banners"
@@ -145,7 +149,6 @@ function SchoolPageContent() {
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
                     {resourceCards.map((card, index) => {
-                        const [header, subtitle] = card.title.split('\n');
                         return (
                             <Link key={index} href={card.href} className="group">
                                 <div className={cn(
@@ -156,8 +159,8 @@ function SchoolPageContent() {
                                         {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{header}</h4>
-                                        <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{subtitle}</p>
+                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{card.title}</h4>
+                                        <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{card.subtitle}</p>
                                     </div>
                                     <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
                                 </div>
@@ -212,68 +215,82 @@ function SchoolPageContent() {
 
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
                 <div className="space-y-8">
-                    <div className="text-center">
-                        <h3 className="text-xl md:text-3xl font-black text-foreground uppercase tracking-tight">
-                            Choose Your <span className="text-primary">Learning Path</span>
-                        </h3>
-                        <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-widest mt-2">Premium solutions for every student</p>
+                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
+                        <div>
+                            <h3 className="font-bold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
+                                Choose Your Learning Path
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wide mt-1">Premium solutions for every student</p>
+                        </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Free Courses */}
-                        <Card className="group relative overflow-hidden border-none bg-orange-50 shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl">
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                                <PlayCircle className="w-20 h-20 text-orange-600" />
-                            </div>
-                            <CardContent className="p-8 space-y-4">
-                                <div className="p-3 bg-orange-100 rounded-xl w-fit text-orange-600">
-                                    <PlayCircle className="w-6 h-6" />
+                        <Card className="group relative border bg-white dark:bg-card hover:border-orange-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-orange-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-orange-50 rounded-lg text-orange-600">
+                                        <PlayCircle className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-orange-200 text-orange-600 bg-orange-50/50">ACCESS</Badge>
                                 </div>
-                                <h4 className="text-xl font-black text-orange-900 uppercase">Free Courses</h4>
-                                <p className="text-sm font-bold text-orange-800/70 leading-relaxed">
-                                    Access expert-led video lessons at no cost. Perfect for foundation building and quick revisions.
-                                </p>
-                                <Button asChild className="w-full bg-orange-600 hover:bg-orange-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
-                                    <Link href="/free-courses">EXPLORE FREE COURSES</Link>
-                                </Button>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Free Courses</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Access expert-led video lessons at no cost. Perfect for foundation building and revisions.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-black uppercase tracking-widest text-[10px] h-10 rounded-lg shadow-none transition-all">
+                                        <Link href="/free-courses">EXPLORE FREE COURSES</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
 
                         {/* Paid Courses */}
-                        <Card className="group relative overflow-hidden border-none bg-emerald-50 shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl">
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                                <IndianRupee className="w-20 h-20 text-emerald-600" />
-                            </div>
-                            <CardContent className="p-8 space-y-4">
-                                <div className="p-3 bg-emerald-100 rounded-xl w-fit text-emerald-600">
-                                    <IndianRupee className="w-6 h-6" />
+                        <Card className="group relative border bg-white dark:bg-card hover:border-emerald-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-emerald-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
+                                        <IndianRupee className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-emerald-200 text-emerald-600 bg-emerald-50/50">PREMIUM</Badge>
                                 </div>
-                                <h4 className="text-xl font-black text-emerald-900 uppercase">Paid Courses</h4>
-                                <p className="text-sm font-bold text-emerald-800/70 leading-relaxed">
-                                    Comprehensive curricula with structured paths, premium notes, and 100% syllabus coverage.
-                                </p>
-                                <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
-                                    <Link href="/paid-courses">EXPLORE PAID COURSES</Link>
-                                </Button>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Paid Courses</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Comprehensive curricula with structured paths, premium notes, and 100% coverage.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-black uppercase tracking-widest text-[10px] h-10 rounded-lg shadow-none transition-all">
+                                        <Link href="/paid-courses">EXPLORE PAID COURSES</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
 
                         {/* Live Classes */}
-                        <Card className="group relative overflow-hidden border-none bg-indigo-50 shadow-sm hover:shadow-xl transition-all duration-500 rounded-2xl">
-                            <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:scale-110 transition-transform">
-                                <Monitor className="w-20 h-20 text-indigo-600" />
-                            </div>
-                            <CardContent className="p-8 space-y-4">
-                                <div className="p-3 bg-indigo-100 rounded-xl w-fit text-indigo-600">
-                                    <Monitor className="w-6 h-6" />
+                        <Card className="group relative border bg-white dark:bg-card hover:border-indigo-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-indigo-500 overflow-hidden">
+                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                                <div className="flex items-center justify-between">
+                                    <div className="p-2.5 bg-indigo-50 rounded-lg text-indigo-600">
+                                        <Monitor className="w-6 h-6" />
+                                    </div>
+                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-indigo-200 text-indigo-600 bg-indigo-50/50">LIVE</Badge>
                                 </div>
-                                <h4 className="text-xl font-black text-indigo-900 uppercase">Live Classes</h4>
-                                <p className="text-sm font-bold text-indigo-800/70 leading-relaxed">
-                                    Interactive real-time sessions with top faculty. Instant doubt clearing and collaborative peer learning.
-                                </p>
-                                <Button asChild className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black uppercase tracking-widest text-[10px] h-11 rounded-xl border-none shadow-none">
-                                    <Link href="/book-demo">JOIN LIVE SESSION</Link>
-                                </Button>
+                                <div className="space-y-1">
+                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Live Classes</h4>
+                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                        Interactive real-time sessions with top faculty. Instant doubt clearing and peer learning.
+                                    </p>
+                                </div>
+                                <div className="mt-auto pt-4">
+                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-black uppercase tracking-widest text-[10px] h-10 rounded-lg shadow-none transition-all">
+                                        <Link href="/book-demo">JOIN LIVE SESSION</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     </div>
