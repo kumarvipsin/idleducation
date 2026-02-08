@@ -8,6 +8,7 @@ import { Search, User, Calendar, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 
 const blogPosts = [
   {
@@ -108,27 +109,38 @@ export default function BlogPage() {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-        <div className="mb-8 space-y-4 animate-fade-in-up">
-            <div className="relative mx-auto max-w-md">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+        <div className="mb-12 space-y-8 animate-fade-in-up">
+             {/* Premium Search Bar */}
+             <div className="relative mx-auto max-w-5xl bg-white border border-gray-300 rounded-sm flex items-center h-16 shadow-none transition-all focus-within:border-primary/50">
+                <div className="pl-5 pr-3">
+                    <Search className="h-7 w-7 text-black" strokeWidth={2.5} />
+                </div>
                 <Input
                     type="text"
-                    placeholder="Search articles..."
+                    placeholder="Search the IDL Blog for insights and updates"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="pl-10 w-full rounded-full h-10"
+                    className="flex-1 border-0 shadow-none focus-visible:ring-0 text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full"
                 />
+                <Separator orientation="vertical" className="h-10 mx-2 hidden sm:block bg-gray-300" />
+                <Button variant="ghost" className="hidden sm:flex flex-col h-full rounded-none px-8 items-center justify-center gap-0.5 hover:bg-gray-50 transition-colors">
+                    <ArrowRight className="h-6 w-6 text-black" strokeWidth={1.5} />
+                    <span className="text-[9px] font-bold text-gray-600 uppercase tracking-tight">Search blog</span>
+                </Button>
             </div>
-            <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+
+             {/* Minimal Category Navigation */}
+             <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                <div className="flex justify-start md:justify-center items-center gap-8 whitespace-nowrap px-4 sm:px-0">
                     {categories.map(category => (
                         <button
                             key={category}
                             onClick={() => setSelectedCategory(category)}
-                            className={cn(`py-2 px-4 text-sm font-medium transition-colors border rounded-full`,
+                            className={cn(
+                                "text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
                                 selectedCategory === category 
-                                ? 'border-primary text-primary bg-primary/10' 
-                                : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                ? 'text-primary border-primary' 
+                                : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
                             )}
                             >
                             {category}
