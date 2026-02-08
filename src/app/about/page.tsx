@@ -1,4 +1,4 @@
-'use client';
+#'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 import { PenSquare, ArrowRight, Linkedin, Quote, Sparkles } from "lucide-react";
@@ -93,9 +93,9 @@ export default function AboutPage() {
                         {/* Content Column */}
                         <div className="lg:col-span-7 space-y-8">
                             <div className="space-y-4">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-semibold">
                                     <Sparkles className="w-3 h-3 text-yellow-500" />
-                                    Our Vission
+                                    Our Vision
                                 </div>
                             </div>
 
