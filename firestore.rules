@@ -1,88 +1,43 @@
+
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
      * EduVerse Security Rules
-     * 
-     * Core Philosophy: This ruleset enforces a strict path-based ownership model. 
-     * All user-specific data (Profiles, Study Plans, and Progress) is nested under 
-     * the /users/{userId} hierarchy to ensure that authorization is inherently 
-     * tied to the document path, minimizing the need for expensive cross-document lookups.
-     * 
-     * Data Structure:
-     * - /users/{userId}: User profiles (Ownership-based).
-     * - /users/{userId}/studyPlans/{id}: Personalized learning paths (Ownership-based).
-     * - /users/{userId}/progress/{id}: Content completion tracking (Ownership-based).
-     * - /content/{id}: Shared learning resources (Public Read, Admin-only Write).
-     * 
-     * Key Security Decisions:
-     * - Relational Integrity: On creation of subcollection items, we enforce that the 
-     *   internal 'userId' field matches the path parameter.
-     * - Prototyping Mode: Schema validation (field types, optionality) is deferred to 
-     *   the application layer to allow for rapid iteration, while strict ownership 
-     *   is enforced at the database level.
-     * - Content Management: Learning content is publicly readable but restricted for 
-     *   writes as the current schema lacks an owner/author identifier for authorization.
      */
 
     // --- Helper Functions ---
 
-    /**
-     * @description Checks if the request is from an authenticated user.
-     */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /**
-     * @description Validates if the authenticated user's UID matches the provided userId.
-     */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /**
-     * @description Combines ownership check with document existence for updates and deletes.
-     */
+    function isAdmin() {
+      return isSignedIn() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
     function isExistingOwner(userId) {
       return resource != null && isOwner(userId);
     }
 
     // --- Collection Rules ---
 
-    /**
-     * @description Rules for the User profile entity.
-     * @path /users/{userId}
-     * @allow (create) if auth.uid matches path ID.
-     * @deny (read) if auth.uid does not match path ID.
-     * @principle Ownership-based access; users manage their own profiles.
-     */
     match /users/{userId} {
-      allow get, list: if isOwner(userId);
+      allow get, list: if isOwner(userId) || isAdmin();
       allow create: if isOwner(userId) && request.resource.data.id == userId;
       allow update, delete: if isExistingOwner(userId) && request.resource.data.id == userId;
 
-      /**
-       * @description Rules for user-specific Study Plans.
-       * @path /users/{userId}/studyPlans/{studyPlanId}
-       * @allow (list) if auth.uid matches the parent userId.
-       * @deny (create) if the internal userId field does not match the path.
-       * @principle Path-based ownership with relational integrity validation.
-       */
       match /studyPlans/{studyPlanId} {
         allow get, list: if isOwner(userId);
         allow create: if isOwner(userId) && request.resource.data.userId == userId;
         allow update, delete: if isExistingOwner(userId) && request.resource.data.userId == userId;
       }
 
-      /**
-       * @description Rules for user progress tracking.
-       * @path /users/{userId}/progress/{progressId}
-       * @allow (get) if auth.uid matches the path userId.
-       * @deny (update) if the document does not already exist.
-       * @principle Restricts progress data to the specific user.
-       */
       match /progress/{progressId} {
         allow get, list: if isOwner(userId);
         allow create: if isOwner(userId) && request.resource.data.userId == userId;
@@ -90,17 +45,20 @@ service cloud.firestore {
       }
     }
 
-    /**
-     * @description Rules for the global learning content.
-     * @path /content/{contentId}
-     * @allow (get, list) for all users (public).
-     * @deny (write) for all users (missing ownership field in schema).
-     * @principle Public consumption of education material; write access requires admin/owner field.
-     */
+    match /blogPosts/{postId} {
+      allow get, list: if true;
+      allow write: if isAdmin();
+    }
+
     match /content/{contentId} {
       allow get, list: if true;
-      // CRITICAL: Cannot implement owner-only writes. The 'Content' entity is missing an 'ownerId' or 'authorId' field.
-      allow create, update, delete: if false; // TODO: Add owner validation once the schema is updated with an ownership field.
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // Default rules for other collections used in the app
+    match /{path=**} {
+      allow read: if true;
+      allow write: if isAdmin();
     }
   }
 }

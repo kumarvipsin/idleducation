@@ -1,125 +1,110 @@
+
+'use client';
+
+import { useEffect, useState, use } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Home, User, Calendar, ArrowRight, X } from "lucide-react";
+import { User, Calendar, ArrowLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from 'next/navigation';
+import { getBlogPostBySlug } from "@/app/actions/blog";
+import type { TBlogPost } from "@/app/actions/types";
+import { Skeleton } from "@/components/ui/skeleton";
+import { GcsImage } from "@/components/gcs-image";
 
-const blogPosts = [
-  {
-    slug: "power-of-personalized-learning",
-    title: "The Power of Personalized Learning in Today's Education",
-    excerpt: "Discover how tailoring education to individual student needs can unlock unprecedented potential and foster a lifelong love for learning. We explore the tools and techniques making it a reality. In this post, we'll dive deep into adaptive learning technologies, the role of AI in creating customized study plans, and how data analytics can provide insights into a student's progress. We also discuss the challenges and benefits of implementing personalized learning in traditional classroom settings, and share success stories from schools that have embraced this innovative approach. Learn how this educational revolution is preparing students not just for exams, but for a lifetime of curiosity and growth.",
-    author: "Dr. Jane Doe",
-    date: "July 15, 2024",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "student personalized learning"
-  },
-  {
-    slug: "future-of-stem-education",
-    title: "The Future of STEM: Preparing Students for Tomorrow's Careers",
-    excerpt: "STEM fields are evolving at a rapid pace. This post delves into how we can adapt our teaching methods to equip students with the skills needed for the jobs of the future. We'll examine the importance of interdisciplinary projects, hands-on experiments, and coding literacy from an early age. Furthermore, we explore the integration of robotics, artificial intelligence, and data science into the K-12 curriculum. Find out how educators can inspire the next generation of innovators and problem-solvers who will tackle the world's most pressing challenges.",
-    author: "John Smith",
-    date: "July 10, 2024",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "science technology"
-  },
-  {
-    slug: "importance-of-arts-in-education",
-    title: "Why Arts and Humanities are Crucial in a Tech-Driven World",
-    excerpt: "While technology is important, the arts and humanities cultivate critical thinking, empathy, and creativity. Learn why a balanced education is more important than ever. This article makes a case for the arts by showing how they improve communication skills, foster cultural understanding, and encourage out-of-the-box thinking. We'll share practical tips for integrating arts into any subject, from history to mathematics, and showcase how students who engage with humanities are often better equipped to navigate complex social and ethical issues in their personal and professional lives.",
-    author: "Emily White",
-    date: "July 5, 2024",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "art painting"
-  },
-  {
-    slug: "mastering-exam-preparation",
-    title: "Mastering Exam Preparation: Tips for Less Stress and More Success",
-    excerpt: "Exams can be stressful, but they don't have to be. We share proven strategies to help students study smarter, manage their time effectively, and approach exams with confidence. This guide covers everything from creating a realistic study schedule to using active recall techniques like flashcards and practice tests. We also address the importance of a healthy lifestyle, including proper sleep, nutrition, and exercise, in boosting cognitive performance. Learn how to conquer exam anxiety and walk into the test hall feeling prepared and self-assured.",
-    author: "Amod Sharma",
-    date: "July 1, 2024",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "student studying"
-  },
-   {
-    slug: "jee-main-2026-admit-cards",
-    title: "JEE Main 2026 Session 1 Admit Cards Released",
-    excerpt: "Aspirants can Download the Admit Cards from jeemain.nta.nic.in...",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "student exam preparation",
-    author: "IDL Team",
-    date: "July 20, 2024",
-  },
-  {
-    slug: "know-which-college-forms-to-fill-after-jee-main-2026",
-    title: "Know Which College Forms to Fill After JEE Main 2026",
-    excerpt: "Here's a Complete Guide About India's Premium Private, Researc...",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "student thinking future",
-    author: "IDL Team",
-    date: "July 19, 2024",
-  },
-  {
-    slug: "shepherds-son-from-rajasthan-to-become-villages-first-doctor",
-    title: "A Shepherd's Son from ALLEN Kota to Become Village's First...",
-    excerpt: "Gordhanram from Barmer's Beriwala Tala village gets...",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "father son",
-    author: "IDL Team",
-    date: "July 18, 2024",
-  },
-  {
-    slug: "nta-revises-jee-main-2026-session-1-exam-schedule",
-    title: "NTA Revises JEE Main 2026 Session 1 Exam Schedule",
-    excerpt: "Check the Revised Exam Dates Here The National Testing Agenc...",
-    imageUrl: "https://myexam.allen.in/wp-content/uploads/2026/01/Know-Which-College-Forms-to-Fill-After-JEE-Main-2026.webp",
-    imageHint: "student exam schedule",
-    author: "IDL Team",
-    date: "July 17, 2024",
+export default function BlogPostPage({ params: paramsPromise }: { params: Promise<{ slug: string }> }) {
+  const params = use(paramsPromise);
+  const [post, setPost] = useState<TBlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      setLoading(true);
+      const result = await getBlogPostBySlug(params.slug);
+      if (result.success && result.data) {
+        setPost(result.data as TBlogPost);
+      }
+      setLoading(false);
+    };
+    fetchPost();
+  }, [params.slug]);
+
+  if (loading) {
+    return (
+      <div className="container mx-auto py-12 px-4 md:px-6 space-y-8">
+        <Skeleton className="h-10 w-32" />
+        <Skeleton className="h-96 w-full rounded-2xl" />
+        <div className="space-y-4">
+            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-4 w-1/4" />
+            <Skeleton className="h-64 w-full" />
+        </div>
+      </div>
+    );
   }
-];
-
-export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const post = blogPosts.find(p => p.slug === slug);
 
   if (!post) {
-    notFound();
+    return (
+        <div className="container mx-auto py-24 text-center">
+            <h1 className="text-2xl font-bold">Post not found.</h1>
+            <Button asChild className="mt-4" variant="outline">
+                <Link href="/blog">Back to Blog</Link>
+            </Button>
+        </div>
+    );
   }
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      <article>
-        <header className="mb-8">
-          <div className="relative w-full h-64 md:h-96 rounded-2xl overflow-hidden">
-              <Image 
-                  src={post.imageUrl}
-                  alt={post.title}
-                  data-ai-hint={post.imageHint}
-                  fill
-                  className="object-cover"
-              />
-               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-               <div className="absolute bottom-0 left-0 p-6 text-white">
-                  <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight [text-shadow:0_2px_4px_rgba(0,0,0,0.7)]">
+      <div className="mb-8">
+          <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[10px]">
+              <Link href="/blog"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Discover</Link>
+          </Button>
+      </div>
+      <article className="max-w-4xl mx-auto">
+        <header className="mb-12">
+          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl">
+              {post.imageUrl ? (
+                  <GcsImage 
+                      filePath={post.imageUrl}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                  />
+              ) : (
+                  <Image 
+                      src="https://picsum.photos/seed/article/1200/600"
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                  />
+              )}
+               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+               <div className="absolute bottom-0 left-0 p-6 md:p-10 text-white w-full">
+                  <div className="inline-block px-3 py-1 rounded-full bg-primary/20 backdrop-blur-md border border-white/20 text-white text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+                      {post.category}
+                  </div>
+                  <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none drop-shadow-lg">
                     {post.title}
                   </h1>
                </div>
           </div>
-           <div className="mt-4 flex items-center gap-4 text-sm text-muted-foreground">
-            <div className="flex items-center gap-1.5">
-              <User className="h-4 w-4" />
-              <span>{post.author}</span>
+           <div className="mt-8 flex flex-wrap items-center gap-6 text-[11px] font-black uppercase tracking-[0.15em] text-muted-foreground/60 bg-muted/20 p-4 rounded-xl border border-muted-foreground/5">
+            <div className="flex items-center gap-2">
+              <User className="h-4 w-4 text-primary" />
+              <span>WRITTEN BY <span className="text-foreground">{post.author}</span></span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Calendar className="h-4 w-4" />
-              <span>{post.date}</span>
+            <Separator orientation="vertical" className="h-4 hidden sm:block" />
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4 text-primary" />
+              <span>PUBLISHED ON <span className="text-foreground">{post.date}</span></span>
             </div>
           </div>
         </header>
-        <div className="prose dark:prose-invert max-w-none">
-          <p>{post.excerpt}</p>
+        <div className="prose dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:font-medium prose-p:leading-relaxed text-foreground/80">
+          <div className="whitespace-pre-wrap">
+            {post.content}
+          </div>
         </div>
       </article>
     </div>

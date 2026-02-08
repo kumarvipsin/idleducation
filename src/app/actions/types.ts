@@ -1,7 +1,5 @@
-// src/app/actions/types.ts
 
-// This file defines the TypeScript types for the content structure
-// used in Firestore and throughout the content management actions.
+// src/app/actions/types.ts
 
 export interface TSubTopic {
   name: string;
@@ -17,14 +15,12 @@ export interface TTopic {
   createdAt: string;
   subTopics?: TSubTopic[];
   order: number;
-  // NCERT PDFs
   pdfUrl_en?: string;
   pdfUrl_hi?: string;
   pdfUrl_en_demo?: string;
   pdfUrl_en_primum?: string;
   pdfUrl_hi_demo?: string;
   pdfUrl_hi_primum?: string;
-  // Notes PDFs
   notePdfUrl_en?: string;
   notePdfUrl_hi?: string;
   notePdfUrl_en_demo?: string;
@@ -99,6 +95,19 @@ export interface TGalleryImage {
     imageUrl: string;
     className?: string;
     createdAt: string;
+}
+
+export interface TBlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  category: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  date: string;
+  imageUrl: string;
+  createdAt: string;
 }
 
 export interface TTeamMember {

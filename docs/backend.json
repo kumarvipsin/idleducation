@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "User": {
@@ -31,6 +32,25 @@
         "name",
         "registrationDate"
       ]
+    },
+    "BlogPost": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "BlogPost",
+      "type": "object",
+      "description": "Represents a blog post on the IDL platform.",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "category": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "author": { "type": "string" },
+        "date": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "slug", "category", "excerpt", "content", "author", "date"]
     },
     "StudyPlan": {
       "$schema": "http://json-schema.org/draft-07/schema#",
@@ -181,6 +201,16 @@
         }
       },
       {
+        "path": "/blogPosts/{postId}",
+        "definition": {
+          "entityName": "BlogPost",
+          "schema": {
+            "$ref": "#/backend/entities/BlogPost"
+          },
+          "description": "Stores blog posts managed by administrators."
+        }
+      },
+      {
         "path": "/users/{userId}/studyPlans/{studyPlanId}",
         "definition": {
           "entityName": "StudyPlan",
@@ -237,6 +267,6 @@
         }
       }
     ],
-    "reasoning": "The Firestore data structure is designed to support the EduVerse platform's core features, focusing on user personalization and content delivery for academic classes, government exam preparation, and NIOS board classes. It prioritizes authorization independence and efficient querying. The structure leverages path-based ownership for user-specific data like study plans and progress. Content is stored in a separate collection with denormalized data to support efficient filtering and recommendations. Roles are managed via document existence in dedicated collections, avoiding reliance on custom claims and enabling secure administrative functions.\n\n**Authorization Independence:**\n*   User-specific data (StudyPlans and Progress) is stored under the `/users/{userId}` path, ensuring clear ownership. Access control can be implemented based on `request.auth.uid == userId`. No `get()` calls are needed to verify ownership.\n\n**QAPs Support:**\n*   Segregation: Different data types (User profiles, Study Plans, Content, Progress) are stored in separate collections, each with its own security ruleset. This ensures that rules are not filters.\n*   Path-Based Ownership: Utilizing paths like `/users/{userId}/studyPlans/{studyPlanId}` and `/users/{userId}/progress/{progressId}` makes list operations secure, filtering by `userId` to show only the user's own data.\n\n**Denormalization:**\nThe current data structure does not need denormalization. If Content required collaboration in the future a `members` map could be added."
+    "reasoning": "The Firestore data structure is updated to support a manageable blog system. Public content like blog posts is stored at the root for efficient fetching, while write access is restricted to admin roles."
   }
 }

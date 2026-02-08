@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -224,6 +225,12 @@ function AdminLayout({
                             <Link href="/admin/hero-slides">
                                 <Layers />
                                 <span>Hero Slides</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/blog')}>
+                            <Link href="/admin/blog">
+                                <FileText />
+                                <span>IDL Blog</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/gallery')}>

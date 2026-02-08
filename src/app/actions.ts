@@ -1,3 +1,4 @@
+
 /**
  * @fileoverview This file re-exports all server actions from the modular action files.
  * This barrel file allows for a single import point for all server actions in the application,
@@ -16,3 +17,4 @@ export * from './actions/paid-courses';
 export * from './actions/store-auth';
 export * from './actions/store';
 export * from './actions/reference-books';
+export * from './actions/blog';
