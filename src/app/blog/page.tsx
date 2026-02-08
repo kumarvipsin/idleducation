@@ -108,17 +108,7 @@ export default function BlogPage() {
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-        <div className="text-center mb-8 animate-fade-in-up">
-            <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
-                IDL <span className="text-orange-500">Blog</span>
-                <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
-            </h1>
-            <p className="mt-2 text-sm text-muted-foreground font-semibold">
-                Insights, tips, and stories from the world of education.
-            </p>
-        </div>
-
-        <div className="mb-8 space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+        <div className="mb-8 space-y-4 animate-fade-in-up">
             <div className="relative mx-auto max-w-md">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
