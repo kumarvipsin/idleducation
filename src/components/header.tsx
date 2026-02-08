@@ -272,18 +272,18 @@ export function Header() {
         ]
     },
     {
-        title: "Foundation & Volunteer",
-        links: [
-            { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-red-500 text-white", target: "_blank", description: "Support our cause." },
-            { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-pink-500 text-white", description: "Contribute to our mission." },
-        ]
-    },
-    {
         title: "Company",
         links: [
             { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-blue-500 text-white", description: "Learn more about our mission." },
             { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-emerald-500 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
             { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-violet-500 text-white", description: "Explore moments from our journey." },
+        ]
+    },
+    {
+        title: "Foundation",
+        links: [
+            { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-red-500 text-white", target: "_blank", description: "Support our cause." },
+            { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-pink-500 text-white", description: "Contribute to our mission." },
         ]
     }
   ];
@@ -616,7 +616,7 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {moreMenuGroups.map((group) => (
                             <div key={group.title} className="space-y-4">
-                                <h4 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] border-l-4 border-primary pl-3">{group.title}</h4>
+                                <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3">{group.title}</h4>
                                 <div className="flex flex-col gap-1">
                                     {group.links.map((link) => (
                                         <Link 
