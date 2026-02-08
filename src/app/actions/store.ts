@@ -1,4 +1,4 @@
-
+// src/app/actions/store.ts
 'use server';
 
 import { db } from "@/lib/firebase";
@@ -34,7 +34,7 @@ export async function createOrder(data: OrderData) {
         return { success: true, message: "Order placed successfully!" };
     } catch (error) {
         console.error("Error creating order:", error);
-        return { success: true, message: "Failed to place order." };
+        return { success: false, message: "Failed to place order." };
     }
 }
 
@@ -46,7 +46,7 @@ export async function getStoreOrders() {
         return { success: true, data: orders };
     } catch (error) {
         console.error("Error fetching store orders:", error);
-        return { success: false, message: "Failed to fetch store orders." };
+        return { success: false, message: "Failed to fetch store orders.", data: [] };
     }
 }
 
@@ -54,6 +54,7 @@ export async function getStoreOrders() {
  * Fetches recent orders for a specific student.
  */
 export async function getStudentOrders(userId: string) {
+    if (!userId) return { success: false, message: "User ID is required.", data: [] };
     try {
         const q = query(
             collection(db, "storeOrders"), 
@@ -65,11 +66,12 @@ export async function getStudentOrders(userId: string) {
         return { success: true, data: orders };
     } catch (error) {
         console.error("Error fetching student orders:", error);
-        return { success: false, message: "Failed to fetch orders." };
+        return { success: false, message: "Failed to fetch orders.", data: [] };
     }
 }
 
 export async function updateOrderStatus(orderId: string, status: 'processing' | 'delivered' | 'cancelled') {
+    if (!orderId) return { success: false, message: "Order ID is required." };
     try {
         const orderRef = doc(db, "storeOrders", orderId);
         const updateData: { status: string; deliveredAt?: any; cancelledAt?: any } = { status };

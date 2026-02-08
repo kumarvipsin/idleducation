@@ -4,9 +4,9 @@ import { Timestamp } from "firebase/firestore";
 /**
  * Recursively serializes Firestore data to a format safe for Next.js Server Actions.
  * Handles Timestamps, Dates, NaN, Infinity, and converts undefined to null.
- * This is crucial for Next.js 15+ which is strict about undefined values in server action returns.
+ * Also handles potential circular references and BigInts which are not JSON-serializable.
  */
-export const serializeFirestoreData = (data: any): any => {
+export const serializeFirestoreData = (data: any, seen = new WeakSet()): any => {
     // 1. Handle undefined (Server Actions cannot serialize undefined)
     if (data === undefined) {
         return null;
@@ -19,14 +19,19 @@ export const serializeFirestoreData = (data: any): any => {
                 return 0; // Fallback for non-serializable numbers
             }
         }
+        if (typeof data === 'bigint') {
+            return data.toString(); // BigInt must be converted to string
+        }
         return data;
     }
 
-    // 3. Handle Firestore Timestamps
-    // Check both instanceof and common properties to be resilient across environments
-    if (data instanceof Timestamp || (data && typeof data.toDate === 'function')) {
+    // 3. Handle Firestore Timestamps and objects with toDate()
+    if (typeof data.toDate === 'function') {
         try {
-            return data.toDate().toISOString();
+            const date = data.toDate();
+            return date instanceof Date && !isNaN(date.getTime()) 
+                ? date.toISOString() 
+                : new Date().toISOString();
         } catch (e) {
             return new Date().toISOString(); 
         }
@@ -35,23 +40,28 @@ export const serializeFirestoreData = (data: any): any => {
     // 4. Handle standard JavaScript Date objects
     if (data instanceof Date) {
         try {
-            return data.toISOString();
+            return !isNaN(data.getTime()) ? data.toISOString() : new Date().toISOString();
         } catch (e) {
             return new Date().toISOString();
         }
     }
 
+    // Circular reference protection
+    if (seen.has(data)) {
+        return null;
+    }
+    seen.add(data);
+
     // 5. Handle Arrays
     if (Array.isArray(data)) {
-        return data.map(item => serializeFirestoreData(item));
+        return data.map(item => serializeFirestoreData(item, seen));
     }
 
     // 6. Handle Objects (Plain objects and class instances)
-    // We create a new plain object to ensure it's clean for serialization
     const newData: { [key: string]: any } = {};
     for (const key in data) {
         if (Object.prototype.hasOwnProperty.call(data, key)) {
-            newData[key] = serializeFirestoreData(data[key]);
+            newData[key] = serializeFirestoreData(data[key], seen);
         }
     }
     return newData;

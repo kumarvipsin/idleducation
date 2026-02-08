@@ -25,8 +25,8 @@ const getContentDocRef = (collectionType: CollectionType, classId: string) => {
  * This server action is essential for accessing private files in GCS.
  */
 export async function getSignedUrlForPdf(publicUrl: string) {
-    if (!publicUrl) {
-        return { success: false, message: 'No file URL provided.' };
+    if (!publicUrl || typeof publicUrl !== 'string') {
+        return { success: false, message: 'No valid file URL provided.' };
     }
     
     // If it's already a full HTTP URL that doesn't belong to our storage, return it as is
@@ -794,5 +794,3 @@ export async function deleteSubTopic(collectionType: CollectionType, classId: st
         return { success: false, message: "Failed to delete sub-topic." };
     }
 }
-
-    
