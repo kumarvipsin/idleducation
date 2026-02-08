@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, use } from "react";
@@ -11,6 +10,7 @@ import { getBlogPostBySlug } from "@/app/actions/blog";
 import type { TBlogPost } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
+import { Separator } from "@/components/ui/separator";
 
 export default function BlogPostPage({ params: paramsPromise }: { params: Promise<{ slug: string }> }) {
   const params = use(paramsPromise);
