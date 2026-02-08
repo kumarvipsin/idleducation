@@ -62,9 +62,9 @@ function GalleryPageContent() {
   return (
     <Dialog>
         <div className="container mx-auto py-12 px-4 md:px-6">
-            <div className="mb-12 space-y-6">
-                 {/* Premium Search Bar - Matched to Image Reference */}
-                 <div className="relative mx-auto max-w-5xl bg-white border border-gray-300 rounded-sm flex items-center h-16 shadow-none">
+            <div className="mb-12 space-y-8">
+                 {/* Premium Search Bar */}
+                 <div className="relative mx-auto max-w-5xl bg-white border border-gray-300 rounded-sm flex items-center h-16 shadow-none transition-all focus-within:border-primary/50">
                     <div className="pl-5 pr-3">
                         <Search className="h-7 w-7 text-black" strokeWidth={2.5} />
                     </div>
@@ -82,16 +82,18 @@ function GalleryPageContent() {
                     </Button>
                 </div>
 
+                 {/* Minimal Category Navigation */}
                  <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+                    <div className="flex justify-start md:justify-center items-center gap-8 whitespace-nowrap px-4 sm:px-0">
                         {galleryCategories.map(category => (
                             <button
                                 key={category}
                                 onClick={() => setSelectedCategory(category)}
-                                className={cn(`py-2 px-4 text-sm font-medium transition-colors border rounded-md`,
+                                className={cn(
+                                    "text-[11px] font-black uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2",
                                     selectedCategory === category 
-                                    ? 'border-primary text-primary bg-primary/10' 
-                                    : 'border-border text-muted-foreground hover:text-foreground hover:bg-muted'
+                                    ? 'text-primary border-primary' 
+                                    : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
                                 )}
                                 >
                                 {category}
