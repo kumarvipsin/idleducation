@@ -1,9 +1,10 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award, X } from "lucide-react";
+import { ArrowRight, Building, Sparkles, MapPin, Trophy, Award, X, Phone } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import { Badge } from "@/components/ui/badge";
@@ -174,9 +175,17 @@ export default function OfflineCentersPage() {
                                     <MapPin className="w-4 h-4 mt-1 shrink-0" />
                                     <p className="text-sm">{center.address}</p>
                                 </div>
-                                <Button asChild variant="outline" className="w-full h-12 rounded-xl font-bold">
-                                    <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">Visit Centre</Link>
-                                </Button>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <Button asChild variant="outline" className="h-12 rounded-xl font-bold border-primary text-primary hover:bg-primary/5">
+                                        <a href="tel:7011117585">
+                                            <Phone className="w-4 h-4 mr-2" />
+                                            Call Us
+                                        </a>
+                                    </Button>
+                                    <Button asChild className="h-12 rounded-xl font-bold shadow-md">
+                                        <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">Visit Centre</Link>
+                                    </Button>
+                                </div>
                             </CardContent>
                         </Card>
                     ))}
