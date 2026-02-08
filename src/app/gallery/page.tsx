@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react';
 import { Input } from '@/components/ui/input';
-import { Search, Image as ImageIcon, Home, ImagePlus, X } from 'lucide-react';
+import { Search, Image as ImageIcon, ImagePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { getGalleryImages } from '@/app/actions';
@@ -87,7 +87,7 @@ function GalleryPageContent() {
                             key={category}
                             onClick={() => setSelectedCategory(category)}
                             className={cn(
-                                "text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2",
+                                "text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
                                 selectedCategory === category 
                                 ? 'text-primary border-primary' 
                                 : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
@@ -113,7 +113,7 @@ function GalleryPageContent() {
                                 key={image.id}
                                 onClick={() => setSelectedImage(image)}
                                 className={cn(
-                                    "group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up cursor-pointer",
+                                    "group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up cursor-pointer outline-none focus:outline-none",
                                     image.className
                                 )}
                                 style={{ animationDelay: `${index * 50}ms` }}
@@ -142,22 +142,22 @@ function GalleryPageContent() {
                     </div>
                 )}
 
-                <DialogContent className="max-w-[90vw] md:max-w-5xl p-0 overflow-hidden border-none bg-transparent shadow-none [&>button]:hidden">
+                <DialogContent className="max-w-[90vw] md:max-w-5xl p-0 overflow-hidden border-none bg-transparent shadow-none [&>button]:hidden outline-none focus:outline-none">
                     {selectedImage && (
-                        <div className="relative w-full h-full flex flex-col items-center justify-center group/popup">
+                        <div className="relative w-full h-full flex flex-col items-center justify-center group/popup outline-none">
                             <DialogHeader className="sr-only">
                                 <DialogTitle>{selectedImage.title}</DialogTitle>
                                 <DialogDescription>
                                     View full size image of {selectedImage.title} from the {selectedImage.category} collection.
                                 </DialogDescription>
                             </DialogHeader>
-                            <div className="relative max-h-[80vh] w-full flex items-center justify-center overflow-hidden rounded-2xl">
+                            <div className="relative max-h-[80vh] w-full flex items-center justify-center overflow-hidden rounded-2xl outline-none">
                                 <GcsImage 
                                     filePath={selectedImage.imageUrl} 
                                     alt={selectedImage.alt} 
                                     width={1600} 
                                     height={1200} 
-                                    className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl" 
+                                    className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl outline-none" 
                                 />
                             </div>
                         </div>
