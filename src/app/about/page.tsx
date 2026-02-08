@@ -139,7 +139,7 @@ export default function AboutPage() {
                             </div>
                         </span>
                     </h2>
-                    <p className="text-muted-foreground mt-2 font-medium text-sm">The people behind our success — meet the dedicated professionals and visionary minds driving our educational excellence and student success.</p>
+                    <p className="text-muted-foreground mt-2 font-medium text-sm">The people behind our success — meet the dedicated and visionary minds driving our educational excellence</p>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
