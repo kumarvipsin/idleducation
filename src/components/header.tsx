@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -288,8 +287,6 @@ export function Header() {
     }
   ];
 
-  const flatNavLinks = moreMenuGroups.flatMap(group => group.links);
-  
   const applyForLinks = [
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-amber-500 text-white", description: "Experience our teaching style." },
@@ -532,20 +529,37 @@ export function Header() {
                                                 <button className="w-full flex items-center justify-between p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border group/trigger">
                                                     <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                         <AlignJustify className="h-4 w-4" /> 
-                                                        Explore
+                                                        More
                                                     </span>
                                                     <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
                                                 </button>
                                             </CollapsibleTrigger>
-                                            <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {flatNavLinks.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
-                                                    <Link key={label} href={onClick ? '#' : href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} onClick={() => {if(onClick) onClick(); setIsMobileMenuOpen(false)}} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
-                                                        <div className="space-y-0.5">
-                                                            <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
-                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                            <CollapsibleContent className="px-1 py-3 bg-white space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                {moreMenuGroups.map((group) => (
+                                                    <div key={group.title} className="space-y-2">
+                                                        <h4 className="px-4 text-[10px] font-semibold text-primary uppercase tracking-widest">{group.title}</h4>
+                                                        <div className="space-y-1">
+                                                            {group.links.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
+                                                                <Link 
+                                                                    key={label} 
+                                                                    href={onClick ? '#' : href} 
+                                                                    target={target} 
+                                                                    rel={target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                                                    onClick={() => {
+                                                                        if(onClick) onClick(); 
+                                                                        setIsMobileMenuOpen(false);
+                                                                    }} 
+                                                                    className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]"
+                                                                >
+                                                                    <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
+                                                                    <div className="space-y-0.5">
+                                                                        <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                                        <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                                    </div>
+                                                                </Link>
+                                                            ))}
                                                         </div>
-                                                    </Link>
+                                                    </div>
                                                 ))}
                                             </CollapsibleContent>
                                         </Collapsible>
