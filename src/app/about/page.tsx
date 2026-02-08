@@ -129,7 +129,7 @@ export default function AboutPage() {
                                 </div>
                             </div>
 
-                            <div className="pt-6 flex flex-col items-start gap-1">
+                            <div className="pt-6 flex flex-col items-end gap-1">
                                 {loading ? (
                                     <>
                                     <Skeleton className="h-6 w-48" />
@@ -137,8 +137,8 @@ export default function AboutPage() {
                                     </>
                                 ) : (
                                     <>
-                                    <h3 className="text-xl font-black text-foreground tracking-tight uppercase">{director?.name || 'AMOD KUMAR SHARMA'}</h3>
-                                    <p className="text-xs font-bold text-primary uppercase tracking-[0.2em]">Founder & Managing Director</p>
+                                    <h3 className="text-base font-bold text-foreground tracking-tight">{director?.name || 'Amod Kumar Sharma'}</h3>
+                                    <p className="text-[10px] font-medium text-primary tracking-wide">Founder & Managing Director</p>
                                     </>
                                 )}
                             </div>
