@@ -77,14 +77,14 @@ export default function AboutPage() {
                                     filePath={director.photoUrl}
                                     alt={director.name || "Director's Photo"}
                                     fill
-                                    className="object-cover object-top scale-110"
+                                    className="object-cover object-top grayscale"
                                     />
                                 ) : (
                                     <Image
                                     src="/teacher.png"
                                     alt="Director's Photo"
                                     fill
-                                    className="object-cover object-top scale-110"
+                                    className="object-cover object-top grayscale"
                                     />
                                 )}
                             </div>
@@ -93,7 +93,7 @@ export default function AboutPage() {
                         {/* Content Column */}
                         <div className="lg:col-span-7 space-y-8">
                             <div className="space-y-4">
-                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-semibold">
+                                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-xs font-bold uppercase tracking-widest">
                                     <Sparkles className="w-3 h-3 text-yellow-500" />
                                     DIRECTOR'S MESSAGE
                                 </div>
@@ -119,7 +119,7 @@ export default function AboutPage() {
                                     </>
                                 ) : (
                                     <>
-                                    <h3 className="text-base font-bold text-foreground tracking-tight">{director?.name || 'Amod Kumar Sharma'}</h3>
+                                    <h3 className="text-base font-semibold text-foreground tracking-tight">{director?.name || 'Amod Kumar Sharma'}</h3>
                                     <p className="text-[10px] font-medium text-primary tracking-wide">Founder &amp; Chairman/CMD</p>
                                     </>
                                 )}
@@ -130,10 +130,10 @@ export default function AboutPage() {
             </div>
         </section>
         
-        <section className="w-full py-16 md:py-24 bg-white dark:bg-card">
+        <section className="w-full py-16 md:py-24 bg-muted/30">
             <div className="container mx-auto px-4 md:px-6">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-black tracking-tight text-foreground uppercase">Meet Our{' '}
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">Meet Our{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10">Team</span>
                             <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
@@ -143,29 +143,36 @@ export default function AboutPage() {
                             </div>
                         </span>
                     </h2>
-                    <p className="text-muted-foreground mt-2 font-bold text-sm uppercase tracking-widest">The visionary minds driving our educational excellence</p>
+                    <p className="text-muted-foreground mt-2 font-medium text-sm">The visionary minds driving our educational excellence</p>
                 </div>
+                
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
                     {team.map((member) => (
-                        <div key={member.name} className="flex flex-col items-center text-center group">
-                            <div className="relative w-48 h-56 mb-4 rounded-2xl overflow-hidden shadow-lg transition-transform duration-500 group-hover:-translate-y-2">
-                                <Image
-                                    src={member.imageUrl}
-                                    alt={member.imageAlt}
-                                    data-ai-hint={member.imageHint}
-                                    fill
-                                    className="object-cover filter grayscale group-hover:grayscale-0 transition-all duration-500"
-                                />
-                                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                            </div>
-                            <h3 className="text-xl font-black text-foreground uppercase tracking-tight">{member.name}</h3>
-                            <p className="text-xs font-bold text-primary uppercase tracking-widest mt-1">{member.title}</p>
-                            <Link href={member.linkedinUrl} target="_blank" rel="noopener noreferrer" className="mt-4">
-                                <Button variant="outline" size="icon" className="rounded-full border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-sm">
-                                    <Linkedin className="h-4 w-4" />
-                                </Button>
-                            </Link>
-                        </div>
+                        <Card key={member.name} className="overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 group rounded-2xl bg-white dark:bg-card">
+                            <CardContent className="p-0">
+                                <div className="relative aspect-[4/5] w-full overflow-hidden">
+                                    <Image
+                                        src={member.imageUrl}
+                                        alt={member.imageAlt}
+                                        data-ai-hint={member.imageHint}
+                                        fill
+                                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-6">
+                                        <Link href={member.linkedinUrl} target="_blank" rel="noopener noreferrer">
+                                            <Button variant="outline" size="sm" className="rounded-full bg-white/20 backdrop-blur-md border-white/40 text-white hover:bg-white hover:text-blue-600 font-bold">
+                                                <Linkedin className="h-4 w-4 mr-2" />
+                                                LinkedIn
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                </div>
+                                <div className="p-6 text-center">
+                                    <h3 className="text-lg font-bold text-foreground tracking-tight">{member.name}</h3>
+                                    <p className="text-xs font-semibold text-primary mt-1 uppercase tracking-wider">{member.title}</p>
+                                </div>
+                            </CardContent>
+                        </Card>
                     ))}
                 </div>
             </div>
