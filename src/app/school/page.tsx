@@ -98,7 +98,7 @@ function SchoolPageContent() {
         <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-12 animate-fade-in-up">
                 <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white shadow-sm">
-                    <div className="relative w-full aspect-[16/6]">
+                    <div className="relative w-full aspect-video md:aspect-[16/6]">
                         <Image
                             src="/result.jpg"
                             alt="Academic Banners"
