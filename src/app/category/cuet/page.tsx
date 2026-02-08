@@ -77,44 +77,6 @@ export default function CuetPage() {
         }
     ];
 
-    const cuetUgFaqs = [
-        {
-          question: "What is the syllabus for CUET UG 2026?",
-          answer: "The syllabus for CUET UG 2026 is based on the Class 12 curriculum. It is divided into three sections: Language, Domain-specific subjects, and a General Test."
-        },
-        {
-          question: "When will CUET UG 2026 notification be released?",
-          answer: "The official notification for CUET UG 2026 is expected to be released by the National Testing Agency (NTA) in March 2026."
-        },
-        {
-          question: "Who conducts CUET UG?",
-          answer: "The Common University Entrance Test (CUET) for undergraduate admissions is conducted by the National Testing Agency (NTA)."
-        },
-        {
-          question: "How many subjects can I choose in CUET UG?",
-          answer: "Candidates can choose up to 6 subjects from all three sections. It is advisable to visit the official websites of the respective universities for detailed subject combination requirements for specific courses."
-        },
-        {
-          question: "Is it mandatory to appear for the General Test in CUET UG?",
-          answer: "It depends on the university and the course you are applying for. Some universities may require the General Test score for admission to certain programs, while others may not."
-        }
-    ];
-
-    const cuetPgFaqs = [
-        {
-          question: "What is the exam pattern for CUET PG?",
-          answer: "The CUET PG exam consists of two parts. Part A is a general aptitude test, and Part B consists of domain-specific questions."
-        },
-        {
-          question: "How many subjects can I apply for in CUET PG?",
-          answer: "Candidates can apply for multiple subjects, but they must check the eligibility criteria for each course and university they are interested in."
-        },
-        {
-          question: "Is there an age limit for CUET PG?",
-          answer: "No, there is no age limit for candidates appearing for the CUET (PG) examination."
-        }
-    ];
-
     return (
         <div className="container mx-auto py-2 px-4 md:px-6 max-w-7xl relative">
             <section className="mb-12 animate-fade-in-up">
@@ -329,22 +291,6 @@ export default function CuetPage() {
                         </Card>
                     </div>
                 </div>
-            </section>
-
-            <section className="mt-16 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-              <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-3xl font-bold mb-8">CUET {activeTab.toUpperCase()} 2026 Exam FAQs</h2>
-                <Accordion type="single" collapsible className="w-full space-y-4">
-                  {(activeTab === 'ug' ? cuetUgFaqs : cuetPgFaqs).map((faq, index) => (
-                    <AccordionItem key={index} value={`item-${index}`} className="bg-muted/50 rounded-lg border">
-                      <AccordionTrigger className="text-left p-4 font-semibold hover:no-underline">{faq.question}</AccordionTrigger>
-                      <AccordionContent className="p-4 pt-0 text-left">
-                       {faq.answer}
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </div>
             </section>
         </div>
     );
