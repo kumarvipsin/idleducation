@@ -160,15 +160,6 @@ function GalleryPageContent() {
                                     className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl" 
                                 />
                             </div>
-                            
-                            <Button 
-                                variant="ghost" 
-                                size="icon" 
-                                onClick={() => setSelectedImage(null)}
-                                className="absolute top-3 right-3 bg-white/10 hover:bg-white/20 text-white rounded-full h-8 w-8 z-50 backdrop-blur-sm transition-all opacity-0 group-hover/popup:opacity-100 scale-90 group-hover/popup:scale-100 border border-white/20"
-                            >
-                                <X className="h-4 w-4" />
-                            </Button>
                         </div>
                     )}
                 </DialogContent>
