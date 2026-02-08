@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, Suspense, useRef } from "react";
@@ -47,7 +46,7 @@ function SchoolPageContent() {
 
     const resourceCards = [
         {
-          title: "GET THE\nIDL Advantage",
+          title: `GET THE\nAdvantage For ${activeTab}`,
           icon: <Sparkles />,
           bgColor: "bg-amber-50 border-amber-100",
           textColor: "text-amber-900",
