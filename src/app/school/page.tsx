@@ -49,19 +49,25 @@ function SchoolPageContent() {
         {
           title: "GET THE\nIDL Advantage",
           icon: <Sparkles />,
-          color: "bg-amber-50 text-amber-600 dark:bg-amber-900/20 dark:text-amber-400",
+          bgColor: "bg-amber-500",
+          textColor: "text-white",
+          iconBg: "bg-white/20",
           href: "/about"
         },
         {
           title: "REVISION\nHigh-Quality Notes",
           icon: <BookOpen />,
-          color: "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400",
+          bgColor: "bg-blue-600",
+          textColor: "text-white",
+          iconBg: "bg-white/20",
           href: "/resources/notes"
         },
          {
           title: "SOLUTIONS\nNCERT Step-by-Step",
           icon: <Book />,
-          color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20 dark:text-indigo-400",
+          bgColor: "bg-indigo-700",
+          textColor: "text-white",
+          iconBg: "bg-white/20",
           href: "/resources/ncert-solutions"
         }
     ];
@@ -88,8 +94,8 @@ function SchoolPageContent() {
                     <Sparkles className="w-3 h-3 text-yellow-500" />
                     Academic Prep
                 </div>
-                <h1 className="text-3xl md:text-5xl font-black text-foreground tracking-tight text-left leading-tight text-balance">
-                    {activeTab} CBSE 2026-2027 <br/>
+                <h1 className="text-xl md:text-3xl font-bold text-foreground tracking-tight text-left leading-tight text-balance">
+                    <span className="text-3xl md:text-5xl font-black">{activeTab} CBSE 2026-2027</span> <br/>
                     <span className="text-primary text-sm md:text-base font-bold">Syllabus, Date Sheet & Mock Tests</span>
                 </h1>
                 <p className="max-w-3xl text-left text-muted-foreground text-sm md:text-base font-bold leading-relaxed">
@@ -124,15 +130,18 @@ function SchoolPageContent() {
                         const [header, subtitle] = card.title.split('\n');
                         return (
                             <Link key={index} href={card.href} className="group">
-                                <div className="flex items-center gap-4 p-4 bg-muted/20 hover:bg-white dark:hover:bg-card border border-transparent hover:border-primary/20 rounded-2xl transition-all duration-300 shadow-sm">
-                                    <div className={cn("p-3 rounded-full shrink-0 group-hover:scale-110 transition-transform", card.color)}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
+                                <div className={cn(
+                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-300 shadow-lg group-hover:scale-[1.02] active:scale-[0.98]",
+                                    card.bgColor
+                                )}>
+                                    <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:rotate-12", card.iconBg)}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6 text-white" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-[11px] font-bold uppercase tracking-wide text-foreground leading-tight">{header}</h4>
-                                        <p className="text-[10px] font-bold text-muted-foreground truncate">{subtitle}</p>
+                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{header}</h4>
+                                        <p className={cn("text-[11px] font-bold opacity-90 truncate", card.textColor)}>{subtitle}</p>
                                     </div>
-                                    <ArrowRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary transition-all group-hover:translate-x-1" />
+                                    <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
                                 </div>
                             </Link>
                         );
