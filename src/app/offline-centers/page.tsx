@@ -88,7 +88,7 @@ export default function OfflineCentersPage() {
     return (
         <div className="relative bg-white dark:bg-background">
             <div className="container mx-auto px-4 md:px-6 py-2">
-                 <div className="relative rounded-2xl overflow-hidden">
+                 <div className="relative rounded-2xl overflow-hidden shadow-sm border">
                     <Carousel
                       setApi={setApi}
                       plugins={[ Autoplay({ delay: 3000, stopOnInteraction: false }) ]}
@@ -106,14 +106,6 @@ export default function OfflineCentersPage() {
                                             fill
                                             className="object-cover"
                                         />
-                                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center text-white text-center p-4">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <Sparkles className="w-8 h-8 text-yellow-500" />
-                                            </div>
-                                            <Button asChild size="lg" className="h-10 px-4 text-sm md:h-12 md:px-8 md:text-lg bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-bold shadow-lg hover:shadow-xl transition-all">
-                                                <Link href="/book-demo">Book a Visit <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                                            </Button>
-                                        </div>
                                     </div>
                                 </CarouselItem>
                             ))}
@@ -135,7 +127,10 @@ export default function OfflineCentersPage() {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12">
-                <div className="text-center mb-12">
+                <div className="text-center mb-12 animate-fade-in-up">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">
+                        Offline Learning
+                    </div>
                     <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">IDL Learning Centres Now in{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10">Delhi</span>
@@ -146,17 +141,17 @@ export default function OfflineCentersPage() {
                             </div>
                         </span>
                     </h2>
-                    <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
-                        Experience premium education in person at our state-of-the-art facilities across the capital.
+                    <p className="text-sm text-muted-foreground mt-4 max-w-2xl mx-auto font-bold leading-relaxed">
+                        Experience premium education in person at our state-of-the-art facilities across the capital. Our centres provide a focused environment for student growth and excellence.
                     </p>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-4">
                     {cities.map(city => (
-                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-primary transition-all cursor-pointer">
-                            <div className="bg-primary/10 p-2 rounded-lg">
-                                <Building className="w-6 h-6 text-primary" />
+                        <Card key={city} className="p-4 flex items-center gap-3 hover:shadow-md hover:border-primary transition-all cursor-pointer group">
+                            <div className="bg-primary/10 p-2 rounded-lg group-hover:bg-primary group-hover:text-white transition-colors">
+                                <Building className="w-6 h-6 text-primary group-hover:text-inherit" />
                             </div>
-                            <p className="font-semibold">{city}</p>
+                            <p className="font-semibold text-sm">{city}</p>
                         </Card>
                     ))}
                 </div>
@@ -165,7 +160,7 @@ export default function OfflineCentersPage() {
             <div className="container mx-auto px-4 md:px-6 py-12">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                     {centers.map((center) => (
-                        <Card key={center.name} className="overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                        <Card key={center.name} className="overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col bg-card border-muted-foreground/10">
                             <div className="relative h-48 w-full">
                                 <Image
                                     src={center.imageUrl}
@@ -175,20 +170,20 @@ export default function OfflineCentersPage() {
                                     className="object-cover"
                                 />
                             </div>
-                            <CardContent className="p-6">
-                                <h3 className="text-xl font-bold mb-2">{center.name}</h3>
-                                <div className="flex items-start gap-2 text-muted-foreground mb-4">
-                                    <MapPin className="w-4 h-4 mt-1 shrink-0" />
-                                    <p className="text-sm">{center.address}</p>
+                            <CardContent className="p-6 flex-grow flex flex-col">
+                                <h3 className="text-xl font-bold mb-2 text-foreground">{center.name}</h3>
+                                <div className="flex items-start gap-2 text-muted-foreground mb-6 flex-grow">
+                                    <MapPin className="w-4 h-4 mt-1 shrink-0 text-primary" />
+                                    <p className="text-sm font-medium leading-relaxed">{center.address}</p>
                                 </div>
                                 <div className="grid grid-cols-2 gap-3">
-                                    <Button asChild variant="outline" className="h-12 rounded-xl font-bold border-primary text-primary hover:bg-primary/5">
+                                    <Button asChild variant="outline" className="h-12 rounded-xl font-bold border-primary/20 text-primary hover:bg-primary/5 transition-all">
                                         <a href="tel:7011117585">
                                             <Phone className="w-4 h-4 mr-2" />
                                             Call Us
                                         </a>
                                     </Button>
-                                    <Button asChild className="h-12 rounded-xl font-bold shadow-md">
+                                    <Button asChild className="h-12 rounded-xl font-bold shadow-md shadow-primary/10 transition-all">
                                         <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">Visit Centre</Link>
                                     </Button>
                                 </div>
