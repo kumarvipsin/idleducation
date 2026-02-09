@@ -14,6 +14,7 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 import React, { useState, useEffect, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const resources = [
   {
@@ -101,29 +102,38 @@ export function StudyResources() {
                   <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
-                              <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
-                              <div className="relative w-full aspect-square bg-muted/30 p-8 flex items-center justify-center">
-                                  <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
-                                      <Image
-                                          src={resource.imageUrl}
-                                          alt={resource.title}
-                                          data-ai-hint={resource.imageHint}
-                                          fill
-                                          className="object-contain"
-                                      />
-                                  </div>
-                              </div>
-                              <CardContent className="p-4 flex-grow flex flex-col items-center text-center">
-                                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-wider mb-3">
-                                      {resource.category}
-                                  </div>
-                                  <h3 className="text-base font-black tracking-tight text-foreground leading-tight line-clamp-1 mb-2">
-                                      {resource.title}
-                                  </h3>
-                                  <p className="text-[10px] text-muted-foreground font-bold leading-relaxed line-clamp-2 opacity-80">
-                                      {resource.description}
-                                  </p>
-                              </CardContent>
+                              <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border-muted-foreground/10">
+                                <CardContent className="p-4 flex flex-col text-center items-center">
+                                    <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden border-4 border-primary/5 bg-muted/30 p-8 flex items-center justify-center">
+                                        <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
+                                            <Image
+                                                src={resource.imageUrl}
+                                                alt={resource.title}
+                                                data-ai-hint={resource.imageHint}
+                                                fill
+                                                className="object-contain"
+                                            />
+                                        </div>
+                                    </div>
+                                    
+                                    <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-widest mb-3">
+                                        {resource.category}
+                                    </div>
+                                    
+                                    <h3 className="font-extrabold text-base tracking-tight mb-2 line-clamp-1">
+                                        {resource.title}
+                                    </h3>
+                                    
+                                    <div className="relative h-24 w-full">
+                                        <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
+                                        <ScrollArea className="h-full w-full px-2">
+                                            <p className="text-xs text-muted-foreground font-bold italic leading-relaxed">
+                                                {resource.description}
+                                            </p>
+                                        </ScrollArea>
+                                        <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1">”</span>
+                                    </div>
+                                </CardContent>
                               </Card>
                           </Link>
                       </div>
