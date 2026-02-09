@@ -111,7 +111,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full h-12 font-bold" disabled={form.formState.isSubmitting}>
+        <Button type="submit" className="w-1/2 h-12 font-bold mx-auto flex" disabled={form.formState.isSubmitting}>
           {form.formState.isSubmitting ? 'Submitting...' : 'Submit'}
         </Button>
       </form>
