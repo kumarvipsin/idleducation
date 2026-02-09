@@ -104,7 +104,7 @@ export function StudyResources() {
                           <Link href={resource.href} className="block h-full group">
                               <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border-muted-foreground/10">
                                 <CardContent className="p-4 flex flex-col text-center items-center">
-                                    <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden bg-slate-50/50 p-8 flex items-center justify-center">
+                                    <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden bg-primary/10 p-8 flex items-center justify-center">
                                         <div className="relative w-full h-full">
                                             <Image
                                                 src={resource.imageUrl}
