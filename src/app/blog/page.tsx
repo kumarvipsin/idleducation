@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, User, Calendar, ArrowRight } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
@@ -130,7 +129,7 @@ export default function BlogPage() {
                         </div>
                     </CardHeader>
                     <CardContent className="flex-grow">
-                    <p className="text-sm text-muted-foreground line-clamp-2">
+                    <p className="text-sm text-muted-foreground line-clamp-2 font-bold">
                         {post.excerpt}
                     </p>
                     </CardContent>
