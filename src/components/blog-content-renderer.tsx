@@ -94,7 +94,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
               <div className="bg-primary/10 p-1 rounded-full mt-1.5 shrink-0 group-hover:bg-primary transition-colors">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-white transition-colors" />
               </div>
-              <span className="text-foreground/90 font-normal text-base md:text-lg leading-relaxed text-left flex-1 tracking-tight">
+              <span className="text-foreground/90 font-medium text-base md:text-lg leading-relaxed text-left flex-1 tracking-tight">
                 {processText(trimmed.substring(2))}
               </span>
             </div>
@@ -103,7 +103,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
 
         // Normal Paragraph with increased size and medium weight for focused reading
         return (
-          <p key={index} className="leading-relaxed text-foreground/90 font-normal text-base md:text-lg text-left tracking-tight px-1">
+          <p key={index} className="leading-relaxed text-foreground/90 font-medium text-base md:text-lg text-left tracking-tight px-1">
             {processText(line)}
           </p>
         );
