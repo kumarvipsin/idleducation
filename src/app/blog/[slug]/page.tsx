@@ -90,15 +90,15 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
               </h1>
           </div>
 
-           <div className="flex flex-wrap items-center gap-6 text-[11px] font-black uppercase tracking-[0.15em] text-muted-foreground/60 bg-muted/20 p-4 rounded-xl border border-muted-foreground/5">
+           <div className="flex flex-wrap items-center gap-6 text-sm font-medium text-muted-foreground bg-muted/30 p-4 rounded-xl border border-muted-foreground/5">
             <div className="flex items-center gap-2">
               <User className="h-4 w-4 text-primary" />
-              <span>WRITTEN BY <span className="text-foreground">{post.author}</span></span>
+              <span>Written by <span className="text-foreground font-bold">{post.author}</span></span>
             </div>
             <Separator orientation="vertical" className="h-4 hidden sm:block" />
             <div className="flex items-center gap-2">
               <Calendar className="h-4 w-4 text-primary" />
-              <span>PUBLISHED ON <span className="text-foreground">{post.date}</span></span>
+              <span>Published on <span className="text-foreground font-bold">{post.date}</span></span>
             </div>
           </div>
         </header>
