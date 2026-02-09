@@ -198,7 +198,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full font-bold" disabled={supportForm.formState.isSubmitting}>
+                        <Button type="submit" className="w-1/2 h-12 font-bold mx-auto flex" disabled={supportForm.formState.isSubmitting}>
                             {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Support Ticket'}
                         </Button>
                     </form>
