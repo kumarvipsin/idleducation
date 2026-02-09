@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -87,6 +86,7 @@ const BlogForm = ({
                     <ul className="space-y-0.5 opacity-80">
                         <li># Text → Centered Hero Title</li>
                         <li>**Text** → <b>Extra Bold</b></li>
+                        <li>++Text++ → <b className="text-[#41A67E]">Bold Green</b></li>
                         <li>==Text== → <mark>Soft Highlight</mark></li>
                         <li>1. Title → Numbered Module</li>
                         <li>- Item → Standard Bullet</li>

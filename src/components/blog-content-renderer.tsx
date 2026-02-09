@@ -103,7 +103,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // 3. Sub-topic Arrow Indicator (-> Item)
         if (trimmed.startsWith('-> ')) {
           return (
-            <div key={index} className="flex items-start gap-3 ml-2 md:ml-4 py-1 group animate-fade-in-up">
+            <div key={index} className="flex items-start gap-3 py-1 group animate-fade-in-up">
               <ArrowRight className="w-3 h-3 text-primary/60 shrink-0 mt-1.5 group-hover:translate-x-0.5 transition-transform" />
               <span className="text-muted-foreground font-bold text-sm md:text-base leading-relaxed text-left flex-1 tracking-tight">
                 {processText(trimmed.substring(3))}
@@ -115,7 +115,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // Stylized Bullet Points (- Item)
         if (trimmed.startsWith('- ')) {
           return (
-            <div key={index} className="flex items-start gap-3 ml-2 md:ml-4 py-1.5 group">
+            <div key={index} className="flex items-start gap-3 py-1.5 group">
               <div className="bg-primary/10 p-1 rounded-full mt-1.5 shrink-0 group-hover:bg-primary transition-colors">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-white transition-colors" />
               </div>
@@ -146,8 +146,8 @@ function processText(text: string, noLinks = false) {
     .replace(/\(tm\)/g, '™');
 
   const regex = noLinks 
-    ? /(\*\*.*?\*\*|==.*?==)/g 
-    : /(\*\*.*?\*\*|==.*?==|(?:https?:\/\/|www\.)[^\s,]+)/g;
+    ? /(\*\*.*?\*\*|==.*?==|\+\+.*?\+\+)/g 
+    : /(\*\*.*?\*\*|==.*?==|\+\+.*?\+\+| (?:https?:\/\/|www\.)[^\s,]+)/g;
     
   const parts = processed.split(regex);
 
@@ -157,6 +157,13 @@ function processText(text: string, noLinks = false) {
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={i} className="font-black text-foreground">
+          {part.slice(2, -2)}
+        </strong>
+      );
+    }
+    if (part.startsWith('++') && part.endsWith('++')) {
+      return (
+        <strong key={i} className="font-black" style={{ color: '#41A67E' }}>
           {part.slice(2, -2)}
         </strong>
       );
