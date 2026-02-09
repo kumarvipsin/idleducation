@@ -107,7 +107,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
               </h1>
           </div>
 
-           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-bold text-muted-foreground py-2 border-b border-muted-foreground/5">
+           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-bold text-muted-foreground py-2 border-b border-muted-foreground/5">
             <div className="flex items-center gap-2">
               <UserCircle className="h-3.5 w-3.5 text-primary" />
               <span>Written by <span className="text-foreground font-bold">{post.author}</span></span>
@@ -126,9 +126,9 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
             <div className="mt-20 space-y-10 print-hidden">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-primary pl-4 bg-primary/5 py-2 rounded-r-xl">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-primary pl-4 py-2">
                     <div className="flex items-center gap-3">
-                        <div className="p-1.5 rounded-full border border-primary/20 bg-white dark:bg-gray-950 text-primary shadow-sm shrink-0">
+                        <div className="p-1.5 rounded-full border border-primary/20 bg-white dark:bg-gray-950 text-primary shrink-0">
                             <BookOpen className="w-3.5 h-3.5" />
                         </div>
                         <div>
@@ -138,7 +138,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
                             <p className="text-[10px] text-muted-foreground font-medium leading-tight">Discover more insights from our experts</p>
                         </div>
                     </div>
-                    <Button asChild variant="ghost" className="w-fit text-[11px] font-bold text-primary hover:bg-primary/10 mr-4 h-8 px-3 rounded-lg">
+                    <Button asChild variant="ghost" className="w-fit text-[11px] font-bold text-primary hover:bg-primary/10 h-8 px-3 rounded-lg">
                         <Link href="/blog">View All Articles <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
                     </Button>
                 </div>
