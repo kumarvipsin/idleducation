@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from "react";
@@ -141,7 +142,7 @@ export default function CuetPage() {
                                         {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.title)}>{card.title}</h4>
+                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{card.title}</h4>
                                         <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{card.subtitle}</p>
                                     </div>
                                     <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
@@ -165,27 +166,28 @@ export default function CuetPage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {cuetSubjects.map((subject) => (
-                            <div key={subject.key} className="group bg-primary/[0.02] dark:bg-primary/[0.05] p-4 rounded-xl shadow-sm border border-primary/10 hover:border-primary/30 hover:shadow-md transition-all flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-l-primary/20 hover:border-l-primary">
-                                <div className="flex items-center gap-4 w-full">
-                                    <div className={cn("p-3 rounded-lg shrink-0 transition-transform duration-500 group-hover:scale-105 shadow-sm", subject.color)}>
+                            <div key={subject.key} className="group relative bg-white dark:bg-slate-900 p-5 rounded-2xl border border-muted-foreground/10 hover:border-primary/30 hover:shadow-xl transition-all duration-300 flex flex-col sm:flex-row items-center justify-between gap-4 overflow-hidden">
+                                <div className="absolute top-0 left-0 w-1 h-full bg-primary/10 group-hover:bg-primary transition-colors duration-300" />
+                                <div className="flex items-center gap-4 w-full relative z-10">
+                                    <div className={cn("p-3.5 rounded-xl shrink-0 transition-all duration-500 group-hover:scale-110 shadow-sm", subject.color)}>
                                         <BookOpen className="w-5 h-5" />
                                     </div>
-                                    <div className="space-y-0.5">
+                                    <div className="space-y-1">
                                         <h4 className="font-bold text-sm text-foreground tracking-tight leading-tight">{subject.name}</h4>
-                                        <p className="text-[9px] text-muted-foreground font-medium uppercase tracking-wide opacity-80">Academic Session 2026-27</p>
+                                        <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wide opacity-80">Academic Session 2026-27</p>
                                     </div>
                                 </div>
-                                <div className="flex flex-row items-center gap-2 w-full sm:w-auto shrink-0">
-                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 rounded-lg text-[9px] font-bold tracking-wide uppercase text-blue-600 border-blue-200 hover:bg-blue-50 transition-all shadow-none">
+                                <div className="flex flex-row items-center gap-2 w-full sm:w-auto shrink-0 relative z-10">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-9 rounded-xl text-[9px] font-black tracking-widest uppercase text-blue-600 border-blue-100 hover:bg-blue-50 transition-all shadow-none">
                                         <div className="flex items-center">
                                             <Eye className="w-3.5 h-3.5 mr-1.5" />
-                                            <span>VIEW PDF</span>
+                                            <span>VIEW</span>
                                         </div>
                                     </Button>
-                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 rounded-lg text-[9px] font-bold tracking-wide uppercase text-emerald-600 border-emerald-200 hover:bg-emerald-50 transition-all shadow-none">
+                                    <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-9 rounded-xl text-[9px] font-black tracking-widest uppercase text-emerald-600 border-emerald-100 hover:bg-emerald-50 transition-all shadow-none">
                                         <div className="flex items-center">
                                             <Download className="w-3.5 h-3.5 mr-1.5" />
-                                            <span>Get PDF</span>
+                                            <span>GET</span>
                                         </div>
                                     </Button>
                                 </div>
