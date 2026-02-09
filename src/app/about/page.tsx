@@ -68,9 +68,9 @@ export default function AboutPage() {
                             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden bg-primary/5">
                                 {loading ? (
                                     <Skeleton className="w-full h-full rounded-2xl" />
-                                ) : director?.photoUrl ? (
+                                ) : director?.photoURL ? (
                                     <GcsImage
-                                    filePath={director.photoUrl}
+                                    filePath={director.photoURL}
                                     alt={director.name || "Director's Photo"}
                                     fill
                                     className="object-cover object-top"
@@ -116,7 +116,7 @@ export default function AboutPage() {
                                 ) : (
                                     <>
                                     <h3 className="text-base font-semibold text-foreground tracking-tight">{director?.name || 'Amod Kumar Sharma'}</h3>
-                                    <p className="text-[10px] font-medium text-primary tracking-wide">Founder &amp; Chairman/CMD</p>
+                                    <p className="text-[10px] font-medium text-primary tracking-wide">Founder & Chairman/Chief Managing Director</p>
                                     </>
                                 )}
                             </div>
