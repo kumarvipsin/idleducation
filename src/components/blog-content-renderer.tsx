@@ -20,7 +20,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
   const lines = content.split('\n');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {lines.map((line, index) => {
         const trimmed = line.trim();
         if (trimmed === '') return <div key={index} className="h-4" />;
@@ -51,16 +51,16 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // Premium CTA Boxes (Also Check :, Check :)
         if (trimmed.startsWith('Also Check :') || trimmed.startsWith('Check :')) {
           return (
-            <div key={index} className="border border-primary/20 p-2 my-3 rounded-md flex items-center gap-3 transition-all hover:bg-primary/[0.03] group cursor-pointer shadow-none">
-              <div className="bg-primary text-white p-1 rounded-sm shrink-0">
-                <Link2 className="w-3.5 h-3.5" />
+            <div key={index} className="p-1 my-2 flex items-center gap-2 transition-all hover:bg-primary/[0.03] group cursor-pointer shadow-none w-fit">
+              <div className="bg-primary text-white p-0.5 rounded-sm shrink-0">
+                <Link2 className="w-3 h-3" />
               </div>
               <div className="flex-1">
-                <span className="text-lg md:text-xl font-bold text-primary tracking-tight">
+                <span className="text-[11px] md:text-xs font-bold text-primary tracking-tight">
                     {processText(trimmed)}
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 ml-auto text-primary/30 group-hover:translate-x-0.5 group-hover:text-primary transition-all" />
+              <ChevronRight className="w-3 h-3 text-primary/30 group-hover:translate-x-0.5 group-hover:text-primary transition-all" />
             </div>
           );
         }
@@ -68,20 +68,20 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // Stylized Bullet Points
         if (trimmed.startsWith('- ')) {
           return (
-            <div key={index} className="flex items-start gap-4 ml-2 md:ml-6 py-2 group">
-              <div className="bg-emerald-500/10 p-1.5 rounded-full mt-1 shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 group-hover:text-inherit transition-colors" />
+            <div key={index} className="flex items-start gap-3 ml-2 md:ml-6 py-1.5 group">
+              <div className="bg-emerald-500/10 p-1 rounded-full mt-1 shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 group-hover:text-inherit transition-colors" />
               </div>
-              <span className="text-foreground/80 font-normal text-lg md:text-xl leading-relaxed">
+              <span className="text-foreground/80 font-normal text-sm md:text-base leading-relaxed">
                 {processText(trimmed.substring(2))}
               </span>
             </div>
           );
         }
 
-        // Normal Paragraph with refined spacing and sizing
+        // Normal Paragraph
         return (
-          <p key={index} className="leading-relaxed text-foreground/80 font-normal text-lg md:text-xl text-left tracking-tight">
+          <p key={index} className="leading-relaxed text-foreground/80 font-normal text-sm md:text-base text-left tracking-tight">
             {processText(line)}
           </p>
         );
