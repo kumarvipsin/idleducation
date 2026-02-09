@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -11,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Image as ImageIcon } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Image as ImageIcon, Info } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -60,31 +59,43 @@ const BlogForm = ({
       <ScrollArea className="h-[70vh] pr-4">
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="title" className="text-right">Title</Label>
+            <Label htmlFor="title" className="text-right font-bold">Title</Label>
             <Input id="title" name="title" defaultValue={post?.title} className="col-span-3" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="category" className="text-right">Category</Label>
+            <Label htmlFor="category" className="text-right font-bold">Category</Label>
             <Input id="category" name="category" defaultValue={post?.category} className="col-span-3" required placeholder="e.g., Exams, Education" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="author" className="text-right">Author</Label>
+            <Label htmlFor="author" className="text-right font-bold">Author</Label>
             <Input id="author" name="author" defaultValue={post?.author} className="col-span-3" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="date" className="text-right">Display Date</Label>
+            <Label htmlFor="date" className="text-right font-bold">Display Date</Label>
             <Input id="date" name="date" defaultValue={post?.date} className="col-span-3" required placeholder="e.g., July 15, 2024" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="excerpt" className="text-right">Excerpt</Label>
+            <Label htmlFor="excerpt" className="text-right font-bold">Excerpt</Label>
             <Textarea id="excerpt" name="excerpt" defaultValue={post?.excerpt} className="col-span-3" required />
           </div>
           <div className="grid grid-cols-4 items-start gap-4">
-            <Label htmlFor="content" className="text-right pt-2">Article Content</Label>
-            <Textarea id="content" name="content" defaultValue={post?.content} className="col-span-3 min-h-[200px]" required />
+            <div className="text-right pt-2 space-y-2">
+                <Label htmlFor="content" className="font-bold">Article Content</Label>
+                <div className="p-2 bg-primary/5 rounded-lg border border-primary/10 text-[9px] text-primary font-black uppercase tracking-tighter leading-tight text-left">
+                    <p className="flex items-center gap-1 mb-1"><Info className="w-2 h-2"/> Pro Writing Guide</p>
+                    <ul className="space-y-0.5 opacity-80">
+                        <li>**Text** → <b>Bold</b></li>
+                        <li>==Text== → <mark>Highlight</mark></li>
+                        <li>1. Title → Section</li>
+                        <li>- Item → Bullet</li>
+                        <li>Check : Link Box</li>
+                    </ul>
+                </div>
+            </div>
+            <Textarea id="content" name="content" defaultValue={post?.content} className="col-span-3 min-h-[300px] font-medium" required />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="image" className="text-right">Post Photo</Label>
+            <Label htmlFor="image" className="text-right font-bold">Post Photo</Label>
             <div className="col-span-3 flex items-center gap-4">
               {preview ? (
                 <Image src={preview} alt="Preview" width={100} height={60} className="rounded-md object-cover aspect-video" />

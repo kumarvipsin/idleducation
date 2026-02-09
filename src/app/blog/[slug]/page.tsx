@@ -11,6 +11,7 @@ import type { TBlogPost } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import { Separator } from "@/components/ui/separator";
+import { BlogContentRenderer } from "@/components/blog-content-renderer";
 
 export default function BlogPostPage({ params: paramsPromise }: { params: Promise<{ slug: string }> }) {
   const params = use(paramsPromise);
@@ -63,7 +64,7 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
       </div>
       <article className="max-w-4xl mx-auto">
         <header className="mb-12 space-y-8">
-          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden">
+          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-none border-none">
               {post.imageUrl ? (
                   <GcsImage 
                       filePath={post.imageUrl}
@@ -102,10 +103,9 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
             </div>
           </div>
         </header>
-        <div className="prose dark:prose-invert max-w-none prose-headings:font-black prose-headings:tracking-tight prose-p:font-medium prose-p:leading-relaxed text-foreground/80">
-          <div className="whitespace-pre-wrap">
-            {post.content}
-          </div>
+        
+        <div className="prose dark:prose-invert max-w-none">
+          <BlogContentRenderer content={post.content} />
         </div>
       </article>
     </div>
