@@ -51,16 +51,16 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // Premium CTA Boxes (Also Check :, Check :)
         if (trimmed.startsWith('Also Check :') || trimmed.startsWith('Check :')) {
           return (
-            <div key={index} className="bg-primary/[0.03] border border-primary/10 border-l-4 border-l-primary p-5 my-6 rounded-r-2xl flex items-center gap-4 transition-all hover:bg-primary/[0.06] group cursor-pointer shadow-sm">
-              <div className="bg-primary text-white p-2.5 rounded-xl group-hover:rotate-12 group-hover:scale-110 transition-all duration-300 shadow-md shadow-primary/20">
-                <Link2 className="w-4 h-4" />
+            <div key={index} className="border border-primary/20 p-2 my-3 rounded-md flex items-center gap-3 transition-all hover:bg-primary/[0.03] group cursor-pointer shadow-none">
+              <div className="bg-primary text-white p-1 rounded-sm shrink-0">
+                <Link2 className="w-3.5 h-3.5" />
               </div>
               <div className="flex-1">
-                <span className="text-base md:text-lg font-black text-primary tracking-tight uppercase">
+                <span className="text-xs md:text-sm font-bold text-primary tracking-tight">
                     {processText(trimmed)}
                 </span>
               </div>
-              <ChevronRight className="w-5 h-5 ml-auto text-primary/30 group-hover:translate-x-1 group-hover:text-primary transition-all" />
+              <ChevronRight className="w-4 h-4 ml-auto text-primary/30 group-hover:translate-x-0.5 group-hover:text-primary transition-all" />
             </div>
           );
         }
