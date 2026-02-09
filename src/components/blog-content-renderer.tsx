@@ -29,8 +29,8 @@ export function BlogContentRenderer({ content }: { content: string }) {
         const headingMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
         if (headingMatch) {
           return (
-            <h2 key={index} className="text-2xl md:text-3xl font-black text-primary mt-10 mb-4 flex items-center gap-4 group">
-              <span className="bg-primary text-white w-12 h-12 rounded-2xl flex items-center justify-center text-base shrink-0 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+            <h2 key={index} className="text-lg md:text-xl font-black text-primary mt-10 mb-4 flex items-center gap-4 group">
+              <span className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center text-sm shrink-0 shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
                 {headingMatch[1]}
               </span>
               <span className="border-b-2 border-primary/10 group-hover:border-primary/30 transition-all pb-1">
