@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -84,11 +85,11 @@ const BlogForm = ({
                 <div className="p-2 bg-primary/5 rounded-lg border border-primary/10 text-[9px] text-primary font-black uppercase tracking-tighter leading-tight text-left">
                     <p className="flex items-center gap-1 mb-1"><Info className="w-2 h-2"/> Pro Writing Guide</p>
                     <ul className="space-y-0.5 opacity-80">
-                        <li># Text → Centered Title</li>
-                        <li>**Text** → <b>Bold</b></li>
-                        <li>==Text== → <mark>Highlight</mark></li>
-                        <li>1. Title → Section</li>
-                        <li>- Item → Bullet</li>
+                        <li># Text → Centered Hero Title</li>
+                        <li>**Text** → <b>Extra Bold</b></li>
+                        <li>==Text== → <mark>Soft Highlight</mark></li>
+                        <li>1. Title → Numbered Module</li>
+                        <li>- Item → Standard Bullet</li>
                         <li>-&gt; Item → Sub-topic Arrow</li>
                         <li>Check : Link Box</li>
                     </ul>
