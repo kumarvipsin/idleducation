@@ -315,7 +315,7 @@ export function GetAppSection() {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="w-full font-bold" disabled={callBackForm.formState.isSubmitting}>
+                        <Button type="submit" className="w-1/2 h-12 font-bold mx-auto flex" disabled={callBackForm.formState.isSubmitting}>
                             {callBackForm.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
                         </Button>
                     </form>
