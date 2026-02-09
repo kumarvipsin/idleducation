@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, Suspense, useRef } from "react";
@@ -190,7 +189,7 @@ function SchoolPageContent() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {currentSubjects.map((subject) => (
-                            <div key={subject.key} className="group bg-white dark:bg-card p-4 rounded-xl shadow-sm border hover:shadow-md transition-all flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-l-primary/10 hover:border-l-primary">
+                            <div key={subject.key} className="group bg-primary/[0.02] dark:bg-primary/[0.05] p-4 rounded-xl shadow-sm border border-primary/10 hover:border-primary/30 hover:shadow-md transition-all flex flex-col sm:flex-row items-center justify-between gap-4 border-l-4 border-l-primary/20 hover:border-l-primary">
                                 <div className="flex items-center gap-4 w-full">
                                     <div className={cn("p-3 rounded-lg shrink-0 transition-transform duration-500 group-hover:scale-105 shadow-sm", subject.color)}>
                                         {React.cloneElement(subject.icon as React.ReactElement, { className: "w-5 h-5" })}
