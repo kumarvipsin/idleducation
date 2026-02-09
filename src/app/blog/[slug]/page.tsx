@@ -125,32 +125,9 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           <BlogContentRenderer content={post.content} />
         </div>
 
-        {/* Ending Message Section */}
-        <div className="mt-20 mb-16">
-            <div className="bg-primary/5 rounded-[2rem] p-8 md:p-12 text-center border border-primary/10 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:scale-110 transition-transform duration-700">
-                    <Sparkles className="w-32 h-32 text-primary" />
-                </div>
-                <div className="relative z-10 space-y-4">
-                    <div className="bg-white dark:bg-gray-900 w-12 h-12 rounded-full flex items-center justify-center mx-auto shadow-sm">
-                        <Sparkles className="w-6 h-6 text-primary" />
-                    </div>
-                    <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground">That's it for this guide!</h2>
-                    <p className="text-muted-foreground font-bold text-sm md:text-base max-w-2xl mx-auto leading-relaxed text-center">
-                        We hope these insights help you sharpen your strategy and achieve excellence. At IDL EDUCATION, we are dedicated to supporting your academic journey with the best tools and guidance. Keep pushing boundaries!
-                    </p>
-                    <div className="pt-4 print-hidden">
-                        <Button asChild className="rounded-full font-black text-[10px] tracking-[0.2em] uppercase px-8 h-12 shadow-lg shadow-primary/20">
-                            <Link href="/contact">THANK YOU</Link>
-                        </Button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
-            <div className="space-y-10 print-hidden">
+            <div className="mt-20 space-y-10 print-hidden">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-primary pl-6">
                     <div>
                         <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-foreground flex items-center gap-3">
