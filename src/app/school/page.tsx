@@ -19,7 +19,8 @@ import {
     Home,
     PlayCircle,
     IndianRupee,
-    Monitor
+    Monitor,
+    CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from 'next/navigation';
@@ -165,7 +166,7 @@ function SchoolPageContent() {
                                         {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.textColor)}>{card.title}</h4>
+                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.title)}>{card.title}</h4>
                                         <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{card.subtitle}</p>
                                     </div>
                                     <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
@@ -232,69 +233,78 @@ function SchoolPageContent() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {/* Free Courses */}
-                        <Card className="group relative border bg-white dark:bg-card hover:border-orange-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-orange-500 overflow-hidden">
-                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                        <Card className="group relative border border-primary/5 bg-gradient-to-br from-white to-orange-50/30 dark:from-card dark:to-orange-950/10 hover:border-orange-200 transition-all duration-500 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 border-t-4 border-t-orange-500 overflow-hidden">
+                            <CardContent className="p-8 space-y-6 flex flex-col h-full">
                                 <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-orange-50 rounded-lg text-orange-600">
-                                        <PlayCircle className="w-6 h-6" />
+                                    <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-xl text-orange-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
+                                        <PlayCircle className="w-7 h-7" />
                                     </div>
-                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-orange-200 text-orange-600 bg-orange-50/50">ACCESS</Badge>
+                                    <Badge className="text-[9px] font-black uppercase tracking-[0.2em] bg-orange-500 text-white border-none px-3 py-1 shadow-md shadow-orange-500/20">ACCESS</Badge>
                                 </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Free Courses</h4>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                <div className="space-y-2">
+                                    <h4 className="text-lg font-black text-foreground uppercase tracking-tight">Free Courses</h4>
+                                    <p className="text-[12px] font-bold text-muted-foreground/80 leading-relaxed">
                                         Access expert-led video lessons at no cost. Perfect for foundation building and revisions.
                                     </p>
                                 </div>
-                                <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
-                                        <Link href="/free-courses">Explore Free Courses</Link>
+                                <div className="mt-auto pt-6">
+                                    <Button asChild className="w-full bg-orange-500 hover:bg-orange-600 text-white font-black text-xs h-12 rounded-xl shadow-lg shadow-orange-500/20 transition-all uppercase tracking-widest group/btn">
+                                        <Link href="/free-courses">
+                                            Explore Free Courses
+                                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* Paid Courses */}
-                        <Card className="group relative border bg-white dark:bg-card hover:border-emerald-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-emerald-500 overflow-hidden">
-                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                        <Card className="group relative border border-primary/5 bg-gradient-to-br from-white to-emerald-50/30 dark:from-card dark:to-emerald-950/10 hover:border-emerald-200 transition-all duration-500 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 border-t-4 border-t-emerald-500 overflow-hidden">
+                            <CardContent className="p-8 space-y-6 flex flex-col h-full">
                                 <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
-                                        <IndianRupee className="w-6 h-6" />
+                                    <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-emerald-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
+                                        <IndianRupee className="w-7 h-7" />
                                     </div>
-                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-emerald-200 text-emerald-600 bg-emerald-50/50">PREMIUM</Badge>
+                                    <Badge className="text-[9px] font-black uppercase tracking-[0.2em] bg-emerald-500 text-white border-none px-3 py-1 shadow-md shadow-emerald-500/20">PREMIUM</Badge>
                                 </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Paid Courses</h4>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                <div className="space-y-2">
+                                    <h4 className="text-lg font-black text-foreground uppercase tracking-tight">Paid Courses</h4>
+                                    <p className="text-[12px] font-bold text-muted-foreground/80 leading-relaxed">
                                         Comprehensive curricula with structured paths, premium notes, and 100% coverage.
                                     </p>
                                 </div>
-                                <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
-                                        <Link href="/paid-courses">Explore Paid Courses</Link>
+                                <div className="mt-auto pt-6">
+                                    <Button asChild className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs h-12 rounded-xl shadow-lg shadow-emerald-500/20 transition-all uppercase tracking-widest group/btn">
+                                        <Link href="/paid-courses">
+                                            Explore Paid Courses
+                                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
                         </Card>
 
                         {/* Live Classes */}
-                        <Card className="group relative border bg-white dark:bg-card hover:border-indigo-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-indigo-500 overflow-hidden">
-                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
+                        <Card className="group relative border border-primary/5 bg-gradient-to-br from-white to-indigo-50/30 dark:from-card dark:to-indigo-950/10 hover:border-indigo-200 transition-all duration-500 rounded-2xl shadow-sm hover:shadow-xl hover:-translate-y-2 border-t-4 border-t-indigo-500 overflow-hidden">
+                            <CardContent className="p-8 space-y-6 flex flex-col h-full">
                                 <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-indigo-50 rounded-lg text-indigo-600">
-                                        <Monitor className="w-6 h-6" />
+                                    <div className="p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl text-indigo-600 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3 shadow-sm">
+                                        <Monitor className="w-7 h-7" />
                                     </div>
-                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-indigo-200 text-indigo-600 bg-indigo-50/50">LIVE</Badge>
+                                    <Badge className="text-[9px] font-black uppercase tracking-[0.2em] bg-indigo-500 text-white border-none px-3 py-1 shadow-md shadow-indigo-500/20">LIVE</Badge>
                                 </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Live Classes</h4>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
+                                <div className="space-y-2">
+                                    <h4 className="text-lg font-black text-foreground uppercase tracking-tight">Live Classes</h4>
+                                    <p className="text-[12px] font-bold text-muted-foreground/80 leading-relaxed">
                                         Interactive real-time sessions with top faculty. Instant doubt clearing and peer learning.
                                     </p>
                                 </div>
-                                <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
-                                        <Link href="/book-demo">Join Live Session</Link>
+                                <div className="mt-auto pt-6">
+                                    <Button asChild className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-black text-xs h-12 rounded-xl shadow-lg shadow-indigo-500/20 transition-all uppercase tracking-widest group/btn">
+                                        <Link href="/book-demo">
+                                            Join Live Session
+                                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
+                                        </Link>
                                     </Button>
                                 </div>
                             </CardContent>
