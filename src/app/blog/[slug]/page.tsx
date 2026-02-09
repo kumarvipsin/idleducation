@@ -3,14 +3,13 @@
 import { useEffect, useState, use } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Calendar, ArrowLeft, Sparkles, BookOpen, ArrowRight } from "lucide-react";
+import { UserCircle, Calendar, ArrowLeft, BookOpen, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogPostBySlug, getBlogPosts } from "@/app/actions/blog";
 import type { TBlogPost } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
-import { Separator } from "@/components/ui/separator";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
@@ -110,7 +109,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
 
            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-bold text-muted-foreground py-2 border-b border-muted-foreground/5">
             <div className="flex items-center gap-2">
-              <User className="h-3.5 w-3.5 text-primary" />
+              <UserCircle className="h-3.5 w-3.5 text-primary" />
               <span>Written by <span className="text-foreground font-bold">{post.author}</span></span>
             </div>
             <div className="flex items-center gap-2">
