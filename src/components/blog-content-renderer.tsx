@@ -21,14 +21,14 @@ export function BlogContentRenderer({ content }: { content: string }) {
         if (trimmed === '') return <div key={index} className="h-2" />;
 
         // Numbered Headings (e.g., 1. Proper Study Plan)
-        // Renders as a structured section header with a perfectly circular badge
+        // Redesigned to remove the icon and match paragraph text size for consistency
         const headingMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
         if (headingMatch) {
           return (
-            <div key={index} className="mt-10 mb-4 group">
-              <h2 className="text-xl md:text-2xl font-black text-primary flex items-center gap-4">
-                <span className="bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center text-sm shrink-0 shadow-md transition-transform group-hover:scale-105">
-                  {headingMatch[1]}
+            <div key={index} className="mt-8 mb-4 group">
+              <h2 className="text-base md:text-lg font-black text-foreground flex items-baseline gap-2">
+                <span className="text-primary font-black shrink-0">
+                  {headingMatch[1]}.
                 </span>
                 <span className="flex-1 tracking-tight">
                   {processText(headingMatch[2])}
