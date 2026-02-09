@@ -53,7 +53,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
         <div className="space-y-4">
             <Skeleton className="h-10 w-3/4" />
             <Skeleton className="h-4 w-1/4" />
-            <Skeleton className="h-64 w-full" />
+            <Skeleton className="h-6 w-full" />
         </div>
       </div>
     );
@@ -123,13 +123,20 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           <BlogContentRenderer content={post.content} />
         </div>
 
+        {/* Thank You message signature */}
+        <div className="mt-16 mb-12 text-center animate-fade-in-up">
+            <p className="text-[9px] font-bold uppercase tracking-[0.5em] text-muted-foreground/30 border-t border-muted-foreground/5 pt-8 inline-block px-12">
+                Thank You
+            </p>
+        </div>
+
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
             <div className="mt-16 space-y-10 print-hidden">
                 <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-gradient-to-r from-primary/[0.03] to-transparent rounded-2xl border border-primary/5 shadow-sm">
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
                     <div className="flex items-center gap-4 pl-2">
-                        <div className="p-2 rounded-xl bg-white dark:bg-gray-950 border border-primary/10 text-primary shadow-sm transition-transform group-hover:scale-110">
+                        <div className="p-2 rounded-full border border-primary/10 bg-white dark:bg-gray-950 text-primary shadow-sm transition-transform group-hover:scale-110">
                             <BookOpen className="w-4 h-4" />
                         </div>
                         <div>
@@ -139,7 +146,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
                             <p className="text-[10px] text-muted-foreground font-medium leading-tight">Discover more insights from our experts</p>
                         </div>
                     </div>
-                    <Button asChild variant="outline" className="w-fit text-[10px] font-bold text-primary hover:bg-primary hover:text-white h-9 px-5 rounded-xl border-primary/20 shadow-none transition-all active:scale-95">
+                    <Button asChild variant="outline" className="w-fit text-[10px] font-bold text-primary hover:bg-primary hover:text-white h-8 px-5 rounded-xl border-primary/20 shadow-none transition-all active:scale-95">
                         <Link href="/blog" className="flex items-center gap-2">View All Articles <ArrowRight className="h-3 w-3" /></Link>
                     </Button>
                 </div>
