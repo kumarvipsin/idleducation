@@ -56,7 +56,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
                 <Link2 className="w-3.5 h-3.5" />
               </div>
               <div className="flex-1">
-                <span className="text-xs md:text-sm font-bold text-primary tracking-tight">
+                <span className="text-lg md:text-xl font-bold text-primary tracking-tight">
                     {processText(trimmed)}
                 </span>
               </div>
@@ -72,7 +72,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
               <div className="bg-emerald-500/10 p-1.5 rounded-full mt-1 shrink-0 group-hover:bg-emerald-500 group-hover:text-white transition-colors">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600 group-hover:text-inherit transition-colors" />
               </div>
-              <span className="text-foreground/80 font-medium text-lg md:text-xl leading-relaxed">
+              <span className="text-foreground/80 font-normal text-lg md:text-xl leading-relaxed">
                 {processText(trimmed.substring(2))}
               </span>
             </div>
@@ -81,7 +81,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
 
         // Normal Paragraph with refined spacing and sizing
         return (
-          <p key={index} className="leading-relaxed text-foreground/80 font-medium text-lg md:text-xl text-left tracking-tight">
+          <p key={index} className="leading-relaxed text-foreground/80 font-normal text-lg md:text-xl text-left tracking-tight">
             {processText(line)}
           </p>
         );
