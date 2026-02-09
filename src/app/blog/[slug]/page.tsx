@@ -108,14 +108,13 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
               </h1>
           </div>
 
-           <div className="flex flex-wrap items-center gap-6 text-sm font-medium text-muted-foreground bg-muted/30 p-4 rounded-xl border border-muted-foreground/5">
+           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs font-bold text-muted-foreground py-2 border-b border-muted-foreground/5">
             <div className="flex items-center gap-2">
-              <User className="h-4 w-4 text-primary" />
+              <User className="h-3.5 w-3.5 text-primary" />
               <span>Written by <span className="text-foreground font-bold">{post.author}</span></span>
             </div>
-            <Separator orientation="vertical" className="h-4 hidden sm:block" />
             <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-primary" />
+              <Calendar className="h-3.5 w-3.5 text-primary" />
               <span>Published on <span className="text-foreground font-bold">{post.date}</span></span>
             </div>
           </div>
