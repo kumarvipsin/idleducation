@@ -48,20 +48,42 @@ export function BlogContentRenderer({ content }: { content: string }) {
 
         // Minimalist CTA Paving (Also Check :, Check :)
         // Designed to be very small and clean without a distracting background or outline by default
-        // Now features a highlight effect only on interaction (hover/active)
+        // Now features a highlight effect only on interaction (hover/active) and functional linking
         if (trimmed.startsWith('Also Check :') || trimmed.startsWith('Check :')) {
+          // Extract link if present. Supports http, www, and local paths /path
+          const urlRegex = /(https?:\/\/[^\s,]+|www\.[^\s,]+|\/[a-zA-Z0-9\-\/._]+)/;
+          const match = trimmed.match(urlRegex);
+          let href = "#";
+          let isExternal = false;
+          
+          if (match) {
+            href = match[0];
+            if (href.startsWith('www.')) {
+                href = 'https://' + href;
+                isExternal = true;
+            } else if (href.startsWith('http')) {
+                isExternal = true;
+            }
+          }
+
           return (
-            <div key={index} className="py-1.5 px-4 my-3 flex items-center gap-2 transition-all hover:bg-primary/[0.05] active:bg-primary/10 group cursor-pointer rounded-full w-fit max-w-full">
+            <a 
+              key={index} 
+              href={href}
+              target={isExternal ? "_blank" : undefined}
+              rel={isExternal ? "noopener noreferrer" : undefined}
+              className="py-1.5 px-4 my-3 flex items-center gap-2 transition-all hover:bg-primary/[0.05] active:bg-primary/10 group cursor-pointer rounded-full w-fit max-w-full no-underline"
+            >
               <div className="text-primary shrink-0 opacity-60">
                 <Link2 className="w-3 h-3" />
               </div>
               <div className="flex-1">
                 <span className="text-[10px] md:text-xs font-semibold text-primary leading-none">
-                    {processText(trimmed)}
+                    {processText(trimmed, true)}
                 </span>
               </div>
               <ChevronRight className="w-3 h-3 text-primary/30 group-hover:translate-x-0.5 transition-all" />
-            </div>
+            </a>
           );
         }
 
@@ -72,7 +94,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
               <div className="bg-primary/10 p-1 rounded-full mt-1.5 shrink-0 group-hover:bg-primary transition-colors">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-white transition-colors" />
               </div>
-              <span className="text-foreground/90 font-medium text-base md:text-lg leading-relaxed text-left flex-1 tracking-tight">
+              <span className="text-foreground/90 font-normal text-base md:text-lg leading-relaxed text-left flex-1 tracking-tight">
                 {processText(trimmed.substring(2))}
               </span>
             </div>
@@ -81,7 +103,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
 
         // Normal Paragraph with increased size and medium weight for focused reading
         return (
-          <p key={index} className="leading-relaxed text-foreground/90 font-medium text-base md:text-lg text-left tracking-tight px-1">
+          <p key={index} className="leading-relaxed text-foreground/90 font-normal text-base md:text-lg text-left tracking-tight px-1">
             {processText(line)}
           </p>
         );
@@ -90,7 +112,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
   );
 }
 
-function processText(text: string) {
+function processText(text: string, noLinks = false) {
   // Replacement for arrows and symbols
   let processed = text
     .replace(/->/g, '→')
@@ -99,10 +121,16 @@ function processText(text: string) {
     .replace(/\(r\)/g, '®')
     .replace(/\(tm\)/g, '™');
 
-  // Split by bold (**text**) and highlight (==text==)
-  const parts = processed.split(/(\*\*.*?\*\*|==.*?==)/g);
+  // Split by bold (**text**), highlight (==text==), and URLs if not disabled
+  const regex = noLinks 
+    ? /(\*\*.*?\*\*|==.*?==)/g 
+    : /(\*\*.*?\*\*|==.*?==|(?:https?:\/\/|www\.)[^\s,]+)/g;
+    
+  const parts = processed.split(regex);
 
   return parts.map((part, i) => {
+    if (!part) return null;
+
     // High-impact Bold Styling
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
@@ -118,6 +146,15 @@ function processText(text: string) {
           {part.slice(2, -2)}
         </mark>
       );
+    }
+    // URL detection (if not disabled)
+    if (!noLinks && /^(https?:\/\/|www\.)/.test(part)) {
+        const href = part.startsWith('http') ? part : `https://${part}`;
+        return (
+            <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="text-primary underline hover:opacity-80 transition-opacity">
+                {part}
+            </a>
+        );
     }
     return part;
   });
