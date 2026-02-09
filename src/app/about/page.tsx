@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import placeholderImages from '@/app/lib/placeholder-images.json';
 
 export default function AboutPage() {
-    const [director, setDirector] = useState<{name: string; photoUrl: string} | null>(null);
+    const [director, setDirector] = useState<{name: string; photoURL: string} | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -19,7 +19,7 @@ export default function AboutPage() {
             setLoading(true);
             const directorResult = await getDirectorProfile();
             if (directorResult.success && directorResult.data) {
-                setDirector(directorResult.data as {name: string; photoUrl: string});
+                setDirector(directorResult.data as {name: string; photoURL: string});
             }
             setLoading(false);
         };
@@ -116,7 +116,7 @@ export default function AboutPage() {
                                 ) : (
                                     <>
                                     <h3 className="text-xl md:text-2xl font-black text-foreground tracking-tighter uppercase leading-none">{director?.name || 'Amod Kumar Sharma'}</h3>
-                                    <p className="text-[9px] md:text-[10px] font-bold text-primary tracking-tighter uppercase">Founder & Chairman/Chief Managing Director</p>
+                                    <p className="text-xs md:text-sm font-bold text-primary tracking-tight">Founder & Chairman/Chief Managing Director</p>
                                     </>
                                 )}
                             </div>
