@@ -125,8 +125,8 @@ export function StudyResources() {
                                   <p className="text-[11px] text-muted-foreground font-bold leading-relaxed line-clamp-2 mb-6 opacity-80">
                                       {resource.description}
                                   </p>
-                                  <div className="mt-auto w-full pt-4 border-t border-muted-foreground/5">
-                                      <div className="text-[10px] font-black text-primary group-hover:underline flex items-center justify-center gap-2 uppercase tracking-[0.15em]">
+                                  <div className="mt-auto w-full">
+                                      <div className="text-[10px] font-bold text-primary flex items-center justify-center gap-2 uppercase tracking-[0.15em] bg-primary/5 px-4 py-2 rounded-full transition-all group-hover:bg-primary group-hover:text-white">
                                           EXPLORE MORE 
                                           <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                                       </div>
