@@ -97,7 +97,7 @@ export default function BlogPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post, index) => (
                 <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
-                <Card className="overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 animate-fade-in-up flex flex-col h-full group bg-card">
+                <Card className="overflow-hidden shadow-none border-none transition-all duration-300 animate-fade-in-up flex flex-col h-full group bg-card">
                     <div className="relative w-full aspect-video">
                     {post.imageUrl ? (
                         <GcsImage 

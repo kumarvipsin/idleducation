@@ -63,7 +63,7 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
       </div>
       <article className="max-w-4xl mx-auto">
         <header className="mb-12 space-y-8">
-          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border">
+          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden">
               {post.imageUrl ? (
                   <GcsImage 
                       filePath={post.imageUrl}

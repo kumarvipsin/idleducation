@@ -113,7 +113,7 @@ function GalleryPageContent() {
                                 key={image.id}
                                 onClick={() => setSelectedImage(image)}
                                 className={cn(
-                                    "group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 animate-fade-in-up cursor-pointer outline-none focus:outline-none",
+                                    "group relative overflow-hidden rounded-lg transition-all duration-300 animate-fade-in-up cursor-pointer outline-none focus:outline-none",
                                     image.className
                                 )}
                                 style={{ animationDelay: `${index * 50}ms` }}
