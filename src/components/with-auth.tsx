@@ -42,12 +42,10 @@ const withAuth = <P extends object>(
       return null;
     }
 
-    // In Next.js 15, params and searchParams are Promises.
-    // Spreading props will trigger enumeration and a warning.
-    // We extract them and pass them through explicitly.
-    const { params, searchParams, ...rest } = props as any;
-
-    return <WrappedComponent {...(rest as P)} params={params} searchParams={searchParams} />;
+    // Next.js 15 compatibility: Avoid destructuring props that contain params/searchParams promises.
+    // Spreading or destructuring `props` triggers enumeration of asynchronous values.
+    // We pass props through directly to the WrappedComponent.
+    return <WrappedComponent {...props} />;
   };
 
   AuthComponent.displayName = `withAuth(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;

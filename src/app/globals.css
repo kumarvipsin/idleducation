@@ -213,3 +213,24 @@
     background-size: 20px 20px;
   }
 }
+
+@media print {
+  header, footer, nav, button, .print-hidden {
+    display: none !important;
+  }
+  main, .print-container {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+  }
+  .container {
+    max-width: none !important;
+    padding: 0 !important;
+  }
+  .shadow-none, .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
+    box-shadow: none !important;
+  }
+  .border, .border-t, .border-b, .border-l, .border-r {
+    border-color: #eee !important;
+  }
+}

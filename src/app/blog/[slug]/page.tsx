@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Calendar, ArrowLeft, Sparkles, BookOpen, ArrowRight } from "lucide-react";
+import { User, Calendar, ArrowLeft, Sparkles, BookOpen, ArrowRight, Printer, Download } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogPostBySlug, getBlogPosts } from "@/app/actions/blog";
@@ -13,12 +13,16 @@ import { GcsImage } from "@/components/gcs-image";
 import { Separator } from "@/components/ui/separator";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
 import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
-export default function BlogPostPage({ params: paramsPromise }: { params: Promise<{ slug: string }> }) {
-  const params = use(paramsPromise);
+export default function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
+  const params = use(props.params);
   const [post, setPost] = useState<TBlogPost | null>(null);
   const [otherPosts, setOtherPosts] = useState<TBlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,6 +47,72 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
     };
     fetchData();
   }, [params.slug]);
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const generatePdf = async () => {
+    const contentToCapture = document.getElementById('blog-printable-content');
+    if (!contentToCapture) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Could not find the article content to download.",
+      });
+      return;
+    }
+
+    toast({
+        title: "Preparing PDF...",
+        description: "Please wait while we generate your document.",
+    });
+
+    try {
+        const canvas = await html2canvas(contentToCapture, {
+            scale: 2,
+            useCORS: true,
+            logging: false,
+            windowWidth: contentToCapture.scrollWidth,
+            windowHeight: contentToCapture.scrollHeight
+        });
+
+        const imageData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        
+        const imgProps = pdf.getImageProperties(imageData);
+        const imgWidth = pdfWidth;
+        const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+
+        let heightLeft = imgHeight;
+        let position = 0;
+
+        pdf.addImage(imageData, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imageData, 'PNG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pdfHeight;
+        }
+        
+        pdf.save(`${post?.title || 'IDL_Article'}.pdf`);
+        toast({
+            title: "Success",
+            description: "Your PDF has been generated and downloaded.",
+        });
+    } catch (error) {
+        console.error("Error generating PDF:", error);
+        toast({
+            variant: "destructive",
+            title: "PDF Error",
+            description: "Could not generate the PDF. Please try printing to PDF instead.",
+        });
+    }
+  };
 
   if (loading) {
     return (
@@ -71,15 +141,23 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
 
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="mb-8">
+      <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print-hidden">
           <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[10px]">
               <Link href="/blog"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Discover</Link>
           </Button>
+          <div className="flex gap-2 w-full sm:w-auto">
+               <Button onClick={handlePrint} variant="outline" size="sm" className="flex-1 sm:flex-none rounded-full font-bold text-[10px] uppercase tracking-widest h-9 border-primary/20 text-primary hover:bg-primary/5">
+                   <Printer className="mr-2 h-3.5 w-3.5" /> Print Article
+              </Button>
+              <Button onClick={generatePdf} variant="outline" size="sm" className="flex-1 sm:flex-none rounded-full font-bold text-[10px] uppercase tracking-widest h-9 border-primary/20 text-primary hover:bg-primary/5">
+                  <Download className="mr-2 h-3.5 w-3.5" /> Save as PDF
+              </Button>
+          </div>
       </div>
       
-      <article className="max-w-4xl mx-auto">
+      <article className="max-w-4xl mx-auto" id="blog-printable-content">
         <header className="mb-12 space-y-8">
-          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-none border-none">
+          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-none border-none bg-muted">
               {post.imageUrl ? (
                   <GcsImage 
                       filePath={post.imageUrl}
@@ -134,10 +212,10 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
                         <Sparkles className="w-6 h-6 text-primary" />
                     </div>
                     <h2 className="text-2xl md:text-3xl font-black tracking-tight text-foreground">That's it for this guide!</h2>
-                    <p className="text-muted-foreground font-bold text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+                    <p className="text-muted-foreground font-bold text-sm md:text-base max-w-2xl mx-auto leading-relaxed text-center">
                         We hope these insights help you sharpen your strategy and achieve excellence. At IDL EDUCATION, we are dedicated to supporting your academic journey with the best tools and guidance. Keep pushing boundaries!
                     </p>
-                    <div className="pt-4">
+                    <div className="pt-4 print-hidden">
                         <Button asChild className="rounded-full font-black text-[10px] tracking-[0.2em] uppercase px-8 h-12 shadow-lg shadow-primary/20">
                             <Link href="/contact">THANK YOU</Link>
                         </Button>
@@ -148,7 +226,7 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
 
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
-            <div className="space-y-10">
+            <div className="space-y-10 print-hidden">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-primary pl-6">
                     <div>
                         <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-foreground flex items-center gap-3">
