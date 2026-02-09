@@ -102,35 +102,27 @@ export function StudyResources() {
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
                               <Card className="h-full rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col bg-card border border-muted-foreground/10">
-                              <div className="p-4 bg-white">
-                                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-blue-50/50 flex items-center justify-center">
-                                      <div className="relative w-[90%] h-[90%] transition-transform duration-300">
-                                          <Image
-                                              src={resource.imageUrl}
-                                              alt={resource.title}
-                                              data-ai-hint={resource.imageHint}
-                                              fill
-                                              className="object-contain"
-                                          />
-                                      </div>
+                              <div className="relative w-full aspect-square bg-muted/30 p-8 flex items-center justify-center">
+                                  <div className="relative w-full h-full transition-transform duration-500 group-hover:scale-110">
+                                      <Image
+                                          src={resource.imageUrl}
+                                          alt={resource.title}
+                                          data-ai-hint={resource.imageHint}
+                                          fill
+                                          className="object-contain"
+                                      />
                                   </div>
                               </div>
-                              <CardContent className="p-6 flex-grow flex flex-col items-center text-center">
+                              <CardContent className="p-4 flex-grow flex flex-col items-center text-center">
                                   <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-wider mb-3">
                                       {resource.category}
                                   </div>
-                                  <h3 className="text-lg font-black tracking-tight text-foreground leading-tight line-clamp-1 mb-2">
+                                  <h3 className="text-base font-black tracking-tight text-foreground leading-tight line-clamp-1 mb-2">
                                       {resource.title}
                                   </h3>
-                                  <p className="text-[11px] text-muted-foreground font-bold leading-relaxed line-clamp-2 mb-6 opacity-80">
+                                  <p className="text-[10px] text-muted-foreground font-bold leading-relaxed line-clamp-2 opacity-80">
                                       {resource.description}
                                   </p>
-                                  <div className="mt-auto w-full">
-                                      <div className="text-[10px] font-bold text-primary flex items-center justify-center gap-2 uppercase tracking-[0.15em] bg-primary/5 px-4 py-2 rounded-full transition-all group-hover:bg-primary group-hover:text-white">
-                                          EXPLORE MORE 
-                                          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                                      </div>
-                                  </div>
                               </CardContent>
                               </Card>
                           </Link>
