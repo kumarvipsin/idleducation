@@ -126,14 +126,14 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
             <div className="mt-20 space-y-10 print-hidden">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-primary pl-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-2 border-primary pl-4">
                     <div>
-                        <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-foreground flex items-center gap-3">
-                            <BookOpen className="w-6 h-6 text-primary" /> Explore More
+                        <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
+                            <BookOpen className="w-5 h-5 text-primary" /> Explore More
                         </h3>
-                        <p className="text-xs text-muted-foreground font-bold mt-1">Discover more insights and strategies from our experts</p>
+                        <p className="text-[10px] md:text-xs text-muted-foreground font-medium mt-0.5">Discover more insights and strategies from our experts</p>
                     </div>
-                    <Button asChild variant="ghost" className="w-fit text-[10px] font-black uppercase tracking-[0.2em] text-primary hover:bg-primary/5">
+                    <Button asChild variant="ghost" className="w-fit text-xs font-semibold text-primary hover:bg-primary/5">
                         <Link href="/blog">View All Articles <ArrowRight className="ml-2 h-4 w-4" /></Link>
                     </Button>
                 </div>
