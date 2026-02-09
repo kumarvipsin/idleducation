@@ -54,22 +54,22 @@ export default function BlogPage() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="mb-12 space-y-8 animate-fade-in-up">
-             {/* Premium Search Bar */}
-             <div className="relative mx-auto max-w-5xl bg-white border border-gray-300 rounded-sm flex items-center h-16 shadow-none transition-all focus-within:border-primary/50">
-                <div className="pl-5 pr-3">
-                    <Search className="h-7 w-7 text-black" strokeWidth={2.5} />
+             {/* Premium Search Bar - Responsive */}
+             <div className="relative mx-auto max-w-5xl bg-white border border-gray-300 rounded-sm flex items-center h-12 md:h-16 shadow-none transition-all focus-within:border-primary/50">
+                <div className="pl-3 md:pl-5 pr-2 md:pr-3">
+                    <Search className="h-5 w-5 md:h-7 md:w-7 text-black" strokeWidth={2.5} />
                 </div>
                 <Input
                     type="text"
-                    placeholder="Search the IDL Blog for insights and updates"
+                    placeholder="Search the IDL Blog..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1 border-0 shadow-none focus-visible:ring-0 text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full"
+                    className="flex-1 border-0 shadow-none focus-visible:ring-0 text-sm md:text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full"
                 />
-                <Separator orientation="vertical" className="h-10 mx-2 hidden sm:block bg-gray-300" />
-                <Button variant="ghost" className="hidden sm:flex flex-col h-full rounded-none px-8 items-center justify-center gap-0.5 hover:bg-gray-50 transition-colors">
-                    <ArrowRight className="h-6 w-6 text-black" strokeWidth={1.5} />
-                    <span className="text-[9px] font-bold text-gray-600 uppercase tracking-tight">Search blog</span>
+                <Separator orientation="vertical" className="h-8 md:h-10 mx-2 hidden sm:block bg-gray-300" />
+                <Button variant="ghost" className="hidden sm:flex flex-col h-full rounded-none px-4 md:px-8 items-center justify-center gap-0.5 hover:bg-gray-50 transition-colors">
+                    <ArrowRight className="h-5 w-5 md:h-6 md:w-6 text-black" strokeWidth={1.5} />
+                    <span className="text-[8px] md:text-[9px] font-bold text-gray-600 uppercase tracking-tight">Search blog</span>
                 </Button>
             </div>
 
