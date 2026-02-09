@@ -13,7 +13,6 @@ import { GcsImage } from "@/components/gcs-image";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import { Separator } from "@/components/ui/separator";
 
 export default function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = use(props.params);
@@ -123,8 +122,6 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
         <div className="prose dark:prose-invert max-w-none">
           <BlogContentRenderer content={post.content} />
         </div>
-
-        <Separator className="my-16 opacity-50" />
 
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
