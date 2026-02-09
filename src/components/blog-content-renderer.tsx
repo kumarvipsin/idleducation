@@ -47,10 +47,11 @@ export function BlogContentRenderer({ content }: { content: string }) {
         }
 
         // Minimalist CTA Paving (Also Check :, Check :)
-        // Designed to be very small and clean without a distracting outline
+        // Designed to be very small and clean without a distracting background or outline by default
+        // Now features a highlight effect only on interaction (hover/active)
         if (trimmed.startsWith('Also Check :') || trimmed.startsWith('Check :')) {
           return (
-            <div key={index} className="py-1.5 px-4 my-3 flex items-center gap-2 transition-all hover:bg-primary/[0.05] group cursor-pointer bg-primary/[0.02] rounded-full w-fit max-w-full">
+            <div key={index} className="py-1.5 px-4 my-3 flex items-center gap-2 transition-all hover:bg-primary/[0.05] active:bg-primary/10 group cursor-pointer rounded-full w-fit max-w-full">
               <div className="text-primary shrink-0 opacity-60">
                 <Link2 className="w-3 h-3" />
               </div>
@@ -78,7 +79,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
           );
         }
 
-        // Normal Paragraph with increased size and medium weight
+        // Normal Paragraph with increased size and medium weight for focused reading
         return (
           <p key={index} className="leading-relaxed text-foreground/90 font-medium text-base md:text-lg text-left tracking-tight px-1">
             {processText(line)}
