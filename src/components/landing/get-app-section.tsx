@@ -199,7 +199,7 @@ export function GetAppSection() {
                             )}
                         />
                         <Button type="submit" className="w-1/2 h-12 font-bold mx-auto flex" disabled={supportForm.formState.isSubmitting}>
-                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Submit Support Ticket'}
+                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Get a Support'}
                         </Button>
                     </form>
                 </Form>
