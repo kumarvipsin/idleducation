@@ -77,7 +77,7 @@ export default function AboutPage() {
                                     />
                                 ) : (
                                     <Image
-                                    src="/dirpro.png"
+                                    src="/director.png"
                                     alt="Director's Photo"
                                     fill
                                     className="object-cover object-top"
@@ -115,8 +115,8 @@ export default function AboutPage() {
                                     </>
                                 ) : (
                                     <>
-                                    <h3 className="text-xl md:text-2xl font-black text-foreground tracking-tighter uppercase leading-none">{director?.name || 'Amod Kumar Sharma'}</h3>
-                                    <p className="text-xs md:text-sm font-bold text-primary tracking-tight">Founder & Chairman/Chief Managing Director</p>
+                                    <h3 className="text-xl md:text-2xl font-medium text-foreground tracking-tighter leading-none">{director?.name || 'Amod Kumar Sharma'}</h3>
+                                    <p className="text-xs md:text-sm font-normal text-primary tracking-tight">Founder & Chairman/Chief Managing Director</p>
                                     </>
                                 )}
                             </div>
