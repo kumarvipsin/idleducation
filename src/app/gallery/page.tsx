@@ -70,7 +70,7 @@ function GalleryPageContent() {
                     placeholder="Search the largest collection of Indian images"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="flex-1 border-0 shadow-none focus-visible:ring-0 text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full"
+                    className="flex-1 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full outline-none"
                 />
                 <Separator orientation="vertical" className="h-10 mx-2 hidden sm:block bg-gray-300" />
                 <Button variant="ghost" className="hidden sm:flex flex-col h-full rounded-none px-8 items-center justify-center gap-0.5 hover:bg-gray-50 transition-colors">
