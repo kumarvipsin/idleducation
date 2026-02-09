@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { User, Calendar, ArrowLeft, Sparkles, BookOpen, ArrowRight, Printer, Download } from "lucide-react";
+import { User, Calendar, ArrowLeft, Sparkles, BookOpen, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogPostBySlug, getBlogPosts } from "@/app/actions/blog";
@@ -14,8 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 
 export default function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = use(props.params);
@@ -48,72 +46,6 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
     fetchData();
   }, [params.slug]);
 
-  const handlePrint = () => {
-    window.print();
-  };
-
-  const generatePdf = async () => {
-    const contentToCapture = document.getElementById('blog-printable-content');
-    if (!contentToCapture) {
-      toast({
-        variant: "destructive",
-        title: "Error",
-        description: "Could not find the article content to download.",
-      });
-      return;
-    }
-
-    toast({
-        title: "Preparing PDF...",
-        description: "Please wait while we generate your document.",
-    });
-
-    try {
-        const canvas = await html2canvas(contentToCapture, {
-            scale: 2,
-            useCORS: true,
-            logging: false,
-            windowWidth: contentToCapture.scrollWidth,
-            windowHeight: contentToCapture.scrollHeight
-        });
-
-        const imageData = canvas.toDataURL('image/png');
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        const imgProps = pdf.getImageProperties(imageData);
-        const imgWidth = pdfWidth;
-        const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
-
-        let heightLeft = imgHeight;
-        let position = 0;
-
-        pdf.addImage(imageData, 'PNG', 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
-
-        while (heightLeft >= 0) {
-            position = heightLeft - imgHeight;
-            pdf.addPage();
-            pdf.addImage(imageData, 'PNG', 0, position, imgWidth, imgHeight);
-            heightLeft -= pdfHeight;
-        }
-        
-        pdf.save(`${post?.title || 'IDL_Article'}.pdf`);
-        toast({
-            title: "Success",
-            description: "Your PDF has been generated and downloaded.",
-        });
-    } catch (error) {
-        console.error("Error generating PDF:", error);
-        toast({
-            variant: "destructive",
-            title: "PDF Error",
-            description: "Could not generate the PDF. Please try printing to PDF instead.",
-        });
-    }
-  };
-
   if (loading) {
     return (
       <div className="container mx-auto py-12 px-4 md:px-6 space-y-8">
@@ -145,14 +77,6 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[10px]">
               <Link href="/blog"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Discover</Link>
           </Button>
-          <div className="flex gap-2 w-full sm:w-auto">
-               <Button onClick={handlePrint} variant="outline" size="sm" className="flex-1 sm:flex-none rounded-full font-bold text-[10px] uppercase tracking-widest h-9 border-primary/20 text-primary hover:bg-primary/5">
-                   <Printer className="mr-2 h-3.5 w-3.5" /> Print Article
-              </Button>
-              <Button onClick={generatePdf} variant="outline" size="sm" className="flex-1 sm:flex-none rounded-full font-bold text-[10px] uppercase tracking-widest h-9 border-primary/20 text-primary hover:bg-primary/5">
-                  <Download className="mr-2 h-3.5 w-3.5" /> Save as PDF
-              </Button>
-          </div>
       </div>
       
       <article className="max-w-4xl mx-auto" id="blog-printable-content">
