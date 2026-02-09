@@ -103,7 +103,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // 3. Sub-topic Arrow Indicator (-> Item)
         if (trimmed.startsWith('-> ')) {
           return (
-            <div key={index} className="flex items-start gap-3 ml-8 md:ml-12 py-1 group animate-fade-in-up">
+            <div key={index} className="flex items-start gap-3 ml-2 md:ml-4 py-1 group animate-fade-in-up">
               <ArrowRight className="w-3 h-3 text-primary/60 shrink-0 mt-1.5 group-hover:translate-x-0.5 transition-transform" />
               <span className="text-muted-foreground font-bold text-sm md:text-base leading-relaxed text-left flex-1 tracking-tight">
                 {processText(trimmed.substring(3))}
