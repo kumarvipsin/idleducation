@@ -126,14 +126,19 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
             <div className="mt-20 space-y-10 print-hidden">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-2 border-primary pl-4">
-                    <div>
-                        <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground flex items-center gap-2">
-                            <BookOpen className="w-5 h-5 text-primary" /> Explore More
-                        </h3>
-                        <p className="text-[10px] md:text-xs text-muted-foreground font-medium mt-0.5">Discover more insights and strategies from our experts</p>
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-2 border-primary pl-4 bg-primary/5 py-3 rounded-r-xl">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2 rounded-full border border-primary/20 bg-white dark:bg-gray-950 text-primary shadow-sm shrink-0">
+                            <BookOpen className="w-4 h-4" />
+                        </div>
+                        <div>
+                            <h3 className="text-base md:text-lg font-bold tracking-tight text-foreground">
+                                Explore More
+                            </h3>
+                            <p className="text-[10px] md:text-xs text-muted-foreground font-medium">Discover more insights from our experts</p>
+                        </div>
                     </div>
-                    <Button asChild variant="ghost" className="w-fit text-xs font-semibold text-primary hover:bg-primary/5">
+                    <Button asChild variant="ghost" className="w-fit text-xs font-semibold text-primary hover:bg-primary/10 mr-4">
                         <Link href="/blog">View All Articles <ArrowRight className="ml-2 h-4 w-4" /></Link>
                     </Button>
                 </div>
