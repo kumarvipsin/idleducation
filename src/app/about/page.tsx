@@ -115,8 +115,8 @@ export default function AboutPage() {
                                     </>
                                 ) : (
                                     <>
-                                    <h3 className="text-xl md:text-2xl font-medium text-foreground tracking-tighter leading-none">{director?.name || 'Amod Kumar Sharma'}</h3>
-                                    <p className="text-xs md:text-sm font-normal text-primary tracking-tight">Founder & Chairman/Chief Managing Director</p>
+                                    <h3 className="text-xl md:text-2xl font-bold text-foreground tracking-tighter leading-none uppercase">{director?.name || 'Amod Kumar Sharma'}</h3>
+                                    <p className="text-xs md:text-sm font-bold text-primary tracking-tight">Founder & Chairman/Chief Managing Director</p>
                                     </>
                                 )}
                             </div>
