@@ -1,12 +1,13 @@
 'use client';
 
 import React from 'react';
-import { Link2, ChevronRight } from 'lucide-react';
+import { Link2, ChevronRight, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 /**
  * @fileOverview A sophisticated content renderer for IDL Blog posts.
  * Optimized for a "focusable study style" with consistent visual hierarchy.
+ * Now includes centered headings with curves and sub-topic arrow indicators.
  */
 
 export function BlogContentRenderer({ content }: { content: string }) {
@@ -20,8 +21,23 @@ export function BlogContentRenderer({ content }: { content: string }) {
         const trimmed = line.trim();
         if (trimmed === '') return <div key={index} className="h-2" />;
 
-        // Numbered Headings (e.g., 1. Proper Study Plan)
-        // Redesigned to remove the icon and match paragraph text size for consistency
+        // 1. Centered Heading with Underline Curve (# Title)
+        if (trimmed.startsWith('# ')) {
+          return (
+            <div key={index} className="py-8 text-center animate-fade-in-up">
+              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground relative inline-block">
+                <span className="relative z-10">{processText(trimmed.substring(2))}</span>
+                <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
+                  <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                    <path d="M0,15 Q50,5 100,15" />
+                  </svg>
+                </div>
+              </h1>
+            </div>
+          );
+        }
+
+        // 2. Numbered Headings (e.g., 1. Proper Study Plan)
         const headingMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
         if (headingMatch) {
           return (
@@ -47,10 +63,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
         }
 
         // Minimalist CTA Paving (Also Check :, Check :)
-        // Designed to be very small and clean without a distracting background or outline by default
-        // Now features a highlight effect only on interaction (hover/active) and functional linking
         if (trimmed.startsWith('Also Check :') || trimmed.startsWith('Check :')) {
-          // Extract link if present. Supports http, www, and local paths /path
           const urlRegex = /(https?:\/\/[^\s,]+|www\.[^\s,]+|\/[a-zA-Z0-9\-\/._]+)/;
           const match = trimmed.match(urlRegex);
           let href = "#";
@@ -87,7 +100,19 @@ export function BlogContentRenderer({ content }: { content: string }) {
           );
         }
 
-        // Stylized Bullet Points with consistent circular icons
+        // 3. Sub-topic Arrow Indicator (-> Item)
+        if (trimmed.startsWith('-> ')) {
+          return (
+            <div key={index} className="flex items-center gap-3 ml-8 md:ml-12 py-1 group animate-fade-in-up">
+              <ArrowRight className="w-3 h-3 text-primary/60 shrink-0 group-hover:translate-x-0.5 transition-transform" />
+              <span className="text-muted-foreground font-bold text-sm md:text-base leading-relaxed text-left flex-1 tracking-tight">
+                {processText(trimmed.substring(3))}
+              </span>
+            </div>
+          );
+        }
+
+        // Stylized Bullet Points (- Item)
         if (trimmed.startsWith('- ')) {
           return (
             <div key={index} className="flex items-start gap-3 ml-2 md:ml-4 py-1.5 group">
@@ -101,7 +126,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
           );
         }
 
-        // Normal Paragraph with increased size and medium weight for focused reading
+        // Normal Paragraph
         return (
           <p key={index} className="leading-relaxed text-foreground/90 font-medium text-base md:text-lg text-left tracking-tight px-1">
             {processText(line)}
@@ -113,7 +138,6 @@ export function BlogContentRenderer({ content }: { content: string }) {
 }
 
 function processText(text: string, noLinks = false) {
-  // Replacement for arrows and symbols
   let processed = text
     .replace(/->/g, '→')
     .replace(/=>/g, '⇉')
@@ -121,7 +145,6 @@ function processText(text: string, noLinks = false) {
     .replace(/\(r\)/g, '®')
     .replace(/\(tm\)/g, '™');
 
-  // Split by bold (**text**), highlight (==text==), and URLs if not disabled
   const regex = noLinks 
     ? /(\*\*.*?\*\*|==.*?==)/g 
     : /(\*\*.*?\*\*|==.*?==|(?:https?:\/\/|www\.)[^\s,]+)/g;
@@ -131,7 +154,6 @@ function processText(text: string, noLinks = false) {
   return parts.map((part, i) => {
     if (!part) return null;
 
-    // High-impact Bold Styling
     if (part.startsWith('**') && part.endsWith('**')) {
       return (
         <strong key={i} className="font-black text-foreground">
@@ -139,7 +161,6 @@ function processText(text: string, noLinks = false) {
         </strong>
       );
     }
-    // High-contrast Academic Highlight
     if (part.startsWith('==') && part.endsWith('==')) {
       return (
         <mark key={i} className="bg-yellow-200 dark:bg-yellow-500/20 px-1.5 py-0.5 rounded text-foreground font-bold mx-0.5 transition-colors">
@@ -147,7 +168,6 @@ function processText(text: string, noLinks = false) {
         </mark>
       );
     }
-    // URL detection (if not disabled)
     if (!noLinks && /^(https?:\/\/|www\.)/.test(part)) {
         const href = part.startsWith('http') ? part : `https://${part}`;
         return (
