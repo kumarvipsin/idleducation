@@ -13,6 +13,7 @@ import { GcsImage } from "@/components/gcs-image";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+import { Separator } from "@/components/ui/separator";
 
 export default function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = use(props.params);
@@ -107,7 +108,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
               </h1>
           </div>
 
-           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-bold text-muted-foreground py-2 border-b border-muted-foreground/5">
+           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-bold text-muted-foreground py-2">
             <div className="flex items-center gap-2">
               <UserCircle className="h-3.5 w-3.5 text-primary" />
               <span>Written by <span className="text-foreground font-bold">{post.author}</span></span>
@@ -123,23 +124,26 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           <BlogContentRenderer content={post.content} />
         </div>
 
+        <Separator className="my-16 opacity-50" />
+
         {/* Explore More Section */}
         {otherPosts.length > 0 && (
-            <div className="mt-20 space-y-10 print-hidden">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-l-4 border-primary pl-4 py-2">
-                    <div className="flex items-center gap-3">
-                        <div className="p-1.5 rounded-full border border-primary/20 bg-white dark:bg-gray-950 text-primary shrink-0">
-                            <BookOpen className="w-3.5 h-3.5" />
+            <div className="mt-16 space-y-10 print-hidden">
+                <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-gradient-to-r from-primary/[0.03] to-transparent rounded-2xl border border-primary/5 shadow-sm">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
+                    <div className="flex items-center gap-4 pl-2">
+                        <div className="p-2 rounded-xl bg-white dark:bg-gray-950 border border-primary/10 text-primary shadow-sm transition-transform group-hover:scale-110">
+                            <BookOpen className="w-4 h-4" />
                         </div>
                         <div>
-                            <h3 className="text-sm md:text-base font-bold tracking-tight text-foreground leading-tight">
+                            <h3 className="text-sm font-bold tracking-tight text-foreground leading-tight">
                                 Explore More
                             </h3>
                             <p className="text-[10px] text-muted-foreground font-medium leading-tight">Discover more insights from our experts</p>
                         </div>
                     </div>
-                    <Button asChild variant="ghost" className="w-fit text-[11px] font-bold text-primary hover:bg-primary/10 h-8 px-3 rounded-lg">
-                        <Link href="/blog">View All Articles <ArrowRight className="ml-1.5 h-3.5 w-3.5" /></Link>
+                    <Button asChild variant="outline" className="w-fit text-[10px] font-bold text-primary hover:bg-primary hover:text-white h-9 px-5 rounded-xl border-primary/20 shadow-none transition-all active:scale-95">
+                        <Link href="/blog" className="flex items-center gap-2">View All Articles <ArrowRight className="h-3 w-3" /></Link>
                     </Button>
                 </div>
                 

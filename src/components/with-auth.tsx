@@ -21,17 +21,21 @@ const withAuth = <P extends object>(
     useEffect(() => {
       if (!isClient || loading) return;
 
-      if (!user) {
-        router.replace('/login');
-        return;
-      }
+      const checkAuth = async () => {
+        if (!user) {
+          router.replace('/login');
+          return;
+        }
 
-      if (user.role && !allowedRoles.includes(user.role)) {
-        const dashboardPath = user.role === 'admin' 
-            ? '/admin/dashboard' 
-            : `/${user.role}/dashboard`;
-        router.replace(dashboardPath);
-      }
+        if (user.role && !allowedRoles.includes(user.role)) {
+          const dashboardPath = user.role === 'admin' 
+              ? '/admin/dashboard' 
+              : `/${user.role}/dashboard`;
+          router.replace(dashboardPath);
+        }
+      };
+
+      checkAuth();
     }, [user, loading, router, isClient]);
 
     if (!isClient || loading || !user) {
