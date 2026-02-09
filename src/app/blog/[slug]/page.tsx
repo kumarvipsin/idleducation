@@ -22,6 +22,56 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
   const { toast } = useToast();
 
   useEffect(() => {
+    // 1. Disable Right Click
+    const handleContextMenu = (e: MouseEvent) => e.preventDefault();
+    
+    // 2. Disable Copying
+    const handleCopy = (e: ClipboardEvent) => {
+      e.preventDefault();
+      toast({
+        variant: "destructive",
+        title: "Copying Restricted",
+        description: "Content protection is active for this article.",
+      });
+    };
+
+    // 3. Disable Print/Screenshot Shortcuts
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Disable Ctrl+C / Cmd+C
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
+        e.preventDefault();
+      }
+      // Disable Ctrl+P / Cmd+P
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+        e.preventDefault();
+        toast({
+          variant: "destructive",
+          title: "Printing Restricted",
+          description: "This document cannot be printed.",
+        });
+      }
+      // Notify on PrintScreen (limited effectiveness but good deterrent)
+      if (e.key === 'PrintScreen') {
+        toast({
+          variant: "destructive",
+          title: "Security Alert",
+          description: "Screenshots are discouraged to protect copyrighted content.",
+        });
+      }
+    };
+
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('copy', handleCopy);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [toast]);
+
+  useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       const [postResult, allPostsResult] = await Promise.all([
@@ -34,7 +84,6 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
       }
       
       if (allPostsResult.success && allPostsResult.data) {
-        // Filter out the current post and show 3 recent ones
         const filtered = (allPostsResult.data as TBlogPost[])
           .filter(p => p.slug !== params.slug)
           .slice(0, 3);
@@ -71,7 +120,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
   }
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
+    <div className="container mx-auto py-12 px-4 md:px-6 select-none print:hidden">
       <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print-hidden">
           <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[10px]">
               <Link href="/blog"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Discover</Link>
@@ -123,14 +172,12 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           <BlogContentRenderer content={post.content} />
         </div>
 
-        {/* Thank You message signature */}
         <div className="mt-16 mb-12 text-center animate-fade-in-up">
             <p className="text-[9px] font-bold uppercase tracking-[0.5em] text-muted-foreground/30 border-t border-muted-foreground/5 pt-8 inline-block px-12">
                 Thank You
             </p>
         </div>
 
-        {/* Explore More Section */}
         {otherPosts.length > 0 && (
             <div className="mt-16 space-y-10 print-hidden">
                 <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-gradient-to-r from-primary/[0.03] to-transparent rounded-2xl border border-primary/5 shadow-sm">
@@ -151,7 +198,6 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
                     </Button>
                 </div>
                 
-                {/* Horizontal scroll on mobile, grid on desktop */}
                 <div className="relative">
                     <div className="flex overflow-x-auto pb-4 gap-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
                         {otherPosts.map((other) => (
