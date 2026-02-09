@@ -56,7 +56,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
                 <Link2 className="w-3 h-3" />
               </div>
               <div className="flex-1">
-                <span className="text-[10px] md:text-xs font-black text-primary uppercase tracking-widest leading-none">
+                <span className="text-[10px] md:text-xs font-semibold text-primary leading-none">
                     {processText(trimmed)}
                 </span>
               </div>
