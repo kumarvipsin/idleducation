@@ -116,7 +116,7 @@ export function StudyResources() {
                                   </div>
                               </div>
                               <CardContent className="p-6 flex-grow flex flex-col items-center text-center">
-                                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-black uppercase tracking-widest mb-3">
+                                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-wider mb-3">
                                       {resource.category}
                                   </div>
                                   <h3 className="text-lg font-black tracking-tight text-foreground leading-tight line-clamp-1 mb-2">
