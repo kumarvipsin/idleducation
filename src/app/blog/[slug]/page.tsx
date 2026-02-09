@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, use } from "react";
@@ -13,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import { Separator } from "@/components/ui/separator";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
+import { Badge } from "@/components/ui/badge";
 
 export default function BlogPostPage({ params: paramsPromise }: { params: Promise<{ slug: string }> }) {
   const params = use(paramsPromise);
