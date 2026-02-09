@@ -151,37 +151,40 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
                     </Button>
                 </div>
                 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    {otherPosts.map((other) => (
-                        <Link key={other.id} href={`/blog/${other.slug}`} className="group block h-full">
-                            <Card className="overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 h-full bg-white dark:bg-card rounded-2xl flex flex-col">
-                                <div className="relative aspect-[16/10] overflow-hidden">
-                                    <GcsImage 
-                                        filePath={other.imageUrl} 
-                                        alt={other.title} 
-                                        fill 
-                                        className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                </div>
-                                <div className="p-5 space-y-3 flex-grow flex flex-col">
-                                    <div className="flex items-center gap-2">
-                                        <Badge variant="secondary" className="text-[8px] font-black uppercase tracking-widest bg-primary/5 text-primary border-none">{other.category}</Badge>
+                {/* Horizontal scroll on mobile, grid on desktop */}
+                <div className="relative">
+                    <div className="flex overflow-x-auto pb-4 gap-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        {otherPosts.map((other) => (
+                            <Link key={other.id} href={`/blog/${other.slug}`} className="group block flex-shrink-0 w-52 md:w-auto h-full">
+                                <Card className="overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 h-full bg-white dark:bg-card rounded-2xl flex flex-col">
+                                    <div className="relative aspect-[16/10] overflow-hidden">
+                                        <GcsImage 
+                                            filePath={other.imageUrl} 
+                                            alt={other.title} 
+                                            fill 
+                                            className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                                     </div>
-                                    <h4 className="font-bold text-sm md:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors flex-grow">
-                                        {other.title}
-                                    </h4>
-                                    <div className="flex items-center justify-between pt-2 border-t border-muted-foreground/5 mt-auto">
-                                        <div className="flex items-center gap-1.5 text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
-                                            <Calendar className="w-3 h-3 text-primary/40" />
-                                            {other.date}
+                                    <div className="p-3 md:p-5 space-y-2 md:space-y-3 flex-grow flex flex-col">
+                                        <div className="flex items-center gap-2">
+                                            <Badge variant="secondary" className="text-[7px] md:text-[8px] font-black uppercase tracking-widest bg-primary/5 text-primary border-none">{other.category}</Badge>
                                         </div>
-                                        <ArrowRight className="w-4 h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                                        <h4 className="font-bold text-xs md:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors flex-grow">
+                                            {other.title}
+                                        </h4>
+                                        <div className="flex items-center justify-between pt-2 border-t border-muted-foreground/5 mt-auto">
+                                            <div className="flex items-center gap-1.5 text-[8px] md:text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
+                                                <Calendar className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary/40" />
+                                                {other.date}
+                                            </div>
+                                            <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                                        </div>
                                     </div>
-                                </div>
-                            </Card>
-                        </Link>
-                    ))}
+                                </Card>
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
         )}
