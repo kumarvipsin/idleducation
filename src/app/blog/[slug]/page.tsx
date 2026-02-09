@@ -139,7 +139,7 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
                     </p>
                     <div className="pt-4">
                         <Button asChild className="rounded-full font-black text-[10px] tracking-[0.2em] uppercase px-8 h-12 shadow-lg shadow-primary/20">
-                            <Link href="/contact">TALK TO AN EXPERT</Link>
+                            <Link href="/contact">THANK YOU</Link>
                         </Button>
                     </div>
                 </div>
