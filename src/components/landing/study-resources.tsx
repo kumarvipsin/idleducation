@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -114,14 +115,21 @@ export function StudyResources() {
                                       </div>
                                   </div>
                               </div>
-                              <CardContent className="p-4 flex-grow flex flex-col text-center">
-                                  <p className="text-[10px] font-bold text-primary uppercase tracking-tight mb-1">{resource.category}</p>
-                                  <h3 className="text-base font-extrabold tracking-tight text-foreground leading-tight line-clamp-1">{resource.title}</h3>
-                                  <p className="text-xs mt-2 text-muted-foreground font-bold leading-relaxed line-clamp-2">{resource.description}</p>
-                                  <div className="mt-4 pt-4 border-t border-muted-foreground/5">
-                                      <span className="text-[10px] font-bold text-primary hover:underline flex items-center justify-center uppercase tracking-wide">
-                                          Explore More <ArrowRight className="ml-1.5 w-3 h-3 transition-transform group-hover:translate-x-1" />
-                                      </span>
+                              <CardContent className="p-6 flex-grow flex flex-col items-center text-center">
+                                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-black uppercase tracking-widest mb-3">
+                                      {resource.category}
+                                  </div>
+                                  <h3 className="text-lg font-black tracking-tight text-foreground leading-tight line-clamp-1 mb-2">
+                                      {resource.title}
+                                  </h3>
+                                  <p className="text-[11px] text-muted-foreground font-bold leading-relaxed line-clamp-2 mb-6 opacity-80">
+                                      {resource.description}
+                                  </p>
+                                  <div className="mt-auto w-full pt-4 border-t border-muted-foreground/5">
+                                      <div className="text-[10px] font-black text-primary group-hover:underline flex items-center justify-center gap-2 uppercase tracking-[0.15em]">
+                                          EXPLORE MORE 
+                                          <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                                      </div>
                                   </div>
                               </CardContent>
                               </Card>

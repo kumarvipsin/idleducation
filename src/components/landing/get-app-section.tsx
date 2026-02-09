@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -414,7 +415,7 @@ export function GetAppSection() {
                       {/* Text */}
                       <div className="flex-1 min-w-0">
                           <p className="text-[10px] font-bold uppercase tracking-wide text-primary mb-0.5">Quick Scan</p>
-                          <p className="text-sm font-extrabold leading-tight text-foreground">Get IDL Learning App</p>
+                          <p className="text-xs sm:text-sm font-extrabold leading-tight text-foreground truncate">Get IDL Learning App</p>
                       </div>
 
                       {/* QR Code */}
