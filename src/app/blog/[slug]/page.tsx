@@ -86,7 +86,7 @@ export default function BlogPostPage({ params: paramsPromise }: { params: Promis
               <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
                   {post.category}
               </div>
-              <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-foreground">
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-foreground">
                 {post.title}
               </h1>
           </div>
