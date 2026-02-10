@@ -127,7 +127,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           </Button>
       </div>
       
-      <article className="max-w-4xl mx-auto" id="blog-printable-content">
+      <article className="max-w-4xl mx-auto p-6 md:p-12 border border-border/50 rounded-2xl md:rounded-[3rem] bg-white dark:bg-card/50 shadow-sm relative overflow-hidden" id="blog-printable-content">
         <header className="mb-12 space-y-8">
           <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-none border-none bg-muted">
               {post.imageUrl ? (
@@ -177,74 +177,74 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
                 Thank You
             </p>
         </div>
-
-        {otherPosts.length > 0 && (
-            <div className="mt-16 space-y-10 print-hidden">
-                <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 bg-muted/30 dark:bg-primary/5 rounded-xl border border-primary/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:bg-muted/40">
-                    {/* Decorative element */}
-                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
-                        <BookOpen className="w-32 h-32 -rotate-12" />
-                    </div>
-                    
-                    <div className="flex items-center gap-5 relative z-10">
-                        <div className="p-4 rounded-full bg-white dark:bg-gray-900 text-primary shadow-xl border border-primary/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                            <BookOpen className="w-6 h-6" />
-                        </div>
-                        <div className="space-y-1">
-                            <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground leading-tight">
-                                Explore More
-                            </h3>
-                            <p className="text-xs md:text-sm text-muted-foreground font-medium leading-tight opacity-80">
-                                Discover more insights from our experts
-                            </p>
-                        </div>
-                    </div>
-                    
-                    <Button asChild className="relative z-10 w-full md:w-auto h-12 px-8 rounded-xl font-semibold text-xs shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95 group/btn">
-                        <Link href="/blog" className="flex items-center justify-center gap-2">
-                            View All Articles 
-                            <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                        </Link>
-                    </Button>
-                </div>
-                
-                <div className="relative">
-                    <div className="flex overflow-x-auto pb-4 gap-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        {otherPosts.map((other) => (
-                            <Link key={other.id} href={`/blog/${other.slug}`} className="group block flex-shrink-0 w-52 md:w-auto h-full">
-                                <Card className="overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 h-full bg-white dark:bg-card rounded-2xl flex flex-col">
-                                    <div className="relative aspect-[16/10] overflow-hidden">
-                                        <GcsImage 
-                                            filePath={other.imageUrl} 
-                                            alt={other.title} 
-                                            fill 
-                                            className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                    </div>
-                                    <div className="p-3 md:p-5 space-y-2 md:space-y-3 flex-grow flex flex-col">
-                                        <div className="flex items-center gap-2">
-                                            <Badge variant="secondary" className="text-[7px] md:text-[8px] font-black uppercase tracking-widest bg-primary/5 text-primary border-none">{other.category}</Badge>
-                                        </div>
-                                        <h4 className="font-bold text-xs md:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors flex-grow">
-                                            {other.title}
-                                        </h4>
-                                        <div className="flex items-center justify-between pt-2 border-t border-muted-foreground/5 mt-auto">
-                                            <div className="flex items-center gap-1.5 text-[8px] md:text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
-                                                <Calendar className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary/40" />
-                                                {other.date}
-                                            </div>
-                                            <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                                        </div>
-                                    </div>
-                                </Card>
-                            </Link>
-                        ))}
-                    </div>
-                </div>
-            </div>
-        )}
       </article>
+
+      {otherPosts.length > 0 && (
+          <div className="mt-16 space-y-10 max-w-4xl mx-auto print-hidden">
+              <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 bg-muted/30 dark:bg-primary/5 rounded-xl border border-primary/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:bg-muted/40">
+                  {/* Decorative element */}
+                  <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
+                      <BookOpen className="w-32 h-32 -rotate-12" />
+                  </div>
+                  
+                  <div className="flex items-center gap-5 relative z-10">
+                      <div className="p-4 rounded-full bg-white dark:bg-gray-900 text-primary shadow-xl border border-primary/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                          <BookOpen className="w-6 h-6" />
+                      </div>
+                      <div className="space-y-1">
+                          <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground leading-tight">
+                              Explore More
+                          </h3>
+                          <p className="text-xs md:text-sm text-muted-foreground font-medium leading-tight opacity-80">
+                              Discover more insights from our experts
+                          </p>
+                      </div>
+                  </div>
+                  
+                  <Button asChild className="relative z-10 w-full md:w-auto h-12 px-8 rounded-xl font-semibold text-xs shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95 group/btn">
+                      <Link href="/blog" className="flex items-center justify-center gap-2">
+                          View All Articles 
+                          <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                      </Link>
+                  </Button>
+              </div>
+              
+              <div className="relative">
+                  <div className="flex overflow-x-auto pb-4 gap-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                      {otherPosts.map((other) => (
+                          <Link key={other.id} href={`/blog/${other.slug}`} className="group block flex-shrink-0 w-52 md:w-auto h-full">
+                              <Card className="overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 h-full bg-white dark:bg-card rounded-2xl flex flex-col">
+                                  <div className="relative aspect-[16/10] overflow-hidden">
+                                      <GcsImage 
+                                          filePath={other.imageUrl} 
+                                          alt={other.title} 
+                                          fill 
+                                          className="object-cover group-hover:scale-110 transition-transform duration-700" 
+                                      />
+                                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                  </div>
+                                  <div className="p-3 md:p-5 space-y-2 md:space-y-3 flex-grow flex flex-col">
+                                      <div className="flex items-center gap-2">
+                                          <Badge variant="secondary" className="text-[7px] md:text-[8px] font-black uppercase tracking-widest bg-primary/5 text-primary border-none">{other.category}</Badge>
+                                      </div>
+                                      <h4 className="font-bold text-xs md:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors flex-grow">
+                                          {other.title}
+                                      </h4>
+                                      <div className="flex items-center justify-between pt-2 border-t border-muted-foreground/5 mt-auto">
+                                          <div className="flex items-center gap-1.5 text-[8px] md:text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
+                                              <Calendar className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary/40" />
+                                              {other.date}
+                                          </div>
+                                          <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                                      </div>
+                                  </div>
+                              </Card>
+                          </Link>
+                      ))}
+                  </div>
+              </div>
+          </div>
+      )}
     </div>
   );
 }
