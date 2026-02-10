@@ -180,21 +180,31 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
 
         {otherPosts.length > 0 && (
             <div className="mt-16 space-y-10 print-hidden">
-                <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-gradient-to-r from-primary/[0.03] to-transparent rounded-2xl border border-primary/5 shadow-sm">
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-8 bg-primary rounded-r-full" />
-                    <div className="flex items-center gap-4 pl-2">
-                        <div className="p-2 rounded-full border border-primary/10 bg-white dark:bg-gray-950 text-primary shadow-sm transition-transform group-hover:scale-110">
-                            <BookOpen className="w-4 h-4" />
+                <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 bg-muted/30 dark:bg-primary/5 rounded-[2rem] border border-primary/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:bg-muted/40">
+                    {/* Decorative element */}
+                    <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
+                        <BookOpen className="w-32 h-32 -rotate-12" />
+                    </div>
+                    
+                    <div className="flex items-center gap-5 relative z-10">
+                        <div className="p-4 rounded-2xl bg-white dark:bg-gray-900 text-primary shadow-xl border border-primary/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                            <BookOpen className="w-6 h-6" />
                         </div>
-                        <div>
-                            <h3 className="text-sm font-bold tracking-tight text-foreground leading-tight">
+                        <div className="space-y-1">
+                            <h3 className="text-lg md:text-xl font-black tracking-tight text-foreground leading-tight uppercase">
                                 Explore More
                             </h3>
-                            <p className="text-[10px] text-muted-foreground font-medium leading-tight">Discover more insights from our experts</p>
+                            <p className="text-xs md:text-sm text-muted-foreground font-bold leading-tight opacity-80 uppercase tracking-widest">
+                                Discover more insights from our experts
+                            </p>
                         </div>
                     </div>
-                    <Button asChild variant="outline" className="w-fit text-[10px] font-bold text-primary hover:bg-primary hover:text-white h-8 px-5 rounded-xl border-primary/20 shadow-none transition-all active:scale-95">
-                        <Link href="/blog" className="flex items-center gap-2">View All Articles <ArrowRight className="h-3 w-3" /></Link>
+                    
+                    <Button asChild className="relative z-10 w-full md:w-auto h-12 px-8 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95 group/btn">
+                        <Link href="/blog" className="flex items-center justify-center gap-2">
+                            View All Articles 
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                        </Link>
                     </Button>
                 </div>
                 
