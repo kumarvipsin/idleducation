@@ -127,7 +127,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           </Button>
       </div>
       
-      <article className="max-w-4xl mx-auto p-6 md:p-12 border border-border/50 rounded-2xl md:rounded-[3rem] bg-white dark:bg-card/50 shadow-sm relative overflow-hidden" id="blog-printable-content">
+      <article className="max-w-4xl mx-auto p-6 md:p-12 border border-border/80 rounded-xl bg-white dark:bg-card/50 shadow-sm relative overflow-hidden" id="blog-printable-content">
         <header className="mb-12 space-y-8">
           <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-none border-none bg-muted">
               {post.imageUrl ? (
