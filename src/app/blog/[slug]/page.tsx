@@ -180,27 +180,27 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
 
         {otherPosts.length > 0 && (
             <div className="mt-16 space-y-10 print-hidden">
-                <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 bg-muted/30 dark:bg-primary/5 rounded-[2rem] border border-primary/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:bg-muted/40">
+                <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 bg-muted/30 dark:bg-primary/5 rounded-xl border border-primary/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:bg-muted/40">
                     {/* Decorative element */}
                     <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
                         <BookOpen className="w-32 h-32 -rotate-12" />
                     </div>
                     
                     <div className="flex items-center gap-5 relative z-10">
-                        <div className="p-4 rounded-2xl bg-white dark:bg-gray-900 text-primary shadow-xl border border-primary/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
+                        <div className="p-4 rounded-full bg-white dark:bg-gray-900 text-primary shadow-xl border border-primary/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
                             <BookOpen className="w-6 h-6" />
                         </div>
                         <div className="space-y-1">
-                            <h3 className="text-lg md:text-xl font-black tracking-tight text-foreground leading-tight uppercase">
+                            <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground leading-tight">
                                 Explore More
                             </h3>
-                            <p className="text-xs md:text-sm text-muted-foreground font-bold leading-tight opacity-80 uppercase tracking-widest">
+                            <p className="text-xs md:text-sm text-muted-foreground font-medium leading-tight opacity-80">
                                 Discover more insights from our experts
                             </p>
                         </div>
                     </div>
                     
-                    <Button asChild className="relative z-10 w-full md:w-auto h-12 px-8 rounded-xl font-black text-xs uppercase tracking-widest shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95 group/btn">
+                    <Button asChild className="relative z-10 w-full md:w-auto h-12 px-8 rounded-xl font-semibold text-xs shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95 group/btn">
                         <Link href="/blog" className="flex items-center justify-center gap-2">
                             View All Articles 
                             <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
