@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -448,7 +449,7 @@ export function Header() {
                   <div className="hidden md:flex items-center gap-2">
                        <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition-all">
                           <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
-                          <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Expert</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
+                          <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Now</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
                       </a>
                   </div>
                   <div className="flex items-center gap-1">
@@ -581,7 +582,7 @@ export function Header() {
                                         <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
                                             <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                 <Phone className="h-4 w-4" /> 
-                                                Call Expert
+                                                Call Now
                                             </span>
                                         </a>
                                     </div>
