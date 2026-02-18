@@ -101,7 +101,7 @@ export default function OfflineCentersPage() {
                                 </div>
                                 <div className="flex flex-col gap-3">
                                     <Button asChild variant="outline" className="w-full h-12 rounded-xl font-bold border-primary/20 text-primary hover:bg-primary/5 transition-all shadow-none">
-                                        <a href="tel:7011117585">
+                                        <a href="tel:8860040010">
                                             <Phone className="w-4 h-4 mr-2" />
                                             Call Us
                                         </a>

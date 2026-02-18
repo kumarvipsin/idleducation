@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -295,7 +294,7 @@ export function Header() {
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-primary text-white", description: "Have questions? Send us an enquiry." },
   ];
 
-  const navItemClass = "relative h-full flex items-center h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary data-[active=true]:text-primary rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100 data-[active=true]:after:scale-x-100";
+  const navItemClass = "relative h-full flex items-center h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent data-[active=true]:text-primary data-[active=true]:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100 data-[active=true]:after:scale-x-100";
 
   const renderAuthSection = () => {
     if (loading) return <Skeleton className="h-10 w-10 rounded-full" />;
@@ -427,7 +426,7 @@ export function Header() {
                           </>
                         ) : (
                           <div className="flex items-center gap-x-4 text-[10px] font-extrabold tracking-tight">
-                            <a href="tel:7011117585" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 701111 7585</a>
+                            <a href="tel:8860040010" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 8860040010</a>
                             <Separator orientation="vertical" className="h-4 bg-foreground/20" />
                             <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
                           </div>
@@ -436,9 +435,9 @@ export function Header() {
               </div>
               <div className="flex items-center gap-1">
                   <div className="hidden md:flex items-center gap-2">
-                       <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
+                       <a href="tel:8860040010" className="flex items-center gap-2 p-1.5 rounded-xl transition-all hover:bg-transparent">
                           <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
-                          <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Now</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
+                          <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Now</p><p className="text-xs font-extrabold text-foreground leading-tight">8860040010</p></div>
                       </a>
                   </div>
                   <div className="flex items-center gap-1">
@@ -568,7 +567,7 @@ export function Header() {
                                             </span>
                                         </Link>
 
-                                        <a href="tel:7011117585" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
+                                        <a href="tel:8860040010" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
                                             <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
                                                 <Phone className="h-4 w-4" /> 
                                                 Call Now
