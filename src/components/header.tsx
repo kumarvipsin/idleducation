@@ -406,20 +406,20 @@ export function Header() {
                         {!isIdlFoundationPage ? (
                           <>
                             <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
                             </div>
                             <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
                             </div>
                              <div className="h-full flex items-center">
-                              <Button asChild variant="ghost" className="h-auto px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
+                              <Button asChild variant="ghost" className="h-auto px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
                                       <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                           <ShoppingCart className="h-4 w-4" /><span>STORE</span>
                                       </Link>
                                   </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
                             </div>
                           </>
                         ) : (
