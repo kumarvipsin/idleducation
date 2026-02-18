@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -44,21 +43,21 @@ const megaMenuBg = "bg-white shadow-2xl";
 
 const allCoursesCategories = [
     {
-        name: "Free Courses",
+        name: "FREE COURSES",
         description: "High-quality free video lessons.",
         href: "/free-courses",
         icon: <BookOpen className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
-        name: "Paid Courses",
+        name: "PAID COURSES",
         description: "Premium structured learning.",
         href: "/paid-courses",
         icon: <IndianRupee className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
-        name: "School Board",
+        name: "SCHOOL BOARD",
         description: "Prep for Class 5 to 12.",
         href: "/school",
         icon: <GraduationCap className="h-4 w-4" />,
@@ -72,14 +71,14 @@ const allCoursesCategories = [
         colorClasses: "bg-primary text-white"
     },
     {
-        name: "Govt. Exams",
+        name: "GOVT. EXAMS",
         description: "SSC, Banking, & Railway.",
         href: "/examcat",
         icon: <Landmark className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
     {
-        name: "Test Series",
+        name: "TEST SERIES",
         description: "Rigorous preparation tests.",
         href: "#",
         icon: <ClipboardList className="h-4 w-4" />,
@@ -298,7 +297,7 @@ export function Header() {
   const applyForLinks = [
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-primary text-white", description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Help us improve." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-primary text-white", description: "Help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-primary text-white", description: "Have questions? Send us an enquiry." },
   ];
 
@@ -520,9 +519,13 @@ export function Header() {
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {applyForLinks.map(({ href, label, icon, description }) => (
+                                                {applyForLinks.map(({ href, label, icon, description, color }) => (
                                                     <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", "bg-primary text-white")}>{icon}</div>
+                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", color || "bg-primary text-white")}>
+                                                            <div className="-rotate-45">
+                                                                {icon}
+                                                            </div>
+                                                        </div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
                                                             <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
@@ -632,7 +635,7 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
           <div className="pt-6 pb-8">
             {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name.toUpperCase(), colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, label: l.label, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
             {activeMenu === 'more' && (
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
