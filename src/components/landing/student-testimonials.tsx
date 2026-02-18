@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
@@ -40,7 +39,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               <div className="relative h-24 w-full">
                   <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                   <ScrollArea className="h-full w-full px-2">
-                      <blockquote className="text-xs text-muted-foreground font-bold italic leading-relaxed">
+                      <blockquote className="text-xs text-muted-foreground font-bold leading-relaxed">
                       {testimonial.testimonial}
                       </blockquote>
                   </ScrollArea>
