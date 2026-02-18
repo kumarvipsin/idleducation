@@ -3,7 +3,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, Home, User, GraduationCap, Phone, Mail, MapPin, Globe, X } from "lucide-react";
+import { CheckCircle, Home, User, GraduationCap, Phone, Mail, MapPin, Globe, X, Sparkles, MessageCircle, Star, ShieldCheck, Users } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -17,6 +17,7 @@ import { allPrograms } from "@/lib/courses";
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { cn } from "@/lib/utils";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
@@ -40,36 +41,12 @@ const indianStates = [
 ];
 
 const countries = [
-  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
-  "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
-  "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo, Democratic Republic of the", "Congo, Republic of the", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic",
-  "Denmark", "Djibouti", "Dominica", "Dominican Republic",
-  "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Eswatini", "Ethiopia",
-  "Fiji", "Finland", "France",
-  "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
-  "Haiti", "Honduras", "Hungary",
-  "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
-  "Jamaica", "Japan", "Jordan",
-  "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
-  "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
-  "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
-  "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
-  "Oman",
-  "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
-  "Qatar",
-  "Romania", "Russia", "Rwanda",
-  "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
-  "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
-  "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
-  "Vanuatu", "Vatican City", "Venezuela", "Vietnam",
-  "Yemen",
-  "Zambia", "Zimbabwe"
+  "India", "United States", "United Kingdom", "Canada", "Australia", "Singapore", "UAE", "Saudi Arabia"
 ];
 
 export default function BookDemoPage() {
   const { toast } = useToast();
   const { t } = useLanguage();
-  const [studentId, setStudentId] = useState('');
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -80,12 +57,11 @@ export default function BookDemoPage() {
       mobile: '',
       email: '',
       state: '',
-      sessionMode: undefined,
+      sessionMode: 'online',
     },
   });
   
   const sessionMode = form.watch("sessionMode");
-
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
@@ -114,225 +90,148 @@ export default function BookDemoPage() {
 
   const capitalizeWords = (str: string) => {
     if (!str) return '';
-    return str
-        .toLowerCase()
-        .split(' ')
-        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-        .join(' ');
+    return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
   };
 
+  const trustStats = [
+    { label: "50K+ Expert Tutors", icon: <Users className="w-5 h-5" />, bg: "bg-blue-100 text-blue-600" },
+    { label: "95% Student Success", icon: <Star className="w-5 h-5" />, bg: "bg-orange-100 text-orange-600" },
+    { label: "30+ Countries Reached", icon: <Globe className="w-5 h-5" />, bg: "bg-green-100 text-green-600" },
+  ];
+
   return (
-    <div key={studentId} className="relative min-h-screen w-full bg-white dark:bg-gray-900 overflow-y-auto">
-      <div className="relative z-10 container mx-auto py-12 md:px-[10%]">
-          <div className="text-center mb-8 animate-fade-in-up">
-              <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
-                  Book your Free Demo
-                  <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+    <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 overflow-x-hidden">
+      <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Column: Heading & Stats */}
+          <div className="lg:col-span-5 space-y-10 animate-fade-in-up">
+            <div className="space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[11px] font-black uppercase tracking-[0.2em]">
+                <Sparkles className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+                PREMIUM ONE-TO-ONE LEARNING
+              </div>
+              <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-[1.1]">
+                One-to-One Online Classes for your <span className="text-primary italic">child</span>
               </h1>
-              <p className="mt-2 text-sm text-muted-foreground font-semibold">
-                Learn from India's best teachers
+              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-bold max-w-lg leading-relaxed">
+                Unlock your child's potential with personalized attention from India's top educators.
               </p>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 max-w-sm">
+              {trustStats.map((stat, idx) => (
+                <div key={idx} className="flex items-center gap-4 p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 transition-all hover:shadow-md">
+                  <div className={cn("p-2.5 rounded-xl", stat.bg)}>
+                    {stat.icon}
+                  </div>
+                  <span className="text-sm font-black text-slate-800 dark:text-slate-200 uppercase tracking-tight">{stat.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-              <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white">
-                  <CardContent className="p-8 space-y-6">
-                      <div className="text-center">
-                          <h2 className="text-2xl font-bold text-primary">Enter Your Details</h2>
+          {/* Middle Character Image (Desktop only alignment helper) */}
+          <div className="hidden lg:block lg:col-span-3 relative h-[600px] -mx-12 z-10 pointer-events-none">
+             <Image 
+                src="https://d9hhrg4mnvzow.cloudfront.net/courses.vedantu.com/one-to-one-live/5d43ad04-group-14_10uw0uo000000000000028.png"
+                alt="Student Learning"
+                fill
+                className="object-contain"
+                priority
+             />
+          </div>
+
+          {/* Right Column: Booking Card */}
+          <div className="lg:col-span-4 relative z-20 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[2rem] border-none bg-white dark:bg-slate-900 overflow-hidden">
+              <div className="bg-primary p-6 text-center">
+                <h2 className="text-2xl font-black text-white tracking-tight">Book your Free Demo</h2>
+                <p className="text-[11px] font-bold text-white/70 uppercase tracking-widest mt-1">Learn from India's best teachers</p>
+              </div>
+              <CardContent className="p-8 space-y-6">
+                <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="studentName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                              <Input placeholder="Parent/Student Name *" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="mobile"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <div className="relative">
+                              <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                              <span className="absolute left-11 top-1/2 -translate-y-1/2 text-sm font-black text-slate-400">+91</span>
+                              <Input type="tel" maxLength={10} placeholder="Phone Number *" {...field} className="pl-20 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold" />
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="classCourse"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Select onValueChange={field.onChange} value={field.value}>
+                            <FormControl>
+                              <div className="relative">
+                                <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                                <SelectTrigger className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold">
+                                  <SelectValue placeholder="Grade/Class *" />
+                                </SelectTrigger>
+                              </div>
+                            </FormControl>
+                            <SelectContent>
+                              {allPrograms.map(p => <SelectItem key={p.name} value={p.name}>{p.name}</SelectItem>)}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <div className="pt-2 space-y-3">
+                      <Button type="submit" className="w-full h-14 text-sm font-black bg-orange-500 hover:bg-orange-600 text-white rounded-xl shadow-xl shadow-orange-500/20 uppercase tracking-widest transition-all active:scale-95" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? "PROCESSING..." : "Book Free Demo Class"}
+                      </Button>
+                      
+                      <div className="flex items-center gap-3">
+                        <Separator className="flex-1 bg-slate-100 dark:bg-slate-800" />
+                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">OR</span>
+                        <Separator className="flex-1 bg-slate-100 dark:bg-slate-800" />
                       </div>
-                      <Form {...form}>
-                          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                            <FormField
-                            control={form.control}
-                            name="sessionMode"
-                            render={({ field }) => (
-                                <FormItem>
-                                <div className="grid grid-cols-2 gap-2 mt-1">
-                                    <Button 
-                                    type="button" 
-                                    variant={sessionMode === 'online' ? 'default' : 'outline'} 
-                                    className="flex items-center justify-center gap-2"
-                                    onClick={() => {
-                                        field.onChange('online');
-                                    }}
-                                    >
-                                    {sessionMode === 'online' && <CheckCircle className="w-5 h-5" />}
-                                    {t('bookFreeSession.online')}
-                                    </Button>
-                                    <Button 
-                                    type="button" 
-                                    variant={sessionMode === 'offline' ? 'default' : 'outline'}
-                                    className="flex items-center justify-center gap-2"
-                                    onClick={() => {
-                                        field.onChange('offline');
-                                    }}
-                                    >
-                                    {sessionMode === 'offline' && <CheckCircle className="w-5 h-5" />}
-                                    {t('bookFreeSession.offline')}
-                                    </Button>
-                                </div>
-                                <FormMessage className="text-destructive" />
-                                </FormItem>
-                            )}
-                            />
 
-                            <FormField
-                            control={form.control}
-                            name="studentName"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormControl>
-                                    <div className="relative">
-                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input 
-                                        placeholder="Enter Name of your Child *"
-                                        {...field}
-                                        className="pl-9"
-                                        onChange={(e) => {
-                                            const formatted = capitalizeWords(e.target.value);
-                                            field.onChange(formatted);
-                                        }}
-                                        />
-                                    </div>
-                                </FormControl>
-                                <FormMessage className="text-destructive" />
-                                </FormItem>
-                            )}
-                            />
-                            
-                            <FormField
-                            control={form.control}
-                            name="classCourse"
-                            render={({ field }) => (
-                                <FormItem>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                    <div className="relative">
-                                        <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <SelectTrigger className="pl-9">
-                                            <SelectValue placeholder="Select a Class or Course *" />
-                                        </SelectTrigger>
-                                    </div>
-                                    </FormControl>
-                                    <SelectContent>
-                                    {allPrograms.map(program => (
-                                        <SelectItem key={program.name} value={program.name}>{program.name}</SelectItem>
-                                    ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage className="text-destructive" />
-                                </FormItem>
-                            )}
-                            />
-
-                            <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormControl>
-                                    <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input 
-                                        type="email" 
-                                        placeholder="Email Address *"
-                                        {...field}
-                                        className="pl-9"
-                                        onChange={(e) => {
-                                            field.onChange(e.target.value.toLowerCase());
-                                        }}
-                                        />
-                                    </div>
-                                </FormControl>
-                                <FormMessage className="text-destructive" />
-                                </FormItem>
-                            )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="mobile"
-                                render={({ field }) => (
-                                <FormItem className="flex-1">
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                             <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">+91</span>
-                                            <Input 
-                                                type="tel" 
-                                                placeholder="Enter your Mobile Number *"
-                                                {...field}
-                                                onChange={(e) => {
-                                                    const value = e.target.value.replace(/\D/g, '');
-                                                    field.onChange(value);
-                                                }}
-                                                maxLength={10}
-                                                className="pl-16"
-                                            />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage className="text-destructive" />
-                                </FormItem>
-                                )}
-                            />
-                             <FormField
-                                control={form.control}
-                                name="country"
-                                render={({ field }) => (
-                                <FormItem>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <SelectTrigger className="pl-9">
-                                                <SelectValue placeholder="Select your country *" />
-                                            </SelectTrigger>
-                                        </div>
-                                    </FormControl>
-                                    <SelectContent>
-                                        {countries.map(country => (
-                                            <SelectItem key={country} value={country}>{country}</SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
-                                    <FormMessage />
-                                </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field }) => (
-                                <FormItem>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                    <FormControl>
-                                    <div className="relative">
-                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <SelectTrigger className="pl-9">
-                                            <SelectValue placeholder="State *" />
-                                        </SelectTrigger>
-                                    </div>
-                                    </FormControl>
-                                    <SelectContent>
-                                    {indianStates.sort().map(state => (
-                                        <SelectItem key={state} value={state}>{state}</SelectItem>
-                                    ))}
-                                    </SelectContent>
-                                </Select>
-                                <FormMessage className="text-destructive" />
-                                </FormItem>
-                            )}
-                            />
-
-                            <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
-                                {form.formState.isSubmitting ? t('bookFreeSession.scheduling') : 'Submit'}
-                            </Button>
-                          </form>
-                      </Form>
-                  </CardContent>
-              </Card>
+                      <Button type="button" variant="outline" asChild className="w-full h-14 rounded-xl border-emerald-500 text-emerald-600 hover:bg-emerald-50 font-black text-sm uppercase tracking-widest shadow-sm">
+                        <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer">
+                          <MessageCircle className="w-5 h-5 mr-2 fill-current" />
+                          Chat On WhatsApp
+                        </a>
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </CardContent>
+            </Card>
           </div>
+        </div>
       </div>
     </div>
   );

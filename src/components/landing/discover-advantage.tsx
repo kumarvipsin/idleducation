@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -16,8 +17,7 @@ export function DiscoverAdvantage() {
                 Discover the <span className="text-orange-500">IDL Advantage</span>
               </h2>
               <p className="text-sm text-muted-foreground font-bold">
-                Download the brochure to explore our programs, academic approach, and student
-                support in detail.
+                Download the brochure to explore our programs, academic approach, and student support in detail.
               </p>
               <Button asChild className="h-11 px-5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg shadow-orange-500/20 hover:shadow-xl transition-all border-none">
                 <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">

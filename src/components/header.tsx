@@ -436,7 +436,7 @@ export function Header() {
               </div>
               <div className="flex items-center gap-1">
                   <div className="hidden md:flex items-center gap-2">
-                       <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-muted transition-all">
+                       <a href="tel:7011117585" className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
                           <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
                           <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Now</p><p className="text-xs font-extrabold text-foreground leading-tight">70-1111-7585</p></div>
                       </a>
