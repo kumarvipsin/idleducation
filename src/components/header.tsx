@@ -562,7 +562,11 @@ export function Header() {
                                                                     }} 
                                                                     className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]"
                                                                 >
-                                                                    <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
+                                                                    <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
+                                                                        <div className="-rotate-45">
+                                                                            {icon}
+                                                                        </div>
+                                                                    </div>
                                                                     <div className="space-y-0.5">
                                                                         <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
                                                                         <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
@@ -646,7 +650,7 @@ export function Header() {
                                     {group.links.map((link) => (
                                         <Link 
                                             key={link.label} 
-                                            href={link.href} 
+                                            href={link.onClick ? '#' : link.href} 
                                             target={link.target} 
                                             onClick={(e) => {
                                                 if (link.onClick) {
@@ -657,8 +661,10 @@ export function Header() {
                                             }}
                                             className="group flex items-start gap-4 p-2 rounded-lg hover:bg-muted transition-all duration-200"
                                         >
-                                            <div className={cn("p-2.5 rounded-full mt-0.5 shrink-0 shadow-sm transition-transform group-hover:scale-110", link.colorClasses)}>
-                                                {link.icon}
+                                            <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", link.colorClasses)}>
+                                                <div className="-rotate-45">
+                                                    {link.icon}
+                                                </div>
                                             </div>
                                             <div className="space-y-0.5">
                                                 <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
