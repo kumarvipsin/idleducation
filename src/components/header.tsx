@@ -6,7 +6,8 @@ import {
   ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, 
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
-  Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search
+  Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search,
+  Sparkles
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -436,7 +437,9 @@ export function Header() {
               <div className="flex items-center gap-1">
                   <div className="hidden md:flex items-center gap-2">
                        <div className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
-                          <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
+                          <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
+                            <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                          </div>
                           <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight uppercase">CALL NOW</p><p className="text-xs font-extrabold text-foreground leading-tight">8860040010</p></div>
                       </div>
                   </div>
