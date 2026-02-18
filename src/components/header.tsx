@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -95,7 +96,7 @@ const donationCategories = [
     { title: "Old Age Home", description: "Dignity and care for elders.", goal: 2500000, raised: 800000 },
 ];
 
-const MegaMenu = ({ links, onLinkClick }: { links?: any[], onLinkClick?: () => void }) => (
+const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[], onLinkClick?: () => void, iconShape?: 'circle' | 'diamond' }) => (
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
             {links && links.map((link) => {
@@ -116,8 +117,14 @@ const MegaMenu = ({ links, onLinkClick }: { links?: any[], onLinkClick?: () => v
                         onClick={handleClick}
                         className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
                     >
-                        <div className={cn("p-3 rounded-full mt-1 shadow-sm shrink-0", link.colorClasses || link.color || "bg-primary/10 text-primary")}>
-                            {link.icon}
+                        <div className={cn(
+                            "flex items-center justify-center mt-1 shadow-sm shrink-0 transition-transform group-hover:scale-110",
+                            iconShape === 'circle' ? "p-3 rounded-full" : "w-10 h-10 rotate-45 rounded-sm",
+                            link.colorClasses || link.color || "bg-primary/10 text-primary"
+                        )}>
+                            <div className={cn(iconShape === 'diamond' && "-rotate-45")}>
+                                {link.icon}
+                            </div>
                         </div>
                         <div>
                             <p className="font-extrabold text-sm text-foreground">{link.label}</p>
@@ -488,7 +495,11 @@ export function Header() {
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
                                                     <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
+                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
+                                                            <div className="-rotate-45">
+                                                                {icon}
+                                                            </div>
+                                                        </div>
                                                         <div className="space-y-0.5">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label.toUpperCase()}</p>
                                                             <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
@@ -620,7 +631,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
           <div className="pt-6 pb-8">
-            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name.toUpperCase(), colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name.toUpperCase(), colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'more' && (
                 <div className="container mx-auto px-4 md:px-6">
