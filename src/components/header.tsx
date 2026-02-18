@@ -309,14 +309,6 @@ export function Header() {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end" forceMount>
-            <DropdownMenuLabel className="font-normal">
-                <Link href={getProfilePath(user)}>
-                    <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-extrabold leading-none">{user.name}</p>
-                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                    </div>
-                </Link>
-            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
                <Link href={getDashboardPath(user)}>
@@ -398,11 +390,6 @@ export function Header() {
     );
   };
 
-  const logoutAction = async () => {
-    await logout();
-    router.push('/');
-  };
-
   return (
     <>
       <header className={cn(
@@ -419,20 +406,20 @@ export function Header() {
                         {!isIdlFoundationPage ? (
                           <>
                             <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
                             </div>
                             <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
                             </div>
                              <div className="h-full flex items-center">
-                              <Button asChild variant="ghost" className="h-auto px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
+                              <Button asChild variant="ghost" className="h-auto px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
                                       <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                                          <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">STORE</span>
+                                          <ShoppingCart className="h-4 w-4" /><span>STORE</span>
                                       </Link>
                                   </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-[11px] font-semibold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
                             </div>
                           </>
                         ) : (
