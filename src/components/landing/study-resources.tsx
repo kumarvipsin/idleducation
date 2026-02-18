@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,6 +24,7 @@ const resources = [
     href: "/resources/notes",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "notebook pen",
+    color: "bg-blue-600 text-white"
   },
   {
     category: "SOLUTIONS",
@@ -31,6 +33,7 @@ const resources = [
     href: "/resources/ncert-solutions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "textbooks pile",
+    color: "bg-emerald-600 text-white"
   },
   {
     category: "PRACTICE",
@@ -39,6 +42,7 @@ const resources = [
     href: "/resources/previous-year-questions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "exam paper test",
+    color: "bg-orange-600 text-white"
   },
 ];
 
@@ -115,7 +119,10 @@ export function StudyResources() {
                                         </div>
                                     </div>
                                     
-                                    <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-widest mb-3">
+                                    <div className={cn(
+                                        "inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 shadow-md border-none",
+                                        resource.color
+                                    )}>
                                         {resource.category}
                                     </div>
                                     
@@ -125,11 +132,11 @@ export function StudyResources() {
                                     
                                     <div className="relative h-24 w-full">
                                         <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
-                                        <ScrollArea className="h-full w-full px-2">
+                                        <div className="h-full w-full px-2 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                                             <p className="text-xs text-muted-foreground font-bold leading-relaxed">
                                                 {resource.description}
                                             </p>
-                                        </ScrollArea>
+                                        </div>
                                         <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1">”</span>
                                     </div>
                                 </CardContent>
