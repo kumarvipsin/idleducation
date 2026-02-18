@@ -436,12 +436,12 @@ export function Header() {
               </div>
               <div className="flex items-center gap-1">
                   <div className="hidden md:flex items-center gap-2">
-                       <div className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
-                          <div className="bg-blue-100 dark:bg-blue-900/50 p-1.5 rounded-full">
-                            <Phone className="h-3 w-3 text-blue-600 dark:text-blue-400" />
+                       <a href="tel:8860040010" className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
+                          <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
+                            <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                           </div>
                           <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight uppercase">CALL NOW</p><p className="text-xs font-extrabold text-foreground leading-tight">8860040010</p></div>
-                      </div>
+                      </a>
                   </div>
                   <div className="flex items-center gap-1">
                     {isClient && renderAuthSection()}
