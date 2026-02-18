@@ -18,7 +18,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 const resources = [
   {
     category: "REVISION",
-    title: "High-Quality Notes",
+    title: "Notes",
     description: "Find concise and well-structured notes designed for effective daily learning.",
     href: "/resources/notes",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
@@ -27,7 +27,7 @@ const resources = [
   },
   {
     category: "SOLUTIONS",
-    title: "NCERT Step-by-Step",
+    title: "NCERT Solutions",
     description: "Access detailed solutions for all your NCERT textbook questions prepared by experts.",
     href: "/resources/ncert-solutions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
