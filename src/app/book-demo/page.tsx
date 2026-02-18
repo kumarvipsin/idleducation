@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -88,11 +87,6 @@ export default function BookDemoPage() {
     }
   };
 
-  const capitalizeWords = (str: string) => {
-    if (!str) return '';
-    return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-  };
-
   const trustStats = [
     { label: "50K+ Expert Tutors", icon: <Users className="w-5 h-5" />, bg: "bg-blue-100 text-blue-600" },
     { label: "95% Student Success", icon: <Star className="w-5 h-5" />, bg: "bg-orange-100 text-orange-600" },
@@ -131,7 +125,7 @@ export default function BookDemoPage() {
             </div>
           </div>
 
-          {/* Middle Character Image (Desktop only alignment helper) */}
+          {/* Middle Character Image */}
           <div className="hidden lg:block lg:col-span-3 relative h-[600px] -mx-12 z-10 pointer-events-none">
              <Image 
                 src="https://d9hhrg4mnvzow.cloudfront.net/courses.vedantu.com/one-to-one-live/5d43ad04-group-14_10uw0uo000000000000028.png"

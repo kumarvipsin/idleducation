@@ -72,7 +72,7 @@ const allCoursesCategories = [
     {
         name: "Govt. Exams",
         description: "SSC, Banking, & Railway.",
-        href: "#",
+        href: "/examcat",
         icon: <Landmark className="h-4 w-4" />,
         colorClasses: "bg-primary text-white"
     },
@@ -428,17 +428,17 @@ export function Header() {
                           <div className="flex items-center gap-x-4 text-[10px] font-extrabold tracking-tight">
                             <a href="tel:8860040010" className="flex items-center gap-1 hover:text-primary"><Phone className="h-3 w-3" /> 8860040010</a>
                             <Separator orientation="vertical" className="h-4 bg-foreground/20" />
-                            <a href="mailto:info@idlfoundation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idlfoundation.in</a>
+                            <a href="mailto:info@idleducation.in" className="flex items-center gap-1 hover:text-primary"><Mail className="h-3 w-3" /> info@idleducation.in</a>
                           </div>
                         )}
                   </nav>
               </div>
               <div className="flex items-center gap-1">
                   <div className="hidden md:flex items-center gap-2">
-                       <a href="tel:8860040010" className="flex items-center gap-2 p-1.5 rounded-xl transition-all hover:bg-transparent">
+                       <div className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
                           <div className="bg-primary/10 p-2 rounded-full"><Phone className="h-3 w-3 text-primary" /></div>
-                          <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight">Call Now</p><p className="text-xs font-extrabold text-foreground leading-tight">8860040010</p></div>
-                      </a>
+                          <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight uppercase">CALL NOW</p><p className="text-xs font-extrabold text-foreground leading-tight">8860040010</p></div>
+                      </div>
                   </div>
                   <div className="flex items-center gap-1">
                     {isClient && renderAuthSection()}

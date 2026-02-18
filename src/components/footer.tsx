@@ -118,7 +118,7 @@ export function Footer() {
 
                 {/* Column 4: Contact Us */}
                  <div>
-                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact</h3>
+                    <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6 border-l-4 border-primary pl-3">Contact Us</h3>
                     <div className="flex flex-col items-start gap-1 text-[11px] font-bold tracking-wide text-gray-400">
                         <a href="tel:8860040010" className="flex items-center gap-3 hover:text-white transition-colors group w-full justify-start py-1">
                           <Phone className="h-4 w-4 shrink-0 text-gray-400" />
