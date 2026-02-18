@@ -19,7 +19,7 @@ const resources = [
   {
     category: "REVISION",
     title: "Notes",
-    description: "Find concise and well-structured notes designed for effective daily learning.",
+    description: "Master your subjects with our comprehensive, simplified notes designed to enhance conceptual clarity and accelerate your exam revision.",
     href: "/resources/notes",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "notebook pen",
@@ -28,7 +28,7 @@ const resources = [
   {
     category: "SOLUTIONS",
     title: "NCERT Solutions",
-    description: "Access detailed solutions for all your NCERT textbook questions prepared by experts.",
+    description: "Excel in your school exams with step-by-step, expert-verified solutions for every NCERT textbook exercise across all subjects.",
     href: "/resources/ncert-solutions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "textbooks pile",
@@ -37,7 +37,7 @@ const resources = [
   {
     category: "PRACTICE",
     title: "Previous Year QP",
-    description: "Practice with past exam papers to understand the pattern and score higher.",
+    description: "Gain a competitive edge by practicing with the last 10 years of solved board and entrance exam question papers to master time management.",
     href: "/resources/previous-year-questions",
     imageUrl: "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png",
     imageHint: "exam paper test",
@@ -123,13 +123,11 @@ export function StudyResources() {
                                     </h3>
                                     
                                     <div className="relative h-24 w-full">
-                                        <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                                         <div className="h-full w-full px-2 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                                             <p className="text-xs text-muted-foreground font-bold leading-relaxed text-left">
                                                 {resource.description}
                                             </p>
                                         </div>
-                                        <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1"></span>
                                     </div>
                                 </CardContent>
                               </Card>
