@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -117,13 +116,6 @@ export function StudyResources() {
                                                 className="object-contain"
                                             />
                                         </div>
-                                    </div>
-                                    
-                                    <div className={cn(
-                                        "inline-flex items-center px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-3 shadow-md border-none",
-                                        resource.color
-                                    )}>
-                                        {resource.category}
                                     </div>
                                     
                                     <h3 className="font-extrabold text-base tracking-tight mb-2 line-clamp-1">
