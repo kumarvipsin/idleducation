@@ -127,7 +127,7 @@ export function StudyResources() {
                                     <div className="relative h-24 w-full">
                                         <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                                         <ScrollArea className="h-full w-full px-2">
-                                            <p className="text-xs text-muted-foreground font-bold italic leading-relaxed">
+                                            <p className="text-xs text-muted-foreground font-bold leading-relaxed">
                                                 {resource.description}
                                             </p>
                                         </ScrollArea>
