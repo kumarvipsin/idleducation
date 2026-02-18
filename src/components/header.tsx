@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -294,6 +295,8 @@ export function Header() {
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-primary text-white", description: "Have questions? Send us an enquiry." },
   ];
 
+  const navItemClass = "relative h-full flex items-center h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary data-[active=true]:text-primary rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100 data-[active=true]:after:scale-x-100";
+
   const renderAuthSection = () => {
     if (loading) return <Skeleton className="h-10 w-10 rounded-full" />;
 
@@ -406,20 +409,20 @@ export function Header() {
                         {!isIdlFoundationPage ? (
                           <>
                             <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'explore'} className={navItemClass}>ALL COURSES</Button>
                             </div>
                             <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'apply'} className={navItemClass}>APPLY FOR</Button>
                             </div>
                              <div className="h-full flex items-center">
-                              <Button asChild variant="ghost" className="h-auto px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
+                              <Button asChild variant="ghost" className={navItemClass}>
                                       <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                           <ShoppingCart className="h-4 w-4" /><span>STORE</span>
                                       </Link>
                                   </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className={navItemClass}>MORE</Button>
                             </div>
                           </>
                         ) : (
