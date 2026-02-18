@@ -106,7 +106,7 @@ export function StudyResources() {
                       <div className="p-1 h-full">
                           <Link href={resource.href} className="block h-full group">
                               <Card className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border-muted-foreground/10">
-                                <CardContent className="p-4 flex flex-col text-center items-center">
+                                <CardContent className="p-4 flex flex-col text-left items-start">
                                     <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden bg-primary/5 p-8 flex items-center justify-center">
                                         <div className="relative w-full h-full">
                                             <Image
@@ -133,11 +133,11 @@ export function StudyResources() {
                                     <div className="relative h-24 w-full">
                                         <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                                         <div className="h-full w-full px-2 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-                                            <p className="text-xs text-muted-foreground font-bold leading-relaxed">
+                                            <p className="text-xs text-muted-foreground font-bold leading-relaxed text-left">
                                                 {resource.description}
                                             </p>
                                         </div>
-                                        <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1">”</span>
+                                        <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1"></span>
                                     </div>
                                 </CardContent>
                               </Card>
