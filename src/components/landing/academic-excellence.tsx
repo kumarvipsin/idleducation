@@ -52,9 +52,6 @@ export function AcademicExcellence() {
     <section className="w-full py-10 md:py-16 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-8">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest">
-            Academic Success
-          </div>
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
             Excellence{' '}
             <span className="relative inline-block">
