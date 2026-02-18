@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import Autoplay from "embla-carousel-autoplay";
 import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -38,11 +37,11 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               <p className="text-[10px] text-primary font-bold mb-4 uppercase tracking-tight">{testimonial.achievement}</p>
               <div className="relative h-24 w-full">
                   <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
-                  <ScrollArea className="h-full w-full px-2">
+                  <div className="h-full w-full px-2 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                       <blockquote className="text-xs text-muted-foreground font-bold leading-relaxed text-left">
                       {testimonial.testimonial}
                       </blockquote>
-                  </ScrollArea>
+                  </div>
                   <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1">”</span>
               </div>
           </CardContent>

@@ -51,7 +51,7 @@ export function AcademicExcellence() {
   return (
     <section className="w-full py-10 md:py-16 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-8">
-        <div className="text-center space-y-3">
+        <div className="text-left space-y-3">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
             Excellence{' '}
             <span className="relative inline-block">
@@ -63,7 +63,7 @@ export function AcademicExcellence() {
               </div>
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-bold">
+          <p className="text-sm text-muted-foreground max-w-2xl font-bold">
             Celebrating consistent hard work and outstanding student achievements.
           </p>
         </div>
