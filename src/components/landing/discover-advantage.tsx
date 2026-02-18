@@ -15,7 +15,7 @@ export function DiscoverAdvantage() {
               <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-white leading-tight">
                 Discover the <span className="text-orange-500">IDL Advantage</span>
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground font-bold">
                 Download the brochure to explore our programs, academic approach, and student
                 support in detail.
               </p>
