@@ -490,7 +490,7 @@ export function Header() {
                                                     <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
                                                         <div className={cn("p-2.5 rounded-full mt-0.5 shadow-sm shrink-0", colorClasses)}>{icon}</div>
                                                         <div className="space-y-0.5">
-                                                            <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                            <p className="font-extrabold text-[13px] text-foreground leading-tight">{label.toUpperCase()}</p>
                                                             <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                         </div>
                                                     </Link>
@@ -620,7 +620,7 @@ export function Header() {
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
           <div className="pt-6 pb-8">
-            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name, colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
+            {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name.toUpperCase(), colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} />}
             {activeMenu === 'more' && (
                 <div className="container mx-auto px-4 md:px-6">
