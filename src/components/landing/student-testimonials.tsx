@@ -18,7 +18,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       <Card
         className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border-muted-foreground/10"
       >
-          <CardContent className="p-4 flex flex-col text-center items-center">
+          <CardContent className="p-4 flex flex-col text-left items-start">
               <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden group cursor-pointer border-4 border-primary/5">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
@@ -39,7 +39,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               <div className="relative h-24 w-full">
                   <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
                   <ScrollArea className="h-full w-full px-2">
-                      <blockquote className="text-xs text-muted-foreground font-bold leading-relaxed">
+                      <blockquote className="text-xs text-muted-foreground font-bold leading-relaxed text-left">
                       {testimonial.testimonial}
                       </blockquote>
                   </ScrollArea>
