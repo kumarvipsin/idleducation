@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -291,7 +290,7 @@ export function Header() {
   const applyForLinks = [
       { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-primary text-white", description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-primary text-white", description: "Help us improve." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, description: "Help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-primary text-white", description: "Have questions? Send us an enquiry." },
   ];
 
@@ -420,20 +419,20 @@ export function Header() {
                         {!isIdlFoundationPage ? (
                           <>
                             <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'explore'} className="h-auto py-2 px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">ALL COURSES</Button>
                             </div>
                             <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
+                              <Button variant="ghost" data-active={activeMenu === 'apply'} className="h-auto py-2 px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">APPLY FOR</Button>
                             </div>
                              <div className="h-full flex items-center">
-                              <Button asChild variant="ghost" className="h-auto px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
+                              <Button asChild variant="ghost" className="h-auto px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary rounded-md uppercase">
                                       <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
                                           <ShoppingCart className="h-4 w-4" /><span className="text-[11px]">STORE</span>
                                       </Link>
                                   </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm font-extrabold tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
+                                <Button variant="ghost" data-active={activeMenu === 'more'} className="h-auto py-2 px-3 text-sm tracking-tight text-foreground hover:bg-primary/5 hover:text-primary data-[active=true]:bg-primary/5 data-[active=true]:text-primary rounded-md uppercase">MORE</Button>
                             </div>
                           </>
                         ) : (
