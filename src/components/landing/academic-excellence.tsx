@@ -53,16 +53,18 @@ export function AcademicExcellence() {
   return (
     <section className="w-full py-12 md:py-20 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-8">
-        <div className="space-y-4 text-left">
-            <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-                    <Award className="w-5 h-5 text-white" />
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div className="space-y-4 text-left">
+                <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+                        <Award className="w-5 h-5 text-white" />
+                    </div>
+                    <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">Academic Results</h2>
                 </div>
-                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">Academic Results</h2>
+                <p className="text-sm text-muted-foreground font-bold max-w-xl">
+                    Celebrating the hard work and exceptional milestones that turn academic dreams into reality.
+                </p>
             </div>
-            <p className="text-sm text-muted-foreground font-bold max-w-xl">
-                Celebrating the hard work and exceptional milestones that turn academic dreams into reality.
-            </p>
         </div>
       </div>
 
@@ -104,7 +106,7 @@ export function AcademicExcellence() {
                 align: 'start',
                 dragFree: true
             }}
-            plugins={[Autoplay({ delay: 3000, stopOnInteraction: false })]}
+            plugins={[Autoplay({ delay: 2000, stopOnInteraction: false })]}
             className="w-full"
           >
             <CarouselContent>

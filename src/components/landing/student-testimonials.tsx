@@ -109,7 +109,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
                               <Star className="w-5 h-5 text-white fill-current" />
                           </div>
-                          <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">What our students &amp; parents say</h2>
+                          <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">What our students & parents say</h2>
                       </div>
                       <p className="text-sm text-muted-foreground font-bold max-w-xl">
                          Hear firsthand how IDL Education is shaping futures and building confidence through personalized learning.
@@ -141,12 +141,12 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       setApi={setApi}
                       opts={{
                           align: "start",
-                          loop: (testimonials || []).length > 3,
+                          loop: true,
                           dragFree: true,
                       }}
                       plugins={[
                           Autoplay({
-                              delay: 3500,
+                              delay: 2000,
                               stopOnInteraction: false,
                           }),
                       ]}
