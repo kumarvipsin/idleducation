@@ -33,16 +33,16 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     </DialogTrigger>
                   )}
               </div>
-              <h3 className="font-extrabold text-base tracking-tight">{testimonial.name}</h3>
-              <p className="text-[10px] text-primary font-bold mb-4 uppercase tracking-tight">{testimonial.achievement}</p>
+              <h3 className="font-extrabold text-base tracking-tight mb-1">{testimonial.name}</h3>
+              <div className="inline-block px-2 py-0.5 rounded-md bg-primary/10 text-primary text-[9px] font-black uppercase tracking-wider mb-4">
+                  {testimonial.achievement}
+              </div>
               <div className="relative h-24 w-full">
-                  <span className="absolute top-0 left-0 text-4xl text-primary/10 font-serif -translate-y-2 -translate-x-1">“</span>
-                  <div className="h-full w-full px-2 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                  <div className="h-full w-full overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                       <blockquote className="text-xs text-muted-foreground font-bold leading-relaxed text-left">
                       {testimonial.testimonial}
                       </blockquote>
                   </div>
-                  <span className="absolute bottom-0 right-0 text-4xl text-primary/10 font-serif translate-y-4 translate-x-1">”</span>
               </div>
           </CardContent>
       </Card>
