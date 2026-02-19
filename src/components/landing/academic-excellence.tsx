@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -53,7 +54,7 @@ export function AcademicExcellence() {
       <div className="container mx-auto px-4 md:px-6 mb-8">
         <div className="text-center space-y-3">
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
-            Excellence{' '}
+            Academic{' '}
             <span className="relative inline-block">
               <span className="relative z-10">Results</span>
               <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
@@ -63,7 +64,7 @@ export function AcademicExcellence() {
               </div>
             </span>
           </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl font-bold mx-auto">
+          <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-bold">
             Celebrating consistent hard work and outstanding student achievements.
           </p>
         </div>
