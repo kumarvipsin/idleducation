@@ -123,7 +123,7 @@ export function StudyResources() {
                                     </h3>
                                     
                                     <div className="relative h-24 w-full">
-                                        <div className="h-full w-full px-2 overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                                        <div className="h-full w-full overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
                                             <p className="text-xs text-muted-foreground font-bold leading-relaxed text-left">
                                                 {resource.description}
                                             </p>
