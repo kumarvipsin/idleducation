@@ -4,48 +4,78 @@ import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { BookCheck, ArrowRight, HelpCircle } from 'lucide-react';
+import { BookCheck, ArrowRight, HelpCircle, Sigma, Lightbulb, Globe, Type, Plus, Minus, X, Divide } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
-import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { usePathname, useRouter } from 'next/navigation';
 
 type Subject = {
   name: string;
   href: string;
-  imageUrl: string;
-  imageHint: string;
   className: string;
+  subjectKey: string;
 };
 
-const newImageUrl = "https://ezeenotes.in/wp-content/uploads/2024/03/Book-Mockups-2-1-e1710253086447-1024x802.png";
-
-const subjectImageMap: { [key: string]: { url: string; hint: string } } = {
-  maths: { url: newImageUrl, hint: "math abstract" },
-  science: { url: newImageUrl, hint: "science abstract" },
-  social: { url: newImageUrl, hint: "social studies" },
-  english: { url: newImageUrl, hint: "english literature" },
-  physics: { url: newImageUrl, hint: "physics abstract" },
-  chemistry: { url: newImageUrl, hint: "chemistry abstract" },
-  biology: { url: newImageUrl, hint: "biology abstract" },
-  history: { url: newImageUrl, hint: "history abstract" },
-  geography: { url: newImageUrl, hint: "geography abstract" },
-  'political-science': { url: newImageUrl, hint: "political science" },
-  economics: { url: newImageUrl, hint: "economics abstract" },
-  default: { url: newImageUrl, hint: "books stack" },
+const subjectThemes: { [key: string]: { 
+  bg: string; 
+  text: string; 
+  spine: string; 
+  iconColor: string;
+  icon: React.ReactNode;
+}} = {
+  maths: { 
+    bg: "bg-[#FFF7D6]", 
+    text: "text-[#A16207]", 
+    spine: "bg-[#FDE68A]", 
+    iconColor: "text-[#A16207]/10",
+    icon: (
+      <div className="grid grid-cols-2 gap-1 opacity-20">
+        <Plus className="w-8 h-8" strokeWidth={3} />
+        <Minus className="w-8 h-8" strokeWidth={3} />
+        <X className="w-8 h-8" strokeWidth={3} />
+        <Divide className="w-8 h-8" strokeWidth={3} />
+      </div>
+    )
+  },
+  science: { 
+    bg: "bg-[#E0F2FE]", 
+    text: "text-[#0369A1]", 
+    spine: "bg-[#BAE6FD]", 
+    iconColor: "text-[#0369A1]/10",
+    icon: <Lightbulb className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
+  },
+  social: { 
+    bg: "bg-[#FEE2E2]", 
+    text: "text-[#9F1239]", 
+    spine: "bg-[#FECACA]", 
+    iconColor: "text-[#9F1239]/10",
+    icon: <Globe className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
+  },
+  english: { 
+    bg: "bg-[#F5F3FF]", 
+    text: "text-[#5B21B6]", 
+    spine: "bg-[#DDD6FE]", 
+    iconColor: "text-[#5B21B6]/10",
+    icon: <div className="text-7xl font-black opacity-10 select-none">A</div> 
+  },
+  default: { 
+    bg: "bg-slate-50", 
+    text: "text-slate-700", 
+    spine: "bg-slate-200", 
+    iconColor: "text-slate-400/10",
+    icon: <BookCheck className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
+  },
 };
 
-const getImage = (key: string) => {
+const getTheme = (key: string) => {
     const lowerKey = key.toLowerCase();
-    for (const subjectKey in subjectImageMap) {
-        if (lowerKey.includes(subjectKey)) {
-            return subjectImageMap[subjectKey];
-        }
-    }
-    return subjectImageMap.default;
+    if (lowerKey.includes('math')) return subjectThemes.maths;
+    if (lowerKey.includes('science') && !lowerKey.includes('social')) return subjectThemes.science;
+    if (lowerKey.includes('social') || lowerKey.includes('history') || lowerKey.includes('geography') || lowerKey.includes('pol')) return subjectThemes.social;
+    if (lowerKey.includes('english')) return subjectThemes.english;
+    return subjectThemes.default;
 };
 
 function NcertSolutionsPageContent() {
@@ -65,8 +95,7 @@ function NcertSolutionsPageContent() {
           acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
             name: subjectData.name,
             href: `/resources/ncert-solutions/${classDoc.id}/${subjectKey}`,
-            imageUrl: getImage(subjectKey).url,
-            imageHint: getImage(subjectKey).hint,
+            subjectKey: subjectKey,
             className: className,
           }));
           return acc;
@@ -98,9 +127,9 @@ function NcertSolutionsPageContent() {
   const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
         {[...Array(12)].map((_, i) => (
-            <Skeleton key={i} className="h-[280px] w-full rounded-lg" />
+            <Skeleton key={i} className="h-[240px] w-full rounded-2xl" />
         ))}
     </div>
   );
@@ -127,10 +156,10 @@ function NcertSolutionsPageContent() {
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
-                    className={`py-2 px-6 text-sm font-medium transition-colors
+                    className={`py-2 px-6 text-sm font-bold transition-all duration-300 rounded-full
                     ${selectedClass === className 
-                        ? 'border-b-2 border-primary text-primary' 
-                        : 'text-muted-foreground hover:text-foreground'}`}
+                        ? 'bg-primary text-white shadow-md' 
+                        : 'text-muted-foreground hover:bg-muted'}`}
                 >
                     {className}
                 </button>
@@ -144,37 +173,53 @@ function NcertSolutionsPageContent() {
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 animate-fade-in-up">
+              <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
-                  subjects.map((subject: Subject, index: number) => (
-                      <Link key={`${subject.href}-${index}`} href={subject.href} className="block h-full group">
-                        <Card
-                          className="flex flex-col rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-card h-full"
-                          style={{ animationDelay: `${index * 50}ms` }}
-                        >
-                          <div className="relative aspect-[4/3] w-full">
-                               <Image
-                                    src={subject.imageUrl}
-                                    alt={subject.name}
-                                    data-ai-hint={subject.imageHint}
-                                    fill
-                                    className="object-cover"
-                                />
-                            </div>
-                          <CardContent className="p-4 flex-grow flex flex-col">
-                            <div className="flex justify-between items-start">
-                              <h3 className="font-semibold text-base text-primary mb-1">{subject.name}</h3>
-                              <Badge variant="secondary" className="text-xs">{subject.className}</Badge>
-                            </div>
-                            <p className="text-xs text-muted-foreground mb-3 flex-grow">Solutions for {subject.name}.</p>
-                            <Button variant="outline" className="w-full rounded-full bg-white hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 h-8 text-xs">VIEW MORE</Button>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                  ))
+                  subjects.map((subject: Subject, index: number) => {
+                      const theme = getTheme(subject.subjectKey);
+                      return (
+                        <Link key={`${subject.href}-${index}`} href={subject.href} className="block group h-full">
+                            <Card
+                            className={cn(
+                                "relative flex flex-col h-[240px] w-full rounded-2xl shadow-sm border-none transition-all duration-500 overflow-hidden",
+                                "group-hover:shadow-xl group-hover:-translate-y-2 active:scale-95",
+                                theme.bg
+                            )}
+                            style={{ animationDelay: `${index * 50}ms` }}
+                            >
+                                {/* Book Spine */}
+                                <div className={cn("absolute left-0 top-0 bottom-0 w-3 md:w-4 opacity-40", theme.spine)} />
+                                <div className={cn("absolute left-3 md:left-4 top-0 bottom-0 w-[1px] opacity-10", "bg-black")} />
+
+                                <CardContent className="p-6 md:p-8 flex flex-col h-full relative z-10">
+                                    {/* Subject Name */}
+                                    <div className="flex flex-col items-start text-left">
+                                        <h3 className={cn("text-xl md:text-2xl font-black tracking-tight leading-tight", theme.text)}>
+                                            {subject.name}
+                                        </h3>
+                                        <Badge variant="outline" className={cn("mt-2 border-current opacity-60 text-[10px] font-black uppercase tracking-widest px-2", theme.text)}>
+                                            {subject.className}
+                                        </Badge>
+                                    </div>
+
+                                    {/* Background Icon Watermark */}
+                                    <div className="absolute bottom-4 right-4 transform transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6">
+                                        {theme.icon}
+                                    </div>
+                                    
+                                    <div className="mt-auto self-end">
+                                        <div className={cn("p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0", theme.bg, "shadow-sm border border-black/5")}>
+                                            <ArrowRight className={cn("w-4 h-4", theme.text)} />
+                                        </div>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </Link>
+                      );
+                  })
                 ) : (
                   <div className="col-span-full text-center py-12">
-                        <Card className="p-8 inline-block bg-background/50">
+                        <Card className="p-8 inline-block bg-background/50 border-dashed">
                             <HelpCircle className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
                             <p className="text-muted-foreground font-semibold">No solutions found for this class.</p>
                             <p className="text-sm text-muted-foreground">Please select another class to see available solutions.</p>
@@ -201,7 +246,7 @@ export default function NcertSolutionsPage() {
                     {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                  {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[250px] w-full rounded-lg" />)}
+                  {[...Array(10)].map((_, i) => <Skeleton key={i} className="h-[240px] w-full rounded-2xl" />)}
                 </div>
               </div>
             </div>
