@@ -65,7 +65,7 @@ export function AcademicExcellence() {
             </span>
           </h2>
           <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-bold">
-            Celebrating consistent hard work and outstanding student achievements.
+            Our students consistently secure top national ranks, a testament to their dedication and our comprehensive, result-oriented teaching methodologies.
           </p>
         </div>
       </div>
