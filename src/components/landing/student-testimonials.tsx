@@ -111,7 +111,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                           <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">What our students &amp; parents say</h2>
                       </div>
                       <p className="text-sm text-muted-foreground font-bold max-w-xl">
-                         Uncover the Journey to Rise and Shine
+                         Hear firsthand how IDL Education is shaping futures and building confidence through personalized learning.
                       </p>
                   </div>
                   
