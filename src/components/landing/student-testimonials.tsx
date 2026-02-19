@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
@@ -104,9 +105,9 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
           <div className="flex flex-col gap-12">
               <div className="text-center space-y-4">
                   <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
-                      What our students & parents{' '}
+                      IDL{' '}
                       <span className="relative inline-block">
-                          <span className="relative z-10">say</span>
+                          <span className="relative z-10">Stars</span>
                           <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
                               <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
                                   <path d="M0,15 Q50,5 100,15" />
