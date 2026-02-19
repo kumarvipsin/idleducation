@@ -45,12 +45,12 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </div>
         </button>
         </DialogTrigger>
-        <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none shadow-2xl">
+        <DialogContent className="max-w-[380px] p-0 overflow-hidden rounded-[2.5rem] border-none shadow-2xl bg-black">
             <DialogHeader className="sr-only">
                 <DialogTitle>{testimonial.studentName} Testimonial</DialogTitle>
                 <DialogDescription>Video testimonial from a top performing student.</DialogDescription>
             </DialogHeader>
-            <div className="aspect-video bg-black">
+            <div className="aspect-[9/16] w-full bg-black">
               <iframe
                   className="w-full h-full"
                   src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0&modestbranding=1`}
