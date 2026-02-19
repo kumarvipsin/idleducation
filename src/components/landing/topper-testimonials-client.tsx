@@ -105,7 +105,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         </span>
                     </h2>
                     <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
-                        What our high achievers & parents say about us
+                        Discover the inspiring journeys and success stories shared by our top-ranking students and their families.
                     </p>
                 </div>
                 
