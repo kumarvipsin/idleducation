@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -38,9 +39,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
                 <PlayCircle className="w-16 h-16 text-white drop-shadow-[0_0_20px_rgba(0,0,0,0.8)]" />
             </div>
             
-            <div className="absolute bottom-0 left-0 right-0 p-4 text-left space-y-1">
-              <p className="font-black text-sm text-white uppercase tracking-tight drop-shadow-md line-clamp-1">{testimonial.studentName}</p>
-              <p className="text-[10px] text-white/80 font-bold uppercase tracking-widest drop-shadow-md line-clamp-1">{testimonial.studentClass}</p>
+            <div className="absolute bottom-0 left-0 right-0 p-3 text-left space-y-0.5">
+              <p className="font-black text-[11px] text-white uppercase tracking-tight drop-shadow-md line-clamp-1">{testimonial.studentName}</p>
+              <p className="text-[8px] text-white/80 font-bold uppercase tracking-widest drop-shadow-md line-clamp-1">{testimonial.studentClass}</p>
             </div>
         </button>
         </DialogTrigger>
