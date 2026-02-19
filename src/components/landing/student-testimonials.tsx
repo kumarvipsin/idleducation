@@ -16,7 +16,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   return (
     <Dialog>
       <Card
-        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border-muted-foreground/10"
+        className="h-full flex flex-col shadow-none border border-muted-foreground/10 transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden"
       >
           <CardContent className="p-4 flex flex-col text-left items-start">
               <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden group cursor-pointer border-4 border-primary/5">
