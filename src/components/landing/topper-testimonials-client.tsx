@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -91,21 +92,52 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   return (
     <section className="w-full py-12 md:py-20 bg-white dark:bg-background">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col gap-8">
-                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div className="space-y-4 text-left">
-                        <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center shadow-lg shadow-red-600/20">
-                                <PlayCircle className="w-5 h-5 text-white fill-current" />
+            <div className="flex flex-col gap-12">
+                <div className="text-center space-y-4">
+                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                        Topper's{' '}
+                        <span className="relative inline-block">
+                            <span className="relative z-10">Talk</span>
+                            <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                    <path d="M0,15 Q50,5 100,15" />
+                                </svg>
                             </div>
-                            <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">Topper's Talk</h2>
-                        </div>
-                        <p className="text-sm text-muted-foreground font-bold max-w-xl">
-                           Hear directly from our high achievers and parents about their journey to academic excellence.
-                        </p>
-                    </div>
+                        </span>
+                    </h2>
+                    <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
+                        What our high achievers & parents say about us
+                    </p>
+                </div>
+                
+                <div className="relative">
+                    <Carousel
+                        setApi={setApi}
+                        opts={{
+                            align: "start",
+                            loop: true,
+                            dragFree: true,
+                        }}
+                        plugins={[
+                            Autoplay({
+                                delay: 2000,
+                                stopOnInteraction: false,
+                            }),
+                        ]}
+                        className="w-full"
+                    >
+                        <CarouselContent className="-ml-4">
+                            {testimonials.map((testimonial, index) => (
+                                <CarouselItem key={index} className="pl-4 basis-[47.5%] sm:basis-[45%] md:basis-[30%] lg:basis-[20%]">
+                                    <div className="p-1">
+                                        <TestimonialCard testimonial={testimonial} />
+                                    </div>
+                                </CarouselItem>
+                            ))}
+                        </CarouselContent>
+                    </Carousel>
                     
-                    <div className="hidden md:flex gap-2">
+                    <div className="flex justify-center gap-2 mt-8">
                         {testimonials.map((_, i) => (
                             <button
                                 key={i}
@@ -118,45 +150,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                             />
                         ))}
                     </div>
-                </div>
-                
-                <Carousel
-                    setApi={setApi}
-                    opts={{
-                        align: "start",
-                        loop: true,
-                        dragFree: true,
-                    }}
-                    plugins={[
-                        Autoplay({
-                            delay: 2000,
-                            stopOnInteraction: false,
-                        }),
-                    ]}
-                    className="w-full"
-                >
-                    <CarouselContent className="-ml-4">
-                        {testimonials.map((testimonial, index) => (
-                            <CarouselItem key={index} className="pl-4 basis-[47.5%] sm:basis-[45%] md:basis-[30%] lg:basis-[20%]">
-                                <div className="p-1">
-                                    <TestimonialCard testimonial={testimonial} />
-                                </div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </Carousel>
-                
-                <div className="flex justify-center gap-1.5 mt-2 md:hidden">
-                    {testimonials.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => scrollTo(i)}
-                            className={cn(
-                                "h-1 w-1 rounded-full transition-all duration-300",
-                                current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
-                            )}
-                        />
-                    ))}
                 </div>
             </div>
         </div>
