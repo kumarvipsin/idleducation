@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
@@ -141,11 +142,12 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       opts={{
                           align: "start",
                           loop: (testimonials || []).length > 3,
+                          dragFree: true,
                       }}
                       plugins={[
                           Autoplay({
-                              delay: 5000,
-                              stopOnInteraction: true,
+                              delay: 3500,
+                              stopOnInteraction: false,
                           }),
                       ]}
                       className="w-full"

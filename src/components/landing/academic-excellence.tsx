@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -98,8 +99,12 @@ export function AcademicExcellence() {
         ) : (
           <Carousel
             setApi={setApi}
-            opts={{ loop: true, align: 'start' }}
-            plugins={[Autoplay({ delay: 4000, stopOnInteraction: false })]}
+            opts={{ 
+                loop: true, 
+                align: 'start',
+                dragFree: true
+            }}
+            plugins={[Autoplay({ delay: 3000, stopOnInteraction: false })]}
             className="w-full"
           >
             <CarouselContent>

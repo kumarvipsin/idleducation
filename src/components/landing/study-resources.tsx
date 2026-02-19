@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -103,11 +104,12 @@ export function StudyResources() {
                 opts={{
                     align: "start",
                     loop: true,
+                    dragFree: true,
                 }}
                 plugins={[
                     Autoplay({
-                        delay: 5000,
-                        stopOnInteraction: true,
+                        delay: 3500,
+                        stopOnInteraction: false,
                     }),
                 ]}
                 className="w-full"
