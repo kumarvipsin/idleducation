@@ -117,7 +117,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                   </div>
                   
                   <div className="hidden md:flex gap-2">
-                      {testimonials && testimonials.map((_, i) => (
+                      {(testimonials || []).map((_, i) => (
                           <button
                               key={i}
                               onClick={() => scrollTo(i)}

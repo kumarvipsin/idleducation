@@ -18,7 +18,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
       <DialogTrigger asChild>
         <button
           onClick={() => setIsPlaying(true)}
-          className="relative aspect-[9/16] w-full group focus:outline-none rounded-2xl overflow-hidden border border-muted-foreground/10 bg-black transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none"
+          className="relative aspect-[9/16] w-full group focus:outline-none rounded-2xl overflow-hidden bg-black transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none border-none"
         >
             <Image
                 src={`https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`}
