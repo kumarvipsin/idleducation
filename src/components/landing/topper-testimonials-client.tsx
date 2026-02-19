@@ -89,7 +89,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full py-12 md:py-20 bg-white dark:bg-background">
+    <section className="w-full pt-6 md:pt-10 pb-12 md:pb-20 bg-white dark:bg-background">
         <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col gap-12">
                 <div className="text-center space-y-4">
