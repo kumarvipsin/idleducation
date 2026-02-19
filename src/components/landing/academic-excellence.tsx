@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -10,6 +9,7 @@ import { Skeleton } from '../ui/skeleton';
 import { GcsImage } from '../gcs-image';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
+import { Award } from 'lucide-react';
 
 export function AcademicExcellence() {
   const [results, setResults] = useState<TExcellenceResult[]>([]);
@@ -50,29 +50,24 @@ export function AcademicExcellence() {
   };
 
   return (
-    <section className="w-full py-10 md:py-16 bg-white dark:bg-background overflow-hidden">
+    <section className="w-full py-12 md:py-20 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-8">
-        <div className="text-center space-y-3">
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
-            Academic{' '}
-            <span className="relative inline-block">
-              <span className="relative z-10">Results</span>
-              <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                    <path d="M0,15 Q50,5 100,15" />
-                </svg>
-              </div>
-            </span>
-          </h2>
-          <p className="text-sm text-muted-foreground max-w-2xl mx-auto font-bold">
-            Celebrating the consistent hard work and exceptional milestones that turn academic dreams into reality.
-          </p>
+        <div className="space-y-4 text-left">
+            <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+                    <Award className="w-5 h-5 text-white" />
+                </div>
+                <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">Academic Results</h2>
+            </div>
+            <p className="text-sm text-muted-foreground font-bold max-w-xl">
+                Celebrating the hard work and exceptional milestones that turn academic dreams into reality.
+            </p>
         </div>
       </div>
 
       <div className="mb-10">
         <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-center items-center gap-2 px-4 whitespace-nowrap">
+          <div className="flex justify-center md:justify-start items-center gap-2 px-4 md:px-6 whitespace-nowrap">
             {loading ? (
               [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (

@@ -9,7 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "../gcs-image";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
-import { PlayCircle } from "lucide-react";
+import { PlayCircle, Star } from "lucide-react";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   return (
@@ -99,70 +99,85 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
 
 
   return (
-    <section id="testimonials" className="w-full py-6 md:py-10 bg-white dark:bg-background">
-      <div className="text-center mb-8 px-4">
-        <h2 className="text-2xl md:text-3xl font-extrabold tracking-tight text-gray-800 dark:text-white">
-          IDL{' '}
-          <span className="relative inline-block">
-            <span className="relative z-10">Stars</span>
-            <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                    <path d="M0,15 Q50,5 100,15" />
-                </svg>
-            </div>
-          </span>
-        </h2>
-        <p className="text-sm text-muted-foreground mt-2 max-w-2xl mx-auto font-bold">
-          Uncover the Journey to Rise and Shine
-        </p>
-      </div>
+    <section id="testimonials" className="w-full py-12 md:py-20 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
-          {loading ? (
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-2xl" />)}
-             </div>
-          ) : testimonials && testimonials.length > 0 ? (
-            <>
-              <Carousel
-                  setApi={setApi}
-                  opts={{
-                      align: "start",
-                      loop: (testimonials || []).length > 3,
-                  }}
-                  plugins={[
-                      Autoplay({
-                          delay: 5000,
-                          stopOnInteraction: true,
-                      }),
-                  ]}
-                  className="w-full"
-              >
-                  <CarouselContent className="-ml-4">
-                      {testimonials.map((testimonial, index) => (
-                          <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
-                              <div className="p-1 h-full">
-                                  <TestimonialCard testimonial={testimonial} />
-                              </div>
-                          </CarouselItem>
+          <div className="flex flex-col gap-8">
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                  <div className="space-y-4 text-left">
+                      <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
+                              <Star className="w-5 h-5 text-white fill-current" />
+                          </div>
+                          <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">IDL Stars</h2>
+                      </div>
+                      <p className="text-sm text-muted-foreground font-bold max-w-xl">
+                         Uncover the Journey to Rise and Shine
+                      </p>
+                  </div>
+                  
+                  <div className="hidden md:flex gap-2">
+                      {testimonials && testimonials.map((_, i) => (
+                          <button
+                              key={i}
+                              onClick={() => scrollTo(i)}
+                              className={cn(
+                                  "h-1.5 rounded-full transition-all duration-300",
+                                  current === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
+                              )}
+                              aria-label={`Go to slide ${i + 1}`}
+                          />
                       ))}
-                  </CarouselContent>
-              </Carousel>
-              <div className="flex justify-center gap-1.5 mt-6">
-                  {testimonials.map((_, i) => (
-                      <button
-                          key={i}
-                          onClick={() => scrollTo(i)}
-                          className={cn(
-                              "h-1 w-1 rounded-full transition-all duration-300",
-                              current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
-                          )}
-                      />
-                  ))}
+                  </div>
               </div>
-            </>
-          ) : (
-            <p className="text-center text-xs text-muted-foreground italic font-bold">New success stories coming soon!</p>
-          )}
+
+              {loading ? (
+                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-2xl" />)}
+                 </div>
+              ) : testimonials && testimonials.length > 0 ? (
+                <>
+                  <Carousel
+                      setApi={setApi}
+                      opts={{
+                          align: "start",
+                          loop: (testimonials || []).length > 3,
+                      }}
+                      plugins={[
+                          Autoplay({
+                              delay: 5000,
+                              stopOnInteraction: true,
+                          }),
+                      ]}
+                      className="w-full"
+                  >
+                      <CarouselContent className="-ml-4">
+                          {testimonials.map((testimonial, index) => (
+                              <CarouselItem key={index} className="pl-4 basis-[80%] md:basis-1/2 lg:basis-1/3">
+                                  <div className="p-1 h-full">
+                                      <TestimonialCard testimonial={testimonial} />
+                                  </div>
+                              </CarouselItem>
+                          ))}
+                      </CarouselContent>
+                  </Carousel>
+                  
+                  <div className="flex justify-center gap-1.5 mt-2 md:hidden">
+                      {testimonials.map((_, i) => (
+                          <button
+                              key={i}
+                              onClick={() => scrollTo(i)}
+                              className={cn(
+                                  "h-1 w-1 rounded-full transition-all duration-300",
+                                  current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
+                              )}
+                          />
+                      ))}
+                  </div>
+                </>
+              ) : (
+                <p className="text-center text-xs text-muted-foreground italic font-bold">New success stories coming soon!</p>
+              )}
+          </div>
         </div>
     </section>
   );
