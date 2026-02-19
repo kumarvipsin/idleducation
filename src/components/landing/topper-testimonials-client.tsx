@@ -138,7 +138,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                 >
                     <CarouselContent className="-ml-4">
                         {testimonials.map((testimonial, index) => (
-                            <CarouselItem key={index} className="pl-4 basis-[65%] sm:basis-[45%] md:basis-[30%] lg:basis-[20%]">
+                            <CarouselItem key={index} className="pl-4 basis-[47.5%] sm:basis-[45%] md:basis-[30%] lg:basis-[20%]">
                                 <div className="p-1">
                                     <TestimonialCard testimonial={testimonial} />
                                 </div>
