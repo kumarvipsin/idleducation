@@ -18,7 +18,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
       <DialogTrigger asChild>
         <button
           onClick={() => setIsPlaying(true)}
-          className="relative aspect-[9/16] w-full group focus:outline-none rounded-xl overflow-hidden border border-muted-foreground/10 bg-black transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none"
+          className="relative aspect-[9/16] w-full group focus:outline-none rounded-2xl overflow-hidden border border-muted-foreground/10 bg-black transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] shadow-none"
         >
             <Image
                 src={`https://img.youtube.com/vi/${testimonial.videoId}/maxresdefault.jpg`}
@@ -38,8 +38,8 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </div>
             
             <div className="absolute bottom-0 left-0 right-0 p-4 text-left space-y-0.5">
-              <p className="font-black text-xs text-white uppercase tracking-tight drop-shadow-md line-clamp-1">{testimonial.studentName}</p>
-              <p className="text-[9px] text-white/80 font-bold uppercase tracking-widest drop-shadow-md line-clamp-1">{testimonial.studentClass}</p>
+              <p className="font-black text-[10px] sm:text-xs text-white uppercase tracking-tight drop-shadow-md line-clamp-1">{testimonial.studentName}</p>
+              <p className="text-[8px] sm:text-[9px] text-white/80 font-bold uppercase tracking-widest drop-shadow-md line-clamp-1">{testimonial.studentClass}</p>
             </div>
         </button>
         </DialogTrigger>
@@ -94,7 +94,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
         <div className="container mx-auto px-4 md:px-6">
             <div className="flex flex-col gap-8">
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                    <div className="space-y-4">
+                    <div className="space-y-4 text-left">
                         <div className="flex items-center gap-3">
                             <div className="w-8 h-8 bg-red-600 rounded-lg flex items-center justify-center shadow-lg shadow-red-600/20">
                                 <PlayCircle className="w-5 h-5 text-white fill-current" />
@@ -125,12 +125,13 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     setApi={setApi}
                     opts={{
                         align: "start",
-                        loop: testimonials.length > 4,
+                        loop: true,
+                        dragFree: true,
                     }}
                     plugins={[
                         Autoplay({
-                            delay: 5000,
-                            stopOnInteraction: true,
+                            delay: 3500,
+                            stopOnInteraction: false,
                         }),
                     ]}
                     className="w-full"
