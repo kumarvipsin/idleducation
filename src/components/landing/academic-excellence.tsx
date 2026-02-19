@@ -67,7 +67,7 @@ export function AcademicExcellence() {
 
       <div className="mb-10">
         <div className="overflow-x-auto pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-center md:justify-start items-center gap-2 px-4 md:px-6 whitespace-nowrap">
+          <div className="flex justify-center items-center gap-2 px-4 md:px-6 whitespace-nowrap">
             {loading ? (
               [...Array(4)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (
