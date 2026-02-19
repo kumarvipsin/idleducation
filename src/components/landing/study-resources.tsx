@@ -69,33 +69,22 @@ export function StudyResources() {
   return (
     <section className="w-full py-12 md:py-20 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col gap-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div className="space-y-4 text-left">
-                    <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center shadow-lg shadow-primary/20">
-                            <BookOpen className="w-5 h-5 text-white" />
+        <div className="flex flex-col gap-12">
+            <div className="text-center space-y-4">
+                <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                    Study{' '}
+                    <span className="relative inline-block">
+                        <span className="relative z-10">Resources</span>
+                        <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                            </svg>
                         </div>
-                        <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase italic">Study Resources</h2>
-                    </div>
-                    <p className="text-sm text-muted-foreground font-bold max-w-xl">
-                        Your one-stop destination for comprehensive and effective study materials.
-                    </p>
-                </div>
-                
-                <div className="hidden md:flex gap-2">
-                    {resources.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => scrollTo(i)}
-                            className={cn(
-                                "h-1.5 rounded-full transition-all duration-300",
-                                current === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
-                            )}
-                            aria-label={`Go to slide ${i + 1}`}
-                        />
-                    ))}
-                </div>
+                    </span>
+                </h2>
+                <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
+                    Your one-stop destination for comprehensive and effective study materials.
+                </p>
             </div>
 
             <Carousel
@@ -152,15 +141,16 @@ export function StudyResources() {
                 </CarouselContent>
             </Carousel>
             
-            <div className="flex justify-center gap-1.5 mt-2 md:hidden">
+            <div className="flex justify-center gap-2 mt-8">
                 {resources.map((_, i) => (
                     <button
                         key={i}
                         onClick={() => scrollTo(i)}
                         className={cn(
-                            "h-1 w-1 rounded-full transition-all duration-300",
-                            current === i ? "w-4 bg-primary" : "bg-muted-foreground/30"
+                            "h-1.5 rounded-full transition-all duration-300",
+                            current === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
                         )}
+                        aria-label={`Go to slide ${i + 1}`}
                     />
                 ))}
             </div>
