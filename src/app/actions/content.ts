@@ -1,3 +1,4 @@
+
 // src/app/actions/content.ts
 'use server';
 import { db } from "@/lib/firebase";
@@ -531,7 +532,16 @@ export async function addTopic(
         order: isNaN(order) ? 99 : order,
     };
 
-    const pdfFields: (keyof TTopic)[] = ['pdfUrl_en', 'pdfUrl_hi', 'pdfUrl_en_demo', 'pdfUrl_en_primum', 'pdfUrl_hi_demo', 'pdfUrl_hi_primum', 'notePdfUrl_en', 'notePdfUrl_hi', 'notePdfUrl_en_demo', 'notePdfUrl_en_primum', 'notePdfUrl_hi_demo', 'notePdfUrl_hi_primum'];
+    const pdfFields: (keyof TTopic)[] = [
+        'pdfUrl_en', 
+        'pdfUrl_hi', 
+        'notePdfUrl_en', 
+        'notePdfUrl_hi', 
+        'notePdfUrl_en_demo', 
+        'notePdfUrl_en_primum', 
+        'notePdfUrl_hi_demo', 
+        'notePdfUrl_hi_primum'
+    ];
 
     for (const field of pdfFields) {
         const file = formData.get(field) as File | null;
@@ -610,7 +620,16 @@ export async function editTopic(
         const slug = generateSlug(newTopicName);
         const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
 
-        const pdfFields: (keyof TTopic)[] = ['pdfUrl_en', 'pdfUrl_hi', 'pdfUrl_en_demo', 'pdfUrl_en_primum', 'pdfUrl_hi_demo', 'pdfUrl_hi_primum', 'notePdfUrl_en', 'notePdfUrl_hi', 'notePdfUrl_en_demo', 'notePdfUrl_en_primum', 'notePdfUrl_hi_demo', 'notePdfUrl_hi_primum'];
+        const pdfFields: (keyof TTopic)[] = [
+            'pdfUrl_en', 
+            'pdfUrl_hi', 
+            'notePdfUrl_en', 
+            'notePdfUrl_hi', 
+            'notePdfUrl_en_demo', 
+            'notePdfUrl_en_primum', 
+            'notePdfUrl_hi_demo', 
+            'notePdfUrl_hi_primum'
+        ];
 
         for (const field of pdfFields) {
             const file = formData.get(field) as File | null;

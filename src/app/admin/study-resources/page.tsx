@@ -1,3 +1,4 @@
+
 'use client';
 import { useEffect, useState } from 'react';
 import { getCollection, addClass, editClass, deleteClass, addSubject, addPart, addChapter, addTopic, addSubTopic, deleteSubject, deletePart, deleteChapter, deleteTopic, deleteSubTopic, editSubject, editPart, editChapter, editTopic, editSubTopic, getSignedUrlForPdf, reorderArrayItem } from '@/app/actions';
@@ -15,7 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 // Data Structures
 interface SubTopic { name: string; pdfUrl?: string; order: number; }
-interface Topic { name: string; pdfUrl_en?: string; pdfUrl_hi?: string; pdfUrl_en_demo?: string; pdfUrl_en_primum?: string; pdfUrl_hi_demo?: string; pdfUrl_hi_primum?: string; notePdfUrl_en?: string; notePdfUrl_hi?: string; notePdfUrl_en_demo?: string; notePdfUrl_en_primum?: string; notePdfUrl_hi_demo?: string; notePdfUrl_hi_primum?: string; subTopics?: SubTopic[]; order: number; }
+interface Topic { name: string; pdfUrl_en?: string; pdfUrl_hi?: string; notePdfUrl_en?: string; notePdfUrl_hi?: string; notePdfUrl_en_demo?: string; notePdfUrl_en_primum?: string; notePdfUrl_hi_demo?: string; notePdfUrl_hi_primum?: string; subTopics?: SubTopic[]; order: number; }
 interface Chapter { name: string; pdfUrl?: string; longNotePdfUrl?: string; shortNotePdfUrl?: string; primumNotePdfUrl?: string; topics?: Topic[]; }
 interface Part { name: string; chapters: Chapter[]; order: number; }
 interface Subject { name: string; parts?: { [key: string]: Part }; chapters?: Chapter[]; order: number; }
@@ -168,10 +169,15 @@ const ContentManager = ({ collectionType, title }: { collectionType: 'notes' | '
     <div className="space-y-2">
         <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_en`} className="text-right text-xs">PDF (English)</Label><Input id={`${prefix}_en`} name={`${prefix}_en`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
         <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_hi`} className="text-right text-xs">PDF (Hindi)</Label><Input id={`${prefix}_hi`} name={`${prefix}_hi`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
-        <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_en_demo`} className="text-right text-xs">PDF (EN Demo)</Label><Input id={`${prefix}_en_demo`} name={`${prefix}_en_demo`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
-        <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_en_primum`} className="text-right text-xs">PDF (EN Premium)</Label><Input id={`${prefix}_en_primum`} name={`${prefix}_en_primum`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
-        <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_hi_demo`} className="text-right text-xs">PDF (HI Demo)</Label><Input id={`${prefix}_hi_demo`} name={`${prefix}_hi_demo`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
-        <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_hi_primum`} className="text-right text-xs">PDF (HI Premium)</Label><Input id={`${prefix}_hi_primum`} name={`${prefix}_hi_primum`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
+        {/* Only show extra demo/premium fields for Notes, not for NCERT Solutions (as requested) */}
+        {prefix === 'notePdfUrl' && (
+            <>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_en_demo`} className="text-right text-xs">PDF (EN Demo)</Label><Input id={`${prefix}_en_demo`} name={`${prefix}_en_demo`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_en_primum`} className="text-right text-xs">PDF (EN Premium)</Label><Input id={`${prefix}_en_primum`} name={`${prefix}_en_primum`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_hi_demo`} className="text-right text-xs">PDF (HI Demo)</Label><Input id={`${prefix}_hi_demo`} name={`${prefix}_hi_demo`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
+                <div className="grid grid-cols-4 items-center gap-4"><Label htmlFor={`${prefix}_hi_primum`} className="text-right text-xs">PDF (HI Premium)</Label><Input id={`${prefix}_hi_primum`} name={`${prefix}_hi_primum`} type="file" accept=".pdf" className="col-span-3 h-8" /></div>
+            </>
+        )}
     </div>
   );
 

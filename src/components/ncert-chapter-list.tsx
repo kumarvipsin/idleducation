@@ -39,12 +39,12 @@ const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     );
 }
 
-const ChapterResources = ({ chapter, onViewPdf }: { chapter: TChapter; onViewPdf: (url: string) => void; }) => {
+const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; onViewPdf: (url: string) => void; is_note?: boolean; }) => {
     return (
         <div className="space-y-2 py-2 px-4">
             {chapter.longNotePdfUrl && (
                 <div className="flex items-center justify-between p-1 rounded-md bg-muted/50">
-                    <span className="text-xs font-medium text-gray-500">NCERT Solutions (EN)</span>
+                    <span className="text-xs font-medium text-gray-500">{is_note ? 'NCERT Notes (Eng)' : 'NCERT Solutions (EN)'}</span>
                     <div className="flex items-center">
                         <Button variant="ghost" size="icon" className="h-7 w-7 text-blue-500 hover:text-blue-700 transition" onClick={() => onViewPdf(chapter.longNotePdfUrl!)}>
                             <Eye className="h-4 w-4" />
@@ -127,9 +127,9 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                {chapter.name}
                                             </AccordionTrigger>
                                             <AccordionContent>
-                                                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                 {chapter.topics?.map((topic, index) => {
-                                                    const cards = [
+                                                    const allCards = [
                                                           {
                                                             pdfs: [is_note ? topic.notePdfUrl_en : topic.pdfUrl_en],
                                                             label: is_note ? 'NCERT Notes (Eng)' : 'NCERT Solutions (Eng)',
@@ -141,24 +141,20 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                             is_download: true,
                                                           },
                                                           {
-                                                        pdfs: is_note
-                                                          ? [topic.notePdfUrl_en_demo, topic.notePdfUrl_en_primum]
-                                                          : [topic.pdfUrl_en_demo, topic.pdfUrl_en_primum],
-                                                        label: is_note
-                                                          ? `Premium Notes (Eng)`
-                                                          : `Important Q's (Eng)`,
-                                                        is_download: false,
-                                                      },
-                                                      {
-                                                        pdfs: is_note
-                                                          ? [topic.notePdfUrl_hi_demo, topic.notePdfUrl_hi_primum]
-                                                          : [topic.pdfUrl_hi_demo, topic.pdfUrl_hi_primum],
-                                                        label: is_note
-                                                          ? `Premium Notes (Hi)`
-                                                          : `Important Q's (Hi)`,
-                                                        is_download: false,
-                                                      }
+                                                            pdfs: [topic.notePdfUrl_en_demo, topic.notePdfUrl_en_primum],
+                                                            label: `Premium Notes (Eng)`,
+                                                            is_download: false,
+                                                          },
+                                                          {
+                                                            pdfs: [topic.notePdfUrl_hi_demo, topic.notePdfUrl_hi_primum],
+                                                            label: `Premium Notes (Hi)`,
+                                                            is_download: false,
+                                                          }
                                                     ];
+
+                                                    // Filter cards: show only the first two (Solutions) if not in notes mode
+                                                    // Otherwise, show all four (Notes + Premium Notes)
+                                                    const cards = is_note ? allCards : allCards.slice(0, 2);
 
                                                     return cards.map((card, i) => {
                                                     const availablePdf = card.pdfs.find((pdf) => pdf && pdf.trim() !== "");
@@ -225,7 +221,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                     {chapter.name}
                                 </AccordionTrigger>
                                 <AccordionContent>
-                                     <ChapterResources chapter={chapter} onViewPdf={(url) => handleViewPdf(url, chapter.name)}/>
+                                     <ChapterResources chapter={chapter} onViewPdf={(url) => handleViewPdf(url, chapter.name)} is_note={is_note} />
                                 </AccordionContent>
                             </AccordionItem>
                         </Card>
