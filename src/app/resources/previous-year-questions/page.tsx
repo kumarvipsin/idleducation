@@ -231,17 +231,17 @@ function PreviousYearQuestionsContent() {
                                                         {toTitleCase(subjectName)} Folder
                                                     </div>
                                                     
-                                                    <Card className="border-none shadow-md bg-white overflow-hidden relative z-10 rounded-2xl">
+                                                    <Card className="border-none shadow-md bg-white overflow-visible relative z-10 rounded-2xl">
                                                         <button 
                                                             onClick={() => toggleSubject(expansionKey)}
-                                                            className="w-full text-left focus:outline-none sticky top-16 z-30"
+                                                            className="w-full text-left focus:outline-none sticky top-[64px] md:top-[64px] z-40 rounded-t-2xl overflow-hidden"
                                                         >
-                                                            <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md">
+                                                            <CardHeader className="bg-white py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md shadow-sm">
                                                                 <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
                                                                     <SubjectIcon name={subjectName} className="w-4 h-4" />
                                                                     {toTitleCase(subjectName)} (PYQ) {year}
                                                                 </CardTitle>
-                                                                <div className="bg-white/50 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
+                                                                <div className="bg-primary/5 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
                                                                     {isExpanded ? <Minus className="w-4 h-4 text-primary" /> : <Plus className="w-4 h-4 text-primary" />}
                                                                 </div>
                                                             </CardHeader>
@@ -251,12 +251,12 @@ function PreviousYearQuestionsContent() {
                                                                 {papers.map((paper, pIdx) => (
                                                                     <div key={pIdx} className="group p-5 border rounded-2xl hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
                                                                         <div className="flex items-start gap-4">
-                                                                            <div className="p-3 bg-primary/5 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+                                                                            <div className="p-1 text-primary shrink-0 mt-0.5">
                                                                                 <SubjectIcon name={subjectName} className="w-5 h-5" />
                                                                             </div>
                                                                             <div className="space-y-1">
-                                                                                <span className="text-[10px] font-bold text-primary uppercase tracking-wider">{toTitleCase(subjectName)}</span>
-                                                                                <p className="text-sm font-semibold text-foreground leading-tight">{toTitleCase(paper.title)}</p>
+                                                                                <span className="text-[10px] font-bold text-primary tracking-wider">{toTitleCase(subjectName)}</span>
+                                                                                <p className="text-[9px] font-black text-foreground leading-tight uppercase tracking-tight opacity-80">{toTitleCase(paper.title)}</p>
                                                                             </div>
                                                                         </div>
                                                                         <div className="grid grid-cols-2 gap-3 mt-auto">
