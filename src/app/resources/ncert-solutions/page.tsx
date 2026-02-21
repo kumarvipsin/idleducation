@@ -152,7 +152,7 @@ function NcertSolutionsPageContent() {
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
-                    className={`py-2 px-6 text-sm font-bold transition-all duration-300 rounded-full
+                    className={`py-2 px-6 text-sm font-medium transition-all duration-300 rounded-full
                     ${selectedClass === className 
                         ? 'bg-primary text-white shadow-md' 
                         : 'text-muted-foreground hover:bg-muted'}`}
