@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from "react";
@@ -7,6 +8,7 @@ import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, Dialog
 import { PlayCircle } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
+import Autoplay from "embla-carousel-autoplay";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
   const [isPlaying, setIsPlaying] = React.useState(false);
@@ -116,6 +118,12 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                             loop: true,
                             dragFree: true,
                         }}
+                        plugins={[
+                            Autoplay({
+                                delay: 2000,
+                                stopOnInteraction: false,
+                            }),
+                        ]}
                         className="w-full"
                     >
                         <CarouselContent className="-ml-4">
