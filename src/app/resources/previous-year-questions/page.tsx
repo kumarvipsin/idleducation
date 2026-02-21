@@ -206,7 +206,7 @@ function PreviousYearQuestionsContent() {
                                                             <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between">
                                                                 <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
                                                                     <FileText className="w-4 h-4" />
-                                                                    {subjectName} Question Papers
+                                                                    {subjectName} (PYQ) {year}
                                                                 </CardTitle>
                                                                 <div className="bg-white/50 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
                                                                     {isExpanded ? <Minus className="w-4 h-4 text-primary" /> : <Plus className="w-4 h-4 text-primary" />}
