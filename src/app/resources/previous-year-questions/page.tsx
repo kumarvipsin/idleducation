@@ -193,9 +193,9 @@ function PreviousYearQuestionsContent() {
                                             return (
                                                 <div key={subjectName} className="relative">
                                                     {/* Folder Tab Effect */}
-                                                    <div className="absolute -top-6 left-4 bg-primary/10 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-black text-primary uppercase tracking-widest z-0 flex items-center gap-2">
+                                                    <div className="absolute -top-6 left-4 bg-primary/10 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-bold text-primary z-0 flex items-center gap-2">
                                                         <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                                        {subjectName} FOLDER
+                                                        {subjectName} Folder
                                                     </div>
                                                     
                                                     <Card className="border-none shadow-md bg-white overflow-hidden relative z-10 rounded-2xl">
@@ -204,7 +204,7 @@ function PreviousYearQuestionsContent() {
                                                             className="w-full text-left focus:outline-none"
                                                         >
                                                             <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between">
-                                                                <CardTitle className="text-sm font-black text-primary uppercase tracking-widest flex items-center gap-2">
+                                                                <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
                                                                     <FileText className="w-4 h-4" />
                                                                     {subjectName} Question Papers
                                                                 </CardTitle>
