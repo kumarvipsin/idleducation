@@ -10,7 +10,6 @@ import {
     ArrowRight, 
     HelpCircle, 
     X, 
-    Folder, 
     Plus, 
     Minus,
     Sigma,
@@ -235,13 +234,9 @@ function PreviousYearQuestionsContent() {
 
                             return (
                                 <section key={year} className="animate-fade-in-up">
-                                    <div className="flex justify-between items-center mb-8">
-                                        <h2 
-                                            className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block uppercase" 
-                                            style={{ backgroundSize: '100% 2px' }}
-                                        >
-                                            CBSE {year} (PYQ)
-                                        </h2>
+                                    <div className="flex items-center gap-4 mb-10">
+                                        <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase">CBSE {year} (PYQ)</h2>
+                                        <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                     </div>
                                     <div className="grid gap-10">
                                         {filteredGroupedSubjects.map(([subjectName, papers]) => {

@@ -115,8 +115,9 @@ function NcertSolutionsDetailsContent() {
 
         <Card className="overflow-hidden border-none rounded-2xl bg-white dark:bg-card shadow-none">
             <CardContent className="p-6 md:p-12">
-                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>CONTENTS</h2>
+                 <div className="flex items-center gap-4 mb-10">
+                    <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground uppercase">CONTENTS</h2>
+                    <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                 </div>
                 <NcertChapterList resources={notesData} />
             </CardContent>
