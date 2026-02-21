@@ -191,7 +191,7 @@ function PreviousYearQuestionsContent() {
                                     key={className}
                                     onClick={() => setSelectedClass(className)}
                                     className={cn(
-                                        "text-[10px] md:text-xs font-black uppercase tracking-[0.2em] transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
+                                        "text-sm font-bold transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
                                         selectedClass === className 
                                         ? 'text-primary border-primary' 
                                         : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
