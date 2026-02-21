@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     Download, 
@@ -22,7 +22,8 @@ import {
     Landmark,
     Globe,
     TrendingUp,
-    Users
+    Users,
+    Eye
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
@@ -32,6 +33,11 @@ import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from "@/components/ui/badge";
+
+const toTitleCase = (str: string) => {
+  if (!str) return '';
+  return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+};
 
 const SubjectIcon = ({ name, className }: { name: string, className?: string }) => {
     const lowerName = name.toLowerCase();
@@ -112,7 +118,7 @@ function PreviousYearQuestionsContent() {
 
     const handleDownload = async (pdfUrl: string | undefined) => {
         if (!pdfUrl) {
-            toast({ variant: "destructive", title: "Error", description: "No PDF file available for download." });
+            toast({ variant: "destructive", title: "Error", description: "No PDF file available." });
             return;
         }
         const result = await getSignedUrlForPdf(pdfUrl);
@@ -212,7 +218,7 @@ function PreviousYearQuestionsContent() {
                                         </div>
                                         <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/20 to-transparent" />
                                     </div>
-                                    <div className="grid gap-8">
+                                    <div className="grid gap-10">
                                         {Object.entries(groupedSubjects).map(([subjectName, papers]) => {
                                             const expansionKey = `${year}-${subjectName}`;
                                             const isExpanded = expandedSubjectId === expansionKey;
@@ -222,18 +228,18 @@ function PreviousYearQuestionsContent() {
                                                     {/* Folder Tab Effect */}
                                                     <div className="absolute -top-6 left-4 bg-primary/10 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-bold text-primary z-0 flex items-center gap-2">
                                                         <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                                        {subjectName} Folder
+                                                        {toTitleCase(subjectName)} Folder
                                                     </div>
                                                     
                                                     <Card className="border-none shadow-md bg-white overflow-hidden relative z-10 rounded-2xl">
                                                         <button 
                                                             onClick={() => toggleSubject(expansionKey)}
-                                                            className="w-full text-left focus:outline-none"
+                                                            className="w-full text-left focus:outline-none sticky top-16 z-30"
                                                         >
-                                                            <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between">
+                                                            <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md">
                                                                 <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
                                                                     <SubjectIcon name={subjectName} className="w-4 h-4" />
-                                                                    {subjectName} (PYQ) {year}
+                                                                    {toTitleCase(subjectName)} (PYQ) {year}
                                                                 </CardTitle>
                                                                 <div className="bg-white/50 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
                                                                     {isExpanded ? <Minus className="w-4 h-4 text-primary" /> : <Plus className="w-4 h-4 text-primary" />}
@@ -249,23 +255,38 @@ function PreviousYearQuestionsContent() {
                                                                                 <SubjectIcon name={subjectName} className="w-5 h-5" />
                                                                             </div>
                                                                             <div className="space-y-1">
-                                                                                <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest">{subjectName}</span>
-                                                                                <p className="text-sm font-black text-foreground leading-tight">{paper.title}</p>
+                                                                                <span className="text-[10px] font-bold text-primary uppercase tracking-wider">{toTitleCase(subjectName)}</span>
+                                                                                <p className="text-sm font-semibold text-foreground leading-tight">{toTitleCase(paper.title)}</p>
                                                                             </div>
                                                                         </div>
-                                                                        <Button 
-                                                                            variant="outline" 
-                                                                            size="sm" 
-                                                                            className="w-full font-black text-[10px] uppercase tracking-widest rounded-xl h-10 border-primary/20 hover:bg-primary hover:text-white transition-all shadow-none"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                handleDownload(paper.pdfUrl);
-                                                                            }} 
-                                                                            disabled={!paper.pdfUrl}
-                                                                        >
-                                                                            <Download className="w-4 h-4 mr-2" />
-                                                                            Download PDF
-                                                                        </Button>
+                                                                        <div className="grid grid-cols-2 gap-3 mt-auto">
+                                                                            <Button 
+                                                                                variant="outline" 
+                                                                                size="sm" 
+                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-xl h-9 border-primary/20 hover:bg-primary/5 transition-all shadow-none"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleDownload(paper.pdfUrl);
+                                                                                }} 
+                                                                                disabled={!paper.pdfUrl}
+                                                                            >
+                                                                                <Eye className="w-3.5 h-3.5 mr-1.5" />
+                                                                                View
+                                                                            </Button>
+                                                                            <Button 
+                                                                                variant="default" 
+                                                                                size="sm" 
+                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-xl h-9 transition-all shadow-md shadow-primary/10"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleDownload(paper.pdfUrl);
+                                                                                }} 
+                                                                                disabled={!paper.pdfUrl}
+                                                                            >
+                                                                                <Download className="w-3.5 h-3.5 mr-1.5" />
+                                                                                GET
+                                                                            </Button>
+                                                                        </div>
                                                                     </div>
                                                                 ))}
                                                             </CardContent>
