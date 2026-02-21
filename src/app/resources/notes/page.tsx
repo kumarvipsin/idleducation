@@ -143,9 +143,9 @@ function NotesPageContent() {
         </p>
       </div>
 
-      <div className="mb-8">
+      <div className="mb-12">
         <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-start md:justify-center items-center gap-2 whitespace-nowrap px-4 sm:px-0">
+          <div className="flex justify-start md:justify-center items-center gap-8 whitespace-nowrap px-4 sm:px-0">
              {loading ? (
                  [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (
@@ -153,10 +153,12 @@ function NotesPageContent() {
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
-                    className={`py-2 px-6 text-sm font-medium transition-all duration-300 rounded-full
-                    ${selectedClass === className 
-                        ? 'bg-primary text-white shadow-md' 
-                        : 'text-muted-foreground hover:bg-muted'}`}
+                    className={cn(
+                        "text-sm font-bold transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
+                        selectedClass === className 
+                        ? 'text-primary border-primary' 
+                        : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
+                    )}
                 >
                     {className}
                 </button>
