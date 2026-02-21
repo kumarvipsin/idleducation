@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
-import { ChevronRight, Download, ShoppingCart, Eye, FileText } from "lucide-react";
+import { ChevronRight, Download, ShoppingCart, Eye, FileText, SearchCode, Ghost } from "lucide-react";
 import type { TSubject, TChapter } from "@/app/actions/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { useToast } from "@/hooks/use-toast";
@@ -12,6 +12,30 @@ import { getSignedUrlForPdf } from "@/app/actions";
 import { PdfViewerDialog } from "./pdf-viewer-dialog";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+
+/**
+ * A playful fallback component for missing resources.
+ */
+const EmptyResourceMessage = ({ compact = false }: { compact?: boolean }) => (
+    <div className={cn(
+        "flex flex-col items-center justify-center text-center space-y-3 bg-muted/5 rounded-2xl border border-dashed border-muted-foreground/20 animate-fade-in-up",
+        compact ? "py-6 px-4" : "py-12 px-6 m-4"
+    )}>
+        <div className="relative">
+            <div className="text-4xl animate-float">🕵️‍♂️</div>
+            <div className="absolute -top-1 -right-1 flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+            </div>
+        </div>
+        <div className="space-y-1">
+            <p className="text-[10px] font-black text-foreground uppercase tracking-tight">PDF is Playing Hide & Seek!</p>
+            <p className="text-[10px] text-muted-foreground font-bold leading-relaxed max-w-[220px]">
+                Our digital scholars are still transcribing these ancient scrolls. Check back soon for the wisdom! ✨
+            </p>
+        </div>
+    </div>
+);
 
 const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
     const { toast } = useToast();
@@ -40,31 +64,44 @@ const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
 
 const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; onViewPdf: (url: string, label: string) => void; is_note?: boolean; }) => {
     const router = useRouter();
+    const hasLong = chapter.longNotePdfUrl && chapter.longNotePdfUrl.trim() !== "";
+    const hasShort = chapter.shortNotePdfUrl && chapter.shortNotePdfUrl.trim() !== "";
+
+    if (!hasLong && !hasShort) {
+        return <EmptyResourceMessage />;
+    }
+
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            {chapter.longNotePdfUrl && (
-                <div className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300">
+            {hasLong ? (
+                <div className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:scale-110 transition-transform">
                             <FileText className="w-4 h-4" />
                         </div>
-                        <span className="text-sm font-bold text-foreground/80">{is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)'}</span>
+                        <span className="text-[11px] font-black uppercase tracking-tight text-foreground/80">{is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)'}</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => onViewPdf(chapter.longNotePdfUrl!, is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)')}>
                             <Eye className="h-4 w-4" />
                         </Button>
-                        <DownloadPdfButton pdfUrl={chapter.longNotePdfUrl} />
+                        <DownloadPdfButton pdfUrl={chapter.longNotePdfUrl!} />
                     </div>
                 </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-muted/5 border border-dashed border-muted-foreground/10 text-center opacity-60">
+                    <p className="text-[8px] font-black text-foreground/40 uppercase tracking-tighter mb-1">Coming Soon</p>
+                    <p className="text-[9px] font-bold text-muted-foreground italic">Knowledge still cooking! 👨‍🍳</p>
+                </div>
             )}
-            {chapter.shortNotePdfUrl && (
-                <div className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300">
+
+            {hasShort ? (
+                <div className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-orange-500/5 rounded-lg text-orange-600 group-hover:scale-110 transition-transform">
                             <ShoppingCart className="w-4 h-4" />
                         </div>
-                        <span className="text-sm font-bold text-foreground/80">Important Q's (English)</span>
+                        <span className="text-[11px] font-black uppercase tracking-tight text-foreground/80">Important Q's (English)</span>
                     </div>
                     <div className="flex items-center gap-1">
                          <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => onViewPdf(chapter.shortNotePdfUrl!, 'Important Q\'s (English)')}>
@@ -74,6 +111,11 @@ const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; 
                             <ShoppingCart className="w-4 h-4" />
                         </Button>
                     </div>
+                </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-muted/5 border border-dashed border-muted-foreground/10 text-center opacity-60">
+                    <p className="text-[8px] font-black text-foreground/40 uppercase tracking-tighter mb-1">Coming Soon</p>
+                    <p className="text-[9px] font-bold text-muted-foreground italic">Dog ate the digital homework! 🐶</p>
                 </div>
             )}
         </div>
@@ -175,7 +217,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                     const availablePdf = card.pdfs.find((pdf) => pdf && pdf.trim() !== "");
                                                     const hasPdf = !!availablePdf;
 
-                                                    return (
+                                                    return hasPdf ? (
                                                         <div
                                                         key={`${index}-${i}`}
                                                         className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300"
@@ -193,23 +235,16 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                             </div>
 
                                                             <div className="flex items-center gap-1">
-                                                                {hasPdf ? (
-                                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => handleViewPdf(availablePdf, `${topic.name} - ${card.label}`)}>
-                                                                        <Eye className="h-4 w-4" />
-                                                                    </Button>
-                                                                ) : (
-                                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground opacity-30 cursor-not-allowed" disabled>
-                                                                        <Eye className="h-4 w-4" />
-                                                                    </Button>
-                                                                )}
+                                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => handleViewPdf(availablePdf, `${topic.name} - ${card.label}`)}>
+                                                                    <Eye className="h-4 w-4" />
+                                                                </Button>
 
                                                                 {card.is_download ? (
                                                                     <Button 
                                                                         variant="ghost" 
                                                                         size="icon" 
-                                                                        className={cn("h-8 w-8 transition-all", hasPdf ? "text-emerald-600 hover:bg-emerald-50" : "text-muted-foreground opacity-30")}
-                                                                        onClick={hasPdf ? () => handleDownload(availablePdf) : undefined}
-                                                                        disabled={!hasPdf}
+                                                                        className="h-8 w-8 text-emerald-600 hover:bg-emerald-50 transition-all"
+                                                                        onClick={() => handleDownload(availablePdf)}
                                                                     >
                                                                         <Download className="h-4 w-4" />
                                                                     </Button>
@@ -224,6 +259,13 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                                     </Button>
                                                                 )}
                                                             </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div key={`${index}-${i}`} className="group flex flex-col items-center justify-center p-4 rounded-xl bg-muted/5 border border-dashed border-muted-foreground/10 text-center opacity-60">
+                                                            <p className="text-[8px] font-black text-foreground/40 uppercase tracking-tighter mb-1">Coming Soon</p>
+                                                            <p className="text-[9px] font-bold text-muted-foreground italic leading-tight">
+                                                                {i % 2 === 0 ? "PDF is on a tea break... ☕" : "Knowledge still cooking! 👨‍🍳"}
+                                                            </p>
                                                         </div>
                                                     );
                                                     });
@@ -252,7 +294,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                     ))}
                 </Accordion>
             ) : (
-                <p className="text-muted-foreground p-12 text-center font-bold italic">No content available for this subject yet.</p>
+                <EmptyResourceMessage />
             )}
         </div>
     );
