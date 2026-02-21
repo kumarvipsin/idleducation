@@ -3,7 +3,25 @@
 import { useState, useEffect, useMemo, Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Search, ArrowRight, HelpCircle, X, Folder, Plus, Minus } from "lucide-react";
+import { 
+    Download, 
+    FileText, 
+    Search, 
+    ArrowRight, 
+    HelpCircle, 
+    X, 
+    Folder, 
+    Plus, 
+    Minus,
+    Sigma,
+    TestTube2,
+    Atom,
+    FlaskConical,
+    Dna,
+    BookText,
+    Landmark,
+    Globe
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion, SubjectWithPapers, Paper } from '@/app/actions/types';
@@ -12,6 +30,19 @@ import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from "@/components/ui/badge";
+
+const SubjectIcon = ({ name, className }: { name: string, className?: string }) => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('math')) return <Sigma className={className} />;
+    if (lowerName.includes('science')) return <TestTube2 className={className} />;
+    if (lowerName.includes('physics')) return <Atom className={className} />;
+    if (lowerName.includes('chemistry')) return <FlaskConical className={className} />;
+    if (lowerName.includes('biology')) return <Dna className={className} />;
+    if (lowerName.includes('english')) return <BookText className={className} />;
+    if (lowerName.includes('history') || lowerName.includes('social') || lowerName.includes('pol')) return <Landmark className={className} />;
+    if (lowerName.includes('geography')) return <Globe className={className} />;
+    return <FileText className={className} />;
+};
 
 function PreviousYearQuestionsContent() {
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
@@ -205,7 +236,7 @@ function PreviousYearQuestionsContent() {
                                                         >
                                                             <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between">
                                                                 <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
-                                                                    <FileText className="w-4 h-4" />
+                                                                    <SubjectIcon name={subjectName} className="w-4 h-4" />
                                                                     {subjectName} (PYQ) {year}
                                                                 </CardTitle>
                                                                 <div className="bg-white/50 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
@@ -219,7 +250,7 @@ function PreviousYearQuestionsContent() {
                                                                     <div key={pIdx} className="group p-5 border rounded-2xl hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
                                                                         <div className="flex items-start gap-4">
                                                                             <div className="p-3 bg-primary/5 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
-                                                                                <FileText className="w-5 h-5" />
+                                                                                <SubjectIcon name={subjectName} className="w-5 h-5" />
                                                                             </div>
                                                                             <div className="space-y-1">
                                                                                 <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest">{subjectName}</span>
