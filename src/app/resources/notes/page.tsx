@@ -206,7 +206,7 @@ function NotesPageContent() {
                                     
                                     <div className="mt-auto self-end">
                                         <div className={cn("p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0", theme.bg, "shadow-sm border border-black/5")}>
-                                            <ArrowRight className="w-4 h-4", theme.text)} />
+                                            <ArrowRight className={cn("w-4 h-4", theme.text)} />
                                         </div>
                                     </div>
                                 </CardContent>
@@ -242,7 +242,7 @@ export default function NotesPage() {
                             <Skeleton className="h-5 w-96 mx-auto" />
                         </div>
                         <div className="mb-8 flex justify-center gap-2">
-                            {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />) /* Placeholder for skeletons */}
+                            {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                           {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[240px] w-full rounded-2xl" />)}
