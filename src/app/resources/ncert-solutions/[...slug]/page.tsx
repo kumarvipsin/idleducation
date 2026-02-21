@@ -94,7 +94,7 @@ function NcertSolutionsDetailsContent() {
                 </div>
                 <div>
                     <CardTitle className="text-2xl font-extrabold capitalize leading-none">{subjectName}</CardTitle>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-80 mt-1.5">NCERT Solutions For {className}</p>
+                    <p className="text-[11px] font-bold opacity-80 mt-1">NCERT Solutions for {className}</p>
                 </div>
                 </div>
             </div>
