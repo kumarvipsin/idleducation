@@ -110,7 +110,7 @@ function NcertSolutionsDetailsContent() {
         </Breadcrumb>
 
         <Card className="shadow-2xl overflow-hidden border-none rounded-[2rem] bg-white dark:bg-card">
-            <div className="relative overflow-hidden bg-primary text-white px-6 py-12 md:px-12 md:py-16">
+            <div className="relative overflow-hidden bg-primary text-white px-6 py-8 md:px-12 md:py-12">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 p-4 opacity-[0.07] pointer-events-none">
                     <BookOpen className="w-64 h-64 -rotate-12 translate-x-1/4 -translate-y-1/4" />
@@ -118,9 +118,9 @@ function NcertSolutionsDetailsContent() {
                 <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
                 
                 <div className="relative z-10 space-y-4">
-                    <div className="space-y-2">
-                        <h1 className="text-4xl md:text-6xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
-                        <p className="text-sm md:text-lg font-bold text-white/60 tracking-tight">
+                    <div className="space-y-1">
+                        <h1 className="text-2xl md:text-4xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
+                        <p className="text-xs md:text-sm font-bold text-white/60 tracking-tight">
                             NCERT Solutions For {className}
                         </p>
                     </div>
