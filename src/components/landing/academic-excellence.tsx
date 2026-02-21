@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
@@ -7,7 +8,7 @@ import { getExcellenceResults } from '@/app/actions';
 import type { TExcellenceResult } from '@/app/actions/types';
 import { Skeleton } from '../ui/skeleton';
 import { GcsImage } from '../gcs-image';
-import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { Award } from 'lucide-react';
 
@@ -98,38 +99,59 @@ export function AcademicExcellence() {
       <div className="relative w-full">
         {loading ? (
           <div className="container mx-auto px-4 md:px-6">
-            <Skeleton className="w-full aspect-video md:aspect-[21/7] rounded-3xl" />
+            <Skeleton className="w-full aspect-[16/6] md:aspect-[21/7] rounded-3xl" />
           </div>
         ) : (
           <Carousel
             setApi={setApi}
             opts={{ 
                 loop: true, 
-                align: 'start',
-                dragFree: true
+                align: 'center',
+                dragFree: false
             }}
-            plugins={[Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })]}
+            plugins={[Autoplay({ delay: 3000, stopOnInteraction: false, stopOnMouseEnter: true })]}
             className="w-full"
           >
             <CarouselContent>
               {results.map((result) => (
-                <CarouselItem key={result.id}>
-                  <Card className="rounded-none overflow-hidden border-none shadow-none bg-muted">
-                    <div className="relative w-full aspect-[2/1] md:aspect-[21/7]">
+                <CarouselItem key={result.id} className="basis-[92%] md:basis-[85%] px-2">
+                  <Card className="rounded-2xl overflow-hidden border-none shadow-2xl bg-white">
+                    <div className="relative w-full aspect-[16/6] md:aspect-[21/7]">
                       <GcsImage
                         filePath={result.imageUrl}
                         alt={`Result for ${result.categoryName}`}
                         fill
-                        className="object-contain"
+                        className="object-cover"
                       />
                     </div>
                   </Card>
                 </CarouselItem>
               ))}
             </CarouselContent>
+            <div className="hidden md:block">
+                <CarouselPrevious className="left-12" />
+                <CarouselNext className="right-12" />
+            </div>
           </Carousel>
         )}
       </div>
+      
+      {/* Visual Indicator Dots */}
+      {!loading && results.length > 1 && (
+        <div className="flex justify-center gap-2 mt-8">
+          {results.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => handleCategoryClick(i)}
+              className={cn(
+                "h-1.5 rounded-full transition-all duration-300",
+                activeIndex === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
+              )}
+              aria-label={`Go to slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

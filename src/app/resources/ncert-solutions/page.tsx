@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -82,7 +83,7 @@ function NcertSolutionsPageContent() {
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('All Ncert');
+  const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -108,6 +109,9 @@ function NcertSolutionsPageContent() {
 
         setSolutionsByClass(formattedData);
         setClasses(sortedClasses);
+        if (sortedClasses.length > 0) {
+            setSelectedClass(sortedClasses[0]);
+        }
       }
       setLoading(false);
     };
@@ -115,16 +119,12 @@ function NcertSolutionsPageContent() {
     fetchSolutionsData();
   }, []);
 
-  const subjects = selectedClass === 'All Ncert'
-    ? Object.values(solutionsByClass).flat() as Subject[]
-    : solutionsByClass[selectedClass] || [];
+  const subjects = solutionsByClass[selectedClass] || [];
   
   const handleClassChange = (className: string) => {
     setSelectedClass(className);
     setAnimationKey(prev => prev + 1);
   };
-  
-  const allClassButtons = ['All Ncert', ...classes];
 
   const renderSkeleton = () => (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
@@ -152,7 +152,7 @@ function NcertSolutionsPageContent() {
              {loading ? (
                  [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (
-                allClassButtons.map((className: string) => (
+                classes.map((className: string) => (
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
