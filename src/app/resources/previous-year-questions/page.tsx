@@ -177,43 +177,6 @@ function PreviousYearQuestionsContent() {
                         )}
                     </div>
                 </div>
-
-                {/* Secondary Filters (Subject & Year) */}
-                {!loading && selectedClass && (
-                    <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 px-4">
-                        <div className="flex items-center gap-2">
-                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Subject:</span>
-                            <div className="flex gap-1">
-                                {subjects.map(s => (
-                                    <Badge
-                                        key={s}
-                                        onClick={() => setSelectedSubject(s)}
-                                        variant={selectedSubject === s ? "default" : "outline"}
-                                        className="cursor-pointer text-[9px] px-2 py-0.5 font-bold uppercase transition-all"
-                                    >
-                                        {s}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </div>
-                        <Separator orientation="vertical" className="h-4 hidden sm:block" />
-                        <div className="flex items-center gap-2">
-                            <span className="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Year:</span>
-                            <div className="flex gap-1">
-                                {years.map(y => (
-                                    <Badge
-                                        key={y}
-                                        onClick={() => setSelectedYear(y)}
-                                        variant={selectedYear === y ? "default" : "outline"}
-                                        className="cursor-pointer text-[9px] px-2 py-0.5 font-bold uppercase transition-all"
-                                    >
-                                        {y}
-                                    </Badge>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
 
             <main className="space-y-12">
