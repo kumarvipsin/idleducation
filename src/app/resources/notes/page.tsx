@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -85,12 +86,16 @@ function NotesPageContent() {
       if (result.success && result.data) {
         const formattedData = (result.data as any[]).reduce((acc, classDoc) => {
           const className = classDoc.name || classDoc.id.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
-          acc[className] = Object.entries(classDoc.subjects).map(([subjectKey, subjectData]: [string, any]) => ({
-            name: subjectData.name,
-            href: `/resources/notes/${classDoc.id}/${subjectKey}`,
-            subjectKey: subjectKey,
-            className: className,
-          }));
+          
+          // Sort subjects within the class by the administrative order property
+          acc[className] = Object.entries(classDoc.subjects)
+            .sort(([, a]: any, [, b]: any) => (a.order || 99) - (b.order || 99))
+            .map(([subjectKey, subjectData]: [string, any]) => ({
+              name: subjectData.name,
+              href: `/resources/notes/${classDoc.id}/${subjectKey}`,
+              subjectKey: subjectKey,
+              className: className,
+            }));
           return acc;
         }, {});
         
