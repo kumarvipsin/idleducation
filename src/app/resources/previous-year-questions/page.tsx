@@ -97,9 +97,14 @@ function PreviousYearQuestionsContent() {
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => {
             const matchesClass = selectedClass === '' || q.exam === selectedClass;
-            const matchesSearch = q.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                                q.exam.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                (Array.isArray(q.subjects) && q.subjects.some(s => s.name.toLowerCase().includes(searchTerm.toLowerCase())));
+            const lowerSearch = searchTerm.toLowerCase();
+            const matchesSearch = searchTerm === '' || 
+                                q.title.toLowerCase().includes(lowerSearch) || 
+                                q.exam.toLowerCase().includes(lowerSearch) ||
+                                (Array.isArray(q.subjects) && q.subjects.some(s => 
+                                    s.name.toLowerCase().includes(lowerSearch) ||
+                                    (Array.isArray(s.papers) && s.papers.some(p => p.title.toLowerCase().includes(lowerSearch)))
+                                ));
             
             return matchesClass && matchesSearch;
         });
@@ -158,6 +163,16 @@ function PreviousYearQuestionsContent() {
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="flex-1 border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-sm md:text-lg placeholder:text-gray-400 placeholder:font-light bg-transparent h-full"
                     />
+                    {searchTerm && (
+                        <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 rounded-full mr-2" 
+                            onClick={() => setSearchTerm('')}
+                        >
+                            <X className="h-4 w-4" />
+                        </Button>
+                    )}
                     <Separator orientation="vertical" className="h-8 md:h-10 mx-2 hidden sm:block bg-gray-300" />
                     <Button variant="ghost" className="hidden sm:flex flex-col h-full rounded-none px-4 md:px-8 items-center justify-center gap-0.5 hover:bg-gray-50 transition-colors">
                         <ArrowRight className="h-5 w-5 md:h-6 md:w-6 text-black" strokeWidth={1.5} />
@@ -209,6 +224,15 @@ function PreviousYearQuestionsContent() {
                                 return acc;
                             }, {} as Record<string, Paper[]>);
 
+                            const filteredGroupedSubjects = Object.entries(groupedSubjects).filter(([subjectName, papers]) => {
+                                if (searchTerm === '') return true;
+                                const lowerSearch = searchTerm.toLowerCase();
+                                return subjectName.toLowerCase().includes(lowerSearch) || 
+                                       papers.some(p => p.title.toLowerCase().includes(lowerSearch));
+                            });
+
+                            if (filteredGroupedSubjects.length === 0) return null;
+
                             return (
                                 <section key={year} className="animate-fade-in-up">
                                     <div className="flex items-center gap-4 mb-8">
@@ -219,7 +243,7 @@ function PreviousYearQuestionsContent() {
                                         <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/20 to-transparent" />
                                     </div>
                                     <div className="grid gap-10">
-                                        {Object.entries(groupedSubjects).map(([subjectName, papers]) => {
+                                        {filteredGroupedSubjects.map(([subjectName, papers]) => {
                                             const expansionKey = `${year}-${subjectName}`;
                                             const isExpanded = expandedSubjectId === expansionKey;
 
