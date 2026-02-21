@@ -226,23 +226,35 @@ function PreviousYearQuestionsContent() {
                                             return (
                                                 <div key={subjectName} className="relative">
                                                     {/* Folder Tab Effect */}
-                                                    <div className="absolute -top-6 left-4 bg-primary/10 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-bold text-primary z-0 flex items-center gap-2">
-                                                        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                                    <div className={cn(
+                                                        "absolute -top-6 left-4 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-bold z-0 flex items-center gap-2 transition-all duration-300",
+                                                        isExpanded ? "bg-primary text-white" : "bg-primary/10 text-primary"
+                                                    )}>
+                                                        <div className={cn("w-1.5 h-1.5 rounded-full animate-pulse", isExpanded ? "bg-white" : "bg-primary")} />
                                                         {toTitleCase(subjectName)} Folder
                                                     </div>
                                                     
-                                                    <Card className="border-none shadow-md bg-white overflow-visible relative z-10 rounded-2xl">
+                                                    <Card className={cn(
+                                                        "border-none shadow-md bg-white overflow-visible relative z-10 rounded-2xl transition-all duration-300",
+                                                        isExpanded && "ring-1 ring-primary/20"
+                                                    )}>
                                                         <button 
                                                             onClick={() => toggleSubject(expansionKey)}
                                                             className="w-full text-left focus:outline-none sticky top-[64px] md:top-[64px] z-40 rounded-t-2xl overflow-hidden"
                                                         >
-                                                            <CardHeader className="bg-white py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md shadow-sm">
+                                                            <CardHeader className={cn(
+                                                                "py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md shadow-sm transition-colors duration-300",
+                                                                isExpanded ? "bg-primary/[0.05]" : "bg-white"
+                                                            )}>
                                                                 <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
                                                                     <SubjectIcon name={subjectName} className="w-4 h-4" />
                                                                     {toTitleCase(subjectName)} (PYQ) {year}
                                                                 </CardTitle>
-                                                                <div className="bg-primary/5 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
-                                                                    {isExpanded ? <Minus className="w-4 h-4 text-primary" /> : <Plus className="w-4 h-4 text-primary" />}
+                                                                <div className={cn(
+                                                                    "p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300",
+                                                                    isExpanded ? "bg-primary text-white" : "bg-primary/5"
+                                                                )}>
+                                                                    {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4 text-primary" />}
                                                                 </div>
                                                             </CardHeader>
                                                         </button>
