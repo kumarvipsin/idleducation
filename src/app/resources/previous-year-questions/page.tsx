@@ -249,15 +249,6 @@ function PreviousYearQuestionsContent() {
 
                                             return (
                                                 <div key={subjectName} className="relative">
-                                                    {/* Folder Tab Effect */}
-                                                    <div className={cn(
-                                                        "absolute -top-6 left-4 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-lg text-[10px] font-bold z-0 flex items-center gap-2 transition-all duration-300",
-                                                        isExpanded ? "bg-primary text-white" : "bg-primary/10 text-primary"
-                                                    )}>
-                                                        <div className={cn("w-1.5 h-1.5 rounded-full animate-pulse", isExpanded ? "bg-white" : "bg-primary")} />
-                                                        {toTitleCase(subjectName)} Folder
-                                                    </div>
-                                                    
                                                     <Card className={cn(
                                                         "border border-muted-foreground/10 shadow-sm bg-white overflow-visible relative z-10 rounded-lg transition-all duration-300",
                                                         isExpanded && "ring-1 ring-primary/20"
