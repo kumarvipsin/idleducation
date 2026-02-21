@@ -251,7 +251,7 @@ function PreviousYearQuestionsContent() {
                                                 <div key={subjectName} className="relative">
                                                     {/* Folder Tab Effect */}
                                                     <div className={cn(
-                                                        "absolute -top-6 left-4 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-bold z-0 flex items-center gap-2 transition-all duration-300",
+                                                        "absolute -top-6 left-4 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-lg text-[10px] font-bold z-0 flex items-center gap-2 transition-all duration-300",
                                                         isExpanded ? "bg-primary text-white" : "bg-primary/10 text-primary"
                                                     )}>
                                                         <div className={cn("w-1.5 h-1.5 rounded-full animate-pulse", isExpanded ? "bg-white" : "bg-primary")} />
@@ -259,15 +259,15 @@ function PreviousYearQuestionsContent() {
                                                     </div>
                                                     
                                                     <Card className={cn(
-                                                        "border-none shadow-md bg-white overflow-visible relative z-10 rounded-2xl transition-all duration-300",
+                                                        "border border-muted-foreground/10 shadow-sm bg-white overflow-visible relative z-10 rounded-lg transition-all duration-300",
                                                         isExpanded && "ring-1 ring-primary/20"
                                                     )}>
                                                         <button 
                                                             onClick={() => toggleSubject(expansionKey)}
-                                                            className="w-full text-left focus:outline-none sticky top-[64px] md:top-[64px] z-40 rounded-t-2xl overflow-hidden"
+                                                            className="w-full text-left focus:outline-none sticky top-[64px] md:top-[64px] z-40 rounded-t-lg overflow-hidden"
                                                         >
                                                             <CardHeader className={cn(
-                                                                "py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md shadow-sm transition-colors duration-300",
+                                                                "py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md transition-colors duration-300",
                                                                 isExpanded ? "bg-primary/[0.05]" : "bg-white"
                                                             )}>
                                                                 <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
@@ -285,7 +285,7 @@ function PreviousYearQuestionsContent() {
                                                         {isExpanded && (
                                                             <CardContent className="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
                                                                 {papers.map((paper, pIdx) => (
-                                                                    <div key={pIdx} className="group p-5 border rounded-2xl hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
+                                                                    <div key={pIdx} className="group p-5 border border-muted-foreground/10 rounded-lg hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
                                                                         <div className="flex items-start gap-4">
                                                                             <div className="p-1 text-primary shrink-0 mt-0.5">
                                                                                 <SubjectIcon name={subjectName} className="w-5 h-5" />
@@ -299,7 +299,7 @@ function PreviousYearQuestionsContent() {
                                                                             <Button 
                                                                                 variant="outline" 
                                                                                 size="sm" 
-                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-xl h-9 border-primary/20 hover:bg-primary/5 transition-all shadow-none"
+                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 border-primary/20 hover:bg-primary/5 transition-all shadow-none"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
                                                                                     handleDownload(paper.pdfUrl);
@@ -312,7 +312,7 @@ function PreviousYearQuestionsContent() {
                                                                             <Button 
                                                                                 variant="default" 
                                                                                 size="sm" 
-                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-xl h-9 transition-all shadow-md shadow-primary/10"
+                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 transition-all shadow-md shadow-primary/10"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
                                                                                     handleDownload(paper.pdfUrl);
