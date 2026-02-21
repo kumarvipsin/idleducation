@@ -357,9 +357,6 @@ export async function addChapter(
     if (shortNotePdfFile?.size) {
         chapterData.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
     }
-    if (primumNotePdfFile?.size) {
-        chapterData.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
-    }
     
     try {
         const docRef = getContentDocRef(collectionType, classId);
@@ -418,9 +415,6 @@ export async function editChapter(
         }
         if (shortNotePdfFile?.size) {
             chapterToUpdate.shortNotePdfUrl = await uploadFileToGCS(shortNotePdfFile, `${baseDestination}-short-note.pdf`);
-        }
-        if (primumNotePdfFile?.size) {
-            chapterToUpdate.primumNotePdfUrl = await uploadFileToGCS(primumNotePdfFile, `${baseDestination}-primum-note.pdf`);
         }
         
         chaptersArray[chapterIndex] = chapterToUpdate;

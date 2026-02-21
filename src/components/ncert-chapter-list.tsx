@@ -1,10 +1,10 @@
+
 'use client';
 
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useState } from "react";
-import { ChevronRight, Download, ShoppingCart, Eye, FileText, SearchCode, Ghost } from "lucide-react";
+import { Download, ShoppingCart, Eye, FileText } from "lucide-react";
 import type { TSubject, TChapter } from "@/app/actions/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { useToast } from "@/hooks/use-toast";
@@ -64,60 +64,63 @@ const DownloadPdfButton = ({ pdfUrl }: { pdfUrl: string }) => {
 
 const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; onViewPdf: (url: string, label: string) => void; is_note?: boolean; }) => {
     const router = useRouter();
-    const hasLong = chapter.longNotePdfUrl && chapter.longNotePdfUrl.trim() !== "";
-    const hasShort = chapter.shortNotePdfUrl && chapter.shortNotePdfUrl.trim() !== "";
+    
+    const availableResources = [];
+    
+    // 1. Solution/Note (English)
+    if (chapter.longNotePdfUrl && chapter.longNotePdfUrl.trim() !== "") {
+        availableResources.push({
+            url: chapter.longNotePdfUrl,
+            label: is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)',
+            theme: 'blue',
+            is_download: true
+        });
+    }
 
-    if (!hasLong && !hasShort) {
+    // 2. Premium Notes (Only for Revision Notes page)
+    if (is_note && chapter.shortNotePdfUrl && chapter.shortNotePdfUrl.trim() !== "") {
+        availableResources.push({
+            url: chapter.shortNotePdfUrl,
+            label: 'Premium Notes (English)',
+            theme: 'orange',
+            is_download: false
+        });
+    }
+
+    if (availableResources.length === 0) {
         return <EmptyResourceMessage />;
     }
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-            {hasLong ? (
-                <div className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
+            {availableResources.map((res, i) => (
+                <div
+                    key={i}
+                    className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm"
+                >
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:scale-110 transition-transform">
+                        <div className={cn(
+                            "p-2 rounded-lg transition-transform group-hover:scale-110",
+                            res.theme === 'blue' ? "bg-blue-500/5 text-blue-600" : "bg-orange-500/5 text-orange-600"
+                        )}>
                             <FileText className="w-4 h-4" />
                         </div>
-                        <span className="text-[11px] font-black uppercase tracking-tight text-foreground/80">{is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)'}</span>
+                        <span className="text-[11px] font-black uppercase tracking-tight text-foreground/80">{res.label}</span>
                     </div>
                     <div className="flex items-center gap-1">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => onViewPdf(chapter.longNotePdfUrl!, is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)')}>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => onViewPdf(res.url, res.label)}>
                             <Eye className="h-4 w-4" />
                         </Button>
-                        <DownloadPdfButton pdfUrl={chapter.longNotePdfUrl!} />
+                        {res.is_download ? (
+                            <DownloadPdfButton pdfUrl={res.url} />
+                        ) : (
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-orange-50" onClick={() => router.push('/store')}>
+                                <ShoppingCart className="h-4 w-4" />
+                            </Button>
+                        )}
                     </div>
                 </div>
-            ) : (
-                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-muted/5 border border-dashed border-muted-foreground/10 text-center opacity-60">
-                    <p className="text-[8px] font-black text-foreground/40 uppercase tracking-tighter mb-1">Coming Soon</p>
-                    <p className="text-[9px] font-bold text-muted-foreground italic">Knowledge still cooking! 👨‍🍳</p>
-                </div>
-            )}
-
-            {hasShort ? (
-                <div className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-orange-500/5 rounded-lg text-orange-600 group-hover:scale-110 transition-transform">
-                            <ShoppingCart className="w-4 h-4" />
-                        </div>
-                        <span className="text-[11px] font-black uppercase tracking-tight text-foreground/80">Important Q's (English)</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => onViewPdf(chapter.shortNotePdfUrl!, 'Important Q\'s (English)')}>
-                            <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-orange-50" onClick={() => router.push('/store')}>
-                            <ShoppingCart className="w-4 h-4" />
-                        </Button>
-                    </div>
-                </div>
-            ) : (
-                <div className="flex flex-col items-center justify-center p-4 rounded-xl bg-muted/5 border border-dashed border-muted-foreground/10 text-center opacity-60">
-                    <p className="text-[8px] font-black text-foreground/40 uppercase tracking-tighter mb-1">Coming Soon</p>
-                    <p className="text-[9px] font-bold text-muted-foreground italic">Dog ate the digital homework! 🐶</p>
-                </div>
-            )}
+            ))}
         </div>
     )
 };
@@ -182,94 +185,84 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                <span className="group-hover:text-primary transition-colors">{chapter.name}</span>
                                             </AccordionTrigger>
                                             <AccordionContent>
-                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 pb-4">
-                                                {chapter.topics?.map((topic, index) => {
-                                                    const allCards = [
-                                                          {
-                                                            pdfs: [is_note ? topic.notePdfUrl_en : topic.pdfUrl_en],
-                                                            label: is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)',
-                                                            is_download: true,
-                                                            theme: 'blue'
-                                                          },
-                                                          {
-                                                            pdfs: [is_note ? topic.notePdfUrl_hi : topic.pdfUrl_hi],
-                                                            label: is_note ? 'NCERT Notes (Hindi)' : 'NCERT Solutions (Hindi)',
-                                                            is_download: true,
-                                                            theme: 'emerald'
-                                                          },
-                                                          {
-                                                            pdfs: [topic.notePdfUrl_en_demo, topic.notePdfUrl_en_primum],
-                                                            label: `Premium Notes (English)`,
-                                                            is_download: false,
-                                                            theme: 'orange'
-                                                          },
-                                                          {
-                                                            pdfs: [topic.notePdfUrl_hi_demo, topic.notePdfUrl_hi_primum],
-                                                            label: `Premium Notes (Hindi)`,
-                                                            is_download: false,
-                                                            theme: 'orange'
-                                                          }
-                                                    ];
+                                                <div className="px-4 pb-4">
+                                                {chapter.topics && chapter.topics.length > 0 ? (
+                                                    chapter.topics.map((topic, topicIdx) => {
+                                                        const allPossibleCards = [
+                                                            {
+                                                                pdf: is_note ? topic.notePdfUrl_en : topic.pdfUrl_en,
+                                                                label: is_note ? 'NCERT Notes (English)' : 'NCERT Solutions (English)',
+                                                                is_download: true,
+                                                                theme: 'blue'
+                                                            },
+                                                            {
+                                                                pdf: is_note ? topic.notePdfUrl_hi : topic.pdfUrl_hi,
+                                                                label: is_note ? 'NCERT Notes (Hindi)' : 'NCERT Solutions (Hindi)',
+                                                                is_download: true,
+                                                                theme: 'emerald'
+                                                            },
+                                                            {
+                                                                pdf: topic.notePdfUrl_en_demo || topic.notePdfUrl_en_primum,
+                                                                label: 'Premium Notes (English)',
+                                                                is_download: false,
+                                                                theme: 'orange',
+                                                                onlyShowIfNote: true
+                                                            },
+                                                            {
+                                                                pdf: topic.notePdfUrl_hi_demo || topic.notePdfUrl_hi_primum,
+                                                                label: 'Premium Notes (Hindi)',
+                                                                is_download: false,
+                                                                theme: 'orange',
+                                                                onlyShowIfNote: true
+                                                            }
+                                                        ];
 
-                                                    const cards = is_note ? allCards : allCards.slice(0, 2);
+                                                        const filteredCards = allPossibleCards.filter(card => {
+                                                            if (card.onlyShowIfNote && !is_note) return false;
+                                                            return card.pdf && card.pdf.trim() !== "";
+                                                        });
 
-                                                    return cards.map((card, i) => {
-                                                    const availablePdf = card.pdfs.find((pdf) => pdf && pdf.trim() !== "");
-                                                    const hasPdf = !!availablePdf;
+                                                        if (filteredCards.length === 0) {
+                                                            return <EmptyResourceMessage key={topicIdx} compact />;
+                                                        }
 
-                                                    return hasPdf ? (
-                                                        <div
-                                                        key={`${index}-${i}`}
-                                                        className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300"
-                                                        >
-                                                            <div className="flex items-center gap-3">
-                                                                <div className={cn(
-                                                                    "p-2 rounded-lg transition-transform group-hover:scale-110",
-                                                                    card.theme === 'blue' ? "bg-blue-500/5 text-blue-600" : 
-                                                                    card.theme === 'emerald' ? "bg-emerald-500/5 text-emerald-600" :
-                                                                    "bg-orange-500/5 text-orange-600"
-                                                                )}>
-                                                                    <FileText className="w-4 h-4" />
-                                                                </div>
-                                                                <p className="text-[11px] font-bold text-foreground/80">{card.label}</p>
+                                                        return (
+                                                            <div key={topicIdx} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 first:mt-0">
+                                                                {filteredCards.map((card, i) => (
+                                                                    <div key={i} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300">
+                                                                        <div className="flex items-center gap-3">
+                                                                            <div className={cn(
+                                                                                "p-2 rounded-lg transition-transform group-hover:scale-110",
+                                                                                card.theme === 'blue' ? "bg-blue-500/5 text-blue-600" : 
+                                                                                card.theme === 'emerald' ? "bg-emerald-500/5 text-emerald-600" :
+                                                                                "bg-orange-500/5 text-orange-600"
+                                                                            )}>
+                                                                                <FileText className="w-4 h-4" />
+                                                                            </div>
+                                                                            <p className="text-[11px] font-bold text-foreground/80">{card.label}</p>
+                                                                        </div>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => handleViewPdf(card.pdf!, `${topic.name} - ${card.label}`)}>
+                                                                                <Eye className="h-4 w-4" />
+                                                                            </Button>
+                                                                            {card.is_download ? (
+                                                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-emerald-600 hover:bg-emerald-50" onClick={() => handleDownload(card.pdf!)}>
+                                                                                    <Download className="h-4 w-4" />
+                                                                                </Button>
+                                                                            ) : (
+                                                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-orange-50" onClick={() => router.push('/store')}>
+                                                                                    <ShoppingCart className="h-4 w-4" />
+                                                                                </Button>
+                                                                            )}
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
                                                             </div>
-
-                                                            <div className="flex items-center gap-1">
-                                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => handleViewPdf(availablePdf, `${topic.name} - ${card.label}`)}>
-                                                                    <Eye className="h-4 w-4" />
-                                                                </Button>
-
-                                                                {card.is_download ? (
-                                                                    <Button 
-                                                                        variant="ghost" 
-                                                                        size="icon" 
-                                                                        className="h-8 w-8 text-emerald-600 hover:bg-emerald-50 transition-all"
-                                                                        onClick={() => handleDownload(availablePdf)}
-                                                                    >
-                                                                        <Download className="h-4 w-4" />
-                                                                    </Button>
-                                                                ) : (
-                                                                    <Button 
-                                                                        variant="ghost" 
-                                                                        size="icon" 
-                                                                        className="h-8 w-8 text-orange-600 hover:bg-orange-50"
-                                                                        onClick={() => router.push('/store')}
-                                                                    >
-                                                                        <ShoppingCart className="h-4 w-4" />
-                                                                    </Button>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    ) : (
-                                                        <div key={`${index}-${i}`} className="group flex flex-col items-center justify-center p-4 rounded-xl bg-muted/5 border border-dashed border-muted-foreground/10 text-center opacity-60">
-                                                            <p className="text-[8px] font-black text-foreground/40 uppercase tracking-tighter mb-1">Coming Soon</p>
-                                                            <p className="text-[9px] font-bold text-muted-foreground italic leading-tight">
-                                                                {i % 2 === 0 ? "PDF is on a tea break... ☕" : "Knowledge still cooking! 👨‍🍳"}
-                                                            </p>
-                                                        </div>
-                                                    );
-                                                    });
-                                                })}
+                                                        );
+                                                    })
+                                                ) : (
+                                                    <EmptyResourceMessage compact />
+                                                )}
                                                 </div>
                                             </AccordionContent>
                                         </AccordionItem>

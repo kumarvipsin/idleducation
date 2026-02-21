@@ -34,7 +34,6 @@ export interface TChapter {
   pdfUrl?: string;
   longNotePdfUrl?: string;
   shortNotePdfUrl?: string;
-  primumNotePdfUrl?: string;
   topics?: TTopic[];
 }
 
