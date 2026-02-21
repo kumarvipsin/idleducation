@@ -130,7 +130,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                     .map(([partKey, partData]) => (
                         <div key={partKey} className="space-y-4">
                             <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
-                                <h3 className="text-lg md:text-xl font-black text-foreground uppercase tracking-tight">{partData.name}</h3>
+                                <h3 className="text-lg md:text-xl font-black text-foreground tracking-tight">Content</h3>
                             </div>
                              <Accordion type="single" collapsible className="w-full space-y-3">
                                 {partData.chapters.map((chapter, chapterIndex) => (
