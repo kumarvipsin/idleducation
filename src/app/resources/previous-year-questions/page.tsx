@@ -20,7 +20,9 @@ import {
     Dna,
     BookText,
     Landmark,
-    Globe
+    Globe,
+    TrendingUp,
+    Users
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
@@ -41,6 +43,8 @@ const SubjectIcon = ({ name, className }: { name: string, className?: string }) 
     if (lowerName.includes('english')) return <BookText className={className} />;
     if (lowerName.includes('history') || lowerName.includes('social') || lowerName.includes('pol')) return <Landmark className={className} />;
     if (lowerName.includes('geography')) return <Globe className={className} />;
+    if (lowerName.includes('economics')) return <TrendingUp className={className} />;
+    if (lowerName.includes('sociology')) return <Users className={className} />;
     return <FileText className={className} />;
 };
 
