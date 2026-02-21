@@ -1,12 +1,11 @@
 'use client';
 
-import { useEffect, useState, Suspense, ReactNode } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { getCollection } from '@/app/actions/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { BookOpen, Home } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { NcertChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -129,17 +128,6 @@ function NcertSolutionsDetailsContent() {
             </div>
             
             <CardContent className="p-6 md:p-12">
-                <div className="flex items-center justify-between mb-10">
-                    <div className="space-y-1.5">
-                        <h2 className="text-2xl md:text-3xl font-black text-foreground tracking-tight">Course Content</h2>
-                        <div className="flex items-center gap-2">
-                            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">Detailed step-by-step solutions</p>
-                        </div>
-                    </div>
-                    <div className="hidden lg:block h-[2px] flex-1 mx-12 bg-muted/50 rounded-full" />
-                </div>
-                
                 <NcertChapterList resources={notesData} />
             </CardContent>
         </Card>
