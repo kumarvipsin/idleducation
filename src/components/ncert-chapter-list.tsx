@@ -136,7 +136,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                 {partData.chapters.map((chapter, chapterIndex) => (
                                     <Card key={chapterIndex} className="overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-colors shadow-sm bg-white">
                                         <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                            <AccordionTrigger className="p-4 md:p-5 font-extrabold text-sm md:text-base text-foreground text-left hover:no-underline group">
+                                            <AccordionTrigger className="p-4 md:p-5 font-bold text-[13px] md:text-sm text-foreground text-left hover:no-underline group">
                                                <span className="group-hover:text-primary transition-colors">{chapter.name}</span>
                                             </AccordionTrigger>
                                             <AccordionContent>
@@ -241,7 +241,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                     {subject.chapters.map((chapter, chapterIndex) => (
                         <Card key={chapterIndex} className="overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-colors shadow-sm bg-white">
                              <AccordionItem value={`chapter-${chapterIndex}`} className="border-b-0">
-                                <AccordionTrigger className="p-4 md:p-5 font-extrabold text-sm md:text-base text-foreground text-left hover:no-underline group">
+                                <AccordionTrigger className="p-4 md:p-5 font-bold text-[13px] md:text-sm text-foreground text-left hover:no-underline group">
                                     <span className="group-hover:text-primary transition-colors">{chapter.name}</span>
                                 </AccordionTrigger>
                                 <AccordionContent>
