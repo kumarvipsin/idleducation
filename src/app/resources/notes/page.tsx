@@ -1,11 +1,9 @@
-
 'use client';
 
 import * as React from 'react';
 import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { BookText, ArrowRight, HelpCircle, Sigma, Lightbulb, Globe, Type, Plus, Minus, X, Divide } from 'lucide-react';
+import { ArrowRight, HelpCircle, Sigma, Lightbulb, Globe, Plus, Minus, X, Divide, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { getCollection } from '@/app/actions/data';
@@ -23,14 +21,12 @@ const subjectThemes: { [key: string]: {
   bg: string; 
   text: string; 
   spine: string; 
-  iconColor: string;
   icon: React.ReactNode;
 }} = {
   maths: { 
     bg: "bg-[#FFF7D6]", 
     text: "text-[#A16207]", 
     spine: "bg-[#FDE68A]", 
-    iconColor: "text-[#A16207]/10",
     icon: (
       <div className="grid grid-cols-2 gap-1 opacity-20">
         <Plus className="w-8 h-8" strokeWidth={3} />
@@ -44,29 +40,25 @@ const subjectThemes: { [key: string]: {
     bg: "bg-[#E0F2FE]", 
     text: "text-[#0369A1]", 
     spine: "bg-[#BAE6FD]", 
-    iconColor: "text-[#0369A1]/10",
     icon: <Lightbulb className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
   },
   social: { 
     bg: "bg-[#FEE2E2]", 
     text: "text-[#9F1239]", 
     spine: "bg-[#FECACA]", 
-    iconColor: "text-[#9F1239]/10",
     icon: <Globe className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
   },
   english: { 
     bg: "bg-[#F5F3FF]", 
     text: "text-[#5B21B6]", 
     spine: "bg-[#DDD6FE]", 
-    iconColor: "text-[#5B21B6]/10",
     icon: <div className="text-7xl font-black opacity-10 select-none">A</div> 
   },
   default: { 
     bg: "bg-slate-50", 
     text: "text-slate-700", 
     spine: "bg-slate-200", 
-    iconColor: "text-slate-400/10",
-    icon: <BookText className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
+    icon: <BookOpen className="w-24 h-24 opacity-10" strokeWidth={1.5} /> 
   },
 };
 
@@ -138,7 +130,7 @@ function NotesPageContent() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="text-center mb-12 animate-fade-in-up">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block uppercase">
             Notes for {selectedClass}
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
@@ -199,7 +191,7 @@ function NotesPageContent() {
                                             {subject.name}
                                         </h3>
                                         <Badge variant="outline" className={cn("mt-2 border-current opacity-60 text-[10px] font-black uppercase tracking-widest px-2", theme.text)}>
-                                            {subject.className}
+                                            {selectedClass}
                                         </Badge>
                                     </div>
 
@@ -246,7 +238,7 @@ export default function NotesPage() {
                             <Skeleton className="h-5 w-96 mx-auto" />
                         </div>
                         <div className="mb-8 flex justify-center gap-2">
-                            {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)}
+                            {[...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />) /* Placeholder for skeletons */}
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                           {[...Array(4)].map((_, i) => <Skeleton key={i} className="h-[240px] w-full rounded-2xl" />)}
