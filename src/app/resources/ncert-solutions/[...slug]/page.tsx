@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, ReactNode } from 'react';
 import { getCollection } from '@/app/actions/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -118,14 +118,11 @@ function NcertSolutionsDetailsContent() {
                 </div>
                 <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
                 
-                <div className="relative z-10 space-y-6">
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-black uppercase tracking-[0.25em]">
-                        Academic Repository
-                    </div>
+                <div className="relative z-10 space-y-4">
                     <div className="space-y-2">
                         <h1 className="text-4xl md:text-6xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
                         <p className="text-sm md:text-lg font-bold text-white/60 tracking-tight">
-                            Comprehensive NCERT Solutions For {className}
+                            NCERT Solutions For {className}
                         </p>
                     </div>
                 </div>
