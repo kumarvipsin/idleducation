@@ -11,6 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { useToast } from '@/hooks/use-toast';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
+import { Badge } from "@/components/ui/badge";
 
 function PreviousYearQuestionsContent() {
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
