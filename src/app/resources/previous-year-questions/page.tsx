@@ -191,7 +191,7 @@ function PreviousYearQuestionsContent() {
                                     key={className}
                                     onClick={() => setSelectedClass(className)}
                                     className={cn(
-                                        "text-sm font-bold transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
+                                        "text-sm font-medium transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none",
                                         selectedClass === className 
                                         ? 'text-primary border-primary' 
                                         : 'text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20'
@@ -235,12 +235,13 @@ function PreviousYearQuestionsContent() {
 
                             return (
                                 <section key={year} className="animate-fade-in-up">
-                                    <div className="flex items-center gap-4 mb-8">
-                                        <div className="bg-primary text-white px-6 py-2 rounded-tr-[2rem] rounded-bl-[1rem] font-black text-lg shadow-lg flex items-center gap-2">
-                                            <Folder className="w-5 h-5 fill-white/20" />
+                                    <div className="flex justify-between items-center mb-8">
+                                        <h2 
+                                            className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block uppercase" 
+                                            style={{ backgroundSize: '100% 2px' }}
+                                        >
                                             CBSE {year} (PYQ)
-                                        </div>
-                                        <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/20 to-transparent" />
+                                        </h2>
                                     </div>
                                     <div className="grid gap-10">
                                         {filteredGroupedSubjects.map(([subjectName, papers]) => {
@@ -287,10 +288,8 @@ function PreviousYearQuestionsContent() {
                                                                             </div>
                                                                         </div>
                                                                         <div className="grid grid-cols-2 gap-3 mt-auto">
-                                                                            <Button 
-                                                                                variant="outline" 
-                                                                                size="sm" 
-                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 border-primary/20 hover:bg-primary/5 transition-all shadow-none"
+                                                                            <button 
+                                                                                className="inline-flex items-center justify-center font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 border border-primary/20 text-primary hover:bg-primary/5 transition-all shadow-none px-3"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
                                                                                     handleDownload(paper.pdfUrl);
@@ -299,11 +298,9 @@ function PreviousYearQuestionsContent() {
                                                                             >
                                                                                 <Eye className="w-3.5 h-3.5 mr-1.5" />
                                                                                 View
-                                                                            </Button>
-                                                                            <Button 
-                                                                                variant="default" 
-                                                                                size="sm" 
-                                                                                className="font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 transition-all shadow-md shadow-primary/10"
+                                                                            </button>
+                                                                            <button 
+                                                                                className="inline-flex items-center justify-center font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 bg-primary text-white transition-all shadow-md shadow-primary/10 px-3 hover:bg-primary/90"
                                                                                 onClick={(e) => {
                                                                                     e.stopPropagation();
                                                                                     handleDownload(paper.pdfUrl);
@@ -312,7 +309,7 @@ function PreviousYearQuestionsContent() {
                                                                             >
                                                                                 <Download className="w-3.5 h-3.5 mr-1.5" />
                                                                                 GET
-                                                                            </Button>
+                                                                            </button>
                                                                         </div>
                                                                     </div>
                                                                 ))}
