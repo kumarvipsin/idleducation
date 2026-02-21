@@ -113,7 +113,7 @@ const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; 
                         {res.is_download ? (
                             <DownloadPdfButton pdfUrl={res.url} />
                         ) : (
-                            <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-orange-50" onClick={() => router.push('/store')}>
+                            <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-blue-50" onClick={() => router.push('/store')}>
                                 <ShoppingCart className="h-4 w-4" />
                             </Button>
                         )}
@@ -254,7 +254,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                             <Download className="h-4 w-4" />
                                                         </Button>
                                                     ) : (
-                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-orange-50" onClick={() => router.push('/store')}>
+                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-orange-600 hover:bg-blue-50" onClick={() => router.push('/store')}>
                                                             <ShoppingCart className="h-4 w-4" />
                                                         </Button>
                                                     )}
@@ -291,9 +291,6 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                     .sort(([, a], [, b]) => (a.order || 99) - (b.order || 99))
                     .map(([partKey, partData]) => (
                         <div key={partKey} className="space-y-6">
-                            <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
-                                <h3 className="text-lg md:text-xl font-black text-foreground tracking-tight uppercase">CONTENTS</h3>
-                            </div>
                              <Accordion type="single" collapsible value={activeItem || ""} onValueChange={setActiveItem} className="w-full space-y-6">
                                 {partData.chapters.map((chapter, chapterIndex) => renderChapterItem(chapter, chapterIndex, partKey))}
                             </Accordion>
