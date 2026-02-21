@@ -16,19 +16,19 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   return (
     <Dialog>
       <Card
-        className="h-full flex flex-col shadow-none border border-muted-foreground/10 transition-shadow duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden"
+        className="h-full flex flex-col shadow-lg hover:shadow-xl transition-all duration-300 bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border border-muted-foreground/10 group/card"
       >
           <CardContent className="p-4 flex flex-col text-left items-start">
-              <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden group cursor-pointer border-4 border-primary/5">
+              <div className="relative w-full aspect-square mb-4 rounded-2xl overflow-hidden bg-primary/5 p-0 flex items-center justify-center">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
                       fill
-                      className="object-cover"
+                      className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                   />
                   {testimonial.videoId && (
                     <DialogTrigger asChild>
-                       <button className="absolute bottom-3 right-3 transition-all duration-300 active:scale-95 group-hover:scale-110">
+                       <button className="absolute bottom-3 right-3 transition-all duration-300 active:scale-95 group-hover/card:scale-110 z-10">
                           <PlayCircle className="w-10 h-10 text-white drop-shadow-[0_4px_10px_rgba(0,0,0,0.5)]" />
                       </button>
                     </DialogTrigger>
