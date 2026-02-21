@@ -18,8 +18,6 @@ function PreviousYearQuestionsContent() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedClass, setSelectedClass] = useState<string>('');
-    const [selectedSubject, setSelectedSubject] = useState<string>('All');
-    const [selectedYear, setSelectedYear] = useState<string>('All');
     const [expandedSubjects, setExpandedSubjects] = useState<Set<string>>(new Set());
     const { toast } = useToast();
 
@@ -32,7 +30,8 @@ function PreviousYearQuestionsContent() {
                 setQuestions(fetchedQuestions);
                 const initialClasses = Array.from(new Set(fetchedQuestions.map(q => q.exam))).sort();
                 if (initialClasses.length > 0) {
-                    setSelectedClass(initialClasses[0]);
+                    const defaultClass = initialClasses.find(c => c.includes('10')) || initialClasses[0];
+                    setSelectedClass(defaultClass);
                 }
             }
             setLoading(false);
@@ -58,41 +57,20 @@ function PreviousYearQuestionsContent() {
         return uniqueClasses;
     }, [questions]);
 
-    const subjects = useMemo(() => {
-        const subjectsForClass = questions
-            .filter(q => selectedClass === '' || q.exam === selectedClass)
-            .flatMap(q => Array.isArray(q.subjects) ? q.subjects.map(s => s.name) : []);
-        return ['All', ...Array.from(new Set(subjectsForClass))].sort();
-    }, [questions, selectedClass]);
-
-    const years = useMemo(() => {
-        if (questions.length === 0 || !selectedClass) return [];
-        const yearsForClass = questions
-            .filter(q => q.exam === selectedClass)
-            .map(q => q.year.toString());
-        const uniqueYears = Array.from(new Set(yearsForClass));
-        uniqueYears.sort((a, b) => parseInt(b, 10) - parseInt(a, 10));
-        return ['All', ...uniqueYears];
-    }, [questions, selectedClass]);
-
     useEffect(() => {
-        setSelectedSubject('All');
-        setSelectedYear('All');
         setExpandedSubjects(new Set()); // Reset expansions when class changes
     }, [selectedClass]);
 
     const filteredQuestions = useMemo(() => {
         return questions.filter(q => {
             const matchesClass = selectedClass === '' || q.exam === selectedClass;
-            const matchesSubject = selectedSubject === 'All' || (Array.isArray(q.subjects) && q.subjects.some(s => s.name === selectedSubject));
-            const matchesYear = selectedYear === 'All' || q.year.toString() === selectedYear;
             const matchesSearch = q.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                                 q.exam.toLowerCase().includes(searchTerm.toLowerCase()) ||
                                 (Array.isArray(q.subjects) && q.subjects.some(s => s.name.toLowerCase().includes(searchTerm.toLowerCase())));
             
-            return matchesClass && matchesSubject && matchesYear && matchesSearch;
+            return matchesClass && matchesSearch;
         });
-    }, [questions, selectedClass, selectedSubject, selectedYear, searchTerm]);
+    }, [questions, selectedClass, searchTerm]);
 
     const groupedByYear = useMemo(() => {
         return filteredQuestions.reduce((acc, q) => {
@@ -188,7 +166,6 @@ function PreviousYearQuestionsContent() {
                         .map(([year, questionsInYear]) => {
                             const subjectsForYear = questionsInYear.flatMap(q => 
                                 (Array.isArray(q.subjects) ? q.subjects : [])
-                                .filter(subject => selectedSubject === 'All' || subject.name === selectedSubject)
                             );
 
                             const groupedSubjects = subjectsForYear.reduce((acc, subject) => {
@@ -204,7 +181,7 @@ function PreviousYearQuestionsContent() {
                                     <div className="flex items-center gap-4 mb-8">
                                         <div className="bg-primary text-white px-6 py-2 rounded-tr-[2rem] rounded-bl-[1rem] font-black text-lg shadow-lg flex items-center gap-2">
                                             <Folder className="w-5 h-5 fill-white/20" />
-                                            {year} EXAMS
+                                            CBSE {year} (PYQ)
                                         </div>
                                         <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/20 to-transparent" />
                                     </div>
@@ -283,8 +260,6 @@ function PreviousYearQuestionsContent() {
                         <p className="text-sm text-muted-foreground font-bold mt-2">Try adjusting your search or filters.</p>
                         <Button variant="link" className="mt-4 font-black uppercase text-[10px] tracking-widest" onClick={() => {
                             setSearchTerm('');
-                            setSelectedSubject('All');
-                            setSelectedYear('All');
                         }}>
                             Clear all filters
                         </Button>
