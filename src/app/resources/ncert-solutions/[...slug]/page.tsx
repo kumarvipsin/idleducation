@@ -55,7 +55,7 @@ function NcertSolutionsDetailsContent() {
         return (
              <div className="space-y-6">
                 <Skeleton className="h-6 w-64" />
-                <Card className="rounded-2xl overflow-hidden border">
+                <Card className="rounded-2xl overflow-hidden border-none shadow-none">
                     <Skeleton className="h-48 w-full" />
                     <CardContent className="p-6">
                         <Skeleton className="h-96 w-full" />
@@ -67,7 +67,7 @@ function NcertSolutionsDetailsContent() {
     
     if (error || !classData || !notesData) {
          return (
-            <Card className="rounded-2xl border shadow-none bg-white">
+            <Card className="rounded-2xl border-none shadow-none bg-white">
                 <CardContent className="p-12">
                     <div className="text-center space-y-6">
                         <div className="bg-destructive/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
@@ -109,18 +109,18 @@ function NcertSolutionsDetailsContent() {
             </BreadcrumbList>
         </Breadcrumb>
 
-        <Card className="overflow-hidden border rounded-2xl bg-white dark:bg-card shadow-none">
-            <div className="relative overflow-hidden bg-primary text-white px-6 py-8 md:px-12 md:py-12">
+        <Card className="overflow-hidden border-none rounded-2xl bg-white dark:bg-card shadow-none">
+            <div className="relative overflow-hidden bg-primary text-white px-6 py-6 md:px-12 md:py-8">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 p-4 opacity-[0.07] pointer-events-none">
                     <BookOpen className="w-64 h-64 -rotate-12 translate-x-1/4 -translate-y-1/4" />
                 </div>
                 <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
                 
-                <div className="relative z-10 space-y-4">
-                    <div className="space-y-1">
-                        <h1 className="text-2xl md:text-4xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
-                        <p className="text-xs md:text-sm font-bold text-white/60 tracking-tight">
+                <div className="relative z-10 space-y-2">
+                    <div className="space-y-0.5">
+                        <h1 className="text-xl md:text-2xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
+                        <p className="text-[10px] md:text-xs font-bold text-white/60 tracking-tight">
                             NCERT Solutions For {className}
                         </p>
                     </div>
