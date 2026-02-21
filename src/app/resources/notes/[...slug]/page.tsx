@@ -1,19 +1,16 @@
 'use client';
 
-import { useEffect, useState, Suspense, ReactNode } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { getCollection } from '@/app/actions/data';
-import { getImportantQuestionsForSubject } from '@/app/actions';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpen, Languages, ShoppingCart } from 'lucide-react';
-import type { TClass, TSubject, TPart, TChapter } from '@/app/actions/types';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { useIsMobile } from '@/hooks/use-mobile';
+import { BookOpen, Home } from 'lucide-react';
+import type { TClass, TSubject } from '@/app/actions/types';
 import { NcertChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { usePathname, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
+import { Button } from '@/components/ui/button';
 
 function NotesDetailsContent() {
     const params = useParams();
@@ -21,12 +18,8 @@ function NotesDetailsContent() {
     const [classId, subjectKey] = slug;
     const [classData, setClassData] = useState<TClass | null>(null);
     const [notesData, setNotesData] = useState<TSubject | null>(null);
-    const [impQuestionsData, setImpQuestionsData] = useState<TSubject | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [contentsLang, setContentsLang] = useState<'en' | 'hi'>('en');
-    const isMobile = useIsMobile();
-
 
     useEffect(() => {
         if (!classId || !subjectKey) {
@@ -60,59 +53,105 @@ function NotesDetailsContent() {
     
     if (loading) {
         return (
-             <Card>
-                <CardContent className="p-6">
-                    <Skeleton className="h-96 w-full" />
-                </CardContent>
-            </Card>
+             <div className="space-y-6">
+                <Skeleton className="h-6 w-64" />
+                <Card className="rounded-[2rem] overflow-hidden border-none">
+                    <Skeleton className="h-48 w-full" />
+                    <CardContent className="p-6">
+                        <Skeleton className="h-96 w-full" />
+                    </CardContent>
+                </Card>
+            </div>
         )
     }
     
     if (error || !classData || !notesData) {
          return (
-            <Card>
-                <CardContent className="p-6">
-                    <p className="text-destructive text-center">{error || "Could not load resources."}</p>
+            <Card className="rounded-2xl border-none shadow-xl bg-white">
+                <CardContent className="p-12">
+                    <div className="text-center space-y-6">
+                        <div className="bg-destructive/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
+                            <BookOpen className="w-8 h-8 text-destructive" />
+                        </div>
+                        <div className="space-y-2">
+                            <h2 className="text-2xl font-black tracking-tight">Resource Unavailable</h2>
+                            <p className="text-muted-foreground font-bold">{error || "Could not load the requested academic notes."}</p>
+                        </div>
+                        <Button asChild variant="outline" className="rounded-xl font-bold uppercase tracking-widest text-[10px]">
+                            <Link href="/resources/notes">Return to Notes</Link>
+                        </Button>
+                    </div>
                 </CardContent>
             </Card>
         )
     }
 
-    const subjectName = notesData.name || subjectKey.replace('-', ' ');
-    const className = classData.name || classId.replace('-', ' ');
-
-    const contents = <NcertChapterList resources={notesData} is_note={true}/>;
-    
+    const subjectName = notesData.name || subjectKey.replace(/-/g, ' ');
+    const className = classData.name || classId.replace(/-/g, ' ');
 
     return (
       <div className="space-y-6">
-        <Card className="shadow-lg overflow-hidden border-t-8 border-primary">
-            <div className="bg-gradient-to-r from-primary to-accent text-white p-4">
-                <div className="flex items-center gap-4">
-                <div className="bg-white/20 p-3 rounded-full">
-                    <BookOpen className="w-6 h-6" />
+        <Breadcrumb className="px-1">
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href="/" className="flex items-center gap-1.5 font-bold text-[10px] uppercase tracking-widest">
+                        <Home className="h-3 w-3" /> Home
+                    </BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbLink href="/resources/notes" className="font-bold text-[10px] uppercase tracking-widest">Revision Notes</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbPage className="capitalize font-black text-primary text-[10px] uppercase tracking-widest">{className}</BreadcrumbPage>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+
+        <Card className="shadow-2xl overflow-hidden border-none rounded-[2rem] bg-white dark:bg-card">
+            <div className="relative overflow-hidden bg-primary text-white px-6 py-12 md:px-12 md:py-16">
+                {/* Decorative Elements */}
+                <div className="absolute top-0 right-0 p-4 opacity-[0.07] pointer-events-none">
+                    <BookOpen className="w-64 h-64 -rotate-12 translate-x-1/4 -translate-y-1/4" />
                 </div>
-                <div>
-                    <CardTitle className="text-2xl font-extrabold capitalize leading-none">{subjectName}</CardTitle>
-                    <p className="text-[11px] font-bold opacity-80 mt-1">Notes for {className}</p>
-                </div>
+                <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-white/5 rounded-full blur-2xl" />
+                
+                <div className="relative z-10 space-y-6">
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-black uppercase tracking-[0.25em]">
+                        Study Material
+                    </div>
+                    <div className="space-y-2">
+                        <h1 className="text-4xl md:text-6xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
+                        <p className="text-sm md:text-lg font-bold text-white/60 tracking-tight">
+                            Comprehensive Revision Notes For {className}
+                        </p>
+                    </div>
                 </div>
             </div>
-            <CardContent className="p-4 md:p-6">
-                    <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>Contents</h2>
+            
+            <CardContent className="p-6 md:p-12">
+                <div className="flex items-center justify-between mb-10">
+                    <div className="space-y-1.5">
+                        <h2 className="text-2xl md:text-3xl font-black text-foreground tracking-tight">Course Content</h2>
+                        <div className="flex items-center gap-2">
+                            <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                            <p className="text-[10px] text-muted-foreground font-black uppercase tracking-widest">High-quality conceptual summary</p>
+                        </div>
+                    </div>
+                    <div className="hidden lg:block h-[2px] flex-1 mx-12 bg-muted/50 rounded-full" />
                 </div>
-                {contents}
+                
+                <NcertChapterList resources={notesData} is_note={true} />
             </CardContent>
         </Card>
       </div>
     );
 }
 
-
 export default function NotesDetailsPage() {
     return (
-        <div className="container mx-auto py-12 px-4 md:px-6">
+        <div className="container mx-auto py-12 px-4 md:px-6 max-w-6xl">
             <Suspense fallback={<Skeleton className="h-screen w-full" />}>
                 <NotesDetailsContent />
             </Suspense>
