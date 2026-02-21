@@ -104,7 +104,11 @@ function NcertSolutionsDetailsContent() {
                 </BreadcrumbItem>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                    <BreadcrumbPage className="capitalize font-black text-primary text-[10px] uppercase tracking-widest">{className}</BreadcrumbPage>
+                    <BreadcrumbLink href="/resources/ncert-solutions" className="capitalize font-bold text-[10px] uppercase tracking-widest">{className}</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbPage className="capitalize font-black text-primary text-[10px] uppercase tracking-widest">{subjectName}</BreadcrumbPage>
                 </BreadcrumbItem>
             </BreadcrumbList>
         </Breadcrumb>
