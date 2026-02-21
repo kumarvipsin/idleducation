@@ -108,7 +108,7 @@ export function AcademicExcellence() {
                 align: 'start',
                 dragFree: true
             }}
-            plugins={[Autoplay({ delay: 2000, stopOnInteraction: false })]}
+            plugins={[Autoplay({ delay: 2000, stopOnInteraction: false, stopOnMouseEnter: true })]}
             className="w-full"
           >
             <CarouselContent>

@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -83,7 +82,7 @@ function NotesPageContent() {
   const [notesByClass, setNotesByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedClass, setSelectedClass] = useState('All Notes');
+  const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
 
   useEffect(() => {
@@ -109,6 +108,10 @@ function NotesPageContent() {
 
         setNotesByClass(formattedData);
         setClasses(sortedClasses);
+        if (sortedClasses.length > 0) {
+            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
+            setSelectedClass(defaultClass);
+        }
       }
       setLoading(false);
     };
@@ -116,17 +119,13 @@ function NotesPageContent() {
     fetchNotesData();
   }, []);
 
-  const subjects = selectedClass === 'All Notes'
-    ? Object.values(notesByClass).flat() as Subject[]
-    : notesByClass[selectedClass] || [];
+  const subjects = notesByClass[selectedClass] || [];
   
   const handleClassChange = (className: string) => {
     setSelectedClass(className);
     setAnimationKey(prev => prev + 1);
   };
   
-  const allClassButtons = ['All Notes', ...classes];
-
   const renderSkeleton = () => (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
         {[...Array(12)].map((_, i) => (
@@ -139,7 +138,7 @@ function NotesPageContent() {
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="text-center mb-12 animate-fade-in-up">
         <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
-            {selectedClass === 'All Notes' ? 'All Notes' : `Notes for ${selectedClass}`}
+            Notes for {selectedClass}
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground font-semibold">
@@ -153,7 +152,7 @@ function NotesPageContent() {
              {loading ? (
                  [...Array(7)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
             ) : (
-                allClassButtons.map((className: string) => (
+                classes.map((className: string) => (
                 <button
                     key={className}
                     onClick={() => handleClassChange(className)}
