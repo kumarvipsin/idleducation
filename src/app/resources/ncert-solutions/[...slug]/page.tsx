@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, Suspense, ReactNode } from 'react';
@@ -94,7 +93,8 @@ function NcertSolutionsDetailsContent() {
                     <BookOpen className="w-6 h-6" />
                 </div>
                 <div>
-                    <CardTitle className="text-2xl font-bold capitalize">CBSE | {className} | {subjectName}</CardTitle>
+                    <CardTitle className="text-2xl font-extrabold capitalize leading-none">{subjectName}</CardTitle>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-80 mt-1.5">NCERT Solutions For {className}</p>
                 </div>
                 </div>
             </div>
