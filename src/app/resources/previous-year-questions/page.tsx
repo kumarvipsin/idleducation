@@ -3,7 +3,7 @@
 import { useState, useEffect, useMemo, Suspense } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, Search, ArrowRight, HelpCircle, X, Folder } from "lucide-react";
+import { Download, FileText, Search, ArrowRight, HelpCircle, X, Folder, Plus, Minus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getPreviousYearQuestions, getSignedUrlForPdf } from '@/app/actions';
 import type { TPreviousYearQuestion, SubjectWithPapers, Paper } from '@/app/actions/types';
@@ -20,6 +20,7 @@ function PreviousYearQuestionsContent() {
     const [selectedClass, setSelectedClass] = useState<string>('');
     const [selectedSubject, setSelectedSubject] = useState<string>('All');
     const [selectedYear, setSelectedYear] = useState<string>('All');
+    const [expandedSubjects, setExpandedSubjects] = useState<Set<string>>(new Set());
     const { toast } = useToast();
 
     useEffect(() => {
@@ -38,6 +39,18 @@ function PreviousYearQuestionsContent() {
         };
         fetchQuestions();
     }, []);
+
+    const toggleSubject = (id: string) => {
+        setExpandedSubjects(prev => {
+            const next = new Set(prev);
+            if (next.has(id)) {
+                next.delete(id);
+            } else {
+                next.add(id);
+            }
+            return next;
+        });
+    };
 
     const classes = useMemo(() => {
         if (questions.length === 0) return [];
@@ -65,6 +78,7 @@ function PreviousYearQuestionsContent() {
     useEffect(() => {
         setSelectedSubject('All');
         setSelectedYear('All');
+        setExpandedSubjects(new Set()); // Reset expansions when class changes
     }, [selectedClass]);
 
     const filteredQuestions = useMemo(() => {
@@ -232,49 +246,67 @@ function PreviousYearQuestionsContent() {
                                         <div className="flex-1 h-[2px] bg-gradient-to-r from-primary/20 to-transparent" />
                                     </div>
                                     <div className="grid gap-8">
-                                        {Object.entries(groupedSubjects).map(([subjectName, papers]) => (
-                                            <div key={subjectName} className="relative">
-                                                {/* Folder Tab Effect */}
-                                                <div className="absolute -top-6 left-4 bg-primary/10 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-black text-primary uppercase tracking-widest z-0 flex items-center gap-2">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-                                                    {subjectName} FOLDER
-                                                </div>
-                                                
-                                                <Card className="border-none shadow-md bg-white overflow-hidden relative z-10 rounded-2xl">
-                                                    <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10">
-                                                        <CardTitle className="text-sm font-black text-primary uppercase tracking-widest flex items-center gap-2">
-                                                            <FileText className="w-4 h-4" />
-                                                            {subjectName} Question Papers
-                                                        </CardTitle>
-                                                    </CardHeader>
-                                                    <CardContent className="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                                        {papers.map((paper, pIdx) => (
-                                                            <div key={pIdx} className="group p-5 border rounded-2xl hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
-                                                                <div className="flex items-start gap-4">
-                                                                    <div className="p-3 bg-primary/5 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
-                                                                        <FileText className="w-5 h-5" />
-                                                                    </div>
-                                                                    <div className="space-y-1">
-                                                                        <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest">{subjectName}</span>
-                                                                        <p className="text-sm font-black text-foreground leading-tight">{paper.title}</p>
-                                                                    </div>
+                                        {Object.entries(groupedSubjects).map(([subjectName, papers]) => {
+                                            const expansionKey = `${year}-${subjectName}`;
+                                            const isExpanded = expandedSubjects.has(expansionKey);
+
+                                            return (
+                                                <div key={subjectName} className="relative">
+                                                    {/* Folder Tab Effect */}
+                                                    <div className="absolute -top-6 left-4 bg-primary/10 border border-b-0 border-primary/20 px-4 py-1.5 rounded-t-xl text-[10px] font-black text-primary uppercase tracking-widest z-0 flex items-center gap-2">
+                                                        <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                                                        {subjectName} FOLDER
+                                                    </div>
+                                                    
+                                                    <Card className="border-none shadow-md bg-white overflow-hidden relative z-10 rounded-2xl">
+                                                        <button 
+                                                            onClick={() => toggleSubject(expansionKey)}
+                                                            className="w-full text-left focus:outline-none"
+                                                        >
+                                                            <CardHeader className="bg-primary/5 py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between">
+                                                                <CardTitle className="text-sm font-black text-primary uppercase tracking-widest flex items-center gap-2">
+                                                                    <FileText className="w-4 h-4" />
+                                                                    {subjectName} Question Papers
+                                                                </CardTitle>
+                                                                <div className="bg-white/50 p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300">
+                                                                    {isExpanded ? <Minus className="w-4 h-4 text-primary" /> : <Plus className="w-4 h-4 text-primary" />}
                                                                 </div>
-                                                                <Button 
-                                                                    variant="outline" 
-                                                                    size="sm" 
-                                                                    className="w-full font-black text-[10px] uppercase tracking-widest rounded-xl h-10 border-primary/20 hover:bg-primary hover:text-white transition-all shadow-none"
-                                                                    onClick={() => handleDownload(paper.pdfUrl)} 
-                                                                    disabled={!paper.pdfUrl}
-                                                                >
-                                                                    <Download className="w-4 h-4 mr-2" />
-                                                                    Download PDF
-                                                                </Button>
-                                                            </div>
-                                                        ))}
-                                                    </CardContent>
-                                                </Card>
-                                            </div>
-                                        ))}
+                                                            </CardHeader>
+                                                        </button>
+                                                        {isExpanded && (
+                                                            <CardContent className="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                                {papers.map((paper, pIdx) => (
+                                                                    <div key={pIdx} className="group p-5 border rounded-2xl hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
+                                                                        <div className="flex items-start gap-4">
+                                                                            <div className="p-3 bg-primary/5 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300 shadow-sm">
+                                                                                <FileText className="w-5 h-5" />
+                                                                            </div>
+                                                                            <div className="space-y-1">
+                                                                                <span className="text-[10px] font-black text-primary/60 uppercase tracking-widest">{subjectName}</span>
+                                                                                <p className="text-sm font-black text-foreground leading-tight">{paper.title}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <Button 
+                                                                            variant="outline" 
+                                                                            size="sm" 
+                                                                            className="w-full font-black text-[10px] uppercase tracking-widest rounded-xl h-10 border-primary/20 hover:bg-primary hover:text-white transition-all shadow-none"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handleDownload(paper.pdfUrl);
+                                                                            }} 
+                                                                            disabled={!paper.pdfUrl}
+                                                                        >
+                                                                            <Download className="w-4 h-4 mr-2" />
+                                                                            Download PDF
+                                                                        </Button>
+                                                                    </div>
+                                                                ))}
+                                                            </CardContent>
+                                                        )}
+                                                    </Card>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
                                 </section>
                             );
