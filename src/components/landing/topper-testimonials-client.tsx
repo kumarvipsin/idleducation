@@ -6,7 +6,6 @@ import type { TTopperTestimonial } from "@/app/actions/types";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { PlayCircle } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import { cn } from "@/lib/utils";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) => {
@@ -117,12 +116,6 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                             loop: true,
                             dragFree: true,
                         }}
-                        plugins={[
-                            Autoplay({
-                                delay: 2000,
-                                stopOnInteraction: false,
-                            }),
-                        ]}
                         className="w-full"
                     >
                         <CarouselContent className="-ml-4">
