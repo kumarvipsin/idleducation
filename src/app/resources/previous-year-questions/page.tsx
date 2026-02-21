@@ -53,7 +53,7 @@ function PreviousYearQuestionsContent() {
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedClass, setSelectedClass] = useState<string>('');
-    const [expandedSubjects, setExpandedSubjects] = useState<Set<string>>(new Set());
+    const [expandedSubjectId, setExpandedSubjectId] = useState<string | null>(null);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -75,15 +75,7 @@ function PreviousYearQuestionsContent() {
     }, []);
 
     const toggleSubject = (id: string) => {
-        setExpandedSubjects(prev => {
-            const next = new Set(prev);
-            if (next.has(id)) {
-                next.delete(id);
-            } else {
-                next.add(id);
-            }
-            return next;
-        });
+        setExpandedSubjectId(prev => (prev === id ? null : id));
     };
 
     const classes = useMemo(() => {
@@ -93,7 +85,7 @@ function PreviousYearQuestionsContent() {
     }, [questions]);
 
     useEffect(() => {
-        setExpandedSubjects(new Set()); // Reset expansions when class changes
+        setExpandedSubjectId(null); // Reset expansion when class changes
     }, [selectedClass]);
 
     const filteredQuestions = useMemo(() => {
@@ -223,7 +215,7 @@ function PreviousYearQuestionsContent() {
                                     <div className="grid gap-8">
                                         {Object.entries(groupedSubjects).map(([subjectName, papers]) => {
                                             const expansionKey = `${year}-${subjectName}`;
-                                            const isExpanded = expandedSubjects.has(expansionKey);
+                                            const isExpanded = expandedSubjectId === expansionKey;
 
                                             return (
                                                 <div key={subjectName} className="relative">
