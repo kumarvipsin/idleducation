@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -135,8 +134,8 @@ function NotesPageContent() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="text-center mb-12 animate-fade-in-up">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block uppercase">
-            Notes for {selectedClass}
+        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+            Notes For {selectedClass}
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground font-semibold">
@@ -207,7 +206,7 @@ function NotesPageContent() {
                                     
                                     <div className="mt-auto self-end">
                                         <div className={cn("p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0", theme.bg, "shadow-sm border border-black/5")}>
-                                            <ArrowRight className={cn("w-4 h-4", theme.text)} />
+                                            <ArrowRight className="w-4 h-4", theme.text)} />
                                         </div>
                                     </div>
                                 </CardContent>

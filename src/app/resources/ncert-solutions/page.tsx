@@ -1,4 +1,3 @@
-
 'use client';
 
 import * as React from 'react';
@@ -134,8 +133,8 @@ function NcertSolutionsPageContent() {
   return (
     <div className="container mx-auto py-12 px-4 md:px-6">
       <div className="text-center mb-12 animate-fade-in-up">
-        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block uppercase">
-            NCERT Solutions for {selectedClass}
+        <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
+            NCERT Solutions For {selectedClass}
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground font-semibold">
