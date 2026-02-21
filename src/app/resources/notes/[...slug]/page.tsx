@@ -55,7 +55,7 @@ function NotesDetailsContent() {
         return (
              <div className="space-y-6">
                 <Skeleton className="h-6 w-64" />
-                <Card className="rounded-[2rem] overflow-hidden border-none">
+                <Card className="rounded-2xl overflow-hidden border">
                     <Skeleton className="h-48 w-full" />
                     <CardContent className="p-6">
                         <Skeleton className="h-96 w-full" />
@@ -67,7 +67,7 @@ function NotesDetailsContent() {
     
     if (error || !classData || !notesData) {
          return (
-            <Card className="rounded-2xl border-none shadow-xl bg-white">
+            <Card className="rounded-2xl border shadow-none bg-white">
                 <CardContent className="p-12">
                     <div className="text-center space-y-6">
                         <div className="bg-destructive/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto">
@@ -109,7 +109,7 @@ function NotesDetailsContent() {
             </BreadcrumbList>
         </Breadcrumb>
 
-        <Card className="shadow-2xl overflow-hidden border-none rounded-[2rem] bg-white dark:bg-card">
+        <Card className="overflow-hidden border rounded-2xl bg-white dark:bg-card shadow-none">
             <div className="relative overflow-hidden bg-primary text-white px-6 py-8 md:px-12 md:py-12">
                 {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 p-4 opacity-[0.07] pointer-events-none">
