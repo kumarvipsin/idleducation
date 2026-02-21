@@ -3,7 +3,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { Download, ShoppingCart, Eye, FileText, Folder } from "lucide-react";
+import { Download, ShoppingCart, Eye, FileText, Folder, Plus, Minus } from "lucide-react";
 import type { TSubject, TChapter } from "@/app/actions/types";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./ui/accordion";
 import { useToast } from "@/hooks/use-toast";
@@ -166,14 +166,12 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
     const value = `${partPrefix}chapter-${chapterIndex}`;
     const isExpanded = activeItem === value;
     
-    // Split name by pipe if it exists (e.g. "Chapter-1 | Patterns in Mathematics")
     const parts = chapter.name.split('|');
     const chapterLabel = parts.length > 1 ? parts[0].trim() : `Chapter ${chapterIndex + 1}`;
     const chapterName = parts.length > 1 ? parts[1].trim() : chapter.name;
 
     return (
         <div key={chapterIndex} className="relative pt-6">
-            {/* Folder Tab Effect */}
             <div className={cn(
                 "absolute top-0 left-4 border border-b-0 border-primary/20 px-4 py-1 rounded-t-lg text-[10px] font-bold z-0 flex items-center gap-2 transition-all duration-300",
                 isExpanded ? "bg-primary text-white" : "bg-primary/10 text-primary"
@@ -294,7 +292,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                     .map(([partKey, partData]) => (
                         <div key={partKey} className="space-y-6">
                             <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
-                                <h3 className="text-lg md:text-xl font-black text-foreground tracking-tight">{partData.name}</h3>
+                                <h3 className="text-lg md:text-xl font-black text-foreground tracking-tight uppercase">CONTENTS</h3>
                             </div>
                              <Accordion type="single" collapsible value={activeItem || ""} onValueChange={setActiveItem} className="w-full space-y-6">
                                 {partData.chapters.map((chapter, chapterIndex) => renderChapterItem(chapter, chapterIndex, partKey))}

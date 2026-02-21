@@ -111,7 +111,6 @@ function NotesDetailsContent() {
 
         <Card className="overflow-hidden border-none rounded-2xl bg-white dark:bg-card shadow-none">
             <div className="relative overflow-hidden bg-primary text-white px-6 py-6 md:px-12 md:py-8">
-                {/* Decorative Elements */}
                 <div className="absolute top-0 right-0 p-4 opacity-[0.07] pointer-events-none">
                     <BookOpen className="w-64 h-64 -rotate-12 translate-x-1/4 -translate-y-1/4" />
                 </div>
@@ -119,7 +118,7 @@ function NotesDetailsContent() {
                 
                 <div className="relative z-10 space-y-2">
                     <div className="space-y-0.5">
-                        <h1 className="text-xl md:text-2xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
+                        <h1 className="text-lg md:text-xl font-black tracking-tighter capitalize drop-shadow-sm">{subjectName}</h1>
                         <p className="text-[10px] md:text-xs font-bold text-white/60 tracking-tight">
                             Revision Notes For {className}
                         </p>
@@ -128,6 +127,9 @@ function NotesDetailsContent() {
             </div>
             
             <CardContent className="p-6 md:p-12">
+                 <div className="flex justify-between items-center mb-4">
+                    <h2 className="text-xl md:text-2xl font-bold text-foreground pb-2 bg-gradient-to-r from-red-500 from-50% to-primary to-50% bg-no-repeat bg-bottom inline-block" style={{ backgroundSize: '100% 2px' }}>CONTENTS</h2>
+                </div>
                 <NcertChapterList resources={notesData} is_note={true} />
             </CardContent>
         </Card>
