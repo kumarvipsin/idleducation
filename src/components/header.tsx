@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -126,7 +127,7 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                             </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="font-black text-[12px] text-foreground uppercase tracking-tight leading-tight group-hover:text-primary transition-colors">{link.label}</p>
+                            <p className="font-black text-[12px] text-foreground tracking-tight leading-tight group-hover:text-primary transition-colors">{link.label}</p>
                             <p className="text-[9px] font-bold text-muted-foreground line-clamp-1 opacity-70 mt-0.5">{link.description}</p>
                         </div>
                         <ChevronRight className="w-3.5 h-3.5 text-primary/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
@@ -704,3 +705,4 @@ export function Header() {
     </>
   );
 }
+    
