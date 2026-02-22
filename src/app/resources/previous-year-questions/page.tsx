@@ -59,6 +59,7 @@ function PreviousYearQuestionsContent() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedClass, setSelectedClass] = useState<string>('');
     const [expandedSubjectId, setExpandedSubjectId] = useState<string | null>(null);
+    const [expandedYearIds, setExpandedYearIds] = useState<string[]>([]);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -83,6 +84,12 @@ function PreviousYearQuestionsContent() {
         setExpandedSubjectId(prev => (prev === id ? null : id));
     };
 
+    const toggleYear = (year: string) => {
+        setExpandedYearIds(prev => 
+            prev.includes(year) ? prev.filter(y => y !== year) : [...prev, year]
+        );
+    };
+
     const classes = useMemo(() => {
         if (questions.length === 0) return [];
         const uniqueClasses = Array.from(new Set(questions.map(q => q.exam))).sort();
@@ -90,7 +97,7 @@ function PreviousYearQuestionsContent() {
     }, [questions]);
 
     useEffect(() => {
-        setExpandedSubjectId(null); // Reset expansion when class changes
+        setExpandedSubjectId(null);
     }, [selectedClass]);
 
     const filteredQuestions = useMemo(() => {
@@ -119,6 +126,14 @@ function PreviousYearQuestionsContent() {
             return acc;
         }, {} as Record<string, TPreviousYearQuestion[]>);
     }, [filteredQuestions]);
+
+    // Automatically expand the latest year when results are filtered/loaded
+    useEffect(() => {
+        const availableYears = Object.keys(groupedByYear).sort((a,b) => parseInt(b) - parseInt(a));
+        if (availableYears.length > 0 && expandedYearIds.length === 0) {
+            setExpandedYearIds([availableYears[0]]);
+        }
+    }, [groupedByYear]);
 
     const handleDownload = async (pdfUrl: string | undefined) => {
         if (!pdfUrl) {
@@ -204,13 +219,14 @@ function PreviousYearQuestionsContent() {
                 </div>
             </div>
 
-            <main className="space-y-8">
+            <main className="space-y-4">
                 {loading ? (
                     renderSkeleton()
                 ) : Object.keys(groupedByYear).length > 0 ? (
                     Object.entries(groupedByYear)
                         .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
                         .map(([year, questionsInYear]) => {
+                            const isYearExpanded = expandedYearIds.includes(year);
                             const subjectsForYear = questionsInYear.flatMap(q => 
                                 (Array.isArray(q.subjects) ? q.subjects : [])
                             );
@@ -233,92 +249,109 @@ function PreviousYearQuestionsContent() {
                             if (filteredGroupedSubjects.length === 0) return null;
 
                             return (
-                                <section key={year} className="animate-fade-in-up">
-                                    <div className="flex items-center gap-4 mb-8">
-                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">CBSE {year} (PYQ)</h2>
-                                        <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
-                                    </div>
-                                    <div className="flex flex-col">
-                                        {filteredGroupedSubjects.map(([subjectName, papers]) => {
-                                            const expansionKey = `${year}-${subjectName}`;
-                                            const isExpanded = expandedSubjectId === expansionKey;
+                                <Card key={year} className="animate-fade-in-up overflow-hidden border-muted-foreground/10 mb-4 bg-muted/5 rounded-2xl shadow-sm">
+                                    <button 
+                                        onClick={() => toggleYear(year)}
+                                        className="w-full text-left focus:outline-none group"
+                                    >
+                                        <div className={cn(
+                                            "flex items-center gap-4 p-4 md:p-6 transition-all duration-300",
+                                            isYearExpanded ? "bg-primary/[0.02] border-b" : "bg-white"
+                                        )}>
+                                            <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground group-hover:text-primary transition-colors">CBSE {year} (PYQ)</h2>
+                                            <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
+                                            <div className={cn(
+                                                "flex h-8 w-8 items-center justify-center rounded-full shadow-sm border border-primary/10 transition-all duration-300",
+                                                isYearExpanded ? "bg-primary text-white" : "bg-primary/5 text-primary"
+                                            )}>
+                                                {isYearExpanded ? <Minus className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
+                                            </div>
+                                        </div>
+                                    </button>
+                                    
+                                    {isYearExpanded && (
+                                        <div className="p-4 md:p-6 flex flex-col gap-2 bg-white/50">
+                                            {filteredGroupedSubjects.map(([subjectName, papers]) => {
+                                                const expansionKey = `${year}-${subjectName}`;
+                                                const isExpanded = expandedSubjectId === expansionKey;
 
-                                            return (
-                                                <Card key={subjectName} className={cn(
-                                                    "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-2 last:mb-0",
-                                                    isExpanded && "ring-1 ring-primary/20"
-                                                )}>
-                                                    <button 
-                                                        onClick={() => toggleSubject(expansionKey)}
-                                                        className="w-full text-left focus:outline-none group"
-                                                    >
-                                                        <CardHeader className={cn(
-                                                            "py-2.5 px-4 md:py-3 md:px-5 flex flex-row items-center justify-between transition-colors duration-300",
-                                                            isExpanded ? "bg-primary/[0.05]" : "bg-white"
-                                                        )}>
-                                                            <CardTitle className="text-[13px] md:text-sm font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
-                                                                <SubjectIcon name={subjectName} className="w-4 h-4 text-primary" />
-                                                                {toTitleCase(subjectName)} (PYQ) {year}
-                                                            </CardTitle>
-                                                            <div className={cn(
-                                                                "flex h-6 w-6 items-center justify-center rounded-full shadow-sm border border-primary/10 transition-all duration-300",
-                                                                isExpanded ? "bg-primary text-white" : "bg-primary/5 text-primary"
+                                                return (
+                                                    <Card key={subjectName} className={cn(
+                                                        "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-2 last:mb-0",
+                                                        isExpanded && "ring-1 ring-primary/20"
+                                                    )}>
+                                                        <button 
+                                                            onClick={() => toggleSubject(expansionKey)}
+                                                            className="w-full text-left focus:outline-none group"
+                                                        >
+                                                            <CardHeader className={cn(
+                                                                "py-2.5 px-4 md:py-3 md:px-5 flex flex-row items-center justify-between transition-colors duration-300",
+                                                                isExpanded ? "bg-primary/[0.05]" : "bg-white"
                                                             )}>
-                                                                {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
-                                                            </div>
-                                                        </CardHeader>
-                                                    </button>
-                                                    {isExpanded && (
-                                                        <CardContent className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                            {papers.map((paper, pIdx) => (
-                                                                <div key={pIdx} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
-                                                                    <div className="flex items-center gap-3">
-                                                                        <div className={cn(
-                                                                            "p-2 rounded-lg transition-transform group-hover:scale-110",
-                                                                            "bg-blue-500/5 text-blue-600"
-                                                                        )}>
-                                                                            <SubjectIcon name={subjectName} className="w-4 h-4" />
-                                                                        </div>
-                                                                        <div className="space-y-0.5">
-                                                                            <p className="text-[11px] font-black uppercase tracking-tight text-foreground/80 leading-tight line-clamp-1">{toTitleCase(paper.title)}</p>
-                                                                            <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">{toTitleCase(subjectName)} {year}</p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div className="flex items-center gap-1">
-                                                                        <Button 
-                                                                            variant="ghost" 
-                                                                            size="icon" 
-                                                                            className="h-8 w-8 text-blue-600 hover:bg-blue-50"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                handleDownload(paper.pdfUrl);
-                                                                            }} 
-                                                                            disabled={!paper.pdfUrl}
-                                                                        >
-                                                                            <Eye className="h-4 w-4" />
-                                                                        </Button>
-                                                                        <Button 
-                                                                            variant="ghost" 
-                                                                            size="icon" 
-                                                                            className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
-                                                                            onClick={(e) => {
-                                                                                e.stopPropagation();
-                                                                                handleDownload(paper.pdfUrl);
-                                                                            }} 
-                                                                            disabled={!paper.pdfUrl}
-                                                                        >
-                                                                            <Download className="h-4 w-4" />
-                                                                        </Button>
-                                                                    </div>
+                                                                <CardTitle className="text-[13px] md:text-sm font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                                                                    <SubjectIcon name={subjectName} className="w-4 h-4 text-primary" />
+                                                                    {toTitleCase(subjectName)} (PYQ) {year}
+                                                                </CardTitle>
+                                                                <div className={cn(
+                                                                    "flex h-6 w-6 items-center justify-center rounded-full shadow-sm border border-primary/10 transition-all duration-300",
+                                                                    isExpanded ? "bg-primary text-white" : "bg-primary/5 text-primary"
+                                                                )}>
+                                                                    {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                                                                 </div>
-                                                            ))}
-                                                        </CardContent>
-                                                    )}
-                                                </Card>
-                                            );
-                                        })}
-                                    </div>
-                                </section>
+                                                            </CardHeader>
+                                                        </button>
+                                                        {isExpanded && (
+                                                            <CardContent className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                                {papers.map((paper, pIdx) => (
+                                                                    <div key={pIdx} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
+                                                                        <div className="flex items-center gap-3">
+                                                                            <div className={cn(
+                                                                                "p-2 rounded-lg transition-transform group-hover:scale-110",
+                                                                                "bg-blue-500/5 text-blue-600"
+                                                                            )}>
+                                                                                <SubjectIcon name={subjectName} className="w-4 h-4" />
+                                                                            </div>
+                                                                            <div className="space-y-0.5">
+                                                                                <p className="text-[11px] font-black uppercase tracking-tight text-foreground/80 leading-tight line-clamp-1">{toTitleCase(paper.title)}</p>
+                                                                                <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">{toTitleCase(subjectName)} {year}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div className="flex items-center gap-1">
+                                                                            <Button 
+                                                                                variant="ghost" 
+                                                                                size="icon" 
+                                                                                className="h-8 w-8 text-blue-600 hover:bg-blue-50"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleDownload(paper.pdfUrl);
+                                                                                }} 
+                                                                                disabled={!paper.pdfUrl}
+                                                                            >
+                                                                                <Eye className="h-4 w-4" />
+                                                                            </Button>
+                                                                            <Button 
+                                                                                variant="ghost" 
+                                                                                size="icon" 
+                                                                                className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
+                                                                                onClick={(e) => {
+                                                                                    e.stopPropagation();
+                                                                                    handleDownload(paper.pdfUrl);
+                                                                                }} 
+                                                                                disabled={!paper.pdfUrl}
+                                                                            >
+                                                                                <Download className="h-4 w-4" />
+                                                                            </Button>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </CardContent>
+                                                        )}
+                                                    </Card>
+                                                );
+                                            })}
+                                        </div>
+                                    )}
+                                </Card>
                             );
                         })
                 ) : (
