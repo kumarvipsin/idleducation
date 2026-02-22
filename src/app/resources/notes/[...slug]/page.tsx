@@ -53,14 +53,13 @@ function NotesDetailsContent() {
     
     if (loading) {
         return (
-             <div className="space-y-6">
-                <Skeleton className="h-6 w-64" />
-                <Card className="rounded-2xl overflow-hidden border-none shadow-none">
-                    <Skeleton className="h-48 w-full" />
-                    <CardContent className="p-6">
-                        <Skeleton className="h-96 w-full" />
-                    </CardContent>
-                </Card>
+             <div className="space-y-10">
+                <div className="px-1"><Skeleton className="h-6 w-64" /></div>
+                <div className="space-y-4">
+                    <Skeleton className="h-14 w-full rounded-2xl" />
+                    <Skeleton className="h-14 w-full rounded-2xl" />
+                    <Skeleton className="h-14 w-full rounded-2xl" />
+                </div>
             </div>
         )
     }
@@ -90,7 +89,7 @@ function NotesDetailsContent() {
     const className = classData.name || classId.replace(/-/g, ' ');
 
     return (
-      <div className="space-y-6">
+      <div className="space-y-8 md:space-y-12">
         <Breadcrumb className="px-1">
             <BreadcrumbList>
                 <BreadcrumbItem>
@@ -113,15 +112,13 @@ function NotesDetailsContent() {
             </BreadcrumbList>
         </Breadcrumb>
 
-        <Card className="overflow-hidden border-none rounded-2xl bg-white dark:bg-card shadow-none">
-            <CardContent className="p-6 md:p-12">
-                 <div className="flex items-center gap-4 mb-10">
-                    <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">Contents</h2>
-                    <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
-                </div>
-                <NcertChapterList resources={notesData} is_note={true} />
-            </CardContent>
-        </Card>
+        <div className="space-y-10">
+             <div className="flex items-center gap-4">
+                <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">Contents</h2>
+                <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
+            </div>
+            <NcertChapterList resources={notesData} is_note={true} />
+        </div>
       </div>
     );
 }
