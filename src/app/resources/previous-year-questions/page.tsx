@@ -59,7 +59,7 @@ function PreviousYearQuestionsContent() {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedClass, setSelectedClass] = useState<string>('');
     const [expandedSubjectId, setExpandedSubjectId] = useState<string | null>(null);
-    const [expandedYearIds, setExpandedYearIds] = useState<string[]>([]);
+    const [expandedYearId, setExpandedYearId] = useState<string | null>(null);
     const { toast } = useToast();
 
     useEffect(() => {
@@ -85,9 +85,7 @@ function PreviousYearQuestionsContent() {
     };
 
     const toggleYear = (year: string) => {
-        setExpandedYearIds(prev => 
-            prev.includes(year) ? prev.filter(y => y !== year) : [...prev, year]
-        );
+        setExpandedYearId(prev => (prev === year ? null : year));
     };
 
     const classes = useMemo(() => {
@@ -127,13 +125,12 @@ function PreviousYearQuestionsContent() {
         }, {} as Record<string, TPreviousYearQuestion[]>);
     }, [filteredQuestions]);
 
-    // Automatically expand the latest year when results are filtered/loaded
     useEffect(() => {
         const availableYears = Object.keys(groupedByYear).sort((a,b) => parseInt(b) - parseInt(a));
-        if (availableYears.length > 0 && expandedYearIds.length === 0) {
-            setExpandedYearIds([availableYears[0]]);
+        if (availableYears.length > 0 && !expandedYearId) {
+            setExpandedYearId(availableYears[0]);
         }
-    }, [groupedByYear]);
+    }, [groupedByYear, expandedYearId]);
 
     const handleDownload = async (pdfUrl: string | undefined) => {
         if (!pdfUrl) {
@@ -226,7 +223,7 @@ function PreviousYearQuestionsContent() {
                     Object.entries(groupedByYear)
                         .sort(([yearA], [yearB]) => parseInt(yearB) - parseInt(yearA))
                         .map(([year, questionsInYear]) => {
-                            const isYearExpanded = expandedYearIds.includes(year);
+                            const isYearExpanded = expandedYearId === year;
                             const subjectsForYear = questionsInYear.flatMap(q => 
                                 (Array.isArray(q.subjects) ? q.subjects : [])
                             );
@@ -255,7 +252,7 @@ function PreviousYearQuestionsContent() {
                                         className="w-full text-left focus:outline-none group"
                                     >
                                         <div className={cn(
-                                            "flex items-center gap-4 p-4 md:p-6 transition-all duration-300",
+                                            "flex items-center gap-4 p-3 md:p-4 transition-all duration-300",
                                             isYearExpanded ? "bg-primary/[0.02] border-b" : "bg-white"
                                         )}>
                                             <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground group-hover:text-primary transition-colors">CBSE {year} (PYQ)</h2>
