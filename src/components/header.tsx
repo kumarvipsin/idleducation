@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -7,7 +8,7 @@ import {
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
   Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search,
-  Sparkles
+  Sparkles, PlayCircle, ShieldCheck, ChevronRight
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -46,43 +47,43 @@ const allCoursesCategories = [
         name: "FREE COURSES",
         description: "High-quality free video lessons.",
         href: "/free-courses",
-        icon: <BookOpen className="h-4 w-4" />,
-        colorClasses: "bg-primary text-white"
+        icon: <PlayCircle className="h-5 w-5" />,
+        colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white"
     },
     {
         name: "PAID COURSES",
         description: "Premium structured learning.",
         href: "/paid-courses",
-        icon: <IndianRupee className="h-4 w-4" />,
-        colorClasses: "bg-primary text-white"
+        icon: <IndianRupee className="h-5 w-5" />,
+        colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white"
     },
     {
         name: "SCHOOL BOARD",
         description: "Prep for Class 5 to 12.",
         href: "/school",
-        icon: <GraduationCap className="h-4 w-4" />,
-        colorClasses: "bg-primary text-white"
+        icon: <GraduationCap className="h-5 w-5" />,
+        colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white"
     },
     {
         name: "CUET UG/PG",
         description: "University entrance tests.",
         href: "/category/cuet",
-        icon: <GraduationCap className="h-4 w-4" />,
-        colorClasses: "bg-primary text-white"
+        icon: <Building className="h-5 w-5" />,
+        colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white"
     },
     {
         name: "GOVT. EXAMS",
         description: "SSC, Banking, & Railway.",
         href: "/examcat",
-        icon: <Landmark className="h-4 w-4" />,
-        colorClasses: "bg-primary text-white"
+        icon: <Landmark className="h-5 w-5" />,
+        colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white"
     },
     {
         name: "TEST SERIES",
         description: "Rigorous preparation tests.",
         href: "#",
-        icon: <ClipboardList className="h-4 w-4" />,
-        colorClasses: "bg-primary text-white"
+        icon: <ClipboardList className="h-5 w-5" />,
+        colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white"
     },
 ];
 
@@ -97,7 +98,7 @@ const donationCategories = [
 
 const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[], onLinkClick?: () => void, iconShape?: 'circle' | 'diamond' }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-1">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {links && links.map((link) => {
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
@@ -114,21 +115,22 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                         target={link.target} 
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
-                        className="group flex items-start gap-4 p-3 rounded-lg hover:bg-muted transition-colors"
+                        className="group relative flex items-center gap-5 p-4 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
                     >
                         <div className={cn(
-                            "flex items-center justify-center mt-1 shadow-sm shrink-0 transition-transform group-hover:scale-110",
-                            iconShape === 'circle' ? "p-3 rounded-full" : "w-10 h-10 rotate-45 rounded-sm",
+                            "flex items-center justify-center shadow-lg shrink-0 transition-all duration-500 group-hover:scale-110",
+                            iconShape === 'circle' ? "p-3 rounded-xl" : "w-11 h-11 rotate-45 rounded-lg",
                             link.colorClasses || link.color || "bg-primary/10 text-primary"
                         )}>
                             <div className={cn(iconShape === 'diamond' && "-rotate-45")}>
                                 {link.icon}
                             </div>
                         </div>
-                        <div>
-                            <p className="font-extrabold text-sm text-foreground">{link.label}</p>
-                            <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
+                        <div className="flex-1 min-w-0">
+                            <p className="font-black text-[13px] text-foreground uppercase tracking-tight leading-tight group-hover:text-primary transition-colors">{link.label}</p>
+                            <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-70 mt-1">{link.description}</p>
                         </div>
+                        <ChevronRight className="w-4 h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                     </Link>
                 );
             })}
