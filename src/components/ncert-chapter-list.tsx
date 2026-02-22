@@ -173,11 +173,11 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
 
     return (
         <Card key={chapterIndex} className={cn(
-            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-4",
+            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-3",
             isExpanded && "ring-1 ring-primary/20"
         )}>
             <AccordionItem value={value} className="border-b-0">
-                <AccordionTrigger className="p-4 md:p-5 font-bold text-[13px] md:text-sm text-foreground text-left hover:no-underline group">
+                <AccordionTrigger className="py-3 px-4 md:py-3.5 md:px-5 font-bold text-[13px] md:text-sm text-foreground text-left hover:no-underline group">
                     <span className="group-hover:text-primary transition-colors">{combinedName}</span>
                 </AccordionTrigger>
                 <AccordionContent>
