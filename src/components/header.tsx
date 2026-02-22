@@ -97,7 +97,7 @@ const donationCategories = [
 
 const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[], onLinkClick?: () => void, iconShape?: 'circle' | 'diamond' }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
             {links && links.map((link) => {
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
@@ -114,11 +114,11 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                         target={link.target} 
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
-                        className="group relative flex items-center gap-3 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
+                        className="group relative flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
                     >
                         <div className={cn(
                             "flex items-center justify-center shadow-lg shrink-0 transition-all duration-500 group-hover:scale-110",
-                            iconShape === 'circle' ? "p-2 rounded-lg" : "w-9 h-9 rotate-45 rounded-md",
+                            iconShape === 'circle' ? "p-1.5 rounded-lg" : "w-8 h-8 rotate-45 rounded-md",
                             link.colorClasses || link.color || "bg-primary/10 text-primary"
                         )}>
                             <div className={cn(iconShape === 'diamond' && "-rotate-45")}>
@@ -158,6 +158,7 @@ export function Header() {
   const [donorDetails, setDonorDetails] = useState({ name: '', contact: '', email: '', place: '' });
   const [donationAmount, setDonationAmount] = useState('');
 
+  const logoHref = "/";
   const isIdlFoundationPage = pathname === '/idl-foundation';
   
   useEffect(() => {
@@ -255,6 +256,10 @@ export function Header() {
             name: donorDetails.name,
             email: donorDetails.email,
             contact: donorDetails.contact,
+        },
+        notes: {
+            category: donationCategory,
+            place: donorDetails.place,
         },
         theme: {
             color: '#0d47a1',
@@ -403,7 +408,7 @@ export function Header() {
         show ? "translate-y-0" : "-translate-y-full"
       )}>
           <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-              <Link href="/" className="flex items-center justify-center -ml-2">
+              <Link href={logoHref} className="flex items-center justify-center -ml-2">
                 <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
               </Link>
               
@@ -634,7 +639,7 @@ export function Header() {
         )}
       >
         <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
-          <div className="pt-6 pb-8">
+          <div className="pt-4 pb-5">
             {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name.toUpperCase(), colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, label: l.label, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
             {activeMenu === 'more' && (
