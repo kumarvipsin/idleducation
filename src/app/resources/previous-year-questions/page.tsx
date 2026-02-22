@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
@@ -236,7 +235,7 @@ function PreviousYearQuestionsContent() {
                             return (
                                 <section key={year} className="animate-fade-in-up">
                                     <div className="flex items-center gap-4 mb-10">
-                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">Cbse {year} (PYQ)</h2>
+                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground uppercase">CBSE {year} (PYQ)</h2>
                                         <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                     </div>
                                     <div className="flex flex-col">
