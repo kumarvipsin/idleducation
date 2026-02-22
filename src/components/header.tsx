@@ -644,7 +644,7 @@ export function Header() {
             {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, label: l.label, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
             {activeMenu === 'more' && (
                 <div className="container mx-auto px-4 md:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {moreMenuGroups.map((group) => (
                             <div key={group.title} className="space-y-4">
                                 <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3">{group.title}</h4>
