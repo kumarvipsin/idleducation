@@ -97,7 +97,7 @@ const donationCategories = [
 
 const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[], onLinkClick?: () => void, iconShape?: 'circle' | 'diamond' }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
             {links && links.map((link) => {
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
@@ -114,11 +114,11 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                         target={link.target} 
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
-                        className="group relative flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
+                        className="group relative flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
                     >
                         <div className={cn(
                             "flex items-center justify-center shadow-lg shrink-0 transition-all duration-500 group-hover:scale-110",
-                            iconShape === 'circle' ? "p-1.5 rounded-lg" : "w-8 h-8 rotate-45 rounded-md",
+                            iconShape === 'circle' ? "p-1.5 rounded-lg" : "w-9 h-9 rotate-45 rounded-md",
                             link.colorClasses || link.color || "bg-primary/10 text-primary"
                         )}>
                             <div className={cn(iconShape === 'diamond' && "-rotate-45")}>
