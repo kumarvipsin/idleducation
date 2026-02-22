@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -47,42 +46,42 @@ const allCoursesCategories = [
         name: "FREE COURSES",
         description: "High-quality free video lessons.",
         href: "/free-courses",
-        icon: <PlayCircle className="h-5 w-5" />,
+        icon: <PlayCircle className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white"
     },
     {
         name: "PAID COURSES",
         description: "Premium structured learning.",
         href: "/paid-courses",
-        icon: <IndianRupee className="h-5 w-5" />,
+        icon: <IndianRupee className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white"
     },
     {
         name: "SCHOOL BOARD",
         description: "Prep for Class 5 to 12.",
         href: "/school",
-        icon: <GraduationCap className="h-5 w-5" />,
+        icon: <GraduationCap className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white"
     },
     {
         name: "CUET UG/PG",
         description: "University entrance tests.",
         href: "/category/cuet",
-        icon: <Building className="h-5 w-5" />,
+        icon: <Building className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white"
     },
     {
         name: "GOVT. EXAMS",
         description: "SSC, Banking, & Railway.",
         href: "/examcat",
-        icon: <Landmark className="h-5 w-5" />,
+        icon: <Landmark className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white"
     },
     {
         name: "TEST SERIES",
         description: "Rigorous preparation tests.",
         href: "#",
-        icon: <ClipboardList className="h-5 w-5" />,
+        icon: <ClipboardList className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white"
     },
 ];
@@ -98,7 +97,7 @@ const donationCategories = [
 
 const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[], onLinkClick?: () => void, iconShape?: 'circle' | 'diamond' }) => (
     <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {links && links.map((link) => {
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
@@ -115,11 +114,11 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                         target={link.target} 
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
-                        className="group relative flex items-center gap-5 p-4 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
+                        className="group relative flex items-center gap-3 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
                     >
                         <div className={cn(
                             "flex items-center justify-center shadow-lg shrink-0 transition-all duration-500 group-hover:scale-110",
-                            iconShape === 'circle' ? "p-3 rounded-xl" : "w-11 h-11 rotate-45 rounded-lg",
+                            iconShape === 'circle' ? "p-2 rounded-lg" : "w-9 h-9 rotate-45 rounded-md",
                             link.colorClasses || link.color || "bg-primary/10 text-primary"
                         )}>
                             <div className={cn(iconShape === 'diamond' && "-rotate-45")}>
@@ -127,10 +126,10 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                             </div>
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="font-black text-[13px] text-foreground uppercase tracking-tight leading-tight group-hover:text-primary transition-colors">{link.label}</p>
-                            <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-70 mt-1">{link.description}</p>
+                            <p className="font-black text-[12px] text-foreground uppercase tracking-tight leading-tight group-hover:text-primary transition-colors">{link.label}</p>
+                            <p className="text-[9px] font-bold text-muted-foreground line-clamp-1 opacity-70 mt-0.5">{link.description}</p>
                         </div>
-                        <ChevronRight className="w-4 h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                        <ChevronRight className="w-3.5 h-3.5 text-primary/20 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
                     </Link>
                 );
             })}
@@ -256,10 +255,6 @@ export function Header() {
             name: donorDetails.name,
             email: donorDetails.email,
             contact: donorDetails.contact,
-        },
-        notes: {
-            category: donationCategory,
-            place: donorDetails.place,
         },
         theme: {
             color: '#0d47a1',
