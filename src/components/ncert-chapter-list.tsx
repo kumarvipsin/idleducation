@@ -105,7 +105,7 @@ const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; 
                         )}>
                             <FileText className="w-4 h-4" />
                         </div>
-                        <span className="text-[11px] font-black uppercase tracking-tight text-foreground/80">{res.label}</span>
+                        <span className="text-[11px] font-black tracking-tight text-foreground/80">{res.label}</span>
                     </div>
                     <div className="flex items-center gap-1">
                         <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => onViewPdf(res.url, res.label)}>
@@ -174,7 +174,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
 
     return (
         <Card key={chapterIndex} className={cn(
-            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 bg-muted/5 rounded-lg mb-2 last:mb-0",
+            "overflow-hidden border-primary/10 hover:border-primary/30 transition-all duration-300 bg-muted/5 rounded-lg mb-2 last:mb-0",
             isExpanded && "ring-1 ring-primary/20 bg-primary/[0.02]"
         )}>
             <AccordionItem value={value} className="border-b-0">
@@ -236,7 +236,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                                                 )}>
                                                     <FileText className="w-4 h-4" />
                                                 </div>
-                                                <p className="text-[11px] font-black uppercase tracking-tight text-foreground/80 leading-tight">{card.label}</p>
+                                                <p className="text-[11px] font-black tracking-tight text-foreground/80 leading-tight">{card.label}</p>
                                             </div>
                                             <div className="flex items-center gap-1">
                                                 <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-600 hover:bg-blue-50" onClick={() => handleViewPdf(card.pdf!, `${topic.name} - ${card.label}`)}>
