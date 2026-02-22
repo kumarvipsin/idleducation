@@ -234,8 +234,8 @@ function PreviousYearQuestionsContent() {
 
                             return (
                                 <section key={year} className="animate-fade-in-up">
-                                    <div className="flex items-center gap-4 mb-10">
-                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground uppercase">CBSE {year} (PYQ)</h2>
+                                    <div className="flex items-center gap-4 mb-8">
+                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">CBSE {year} (PYQ)</h2>
                                         <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                     </div>
                                     <div className="flex flex-col">
@@ -245,7 +245,7 @@ function PreviousYearQuestionsContent() {
 
                                             return (
                                                 <Card key={subjectName} className={cn(
-                                                    "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-3 last:mb-0",
+                                                    "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-2 last:mb-0",
                                                     isExpanded && "ring-1 ring-primary/20"
                                                 )}>
                                                     <button 
@@ -253,7 +253,7 @@ function PreviousYearQuestionsContent() {
                                                         className="w-full text-left focus:outline-none group"
                                                     >
                                                         <CardHeader className={cn(
-                                                            "py-3 px-4 md:py-3.5 md:px-5 flex flex-row items-center justify-between transition-colors duration-300",
+                                                            "py-2.5 px-4 md:py-3 md:px-5 flex flex-row items-center justify-between transition-colors duration-300",
                                                             isExpanded ? "bg-primary/[0.05]" : "bg-white"
                                                         )}>
                                                             <CardTitle className="text-[13px] md:text-sm font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
@@ -261,7 +261,7 @@ function PreviousYearQuestionsContent() {
                                                                 {toTitleCase(subjectName)} (PYQ) {year}
                                                             </CardTitle>
                                                             <div className={cn(
-                                                                "p-1.5 rounded-full shadow-sm border border-primary/10 transition-all duration-300",
+                                                                "flex h-6 w-6 items-center justify-center rounded-full shadow-sm border border-primary/10 transition-all duration-300",
                                                                 isExpanded ? "bg-primary text-white" : "bg-primary/5 text-primary"
                                                             )}>
                                                                 {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
@@ -269,7 +269,7 @@ function PreviousYearQuestionsContent() {
                                                         </CardHeader>
                                                     </button>
                                                     {isExpanded && (
-                                                        <CardContent className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                        <CardContent className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                                                             {papers.map((paper, pIdx) => (
                                                                 <div key={pIdx} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
                                                                     <div className="flex items-center gap-3">
