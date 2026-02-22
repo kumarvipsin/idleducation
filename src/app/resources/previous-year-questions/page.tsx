@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
@@ -98,7 +99,7 @@ function PreviousYearQuestionsContent() {
             const matchesClass = selectedClass === '' || q.exam === selectedClass;
             const lowerSearch = searchTerm.toLowerCase();
             const matchesSearch = searchTerm === '' || 
-                                q.title.toLowerCase().includes(lowerSearch) || 
+                                q.title?.toLowerCase().includes(lowerSearch) || 
                                 q.exam.toLowerCase().includes(lowerSearch) ||
                                 (Array.isArray(q.subjects) && q.subjects.some(s => 
                                     s.name.toLowerCase().includes(lowerSearch) ||
@@ -235,83 +236,83 @@ function PreviousYearQuestionsContent() {
                             return (
                                 <section key={year} className="animate-fade-in-up">
                                     <div className="flex items-center gap-4 mb-10">
-                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">CBSE {year} (PYQ)</h2>
+                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">Cbse {year} (PYQ)</h2>
                                         <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                     </div>
-                                    <div className="grid gap-3">
+                                    <div className="flex flex-col">
                                         {filteredGroupedSubjects.map(([subjectName, papers]) => {
                                             const expansionKey = `${year}-${subjectName}`;
                                             const isExpanded = expandedSubjectId === expansionKey;
 
                                             return (
-                                                <div key={subjectName} className="relative">
-                                                    <Card className={cn(
-                                                        "border border-muted-foreground/10 shadow-sm bg-white overflow-visible relative z-10 rounded-lg transition-all duration-300",
-                                                        isExpanded && "ring-1 ring-primary/20"
-                                                    )}>
-                                                        <button 
-                                                            onClick={() => toggleSubject(expansionKey)}
-                                                            className="w-full text-left focus:outline-none sticky top-[64px] md:top-[64px] z-40 rounded-t-lg overflow-hidden"
-                                                        >
-                                                            <CardHeader className={cn(
-                                                                "py-2.5 px-4 md:py-3 md:px-5 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md transition-colors duration-300",
-                                                                isExpanded ? "bg-primary/[0.05]" : "bg-white"
+                                                <Card key={subjectName} className={cn(
+                                                    "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-white rounded-lg mb-3 last:mb-0",
+                                                    isExpanded && "ring-1 ring-primary/20"
+                                                )}>
+                                                    <button 
+                                                        onClick={() => toggleSubject(expansionKey)}
+                                                        className="w-full text-left focus:outline-none group"
+                                                    >
+                                                        <CardHeader className={cn(
+                                                            "py-3 px-4 md:py-3.5 md:px-5 flex flex-row items-center justify-between transition-colors duration-300",
+                                                            isExpanded ? "bg-primary/[0.05]" : "bg-white"
+                                                        )}>
+                                                            <CardTitle className="text-[13px] md:text-sm font-bold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
+                                                                <SubjectIcon name={subjectName} className="w-4 h-4 text-primary" />
+                                                                {toTitleCase(subjectName)} (PYQ) {year}
+                                                            </CardTitle>
+                                                            <div className={cn(
+                                                                "p-1.5 rounded-full shadow-sm border border-primary/10 transition-all duration-300",
+                                                                isExpanded ? "bg-primary text-white" : "bg-primary/5 text-primary"
                                                             )}>
-                                                                <CardTitle className="text-[13px] md:text-sm font-bold text-primary flex items-center gap-2">
-                                                                    <SubjectIcon name={subjectName} className="w-4 h-4" />
-                                                                    {toTitleCase(subjectName)} (PYQ) {year}
-                                                                </CardTitle>
-                                                                <div className={cn(
-                                                                    "p-1.5 rounded-full shadow-sm border border-primary/10 transition-transform duration-300",
-                                                                    isExpanded ? "bg-primary text-white" : "bg-primary/5"
-                                                                )}>
-                                                                    {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4 text-primary" />}
-                                                                </div>
-                                                            </CardHeader>
-                                                        </button>
-                                                        {isExpanded && (
-                                                            <CardContent className="p-6 md:p-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                                {papers.map((paper, pIdx) => (
-                                                                    <div key={pIdx} className="group p-5 border border-muted-foreground/10 rounded-lg hover:border-primary/40 hover:bg-primary/[0.02] transition-all duration-300 flex flex-col justify-between gap-5 bg-white shadow-sm hover:shadow-lg">
-                                                                        <div className="flex items-start gap-4">
-                                                                            <div className="p-1 text-primary shrink-0 mt-0.5">
-                                                                                <SubjectIcon name={subjectName} className="w-5 h-5" />
-                                                                            </div>
-                                                                            <div className="space-y-1">
-                                                                                <span className="text-[10px] font-bold text-primary tracking-wider">{toTitleCase(subjectName)}</span>
-                                                                                <p className="text-[9px] font-black text-foreground leading-tight uppercase tracking-tight opacity-80">{toTitleCase(paper.title)}</p>
-                                                                            </div>
+                                                                {isExpanded ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
+                                                            </div>
+                                                        </CardHeader>
+                                                    </button>
+                                                    {isExpanded && (
+                                                        <CardContent className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                            {papers.map((paper, pIdx) => (
+                                                                <div key={pIdx} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
+                                                                    <div className="flex items-center gap-3">
+                                                                        <div className="p-2 bg-primary/5 text-primary rounded-lg transition-transform group-hover:scale-110">
+                                                                            <SubjectIcon name={subjectName} className="w-4 h-4" />
                                                                         </div>
-                                                                        <div className="grid grid-cols-2 gap-3 mt-auto">
-                                                                            <button 
-                                                                                className="inline-flex items-center justify-center font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 border border-primary/20 text-primary hover:bg-primary/5 transition-all shadow-none px-3"
-                                                                                onClick={(e) => {
-                                                                                    e.stopPropagation();
-                                                                                    handleDownload(paper.pdfUrl);
-                                                                                }} 
-                                                                                disabled={!paper.pdfUrl}
-                                                                            >
-                                                                                <Eye className="w-3.5 h-3.5 mr-1.5" />
-                                                                                View
-                                                                            </button>
-                                                                            <button 
-                                                                                className="inline-flex items-center justify-center font-bold text-[10px] uppercase tracking-widest rounded-lg h-9 bg-primary text-white transition-all shadow-md shadow-primary/10 px-3 hover:bg-primary/90"
-                                                                                onClick={(e) => {
-                                                                                    e.stopPropagation();
-                                                                                    handleDownload(paper.pdfUrl);
-                                                                                }} 
-                                                                                disabled={!paper.pdfUrl}
-                                                                            >
-                                                                                <Download className="w-3.5 h-3.5 mr-1.5" />
-                                                                                GET
-                                                                            </button>
+                                                                        <div className="space-y-0.5">
+                                                                            <p className="text-[11px] font-black uppercase tracking-tight text-foreground/80 leading-tight line-clamp-1">{toTitleCase(paper.title)}</p>
+                                                                            <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">{toTitleCase(subjectName)} {year}</p>
                                                                         </div>
                                                                     </div>
-                                                                ))}
-                                                            </CardContent>
-                                                        )}
-                                                    </Card>
-                                                </div>
+                                                                    <div className="flex items-center gap-1">
+                                                                        <Button 
+                                                                            variant="ghost" 
+                                                                            size="icon" 
+                                                                            className="h-8 w-8 text-blue-600 hover:bg-blue-50"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handleDownload(paper.pdfUrl);
+                                                                            }} 
+                                                                            disabled={!paper.pdfUrl}
+                                                                        >
+                                                                            <Eye className="h-4 w-4" />
+                                                                        </Button>
+                                                                        <Button 
+                                                                            variant="ghost" 
+                                                                            size="icon" 
+                                                                            className="h-8 w-8 text-emerald-600 hover:bg-emerald-50"
+                                                                            onClick={(e) => {
+                                                                                e.stopPropagation();
+                                                                                handleDownload(paper.pdfUrl);
+                                                                            }} 
+                                                                            disabled={!paper.pdfUrl}
+                                                                        >
+                                                                            <Download className="h-4 w-4" />
+                                                                        </Button>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </CardContent>
+                                                    )}
+                                                </Card>
                                             );
                                         })}
                                     </div>
