@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -97,7 +96,7 @@ const ChapterResources = ({ chapter, onViewPdf, is_note }: { chapter: TChapter; 
             {availableResources.map((res, i) => (
                 <div
                     key={i}
-                    className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm"
+                    className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300"
                 >
                     <div className="flex items-center gap-3">
                         <div className={cn(
@@ -175,7 +174,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
 
     return (
         <Card key={chapterIndex} className={cn(
-            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-muted/5 rounded-lg mb-2 last:mb-0",
+            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 bg-muted/5 rounded-lg mb-2 last:mb-0",
             isExpanded && "ring-1 ring-primary/20 bg-primary/[0.02]"
         )}>
             <AccordionItem value={value} className="border-b-0">
@@ -227,7 +226,7 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                             return (
                                 <div key={topicIdx} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4 first:mt-0">
                                     {filteredCards.map((card, i) => (
-                                        <div key={i} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
+                                        <div key={i} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300">
                                             <div className="flex items-center gap-3">
                                                 <div className={cn(
                                                     "p-2 rounded-lg transition-transform group-hover:scale-110",

@@ -34,7 +34,7 @@ const AccordionTrigger = React.forwardRef<
       {...props}
     >
       {children}
-      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/5 text-primary shadow-sm border border-primary/10 transition-colors duration-300">
+      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/5 text-primary border border-primary/10 transition-colors duration-300">
         <Plus className="plus h-4 w-4 shrink-0 transition-all duration-300" />
         <Minus className="minus h-4 w-4 shrink-0 transition-all duration-300 hidden" />
       </div>

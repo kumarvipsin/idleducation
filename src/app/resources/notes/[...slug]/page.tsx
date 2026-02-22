@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
@@ -114,7 +113,7 @@ function NotesDetailsContent() {
         </Breadcrumb>
 
         <div className="space-y-10">
-             <div className="flex items-center gap-4 p-3 md:p-4 bg-primary/[0.03] rounded-lg border border-primary/10 shadow-sm transition-all duration-300">
+             <div className="flex items-center gap-4 p-3 md:p-4 bg-primary/[0.03] rounded-lg border border-primary/10 transition-all duration-300">
                 <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">Contents</h2>
                 <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
             </div>
