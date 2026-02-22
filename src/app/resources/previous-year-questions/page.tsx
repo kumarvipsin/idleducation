@@ -204,7 +204,7 @@ function PreviousYearQuestionsContent() {
                 </div>
             </div>
 
-            <main className="space-y-12">
+            <main className="space-y-8">
                 {loading ? (
                     renderSkeleton()
                 ) : Object.keys(groupedByYear).length > 0 ? (
@@ -269,11 +269,14 @@ function PreviousYearQuestionsContent() {
                                                         </CardHeader>
                                                     </button>
                                                     {isExpanded && (
-                                                        <CardContent className="p-4 md:p-6 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                        <CardContent className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-3 gap-4 animate-in fade-in slide-in-from-top-2 duration-300">
                                                             {papers.map((paper, pIdx) => (
                                                                 <div key={pIdx} className="group flex items-center justify-between p-4 rounded-xl bg-slate-50 hover:bg-slate-100 border border-transparent hover:border-primary/10 transition-all duration-300 shadow-sm">
                                                                     <div className="flex items-center gap-3">
-                                                                        <div className="p-2 bg-primary/5 text-primary rounded-lg transition-transform group-hover:scale-110">
+                                                                        <div className={cn(
+                                                                            "p-2 rounded-lg transition-transform group-hover:scale-110",
+                                                                            "bg-blue-500/5 text-blue-600"
+                                                                        )}>
                                                                             <SubjectIcon name={subjectName} className="w-4 h-4" />
                                                                         </div>
                                                                         <div className="space-y-0.5">
