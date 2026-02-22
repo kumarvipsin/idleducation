@@ -4,7 +4,7 @@ import { useEffect, useState, Suspense } from 'react';
 import { getCollection } from '@/app/actions/data';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { BookOpen, Home, Plus } from 'lucide-react';
+import { BookOpen, Home } from 'lucide-react';
 import type { TClass, TSubject } from '@/app/actions/types';
 import { NcertChapterList } from '@/components/ncert-chapter-list';
 import Link from 'next/link';
@@ -116,9 +116,6 @@ function NcertSolutionsDetailsContent() {
              <div className="flex items-center gap-4 p-3 md:p-4 bg-muted/5 rounded-2xl border border-muted-foreground/10 shadow-sm transition-all duration-300">
                 <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">Contents</h2>
                 <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
-                <div className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/5 text-primary shadow-sm border border-primary/10 shrink-0">
-                    <Plus className="h-4 w-4" />
-                </div>
             </div>
             <NcertChapterList resources={notesData} />
         </div>
