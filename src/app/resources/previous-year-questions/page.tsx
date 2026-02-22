@@ -235,10 +235,10 @@ function PreviousYearQuestionsContent() {
                             return (
                                 <section key={year} className="animate-fade-in-up">
                                     <div className="flex items-center gap-4 mb-10">
-                                        <h2 className="text-2xl md:text-3xl font-black tracking-tighter text-foreground">CBSE {year} (PYQ)</h2>
+                                        <h2 className="text-xl md:text-2xl font-black tracking-tighter text-foreground">CBSE {year} (PYQ)</h2>
                                         <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                     </div>
-                                    <div className="grid gap-10">
+                                    <div className="grid gap-3">
                                         {filteredGroupedSubjects.map(([subjectName, papers]) => {
                                             const expansionKey = `${year}-${subjectName}`;
                                             const isExpanded = expandedSubjectId === expansionKey;
@@ -254,10 +254,10 @@ function PreviousYearQuestionsContent() {
                                                             className="w-full text-left focus:outline-none sticky top-[64px] md:top-[64px] z-40 rounded-t-lg overflow-hidden"
                                                         >
                                                             <CardHeader className={cn(
-                                                                "py-4 px-6 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md transition-colors duration-300",
+                                                                "py-2.5 px-4 md:py-3 md:px-5 border-b border-primary/10 flex flex-row items-center justify-between backdrop-blur-md transition-colors duration-300",
                                                                 isExpanded ? "bg-primary/[0.05]" : "bg-white"
                                                             )}>
-                                                                <CardTitle className="text-sm font-bold text-primary flex items-center gap-2">
+                                                                <CardTitle className="text-[13px] md:text-sm font-bold text-primary flex items-center gap-2">
                                                                     <SubjectIcon name={subjectName} className="w-4 h-4" />
                                                                     {toTitleCase(subjectName)} (PYQ) {year}
                                                                 </CardTitle>
