@@ -1,7 +1,9 @@
+
 'use client';
 
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import { useState } from "react";
 import { Download, ShoppingCart, Eye, FileText } from "lucide-react";
 import type { TSubject, TChapter } from "@/app/actions/types";
@@ -173,11 +175,11 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
 
     return (
         <Card key={chapterIndex} className={cn(
-            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-muted/5 rounded-2xl mb-4 last:mb-0",
+            "overflow-hidden border-muted-foreground/10 hover:border-primary/30 transition-all duration-300 shadow-sm bg-muted/5 rounded-lg mb-2 last:mb-0",
             isExpanded && "ring-1 ring-primary/20 bg-primary/[0.02]"
         )}>
             <AccordionItem value={value} className="border-b-0">
-                <AccordionTrigger className="p-3 md:p-4 font-black text-sm md:text-base text-foreground text-left hover:no-underline group">
+                <AccordionTrigger className="py-2.5 px-4 md:py-3 md:px-5 font-bold text-[13px] md:text-sm text-foreground text-left hover:no-underline group">
                     <span className="group-hover:text-primary transition-colors">{combinedName}</span>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -282,13 +284,13 @@ export function NcertChapterList({ resources, is_note }: { resources: TSubject |
                     .sort(([, a], [, b]) => (a.order || 99) - (b.order || 99))
                     .map(([partKey, partData]) => (
                         <div key={partKey} className="space-y-4">
-                             <Accordion type="single" collapsible value={activeItem || ""} onValueChange={setActiveItem} className="w-full space-y-4">
+                             <Accordion type="single" collapsible value={activeItem || ""} onValueChange={setActiveItem} className="w-full space-y-2">
                                 {partData.chapters.map((chapter, chapterIndex) => renderChapterItem(chapter, chapterIndex, partKey))}
                             </Accordion>
                         </div>
                     ))
             ) : subject.chapters && subject.chapters.length > 0 ? (
-                <Accordion type="single" collapsible value={activeItem || ""} onValueChange={setActiveItem} className="w-full space-y-4">
+                <Accordion type="single" collapsible value={activeItem || ""} onValueChange={setActiveItem} className="w-full space-y-2">
                     {subject.chapters.map((chapter, chapterIndex) => renderChapterItem(chapter, chapterIndex))}
                 </Accordion>
             ) : (
