@@ -274,33 +274,33 @@ export function Header() {
     {
         title: "Learning & Updates",
         links: [
-            { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Visit our learning centers." },
-            { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Join our hands-on workshops." },
-            { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Read articles and updates from our team." },
+            { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Visit our learning centers." },
+            { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Join our hands-on workshops." },
+            { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Read articles and updates." },
         ]
     },
     {
         title: "Company",
         links: [
-            { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Learn more about our mission." },
-            { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-            { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Explore moments from our journey." },
+            { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
+            { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+            { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Explore moments from our journey." },
         ]
     },
     {
         title: "Foundation",
         links: [
-            { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-primary text-white", target: "_blank", description: "Support our cause." },
-            { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-primary text-white", description: "Contribute to our mission." },
+            { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-red-400 to-red-600 text-white", target: "_blank", description: "Support our cause." },
+            { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-pink-400 to-pink-600 text-white", description: "Contribute to our mission." },
         ]
     }
   ];
 
   const applyForLinks = [
-      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, color: "bg-primary text-white", description: "Start your journey today." },
-      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, color: "bg-primary text-white", description: "Experience our teaching style." },
-      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, color: "bg-primary text-white", description: "Help us improve." },
-      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, color: "bg-primary text-white", description: "Have questions? Send us an enquiry." },
+      { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today." },
+      { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style." },
+      { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve." },
+      { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry." },
   ];
 
   const navItemClass = "relative h-full flex items-center h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent data-[active=true]:text-primary data-[active=true]:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100 data-[active=true]:after:scale-x-100";
@@ -521,9 +521,9 @@ export function Header() {
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {applyForLinks.map(({ href, label, icon, description, color }) => (
+                                                {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
                                                     <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", color || "bg-primary text-white")}>
+                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses || "bg-primary text-white")}>
                                                             <div className="-rotate-45">
                                                                 {icon}
                                                             </div>
@@ -641,39 +641,47 @@ export function Header() {
         <div className={cn("absolute inset-x-0 top-0 shadow-lg border-b", megaMenuBg)}>
           <div className="pt-4 pb-5">
             {activeMenu === 'explore' && <MegaMenu links={allCoursesCategories.map(c => ({ ...c, label: c.name.toUpperCase(), colorClasses: c.colorClasses }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
-            {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, label: l.label, colorClasses: l.color }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
+            {activeMenu === 'apply' && <MegaMenu links={applyForLinks.map(l => ({ ...l, label: l.label, colorClasses: l.colorClasses }))} onLinkClick={() => setActiveMenu(null)} iconShape="diamond" />}
             {activeMenu === 'more' && (
                 <div className="container mx-auto px-4 md:px-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {moreMenuGroups.map((group) => (
                             <div key={group.title} className="space-y-4">
                                 <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3">{group.title}</h4>
-                                <div className="flex flex-col gap-1">
-                                    {group.links.map((link) => (
-                                        <Link 
-                                            key={link.label} 
-                                            href={link.onClick ? '#' : link.href} 
-                                            target={link.target} 
-                                            onClick={(e) => {
-                                                if (link.onClick) {
-                                                    e.preventDefault();
-                                                    link.onClick();
-                                                }
-                                                setActiveMenu(null);
-                                            }}
-                                            className="group flex items-start gap-4 p-2 rounded-lg hover:bg-muted transition-all duration-200"
-                                        >
-                                            <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", link.colorClasses)}>
-                                                <div className="-rotate-45">
-                                                    {link.icon}
+                                <div className="grid grid-cols-1 gap-1">
+                                    {group.links.map((link) => {
+                                        const handleClick = (e: React.MouseEvent) => {
+                                            if (link.onClick) {
+                                                e.preventDefault();
+                                                link.onClick();
+                                            }
+                                            setActiveMenu(null);
+                                        };
+
+                                        return (
+                                            <Link 
+                                                key={link.label} 
+                                                href={link.onClick ? '#' : link.href} 
+                                                target={link.target} 
+                                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                                onClick={handleClick}
+                                                className="group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200"
+                                            >
+                                                <div className={cn(
+                                                    "flex items-center justify-center w-9 h-9 rotate-45 rounded-md shadow-sm shrink-0 transition-all duration-500 group-hover:scale-110",
+                                                    link.colorClasses
+                                                )}>
+                                                    <div className="-rotate-45">
+                                                        {link.icon}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className="space-y-0.5">
-                                                <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
-                                                <p className="text-[10px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
-                                            </div>
-                                        </Link>
-                                    ))}
+                                                <div className="space-y-0.5">
+                                                    <p className="font-extrabold text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{link.label}</p>
+                                                    <p className="text-[9px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
+                                                </div>
+                                            </Link>
+                                        );
+                                    })}
                                 </div>
                             </div>
                         ))}
