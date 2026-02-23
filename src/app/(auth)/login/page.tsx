@@ -84,7 +84,7 @@ export default function LoginPage() {
                 </div>
               </div>
             </Link>
-            <CardTitle className="text-base font-black tracking-tight text-gray-900 dark:text-white uppercase">Welcome Back</CardTitle>
+            <CardTitle className="text-base font-black tracking-tight text-gray-900 dark:text-white">Welcome Back</CardTitle>
             <CardDescription className="text-[9px] font-bold text-gray-500 dark:text-gray-400 capitalize tracking-widest mt-0.5">
               {activeTab} Portal
             </CardDescription>
