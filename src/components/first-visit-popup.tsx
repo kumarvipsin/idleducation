@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Phone, Lock, Send, CheckCircle2, X, ShieldCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { logAccessAttempt } from "@/app/actions/access";
@@ -20,10 +19,9 @@ export function FirstVisitPopup() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // As requested, always trigger the popup on refresh
+    // Always trigger the popup on refresh as requested
     const timer = setTimeout(() => setIsOpen(true), 1500);
 
-    // Listener for manual opening from header menu
     const handleOpen = () => {
         setStep('phone');
         setPhone('');
@@ -68,14 +66,12 @@ export function FirstVisitPopup() {
         title: "Verification Failed",
         description: "The OTP you entered is incorrect. Please try again.",
       });
-      // Log failed attempt
       logAccessAttempt(phone, otp, false);
       return;
     }
 
     setIsVerifying(true);
     
-    // Log successful registration
     const result = await logAccessAttempt(phone, otp, true);
     
     if (result.success) {
@@ -89,7 +85,7 @@ export function FirstVisitPopup() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Something went wrong on our end. Please try again.",
+        description: "Something went wrong. Please try again.",
       });
     }
     
@@ -103,9 +99,8 @@ export function FirstVisitPopup() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="pointer-events-auto w-full max-w-[425px] rounded-2xl border border-white/40 bg-white/30 backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-4 md:p-5 relative overflow-hidden"
+        className="pointer-events-auto w-full max-w-[425px] rounded-xl border border-white/40 bg-white/30 backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-4 md:p-5 relative overflow-hidden"
       >
-        {/* Subtle decorative glow */}
         <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
 
         <div className="relative z-10 flex flex-col gap-4">
@@ -135,7 +130,7 @@ export function FirstVisitPopup() {
                             className="flex flex-col gap-3"
                         >
                             <p className="text-[10px] font-bold text-muted-foreground leading-snug truncate whitespace-nowrap">
-                                Verify mobile for seamless full website access.
+                                Register with mobile to access full features without interruption.
                             </p>
                             
                             <div className="flex flex-col sm:flex-row gap-2">
