@@ -93,7 +93,7 @@ export default function FeedbackPage() {
                                 </div>
                             </span>
                         </h1>
-                        <p className="w-full text-center text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed whitespace-nowrap">
+                        <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed whitespace-nowrap">
                             We value your opinion and would love to hear about your experience.
                         </p>
                     </div>
@@ -101,7 +101,7 @@ export default function FeedbackPage() {
                     {/* Feedback Form Card */}
                     <Card className="shadow-xl rounded-xl border border-border bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         <div className="bg-primary py-4 px-6 text-center">
-                            <h2 className="text-xs font-black text-white tracking-widest uppercase">User Evaluation Form</h2>
+                            <h2 className="text-xs font-black text-white tracking-widest uppercase">Academic Experience Portal</h2>
                             <p className="text-[8px] font-bold text-white/60 uppercase tracking-[0.2em] mt-0.5">Help us improve your learning journey</p>
                         </div>
                         <CardContent className="p-6 md:p-8 space-y-5">
