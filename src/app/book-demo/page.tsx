@@ -16,6 +16,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
@@ -49,7 +50,8 @@ export default function BookDemoPage() {
       mobile: '',
       email: '',
       state: '',
-      sessionMode: 'online',
+      // @ts-ignore - Initialize as empty to avoid auto-selection
+      sessionMode: undefined,
     },
   });
 
@@ -124,7 +126,7 @@ export default function BookDemoPage() {
                             <FormControl>
                                 <RadioGroup
                                     onValueChange={field.onChange}
-                                    defaultValue={field.value}
+                                    value={field.value}
                                     className="grid grid-cols-2 gap-3 w-full"
                                 >
                                     <FormItem className="space-y-0">
