@@ -1,12 +1,10 @@
-
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Home, CheckCircle, GraduationCap, Phone, MapPin, X } from "lucide-react";
+import { Send, User, Mail, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles, Layers, Users } from "lucide-react";
 import { useState } from "react";
-import Link from "next/link";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +13,7 @@ import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 const enquirySchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -71,130 +70,147 @@ export default function StudentEnquiryPage() {
     };
 
     return (
-        <>
-            <div className="container mx-auto py-12 md:px-[10%]">
-                 <div className="text-center mb-8 animate-fade-in-up">
-                    <h1 className="text-3xl md:text-4xl font-extrabold text-primary tracking-tight group inline-block">
-                        Student Enquiry
-                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
-                    </h1>
-                    <p className="mt-2 text-sm text-muted-foreground font-semibold">
-                        Have a question? Fill out the form below and we'll get back to you.
-                    </p>
-                </div>
+        <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 overflow-x-hidden relative">
+            {/* Floating Decorative Elements */}
+            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+            <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+            
+            <div className="container mx-auto px-4 md:px-6 py-12 lg:py-16 relative z-10">
+                <div className="max-w-lg mx-auto space-y-8">
+                    {/* Header Section */}
+                    <div className="text-center space-y-3 animate-fade-in-up">
+                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[8px] font-black uppercase tracking-wider">
+                            <Sparkles className="w-2 h-2 text-yellow-500 fill-yellow-500" />
+                            ACADEMIC HUB
+                        </div>
+                        <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+                            Student{' '}
+                            <span className="relative inline-block">
+                                <span className="relative z-10 text-primary">Enquiry</span>
+                                <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                                    <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                        <path d="M0,15 Q50,5 100,15" />
+                                    </svg>
+                                </div>
+                            </span>
+                        </h1>
+                        <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed">
+                            Have a question? Fill out the form below and we'll get back to you.
+                        </p>
+                    </div>
 
-                <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                    <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white">
-                        <CardContent className="space-y-6 p-8">
+                    {/* Enquiry Form Card */}
+                    <Card className="shadow-xl rounded-xl border border-border bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                        <CardContent className="p-6 md:p-8">
                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                                    <div className="grid sm:grid-cols-2 gap-4">
-                                        <FormField
-                                            control={form.control}
-                                            name="studentName"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Student's Name *" {...field} className="pl-9" />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="guardianName"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Guardian's Name *" {...field} className="pl-9" />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                     <FormField
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                                    <FormField
+                                        control={form.control}
+                                        name="studentName"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <div className="relative group">
+                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        <Input placeholder="Student's Name *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage className="text-[10px]" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="guardianName"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <div className="relative group">
+                                                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        <Input placeholder="Guardian's Name *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage className="text-[10px]" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
                                         control={form.control}
                                         name="classCourse"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <Select onValueChange={field.onChange} value={field.value}>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <SelectTrigger className="pl-9">
+                                                <div className="relative group">
+                                                    <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
+                                                    <Select onValueChange={field.onChange} value={field.value}>
+                                                        <FormControl>
+                                                            <SelectTrigger className={cn(
+                                                                "pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
+                                                                !field.value && "text-slate-400"
+                                                            )}>
                                                                 <SelectValue placeholder="Select Class/Course *" />
                                                             </SelectTrigger>
-                                                        </div>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        {classes.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            {classes.map(c => <SelectItem key={c} value={c} className="text-xs">{c}</SelectItem>)}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <FormMessage className="text-[10px]" />
                                             </FormItem>
                                         )}
                                     />
-                                    <div className="grid sm:grid-cols-2 gap-4">
-                                         <FormField
-                                            control={form.control}
-                                            name="mobile"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input type="tel" placeholder="Mobile Number *" {...field} className="pl-9" />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                        <FormField
-                                            control={form.control}
-                                            name="email"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input type="email" placeholder="Email Address" {...field} className="pl-9" />
-                                                        </div>
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
-                                    </div>
-                                     <FormField
+                                    <FormField
+                                        control={form.control}
+                                        name="mobile"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <div className="relative group">
+                                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        <Input type="tel" placeholder="Mobile Number *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage className="text-[10px]" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormControl>
+                                                    <div className="relative group">
+                                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        <Input type="email" placeholder="Email Address" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                    </div>
+                                                </FormControl>
+                                                <FormMessage className="text-[10px]" />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
                                         control={form.control}
                                         name="state"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                                    <FormControl>
-                                                        <div className="relative">
-                                                        <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                        <SelectTrigger className="pl-9">
-                                                            <SelectValue placeholder="Select a state *" />
-                                                        </SelectTrigger>
-                                                        </div>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        {indianStates.map(state => (
-                                                        <SelectItem key={state} value={state}>{state}</SelectItem>
-                                                        ))}
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
+                                                <div className="relative group">
+                                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
+                                                    <Select onValueChange={field.onChange} value={field.value}>
+                                                        <FormControl>
+                                                            <SelectTrigger className={cn(
+                                                                "pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
+                                                                !field.value && "text-slate-400"
+                                                            )}>
+                                                                <SelectValue placeholder="Select a state *" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            {indianStates.map(state => <SelectItem key={state} value={state} className="text-xs">{state}</SelectItem>)}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <FormMessage className="text-[10px]" />
                                             </FormItem>
                                         )}
                                     />
@@ -204,22 +220,22 @@ export default function StudentEnquiryPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <div className="relative">
-                                                        <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                                    <div className="relative group">
+                                                        <MessageSquare className="absolute left-3 top-3 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         <Textarea 
-                                                            placeholder="Your Enquiry" 
-                                                            className="min-h-[120px] pl-9"
+                                                            placeholder="Describe your enquiry... *" 
+                                                            className="min-h-[100px] pl-9 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20"
                                                             {...field}
                                                         />
                                                     </div>
                                                 </FormControl>
-                                                <FormMessage />
+                                                <FormMessage className="text-[10px]" />
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
-                                        {form.formState.isSubmitting ? 'Submitting...' : 'Submit Enquiry'}
-                                        <Send className="ml-2 h-4 w-4" />
+                                    <Button type="submit" className="w-full h-11 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-none transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
+                                        {form.formState.isSubmitting ? 'PROCESSING...' : 'SUBMIT ENQUIRY'}
+                                        <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </Button>
                                 </form>
                            </Form>
@@ -227,22 +243,27 @@ export default function StudentEnquiryPage() {
                     </Card>
                 </div>
             </div>
+
             <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
-                <DialogContent>
+                <DialogContent className="rounded-xl max-w-sm">
                     <DialogHeader>
                         <div className="flex justify-center mb-4">
-                            <CheckCircle className="w-16 h-16 text-green-500" />
+                            <div className="bg-green-100 p-3 rounded-full">
+                                <CheckCircle className="w-12 h-12 text-green-500" />
+                            </div>
                         </div>
-                        <DialogTitle className="text-center text-2xl">Enquiry Submitted!</DialogTitle>
-                        <DialogDescription className="text-center">
-                            Thank you for your enquiry. Our team will get back to you shortly.
+                        <DialogTitle className="text-center text-xl font-black tracking-tight text-slate-900">Enquiry Submitted!</DialogTitle>
+                        <DialogDescription className="text-center font-semibold text-xs text-slate-600">
+                            Thank you for reaching out. Our academic team will get back to you shortly.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button onClick={() => setIsSuccessOpen(false)} className="w-full">Close</Button>
+                        <Button onClick={() => setIsSuccessOpen(false)} className="w-full h-10 rounded-lg font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10">
+                            Close & Return
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 }
