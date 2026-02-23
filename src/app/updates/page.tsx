@@ -87,7 +87,7 @@ export default function UpdatesPage() {
                         </div>
                     </span>
                 </h1>
-                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold uppercase tracking-tight leading-relaxed">
+                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold capitalize tracking-tight leading-relaxed">
                     A curated timeline of academic releases and board notifications.
                 </p>
             </div>
