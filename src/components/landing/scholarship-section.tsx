@@ -16,7 +16,7 @@ export function ScholarshipSection() {
                             <div className="space-y-1.5 flex flex-col items-start">
                                 <div className="flex items-center gap-2 justify-start">
                                     <Trophy className="h-5 w-5 text-primary flex-shrink-0" />
-                                    <p className="text-sm text-muted-foreground font-bold">Upto 70% Scholarship on IDL Course Admissions</p>
+                                    <p className="text-sm text-muted-foreground font-bold">Get Upto 70% Scholarship on IDL Admissions Test</p>
                                 </div>
                                 <div className="flex items-center gap-2 justify-start">
                                     <Award className="h-5 w-5 text-primary flex-shrink-0" />
