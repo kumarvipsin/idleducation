@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -114,7 +113,7 @@ export function FirstVisitPopup() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="pointer-events-auto w-full max-w-[425px] rounded-xl border border-white/40 bg-white/30 backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-4 md:p-5 relative overflow-hidden"
+        className="pointer-events-auto w-full max-w-[425px] rounded-xl border border-white/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-4 md:p-5 relative overflow-hidden"
       >
         <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
 
