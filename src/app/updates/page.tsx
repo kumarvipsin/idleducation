@@ -43,7 +43,7 @@ export default function UpdatesPage() {
             <Skeleton className="h-12 w-12 rounded-full shrink-0" />
             <div className="flex-1 space-y-3">
                 <Skeleton className="h-4 w-1/4" />
-                <Skeleton className="h-20 w-full rounded-2xl" />
+                <Skeleton className="h-20 w-full rounded-lg" />
             </div>
          </div>
       ))}
@@ -115,7 +115,7 @@ export default function UpdatesPage() {
                         >
                             {/* Desktop Date Marker */}
                             <div className="hidden sm:flex flex-col items-center shrink-0 z-10">
-                                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-full border-2 border-primary/10 shadow-sm group-hover:border-primary group-hover:scale-110 transition-all duration-500">
+                                <div className="bg-white dark:bg-slate-900 p-2.5 rounded-full border-2 border-primary/10 shadow-none group-hover:border-primary group-hover:scale-110 transition-all duration-500">
                                     <Clock className="w-4 h-4 text-primary" />
                                 </div>
                                 <div className="mt-3 text-center">
@@ -129,7 +129,7 @@ export default function UpdatesPage() {
                             </div>
 
                             {/* Content Card */}
-                            <Card className="flex-1 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm border-white dark:border-slate-800 shadow-sm hover:shadow-xl hover:bg-white dark:hover:bg-slate-900 transition-all duration-500 rounded-[1.5rem] overflow-hidden group/card border-none">
+                            <Card className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300">
                                 <CardContent className="p-6 md:p-8">
                                     <div className="space-y-4">
                                         <div className="flex flex-col gap-2">
@@ -163,7 +163,7 @@ export default function UpdatesPage() {
                         </motion.div>
                     ))
                 ) : (
-                    <div className="text-center py-20 bg-white/40 dark:bg-slate-900/40 rounded-[2rem] border border-dashed">
+                    <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 shadow-none">
                         <Bell className="w-12 h-12 text-muted-foreground/20 mx-auto mb-4" />
                         <h3 className="text-xl font-black text-foreground tracking-tight">No Announcements</h3>
                         <p className="text-sm text-muted-foreground font-bold mt-1">Check back later for important school updates.</p>
