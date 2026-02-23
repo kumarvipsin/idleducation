@@ -12,7 +12,6 @@ const freeSessionSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
-  country: z.string().min(1, { message: "Please select a country." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -28,6 +27,7 @@ export async function bookFreeSession(data: FreeSessionValues) {
   try {
     await addDoc(collection(db, "sessionBookings"), {
       ...validation.data,
+      country: 'India',
       status: 'new',
       createdAt: serverTimestamp(),
     });

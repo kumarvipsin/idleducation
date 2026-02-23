@@ -21,7 +21,6 @@ const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
-  country: z.string().min(1, { message: "Please select a country." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -38,10 +37,6 @@ const indianStates = [
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
 
-const countries = [
-  "India", "United States", "United Kingdom", "Canada", "Australia", "Singapore", "UAE", "Saudi Arabia"
-];
-
 export default function BookDemoPage() {
   const { toast } = useToast();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -51,7 +46,6 @@ export default function BookDemoPage() {
     defaultValues: {
       studentName: '',
       classCourse: '',
-      country: 'India',
       mobile: '',
       email: '',
       state: '',
@@ -223,34 +217,6 @@ export default function BookDemoPage() {
                             <Input type="email" placeholder="Email Address *" {...field} className="pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
                           </div>
                         </FormControl>
-                        <FormMessage className="text-[10px]" />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="country"
-                    render={({ field }) => (
-                      <FormItem>
-                        <div className="relative group">
-                          <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10 pointer-events-none z-10">
-                            <Globe className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className={cn(
-                                "pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
-                                !field.value && "text-slate-400"
-                              )}>
-                                <SelectValue placeholder="Select Country *" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {countries.map(c => <SelectItem key={c} value={c} className="text-xs">{c}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                        </div>
                         <FormMessage className="text-[10px]" />
                       </FormItem>
                     )}
