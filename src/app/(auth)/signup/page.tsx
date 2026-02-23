@@ -91,7 +91,7 @@ export default function SignupPage() {
             </Link>
             <CardTitle className="text-xl font-black tracking-tight text-gray-900 dark:text-white">Start Your Journey</CardTitle>
             <CardDescription className="text-xs font-bold text-gray-500 dark:text-gray-400 tracking-widest mt-2">
-              Join IDL and unlock your full potential today.
+              {activeTab === 'student' ? 'Student Signup' : 'Teacher Signup'}
             </CardDescription>
           </CardHeader>
 
