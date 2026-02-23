@@ -94,21 +94,21 @@ export default function UpdatesPage() {
           </div>
 
           {/* List View */}
-          <div className="space-y-4">
+          <div className="w-full">
                 {loading ? (
                     renderSkeleton()
                 ) : updates.length > 0 ? (
-                    updates.map((update, index) => (
-                        <motion.div
-                            key={update.id}
-                            initial={{ opacity: 0, y: 5 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.4, delay: index * 0.05 }}
-                        >
-                            <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
-                                <Accordion type="single" collapsible className="w-full">
-                                    <AccordionItem value="content" className="border-none">
+                    <Accordion type="single" collapsible className="space-y-4 w-full">
+                        {updates.map((update, index) => (
+                            <motion.div
+                                key={update.id}
+                                initial={{ opacity: 0, y: 5 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.4, delay: index * 0.05 }}
+                            >
+                                <AccordionItem value={update.id} className="border-none">
+                                    <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
                                         <AccordionTrigger className="p-5 md:p-6 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
                                             <header className="flex flex-col items-start gap-1 pr-4">
                                                 {/* Time Row */}
@@ -134,11 +134,11 @@ export default function UpdatesPage() {
                                                 </p>
                                             </div>
                                         </AccordionContent>
-                                    </AccordionItem>
-                                </Accordion>
-                            </Card>
-                        </motion.div>
-                    ))
+                                    </Card>
+                                </AccordionItem>
+                            </motion.div>
+                        ))}
+                    </Accordion>
                 ) : (
                     <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-lg border border-dashed border-slate-200 dark:border-slate-800 shadow-none">
                         <Bell className="w-12 h-12 text-muted-foreground/20 mx-auto mb-4" />
