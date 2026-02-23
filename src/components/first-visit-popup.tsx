@@ -2,21 +2,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription,
-  DialogFooter
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Phone, Lock, Send, Smartphone, CheckCircle2 } from "lucide-react";
+import { Phone, Lock, Send, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { logAccessAttempt } from "@/app/actions/access";
-import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function FirstVisitPopup() {
@@ -95,53 +86,51 @@ export function FirstVisitPopup() {
     setIsVerifying(false);
   };
 
-  return (
-    <Dialog open={isOpen} onOpenChange={() => {}}>
-      <DialogContent 
-        onPointerDownOutside={(e) => e.preventDefault()} 
-        onEscapeKeyDown={(e) => e.preventDefault()}
-        className="sm:max-w-[400px] rounded-2xl border-2 border-primary/10 shadow-2xl p-0 overflow-hidden"
-      >
-        <div className="bg-primary p-6 text-center text-white relative overflow-hidden">
-            <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-white/10 rounded-full blur-2xl" />
-            <div className="relative z-10 flex flex-col items-center gap-3">
-                <div className="p-3 bg-white/20 backdrop-blur-md rounded-2xl border border-white/20 shadow-lg">
-                    <Smartphone className="w-8 h-8 text-white" />
-                </div>
-                <DialogHeader>
-                    <DialogTitle className="text-xl font-black tracking-tight text-white">Unlock Full Access</DialogTitle>
-                    <DialogDescription className="text-white/80 text-[11px] font-bold uppercase tracking-[0.15em] leading-tight mt-1">
-                        One-Time Registration Required
-                    </DialogDescription>
-                </DialogHeader>
-            </div>
-        </div>
+  if (!isOpen) return null;
 
-        <div className="p-8 space-y-6 bg-white dark:bg-slate-900">
-            <p className="text-center text-muted-foreground text-xs font-bold leading-relaxed">
-                Register now with your phone number to access the full website without interruption.
+  return (
+    <div className="fixed inset-0 z-[100] pointer-events-none flex items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        className="pointer-events-auto w-full max-w-[340px] rounded-[2.5rem] border border-white/40 bg-white/20 backdrop-blur-3xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] p-6 relative overflow-hidden"
+      >
+        {/* Background glow effects */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-primary/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
+
+        <div className="relative z-10 space-y-5">
+            <div className="space-y-1 text-center">
+                <h2 className="text-lg font-black tracking-tighter text-primary uppercase leading-tight">Access Website</h2>
+                <p className="text-muted-foreground text-[9px] font-black uppercase tracking-[0.2em] leading-tight">
+                    One-Time Registration
+                </p>
+            </div>
+
+            <p className="text-center text-muted-foreground text-[10px] font-bold leading-relaxed opacity-80 px-2">
+                Register with your phone number to access the full website without interruption.
             </p>
 
             <AnimatePresence mode="wait">
                 {step === 'phone' ? (
                     <motion.div 
                         key="phone-step"
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
+                        exit={{ opacity: 0, x: 10 }}
                         className="space-y-4"
                     >
-                        <div className="space-y-2">
-                            <Label htmlFor="phone" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Mobile Number</Label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="phone" className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Mobile Number</Label>
                             <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-primary">
-                                    <Phone size={16} />
+                                <div className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground transition-colors group-focus-within:text-primary">
+                                    <Phone size={14} />
                                 </div>
-                                <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm font-bold text-muted-foreground">+91</span>
+                                <span className="absolute left-9 top-1/2 -translate-y-1/2 text-xs font-black text-muted-foreground">+91</span>
                                 <Input 
                                     id="phone" 
                                     placeholder="Enter 10 digits" 
-                                    className="pl-16 h-12 bg-muted/30 border-primary/10 rounded-xl font-bold" 
+                                    className="pl-15 h-10 bg-white/40 border-white/20 rounded-xl font-black text-xs transition-all focus:ring-4 focus:ring-primary/10" 
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                                 />
@@ -149,30 +138,30 @@ export function FirstVisitPopup() {
                         </div>
                         <Button 
                             onClick={handleSendOtp} 
-                            className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[11px] shadow-lg shadow-primary/20 group"
+                            className="w-full h-10 rounded-xl font-black uppercase tracking-[0.2em] text-[9px] shadow-lg shadow-primary/10 group bg-primary hover:bg-primary/90 text-white"
                         >
                             Get Access Code
-                            <Send className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                            <Send className="ml-2 w-3.5 h-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                         </Button>
                     </motion.div>
                 ) : (
                     <motion.div 
                         key="otp-step"
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -10 }}
                         animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: 20 }}
+                        exit={{ opacity: 0, x: 10 }}
                         className="space-y-4"
                     >
-                        <div className="space-y-2">
-                            <Label htmlFor="otp" className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Verification Code</Label>
+                        <div className="space-y-1.5">
+                            <Label htmlFor="otp" className="text-[8px] font-black uppercase tracking-widest text-muted-foreground ml-1">Verification Code</Label>
                             <div className="relative group">
-                                <div className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground transition-colors group-focus-within:text-primary">
-                                    <Lock size={16} />
+                                <div className="absolute left-3.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground transition-colors group-focus-within:text-primary">
+                                    <Lock size={14} />
                                 </div>
                                 <Input 
                                     id="otp" 
-                                    placeholder="Enter 4-digit code" 
-                                    className="pl-10 h-12 bg-muted/30 border-primary/10 rounded-xl font-bold text-center tracking-[0.5em]" 
+                                    placeholder="4-digit code" 
+                                    className="pl-9 h-10 bg-white/40 border-white/20 rounded-xl font-black text-center tracking-[0.4em] text-xs transition-all focus:ring-4 focus:ring-primary/10" 
                                     value={otp}
                                     onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                 />
@@ -182,30 +171,30 @@ export function FirstVisitPopup() {
                             <Button 
                                 onClick={handleVerify} 
                                 disabled={isVerifying}
-                                className="w-full h-12 rounded-xl font-black uppercase tracking-widest text-[11px] shadow-lg shadow-primary/20"
+                                className="w-full h-10 rounded-xl font-black uppercase tracking-[0.2em] text-[9px] shadow-lg shadow-primary/10 bg-primary hover:bg-primary/90 text-white"
                             >
-                                {isVerifying ? "Verifying..." : "Verify & Enter Site"}
-                                <CheckCircle2 className="ml-2 w-4 h-4" />
+                                {isVerifying ? "Verifying..." : "Verify & Enter"}
+                                <CheckCircle2 className="ml-2 w-3.5 h-3.5" />
                             </Button>
                             <Button 
                                 variant="ghost" 
                                 onClick={() => setStep('phone')} 
-                                className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-primary"
+                                className="h-8 text-[8px] font-black uppercase tracking-[0.2em] text-muted-foreground hover:text-primary hover:bg-transparent"
                             >
-                                Change Phone Number
+                                Change Number
                             </Button>
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
+            
+            <div className="pt-3 border-t border-white/20 text-center">
+                <p className="text-[7px] font-black uppercase tracking-[0.3em] text-muted-foreground/40">
+                    Secure Registration • IDL Cloud
+                </p>
+            </div>
         </div>
-        
-        <div className="p-4 bg-muted/30 text-center border-t">
-            <p className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground/60">
-                Safe & Secure Registration Powered by IDL Cloud
-            </p>
-        </div>
-      </DialogContent>
-    </Dialog>
+      </motion.div>
+    </div>
   );
 }
