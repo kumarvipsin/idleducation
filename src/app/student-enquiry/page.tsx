@@ -90,7 +90,7 @@ export default function StudentEnquiryPage() {
                             </span>
                         </h1>
                         <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed">
-                            Inquire about our premium admissions and structured learning programs to begin your academic success journey.
+                            Inquire about our class & course structured learning programs to begin your academic success journey.
                         </p>
                     </div>
 
