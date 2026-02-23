@@ -61,15 +61,15 @@ export default function SignupPage() {
   const onTeacherSubmit: SubmitHandler<SignupValues> = (data) => handleSignup(data, 'teacher');
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-white dark:bg-gray-950 relative overflow-hidden">
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-gray-950 relative overflow-hidden">
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="w-full max-w-[360px] z-10"
+        className="w-full max-w-[380px] z-10"
       >
-        <Card className="border bg-white dark:bg-gray-900 rounded-2xl overflow-hidden shadow-none">
-          <CardHeader className="pt-8 pb-2 text-center">
+        <Card className="border-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+          <CardHeader className="pt-10 pb-2 text-center">
             <Link href="/" className="mx-auto block w-fit mb-4">
               <div className="relative flex items-center justify-center w-20 h-20">
                 <motion.div
@@ -95,15 +95,15 @@ export default function SignupPage() {
                 </div>
               </div>
             </Link>
-            <CardTitle className="text-lg font-black tracking-tight text-gray-900 dark:text-white uppercase">Create Account</CardTitle>
+            <CardTitle className="text-xl font-black tracking-tight text-gray-900 dark:text-white uppercase">Create Account</CardTitle>
             <CardDescription className="text-[10px] font-bold text-gray-500 dark:text-gray-400 capitalize tracking-widest mt-1">
               Join as {activeTab}
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="px-6">
+          <CardContent className="px-8">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl h-10">
+              <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl h-11">
                 <TabsTrigger 
                   value="student" 
                   className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[10px] font-black uppercase tracking-tight"
@@ -118,9 +118,9 @@ export default function SignupPage() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="student" className="mt-4">
+              <TabsContent value="student" className="mt-6">
                 <Form {...studentForm}>
-                  <form onSubmit={studentForm.handleSubmit(onStudentSubmit)} className="space-y-3">
+                  <form onSubmit={studentForm.handleSubmit(onStudentSubmit)} className="space-y-4">
                     <FormField
                       control={studentForm.control}
                       name="name"
@@ -132,7 +132,7 @@ export default function SignupPage() {
                               <Input 
                                 placeholder="Full name" 
                                 {...field} 
-                                className="pl-11 h-11 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                                className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
                               />
                             </div>
                           </FormControl>
@@ -151,7 +151,7 @@ export default function SignupPage() {
                               <Input 
                                 placeholder="Email address" 
                                 {...field} 
-                                className="pl-11 h-11 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                                className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
                               />
                             </div>
                           </FormControl>
@@ -171,7 +171,7 @@ export default function SignupPage() {
                                 type="password" 
                                 placeholder="Create password" 
                                 {...field} 
-                                className="pl-11 h-11 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                                className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
                               />
                             </div>
                           </FormControl>
@@ -181,7 +181,7 @@ export default function SignupPage() {
                     />
                     <Button 
                       type="submit" 
-                      className="w-full h-11 rounded-xl text-[11px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2 shadow-none" 
+                      className="w-full h-12 rounded-xl text-[11px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-4 shadow-lg shadow-primary/20" 
                       disabled={studentForm.formState.isSubmitting}
                     >
                       {studentForm.formState.isSubmitting ? 'Creating Account...' : 'Signup'}
@@ -191,9 +191,9 @@ export default function SignupPage() {
                 </Form>
               </TabsContent>
 
-              <TabsContent value="teacher" className="mt-4">
+              <TabsContent value="teacher" className="mt-6">
                 <Form {...teacherForm}>
-                  <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)} className="space-y-3">
+                  <form onSubmit={teacherForm.handleSubmit(onTeacherSubmit)} className="space-y-4">
                     <FormField
                       control={teacherForm.control}
                       name="name"
@@ -205,7 +205,7 @@ export default function SignupPage() {
                               <Input 
                                 placeholder="Full name" 
                                 {...field} 
-                                className="pl-11 h-11 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                                className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
                               />
                             </div>
                           </FormControl>
@@ -224,7 +224,7 @@ export default function SignupPage() {
                               <Input 
                                 placeholder="Professional email" 
                                 {...field} 
-                                className="pl-11 h-11 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                                className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
                               />
                             </div>
                           </FormControl>
@@ -244,7 +244,7 @@ export default function SignupPage() {
                                 type="password" 
                                 placeholder="Create password" 
                                 {...field} 
-                                className="pl-11 h-11 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                                className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
                               />
                             </div>
                           </FormControl>
@@ -254,7 +254,7 @@ export default function SignupPage() {
                     />
                     <Button 
                       type="submit" 
-                      className="w-full h-11 rounded-xl text-[11px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-2 shadow-none" 
+                      className="w-full h-12 rounded-xl text-[11px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-4 shadow-lg shadow-primary/20" 
                       disabled={teacherForm.formState.isSubmitting}
                     >
                       {teacherForm.formState.isSubmitting ? 'Creating Account...' : 'Signup'}
@@ -266,7 +266,7 @@ export default function SignupPage() {
             </Tabs>
           </CardContent>
 
-          <CardFooter className="pb-8 pt-2 flex flex-col gap-4">
+          <CardFooter className="pb-10 pt-4 flex flex-col gap-4">
             <div className="text-center text-[9px] uppercase tracking-[0.2em] text-gray-400 font-bold">
               Have an account?{" "}
               <Link href="/login" className="text-primary hover:underline transition-all font-black">
