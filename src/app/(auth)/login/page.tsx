@@ -62,11 +62,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-950 relative overflow-hidden">
-      {/* Decorative Background Elements */}
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[#f8faff] dark:bg-slate-950 relative overflow-hidden">
+      {/* Sophisticated Decorative Background */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]" />
-        <div className="absolute -bottom-[10%] -right-[10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-primary/5 via-transparent to-accent/5 opacity-50" />
       </div>
 
       <motion.div 
@@ -75,7 +76,7 @@ export default function LoginPage() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-[440px] z-10"
       >
-        <Card className="border-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+        <Card className="border border-white/20 bg-white/80 dark:bg-gray-900/80 backdrop-blur-2xl rounded-2xl overflow-hidden shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] dark:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.5)]">
           <CardHeader className="pt-10 pb-6 text-center">
             <Link href="/" className="mx-auto block w-fit mb-6">
               <div className="relative flex items-center justify-center w-16 h-16">
