@@ -78,7 +78,7 @@ export default function FeedbackPage() {
                 <div className="max-w-lg mx-auto space-y-8">
                     {/* Header Section */}
                     <div className="text-center space-y-3 animate-fade-in-up">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[9px] font-black uppercase tracking-[0.2em]">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[10px] font-black">
                             <Sparkles className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
                             Community Voice
                         </div>
@@ -177,7 +177,7 @@ export default function FeedbackPage() {
                                             <FormItem className="space-y-4">
                                                 <div className="flex flex-col items-center gap-4 py-2">
                                                     <div className="text-center space-y-0.5">
-                                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-foreground">EXPERIENCE RATING</h4>
+                                                        <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">EXPERIENCE RATING</h4>
                                                         <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your star level</p>
                                                     </div>
                                                     
