@@ -214,7 +214,7 @@ export default function SignupPage() {
                             <div className="relative group">
                               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-primary transition-colors" />
                               <Input 
-                                placeholder="Professional email" 
+                                placeholder="Email address" 
                                 {...field} 
                                 className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-lg transition-all text-sm" 
                               />
@@ -260,9 +260,9 @@ export default function SignupPage() {
 
           <CardFooter className="pb-10 pt-2 flex flex-col gap-2">
             <div className="text-center text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">
-              Have an account?{" "}
-              <Link href="/login" className="text-gray-400 hover:text-primary transition-all font-bold uppercase hover:underline">
-                Sign in
+              No account?{" "}
+              <Link href="/signup" className="text-gray-400 hover:text-primary transition-all font-bold uppercase hover:underline">
+                Signup
               </Link>
             </div>
           </CardFooter>
