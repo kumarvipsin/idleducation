@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Bell, Clock } from "lucide-react";
+import { Sparkles, Bell, Clock, Calendar } from "lucide-react";
 import { getUpdates } from '@/app/actions'; 
 import { useToast } from '@/hooks/use-toast';
 import { formatDistanceToNow, format } from 'date-fns';
@@ -139,7 +139,8 @@ export default function UpdatesPage() {
                                                     {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                                                 </span>
                                             </div>
-                                            <h2 className="text-lg md:text-xl font-black text-foreground tracking-tight leading-tight group-hover/card:text-primary transition-colors">
+                                            <h2 className="flex items-center gap-2 text-sm font-bold text-foreground tracking-tight leading-tight group-hover/card:text-primary transition-colors">
+                                                <Calendar className="w-3.5 h-3.5 text-primary/60" />
                                                 {update.title}
                                             </h2>
                                         </div>
