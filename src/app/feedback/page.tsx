@@ -103,7 +103,7 @@ export default function FeedbackPage() {
                         <CardContent className="p-6 md:p-8 space-y-5">
                            <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                                    <div className="grid sm:grid-cols-2 gap-3">
+                                    <div className="flex flex-col gap-5">
                                         <FormField
                                             control={form.control}
                                             name="name"
