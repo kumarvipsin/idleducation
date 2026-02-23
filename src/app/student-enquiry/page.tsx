@@ -106,7 +106,7 @@ export default function StudentEnquiryPage() {
                                             <FormItem>
                                                 <FormControl>
                                                     <div className="relative group">
-                                                        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 bg-white transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10">
+                                                        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10">
                                                             <User className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         </div>
                                                         <Input placeholder="Student's Name *" {...field} className="pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
