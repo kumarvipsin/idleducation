@@ -69,7 +69,7 @@ export default function LoginPage() {
         transition={{ duration: 0.4 }}
         className="w-full max-w-[380px] z-10"
       >
-        <Card className="border-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
+        <Card className="border-none bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.3)]">
           <CardHeader className="pt-10 pb-2 text-center">
             <Link href="/" className="mx-auto block w-fit mb-4">
               <div className="relative flex items-center justify-center w-20 h-20">
@@ -104,16 +104,16 @@ export default function LoginPage() {
 
           <CardContent className="px-8">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-6">
-              <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-xl h-11">
+              <TabsList className="grid w-full grid-cols-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg h-11">
                 <TabsTrigger 
                   value="student" 
-                  className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[10px] font-black uppercase tracking-tight"
+                  className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[10px] font-black uppercase tracking-tight"
                 >
                   <GraduationCap className="w-3.5 h-3.5 mr-1.5" /> Student
                 </TabsTrigger>
                 <TabsTrigger 
                   value="teacher" 
-                  className="rounded-lg data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[10px] font-black uppercase tracking-tight"
+                  className="rounded-md data-[state=active]:bg-white dark:data-[state=active]:bg-gray-700 data-[state=active]:text-primary dark:data-[state=active]:text-white data-[state=active]:shadow-sm transition-all text-[10px] font-black uppercase tracking-tight"
                 >
                   <Briefcase className="w-3.5 h-3.5 mr-1.5" /> Teacher
                 </TabsTrigger>
@@ -133,7 +133,7 @@ export default function LoginPage() {
                           <Input 
                             placeholder="Email address" 
                             {...field} 
-                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-lg transition-all text-sm" 
                           />
                         </div>
                       </FormControl>
@@ -153,7 +153,7 @@ export default function LoginPage() {
                             type="password" 
                             placeholder="Password" 
                             {...field} 
-                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-xl transition-all text-sm" 
+                            className="pl-11 h-12 bg-gray-50 dark:bg-gray-800/50 border focus:ring-2 focus:ring-primary/20 rounded-lg transition-all text-sm" 
                           />
                         </div>
                       </FormControl>
@@ -163,7 +163,7 @@ export default function LoginPage() {
                 />
                 <Button 
                   type="submit" 
-                  className="w-full h-12 rounded-xl text-[11px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-4 shadow-lg shadow-primary/20" 
+                  className="w-full h-12 rounded-lg text-[11px] font-black uppercase tracking-widest bg-primary hover:bg-primary/90 text-white transition-all transform active:scale-[0.98] group mt-4 shadow-lg shadow-primary/20" 
                   disabled={form.formState.isSubmitting}
                 >
                   {form.formState.isSubmitting ? 'Authenticating...' : 'Sign In'}
