@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, ArrowRight, Tag } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, ArrowRight, Tag, HelpCircle, Layers } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -146,7 +146,7 @@ export default function FeedbackPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <div className="relative group">
-                                                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
+                                                    <Layers className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
                                                     <Select onValueChange={field.onChange} value={field.value}>
                                                         <FormControl>
                                                             <SelectTrigger className={cn(
