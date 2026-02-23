@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, ArrowRight } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, ArrowRight, Tag } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -145,20 +145,26 @@ export default function FeedbackPage() {
                                         name="category"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <Select onValueChange={field.onChange} value={field.value}>
-                                                    <FormControl>
-                                                        <SelectTrigger className="h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs focus:ring-2 focus:ring-primary/20">
-                                                            <SelectValue placeholder="Feedback Category *" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="general" className="text-xs">General Feedback</SelectItem>
-                                                        <SelectItem value="course-content" className="text-xs">Course Content</SelectItem>
-                                                        <SelectItem value="teacher" className="text-xs">Teacher Experience</SelectItem>
-                                                        <SelectItem value="technical-issue" className="text-xs">Technical Issue</SelectItem>
-                                                        <SelectItem value="suggestion" className="text-xs">Suggestion</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
+                                                <div className="relative group">
+                                                    <Tag className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
+                                                    <Select onValueChange={field.onChange} value={field.value}>
+                                                        <FormControl>
+                                                            <SelectTrigger className={cn(
+                                                                "pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
+                                                                !field.value && "text-slate-400"
+                                                            )}>
+                                                                <SelectValue placeholder="Feedback Category *" />
+                                                            </SelectTrigger>
+                                                        </FormControl>
+                                                        <SelectContent>
+                                                            <SelectItem value="general" className="text-xs">General Feedback</SelectItem>
+                                                            <SelectItem value="course-content" className="text-xs">Course Content</SelectItem>
+                                                            <SelectItem value="teacher" className="text-xs">Teacher Experience</SelectItem>
+                                                            <SelectItem value="technical-issue" className="text-xs">Technical Issue</SelectItem>
+                                                            <SelectItem value="suggestion" className="text-xs">Suggestion</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
                                                 <FormMessage className="text-[10px]" />
                                             </FormItem>
                                         )}
@@ -171,7 +177,7 @@ export default function FeedbackPage() {
                                             <FormItem className="space-y-4">
                                                 <div className="flex flex-col items-center gap-4 py-2">
                                                     <div className="text-center space-y-0.5">
-                                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-foreground">Experience Rating</h4>
+                                                        <h4 className="text-[10px] font-black uppercase tracking-widest text-foreground">EXPERIENCE RATING</h4>
                                                         <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your star level</p>
                                                     </div>
                                                     
