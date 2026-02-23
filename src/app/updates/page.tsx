@@ -109,7 +109,7 @@ export default function UpdatesPage() {
                             >
                                 <AccordionItem value={update.id} className="border-none">
                                     <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
-                                        <AccordionTrigger className="p-5 md:p-6 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
+                                        <AccordionTrigger className="p-3 md:p-4 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
                                             <header className="flex flex-col items-start gap-1 pr-4">
                                                 {/* Time Row */}
                                                 <div className="flex items-center gap-2">
@@ -127,8 +127,8 @@ export default function UpdatesPage() {
                                                 </div>
                                             </header>
                                         </AccordionTrigger>
-                                        <AccordionContent className="px-5 md:px-6 pb-6 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
-                                            <div className="pt-4">
+                                        <AccordionContent className="px-3 md:px-4 pb-4 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
+                                            <div className="pt-3">
                                                 <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left flex-1">
                                                     {update.description}
                                                 </p>
