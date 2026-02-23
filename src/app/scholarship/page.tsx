@@ -94,9 +94,9 @@ export default function ScholarshipPage() {
               TALENT HUNT
             </div>
             <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
-              IDL Scholarship{' '}
+              IDL Scholarship &{' '}
               <span className="relative inline-block">
-                <span className="relative z-10 text-primary">Test 2026</span>
+                <span className="relative z-10 text-primary">Admission Test</span>
                 <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
                   <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
                     <path d="M0,15 Q50,5 100,15" />

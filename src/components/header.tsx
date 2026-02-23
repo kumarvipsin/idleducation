@@ -7,7 +7,7 @@ import {
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
   Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search,
-  Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award
+  Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -277,6 +277,7 @@ export function Header() {
             { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Visit our learning centers." },
             { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Join our hands-on workshops." },
             { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Read articles and updates." },
+            { href: "/updates", label: "Recent Updates", icon: <Bell className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Stay updated with latest news." },
         ]
     },
     {
