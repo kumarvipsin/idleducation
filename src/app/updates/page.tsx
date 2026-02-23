@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Card } from "@/components/ui/card";
-import { Sparkles, Bell, Clock, Calendar, MessageSquare } from "lucide-react";
+import { Sparkles, Bell, Calendar } from "lucide-react";
 import { getUpdates } from '@/app/actions'; 
 import { useToast } from '@/hooks/use-toast';
 import { formatDistanceToNow, format } from 'date-fns';
@@ -128,10 +128,7 @@ export default function UpdatesPage() {
                                             </header>
                                         </AccordionTrigger>
                                         <AccordionContent className="px-5 md:px-6 pb-6 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
-                                            <div className="pt-4 flex gap-3">
-                                                <div className="p-1 h-fit mt-1">
-                                                    <MessageSquare className="w-3.5 h-3.5 text-primary" />
-                                                </div>
+                                            <div className="pt-4">
                                                 <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left flex-1">
                                                     {update.description}
                                                 </p>
