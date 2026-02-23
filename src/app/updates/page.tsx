@@ -87,7 +87,7 @@ export default function UpdatesPage() {
                         </div>
                     </span>
                 </h1>
-                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold uppercase tracking-tight leading-relaxed opacity-80">
+                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold uppercase tracking-tight leading-relaxed">
                     A curated timeline of academic releases and board notifications.
                 </p>
             </div>
@@ -114,7 +114,7 @@ export default function UpdatesPage() {
                                                 {/* Time Row */}
                                                 <div className="flex items-center gap-2">
                                                     <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                                                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] opacity-80">
+                                                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">
                                                         {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                                                     </span>
                                                 </div>
@@ -124,8 +124,8 @@ export default function UpdatesPage() {
                                                         <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
                                                         {format(new Date(update.createdAt), "EEEE, MMM dd, yyyy")}
                                                     </div>
-                                                    <span className="text-muted-foreground/40 hidden md:inline">|</span>
-                                                    <span className="text-xs font-bold text-foreground/90 line-clamp-1 group-hover:text-primary transition-colors">
+                                                    <span className="text-muted-foreground hidden md:inline">|</span>
+                                                    <span className="text-xs font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
                                                         {update.title}
                                                     </span>
                                                 </div>
