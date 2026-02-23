@@ -118,16 +118,12 @@ export default function UpdatesPage() {
                                                         {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                                                     </span>
                                                 </div>
-                                                {/* Date & Title Row */}
+                                                {/* Date Row */}
                                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left opacity-100">
                                                     <div className="flex items-center gap-1.5 text-[11px] font-black text-foreground uppercase tracking-tight">
                                                         <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
                                                         {format(new Date(update.createdAt), "EEEE, MMM dd, yyyy")}
                                                     </div>
-                                                    <span className="text-foreground/40 hidden md:inline">|</span>
-                                                    <span className="text-xs font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
-                                                        {update.title}
-                                                    </span>
                                                 </div>
                                             </div>
                                         </AccordionTrigger>
