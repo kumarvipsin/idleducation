@@ -91,8 +91,8 @@ export default function LoginPage() {
               </div>
             </Link>
             <CardTitle className="text-xl font-black tracking-tight text-gray-900 dark:text-white">Welcome Back</CardTitle>
-            <CardDescription className="text-xs font-bold text-gray-500 dark:text-gray-400 tracking-widest mt-2 uppercase">
-              {activeTab} Portal
+            <CardDescription className="text-xs font-bold text-gray-500 dark:text-gray-400 tracking-widest mt-2">
+              {activeTab === 'student' ? 'Student Signin' : 'Teacher Signin'}
             </CardDescription>
           </CardHeader>
 
