@@ -60,7 +60,7 @@ export default function UpdatesPage() {
       <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
 
       <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 relative z-10">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           
           {/* Header Section */}
           <div className="mb-12 space-y-6 text-center">
