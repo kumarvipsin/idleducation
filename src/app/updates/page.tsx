@@ -69,9 +69,8 @@ export default function UpdatesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex flex-col items-center gap-4"
             >
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white shadow-sm border border-primary/10 text-primary text-[8px] font-black uppercase tracking-widest">
-                    <Sparkles className="w-3 h-3 text-yellow-500" />
-                    BOARD ANNOUNCEMENTS
+                <div className="bg-primary/10 p-4 rounded-full border border-primary/20 shadow-sm transition-all duration-500 hover:scale-110">
+                    <Bell className="w-8 h-8 text-primary animate-ring" />
                 </div>
             </motion.div>
             
@@ -88,7 +87,7 @@ export default function UpdatesPage() {
                     </span>
                 </h1>
                 <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold capitalize tracking-tight leading-relaxed">
-                    A curated timeline of academic releases and board notifications.
+                    A Curated Timeline Of Academic Releases And Board Notifications.
                 </p>
             </div>
           </div>
@@ -120,7 +119,7 @@ export default function UpdatesPage() {
                                                 </div>
                                                 {/* Date Row */}
                                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left opacity-100">
-                                                    <div className="flex items-center gap-1.5 text-[11px] font-black text-foreground tracking-tight">
+                                                    <div className="flex items-center gap-1.5 text-[11px] font-bold text-foreground tracking-tight">
                                                         <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
                                                         {format(new Date(update.createdAt), "EEEE")} | {format(new Date(update.createdAt), "MMM dd, yyyy")}
                                                     </div>
