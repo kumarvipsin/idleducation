@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Sparkles, Bell, Clock, Calendar } from "lucide-react";
 import { getUpdates } from '@/app/actions'; 
 import { useToast } from '@/hooks/use-toast';
@@ -9,6 +9,12 @@ import { formatDistanceToNow, format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 interface Update {
   id: string;
@@ -100,7 +106,7 @@ export default function UpdatesPage() {
                 <div className="absolute left-6 top-0 bottom-0 w-[1px] bg-gradient-to-b from-primary/20 via-primary/10 to-transparent hidden sm:block" />
             )}
 
-            <div className="space-y-12">
+            <div className="space-y-8">
                 {loading ? (
                     renderSkeleton()
                 ) : updates.length > 0 ? (
@@ -128,28 +134,31 @@ export default function UpdatesPage() {
                                 </div>
                             </div>
 
-                            {/* Content Card */}
+                            {/* Content Card with Accordion */}
                             <Card className="flex-1 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300">
-                                <CardContent className="p-6 md:p-8">
-                                    <div className="space-y-4">
-                                        <div className="flex flex-col gap-2">
-                                            <div className="flex items-center gap-2">
-                                                <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                                                <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">
-                                                    {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                                                </span>
+                                <Accordion type="single" collapsible className="w-full">
+                                    <AccordionItem value="content" className="border-none">
+                                        <AccordionTrigger className="p-6 md:p-8 hover:no-underline flex items-center justify-between">
+                                            <div className="flex flex-col items-start gap-2 pr-4">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                                                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">
+                                                        {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-sm font-bold text-foreground tracking-tight leading-tight group-hover/card:text-primary transition-colors text-left">
+                                                    <Calendar className="w-3.5 h-3.5 text-primary/60 shrink-0" />
+                                                    {update.title}
+                                                </div>
                                             </div>
-                                            <h2 className="flex items-center gap-2 text-sm font-bold text-foreground tracking-tight leading-tight group-hover/card:text-primary transition-colors">
-                                                <Calendar className="w-3.5 h-3.5 text-primary/60" />
-                                                {update.title}
-                                            </h2>
-                                        </div>
-
-                                        <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed">
-                                            {update.description}
-                                        </p>
-                                    </div>
-                                </CardContent>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="px-6 md:px-8 pb-6 md:pb-8 pt-0">
+                                            <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left">
+                                                {update.description}
+                                            </p>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
                             </Card>
                         </motion.div>
                     ))
