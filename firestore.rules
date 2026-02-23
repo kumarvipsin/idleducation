@@ -3,171 +3,150 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * EduVerse Security Rules
+     * EDUVERSE SECURITY RULES
      * 
      * Core Philosophy:
-     * This ruleset implements a strict Path-Based Ownership model for user-specific data and a 
-     * Database-Based Access Control (DBAC) model for administrative content. 
-     * 
+     * This ruleset enforces a strict user-ownership model for personalized data (profiles, study plans, progress)
+     * while maintaining a public-read model for educational resources (curriculums, subjects, content).
+     * Administrative access is handled via a dedicated /roles_admin collection (Database Access Control).
+     *
      * Data Structure:
-     * - /users/{userId}: Private user profiles and personal settings.
-     * - /users/{userId}/...: User-owned subcollections (Learning Activities, Exam Attempts, Study Plans).
-     * - /{educationalContent}: Top-level collections for shared resources (Curricula, Subjects, Topics).
-     * - /roles_admin/{userId}: A restricted collection used to identify users with administrative privileges.
-     * 
+     * - /users/{userId}: Primary user profile (Owner-access).
+     * - /users/{userId}/studyPlans: Personalized AI-generated paths (Owner-access).
+     * - /users/{userId}/userProgress: Content engagement tracking (Owner-access).
+     * - /curriculums, /learningContents: Publicly discoverable educational data (Public Read, Admin Write).
+     * - /userAccessLogs: Audit trail for registrations and logins (Admin Only).
+     *
      * Key Security Decisions:
-     * - Authorization Independence: User authorization is derived directly from the document path 
-     *   (comparing the {userId} wildcard to the authenticated UID), eliminating the need for 
-     *   cross-document lookups (get() calls) for most operations.
-     * - DBAC for Administration: Admin privileges are determined by the existence of a document 
-     *   in the /roles_admin/ collection.
-     * - Prototyping Mode: Schema validation is limited to relational integrity (ensuring IDs in 
-     *   the data match IDs in the path) to allow for rapid frontend development.
-     * - Relational Consistency: On creation and update of user-owned documents, the system 
-     *   enforces that internal 'userId' fields remain consistent with the path to ensure 
-     *   correct data filtering in the future.
+     * 1. Authorization Independence: Subcollections use path-based wildcards ({userId}) to avoid costly get() calls.
+     * 2. DBAC (Database Access Control): Admin status is verified by the existence of a document in /roles_admin.
+     * 3. Prototyping Flexibility: Schema validation is limited to relational integrity (e.g., matching IDs) 
+     *    to allow rapid UI iteration without breaking rules on every field change.
+     * 4. Relational Integrity: On creation of user-scoped data, the internal userId field must match the path.
      */
 
     // --- Helper Functions ---
 
-    /** @description Checks if the user is authenticated with any provider. */
+    /** Checks if the request is from an authenticated user. */
     function isSignedIn() {
       return request.auth != null;
     }
 
-    /** @description Checks if the authenticated user's UID matches the provided userId. */
+    /** Checks if the authenticated user's UID matches the provided userId. */
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** @description Checks if a document exists and the current user is the owner. */
-    function isExistingOwner(userId) {
-      return resource != null && isOwner(userId);
-    }
-
-    /** @description Checks if the user has a document in the roles_admin collection. */
+    /** Checks if the authenticated user has an entry in the roles_admin collection. */
     function isAdmin() {
       return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
+    }
+
+    /** Combines ownership check with existence check for updates and deletes. */
+    function isExistingOwner(userId) {
+      return resource != null && isOwner(userId);
     }
 
     // --- Collection Rules ---
 
     /**
-     * @description Rules for the User profile. Users can manage their own profile.
+     * @description Rules for the root User profile.
      * @path /users/{userId}
-     * @allow (create) if auth.uid == "user123" and data.id == "user123"
-     * @deny (update) if auth.uid == "user123" and data.id == "user456"
-     * @principle Enforces path-based ownership and relational integrity for user profiles.
+     * @allow (create) if auth.uid matches {userId}.
+     * @deny (read) if user is not the profile owner.
+     * @principle Enforces self-creation and strict owner-only access for profiles.
      */
     match /users/{userId} {
-      allow get, list: if isOwner(userId) || isAdmin();
+      allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isOwner(userId) && request.resource.data.id == resource.data.id;
-      allow delete: if isAdmin();
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
 
       /**
-       * @description Progress tracking for specific content.
-       * @path /users/{userId}/learningActivities/{activityId}
-       * @allow (list) if auth.uid == userId
-       * @deny (create) if auth.uid != userId
-       * @principle Path-based ownership for private activity tracking.
-       */
-      match /learningActivities/{activityId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-      }
-
-      /**
-       * @description Records of exam attempts.
-       * @path /users/{userId}/examAttempts/{attemptId}
-       * @allow (get) if auth.uid == userId
-       * @deny (delete) if auth.uid != userId
-       * @principle Strict user-ownership of exam results.
-       */
-      match /examAttempts/{attemptId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-      }
-
-      /**
-       * @description User study plans.
+       * @description Rules for personalized study plans.
        * @path /users/{userId}/studyPlans/{studyPlanId}
-       * @allow (create) if auth.uid == userId
-       * @deny (list) if auth.uid != userId
-       * @principle Structural segregation of personalized learning paths.
+       * @allow (list) if the user owns the parent path.
+       * @deny (update) if the internal userId is changed.
+       * @principle Path-based ownership with relational integrity check on userId.
        */
       match /studyPlans/{studyPlanId} {
         allow get, list: if isOwner(userId);
         allow create: if isOwner(userId) && request.resource.data.userId == userId;
         allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
         allow delete: if isExistingOwner(userId);
+      }
 
-        /**
-         * @description Individual items within a study plan.
-         * @path /users/{userId}/studyPlans/{studyPlanId}/studyPlanItems/{itemId}
-         * @allow (update) if auth.uid == userId
-         * @deny (get) if auth.uid != userId
-         * @principle Deeply nested path-based authorization.
-         */
-        match /studyPlanItems/{itemId} {
-          allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId);
-          allow update: if isExistingOwner(userId);
-          allow delete: if isExistingOwner(userId);
-        }
+      /**
+       * @description Rules for tracking user learning progress.
+       * @path /users/{userId}/userProgress/{progressId}
+       * @allow (create) if the user sets their own UID.
+       * @deny (read) for any other user.
+       * @principle Restricts progress data to the specific student.
+       */
+      match /userProgress/{progressId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+        allow delete: if isExistingOwner(userId);
       }
     }
 
     /**
-     * @description Global educational resources (Curricula, Classes, Subjects, Topics, Content, Exams, Questions).
-     * @path /{collection}/{id}
-     * @allow (list) if isSignedIn()
-     * @deny (create) if !isAdmin()
-     * @principle Public read access for authenticated users with Admin-only write permissions.
+     * @description Educational curricula available to all users.
+     * @path /curriculums/{curriculumId}
+     * @allow (get, list) for any visitor (even unauthenticated).
+     * @deny (write) if the user is not a verified admin.
+     * @principle Public consumption with restricted administrative management.
      */
-    match /curricula/{id} {
-      allow get, list: if isSignedIn();
+    match /curriculums/{curriculumId} {
+      allow get, list: if true;
       allow create, update, delete: if isAdmin();
+
+      /**
+       * @description Subjects nested within a specific curriculum.
+       * @path /curriculums/{curriculumId}/subjects/{subjectId}
+       * @allow (read) public access.
+       * @principle Inherits the public-read/admin-write posture of the parent collection.
+       */
+      match /subjects/{subjectId} {
+        allow get, list: if true;
+        allow create, update, delete: if isAdmin();
+      }
     }
-    match /academicClasses/{id} {
-      allow get, list: if isSignedIn();
-      allow create, update, delete: if isAdmin();
-    }
-    match /subjects/{id} {
-      allow get, list: if isSignedIn();
-      allow create, update, delete: if isAdmin();
-    }
-    match /topics/{id} {
-      allow get, list: if isSignedIn();
-      allow create, update, delete: if isAdmin();
-    }
-    match /learningContent/{id} {
-      allow get, list: if isSignedIn();
-      allow create, update, delete: if isAdmin();
-    }
-    match /exams/{id} {
-      allow get, list: if isSignedIn();
-      allow create, update, delete: if isAdmin();
-    }
-    match /questions/{id} {
-      allow get, list: if isSignedIn();
+
+    /**
+     * @description Global collection of all learning materials.
+     * @path /learningContents/{contentId}
+     * @allow (list) for all users to support discovery.
+     * @deny (delete) for non-admin users.
+     * @principle Centralized repository for educational content with public visibility.
+     */
+    match /learningContents/{contentId} {
+      allow get, list: if true;
       allow create, update, delete: if isAdmin();
     }
 
     /**
-     * @description Administrative roles. Existence of a document here grants admin rights.
-     * @path /roles_admin/{userId}
-     * @allow (get) if isAdmin()
-     * @deny (write) if !isAdmin()
-     * @principle DBAC mechanism to avoid custom claims and simplify rule logic.
+     * @description System-wide access and registration logs for auditing.
+     * @path /userAccessLogs/{logId}
+     * @allow (read) only for administrators.
+     * @deny (write) from client SDKs; logs are typically server-generated.
+     * @principle Protects sensitive access logs and registration attempts from public view.
      */
-    match /roles_admin/{userId} {
+    match /userAccessLogs/{logId} {
       allow get, list: if isAdmin();
-      allow create, update, delete: if isAdmin();
+      // IR specifies write access is exclusively by server-side logic
+      allow create, update, delete: if false;
+    }
+
+    /**
+     * @description Defines which users have administrative privileges.
+     * @path /roles_admin/{adminId}
+     * @allow (read, write) only for existing administrators.
+     * @principle Strict DBAC (Database Access Control) management.
+     */
+    match /roles_admin/{adminId} {
+      allow get, list, create, update, delete: if isAdmin();
     }
   }
 }

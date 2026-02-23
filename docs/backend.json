@@ -4,61 +4,82 @@
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "User",
       "type": "object",
-      "description": "Represents a user of the EduVerse platform, storing their profile information and preferences.",
+      "description": "Represents a registered user in the EduVerse platform, primarily identified by their phone number. This entity stores core user information and links to their personalized data.",
       "properties": {
         "id": {
           "type": "string",
           "description": "Unique identifier for the User entity."
         },
-        "email": {
+        "phoneNumber": {
           "type": "string",
-          "description": "The user's email address.",
-          "format": "email"
-        },
-        "firstName": {
-          "type": "string",
-          "description": "The user's first name."
-        },
-        "lastName": {
-          "type": "string",
-          "description": "The user's last name."
-        },
-        "preferredCurriculumIds": {
-          "type": "array",
-          "description": "References to Curricula (e.g., CBSE, SSC) that the user has selected as their primary interest areas. (Relationship: User N:N Curriculum)",
-          "items": {
-            "type": "string"
-          }
-        },
-        "currentAcademicClassId": {
-          "type": "string",
-          "description": "Reference to the AcademicClass (e.g., Class 10) the user is currently focused on, if applicable. (Relationship: AcademicClass 1:N User)"
+          "description": "The unique phone number registered by the user. This serves as a primary identifier for user login and tracking within the application context."
         },
         "createdAt": {
           "type": "string",
-          "description": "The timestamp when the user account was created.",
+          "description": "Timestamp when the user account was created.",
           "format": "date-time"
         },
-        "updatedAt": {
+        "lastLoginAt": {
           "type": "string",
-          "description": "The timestamp when the user account was last updated.",
+          "description": "Timestamp of the user's most recent successful login or access attempt.",
           "format": "date-time"
         }
       },
       "required": [
         "id",
-        "email",
-        "firstName",
-        "lastName",
-        "createdAt",
-        "updatedAt"
+        "phoneNumber",
+        "createdAt"
+      ]
+    },
+    "UserAccessLog": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserAccessLog",
+      "type": "object",
+      "description": "Records each instance of a user attempting to register or access the website via the phone number and OTP mechanism. This is used for administrative tracking, security auditing, and analytics.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserAccessLog entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to the User associated with this access attempt. (Relationship: User 1:N UserAccessLog). This field can be null if the attempt is from an unregistered user or a failed initial registration."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The phone number entered by the user during this attempt."
+        },
+        "otpEntered": {
+          "type": "string",
+          "description": "The 4-digit OTP entered by the user during this attempt. Stored for logging and auditing purposes, not for re-authentication."
+        },
+        "accessTimestamp": {
+          "type": "string",
+          "description": "Date and time of the access or registration attempt.",
+          "format": "date-time"
+        },
+        "isSuccessful": {
+          "type": "boolean",
+          "description": "Indicates if the access or registration attempt was successful (e.g., OTP matched, user successfully registered/logged in)."
+        },
+        "eventType": {
+          "type": "string",
+          "description": "Describes the type of event, such as 'InitialRegistration', 'LoginAttempt', 'FirstTimeVisitPrompt', or 'FailedLogin'."
+        }
+      },
+      "required": [
+        "id",
+        "phoneNumber",
+        "accessTimestamp",
+        "isSuccessful",
+        "eventType"
       ]
     },
     "Curriculum": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "Curriculum",
       "type": "object",
-      "description": "Represents an overarching educational board or government exam body (e.g., CBSE Board, NIOS Board, SSC).",
+      "description": "Represents a distinct educational curriculum or exam board offered by EduVerse (e.g., CBSE Board, NIOS Board, SSC Exams).",
       "properties": {
         "id": {
           "type": "string",
@@ -66,15 +87,15 @@
         },
         "name": {
           "type": "string",
-          "description": "The official name of the curriculum (e.g., 'CBSE Board', 'SSC CGL', 'NIOS Board', 'Delhi Police Exam')."
+          "description": "The official name of the curriculum or exam board (e.g., 'CBSE Board', 'NIOS Board', 'SSC Exams')."
         },
         "description": {
           "type": "string",
-          "description": "A detailed description of the curriculum, including its scope and purpose."
+          "description": "A detailed description of the curriculum, its scope, and target audience."
         },
         "type": {
           "type": "string",
-          "description": "The classification of the curriculum (e.g., 'Academic Board', 'Government Exam Body')."
+          "description": "Categorization of the curriculum, e.g., 'Academic', 'GovernmentExam', 'OpenSchooling'."
         }
       },
       "required": [
@@ -84,27 +105,31 @@
         "type"
       ]
     },
-    "AcademicClass": {
+    "Subject": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "AcademicClass",
+      "title": "Subject",
       "type": "object",
-      "description": "Represents a specific academic grade or class within a board (e.g., Class 4, Class 12).",
+      "description": "Represents an academic subject or a specific exam category offered within a particular curriculum.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the AcademicClass entity."
+          "description": "Unique identifier for the Subject entity."
         },
         "name": {
           "type": "string",
-          "description": "The name of the academic class (e.g., 'Class 4', 'Class 10', 'Class 12')."
+          "description": "The name of the subject (e.g., 'Mathematics', 'General Awareness', 'Physics')."
         },
         "description": {
           "type": "string",
-          "description": "A brief description of the academic class and its general focus."
+          "description": "A brief description of the subject or exam category content."
         },
         "curriculumId": {
           "type": "string",
-          "description": "Reference to the Curriculum (e.g., CBSE Board, NIOS Board) this class belongs to. (Relationship: Curriculum 1:N AcademicClass)"
+          "description": "Reference to the Curriculum this subject belongs to. (Relationship: Curriculum 1:N Subject)."
+        },
+        "gradeLevel": {
+          "type": "number",
+          "description": "The academic grade or class level for which this subject is relevant (e.g., 4 for Class 4, 12 for Class 12). Only applicable to academic curricula."
         }
       },
       "required": [
@@ -114,80 +139,11 @@
         "curriculumId"
       ]
     },
-    "Subject": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Subject",
-      "type": "object",
-      "description": "Represents an academic subject (e.g., Mathematics, Science, English, General Awareness).",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Subject entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the subject (e.g., 'Mathematics', 'Physics', 'English Literature')."
-        },
-        "description": {
-          "type": "string",
-          "description": "A description of the subject and its scope."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description"
-      ]
-    },
-    "Topic": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Topic",
-      "type": "object",
-      "description": "Represents a specific learning topic or concept within a subject, potentially across different classes and curricula.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Topic entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the topic (e.g., 'Quadratic Equations', 'Indian History: Mughal Empire')."
-        },
-        "description": {
-          "type": "string",
-          "description": "A detailed description of the topic."
-        },
-        "subjectId": {
-          "type": "string",
-          "description": "Reference to the primary Subject this topic belongs to. (Relationship: Subject 1:N Topic)"
-        },
-        "academicClassIds": {
-          "type": "array",
-          "description": "References to AcademicClasses where this topic is typically taught or relevant. (Relationship: AcademicClass N:N Topic)",
-          "items": {
-            "type": "string"
-          }
-        },
-        "curriculumIds": {
-          "type": "array",
-          "description": "References to Curricula (boards/exams) where this topic is relevant. (Relationship: Curriculum N:N Topic)",
-          "items": {
-            "type": "string"
-          }
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "subjectId"
-      ]
-    },
     "LearningContent": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "LearningContent",
       "type": "object",
-      "description": "Represents a single piece of educational material such as a video, article, quiz, or practice test.",
+      "description": "Represents a distinct piece of educational material available on the platform, such as a lesson, video, article, or practice test.",
       "properties": {
         "id": {
           "type": "string",
@@ -199,44 +155,37 @@
         },
         "description": {
           "type": "string",
-          "description": "A brief description or summary of what the content covers."
+          "description": "A short summary or description of the content."
         },
         "contentType": {
           "type": "string",
-          "description": "The type of content (e.g., 'Video', 'Article', 'Quiz', 'Practice Test', 'Solution Set')."
+          "description": "The format or type of the content (e.g., 'Video', 'TextArticle', 'Quiz', 'PracticeTest', 'Document')."
         },
         "url": {
           "type": "string",
-          "description": "The URL or file path to access the learning content, if external or downloadable.",
+          "description": "The URL to access the learning content resource, if applicable.",
           "format": "uri"
         },
-        "durationMinutes": {
-          "type": "number",
-          "description": "The estimated duration of the content in minutes (e.g., for videos, quizzes)."
+        "subjectId": {
+          "type": "string",
+          "description": "Reference to the Subject this content belongs to. (Relationship: Subject 1:N LearningContent)."
         },
         "difficultyLevel": {
           "type": "string",
-          "description": "The perceived difficulty level of the content (e.g., 'Beginner', 'Intermediate', 'Advanced')."
+          "description": "An indicator of the content's difficulty (e.g., 'Beginner', 'Intermediate', 'Advanced')."
         },
-        "topicId": {
-          "type": "string",
-          "description": "Reference to the primary Topic that this content covers. (Relationship: Topic 1:N LearningContent)"
-        },
-        "relatedTopicIds": {
-          "type": "array",
-          "description": "References to other Topics that are also relevant or covered by this content. (Relationship: Topic N:N LearningContent)",
-          "items": {
-            "type": "string"
-          }
+        "durationMinutes": {
+          "type": "number",
+          "description": "Estimated duration in minutes for consuming the content (e.g., video length, estimated reading time)."
         },
         "createdAt": {
           "type": "string",
-          "description": "The timestamp when the learning content was created.",
+          "description": "Timestamp when the learning content was first added to the platform.",
           "format": "date-time"
         },
         "updatedAt": {
           "type": "string",
-          "description": "The timestamp when the learning content was last updated.",
+          "description": "Timestamp when the learning content was last updated.",
           "format": "date-time"
         }
       },
@@ -245,207 +194,15 @@
         "title",
         "description",
         "contentType",
-        "topicId",
-        "createdAt",
-        "updatedAt"
-      ]
-    },
-    "Exam": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Exam",
-      "type": "object",
-      "description": "Represents an official external examination, such as a government competitive exam or a board final exam.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Exam entity."
-        },
-        "name": {
-          "type": "string",
-          "description": "The official name of the exam (e.g., 'SSC CGL Tier I 2023', 'CBSE Class 10 Math Final Exam')."
-        },
-        "description": {
-          "type": "string",
-          "description": "A description of the exam, including its format and syllabus."
-        },
-        "examDate": {
-          "type": "string",
-          "description": "The official date of the exam, if known.",
-          "format": "date"
-        },
-        "curriculumId": {
-          "type": "string",
-          "description": "Reference to the Curriculum (e.g., SSC, CBSE Board) this exam falls under. (Relationship: Curriculum 1:N Exam)"
-        },
-        "totalMarks": {
-          "type": "number",
-          "description": "The maximum marks obtainable in the exam."
-        },
-        "durationMinutes": {
-          "type": "number",
-          "description": "The official duration of the exam in minutes."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "description",
-        "curriculumId",
-        "totalMarks",
-        "durationMinutes"
-      ]
-    },
-    "Question": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "Question",
-      "type": "object",
-      "description": "Represents a single question used in quizzes, practice tests, or mock exams.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the Question entity."
-        },
-        "text": {
-          "type": "string",
-          "description": "The full text of the question."
-        },
-        "questionType": {
-          "type": "string",
-          "description": "The format of the question (e.g., 'Multiple Choice', 'True/False', 'Fill in the Blanks', 'Short Answer')."
-        },
-        "options": {
-          "type": "array",
-          "description": "An array of possible answer options for multiple-choice questions.",
-          "items": {
-            "type": "string"
-          }
-        },
-        "correctAnswer": {
-          "type": "string",
-          "description": "The correct answer to the question. For multiple choice, this would be the text of the correct option or its index."
-        },
-        "explanation": {
-          "type": "string",
-          "description": "A detailed explanation or solution for the correct answer."
-        },
-        "difficultyLevel": {
-          "type": "string",
-          "description": "The perceived difficulty level of the question (e.g., 'Easy', 'Medium', 'Hard')."
-        },
-        "topicId": {
-          "type": "string",
-          "description": "Reference to the Topic this question is primarily related to. (Relationship: Topic 1:N Question)"
-        }
-      },
-      "required": [
-        "id",
-        "text",
-        "questionType",
-        "correctAnswer",
-        "topicId"
-      ]
-    },
-    "UserLearningActivity": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "UserLearningActivity",
-      "type": "object",
-      "description": "Tracks a user's progress and interaction with specific learning content items.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the UserLearningActivity entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the User who performed the activity. (Relationship: User 1:N UserLearningActivity)"
-        },
-        "learningContentId": {
-          "type": "string",
-          "description": "Reference to the LearningContent that was interacted with. (Relationship: LearningContent 1:N UserLearningActivity)"
-        },
-        "status": {
-          "type": "string",
-          "description": "The current status of the user's interaction with the content (e.g., 'Started', 'Completed', 'Passed', 'Failed', 'Reviewed')."
-        },
-        "score": {
-          "type": "number",
-          "description": "The score obtained by the user for this content, if applicable (e.g., for quizzes or practice tests)."
-        },
-        "timeSpentSeconds": {
-          "type": "number",
-          "description": "The total time spent by the user on this content in seconds."
-        },
-        "lastAccessedAt": {
-          "type": "string",
-          "description": "The timestamp of the last access to this learning content by the user.",
-          "format": "date-time"
-        },
-        "completedAt": {
-          "type": "string",
-          "description": "The timestamp when the user completed the learning content, if applicable.",
-          "format": "date-time"
-        }
-      },
-      "required": [
-        "id",
-        "userId",
-        "learningContentId",
-        "status",
-        "lastAccessedAt"
-      ]
-    },
-    "ExamAttempt": {
-      "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "ExamAttempt",
-      "type": "object",
-      "description": "Tracks a user's specific attempt at an official Exam, including their performance.",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "Unique identifier for the ExamAttempt entity."
-        },
-        "userId": {
-          "type": "string",
-          "description": "Reference to the User who made the exam attempt. (Relationship: User 1:N ExamAttempt)"
-        },
-        "examId": {
-          "type": "string",
-          "description": "Reference to the Exam that was attempted. (Relationship: Exam 1:N ExamAttempt)"
-        },
-        "startTime": {
-          "type": "string",
-          "description": "The timestamp when the user started the exam attempt.",
-          "format": "date-time"
-        },
-        "endTime": {
-          "type": "string",
-          "description": "The timestamp when the user completed or submitted the exam attempt.",
-          "format": "date-time"
-        },
-        "score": {
-          "type": "number",
-          "description": "The final score obtained by the user in this exam attempt."
-        },
-        "status": {
-          "type": "string",
-          "description": "The status of the exam attempt (e.g., 'Completed', 'Abandoned', 'Graded')."
-        }
-      },
-      "required": [
-        "id",
-        "userId",
-        "examId",
-        "startTime",
-        "endTime",
-        "score",
-        "status"
+        "subjectId",
+        "createdAt"
       ]
     },
     "StudyPlan": {
       "$schema": "http://json-schema.org/draft-07/schema#",
       "title": "StudyPlan",
       "type": "object",
-      "description": "Represents an AI-generated or user-created personalized study plan for a user.",
+      "description": "Represents a personalized study plan generated for a user by the AI, outlining their learning path and goals.",
       "properties": {
         "id": {
           "type": "string",
@@ -453,103 +210,109 @@
         },
         "userId": {
           "type": "string",
-          "description": "Reference to the User for whom this study plan was created. (Relationship: User 1:N StudyPlan)"
+          "description": "Reference to the User for whom this study plan is created. (Relationship: User 1:N StudyPlan)."
         },
-        "name": {
+        "planName": {
           "type": "string",
-          "description": "A descriptive name for the study plan (e.g., 'My CBSE Class 10 Math Plan', 'SSC CGL Prep Plan')."
+          "description": "A descriptive name for the study plan (e.g., 'My CBSE Class 10 Math Plan', 'SSC CGL Prep')."
         },
         "description": {
           "type": "string",
-          "description": "A detailed description of the study plan's focus, objectives, and scope."
+          "description": "A detailed description of the study plan's objectives and scope."
         },
         "startDate": {
           "type": "string",
           "description": "The planned start date for the study plan.",
-          "format": "date"
+          "format": "date-time"
         },
         "endDate": {
           "type": "string",
           "description": "The planned end date for the study plan.",
-          "format": "date"
-        },
-        "goals": {
-          "type": "array",
-          "description": "A list of specific learning goals for this study plan (e.g., 'Complete Algebra module', 'Achieve 80% in Mock Exam 1').",
-          "items": {
-            "type": "string"
-          }
+          "format": "date-time"
         },
         "status": {
           "type": "string",
-          "description": "The current status of the study plan (e.g., 'Active', 'Completed', 'Archived', 'Draft')."
+          "description": "The current status of the study plan (e.g., 'Active', 'Completed', 'Paused', 'Archived')."
+        },
+        "goal": {
+          "type": "string",
+          "description": "The primary learning goal associated with this study plan (e.g., 'Master Algebra', 'Pass RRB Exam')."
         },
         "createdAt": {
           "type": "string",
-          "description": "The timestamp when the study plan was created.",
+          "description": "Timestamp when the study plan was initially generated.",
           "format": "date-time"
         },
         "updatedAt": {
           "type": "string",
-          "description": "The timestamp when the study plan was last updated.",
+          "description": "Timestamp when the study plan was last modified or updated.",
           "format": "date-time"
+        },
+        "contentIds": {
+          "type": "array",
+          "description": "An ordered list of LearningContent IDs that form part of this study plan. (Relationship: StudyPlan N:N LearningContent).",
+          "items": {
+            "type": "string"
+          }
         }
       },
       "required": [
         "id",
         "userId",
-        "name",
+        "planName",
+        "description",
         "startDate",
-        "endDate",
-        "goals",
         "status",
-        "createdAt",
-        "updatedAt"
+        "goal",
+        "createdAt"
       ]
     },
-    "StudyPlanItem": {
+    "UserProgress": {
       "$schema": "http://json-schema.org/draft-07/schema#",
-      "title": "StudyPlanItem",
+      "title": "UserProgress",
       "type": "object",
-      "description": "Represents an individual task or learning content item that is part of a StudyPlan.",
+      "description": "Tracks a user's progress and performance on individual pieces of learning content.",
       "properties": {
         "id": {
           "type": "string",
-          "description": "Unique identifier for the StudyPlanItem entity."
+          "description": "Unique identifier for the UserProgress entity."
         },
-        "studyPlanId": {
+        "userId": {
           "type": "string",
-          "description": "Reference to the StudyPlan this item belongs to. (Relationship: StudyPlan 1:N StudyPlanItem)"
+          "description": "Reference to the User whose progress is being tracked. (Relationship: User 1:N UserProgress)."
         },
-        "learningContentId": {
+        "contentId": {
           "type": "string",
-          "description": "Reference to the LearningContent to be studied or completed as part of this item. (Relationship: LearningContent 1:N StudyPlanItem)"
-        },
-        "dueDate": {
-          "type": "string",
-          "description": "The target date by which this item should ideally be completed.",
-          "format": "date"
+          "description": "Reference to the LearningContent on which progress is being tracked. (Relationship: LearningContent 1:N UserProgress)."
         },
         "status": {
           "type": "string",
-          "description": "The completion status of the study plan item (e.g., 'Pending', 'Completed', 'Overdue', 'Skipped')."
+          "description": "The current progress status of the user on this content (e.g., 'NotStarted', 'InProgress', 'Completed')."
         },
-        "notes": {
-          "type": "string",
-          "description": "Any additional notes or specific instructions for completing this study plan item."
-        },
-        "orderIndex": {
+        "score": {
           "type": "number",
-          "description": "The sequential order or priority of this item within its study plan."
+          "description": "The score obtained by the user for quizzes or tests associated with this content."
+        },
+        "lastAccessedAt": {
+          "type": "string",
+          "description": "Timestamp of the last time the user interacted with this learning content.",
+          "format": "date-time"
+        },
+        "completionPercentage": {
+          "type": "number",
+          "description": "A percentage indicating how much of the content the user has completed (e.g., 0-100)."
+        },
+        "timeSpentSeconds": {
+          "type": "number",
+          "description": "The total cumulative time in seconds the user has spent engaging with this specific content."
         }
       },
       "required": [
         "id",
-        "studyPlanId",
-        "learningContentId",
-        "dueDate",
+        "userId",
+        "contentId",
         "status",
-        "orderIndex"
+        "lastAccessedAt"
       ]
     }
   },
@@ -564,183 +327,25 @@
       {
         "path": "/users/{userId}",
         "definition": {
-          "entityName": "user",
+          "entityName": "User",
           "schema": {
             "$ref": "#/backend/entities/User"
           },
-          "description": "Stores individual user profiles. Access is restricted to the owner matching 'userId' in the path, or administrators. Includes 'preferredCurriculumIds' and 'currentAcademicClassId' as references.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/curricula/{curriculumId}",
-        "definition": {
-          "entityName": "curriculum",
-          "schema": {
-            "$ref": "#/backend/entities/Curriculum"
-          },
-          "description": "Contains definitions for educational boards or exam bodies (e.g., CBSE, SSC, NIOS). Readable by all authenticated users, writable by administrators.",
-          "params": [
-            {
-              "name": "curriculumId",
-              "description": "The unique identifier for a specific curriculum."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/academicClasses/{academicClassId}",
-        "definition": {
-          "entityName": "academicClass",
-          "schema": {
-            "$ref": "#/backend/entities/AcademicClass"
-          },
-          "description": "Defines specific academic grades or classes (e.g., Class 10). Readable by all authenticated users, writable by administrators. Includes 'curriculumId' as a foreign key.",
-          "params": [
-            {
-              "name": "academicClassId",
-              "description": "The unique identifier for a specific academic class."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/subjects/{subjectId}",
-        "definition": {
-          "entityName": "subject",
-          "schema": {
-            "$ref": "#/backend/entities/Subject"
-          },
-          "description": "Stores definitions for academic subjects (e.g., Mathematics, Science). Readable by all authenticated users, writable by administrators.",
-          "params": [
-            {
-              "name": "subjectId",
-              "description": "The unique identifier for a specific subject."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/topics/{topicId}",
-        "definition": {
-          "entityName": "topic",
-          "schema": {
-            "$ref": "#/backend/entities/Topic"
-          },
-          "description": "Contains definitions for specific learning topics. Readable by all authenticated users, writable by administrators. Includes 'subjectId', 'academicClassIds', and 'curriculumIds' as foreign keys.",
-          "params": [
-            {
-              "name": "topicId",
-              "description": "The unique identifier for a specific topic."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/learningContent/{contentId}",
-        "definition": {
-          "entityName": "learningContent",
-          "schema": {
-            "$ref": "#/backend/entities/LearningContent"
-          },
-          "description": "Stores educational materials (videos, articles, quizzes). Readable by all authenticated users, writable by administrators. Includes 'topicId' and 'relatedTopicIds' as foreign keys.",
-          "params": [
-            {
-              "name": "contentId",
-              "description": "The unique identifier for a piece of learning content."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/exams/{examId}",
-        "definition": {
-          "entityName": "exam",
-          "schema": {
-            "$ref": "#/backend/entities/Exam"
-          },
-          "description": "Defines official external examinations (e.g., SSC CGL). Readable by all authenticated users, writable by administrators. Includes 'curriculumId' as a foreign key.",
-          "params": [
-            {
-              "name": "examId",
-              "description": "The unique identifier for a specific exam."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/questions/{questionId}",
-        "definition": {
-          "entityName": "question",
-          "schema": {
-            "$ref": "#/backend/entities/Question"
-          },
-          "description": "Contains individual questions for quizzes or tests. Readable by all authenticated users, writable by administrators. Includes 'topicId' as a foreign key.",
-          "params": [
-            {
-              "name": "questionId",
-              "description": "The unique identifier for a specific question."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/learningActivities/{activityId}",
-        "definition": {
-          "entityName": "userLearningActivity",
-          "schema": {
-            "$ref": "#/backend/entities/UserLearningActivity"
-          },
-          "description": "Tracks a user's progress and interaction with specific learning content. Access is restricted to the 'userId' in the path, ensuring Authorization Independence. Includes 'userId' and 'learningContentId' as references.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
-            },
-            {
-              "name": "activityId",
-              "description": "The unique identifier for a user's learning activity record."
-            }
-          ]
-        }
-      },
-      {
-        "path": "/users/{userId}/examAttempts/{attemptId}",
-        "definition": {
-          "entityName": "examAttempt",
-          "schema": {
-            "$ref": "#/backend/entities/ExamAttempt"
-          },
-          "description": "Tracks a user's attempt at an official exam. Access is restricted to the 'userId' in the path, ensuring Authorization Independence. Includes 'userId' and 'examId' as references.",
-          "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
-            },
-            {
-              "name": "attemptId",
-              "description": "The unique identifier for a user's exam attempt."
-            }
-          ]
+          "description": "Root collection for user profiles. Each document represents a unique user, identified by their Firebase Authentication UID. Includes core user information and serves as the parent for user-specific subcollections. Authorization is path-based: `request.auth.uid` must match `{userId}`."
         }
       },
       {
         "path": "/users/{userId}/studyPlans/{studyPlanId}",
         "definition": {
-          "entityName": "studyPlan",
+          "entityName": "StudyPlan",
           "schema": {
             "$ref": "#/backend/entities/StudyPlan"
           },
-          "description": "Stores AI-generated or user-created personalized study plans. Access is restricted to the 'userId' in the path, ensuring Authorization Independence. Includes 'userId' as a reference.",
+          "description": "Subcollection storing personalized study plans for each user. Documents include the `userId` field, which must match the `{userId}` wildcard in the path for authorization independence.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user who owns this study plan. Corresponds to Firebase Auth UID."
             },
             {
               "name": "studyPlanId",
@@ -750,46 +355,110 @@
         }
       },
       {
-        "path": "/users/{userId}/studyPlans/{studyPlanId}/studyPlanItems/{itemId}",
+        "path": "/users/{userId}/userProgress/{progressId}",
         "definition": {
-          "entityName": "studyPlanItem",
+          "entityName": "UserProgress",
           "schema": {
-            "$ref": "#/backend/entities/StudyPlanItem"
+            "$ref": "#/backend/entities/UserProgress"
           },
-          "description": "Represents individual tasks or learning content items within a specific study plan. Access is restricted to the 'userId' in the path, ensuring Authorization Independence. Includes 'studyPlanId' and 'learningContentId' as references.",
+          "description": "Subcollection tracking a user's progress on various learning content. Documents include the `userId` field, which must match the `{userId}` wildcard in the path for authorization independence.",
           "params": [
             {
               "name": "userId",
-              "description": "The unique identifier of the user, corresponding to `request.auth.uid`."
+              "description": "The unique identifier of the user whose progress is being tracked. Corresponds to Firebase Auth UID."
             },
             {
-              "name": "studyPlanId",
-              "description": "The unique identifier of the parent study plan."
-            },
-            {
-              "name": "itemId",
-              "description": "The unique identifier for a specific study plan item."
+              "name": "progressId",
+              "description": "The unique identifier for a specific user progress record."
             }
           ]
         }
       },
       {
-        "path": "/roles_admin/{userId}",
+        "path": "/curriculums/{curriculumId}",
         "definition": {
-          "entityName": "rolesAdmin",
+          "entityName": "Curriculum",
+          "schema": {
+            "$ref": "#/backend/entities/Curriculum"
+          },
+          "description": "Top-level collection for all educational curricula offered (e.g., CBSE, NIOS, SSC Exams). Publicly readable. Admin-only write access.",
+          "params": [
+            {
+              "name": "curriculumId",
+              "description": "The unique identifier for a specific curriculum."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/curriculums/{curriculumId}/subjects/{subjectId}",
+        "definition": {
+          "entityName": "Subject",
+          "schema": {
+            "$ref": "#/backend/entities/Subject"
+          },
+          "description": "Subcollection for academic subjects or exam categories within a specific curriculum. Documents include `curriculumId` to explicitly link to their parent. Publicly readable. Admin-only write access.",
+          "params": [
+            {
+              "name": "curriculumId",
+              "description": "The unique identifier of the curriculum this subject belongs to."
+            },
+            {
+              "name": "subjectId",
+              "description": "The unique identifier for a specific subject."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/learningContents/{contentId}",
+        "definition": {
+          "entityName": "LearningContent",
+          "schema": {
+            "$ref": "#/backend/entities/LearningContent"
+          },
+          "description": "Top-level collection for all learning materials (videos, articles, quizzes). Designed for efficient global querying by AI/recommendation systems. Documents include `subjectId` for linkage. Publicly readable. Admin-only write access.",
+          "params": [
+            {
+              "name": "contentId",
+              "description": "The unique identifier for a specific piece of learning content."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userAccessLogs/{logId}",
+        "definition": {
+          "entityName": "UserAccessLog",
+          "schema": {
+            "$ref": "#/backend/entities/UserAccessLog"
+          },
+          "description": "Top-level collection for recording all user registration and access attempts. This is an admin-only collection for auditing, analytics, and tracking website engagement. Documents are self-contained with `phoneNumber`, `otpEntered`, `accessTimestamp`, `isSuccessful`, `eventType`, and optionally `userId`. Write access is exclusively by server-side logic (e.g., Cloud Functions). Read access is restricted to administrators.",
+          "params": [
+            {
+              "name": "logId",
+              "description": "The unique identifier for a specific user access log entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/roles_admin/{adminId}",
+        "definition": {
+          "entityName": "AdminRole",
           "schema": {
             "$ref": "#/backend/entities/User"
           },
-          "description": "Dedicated collection for administrative roles. The mere existence of a document at this path for a given 'userId' grants administrative privileges. This provides a clear and independent DBAC mechanism, avoiding custom claims and 'get()' operations for authorization. Only administrators can read/write.",
+          "description": "A collection used for Database Access Control (DBAC) to define system administrators. The mere existence of a document with `adminId` matching a user's UID grants administrative privileges. This avoids custom claims and supports Authorization Independence. Documents can be empty or contain a simple flag like `{ 'isAdmin': true }`. Only admins can read/write to this collection. (Note: Using User schema here as a placeholder for a generic user type if a dedicated AdminRole schema isn't provided, implying the User entity can be a member of this role.)",
           "params": [
             {
-              "name": "userId",
-              "description": "The unique identifier of a user who holds an administrative role."
+              "name": "adminId",
+              "description": "The unique identifier of a user designated as an administrator. Corresponds to Firebase Auth UID."
             }
           ]
         }
       }
     ],
-    "reasoning": "The recommended Firestore structure for EduVerse prioritizes **Authorization Independence** and **Structural Segregation** to ensure robust, scalable, and debuggable security rules. Publicly accessible educational resources are stored in top-level collections, while all user-specific data is nested under dedicated `/users/{userId}` subcollections.\n\n**Authorization Independence via Denormalization (Mandate A):**\n\n1.  **Public Collections (e.g., `/curricula`, `/topics`):** These collections contain global data that is universally readable by all authenticated users. No authorization context from parent documents is required for these, as they are independent entities. Write access to these collections will be restricted to administrative roles, which are managed via a separate, independent `roles_admin` collection, avoiding `get()` calls for authorization checks.\n2.  **User-Owned Data (e.g., `/users/{userId}/studyPlans`):** For all user-specific data (like `UserLearningActivity`, `ExamAttempt`, `StudyPlan`, and `StudyPlanItem`), the `userId` is explicitly embedded in the Firestore path. This design ensures that security rules can directly compare `request.auth.uid` with the `{userId}` wildcard in the path (e.g., `match /users/{userId}/studyPlans/{studyPlanId} { allow read, write: if request.auth.uid == userId; }`). This completely eliminates the need for `get()` calls to a parent document (e.g., the `User` document or `StudyPlan` document) to determine ownership, thereby achieving atomic and independent authorization for every document in these subcollections. The `userId` (and `studyPlanId` for `studyPlanItems`) fields within the documents serve as data integrity checks but are not used for authorization decision-making, as the path itself carries the necessary authorization context.\n\n**Structural Segregation for QAPs (Mandate B & C):**\n\n1.  **Homogeneous Security Posture:** Collections like `/curricula`, `/academicClasses`, `/subjects`, `/topics`, `/learningContent`, `/exams`, and `/questions` are designed for global read access by all authenticated users. Their security posture is uniform, meaning all documents within these collections share the same access requirements. This inherently supports **Query Ability Predictability (QAPs)** because `list` operations on these collections will return all accessible data without requiring server-side filtering by security rules.\n2.  **Path-Based Ownership for User Data:** User-specific subcollections like `/users/{userId}/learningActivities`, `/users/{userId}/examAttempts`, and `/users/{userId}/studyPlans` are strictly owned by the `userId` specified in their path. A user can only perform `list` operations within their own `/users/{userId}/...` scope. This structural segregation guarantees that `list` queries are inherently secure and efficient, returning only data authorized for the requesting user based on their UID in the path, fulfilling QAPs.\n3.  **DBAC for Global Roles:** An explicit `/roles_admin/{userId}` collection is used to define global administrative roles. The existence of a document at `/roles_admin/$(request.auth.uid)` grants administrative privileges, allowing for DBAC without custom claims and ensuring authorization independence for administrative write operations on public data.\n\nThis structure provides a clear, predictable, and maintainable foundation for security rules, directly addressing the core design principles and mandates."
+    "reasoning": "The Firestore structure is designed following the core principles of Authorization Independence, Structural Segregation, and consistent Access Modeling to ensure security, scalability, and debuggability. \n\n**Authorization Independence:**\n*   **User-Owned Data (`/users/{userId}`, `/users/{userId}/studyPlans/{studyPlanId}`, `/users/{userId}/userProgress/{progressId}`):** These collections leverage path-based ownership. The `userId` in the document path (`/users/{userId}/...`) directly corresponds to `request.auth.uid` for authenticated users. This design eliminates the need for `get()` calls in security rules to check parent document ownership, making rules atomic and simplifying their logic. The `userId` field is also included in `StudyPlan` and `UserProgress` documents, further ensuring self-contained authorization context.\n*   **Public Data (`/curriculums/{curriculumId}`, `/curriculums/{curriculumId}/subjects/{subjectId}`, `/learningContents/{contentId}`):** These collections are designed for public read access. Their authorization is inherently independent as they do not rely on user-specific permissions or parent document attributes for basic access. Write access is restricted to administrators.\n*   **Admin-Only Data (`/userAccessLogs/{logId}`, `/roles_admin/{adminId}`):** Access to `userAccessLogs` is determined by the `roles_admin` collection. An admin's UID needs to exist in `/roles_admin/{adminId}`. This check is a simple `exists()` call, which is performant and independent of complex hierarchical data dependencies. The `UserAccessLog` documents are self-contained with all necessary audit information.\n\n**QAPs (Rules are not Filters):**\n*   **User-Owned Data:** For `/users/{userId}/studyPlans` and `/users/{userId}/userProgress`, `list` operations are implicitly filtered by the path (`userId == request.auth.uid`). This ensures that users can only list their own resources, adhering to QAPs without needing complex query filters in rules.\n*   **Public Data:** For `/curriculums`, `/curriculums/{curriculumId}/subjects`, and `/learningContents`, all users are allowed to `list` documents, as the data is intended to be publicly discoverable. This directly supports QAPs as the rules grant access to the entire collection if the user is authorized for public content.\n*   **Admin-Only Data:** For `/userAccessLogs`, `list` operations are restricted to authenticated administrators (checked via `/roles_admin`). Administrators are permitted to `list` all documents in this collection, fulfilling QAPs for an audit log where the full dataset is intended for administrative review.\n\n**Structural Segregation:**\n*   Publicly accessible educational content (Curriculum, Subject, LearningContent) is segregated from private user data (User, StudyPlan, UserProgress) and administrative logs (UserAccessLog, roles_admin). This clear separation simplifies security rules, as each collection or subcollection generally maintains a homogeneous security posture.\n*   `UserAccessLog` is a top-level collection, specifically for audit purposes, separating it from standard user data or content. This ensures that sensitive login/access attempts are managed under distinct, admin-focused security rules."
   }
 }
