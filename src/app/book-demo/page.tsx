@@ -2,20 +2,20 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, GraduationCap, Phone, Mail, MapPin, Globe, Sparkles, Monitor, Send } from "lucide-react";
+import { User, GraduationCap, Phone, Mail, MapPin, Globe, Sparkles, Monitor, Send, CheckCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "@/app/actions";
 import { DISCOVER_COURSES } from "@/lib/courses";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { CheckCircle } from "lucide-react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const formSchema = z.object({
   sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
@@ -115,27 +115,50 @@ export default function BookDemoPage() {
                     control={form.control}
                     name="sessionMode"
                     render={({ field }) => (
-                      <FormItem>
-                        <div className="relative group">
-                          <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10 pointer-events-none z-10">
-                            <Monitor className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Select onValueChange={field.onChange} value={field.value}>
+                      <FormItem className="space-y-4">
+                        <div className="flex flex-col items-center gap-4 py-2">
+                            <div className="text-center space-y-0.5">
+                                <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">SESSION PREFERENCE</h4>
+                                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your mode of learning</p>
+                            </div>
                             <FormControl>
-                              <SelectTrigger className={cn(
-                                "pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
-                                !field.value && "text-slate-400"
-                              )}>
-                                <SelectValue placeholder="Select Session Mode *" />
-                              </SelectTrigger>
+                                <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="grid grid-cols-2 gap-3 w-full"
+                                >
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                            <RadioGroupItem value="online" className="sr-only" />
+                                        </FormControl>
+                                        <FormLabel className={cn(
+                                            "flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all duration-300 cursor-pointer h-full",
+                                            field.value === 'online' 
+                                                ? "bg-primary/5 border-primary text-primary shadow-sm" 
+                                                : "bg-slate-50/50 border-slate-100 text-slate-400 hover:border-slate-200"
+                                        )}>
+                                            <Monitor className={cn("h-5 w-5 transition-transform duration-500", field.value === 'online' && "scale-110")} />
+                                            <span className="text-[10px] font-black uppercase tracking-tight">Online Session</span>
+                                        </FormLabel>
+                                    </FormItem>
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                            <RadioGroupItem value="offline" className="sr-only" />
+                                        </FormControl>
+                                        <FormLabel className={cn(
+                                            "flex flex-col items-center justify-center gap-2 p-4 rounded-2xl border-2 transition-all duration-300 cursor-pointer h-full",
+                                            field.value === 'offline' 
+                                                ? "bg-primary/5 border-primary text-primary shadow-sm" 
+                                                : "bg-slate-50/50 border-slate-100 text-slate-400 hover:border-slate-200"
+                                        )}>
+                                            <MapPin className={cn("h-5 w-5 transition-transform duration-500", field.value === 'offline' && "scale-110")} />
+                                            <span className="text-[10px] font-black uppercase tracking-tight">Offline Centre</span>
+                                        </FormLabel>
+                                    </FormItem>
+                                </RadioGroup>
                             </FormControl>
-                            <SelectContent>
-                              <SelectItem value="online" className="text-xs">Online Session</SelectItem>
-                              <SelectItem value="offline" className="text-xs">Offline Centre</SelectItem>
-                            </SelectContent>
-                          </Select>
                         </div>
-                        <FormMessage className="text-[10px]" />
+                        <FormMessage className="text-[10px] text-center" />
                       </FormItem>
                     )}
                   />
