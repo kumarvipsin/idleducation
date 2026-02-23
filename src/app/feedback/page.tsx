@@ -15,6 +15,7 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { submitFeedback } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { motion, AnimatePresence } from "framer-motion";
 
 const feedbackSchema = z.object({
   name: z.string().optional(),
@@ -25,6 +26,17 @@ const feedbackSchema = z.object({
 });
 
 type FeedbackFormValues = z.infer<typeof feedbackSchema>;
+
+const getRatingLabel = (rating: number) => {
+    switch (rating) {
+      case 1: return "Terrible";
+      case 2: return "Bad";
+      case 3: return "Okay";
+      case 4: return "Good";
+      case 5: return "Excellent";
+      default: return "";
+    }
+};
 
 export default function FeedbackPage() {
     const { toast } = useToast();
@@ -42,7 +54,7 @@ export default function FeedbackPage() {
         },
     });
 
-    const rating = form.watch('rating');
+    const ratingValue = form.watch('rating');
 
     const onSubmit: SubmitHandler<FeedbackFormValues> = async (data) => {
         const result = await submitFeedback(data);
@@ -65,7 +77,7 @@ export default function FeedbackPage() {
             <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
             
             <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 relative z-10">
-                <div className="max-w-xl mx-auto space-y-10">
+                <div className="max-w-2xl mx-auto space-y-10">
                     {/* Header Section */}
                     <div className="text-center space-y-4 animate-fade-in-up">
                         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[11px] font-black uppercase tracking-[0.2em]">
@@ -88,7 +100,7 @@ export default function FeedbackPage() {
                         </p>
                     </div>
 
-                    {/* Feedback Form Card - Slightly Rounded */}
+                    {/* Feedback Form Card */}
                     <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-xl border-none bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         <div className="bg-primary p-6 text-center">
                             <h2 className="text-xl font-black text-white tracking-tight uppercase">User Evaluation Form</h2>
@@ -158,29 +170,49 @@ export default function FeedbackPage() {
                                         control={form.control}
                                         name="rating"
                                         render={({ field }) => (
-                                            <FormItem className="text-center space-y-3">
-                                                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">Experience Rating</p>
-                                                <FormControl>
-                                                     <div className="flex justify-center gap-3">
-                                                        {[1, 2, 3, 4, 5].map((star) => (
-                                                            <button
-                                                                type="button"
-                                                                key={star}
-                                                                onMouseEnter={() => setHoverRating(star)}
-                                                                onMouseLeave={() => setHoverRating(0)}
-                                                                onClick={() => field.onChange(star)}
-                                                                className="focus:outline-none transition-transform active:scale-90"
-                                                            >
-                                                                <Star className={cn(
-                                                                    "w-10 h-10 transition-all duration-300",
-                                                                    (hoverRating || rating) >= star 
-                                                                        ? "text-yellow-400 fill-yellow-400 scale-110 drop-shadow-md" 
-                                                                        : "text-slate-200 dark:text-slate-700 hover:scale-110"
-                                                                )} />
-                                                            </button>
-                                                        ))}
+                                            <FormItem className="space-y-4">
+                                                <div className="flex flex-col items-center gap-4 p-6 rounded-2xl bg-slate-50/50 border border-slate-100 dark:bg-slate-800/20 dark:border-slate-800 transition-all duration-500 hover:shadow-inner group/rating">
+                                                    <div className="space-y-1 text-center">
+                                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">Experience Rating</p>
+                                                        <div className="h-5 flex items-center justify-center">
+                                                            <AnimatePresence mode="wait">
+                                                                {(hoverRating || field.value) > 0 && (
+                                                                    <motion.span 
+                                                                        key={hoverRating || field.value}
+                                                                        initial={{ opacity: 0, y: 5 }}
+                                                                        animate={{ opacity: 1, y: 0 }}
+                                                                        exit={{ opacity: 0, y: -5 }}
+                                                                        className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest"
+                                                                    >
+                                                                        {getRatingLabel(hoverRating || field.value)}
+                                                                    </motion.span>
+                                                                )}
+                                                            </AnimatePresence>
+                                                        </div>
                                                     </div>
-                                                </FormControl>
+                                                    
+                                                    <FormControl>
+                                                        <div className="flex justify-center gap-2 md:gap-4">
+                                                            {[1, 2, 3, 4, 5].map((star) => (
+                                                                <button
+                                                                    type="button"
+                                                                    key={star}
+                                                                    onMouseEnter={() => setHoverRating(star)}
+                                                                    onMouseLeave={() => setHoverRating(0)}
+                                                                    onClick={() => field.onChange(star)}
+                                                                    className="focus:outline-none transition-all duration-300 transform hover:scale-125 active:scale-95 group/star"
+                                                                >
+                                                                    <Star className={cn(
+                                                                        "w-10 h-10 md:w-12 md:h-12 transition-all duration-500",
+                                                                        (hoverRating || field.value) >= star 
+                                                                            ? "text-yellow-400 fill-yellow-400 filter drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" 
+                                                                            : "text-slate-200 dark:text-slate-700"
+                                                                    )} />
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </FormControl>
+                                                </div>
                                                 <FormMessage className="text-center"/>
                                             </FormItem>
                                         )}
