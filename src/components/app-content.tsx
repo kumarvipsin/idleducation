@@ -1,3 +1,4 @@
+
 'use client';
 
 import { usePathname } from 'next/navigation';
@@ -5,6 +6,7 @@ import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
 import { Toaster } from "@/components/ui/toaster"
 import { ChatBotWrapper } from '@/components/chat-bot-wrapper';
+import { FirstVisitPopup } from '@/components/first-visit-popup';
 
 export function AppContent({
   children,
@@ -53,6 +55,7 @@ export function AppContent({
           </main>
           <Footer />
           <ChatBotWrapper />
+          <FirstVisitPopup />
           <Toaster />
         </>
       );
@@ -65,6 +68,7 @@ export function AppContent({
             <main className="flex-grow">
                 {children}
             </main>
+            <FirstVisitPopup />
             <Toaster />
         </>
     );
@@ -79,6 +83,7 @@ export function AppContent({
       </main>
       <Footer />
       <ChatBotWrapper />
+      <FirstVisitPopup />
       <Toaster />
     </>
   );

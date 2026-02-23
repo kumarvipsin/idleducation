@@ -18,3 +18,4 @@ export * from './actions/store-auth';
 export * from './actions/store';
 export * from './actions/reference-books';
 export * from './actions/blog';
+export * from './actions/access';

@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "User": {
@@ -23,6 +24,10 @@
           "type": "string",
           "description": "Timestamp of the user's most recent successful login or access attempt.",
           "format": "date-time"
+        },
+        "loginCount": {
+          "type": "number",
+          "description": "The total number of times this phone number has successfully logged in."
         }
       },
       "required": [
@@ -43,7 +48,7 @@
         },
         "userId": {
           "type": "string",
-          "description": "Reference to the User associated with this access attempt. (Relationship: User 1:N UserAccessLog). This field can be null if the attempt is from an unregistered user or a failed initial registration."
+          "description": "Reference to the User associated with this access attempt. (Relationship: User 1:N UserAccessLog)."
         },
         "phoneNumber": {
           "type": "string",
@@ -331,7 +336,7 @@
           "schema": {
             "$ref": "#/backend/entities/User"
           },
-          "description": "Root collection for user profiles. Each document represents a unique user, identified by their Firebase Authentication UID. Includes core user information and serves as the parent for user-specific subcollections. Authorization is path-based: `request.auth.uid` must match `{userId}`."
+          "description": "Root collection for user profiles. Each document represents a unique user, identified by their Firebase Authentication UID or phone number hash. Includes core user information and serves as the parent for user-specific subcollections. Authorization is path-based: `request.auth.uid` must match `{userId}`."
         }
       },
       {
