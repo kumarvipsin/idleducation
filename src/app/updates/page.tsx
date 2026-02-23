@@ -113,18 +113,18 @@ export default function UpdatesPage() {
                                             <div className="flex flex-col items-start gap-1 pr-4">
                                                 {/* Time Row */}
                                                 <div className="flex items-center gap-2">
-                                                    <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                                                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]">
+                                                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                                                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] opacity-100">
                                                         {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                                                     </span>
                                                 </div>
                                                 {/* Date & Title Row */}
-                                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left">
+                                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left opacity-100">
                                                     <div className="flex items-center gap-1.5 text-[11px] font-black text-foreground uppercase tracking-tight">
                                                         <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
                                                         {format(new Date(update.createdAt), "EEEE, MMM dd, yyyy")}
                                                     </div>
-                                                    <span className="text-muted-foreground hidden md:inline">|</span>
+                                                    <span className="text-foreground/40 hidden md:inline">|</span>
                                                     <span className="text-xs font-bold text-foreground line-clamp-1 group-hover:text-primary transition-colors">
                                                         {update.title}
                                                     </span>
@@ -133,8 +133,8 @@ export default function UpdatesPage() {
                                         </AccordionTrigger>
                                         <AccordionContent className="px-5 md:px-6 pb-6 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
                                             <div className="pt-4 flex gap-3">
-                                                <div className="p-2 bg-primary/5 rounded-lg h-fit mt-1">
-                                                    <MessageSquare className="w-3.5 h-3.5 text-primary opacity-60" />
+                                                <div className="p-1 h-fit mt-1">
+                                                    <MessageSquare className="w-3.5 h-3.5 text-primary" />
                                                 </div>
                                                 <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left flex-1">
                                                     {update.description}
