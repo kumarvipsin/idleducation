@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -222,12 +221,6 @@ export function FirstVisitPopup() {
                         </motion.div>
                     )}
                 </AnimatePresence>
-            </div>
-            
-            <div className="mt-4 pt-3 border-t border-white/20 text-center">
-                <p className="text-[7px] font-black uppercase tracking-[0.4em] text-muted-foreground/40">
-                    IDL Cloud • Secure Node Verified
-                </p>
             </div>
         </div>
       </motion.div>
