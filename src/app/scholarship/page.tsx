@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, Users, GraduationCap, Phone, Globe, MapPin, Sparkles, Send, CheckCircle, Award, IndianRupee, Calendar } from "lucide-react";
+import { User, Users, GraduationCap, Phone, Globe, MapPin, Sparkles, Send, CheckCircle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -105,7 +105,7 @@ export default function ScholarshipPage() {
               </span>
             </h1>
             <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed">
-              Win up to 70% scholarship and exciting cash prizes. Join the legacy of excellence.
+              Get Upto 70% Scholarship on IDL Admissions Test
             </p>
           </div>
 
