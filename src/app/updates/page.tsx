@@ -109,7 +109,7 @@ export default function UpdatesPage() {
                             <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
                                 <Accordion type="single" collapsible className="w-full">
                                     <AccordionItem value="content" className="border-none">
-                                        <AccordionTrigger className="p-5 md:p-6 hover:no-underline flex items-center justify-between group">
+                                        <AccordionTrigger className="p-5 md:p-6 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
                                             <div className="flex flex-col items-start gap-1 pr-4">
                                                 {/* Time Row */}
                                                 <div className="flex items-center gap-2">
