@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Send, User, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles, Users } from "lucide-react";
+import { Send, User, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { DISCOVER_COURSES } from "@/lib/courses";
 
 const enquirySchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -33,8 +34,6 @@ const indianStates = [
     "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
     "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
-
-const classes = ["Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12", "Competitive Exams"];
 
 export default function StudentEnquiryPage() {
     const { toast } = useToast();
@@ -91,7 +90,7 @@ export default function StudentEnquiryPage() {
                             </span>
                         </h1>
                         <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed">
-                            Have a question? Fill out the form below and we'll get back to you.
+                            Inquire about our premium admissions and structured learning programs to begin your academic success journey.
                         </p>
                     </div>
 
@@ -107,7 +106,7 @@ export default function StudentEnquiryPage() {
                                             <FormItem>
                                                 <FormControl>
                                                     <div className="relative group">
-                                                        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-transparent transition-all group-focus-within:border-primary/20 group-focus-within:bg-primary/5">
+                                                        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 bg-white transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10">
                                                             <User className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         </div>
                                                         <Input placeholder="Student's Name *" {...field} className="pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
@@ -134,7 +133,7 @@ export default function StudentEnquiryPage() {
                                                             </SelectTrigger>
                                                         </FormControl>
                                                         <SelectContent>
-                                                            {classes.map(c => <SelectItem key={c} value={c} className="text-xs">{c}</SelectItem>)}
+                                                            {DISCOVER_COURSES.map(c => <SelectItem key={c.name} value={c.name} className="text-xs">{c.name}</SelectItem>)}
                                                         </SelectContent>
                                                     </Select>
                                                 </div>

@@ -1,49 +1,28 @@
-
 'use client';
 
 import Link from "next/link";
 import React from 'react';
 import { ArrowRight, BookOpen, IndianRupee, GraduationCap, Landmark, ClipboardList } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DISCOVER_COURSES } from "@/lib/courses";
 
-const goals = [
-    {
-        name: "FREE COURSES",
-        icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
-        href: "/free-courses",
-        color: "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
-    },
-    {
-        name: "PAID COURSES",
-        icon: <IndianRupee className="w-6 h-6 md:w-8 md:h-8" />,
-        href: "/paid-courses",
-        color: "bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400",
-    },
-    {
-        name: "SCHOOL BOARD",
-        icon: <GraduationCap className="w-6 h-6 md:w-8 md:h-8" />,
-        href: "/school",
-        color: "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
-    },
-    {
-        name: "CUET UG/PG",
-        icon: <GraduationCap className="h-6 w-6 md:h-8 md:w-8" />,
-        href: "/category/cuet",
-        color: "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
-    },
-    {
-        name: "GOVT. EXAMS",
-        icon: <Landmark className="w-6 h-6 md:w-8 md:h-8" />,
-        href: "#",
-        color: "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
-    },
-    {
-        name: "TEST SERIES",
-        icon: <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
-        href: "#",
-        color: "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
-    },
-];
+const iconMap: { [key: string]: React.ReactNode } = {
+    "FREE COURSES": <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
+    "PAID COURSES": <IndianRupee className="w-6 h-6 md:w-8 md:h-8" />,
+    "SCHOOL BOARD": <GraduationCap className="w-6 h-6 md:w-8 md:h-8" />,
+    "CUET UG/PG": <GraduationCap className="h-6 w-6 md:h-8 md:w-8" />,
+    "GOVT. EXAMS": <Landmark className="w-6 h-6 md:w-8 md:h-8" />,
+    "TEST SERIES": <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
+};
+
+const colorMap: { [key: string]: string } = {
+    "FREE COURSES": "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
+    "PAID COURSES": "bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400",
+    "SCHOOL BOARD": "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
+    "CUET UG/PG": "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
+    "GOVT. EXAMS": "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
+    "TEST SERIES": "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
+};
 
 export function SelectGoalSection() {
     return (
@@ -56,8 +35,11 @@ export function SelectGoalSection() {
                         </div>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 items-stretch">
-                        {goals.map((goal) => {
+                        {DISCOVER_COURSES.map((goal) => {
                             const isDisabled = goal.href === "#";
+                            const icon = iconMap[goal.name] || <BookOpen className="w-6 h-6 md:w-8 md:h-8" />;
+                            const color = colorMap[goal.name] || "bg-slate-100 text-slate-600";
+
                             return (
                                 <Link 
                                     key={goal.name} 
@@ -69,11 +51,11 @@ export function SelectGoalSection() {
                                 >
                                     <div className={cn(
                                         "flex flex-col items-center justify-center p-3 md:p-4 rounded-xl transition-all duration-300 h-full border border-transparent",
-                                        goal.color,
+                                        color,
                                         isDisabled ? "opacity-50 grayscale-[0.5]" : "hover:shadow-lg hover:-translate-y-1 hover:border-white/20"
                                     )}>
                                         <div className="mb-2">
-                                            {goal.icon}
+                                            {icon}
                                         </div>
                                         <p className="text-[10px] md:text-xs font-bold text-center text-foreground whitespace-nowrap tracking-tight">{goal.name}</p>
                                         

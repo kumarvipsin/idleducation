@@ -23,3 +23,12 @@ export const competitivePrograms = [
 ];
 
 export const allPrograms = [...schoolPrograms, ...competitivePrograms];
+
+export const DISCOVER_COURSES = [
+    { name: "FREE COURSES", href: "/free-courses" },
+    { name: "PAID COURSES", href: "/paid-courses" },
+    { name: "SCHOOL BOARD", href: "/school" },
+    { name: "CUET UG/PG", href: "/category/cuet" },
+    { name: "GOVT. EXAMS", href: "#" },
+    { name: "TEST SERIES", href: "#" },
+];
