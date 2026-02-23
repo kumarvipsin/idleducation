@@ -110,7 +110,7 @@ export default function UpdatesPage() {
                                 <Accordion type="single" collapsible className="w-full">
                                     <AccordionItem value="content" className="border-none">
                                         <AccordionTrigger className="p-5 md:p-6 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
-                                            <div className="flex flex-col items-start gap-1 pr-4">
+                                            <header className="flex flex-col items-start gap-1 pr-4">
                                                 {/* Time Row */}
                                                 <div className="flex items-center gap-2">
                                                     <div className="h-1.5 w-1.5 rounded-full bg-primary" />
@@ -125,7 +125,7 @@ export default function UpdatesPage() {
                                                         {format(new Date(update.createdAt), "EEEE, MMM dd, yyyy")}
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </header>
                                         </AccordionTrigger>
                                         <AccordionContent className="px-5 md:px-6 pb-6 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
                                             <div className="pt-4 flex gap-3">
