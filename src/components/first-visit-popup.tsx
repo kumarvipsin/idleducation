@@ -130,7 +130,7 @@ export function FirstVisitPopup() {
                             className="flex flex-col gap-3"
                         >
                             <p className="text-[10px] font-bold text-muted-foreground leading-snug truncate whitespace-nowrap">
-                                Register with mobile to access full features without interruption.
+                                Register with your mobile number to access full features without interruption.
                             </p>
                             
                             <div className="flex flex-col sm:flex-row gap-2">
