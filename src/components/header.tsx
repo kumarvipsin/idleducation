@@ -293,6 +293,7 @@ export function Header() {
         links: [
             { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-red-400 to-red-600 text-white", target: "_blank", description: "Support our cause." },
             { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-pink-400 to-pink-600 text-white", description: "Contribute to our mission." },
+            { href: "#", label: "Register Now", icon: <UserPlus className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Unlock full website access.", onClick: () => window.dispatchEvent(new CustomEvent('open-registration-popup')) },
         ]
     }
   ];
@@ -705,4 +706,3 @@ export function Header() {
     </>
   );
 }
-    

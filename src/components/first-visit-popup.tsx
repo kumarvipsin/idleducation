@@ -27,6 +27,16 @@ export function FirstVisitPopup() {
       const timer = setTimeout(() => setIsOpen(true), 1500);
       return () => clearTimeout(timer);
     }
+
+    // Listener for manual opening
+    const handleOpen = () => {
+        setStep('phone');
+        setPhone('');
+        setOtp('');
+        setIsOpen(true);
+    };
+    window.addEventListener('open-registration-popup', handleOpen);
+    return () => window.removeEventListener('open-registration-popup', handleOpen);
   }, []);
 
   const handleSendOtp = () => {
@@ -100,14 +110,19 @@ export function FirstVisitPopup() {
         <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-accent/10 rounded-full blur-3xl" />
 
         <div className="relative z-10 space-y-5">
-            <div className="space-y-1 text-center">
-                <h2 className="text-lg font-black tracking-tighter text-primary uppercase leading-tight">Access Website</h2>
-                <p className="text-muted-foreground text-[9px] font-black uppercase tracking-[0.2em] leading-tight">
-                    One-Time Registration
-                </p>
+            <div className="flex justify-between items-start">
+                <div className="space-y-1 text-left">
+                    <h2 className="text-lg font-black tracking-tighter text-primary uppercase leading-tight">Access Website</h2>
+                    <p className="text-muted-foreground text-[9px] font-black uppercase tracking-[0.2em] leading-tight">
+                        One-Time Registration
+                    </p>
+                </div>
+                <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full opacity-40 hover:opacity-100" onClick={() => setIsOpen(false)}>
+                    <X className="h-4 w-4" />
+                </Button>
             </div>
 
-            <p className="text-center text-muted-foreground text-[10px] font-bold leading-relaxed opacity-80 px-2">
+            <p className="text-left text-muted-foreground text-[10px] font-bold leading-relaxed opacity-80">
                 Register with your phone number to access the full website without interruption.
             </p>
 
