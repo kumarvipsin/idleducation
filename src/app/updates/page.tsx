@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Sparkles, Bell, Calendar, Clock, ChevronRight } from "lucide-react";
+import { Sparkles, Bell, Clock } from "lucide-react";
 import { getUpdates } from '@/app/actions'; 
 import { useToast } from '@/hooks/use-toast';
 import { formatDistanceToNow, format } from 'date-fns';
@@ -147,16 +147,6 @@ export default function UpdatesPage() {
                                         <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed">
                                             {update.description}
                                         </p>
-
-                                        <div className="pt-4 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/50">
-                                            <div className="flex items-center gap-2 text-[10px] font-bold text-muted-foreground uppercase tracking-widest opacity-60">
-                                                <Calendar className="w-3.5 h-3.5" />
-                                                {format(new Date(update.createdAt), 'EEEE, MMMM dd')}
-                                            </div>
-                                            <div className="text-primary opacity-0 group-hover/card:opacity-100 group-hover/card:translate-x-1 transition-all duration-300">
-                                                <ChevronRight className="w-5 h-5" />
-                                            </div>
-                                        </div>
                                     </div>
                                 </CardContent>
                             </Card>
