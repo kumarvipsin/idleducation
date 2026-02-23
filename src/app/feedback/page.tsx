@@ -5,12 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Home, CheckCircle, X } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import Link from "next/link";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -61,21 +60,42 @@ export default function FeedbackPage() {
     };
 
     return (
-        <>
-            <div className="container mx-auto py-12 md:px-[10%]">
-                <div className="text-center mb-8 animate-fade-in-up">
-                    <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
-                        Share Your Feedback
-                        <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
-                    </h1>
-                    <p className="mt-2 text-sm text-muted-foreground font-semibold">
-                        We value your opinion and would love to hear about your experience.
-                    </p>
-                </div>
+        <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 overflow-x-hidden relative">
+            {/* Floating Decorative Elements */}
+            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+            <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+            
+            <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 relative z-10">
+                <div className="max-w-xl mx-auto space-y-10">
+                    {/* Header Section */}
+                    <div className="text-center space-y-4 animate-fade-in-up">
+                        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[11px] font-black uppercase tracking-[0.2em]">
+                            <Sparkles className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
+                            Community Voice
+                        </div>
+                        <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+                            Share Your{' '}
+                            <span className="relative inline-block">
+                                <span className="relative z-10 text-primary">Feedback</span>
+                                <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                                    <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                        <path d="M0,15 Q50,5 100,15" />
+                                    </svg>
+                                </div>
+                            </span>
+                        </h1>
+                        <p className="max-w-md mx-auto text-slate-600 dark:text-slate-400 text-sm md:text-base font-bold leading-relaxed">
+                            We value your opinion and would love to hear about your experience.
+                        </p>
+                    </div>
 
-                <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                    <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white">
-                        <CardContent className="space-y-6 p-8">
+                    {/* Feedback Form Card */}
+                    <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[2rem] border-none bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                        <div className="bg-primary p-6 text-center">
+                            <h2 className="text-xl font-black text-white tracking-tight uppercase">User Evaluation Form</h2>
+                            <p className="text-[10px] font-bold text-white/70 uppercase tracking-widest mt-1">Help us improve your learning journey</p>
+                        </div>
+                        <CardContent className="p-8 space-y-6">
                            <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                                     <div className="grid sm:grid-cols-2 gap-4">
@@ -85,9 +105,9 @@ export default function FeedbackPage() {
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormControl>
-                                                        <div className="relative">
-                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input placeholder="Your Name (Optional)" {...field} className="pl-9" />
+                                                        <div className="relative group">
+                                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                            <Input placeholder="Name (Optional)" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold transition-all focus:ring-2 focus:ring-primary/20" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -100,9 +120,9 @@ export default function FeedbackPage() {
                                             render={({ field }) => (
                                                 <FormItem>
                                                     <FormControl>
-                                                        <div className="relative">
-                                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                                            <Input type="email" placeholder="Your Email (Optional)" {...field} className="pl-9" />
+                                                        <div className="relative group">
+                                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                            <Input type="email" placeholder="Email (Optional)" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold transition-all focus:ring-2 focus:ring-primary/20" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -110,6 +130,7 @@ export default function FeedbackPage() {
                                             )}
                                         />
                                     </div>
+                                    
                                     <FormField
                                         control={form.control}
                                         name="category"
@@ -117,8 +138,8 @@ export default function FeedbackPage() {
                                             <FormItem>
                                                 <Select onValueChange={field.onChange} value={field.value}>
                                                     <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Select Feedback Category" />
+                                                        <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold focus:ring-2 focus:ring-primary/20">
+                                                            <SelectValue placeholder="Feedback Category *" />
                                                         </SelectTrigger>
                                                     </FormControl>
                                                     <SelectContent>
@@ -133,14 +154,15 @@ export default function FeedbackPage() {
                                             </FormItem>
                                         )}
                                     />
+
                                     <FormField
                                         control={form.control}
                                         name="rating"
                                         render={({ field }) => (
-                                            <FormItem className="text-center space-y-2">
-                                                <p className="font-medium text-muted-foreground">How would you rate your overall experience?</p>
+                                            <FormItem className="text-center space-y-3">
+                                                <p className="text-[11px] font-black uppercase tracking-widest text-slate-400">Experience Rating</p>
                                                 <FormControl>
-                                                     <div className="flex justify-center gap-2">
+                                                     <div className="flex justify-center gap-3">
                                                         {[1, 2, 3, 4, 5].map((star) => (
                                                             <button
                                                                 type="button"
@@ -148,13 +170,13 @@ export default function FeedbackPage() {
                                                                 onMouseEnter={() => setHoverRating(star)}
                                                                 onMouseLeave={() => setHoverRating(0)}
                                                                 onClick={() => field.onChange(star)}
-                                                                className="focus:outline-none"
+                                                                className="focus:outline-none transition-transform active:scale-90"
                                                             >
                                                                 <Star className={cn(
-                                                                    "w-8 h-8 transition-all duration-200",
+                                                                    "w-10 h-10 transition-all duration-300",
                                                                     (hoverRating || rating) >= star 
-                                                                        ? "text-yellow-400 fill-yellow-400 scale-110" 
-                                                                        : "text-gray-300 hover:scale-110"
+                                                                        ? "text-yellow-400 fill-yellow-400 scale-110 drop-shadow-md" 
+                                                                        : "text-slate-200 dark:text-slate-700 hover:scale-110"
                                                                 )} />
                                                             </button>
                                                         ))}
@@ -164,17 +186,18 @@ export default function FeedbackPage() {
                                             </FormItem>
                                         )}
                                     />
+
                                     <FormField
                                         control={form.control}
                                         name="feedback"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormControl>
-                                                    <div className="relative">
-                                                        <MessageSquare className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                                    <div className="relative group">
+                                                        <MessageSquare className="absolute left-4 top-4 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         <Textarea 
-                                                            placeholder="Tell us more about your experience..." 
-                                                            className="min-h-[150px] pl-9"
+                                                            placeholder="Describe your experience in detail... *" 
+                                                            className="min-h-[150px] pl-11 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold transition-all focus:ring-2 focus:ring-primary/20"
                                                             {...field}
                                                         />
                                                     </div>
@@ -183,9 +206,10 @@ export default function FeedbackPage() {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="w-full text-base h-10 font-bold" disabled={form.formState.isSubmitting}>
-                                        {form.formState.isSubmitting ? 'Submitting...' : 'Submit Feedback'}
-                                        <Send className="ml-2 h-4 w-4" />
+
+                                    <Button type="submit" className="w-full h-14 text-sm font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-xl shadow-primary/20 transition-all active:scale-[0.98] group uppercase tracking-widest" disabled={form.formState.isSubmitting}>
+                                        {form.formState.isSubmitting ? 'PROCESSING...' : 'Submit Feedback'}
+                                        <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </Button>
                                 </form>
                            </Form>
@@ -193,22 +217,27 @@ export default function FeedbackPage() {
                     </Card>
                 </div>
             </div>
+
             <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-                <DialogContent>
+                <DialogContent className="rounded-[2rem]">
                     <DialogHeader>
                         <div className="flex justify-center mb-4">
-                            <CheckCircle className="w-16 h-16 text-green-500" />
+                            <div className="bg-green-100 p-4 rounded-full">
+                                <CheckCircle className="w-16 h-16 text-green-500" />
+                            </div>
                         </div>
-                        <DialogTitle className="text-center text-2xl">Thank You!</DialogTitle>
-                        <DialogDescription className="text-center">
-                            Your feedback has been submitted successfully. We appreciate you taking the time to share your thoughts.
+                        <DialogTitle className="text-center text-2xl font-black tracking-tight text-slate-900">Thank You!</DialogTitle>
+                        <DialogDescription className="text-center font-bold text-slate-600">
+                            Your feedback has been submitted successfully. We appreciate you taking the time to share your thoughts with us.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full">Close</Button>
+                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-primary/10">
+                            Close & Return
+                        </Button>
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </>
+        </div>
     );
 }
