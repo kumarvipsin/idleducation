@@ -120,9 +120,9 @@ export default function UpdatesPage() {
                                                 </div>
                                                 {/* Date Row */}
                                                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left opacity-100">
-                                                    <div className="flex items-center gap-1.5 text-[11px] font-black text-foreground uppercase tracking-tight">
+                                                    <div className="flex items-center gap-1.5 text-[11px] font-black text-foreground tracking-tight">
                                                         <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                        {format(new Date(update.createdAt), "EEEE, MMM dd, yyyy")}
+                                                        {format(new Date(update.createdAt), "EEEE")} | {format(new Date(update.createdAt), "MMM dd, yyyy")}
                                                     </div>
                                                 </div>
                                             </header>
