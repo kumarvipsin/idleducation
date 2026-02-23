@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Send, User, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles } from "lucide-react";
+import { Send, User, Users, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles, Layers } from "lucide-react";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -126,7 +126,7 @@ export default function StudentEnquiryPage() {
                                                 <FormControl>
                                                     <div className="relative group">
                                                         <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10">
-                                                            <User className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                            <Users className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         </div>
                                                         <Input placeholder="Guardian's Name *" {...field} className="pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
                                                     </div>
@@ -141,11 +141,13 @@ export default function StudentEnquiryPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <div className="relative group">
-                                                    <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
+                                                    <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10 pointer-events-none z-10">
+                                                        <GraduationCap className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
                                                     <Select onValueChange={field.onChange} value={field.value}>
                                                         <FormControl>
                                                             <SelectTrigger className={cn(
-                                                                "pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
+                                                                "pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
                                                                 !field.value && "text-slate-400"
                                                             )}>
                                                                 <SelectValue placeholder="Select Class/Course *" />
@@ -167,8 +169,10 @@ export default function StudentEnquiryPage() {
                                             <FormItem>
                                                 <FormControl>
                                                     <div className="relative group">
-                                                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                        <Input type="tel" placeholder="Mobile Number *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10">
+                                                            <Phone className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        </div>
+                                                        <Input type="tel" placeholder="Mobile Number *" {...field} className="pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage className="text-[10px]" />
@@ -181,11 +185,13 @@ export default function StudentEnquiryPage() {
                                         render={({ field }) => (
                                             <FormItem>
                                                 <div className="relative group">
-                                                    <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
+                                                    <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10 pointer-events-none z-10">
+                                                        <MapPin className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
                                                     <Select onValueChange={field.onChange} value={field.value}>
                                                         <FormControl>
                                                             <SelectTrigger className={cn(
-                                                                "pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
+                                                                "pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
                                                                 !field.value && "text-slate-400"
                                                             )}>
                                                                 <SelectValue placeholder="Select a state *" />
@@ -207,10 +213,12 @@ export default function StudentEnquiryPage() {
                                             <FormItem>
                                                 <FormControl>
                                                     <div className="relative group">
-                                                        <MessageSquare className="absolute left-3 top-3 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        <div className="absolute left-2 top-3 w-7 h-7 flex items-center justify-center rounded-full border border-slate-200 transition-all group-focus-within:border-primary group-focus-within:ring-4 group-focus-within:ring-primary/10">
+                                                            <MessageSquare className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        </div>
                                                         <Textarea 
                                                             placeholder="Describe your enquiry... *" 
-                                                            className="min-h-[100px] pl-9 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20"
+                                                            className="min-h-[100px] pl-11 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20"
                                                             {...field}
                                                         />
                                                     </div>
