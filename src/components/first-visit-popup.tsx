@@ -113,7 +113,7 @@ export function FirstVisitPopup() {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="pointer-events-auto w-full max-w-[425px] rounded-xl border border-white/20 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-4 md:p-5 relative overflow-hidden"
+        className="pointer-events-auto w-full max-w-[425px] rounded-xl border border-white/40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-2xl shadow-[0_32px_64px_-16px_rgba(0,0,0,0.2)] p-4 md:p-5 relative overflow-hidden"
       >
         <div className="absolute -top-12 -right-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
 
@@ -144,7 +144,7 @@ export function FirstVisitPopup() {
                             className="flex flex-col gap-3"
                         >
                             <p className="text-[10px] font-bold text-muted-foreground leading-snug truncate whitespace-nowrap">
-                                Register with your mobile number to access full features without interruption.
+                                Register with mobile to access full features without interruption.
                             </p>
                             
                             <div className="flex flex-col sm:flex-row gap-2">
@@ -156,7 +156,7 @@ export function FirstVisitPopup() {
                                     <Input 
                                         id="phone" 
                                         placeholder="Mobile Number" 
-                                        className="pl-14 h-9 bg-white/50 border-white/20 rounded-lg font-black text-xs transition-all focus:ring-2 focus:ring-primary/10" 
+                                        className="pl-14 h-9 bg-white/60 dark:bg-slate-800/60 border-white/30 dark:border-white/10 rounded-lg font-black text-xs transition-all focus:ring-2 focus:ring-primary/20 hover:border-primary/30 shadow-inner" 
                                         value={phone}
                                         onChange={(e) => setPhone(e.target.value.replace(/\D/g, '').slice(0, 10))}
                                     />
@@ -190,7 +190,7 @@ export function FirstVisitPopup() {
                                     <Input 
                                         id="otp" 
                                         placeholder="4-digit OTP" 
-                                        className="pl-9 h-9 bg-white/50 border-white/20 rounded-lg font-black text-xs tracking-[0.3em] transition-all focus:ring-2 focus:ring-primary/10" 
+                                        className="pl-9 h-9 bg-white/60 dark:bg-slate-800/60 border-white/30 dark:border-white/10 rounded-lg font-black text-xs tracking-[0.3em] transition-all focus:ring-2 focus:ring-primary/20 hover:border-primary/30 shadow-inner" 
                                         value={otp}
                                         onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 4))}
                                     />
