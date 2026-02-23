@@ -78,7 +78,7 @@ export default function FeedbackPage() {
                 <div className="max-w-lg mx-auto space-y-8">
                     {/* Header Section */}
                     <div className="text-center space-y-3 animate-fade-in-up">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[10px] font-black">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[10px] font-black uppercase tracking-wider">
                             <Sparkles className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
                             Community Voice
                         </div>
