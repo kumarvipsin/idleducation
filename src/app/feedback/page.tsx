@@ -84,13 +84,13 @@ export default function FeedbackPage() {
                                 </div>
                             </span>
                         </h1>
-                        <p className="max-w-md mx-auto text-slate-600 dark:text-slate-400 text-sm md:text-base font-bold leading-relaxed">
+                        <p className="max-w-md mx-auto text-slate-600 dark:text-slate-400 text-sm md:text-base font-bold leading-relaxed text-balance">
                             We value your opinion and would love to hear about your experience.
                         </p>
                     </div>
 
-                    {/* Feedback Form Card */}
-                    <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-[2rem] border-none bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    {/* Feedback Form Card - Rectangular Shape */}
+                    <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-none border-none bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         <div className="bg-primary p-6 text-center">
                             <h2 className="text-xl font-black text-white tracking-tight uppercase">User Evaluation Form</h2>
                             <p className="text-[10px] font-bold text-white/70 uppercase tracking-widest mt-1">Help us improve your learning journey</p>
@@ -107,7 +107,7 @@ export default function FeedbackPage() {
                                                     <FormControl>
                                                         <div className="relative group">
                                                             <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                            <Input placeholder="Name (Optional)" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold transition-all focus:ring-2 focus:ring-primary/20" />
+                                                            <Input placeholder="Name (Optional)" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-none font-bold transition-all focus:ring-2 focus:ring-primary/20" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -122,7 +122,7 @@ export default function FeedbackPage() {
                                                     <FormControl>
                                                         <div className="relative group">
                                                             <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                            <Input type="email" placeholder="Email (Optional)" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold transition-all focus:ring-2 focus:ring-primary/20" />
+                                                            <Input type="email" placeholder="Email (Optional)" {...field} className="pl-11 h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-none font-bold transition-all focus:ring-2 focus:ring-primary/20" />
                                                         </div>
                                                     </FormControl>
                                                     <FormMessage />
@@ -138,7 +138,7 @@ export default function FeedbackPage() {
                                             <FormItem>
                                                 <Select onValueChange={field.onChange} value={field.value}>
                                                     <FormControl>
-                                                        <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold focus:ring-2 focus:ring-primary/20">
+                                                        <SelectTrigger className="h-12 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-none font-bold focus:ring-2 focus:ring-primary/20">
                                                             <SelectValue placeholder="Feedback Category *" />
                                                         </SelectTrigger>
                                                     </FormControl>
@@ -197,7 +197,7 @@ export default function FeedbackPage() {
                                                         <MessageSquare className="absolute left-4 top-4 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         <Textarea 
                                                             placeholder="Describe your experience in detail... *" 
-                                                            className="min-h-[150px] pl-11 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-xl font-bold transition-all focus:ring-2 focus:ring-primary/20"
+                                                            className="min-h-[150px] pl-11 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-none font-bold transition-all focus:ring-2 focus:ring-primary/20"
                                                             {...field}
                                                         />
                                                     </div>
@@ -207,7 +207,7 @@ export default function FeedbackPage() {
                                         )}
                                     />
 
-                                    <Button type="submit" className="w-full h-14 text-sm font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-xl shadow-primary/20 transition-all active:scale-[0.98] group uppercase tracking-widest" disabled={form.formState.isSubmitting}>
+                                    <Button type="submit" className="w-full h-14 text-sm font-black bg-primary hover:bg-primary/90 text-white rounded-none shadow-xl shadow-primary/20 transition-all active:scale-[0.98] group uppercase tracking-widest" disabled={form.formState.isSubmitting}>
                                         {form.formState.isSubmitting ? 'PROCESSING...' : 'Submit Feedback'}
                                         <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </Button>
@@ -219,7 +219,7 @@ export default function FeedbackPage() {
             </div>
 
             <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-                <DialogContent className="rounded-[2rem]">
+                <DialogContent className="rounded-none">
                     <DialogHeader>
                         <div className="flex justify-center mb-4">
                             <div className="bg-green-100 p-4 rounded-full">
@@ -232,7 +232,7 @@ export default function FeedbackPage() {
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>
-                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-xl font-black uppercase tracking-widest shadow-lg shadow-primary/10">
+                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-none font-black uppercase tracking-widest shadow-lg shadow-primary/10">
                             Close & Return
                         </Button>
                     </DialogFooter>
