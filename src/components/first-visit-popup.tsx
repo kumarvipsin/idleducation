@@ -20,23 +20,23 @@ export function FirstVisitPopup() {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if the user has already verified access in this browser
-    const isVerified = localStorage.getItem('idl_access_verified');
-    if (!isVerified) {
-      // Delay slightly for better UX
-      const timer = setTimeout(() => setIsOpen(true), 1500);
-      return () => clearTimeout(timer);
-    }
+    // As requested, always trigger the popup on refresh
+    const timer = setTimeout(() => setIsOpen(true), 1500);
 
-    // Listener for manual opening
+    // Listener for manual opening from header menu
     const handleOpen = () => {
         setStep('phone');
         setPhone('');
         setOtp('');
         setIsOpen(true);
     };
+    
     window.addEventListener('open-registration-popup', handleOpen);
-    return () => window.removeEventListener('open-registration-popup', handleOpen);
+    
+    return () => {
+        clearTimeout(timer);
+        window.removeEventListener('open-registration-popup', handleOpen);
+    };
   }, []);
 
   const handleSendOtp = () => {
