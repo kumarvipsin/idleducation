@@ -61,13 +61,10 @@ export default function SignupPage() {
   const onTeacherSubmit: SubmitHandler<SignupValues> = (data) => handleSignup(data, 'teacher');
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[#f8faff] dark:bg-slate-950 relative overflow-hidden">
-      {/* Sophisticated Decorative Background */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-        <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/10 rounded-full blur-[120px] animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-to-tr from-primary/5 via-transparent to-accent/5 opacity-50" />
-      </div>
+    <div className="min-h-screen w-full flex items-center justify-center p-4 bg-[#F8F7FF] dark:bg-slate-950 relative overflow-hidden">
+      {/* Floating Decorative Elements (Matching Feedback Style) */}
+      <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
 
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
