@@ -101,8 +101,8 @@ export default function FeedbackPage() {
                     {/* Feedback Form Card */}
                     <Card className="shadow-xl rounded-xl border border-border bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         <div className="bg-primary py-4 px-6 text-center">
-                            <h2 className="text-xs font-black text-white tracking-widest uppercase">Academic Experience Portal</h2>
-                            <p className="text-[8px] font-bold text-white/60 uppercase tracking-[0.2em] mt-0.5">Help us improve your learning journey</p>
+                            <h2 className="text-xs font-semibold text-white tracking-widest">Academic Experience Portal</h2>
+                            <p className="text-[10px] font-medium text-white/80 mt-0.5">Help Us Improve Your Learning Journey</p>
                         </div>
                         <CardContent className="p-6 md:p-8 space-y-5">
                            <Form {...form}>
