@@ -28,19 +28,23 @@ export async function logAccessAttempt(phoneNumber: string, otp: string, isSucce
     // 1. Find or create the User document keyed by phone number
     const userDocRef = doc(db, "users", `phone-${phoneNumber}`);
     const userSnap = await getDoc(userDocRef);
+    let currentLoginCount = 0;
 
     if (!userSnap.exists()) {
       // Initial Registration
+      currentLoginCount = isSuccessful ? 1 : 0;
       await setDoc(userDocRef, {
         phoneNumber,
         createdAt: serverTimestamp(),
         lastLoginAt: serverTimestamp(),
-        loginCount: isSuccessful ? 1 : 0,
+        loginCount: currentLoginCount,
         totalTimeSpentSeconds: 0,
         role: 'visitor',
         status: 'approved'
       });
     } else {
+      const userData = userSnap.data();
+      currentLoginCount = (userData.loginCount || 0) + (isSuccessful ? 1 : 0);
       // Existing user - increment stats if successful
       if (isSuccessful) {
         await updateDoc(userDocRef, {
@@ -61,7 +65,11 @@ export async function logAccessAttempt(phoneNumber: string, otp: string, isSucce
       eventType: userSnap.exists() ? 'LoginAttempt' : 'InitialRegistration'
     });
 
-    return { success: true, message: "Access logged successfully." };
+    return { 
+      success: true, 
+      message: "Access logged successfully.", 
+      loginCount: currentLoginCount 
+    };
   } catch (error) {
     console.error("Error logging access attempt:", error);
     return { success: false, message: "Internal server error." };
@@ -104,7 +112,8 @@ export async function getAccessLogs() {
       return { 
         id: doc.id, 
         ...serializeFirestoreData(logData),
-        totalTimeSpentSeconds: userData.totalTimeSpentSeconds || 0
+        totalTimeSpentSeconds: userData.totalTimeSpentSeconds || 0,
+        dbLoginCount: userData.loginCount || 0
       };
     });
 

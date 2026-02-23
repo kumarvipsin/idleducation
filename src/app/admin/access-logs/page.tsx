@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAccessLogs, getAccessStats, deleteAccessLog } from "@/app/actions/access";
 import { format } from "date-fns";
-import { Trash2, Phone, History, Users, Activity, BarChart3, ChevronDown, ChevronRight, Clock, ShieldCheck, User as UserIcon, Timer } from "lucide-react";
+import { Trash2, Phone, History, Users, Activity, BarChart3, ChevronDown, ChevronRight, Clock, ShieldCheck, User as UserIcon, Timer, Zap } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -36,6 +36,7 @@ interface AccessLog {
   isSuccessful: boolean;
   eventType: string;
   totalTimeSpentSeconds?: number;
+  dbLoginCount?: number;
 }
 
 interface Stats {
@@ -169,6 +170,8 @@ export default function AdminAccessLogsPage() {
                 {Object.entries(groupedLogs).map(([phoneNumber, userLogs], index) => {
                   const successCount = userLogs.filter(l => l.isSuccessful).length;
                   const usageTime = userLogs[0]?.totalTimeSpentSeconds || 0;
+                  const dbLoginCount = userLogs[0]?.dbLoginCount || successCount;
+                  
                   return (
                     <AccordionItem key={phoneNumber} value={`item-${index}`} className="border-b last:border-0 hover:bg-muted/5 transition-colors">
                       <AccordionTrigger className="px-8 py-6 hover:no-underline group">
@@ -186,11 +189,14 @@ export default function AdminAccessLogsPage() {
                             </div>
                             <div className="flex items-center gap-6">
                                 <div className="text-center hidden sm:block">
-                                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Logins</p>
-                                    <Badge className="bg-primary text-white font-black px-3 rounded-lg">{successCount}</Badge>
+                                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Total Visits</p>
+                                    <Badge className="bg-indigo-500 text-white font-black px-3 rounded-lg flex items-center gap-1.5">
+                                        <Zap className="w-3 h-3" />
+                                        {dbLoginCount}
+                                    </Badge>
                                 </div>
                                 <div className="text-center hidden sm:block">
-                                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Usage Time</p>
+                                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Active Time</p>
                                     <Badge variant="outline" className="text-[9px] font-black uppercase tracking-tighter text-blue-600 border-blue-200 bg-blue-50 flex items-center gap-1.5 px-2">
                                         <Timer className="w-3 h-3" />
                                         {formatDuration(usageTime)}

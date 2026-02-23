@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -90,9 +91,14 @@ export function FirstVisitPopup() {
       localStorage.setItem('idl_access_verified', 'true');
       localStorage.setItem('idl_access_phone', phone);
       setIsVerified(true);
+      
+      const welcomeMsg = result.loginCount && result.loginCount > 1 
+        ? `Welcome back! This is your ${result.loginCount} visit to IDL Education.`
+        : "Welcome to IDL! Access granted. You can now explore the full website.";
+
       toast({
-        title: "Welcome to IDL!",
-        description: "Access granted. You can now explore the full website.",
+        title: result.loginCount && result.loginCount > 1 ? "Welcome Back!" : "Welcome to IDL!",
+        description: welcomeMsg,
       });
       setIsOpen(false);
     } else {
