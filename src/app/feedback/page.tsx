@@ -83,7 +83,7 @@ export default function FeedbackPage() {
                                 </div>
                             </span>
                         </h1>
-                        <p className="max-w-md mx-auto text-slate-600 dark:text-slate-400 text-sm md:text-base font-bold leading-relaxed text-balance">
+                        <p className="max-w-2xl mx-auto text-slate-600 dark:text-slate-400 text-sm md:text-base font-bold leading-relaxed">
                             We value your opinion and would love to hear about your experience.
                         </p>
                     </div>
