@@ -80,7 +80,7 @@ export default function FeedbackPage() {
                     <div className="text-center space-y-3 animate-fade-in-up">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[10px] font-black uppercase tracking-wider">
                             <Sparkles className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
-                            Community Voice
+                            COMMUNITY VOICE
                         </div>
                         <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
                             Share Your{' '}
@@ -100,10 +100,6 @@ export default function FeedbackPage() {
 
                     {/* Feedback Form Card */}
                     <Card className="shadow-xl rounded-xl border border-border bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                        <div className="bg-primary py-4 px-6 text-center">
-                            <h2 className="text-xs font-semibold text-white tracking-widest uppercase">ACADEMIC EXPERIENCE PORTAL</h2>
-                            <p className="text-[10px] font-medium text-white/80 mt-0.5">Help Us Improve Your Learning Journey</p>
-                        </div>
                         <CardContent className="p-6 md:p-8 space-y-5">
                            <Form {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
