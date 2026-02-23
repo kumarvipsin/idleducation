@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -5,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Phone, Lock, Send, CheckCircle2, X, ShieldCheck } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { logAccessAttempt } from "@/app/actions/access";
+import { logAccessAttempt, incrementTimeSpent } from "@/app/actions/access";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -16,10 +17,11 @@ export function FirstVisitPopup() {
   const [otp, setOtp] = useState('');
   const [simulatedOtp, setSimulatedOtp] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
+  const [isVerified, setIsVerified] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
-    // Always trigger the popup on refresh as requested
+    // Always trigger the popup on refresh
     const timer = setTimeout(() => setIsOpen(true), 1500);
 
     const handleOpen = () => {
@@ -37,6 +39,18 @@ export function FirstVisitPopup() {
     };
   }, []);
 
+  // Heartbeat effect to track usage time once verified
+  useEffect(() => {
+    if (!isVerified || !phone) return;
+
+    // Increment time spent every 30 seconds
+    const interval = setInterval(() => {
+      incrementTimeSpent(phone, 30);
+    }, 30000);
+
+    return () => clearInterval(interval);
+  }, [isVerified, phone]);
+
   const handleSendOtp = () => {
     if (!/^\d{10}$/.test(phone)) {
       toast({
@@ -47,7 +61,6 @@ export function FirstVisitPopup() {
       return;
     }
 
-    // Simulate OTP generation
     const code = Math.floor(1000 + Math.random() * 9000).toString();
     setSimulatedOtp(code);
     
@@ -76,6 +89,8 @@ export function FirstVisitPopup() {
     
     if (result.success) {
       localStorage.setItem('idl_access_verified', 'true');
+      localStorage.setItem('idl_access_phone', phone);
+      setIsVerified(true);
       toast({
         title: "Welcome to IDL!",
         description: "Access granted. You can now explore the full website.",

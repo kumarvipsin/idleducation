@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState, useMemo } from "react";
@@ -13,16 +14,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { getAccessLogs, getAccessStats, deleteAccessLog } from "@/app/actions/access";
 import { format } from "date-fns";
-import { Trash2, Phone, History, Users, Activity, BarChart3, ChevronDown, ChevronRight, Clock, ShieldCheck, User as UserIcon } from "lucide-react";
-import { 
-  Dialog, 
-  DialogContent, 
-  DialogHeader, 
-  DialogTitle, 
-  DialogDescription,
-  DialogFooter,
-  DialogTrigger 
-} from "@/components/ui/dialog";
+import { Trash2, Phone, History, Users, Activity, BarChart3, ChevronDown, ChevronRight, Clock, ShieldCheck, User as UserIcon, Timer } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
@@ -43,6 +35,7 @@ interface AccessLog {
   accessTimestamp: string;
   isSuccessful: boolean;
   eventType: string;
+  totalTimeSpentSeconds?: number;
 }
 
 interface Stats {
@@ -50,6 +43,17 @@ interface Stats {
   uniqueVisitors: number;
   totalSuccessfulLogins: number;
 }
+
+const formatDuration = (seconds: number) => {
+  if (!seconds) return '0s';
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  
+  if (h > 0) return `${h}h ${m}m`;
+  if (m > 0) return `${m}m ${s}s`;
+  return `${s}s`;
+};
 
 export default function AdminAccessLogsPage() {
   const [logs, setLogs] = useState<AccessLog[]>([]);
@@ -87,7 +91,6 @@ export default function AdminAccessLogsPage() {
     }
   };
 
-  // Group logs by phone number
   const groupedLogs = useMemo(() => {
     return logs.reduce((acc, log) => {
       if (!acc[log.phoneNumber]) {
@@ -117,7 +120,6 @@ export default function AdminAccessLogsPage() {
 
   return (
     <div className="space-y-8 animate-fade-in-up">
-      {/* Stats Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <StatCard 
             title="Total Visitors" 
@@ -148,7 +150,7 @@ export default function AdminAccessLogsPage() {
             <div className="space-y-1">
                 <CardTitle className="text-2xl font-black tracking-tight text-foreground">User Registration Hub</CardTitle>
                 <CardDescription className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                    Manage phone-verified visitors and access history
+                    Manage phone-verified visitors and engagement metrics
                 </CardDescription>
             </div>
             <Button variant="outline" size="sm" onClick={fetchData} className="rounded-xl font-bold text-[10px] uppercase tracking-widest">
@@ -166,6 +168,7 @@ export default function AdminAccessLogsPage() {
               <Accordion type="single" collapsible className="w-full">
                 {Object.entries(groupedLogs).map(([phoneNumber, userLogs], index) => {
                   const successCount = userLogs.filter(l => l.isSuccessful).length;
+                  const usageTime = userLogs[0]?.totalTimeSpentSeconds || 0;
                   return (
                     <AccordionItem key={phoneNumber} value={`item-${index}`} className="border-b last:border-0 hover:bg-muted/5 transition-colors">
                       <AccordionTrigger className="px-8 py-6 hover:no-underline group">
@@ -185,6 +188,13 @@ export default function AdminAccessLogsPage() {
                                 <div className="text-center hidden sm:block">
                                     <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Logins</p>
                                     <Badge className="bg-primary text-white font-black px-3 rounded-lg">{successCount}</Badge>
+                                </div>
+                                <div className="text-center hidden sm:block">
+                                    <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Usage Time</p>
+                                    <Badge variant="outline" className="text-[9px] font-black uppercase tracking-tighter text-blue-600 border-blue-200 bg-blue-50 flex items-center gap-1.5 px-2">
+                                        <Timer className="w-3 h-3" />
+                                        {formatDuration(usageTime)}
+                                    </Badge>
                                 </div>
                                 <div className="text-center hidden sm:block">
                                     <p className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/60 mb-1">Status</p>

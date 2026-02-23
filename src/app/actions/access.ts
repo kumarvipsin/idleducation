@@ -26,7 +26,6 @@ import { serializeFirestoreData } from './utils';
 export async function logAccessAttempt(phoneNumber: string, otp: string, isSuccessful: boolean) {
   try {
     // 1. Find or create the User document keyed by phone number
-    // Using phone number as a unique ID for simplicity in grouping
     const userDocRef = doc(db, "users", `phone-${phoneNumber}`);
     const userSnap = await getDoc(userDocRef);
 
@@ -37,7 +36,8 @@ export async function logAccessAttempt(phoneNumber: string, otp: string, isSucce
         createdAt: serverTimestamp(),
         lastLoginAt: serverTimestamp(),
         loginCount: isSuccessful ? 1 : 0,
-        role: 'visitor', // Default role for phone-verified visitors
+        totalTimeSpentSeconds: 0,
+        role: 'visitor',
         status: 'approved'
       });
     } else {
@@ -69,13 +69,45 @@ export async function logAccessAttempt(phoneNumber: string, otp: string, isSucce
 }
 
 /**
+ * Increments the time spent for a specific phone visitor.
+ */
+export async function incrementTimeSpent(phoneNumber: string, seconds: number) {
+  try {
+    const userDocRef = doc(db, "users", `phone-${phoneNumber}`);
+    await updateDoc(userDocRef, {
+      totalTimeSpentSeconds: increment(seconds)
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error incrementing time spent:", error);
+    return { success: false };
+  }
+}
+
+/**
  * Fetches all user access logs for administrative overview.
+ * Enriches grouped data with user profile metrics.
  */
 export async function getAccessLogs() {
   try {
     const logsQuery = query(collection(db, "userAccessLogs"), orderBy("accessTimestamp", "desc"));
     const querySnapshot = await getDocs(logsQuery);
-    const logs = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+    
+    // Fetch users to get engagement time
+    const usersSnap = await getDocs(collection(db, "users"));
+    const userMap = new Map();
+    usersSnap.docs.forEach(d => userMap.set(d.id, d.data()));
+
+    const logs = querySnapshot.docs.map(doc => {
+      const logData = doc.data();
+      const userData = userMap.get(logData.userId) || {};
+      return { 
+        id: doc.id, 
+        ...serializeFirestoreData(logData),
+        totalTimeSpentSeconds: userData.totalTimeSpentSeconds || 0
+      };
+    });
+
     return { success: true, data: logs };
   } catch (error) {
     console.error("Error fetching access logs:", error);
@@ -88,11 +120,9 @@ export async function getAccessLogs() {
  */
 export async function getAccessStats() {
   try {
-    // Simple way to get counts for a prototype
     const usersSnap = await getDocs(collection(db, "users"));
     const logsSnap = await getDocs(collection(db, "userAccessLogs"));
     
-    // Filter out real system users (admins/teachers) to get unique phone visitors
     const visitors = usersSnap.docs.filter(d => d.id.startsWith('phone-'));
 
     return {

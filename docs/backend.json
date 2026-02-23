@@ -28,6 +28,10 @@
         "loginCount": {
           "type": "number",
           "description": "The total number of times this phone number has successfully logged in."
+        },
+        "totalTimeSpentSeconds": {
+          "type": "number",
+          "description": "Total duration the user has spent on the website across all sessions."
         }
       },
       "required": [
