@@ -248,7 +248,7 @@ export default function FeedbackPage() {
                                         )}
                                     />
 
-                                    <Button type="submit" className="w-full h-11 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-none transition-all active:scale-[0.98] group uppercase tracking-widest" disabled={form.formState.isSubmitting}>
+                                    <Button type="submit" className="w-full h-11 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-none transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
                                         {form.formState.isSubmitting ? 'PROCESSING...' : 'Submit Feedback'}
                                         <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </Button>
