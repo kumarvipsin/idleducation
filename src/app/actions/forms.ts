@@ -155,6 +155,7 @@ export async function submitFeedback(data: FeedbackFormValues) {
 
 const enquirySchema = z.object({
   studentName: z.string().min(2),
+  guardianName: z.string().min(2),
   classCourse: z.string().min(1),
   mobile: z.string().regex(/^\d{10}$/),
   state: z.string().min(1),
