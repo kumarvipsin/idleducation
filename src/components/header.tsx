@@ -554,26 +554,26 @@ export function Header() {
                                                     <div key={group.title} className="space-y-2">
                                                         <h4 className="px-4 text-[10px] font-semibold text-primary uppercase tracking-widest">{group.title}</h4>
                                                         <div className="space-y-1">
-                                                            {group.links.map(({ href, label, icon, description, target, onClick, colorClasses }) => (
+                                                            {group.links.map((link) => (
                                                                 <Link 
-                                                                    key={label} 
-                                                                    href={onClick ? '#' : href} 
-                                                                    target={target} 
-                                                                    rel={target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                                                    key={link.label} 
+                                                                    href={link.onClick ? '#' : link.href} 
+                                                                    target={link.target} 
+                                                                    rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                                     onClick={() => {
-                                                                        if(onClick) onClick(); 
+                                                                        if(link.onClick) link.onClick(); 
                                                                         setIsMobileMenuOpen(false);
                                                                     }} 
                                                                     className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]"
                                                                 >
-                                                                    <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
+                                                                    <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", link.colorClasses)}>
                                                                         <div className="-rotate-45">
-                                                                            {icon}
+                                                                            {link.icon}
                                                                         </div>
                                                                     </div>
                                                                     <div className="space-y-0.5">
-                                                                        <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
-                                                                        <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                                        <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
+                                                                        <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{link.description}</p>
                                                                     </div>
                                                                 </Link>
                                                             ))}
@@ -665,7 +665,7 @@ export function Header() {
                                                 key={link.label} 
                                                 href={link.onClick ? '#' : link.href} 
                                                 target={link.target} 
-                                                rel={target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                 onClick={handleClick}
                                                 className="group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200"
                                             >
