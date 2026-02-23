@@ -130,6 +130,12 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'www.crossword.in',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
 };
