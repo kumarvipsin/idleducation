@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Phone, Lock, Send, CheckCircle2 } from "lucide-react";
+import { Phone, Lock, Send, CheckCircle2, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { logAccessAttempt } from "@/app/actions/access";
 import { motion, AnimatePresence } from "framer-motion";
