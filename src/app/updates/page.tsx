@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Megaphone, ArrowLeft, Sparkles, Bell, Calendar, Clock, ChevronRight } from "lucide-react";
+import { Sparkles, Bell, Calendar, Clock, ChevronRight } from "lucide-react";
 import { getUpdates } from '@/app/actions'; 
 import { useToast } from '@/hooks/use-toast';
 import { formatDistanceToNow, format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -71,12 +69,8 @@ export default function UpdatesPage() {
                 animate={{ opacity: 1, y: 0 }}
                 className="flex flex-col items-center gap-4"
             >
-                <Button asChild variant="ghost" className="rounded-full hover:bg-white dark:hover:bg-slate-900 border shadow-sm text-muted-foreground font-bold uppercase tracking-widest text-[9px] h-8 px-4">
-                    <Link href="/"><ArrowLeft className="mr-1.5 h-3 w-3" /> Back to Campus</Link>
-                </Button>
-
-                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[8px] font-black uppercase tracking-wider">
-                    <Sparkles className="w-2 h-2 text-yellow-500 fill-yellow-500" />
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[8px] font-bold uppercase tracking-wide">
+                    <Sparkles className="w-3 h-3 text-yellow-500" />
                     BOARD ANNOUNCEMENTS
                 </div>
             </motion.div>
