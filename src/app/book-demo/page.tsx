@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, GraduationCap, Phone, Mail, MapPin, Globe, Sparkles, MessageCircle, Monitor, Send, Layers } from "lucide-react";
+import { User, GraduationCap, Phone, Mail, MapPin, Globe, Sparkles, Monitor, Send } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -14,7 +14,6 @@ import { bookFreeSession } from "@/app/actions";
 import { DISCOVER_COURSES } from "@/lib/courses";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CheckCircle } from "lucide-react";
 
@@ -289,19 +288,6 @@ export default function BookDemoPage() {
                     <Button type="submit" className="w-full h-11 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-none transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? 'PROCESSING...' : 'Book Free Demo'}
                       <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                    </Button>
-                    
-                    <div className="flex items-center gap-3">
-                      <Separator className="flex-1" />
-                      <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">OR</span>
-                      <Separator className="flex-1" />
-                    </div>
-
-                    <Button type="button" variant="outline" asChild className="w-full h-11 rounded-lg border-emerald-500 text-emerald-600 hover:bg-emerald-50 font-black text-[10px] uppercase tracking-widest transition-all">
-                      <a href="https://wa.me/918860040010" target="_blank" rel="noopener noreferrer">
-                        <MessageCircle className="w-4 h-4 mr-2 fill-current" />
-                        Chat On WhatsApp
-                      </a>
                     </Button>
                   </div>
                 </form>
