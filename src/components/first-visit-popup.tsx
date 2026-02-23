@@ -134,8 +134,8 @@ export function FirstVisitPopup() {
                             exit={{ opacity: 0, y: -5 }}
                             className="flex flex-col gap-3"
                         >
-                            <p className="text-[10px] font-bold text-muted-foreground leading-snug">
-                                Enter your phone number to access the full website without interruption.
+                            <p className="text-[10px] font-bold text-muted-foreground leading-snug truncate whitespace-nowrap">
+                                Verify mobile for seamless full website access.
                             </p>
                             
                             <div className="flex flex-col sm:flex-row gap-2">
