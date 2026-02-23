@@ -165,7 +165,7 @@ export default function LoginPage() {
             <div className="text-center text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">
               No account?{" "}
               <Link href="/signup" className="text-primary hover:underline transition-all font-bold uppercase">
-                Sign Up
+                Signup
               </Link>
             </div>
           </CardFooter>

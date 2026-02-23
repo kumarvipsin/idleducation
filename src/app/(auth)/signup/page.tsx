@@ -258,7 +258,7 @@ export default function SignupPage() {
             <div className="text-center text-[10px] uppercase tracking-[0.2em] text-gray-400 font-bold">
               Have an account?{" "}
               <Link href="/login" className="text-primary hover:underline transition-all font-bold uppercase">
-                Sign In
+                Sign in
               </Link>
             </div>
           </CardFooter>
