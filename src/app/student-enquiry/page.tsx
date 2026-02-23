@@ -17,7 +17,6 @@ import { cn } from "@/lib/utils";
 
 const enquirySchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
-  guardianName: z.string().min(2, { message: "Guardian's name is required." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   state: z.string().min(1, { message: "Please select a state." }),
@@ -45,7 +44,6 @@ export default function StudentEnquiryPage() {
         resolver: zodResolver(enquirySchema),
         defaultValues: {
             studentName: '',
-            guardianName: '',
             classCourse: '',
             mobile: '',
             state: '',
@@ -109,23 +107,10 @@ export default function StudentEnquiryPage() {
                                             <FormItem>
                                                 <FormControl>
                                                     <div className="relative group">
-                                                        <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                        <Input placeholder="Student's Name *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
-                                                    </div>
-                                                </FormControl>
-                                                <FormMessage className="text-[10px]" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="guardianName"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <div className="relative group">
-                                                        <Users className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                        <Input placeholder="Guardian's Name *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                        <div className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 flex items-center justify-center rounded-full border border-transparent transition-all group-focus-within:border-primary/20 group-focus-within:bg-primary/5">
+                                                            <User className="h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                        </div>
+                                                        <Input placeholder="Student's Name *" {...field} className="pl-11 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage className="text-[10px]" />
