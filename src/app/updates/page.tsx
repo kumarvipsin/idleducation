@@ -53,10 +53,14 @@ export default function UpdatesPage() {
   );
 
   return (
-    <div className="min-h-screen w-full bg-[#FAFAFA] dark:bg-slate-950 relative selection:bg-primary/10">
+    <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative selection:bg-primary/10">
       {/* Subtle Background Elements */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40 pointer-events-none" />
       
+      {/* Floating Decorative Elements */}
+      <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+
       <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 relative z-10">
         <div className="max-w-2xl mx-auto">
           
@@ -65,17 +69,31 @@ export default function UpdatesPage() {
             <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col items-center gap-4"
             >
                 <Button asChild variant="ghost" className="rounded-full hover:bg-white dark:hover:bg-slate-900 border shadow-sm text-muted-foreground font-bold uppercase tracking-widest text-[9px] h-8 px-4">
                     <Link href="/"><ArrowLeft className="mr-1.5 h-3 w-3" /> Back to Campus</Link>
                 </Button>
+
+                <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[8px] font-black uppercase tracking-wider">
+                    <Sparkles className="w-2 h-2 text-yellow-500 fill-yellow-500" />
+                    BOARD ANNOUNCEMENTS
+                </div>
             </motion.div>
             
             <div className="space-y-3">
-                <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight leading-none">
-                    Recent Updates
+                <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+                    Recent{' '}
+                    <span className="relative inline-block">
+                        <span className="relative z-10 text-primary">Updates</span>
+                        <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                            </svg>
+                        </div>
+                    </span>
                 </h1>
-                <p className="text-slate-500 dark:text-slate-400 text-xs md:text-sm font-medium leading-relaxed max-w-md mx-auto">
+                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed">
                     A curated timeline of academic releases, curriculum adjustments, and official board notifications.
                 </p>
             </div>
