@@ -54,8 +54,6 @@ export default function FeedbackPage() {
         },
     });
 
-    const ratingValue = form.watch('rating');
-
     const onSubmit: SubmitHandler<FeedbackFormValues> = async (data) => {
         const result = await submitFeedback(data);
         if (result.success) {
@@ -101,7 +99,7 @@ export default function FeedbackPage() {
                     </div>
 
                     {/* Feedback Form Card */}
-                    <Card className="shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-xl border-none bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                    <Card className="shadow-none rounded-xl border border-border bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                         <div className="bg-primary p-6 text-center">
                             <h2 className="text-xl font-black text-white tracking-tight uppercase">User Evaluation Form</h2>
                             <p className="text-[10px] font-bold text-white/70 uppercase tracking-widest mt-1">Help us improve your learning journey</p>
@@ -170,29 +168,15 @@ export default function FeedbackPage() {
                                         control={form.control}
                                         name="rating"
                                         render={({ field }) => (
-                                            <FormItem className="space-y-4">
-                                                <div className="flex flex-col items-center gap-4 p-6 rounded-2xl bg-slate-50/50 border border-slate-100 dark:bg-slate-800/20 dark:border-slate-800 transition-all duration-500 hover:shadow-inner group/rating">
-                                                    <div className="space-y-1 text-center">
-                                                        <p className="text-[10px] font-black uppercase tracking-[0.2em] text-primary/60">Experience Rating</p>
-                                                        <div className="h-5 flex items-center justify-center">
-                                                            <AnimatePresence mode="wait">
-                                                                {(hoverRating || field.value) > 0 && (
-                                                                    <motion.span 
-                                                                        key={hoverRating || field.value}
-                                                                        initial={{ opacity: 0, y: 5 }}
-                                                                        animate={{ opacity: 1, y: 0 }}
-                                                                        exit={{ opacity: 0, y: -5 }}
-                                                                        className="text-xs font-bold text-slate-900 dark:text-slate-100 uppercase tracking-widest"
-                                                                    >
-                                                                        {getRatingLabel(hoverRating || field.value)}
-                                                                    </motion.span>
-                                                                )}
-                                                            </AnimatePresence>
-                                                        </div>
+                                            <FormItem className="space-y-6">
+                                                <div className="flex flex-col items-center gap-6 py-4">
+                                                    <div className="text-center space-y-1">
+                                                        <h4 className="text-sm font-black uppercase tracking-widest text-foreground">Experience Rating</h4>
+                                                        <p className="text-[9px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your star level</p>
                                                     </div>
                                                     
                                                     <FormControl>
-                                                        <div className="flex justify-center gap-2 md:gap-4">
+                                                        <div className="flex items-center justify-center gap-2 md:gap-4">
                                                             {[1, 2, 3, 4, 5].map((star) => (
                                                                 <button
                                                                     type="button"
@@ -200,18 +184,42 @@ export default function FeedbackPage() {
                                                                     onMouseEnter={() => setHoverRating(star)}
                                                                     onMouseLeave={() => setHoverRating(0)}
                                                                     onClick={() => field.onChange(star)}
-                                                                    className="focus:outline-none transition-all duration-300 transform hover:scale-125 active:scale-95 group/star"
+                                                                    className="relative group focus:outline-none transition-transform active:scale-90"
                                                                 >
                                                                     <Star className={cn(
-                                                                        "w-10 h-10 md:w-12 md:h-12 transition-all duration-500",
+                                                                        "w-10 h-10 md:w-14 md:h-14 transition-all duration-500",
                                                                         (hoverRating || field.value) >= star 
-                                                                            ? "text-yellow-400 fill-yellow-400 filter drop-shadow-[0_0_8px_rgba(250,204,21,0.4)]" 
-                                                                            : "text-slate-200 dark:text-slate-700"
+                                                                            ? "text-yellow-400 fill-yellow-400 filter drop-shadow-[0_0_12px_rgba(250,204,21,0.3)]" 
+                                                                            : "text-slate-200 dark:text-slate-800"
                                                                     )} />
+                                                                    {(hoverRating || field.value) >= star && (
+                                                                        <div className="absolute inset-0 bg-yellow-400/10 blur-2xl rounded-full -z-10 animate-pulse" />
+                                                                    )}
                                                                 </button>
                                                             ))}
                                                         </div>
                                                     </FormControl>
+
+                                                    <div className="h-8 flex items-center justify-center">
+                                                        <AnimatePresence mode="wait">
+                                                            {(hoverRating || field.value) > 0 && (
+                                                                <motion.div 
+                                                                    key={hoverRating || field.value}
+                                                                    initial={{ opacity: 0, scale: 0.8, y: 10 }}
+                                                                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                                                                    exit={{ opacity: 0, scale: 0.8, y: -10 }}
+                                                                    className={cn(
+                                                                        "px-5 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border shadow-sm",
+                                                                        (hoverRating || field.value) >= 4 ? "bg-green-50 text-green-600 border-green-100" :
+                                                                        (hoverRating || field.value) >= 3 ? "bg-yellow-50 text-yellow-600 border-yellow-100" :
+                                                                        "bg-red-50 text-red-600 border-red-100"
+                                                                    )}
+                                                                >
+                                                                    {getRatingLabel(hoverRating || field.value)}
+                                                                </motion.div>
+                                                            )}
+                                                        </AnimatePresence>
+                                                    </div>
                                                 </div>
                                                 <FormMessage className="text-center"/>
                                             </FormItem>
@@ -238,7 +246,7 @@ export default function FeedbackPage() {
                                         )}
                                     />
 
-                                    <Button type="submit" className="w-full h-14 text-sm font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-xl shadow-primary/20 transition-all active:scale-[0.98] group uppercase tracking-widest" disabled={form.formState.isSubmitting}>
+                                    <Button type="submit" className="w-full h-14 text-sm font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-none transition-all active:scale-[0.98] group uppercase tracking-widest" disabled={form.formState.isSubmitting}>
                                         {form.formState.isSubmitting ? 'PROCESSING...' : 'Submit Feedback'}
                                         <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                                     </Button>
