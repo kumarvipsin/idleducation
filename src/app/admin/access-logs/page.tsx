@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useMemo } from "react";
@@ -34,6 +33,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { cn } from "@/lib/utils";
 
 interface AccessLog {
   id: string;
