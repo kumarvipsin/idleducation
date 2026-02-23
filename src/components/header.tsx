@@ -1,4 +1,3 @@
-
 'use client';
 import Link from "next/link";
 import { 
@@ -8,7 +7,7 @@ import {
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
   Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search,
-  Sparkles, PlayCircle, ShieldCheck, ChevronRight
+  Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -303,6 +302,7 @@ export function Header() {
       { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style." },
       { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve." },
       { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry." },
+      { href: "/scholarship", label: "Scholarship", icon: <Award className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship." },
   ];
 
   const navItemClass = "relative h-full flex items-center h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent data-[active=true]:text-primary data-[active=true]:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100 data-[active=true]:after:scale-x-100";
@@ -665,7 +665,7 @@ export function Header() {
                                                 key={link.label} 
                                                 href={link.onClick ? '#' : link.href} 
                                                 target={link.target} 
-                                                rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                                rel={target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                 onClick={handleClick}
                                                 className="group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200"
                                             >
