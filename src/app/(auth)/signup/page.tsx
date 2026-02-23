@@ -83,9 +83,9 @@ export default function SignupPage() {
                 </div>
               </div>
             </Link>
-            <CardTitle className="text-base font-black tracking-tight text-gray-900 dark:text-white">Create Account</CardTitle>
-            <CardDescription className="text-[9px] font-bold text-gray-500 dark:text-gray-400 capitalize tracking-widest mt-0.5">
-              Join as {activeTab}
+            <CardTitle className="text-base font-black tracking-tight text-gray-900 dark:text-white">Start Your Journey</CardTitle>
+            <CardDescription className="text-[9px] font-bold text-gray-500 dark:text-gray-400 tracking-widest mt-0.5">
+              Join IDL Education and unlock your full potential as a {activeTab}.
             </CardDescription>
           </CardHeader>
 
@@ -208,7 +208,7 @@ export default function SignupPage() {
                         <FormItem>
                           <FormControl>
                             <div className="relative group">
-                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 group-focus-within:text-primary transition-colors" />
                               <Input 
                                 placeholder="Professional email" 
                                 {...field} 
@@ -227,7 +227,7 @@ export default function SignupPage() {
                         <FormItem>
                           <FormControl>
                             <div className="relative group">
-                              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground group-focus-within:text-primary transition-colors" />
+                              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-gray-400 group-focus-within:text-primary transition-colors" />
                               <Input 
                                 type="password" 
                                 placeholder="Create password" 
