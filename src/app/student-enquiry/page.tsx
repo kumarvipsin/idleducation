@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Send, User, Mail, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles, Layers, Users } from "lucide-react";
+import { Send, User, MessageSquare, CheckCircle, GraduationCap, Phone, MapPin, Sparkles, Users } from "lucide-react";
 import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,7 +20,6 @@ const enquirySchema = z.object({
   guardianName: z.string().min(2, { message: "Guardian's name is required." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email({ message: "Please enter a valid email." }).optional().or(z.literal('')),
   state: z.string().min(1, { message: "Please select a state." }),
   message: z.string().optional(),
 });
@@ -49,14 +48,13 @@ export default function StudentEnquiryPage() {
             guardianName: '',
             classCourse: '',
             mobile: '',
-            email: '',
             state: '',
             message: '',
         },
     });
 
     const onSubmit: SubmitHandler<EnquiryFormValues> = async (data) => {
-        const result = await submitStudentEnquiry(data);
+        const result = await submitStudentEnquiry(data as any);
         if (result.success) {
             setIsSuccessOpen(true);
             form.reset();
@@ -168,21 +166,6 @@ export default function StudentEnquiryPage() {
                                                     <div className="relative group">
                                                         <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         <Input type="tel" placeholder="Mobile Number *" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
-                                                    </div>
-                                                </FormControl>
-                                                <FormMessage className="text-[10px]" />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <div className="relative group">
-                                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                        <Input type="email" placeholder="Email Address" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
                                                     </div>
                                                 </FormControl>
                                                 <FormMessage className="text-[10px]" />

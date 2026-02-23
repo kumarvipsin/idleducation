@@ -158,7 +158,6 @@ const enquirySchema = z.object({
   guardianName: z.string().min(2),
   classCourse: z.string().min(1),
   mobile: z.string().regex(/^\d{10}$/),
-  email: z.string().email().optional().or(z.literal('')),
   state: z.string().min(1),
   message: z.string().optional(),
 });
