@@ -83,7 +83,7 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                 <DialogDescription>Premium course curriculum</DialogDescription>
             </DialogHeader>
 
-            <div className="flex-none lg:flex-grow bg-zinc-100 flex flex-col relative h-auto lg:h-full">
+            <div className="flex-none lg:flex-grow bg-white flex flex-col relative h-auto lg:h-full">
                 <div className="aspect-video w-full relative flex items-center justify-center bg-black">
                     {activeVideoId ? (
                         <iframe
