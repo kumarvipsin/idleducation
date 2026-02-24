@@ -96,7 +96,7 @@ export default function BookDemoPage() {
                 className="flex flex-col items-center gap-4"
             >
                 <div className="bg-primary/10 p-4 rounded-full border border-primary/20 shadow-sm transition-all duration-500 hover:scale-110">
-                    <Sparkles className="w-8 h-8 text-primary animate-ring" />
+                    <Sparkles className="w-8 h-8 text-primary animate-pulse" />
                 </div>
             </motion.div>
             
@@ -134,10 +134,6 @@ export default function BookDemoPage() {
                             render={({ field }) => (
                             <FormItem className="space-y-3">
                                 <div className="flex flex-col items-center gap-4">
-                                    <div className="text-center space-y-0.5">
-                                        <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">SESSION PREFERENCE</h4>
-                                        <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your mode of learning</p>
-                                    </div>
                                     <FormControl>
                                         <RadioGroup
                                             onValueChange={field.onChange}
@@ -155,7 +151,7 @@ export default function BookDemoPage() {
                                                         : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/20"
                                                 )}>
                                                     <Monitor className={cn("h-4 w-4 transition-transform", field.value === 'online' && "scale-110")} />
-                                                    <span className="text-[9px] font-black uppercase tracking-tight">Online</span>
+                                                    <span className="text-[9px] font-black uppercase tracking-tight">Online Session</span>
                                                 </FormLabel>
                                             </FormItem>
                                             <FormItem className="space-y-0">
@@ -169,7 +165,7 @@ export default function BookDemoPage() {
                                                         : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/20"
                                                 )}>
                                                     <MapPin className={cn("h-4 w-4 transition-transform", field.value === 'offline' && "scale-110")} />
-                                                    <span className="text-[9px] font-black uppercase tracking-tight">Offline</span>
+                                                    <span className="text-[9px] font-black uppercase tracking-tight">Offline Centre</span>
                                                 </FormLabel>
                                             </FormItem>
                                         </RadioGroup>
