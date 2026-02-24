@@ -280,14 +280,30 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
         {sortedGroupedEntries.length > 0 ? (
           sortedGroupedEntries.map(([groupTitle, groupCourses]) => (
               <section key={groupTitle} className="mb-12">
-                <div className="mb-6 text-center sm:text-left">
-                  <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground relative inline-block">
-                    <span className="relative z-10">{groupTitle}</span>
-                    <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                      <svg viewBox="0 0 100 20" preserveAspectRatio="none" className="w-full h-full text-yellow-400 fill-none stroke-current stroke-[10] opacity-70">
-                          <path d="M0,15 Q50,5 100,15" />
-                      </svg>
-                    </div>
+                <div className="mb-8 text-center sm:text-left">
+                  <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight relative inline-block">
+                    {groupTitle.includes(' ') ? (
+                      <>
+                        {groupTitle.split(' ').slice(0, -1).join(' ')}{' '}
+                        <span className="relative inline-block">
+                          <span className="relative z-10 text-primary">{groupTitle.split(' ').slice(-1)}</span>
+                          <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                              <path d="M0,15 Q50,5 100,15" />
+                            </svg>
+                          </div>
+                        </span>
+                      </>
+                    ) : (
+                      <span className="relative inline-block">
+                        <span className="relative z-10 text-primary">{groupTitle}</span>
+                        <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                          <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                            <path d="M0,15 Q50,5 100,15" />
+                          </svg>
+                        </div>
+                      </span>
+                    )}
                   </h2>
                 </div>
       
@@ -374,7 +390,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                                 <Button 
                                     onClick={() => handlePurchase(course)}
                                     disabled={isProcessing}
-                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-orange-500/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight"
+                                    className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight"
                                 >
                                     <ShoppingCart className="w-3.5 h-3.5 mr-2" />
                                     {isProcessing ? 'PROCESSING...' : 'BUY NOW'}
