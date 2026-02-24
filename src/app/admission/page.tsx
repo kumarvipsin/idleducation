@@ -133,7 +133,7 @@ const FormHeader = () => (
                 </div>
             </div>
             
-            <div className="hidden sm:flex flex-col items-end justify-center space-y-1 text-right shrink-0">
+            <div className="hidden sm:flex flex-col items-start justify-center space-y-1 text-left shrink-0">
                 <div className="flex items-center gap-2 text-[10px] font-bold text-white/90">
                     <Phone className="w-3 h-3 text-white/60" />
                     <span>011 45035713</span>
