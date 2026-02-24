@@ -116,8 +116,13 @@ const FormHeader = () => (
     <header className="bg-primary text-primary-foreground p-5 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
             <div className="flex flex-row items-center gap-3">
-                <img src="/logo.png" alt="IDL EDUCATION Logo" width="56" height="56" className="object-contain shrink-0" style={{ height: '56px', width: 'auto' }} />
-                <h1 className="text-xl md:text-3xl font-extrabold text-white uppercase tracking-tighter leading-none">IDL EDUCATION</h1>
+                <img src="/logo.png" alt="IDL EDUCATION Logo" width="48" height="48" className="object-contain shrink-0" style={{ height: '48px', width: 'auto' }} />
+                <div className="flex flex-col text-left">
+                    <h1 className="text-xl md:text-2xl font-extrabold text-white uppercase tracking-tighter leading-none">IDL EDUCATION</h1>
+                    <span className="text-[8px] md:text-[10px] font-semibold text-white/80 leading-tight mt-0.5">
+                        (Institute Of Distance Learning Pvt. Ltd.)
+                    </span>
+                </div>
             </div>
             
             <div className="hidden sm:flex flex-col items-start justify-center space-y-1 text-left shrink-0">
@@ -466,7 +471,7 @@ export default function AdmissionPage() {
                                           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} value={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200 font-medium">
+                                                  <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200 font-medium text-sm">
                                                       <SelectValue placeholder="Select Your Nearest Branch *" />
                                                   </SelectTrigger>
                                               </FormControl>
