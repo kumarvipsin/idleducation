@@ -356,11 +356,11 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                               <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                               
                               <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                  <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest">{course.batchName}</Badge>
+                                  <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.batchName}</Badge>
                                   <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.medium}</Badge>
                               </div>
 
-                              <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold uppercase tracking-tight">
+                              <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
                                 <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
                                 <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
                               </div>
@@ -407,7 +407,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                                 <Dialog>
                                     <DialogTrigger asChild>
                                         <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
-                                            <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
+                                            <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover:btn:scale-110" />
                                             EXPLORE CONTENT
                                         </Button>
                                     </DialogTrigger>
