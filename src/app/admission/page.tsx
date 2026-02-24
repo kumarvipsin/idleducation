@@ -123,26 +123,26 @@ const FormHeader = () => (
                 </div>
                 <div className="flex flex-col leading-tight text-left">
                     <div className="flex items-center gap-1.5">
-                        <span className="text-xl font-extrabold text-white tracking-tight uppercase">IDL</span>
-                        <div className="flex flex-col text-[6px] font-bold text-white/60 tracking-tight leading-[1.1]">
+                        <span className="text-xl font-bold text-white uppercase">IDL</span>
+                        <div className="flex flex-col text-[8px] font-medium text-white/80 tracking-tight leading-[1.1]">
                             <span>Institute Of</span>
                             <span>Distance Learning Pvt. Ltd.</span>
                         </div>
                     </div>
-                    <span className="text-xl font-extrabold text-white tracking-tight -mt-1">Education</span>
+                    <span className="text-xl font-bold text-white -mt-1">Education</span>
                 </div>
             </div>
             
             <div className="hidden sm:flex flex-col items-start justify-center space-y-1 text-left shrink-0">
-                <div className="flex items-center gap-2 text-[9px] font-bold text-white/90">
+                <div className="flex items-center gap-2 text-[10px] font-medium text-white/90">
                     <Phone className="w-3 h-3 text-white/60" />
                     <span>011 45035713</span>
                 </div>
-                <div className="flex items-center gap-2 text-[9px] font-bold text-white/90">
+                <div className="flex items-center gap-2 text-[10px] font-medium text-white/90">
                     <Mail className="w-3 h-3 text-white/60" />
                     <span>info@idleducation.in</span>
                 </div>
-                <div className="flex items-center gap-2 text-[9px] font-bold text-white/90">
+                <div className="flex items-center gap-2 text-[10px] font-medium text-white/90">
                     <Globe className="w-3 h-3 text-white/60" />
                     <span>www.idleducation.in</span>
                 </div>
@@ -153,8 +153,8 @@ const FormHeader = () => (
 
 const PreviewField = ({ label, value }: { label: string, value: any }) => (
     <div className="flex flex-col gap-1 border-b border-slate-100 pb-2">
-        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">{label}</span>
-        <span className="text-[12px] font-bold text-slate-900 leading-tight">{value || '—'}</span>
+        <span className="text-[11px] font-semibold text-slate-500 leading-none">{label}</span>
+        <span className="text-[13px] font-medium text-slate-900 leading-tight">{value || '—'}</span>
     </div>
 );
 
@@ -432,7 +432,7 @@ export default function AdmissionPage() {
                     <Sparkles className="w-8 h-8 text-primary animate-pulse" />
                 </div>
             </motion.div>
-            <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
                 Admission{' '}
                 <span className="relative inline-block">
                     <span className="relative z-10 text-primary">Form</span>
@@ -443,7 +443,7 @@ export default function AdmissionPage() {
                     </div>
                 </span>
             </h1>
-            <p className="mt-2 text-sm text-muted-foreground font-semibold">
+            <p className="mt-2 text-sm text-muted-foreground">
                 Fill out the form below to start your journey with IDL Education.
             </p>
         </div>
@@ -453,7 +453,6 @@ export default function AdmissionPage() {
           <CardContent className="p-0">
               <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="flex flex-col">
-                  {/* Row 1: Branch & Stu ID / Photo */}
                   <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                       <div className="md:col-span-8 p-6 space-y-4">
                           <FormField
@@ -461,11 +460,11 @@ export default function AdmissionPage() {
                               name="studentId"
                               render={({ field }) => (
                                   <FormItem className="space-y-0 w-full max-w-[200px]">
-                                      <FormLabel className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 mb-1 block">Student ID,s</FormLabel>
+                                      <FormLabel className="text-xs font-semibold text-slate-500 ml-1 mb-1 block">Student ID,s</FormLabel>
                                       <FormControl>
                                           <div className="relative group">
                                               <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                                              <Input placeholder="Generating Stu ID..." {...field} readOnly className="pl-9 h-10 rounded-xl font-mono tracking-wider bg-white/80 border-slate-200 text-xs" />
+                                              <Input placeholder="Generating Stu ID..." {...field} readOnly className="pl-9 h-10 rounded-xl font-medium bg-white/80 border-slate-200 text-xs" />
                                           </div>
                                       </FormControl>
                                   </FormItem>
@@ -480,7 +479,7 @@ export default function AdmissionPage() {
                                           <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} value={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200">
+                                                  <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200 font-medium">
                                                       <SelectValue placeholder="Select Your Nearest Branch *" />
                                                   </SelectTrigger>
                                               </FormControl>
@@ -509,7 +508,7 @@ export default function AdmissionPage() {
                                           ) : (
                                                   <div className="text-center text-muted-foreground p-2">
                                                       <Camera className="w-5 h-5 mx-auto mb-1 opacity-40" />
-                                                      <p className="text-[8px] font-black uppercase tracking-tighter">PHOTO</p>
+                                                      <p className="text-[10px] font-medium uppercase">Photo</p>
                                                   </div>
                                           )}
                                           </div>
@@ -554,7 +553,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Student's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                          <Input placeholder="Student's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -569,19 +568,19 @@ export default function AdmissionPage() {
                                       <FormItem className="space-y-0 w-full">
                                           <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 h-full">
                                               <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
-                                                  <SelectTrigger className="border-0 rounded-none h-14 bg-transparent focus:ring-0 px-4 font-bold text-[13px]"><SelectValue placeholder="Day *" /></SelectTrigger>
+                                                  <SelectTrigger className="border-0 rounded-none h-14 bg-transparent focus:ring-0 px-4 font-medium text-sm"><SelectValue placeholder="Day *" /></SelectTrigger>
                                                   <SelectContent>
                                                       {availableDays.map(day => <SelectItem key={day} value={String(day)}>{day}</SelectItem>)}
                                                   </SelectContent>
                                               </Select>
                                               <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
-                                                  <SelectTrigger className="border-0 rounded-none h-14 bg-transparent focus:ring-0 px-4 font-bold text-[13px]"><SelectValue placeholder="Month *" /></SelectTrigger>
+                                                  <SelectTrigger className="border-0 rounded-none h-14 bg-transparent focus:ring-0 px-4 font-medium text-sm"><SelectValue placeholder="Month *" /></SelectTrigger>
                                                   <SelectContent>
                                                       {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                                                   </SelectContent>
                                               </Select>
                                               <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
-                                                  <SelectTrigger className="border-0 rounded-none h-14 bg-transparent focus:ring-0 px-4 font-bold text-[13px]"><SelectValue placeholder="Year *" /></SelectTrigger>
+                                                  <SelectTrigger className="border-0 rounded-none h-14 bg-transparent focus:ring-0 px-4 font-medium text-sm"><SelectValue placeholder="Year *" /></SelectTrigger>
                                                   <SelectContent>
                                                       {years.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                                                   </SelectContent>
@@ -604,7 +603,7 @@ export default function AdmissionPage() {
                                           <VenetianMask className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm shadow-none focus:ring-0 focus:ring-offset-0">
                                                       <SelectValue placeholder="Select Gender *" />
                                                   </SelectTrigger>
                                               </FormControl>
@@ -628,7 +627,7 @@ export default function AdmissionPage() {
                                           <Droplets className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm shadow-none focus:ring-0 focus:ring-offset-0">
                                                       <SelectValue placeholder="Select Blood Group" />
                                                   </SelectTrigger>
                                               </FormControl>
@@ -654,7 +653,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Aadhar Number" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                          <Input placeholder="Aadhar Number" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -669,7 +668,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="APAAR/ABC ID" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                          <Input placeholder="APAAR/ABC ID" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -687,7 +686,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Father's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                          <Input placeholder="Father's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -702,7 +701,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Father's Occupation" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                          <Input placeholder="Father's Occupation" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -720,7 +719,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Mother's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                          <Input placeholder="Mother's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -735,7 +734,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Mother's Occupation" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                          <Input placeholder="Mother's Occupation" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -753,8 +752,8 @@ export default function AdmissionPage() {
                                       <FormControl>
                                           <div className="relative group h-full">
                                               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                              <span className="absolute left-10 top-1/2 -translate-y-1/2 text-[11px] font-black text-slate-400 group-focus-within:text-primary">+91</span>
-                                              <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
+                                              <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
+                                              <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
                                           </div>
                                       </FormControl>
                                       <FormMessage className="text-[10px] px-4 pb-2" />
@@ -769,8 +768,8 @@ export default function AdmissionPage() {
                                       <FormControl>
                                           <div className="relative group h-full">
                                               <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                              <span className="absolute left-10 top-1/2 -translate-y-1/2 text-[11px] font-black text-slate-400 group-focus-within:text-primary">+91</span>
-                                              <Input type="tel" placeholder="Mother's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                              <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
+                                              <Input type="tel" placeholder="Mother's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                           </div>
                                       </FormControl>
                                       <FormMessage className="text-[10px] px-4 pb-2" />
@@ -788,7 +787,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
+                                          <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -803,8 +802,8 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <span className="absolute left-10 top-1/2 -translate-y-1/2 text-[11px] font-black text-slate-400 group-focus-within:text-primary">+91</span>
-                                          <Input type="tel" placeholder="Student's Contact" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                          <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
+                                          <Input type="tel" placeholder="Student's Contact" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -821,7 +820,7 @@ export default function AdmissionPage() {
                               <FormControl>
                                   <div className="relative group h-full">
                                       <Home className="absolute left-4 top-5 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                      <Textarea placeholder="Full Residential Address *" className="min-h-[100px] pl-12 pt-4 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                      <Textarea placeholder="Full Residential Address *" className="min-h-[100px] pl-12 pt-4 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                   </div>
                               </FormControl>
                               <FormMessage className="text-[10px] px-4 pb-2" />
@@ -839,7 +838,7 @@ export default function AdmissionPage() {
                                           <Globe className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm shadow-none focus:ring-0 focus:ring-offset-0">
                                                       <SelectValue placeholder="Country *" />
                                                   </SelectTrigger>
                                               </FormControl>
@@ -863,7 +862,7 @@ export default function AdmissionPage() {
                                           <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm shadow-none focus:ring-0 focus:ring-offset-0">
                                                       <SelectValue placeholder="State *" />
                                                   </SelectTrigger>
                                               </FormControl>
@@ -886,7 +885,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Pincode *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={6} />
+                                          <Input placeholder="Pincode *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={6} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -905,7 +904,7 @@ export default function AdmissionPage() {
                                           <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
-                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm shadow-none focus:ring-0 focus:ring-offset-0">
                                                       <SelectValue placeholder="Select Class/Course *" />
                                                   </SelectTrigger>
                                               </FormControl>
@@ -928,7 +927,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Building className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Input placeholder="Previous School Name" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                          <Input placeholder="Previous School Name" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -945,7 +944,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Info className="absolute left-4 top-5 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <Textarea placeholder="Any additional information or requirements..." className="min-h-[100px] pl-12 pt-4 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                          <Textarea placeholder="Any additional information or requirements..." className="min-h-[100px] pl-12 pt-4 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -958,7 +957,7 @@ export default function AdmissionPage() {
                       <Button 
                           type="button" 
                           variant="outline"
-                          className="flex-1 h-12 rounded-xl font-bold uppercase tracking-widest text-[11px] bg-white border-slate-200 shadow-sm"
+                          className="flex-1 h-12 rounded-xl font-semibold text-xs bg-white border-slate-200 shadow-sm"
                           onClick={handlePreview}
                           disabled={!form.getValues('studentId')}
                       >
@@ -967,7 +966,7 @@ export default function AdmissionPage() {
                       </Button>
                       <Button 
                           type="button" 
-                          className="flex-1 h-12 rounded-xl font-black uppercase tracking-widest text-[11px] bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
+                          className="flex-1 h-12 rounded-xl font-bold text-xs bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
                           onClick={() => {
                               form.trigger().then(isValid => {
                                   if (isValid) setIsPaymentDialogOpen(true);
@@ -990,15 +989,15 @@ export default function AdmissionPage() {
       <DialogContent className="sm:max-w-5xl h-[95vh] rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white flex flex-col">
         <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between shrink-0">
           <div className="space-y-1">
-            <DialogTitle className="text-2xl font-black tracking-tight">Application Review</DialogTitle>
-            <DialogDescription className="font-bold text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Digital validation of institutional record</DialogDescription>
+            <DialogTitle className="text-2xl font-bold tracking-tight">Application Review</DialogTitle>
+            <DialogDescription className="font-medium text-xs text-muted-foreground">Validation of institutional record</DialogDescription>
           </div>
           <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="rounded-xl font-bold h-9" onClick={() => setIsPreviewOpen(false)}>
-                  <Edit className="w-4 h-4 mr-2" /> EDIT
+              <Button variant="outline" size="sm" className="rounded-xl font-semibold h-9" onClick={() => setIsPreviewOpen(false)}>
+                  <Edit className="w-4 h-4 mr-2" /> Edit
               </Button>
-              <Button size="sm" className="rounded-xl font-bold h-9 bg-primary text-white" onClick={handleDownload}>
-                  <Download className="w-4 h-4 mr-2" /> SAVE PDF
+              <Button size="sm" className="rounded-xl font-semibold h-9 bg-primary text-white" onClick={handleDownload}>
+                  <Download className="w-4 h-4 mr-2" /> Save PDF
               </Button>
           </div>
         </DialogHeader>
@@ -1011,8 +1010,8 @@ export default function AdmissionPage() {
                           <FormHeader />
                           
                           <div className="bg-primary/5 p-4 text-center border-b border-primary/10">
-                              <h2 className="text-sm font-black tracking-[0.3em] uppercase text-primary">STUDENT ADMISSION FORM</h2>
-                              <p className="text-[9px] font-bold text-muted-foreground uppercase mt-1">Academic Session 2026-27</p>
+                              <h2 className="text-sm font-bold text-primary">STUDENT ADMISSION FORM</h2>
+                              <p className="text-[10px] font-medium text-muted-foreground mt-1">Academic Session 2026-27</p>
                           </div>
 
                           <div className="p-8 space-y-10">
@@ -1039,8 +1038,8 @@ export default function AdmissionPage() {
                               </div>
 
                               <div className="space-y-6">
-                                  <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
-                                      <User className="w-3 h-3"/> I. Student Identity
+                                  <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2">
+                                      <User className="w-4 h-4"/> I. Student Identity
                                   </h3>
                                   <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                       <PreviewField label="Student Full Name" value={form.getValues('studentName')} />
@@ -1053,8 +1052,8 @@ export default function AdmissionPage() {
                               </div>
 
                               <div className="space-y-6">
-                                  <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
-                                      <Users className="w-3 h-3"/> II. Family Composition
+                                  <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2">
+                                      <Users className="w-4 h-4"/> II. Family Composition
                                   </h3>
                                   <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                       <PreviewField label="Father's Name" value={form.getValues('fatherName')} />
@@ -1072,8 +1071,8 @@ export default function AdmissionPage() {
                   <div className="border-[3px] border-primary p-1 rounded-3xl">
                       <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden p-8 space-y-10">
                           <div className="space-y-6">
-                              <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
-                                  <MapPin className="w-3 h-3"/> III. Contact & Residential Node
+                              <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2">
+                                  <MapPin className="w-4 h-4"/> III. Contact & Residential Node
                               </h3>
                               <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                   <PreviewField label="Email Address" value={form.getValues('email')} />
@@ -1087,8 +1086,8 @@ export default function AdmissionPage() {
                           </div>
 
                           <div className="space-y-6">
-                              <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
-                                  <GraduationCap className="w-3 h-3"/> IV. Academic Trajectory
+                              <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2">
+                                  <GraduationCap className="w-4 h-4"/> IV. Academic Trajectory
                               </h3>
                               <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                   <PreviewField label="Selected Curriculum Path" value={form.getValues('classApplied')} />
@@ -1100,18 +1099,18 @@ export default function AdmissionPage() {
                           </div>
 
                           <div className="pt-12 space-y-12">
-                              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-[10px] text-slate-500 font-bold leading-relaxed">
+                              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-[11px] text-slate-600 leading-relaxed">
                                   Declaration: I hereby solemnly declare that all statements made in this application are true, complete and correct to the best of my knowledge and belief. I understand that the discovery of any misrepresentation or incorrect information will lead to immediate cancellation of the application/admission.
                               </div>
                               
                               <div className="flex justify-between items-end pt-8">
                                   <div className="space-y-2 text-center">
-                                      <div className="w-40 border-b-2 border-slate-900 pb-16"></div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">Student Sign</p>
+                                      <div className="w-40 border-b border-slate-900 pb-16"></div>
+                                      <p className="text-[10px] font-semibold text-slate-900">Student Sign</p>
                                   </div>
                                   <div className="space-y-2 text-center">
-                                      <div className="w-40 border-b-2 border-slate-900 pb-16"></div>
-                                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">Guardian Sign</p>
+                                      <div className="w-40 border-b border-slate-900 pb-16"></div>
+                                      <p className="text-[10px] font-semibold text-slate-900">Guardian Sign</p>
                                   </div>
                               </div>
                           </div>
@@ -1121,8 +1120,8 @@ export default function AdmissionPage() {
           </div>
         </ScrollArea>
         <div className="p-6 border-t bg-slate-50 flex gap-4 shrink-0">
-            <Button className="flex-1 h-14 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-xl shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
-                PROCEED TO FINAL SUBMISSION <ArrowRight className="ml-2 w-4 h-4" />
+            <Button className="flex-1 h-14 rounded-2xl font-bold text-sm bg-primary text-white shadow-xl shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
+                Proceed to Final Submission <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
         </div>
       </DialogContent>
@@ -1136,26 +1135,26 @@ export default function AdmissionPage() {
                       <IndianRupee className="w-14 h-14 text-primary" />
                   </div>
               </div>
-              <DialogTitle className="text-center text-3xl font-black tracking-tight text-slate-900">Registration Fee</DialogTitle>
-              <DialogDescription className="text-center font-bold text-xs text-muted-foreground uppercase tracking-[0.2em] pt-2">
+              <DialogTitle className="text-center text-2xl font-bold text-slate-900">Registration Fee</DialogTitle>
+              <DialogDescription className="text-center font-medium text-xs text-muted-foreground pt-2">
                   One-time application processing fee
               </DialogDescription>
           </DialogHeader>
           <div className="py-8 space-y-6">
               <div className="flex justify-between items-center p-6 bg-muted/50 rounded-2xl border border-dashed border-primary/20">
                   <div className="space-y-0.5">
-                      <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Payable Amount</p>
-                      <p className="text-[10px] font-bold text-primary">Valid for 2026-27 cycle</p>
+                      <p className="text-[11px] font-semibold text-muted-foreground">Payable Amount</p>
+                      <p className="text-[10px] font-medium text-primary">Valid for 2026-27 cycle</p>
                   </div>
-                  <span className="text-3xl font-black text-primary">₹10.00</span>
+                  <span className="text-3xl font-bold text-primary">₹10.00</span>
               </div>
               <Button 
                   type="button" 
                   onClick={handlePayment}
                   disabled={form.formState.isSubmitting}
-                  className="w-full h-14 rounded-2xl font-black text-[11px] uppercase tracking-[0.25em] shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white transition-all active:scale-95"
+                  className="w-full h-14 rounded-2xl font-bold text-sm shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white transition-all active:scale-95"
               >
-                  {form.formState.isSubmitting ? 'SECURE SYNC...' : 'PAY NOW'}
+                  {form.formState.isSubmitting ? 'Secure Sync...' : 'Pay Now'}
                   <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
           </div>
@@ -1170,13 +1169,13 @@ export default function AdmissionPage() {
                         <CheckCircle className="w-14 h-14 text-green-500" />
                     </div>
                 </div>
-                <DialogTitle className="text-center text-3xl font-black tracking-tight text-slate-900">Sync Complete!</DialogTitle>
-                <DialogDescription className="text-center font-bold text-sm text-muted-foreground leading-relaxed pt-3">
+                <DialogTitle className="text-center text-2xl font-bold text-slate-900">Sync Complete!</DialogTitle>
+                <DialogDescription className="text-center font-medium text-sm text-muted-foreground leading-relaxed pt-3">
                     Your application has been received and indexed. Our academic node will contact you shortly to finalize your onboarding.
                 </DialogDescription>
             </DialogHeader>
             <DialogFooter className="mt-8">
-                <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-primary/10 bg-primary hover:bg-primary/90 text-white">DISMISS RECORD</Button>
+                <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-2xl font-bold text-sm shadow-lg shadow-primary/10 bg-primary hover:bg-primary/90 text-white">Dismiss Record</Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
