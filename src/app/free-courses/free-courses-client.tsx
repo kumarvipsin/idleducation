@@ -99,26 +99,23 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     )}
                 </div>
 
-                {/* Brand Branding below video - Desktop Only */}
-                <div className="hidden lg:flex flex-col items-start gap-6 py-10 px-12 opacity-100 select-none animate-fade-in-up">
+                {/* Brand Watermark below video - Desktop Only */}
+                <div className="hidden lg:flex flex-col items-start gap-6 py-8 px-10 opacity-20 select-none animate-fade-in-up">
                     <div className="flex flex-row items-center justify-start gap-3 group">
-                        <div className="relative w-16 h-16 shrink-0">
-                            <Image src="/logo.png" alt="IDL Education Logo" width={64} height={64} className="object-contain" />
+                        <div className="relative w-12 h-12 shrink-0 grayscale">
+                            <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="object-contain" />
                         </div>
                         <div className="flex flex-col leading-tight text-left">
                             <div className="flex items-center gap-2.5">
-                                <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
-                                <div className="flex flex-col text-[8px] font-bold text-muted-foreground tracking-tight leading-[1.1]">
+                                <span className="text-2xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
+                                <div className="flex flex-col text-[7px] font-bold text-muted-foreground tracking-tight leading-[1.1]">
                                     <span>Institute Of</span>
                                     <span>Distance Learning Pvt. Ltd.</span>
                                 </div>
                             </div>
-                            <span className="text-3xl font-extrabold text-primary tracking-tight -mt-1">Education</span>
+                            <span className="text-2xl font-extrabold text-primary tracking-tight -mt-1">Education</span>
                         </div>
                     </div>
-                    <p className="text-[11px] text-muted-foreground font-bold leading-relaxed text-left max-w-sm tracking-wide">
-                      Tailored education designed to adapt to your unique needs and help you achieve your full potential.
-                    </p>
                 </div>
             </div>
 
