@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, Layers } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, Tag } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -163,7 +163,7 @@ export default function FeedbackPage() {
                                                 <FormItem className="space-y-0">
                                                     <div className="relative group h-full">
                                                         <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-                                                            <Layers className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                            <Tag className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         </div>
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <FormControl>
