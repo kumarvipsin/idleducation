@@ -15,10 +15,12 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 
 const VideoItem = ({
     video,
+    chapterName,
     isActive,
     onSelect
 }: {
     video: TFreeCourseVideo,
+    chapterName: string,
     isActive: boolean,
     onSelect: () => void
 }) => {
@@ -52,7 +54,7 @@ const VideoItem = ({
                 <p className={cn(
                     "text-[13px] font-black leading-tight line-clamp-2 transition-colors",
                     isActive ? "text-primary" : "text-slate-700"
-                )}>{video.title}</p>
+                )}>{chapterName}</p>
                 {isActive && (
                     <div className="flex items-center gap-1.5 mt-1">
                         <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
@@ -79,7 +81,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
             </DialogHeader>
 
             <div className="flex-none lg:flex-grow bg-white flex flex-col relative h-auto lg:h-full">
-                <div className="aspect-video w-full relative flex items-center justify-center bg-black">
+                <div className="aspect-video w-full relative flex items-center justify-center bg-white">
                     {activeVideoId ? (
                         <iframe
                             className="w-full h-full"
@@ -98,7 +100,7 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
                     {/* Brand Watermark Overlay */}
                     <div className="absolute top-6 right-6 flex items-center gap-3 opacity-80 pointer-events-none z-20 select-none">
-                        <Image src="/logo.png" alt="IDL Logo" width={32} height={32} className="h-8 w-auto drop-shadow-xl brightness-110" />
+                        <Image src="/logo.png" alt="IDL Logo" width={32} height={32} className="h-8 w-auto drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] brightness-110" />
                         <span className="text-white font-black text-[12px] md:text-sm tracking-[0.3em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">IDL EDUCATION</span>
                     </div>
                 </div>
@@ -110,16 +112,12 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
                                 <div key={`chapter-${cIdx}`} className="mt-0">
-                                    <div className="px-4 py-2.5 flex items-center gap-2 bg-slate-100/80 border-b border-slate-200">
-                                        <h4 className="font-black text-[10px] tracking-widest text-slate-400 uppercase truncate">
-                                            {chapter.name}
-                                        </h4>
-                                    </div>
                                     <div className="flex flex-col">
                                         {chapter.videos.map((video, vIdx) => (
                                             <VideoItem
                                                 key={`video-${cIdx}-${vIdx}`}
                                                 video={video}
+                                                chapterName={chapter.name}
                                                 isActive={activeVideo?.youtubeLink === video.youtubeLink}
                                                 onSelect={() => {
                                                     setActiveVideo(video);
@@ -150,7 +148,6 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
   useEffect(() => setMounted(true), []);
 
   const groupedCourses = useMemo(() => {
-    // Priority order for subjects
     const subjectPriority: Record<string, number> = {
       'maths': 1,
       'mathematics': 1,
@@ -181,7 +178,6 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
       return acc;
     }, {} as {[key: string]: TFreeCourse[]});
 
-    // Apply sorting within each class group
     Object.keys(grouped).forEach(key => {
       grouped[key].sort((a, b) => getPriority(a.subject) - getPriority(b.subject));
     });
@@ -250,8 +246,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                                 
                                 <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3">{course.batchName}</Badge>
-                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3">{course.medium}</Badge>
+                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3 py-0 flex items-center justify-center">{course.batchName}</Badge>
+                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3 py-0 flex items-center justify-center">{course.medium}</Badge>
                                 </div>
 
                                 <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
