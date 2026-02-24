@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Card } from "@/components/ui/card";
 import { Sparkles, Bell, Calendar } from "lucide-react";
 import { getUpdates } from '@/app/actions'; 
@@ -23,6 +23,13 @@ interface Update {
   createdAt: string;
 }
 
+/**
+ * Helper to Title Case a string
+ */
+const toTitleCase = (str: string) => {
+  return str.replace(/\b\w/g, (l) => l.toUpperCase());
+};
+
 export default function UpdatesPage() {
   const [updates, setUpdates] = useState<Update[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,6 +48,17 @@ export default function UpdatesPage() {
     };
     fetchUpdates();
   }, [toast]);
+
+  const groupedUpdates = useMemo(() => {
+    return updates.reduce((acc, update) => {
+      const monthYear = format(new Date(update.createdAt), 'MMMM yyyy');
+      if (!acc[monthYear]) {
+        acc[monthYear] = [];
+      }
+      acc[monthYear].push(update);
+      return acc;
+    }, {} as Record<string, Update[]>);
+  }, [updates]);
 
   const renderSkeleton = () => (
     <div className="space-y-4">
@@ -86,7 +104,7 @@ export default function UpdatesPage() {
                         </div>
                     </span>
                 </h1>
-                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold capitalize tracking-tight leading-relaxed">
+                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold tracking-tight leading-relaxed">
                     A Curated Timeline Of Academic Releases And Board Notifications.
                 </p>
             </div>
@@ -96,46 +114,62 @@ export default function UpdatesPage() {
           <div className="w-full">
                 {loading ? (
                     renderSkeleton()
-                ) : updates.length > 0 ? (
-                    <Accordion type="single" collapsible className="space-y-4 w-full">
-                        {updates.map((update, index) => (
-                            <motion.div
-                                key={update.id}
-                                initial={{ opacity: 0, y: 5 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: index * 0.05 }}
-                            >
-                                <AccordionItem value={update.id} className="border-none">
-                                    <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
-                                        <AccordionTrigger className="p-3 md:p-4 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
-                                            <header className="flex flex-col items-start gap-1 pr-4">
-                                                {/* Time Row */}
-                                                <div className="flex items-center gap-2">
-                                                    <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                                                    <span className="text-[10px] font-black text-primary opacity-100 capitalize">
-                                                        {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
-                                                    </span>
-                                                </div>
-                                                {/* Date Row */}
-                                                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left opacity-100">
-                                                    <div className="flex items-center gap-1.5 text-[11px] font-bold text-foreground tracking-tight">
-                                                        <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
-                                                        {format(new Date(update.createdAt), "EEEE")} | {format(new Date(update.createdAt), "MMM dd, yyyy")}
-                                                    </div>
-                                                </div>
-                                            </header>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="px-3 md:px-4 pb-4 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
-                                            <div className="pt-3">
-                                                <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left flex-1">
-                                                    {update.description}
-                                                </p>
-                                            </div>
-                                        </AccordionContent>
-                                    </Card>
-                                </AccordionItem>
-                            </motion.div>
+                ) : Object.keys(groupedUpdates).length > 0 ? (
+                    <Accordion type="single" collapsible className="space-y-8 w-full">
+                        {Object.entries(groupedUpdates).map(([month, monthUpdates], groupIndex) => (
+                            <div key={month} className="space-y-4">
+                                <motion.div 
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    className="flex items-center gap-4 pt-4"
+                                >
+                                    <h2 className="text-xs font-black text-primary uppercase tracking-[0.2em] whitespace-nowrap">{month}</h2>
+                                    <div className="h-[1px] w-full bg-primary/10" />
+                                </motion.div>
+
+                                <div className="space-y-4">
+                                    {monthUpdates.map((update, index) => (
+                                        <motion.div
+                                            key={update.id}
+                                            initial={{ opacity: 0, y: 5 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.4, delay: index * 0.05 }}
+                                        >
+                                            <AccordionItem value={update.id} className="border-none">
+                                                <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
+                                                    <AccordionTrigger className="py-3 px-4 md:px-5 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
+                                                        <header className="flex flex-col items-start gap-1 pr-4">
+                                                            {/* Time Row */}
+                                                            <div className="flex items-center gap-2">
+                                                                <div className="h-1.5 w-1.5 rounded-full bg-primary" />
+                                                                <span className="text-[10px] font-black text-primary opacity-100">
+                                                                    {toTitleCase(formatDistanceToNow(new Date(update.createdAt), { addSuffix: true }))}
+                                                                </span>
+                                                            </div>
+                                                            {/* Date Row */}
+                                                            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-left opacity-100">
+                                                                <div className="flex items-center gap-1.5 text-[11px] font-bold text-foreground tracking-tight">
+                                                                    <Calendar className="w-3.5 h-3.5 text-primary shrink-0" />
+                                                                    {format(new Date(update.createdAt), "EEEE | MMM dd, yyyy")}
+                                                                </div>
+                                                            </div>
+                                                        </header>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="px-4 md:px-5 pb-4 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
+                                                        <div className="pt-3">
+                                                            <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left flex-1">
+                                                                {update.description}
+                                                            </p>
+                                                        </div>
+                                                    </AccordionContent>
+                                                </Card>
+                                            </AccordionItem>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
                         ))}
                     </Accordion>
                 ) : (
