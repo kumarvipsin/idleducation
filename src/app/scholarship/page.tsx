@@ -150,7 +150,7 @@ export default function ScholarshipPage() {
           </div>
 
           {/* Highlights Section */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
                   <CardContent className="p-3 flex flex-col items-center text-center gap-1">
                       <Trophy className="w-5 h-5 text-yellow-500" />
@@ -167,24 +167,6 @@ export default function ScholarshipPage() {
                   <CardContent className="p-3 flex flex-col items-center text-center gap-1">
                       <Calendar className="w-5 h-5 text-green-500" />
                       <p className="text-[9px] font-black text-primary uppercase leading-tight">{examDates.sat} & {examDates.sun}<br/>{examDates.monthYear.split(' ')[0]}</p>
-                  </CardContent>
-              </Card>
-              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
-                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
-                      <Award className="w-5 h-5 text-purple-500" />
-                      <p className="text-[9px] font-black text-primary uppercase leading-tight">E-Badge &<br/>Certificate</p>
-                  </CardContent>
-              </Card>
-              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
-                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
-                      <Sparkles className="w-5 h-5 text-amber-500" />
-                      <p className="text-[9px] font-black text-primary uppercase leading-tight">Free Test<br/>Registration</p>
-                  </CardContent>
-              </Card>
-              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
-                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
-                      <Globe className="w-5 h-5 text-indigo-500" />
-                      <p className="text-[9px] font-black text-primary uppercase leading-tight">All India<br/>Live Rank</p>
                   </CardContent>
               </Card>
           </div>
