@@ -317,7 +317,7 @@ export default function ScholarshipPage() {
 
                   {/* Footer / Submit Button */}
                   <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
-                    <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase tracking-[0.2em]" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? 'PROCESSING...' : 'SUBMIT REGISTRATION'}
                       <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                     </Button>
@@ -343,7 +343,7 @@ export default function ScholarshipPage() {
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-6">
-            <Button onClick={() => setIsSuccessOpen(false)} className="w-full h-12 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg shadow-primary/10">
+            <Button onClick={() => setIsSuccessOpen(false)} className="w-full h-12 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10">
               Close Workspace
             </Button>
           </DialogFooter>
