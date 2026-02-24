@@ -34,32 +34,34 @@ const VideoItem = ({
         <button
             onClick={onSelect}
             className={cn(
-                "w-full text-left flex items-center gap-3 py-2 px-4 transition-all duration-200 group border-b border-black/[0.03]",
+                "w-full text-left flex items-center gap-3 py-3 px-4 transition-all duration-200 group border-b border-black/[0.03]",
                 isActive
-                    ? "bg-primary/[0.04] border-l-[2px] border-l-primary"
-                    : "hover:bg-black/[0.02]"
+                    ? "bg-slate-50 border-l-[3px] border-l-primary"
+                    : "hover:bg-slate-100"
             )}
         >
-            <div className="relative h-10 w-16 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm">
+            <div className="relative h-12 w-20 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm border border-border/50">
                 <Image
                     src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
                     alt={video.title}
                     fill
                     className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black/10">
-                    <PlayCircle className={cn("w-4 h-4 transition-transform", isActive ? "text-primary scale-110" : "text-white/60 group-hover:scale-110")} />
-                </div>
+                {isActive && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px]">
+                        <PlayCircle className="w-5 h-5 text-white" />
+                    </div>
+                )}
             </div>
             <div className="flex-grow min-w-0">
                 <p className={cn(
-                    "text-xs font-extrabold leading-tight line-clamp-2 transition-colors",
-                    isActive ? "text-primary" : "text-foreground/80 group-hover:text-foreground"
+                    "text-[13px] font-black leading-tight line-clamp-2 transition-colors",
+                    isActive ? "text-primary" : "text-slate-700"
                 )}>{video.title}</p>
                 {isActive && (
-                    <div className="flex items-center gap-1.5 mt-1">
-                        <span className="flex h-1 w-1 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[9px] text-primary font-extrabold uppercase tracking-tight">Now Playing</span>
+                    <div className="flex items-center gap-1.5 mt-1.5">
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                        <span className="text-[10px] text-primary font-black uppercase tracking-widest">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -104,32 +106,32 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                     )}
                 </div>
 
-                <div className="p-3 md:p-4 bg-white border-b lg:border-b-0 border-border">
-                    <div className="flex flex-col gap-1">
+                <div className="p-4 md:p-6 bg-white">
+                    <div className="flex flex-col gap-1.5">
                         <div className="flex items-center gap-2">
                             {activeChapterNumber && (
-                                <span className="text-[9px] font-extrabold text-primary uppercase tracking-widest">
+                                <span className="text-[10px] font-black text-primary uppercase tracking-widest">
                                     Module {activeChapterNumber}
                                 </span>
                             )}
                             <span className="text-zinc-300">•</span>
-                            <span className="text-[9px] text-muted-foreground font-extrabold uppercase tracking-tight">{course.title}</span>
+                            <span className="text-[10px] text-muted-foreground font-black uppercase tracking-tight">{course.title}</span>
                         </div>
-                        <h2 className="text-base md:text-xl font-extrabold text-foreground leading-tight tracking-tight mt-0.5">
+                        <h2 className="text-xl md:text-2xl font-black text-foreground leading-tight tracking-tight">
                             {activeVideo?.title || "Select a Topic"}
                         </h2>
                     </div>
                 </div>
             </div>
 
-            <div className="flex-1 lg:w-[320px] flex flex-col bg-zinc-50 lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
+            <div className="flex-1 lg:w-[320px] flex flex-col bg-white lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
                 <ScrollArea className="flex-1">
-                    <div className="pb-2">
+                    <div className="pb-0">
                         {course.chapters && course.chapters.length > 0 ? (
                             course.chapters.map((chapter, cIdx) => (
-                                <div key={`chapter-${cIdx}`} className="mt-0.5 first:mt-0">
-                                    <div className="px-4 py-2 flex items-center gap-2 bg-black/[0.02] border-b border-black/[0.03]">
-                                        <h4 className="font-extrabold text-[10px] tracking-widest text-muted-foreground/60 uppercase truncate">
+                                <div key={`chapter-${cIdx}`} className="mt-0">
+                                    <div className="px-4 py-2.5 flex items-center gap-2 bg-slate-100/80 border-b border-slate-200">
+                                        <h4 className="font-black text-[10px] tracking-widest text-slate-400 uppercase truncate">
                                             {chapter.name}
                                         </h4>
                                     </div>
@@ -158,19 +160,6 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                         )}
                     </div>
                 </ScrollArea>
-                
-                <div className="p-4 bg-white border-t border-border lg:hidden">
-                    <DialogClose asChild>
-                        <Button className="w-full bg-zinc-900 text-white font-extrabold h-12 rounded-xl">
-                            CLOSE PLAYER
-                        </Button>
-                    </DialogClose>
-                </div>
-
-                <div className="p-2 bg-white border-t border-border hidden lg:flex items-center justify-center gap-2 shrink-0">
-                    <Image src="/logo.png" alt="Logo" width={12} height={12} className="opacity-40" />
-                    <span className="text-[7px] font-extrabold text-muted-foreground/60 tracking-[0.2em] uppercase">Premium Learning by IDL</span>
-                </div>
             </div>
         </DialogContent>
     );
