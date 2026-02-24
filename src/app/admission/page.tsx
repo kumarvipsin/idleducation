@@ -24,7 +24,6 @@ import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import Image from "next/image";
 import { format, getDaysInMonth } from "date-fns";
 import Script from "next/script";
 import { motion, AnimatePresence } from "framer-motion";
@@ -540,6 +539,31 @@ export default function AdmissionPage() {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField control={form.control} name="aadharNumber" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <Input placeholder="Aadhar Number" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                          <FormField control={form.control} name="apaarId" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <Input placeholder="APAAR/ABC ID" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField control={form.control} name="fatherName" render={({ field }) => (
                               <FormItem className="space-y-0">
                                   <FormControl>
@@ -565,24 +589,76 @@ export default function AdmissionPage() {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                          <FormField control={form.control} name="fatherPhone" render={({ field }) => (
+                          <FormField control={form.control} name="motherName" render={({ field }) => (
                               <FormItem className="space-y-0">
                                   <FormControl>
                                       <div className="relative group h-full">
-                                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
-                                          <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
+                                          <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <Input placeholder="Mother's Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
                               </FormItem>
                           )} />
+                          <FormField control={form.control} name="motherOccupation" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <Briefcase className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <Input placeholder="Mother's Occupation" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField control={form.control} name="email" render={({ field }) => (
                               <FormItem className="space-y-0">
                                   <FormControl>
                                       <div className="relative group h-full">
                                           <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                           <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                          <FormField control={form.control} name="studentPhone" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
+                                          <Input type="tel" placeholder="Student's Mobile" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={10} />
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField control={form.control} name="fatherPhone" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
+                                          <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={10} />
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                          <FormField control={form.control} name="motherPhone" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <span className="absolute left-10 top-1/2 -translate-y-1/2 text-xs font-semibold text-slate-400 group-focus-within:text-primary">+91</span>
+                                          <Input type="tel" placeholder="Mother's Contact *" {...field} className="pl-16 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={10} />
                                       </div>
                                   </FormControl>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -628,15 +704,40 @@ export default function AdmissionPage() {
                           )} />
                       </div>
 
-                      <FormField control={form.control} name="classApplied" render={({ field }) => (
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField control={form.control} name="classApplied" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <div className="relative group">
+                                      <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                          <FormControl><SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm focus:ring-0"><SelectValue placeholder="Select Class/Course *" /></SelectTrigger></FormControl>
+                                          <SelectContent>{classes.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+                                      </Select>
+                                  </div>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                          <FormField control={form.control} name="previousSchool" render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                  <FormControl>
+                                      <div className="relative group h-full">
+                                          <Building className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                          <Input placeholder="Previous School Name" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                      </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2" />
+                              </FormItem>
+                          )} />
+                      </div>
+
+                      <FormField control={form.control} name="additionalInfo" render={({ field }) => (
                           <FormItem className="space-y-0">
-                              <div className="relative group">
-                                  <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                      <FormControl><SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm focus:ring-0"><SelectValue placeholder="Select Class/Course *" /></SelectTrigger></FormControl>
-                                      <SelectContent>{classes.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
-                                  </Select>
-                              </div>
+                              <FormControl>
+                                  <div className="relative group h-full">
+                                      <Info className="absolute left-4 top-5 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                      <Textarea placeholder="Additional Information (Medical issues, talents, etc.)" className="min-h-[100px] pl-12 pt-4 bg-transparent border-0 rounded-none font-medium text-sm transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                  </div>
+                              </FormControl>
                               <FormMessage className="text-[10px] px-4 pb-2" />
                           </FormItem>
                       )} />
@@ -736,7 +837,9 @@ export default function AdmissionPage() {
                                 <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2"><MapPin className="w-4 h-4"/> III. Contact Node</h3>
                                 <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                     <PreviewField label="Email Address" value={form.getValues('email')} />
+                                    <PreviewField label="Student Mobile" value={form.getValues('studentPhone')} />
                                     <PreviewField label="Father's Mobile" value={form.getValues('fatherPhone')} />
+                                    <PreviewField label="Mother's Mobile" value={form.getValues('motherPhone')} />
                                     <div className="col-span-2">
                                         <PreviewField label="Permanent Strategic Address" value={`${form.getValues('address')}, ${form.getValues('state')}, ${form.getValues('country')} - ${form.getValues('pincode')}`} />
                                     </div>
@@ -747,6 +850,9 @@ export default function AdmissionPage() {
                                 <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                     <PreviewField label="Selected Path" value={form.getValues('classApplied')} />
                                     <PreviewField label="Previous School" value={form.getValues('previousSchool')} />
+                                    <div className="col-span-2">
+                                        <PreviewField label="Supplementary Intelligence" value={form.getValues('additionalInfo')} />
+                                    </div>
                                 </div>
                             </div>
                             <div className="pt-12 space-y-12">
