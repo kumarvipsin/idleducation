@@ -95,6 +95,12 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                             <p className="text-sm font-medium">Select a lesson to begin</p>
                         </div>
                     )}
+
+                    {/* Brand Watermark Overlay */}
+                    <div className="absolute top-4 right-4 flex items-center gap-2 opacity-30 pointer-events-none z-10 select-none">
+                        <Image src="/logo.png" alt="IDL Logo" width={24} height={24} className="h-6 w-auto grayscale brightness-200" />
+                        <span className="text-white font-black text-[10px] tracking-[0.2em] uppercase drop-shadow-md">IDL EDUCATION</span>
+                    </div>
                 </div>
             </div>
 
