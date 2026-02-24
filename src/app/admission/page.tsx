@@ -10,7 +10,7 @@ import {
   Calendar as CalendarIcon, FileText, Edit, Download, 
   Droplets, VenetianMask, CheckCircle, 
   ArrowRight, Sparkles, IndianRupee, Camera,
-  Users
+  Users, Home
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -114,17 +114,12 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const FormHeader = () => (
-    <header className="bg-primary text-primary-foreground p-3 md:p-4 rounded-t-2xl">
+    <header className="bg-primary text-primary-foreground p-4 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
             <div className="flex flex-row items-center gap-2">
-                <div className="relative w-8 h-8 shrink-0">
-                    <img src="/logo.png" alt="IDL Education Logo" className="w-8 h-8 object-contain" />
-                </div>
-                <div className="flex flex-col leading-tight text-left">
-                    <div className="flex items-center gap-1.5">
-                        <span className="text-lg font-bold text-white uppercase">IDL</span>
-                        <span className="text-lg font-bold text-white">Education</span>
-                    </div>
+                <img src="/logo.png" alt="IDL Education Logo" width="48" height="48" className="object-contain" />
+                <div className="flex flex-col leading-tight">
+                    <span className="text-xl font-bold text-white">IDL Education</span>
                 </div>
             </div>
             
