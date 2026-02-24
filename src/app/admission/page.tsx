@@ -10,7 +10,7 @@ import {
   Calendar as CalendarIcon, FileText, Edit, Download, 
   Droplets, VenetianMask, CheckCircle, 
   ArrowRight, Sparkles, IndianRupee, Camera,
-  Users, Home
+  Users, Home, X
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -22,7 +22,6 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
-import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
@@ -57,7 +56,7 @@ const countries = [
   "Jamaica", "Japan", "Jordan",
   "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
   "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
-  "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Momgolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
+  "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar",
   "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "North Korea", "North Macedonia", "Norway",
   "Oman",
   "Pakistan", "Palau", "Palestine State", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal",
@@ -117,9 +116,9 @@ const FormHeader = () => (
     <header className="bg-primary text-primary-foreground p-4 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
             <div className="flex flex-row items-center gap-2">
-                <img src="/logo.png" alt="IDL EDUCATION Logo" width="40" height="40" className="object-contain" />
+                <img src="/logo.png" alt="IDL EDUCATION Logo" width="48" height="48" className="object-contain" />
                 <div className="flex flex-col leading-tight">
-                    <span className="text-xl font-bold text-white uppercase tracking-tight">IDL EDUCATION</span>
+                    <span className="text-xl md:text-2xl font-extrabold text-white uppercase tracking-tight">IDL EDUCATION</span>
                 </div>
             </div>
             
@@ -494,7 +493,7 @@ export default function AdmissionPage() {
                                       <FormLabel htmlFor="photo-upload" className="cursor-pointer block">
                                           <div className="w-[100px] h-[130px] rounded-xl bg-white border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all flex items-center justify-center overflow-hidden shadow-inner">
                                           {photoPreview ? (
-                                                  <Image src={photoPreview} alt="Student photo preview" width={100} height={130} className="object-cover h-full w-full"/>
+                                                  <img src={photoPreview} alt="Student photo preview" width={100} height={130} className="object-cover h-full w-full"/>
                                           ) : (
                                                   <div className="text-center text-muted-foreground p-2">
                                                       <Camera className="w-5 h-5 mx-auto mb-1 opacity-40" />
@@ -853,7 +852,7 @@ export default function AdmissionPage() {
                                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                                               <FormControl>
                                                   <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm shadow-none focus:ring-0 focus:ring-offset-0">
-                                                      <SelectValue placeholder="State *" />
+                                                      <SelectValue placeholder="Select State *" />
                                                   </SelectTrigger>
                                               </FormControl>
                                               <SelectContent>
@@ -979,7 +978,7 @@ export default function AdmissionPage() {
       <DialogContent className="sm:max-w-5xl h-[95vh] rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white flex flex-col">
         <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between shrink-0">
           <div className="space-y-1">
-            <DialogTitle className="text-2xl font-bold tracking-tight">Application Review</DialogTitle>
+            <DialogTitle className="text-2xl font-bold tracking-tight text-primary">Application Review</DialogTitle>
             <DialogDescription className="font-medium text-xs text-muted-foreground">Digital validation of institutional record</DialogDescription>
           </div>
           <div className="flex gap-2">
