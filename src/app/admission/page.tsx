@@ -113,26 +113,24 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const FormHeader = () => (
-    <header className="bg-primary text-primary-foreground p-4 rounded-t-2xl">
+    <header className="bg-primary text-primary-foreground p-5 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
-            <div className="flex flex-row items-center gap-2">
-                <img src="/logo.png" alt="IDL EDUCATION Logo" width="48" height="48" className="object-contain" />
-                <div className="flex flex-col leading-tight">
-                    <span className="text-xl md:text-2xl font-extrabold text-white uppercase tracking-tight">IDL EDUCATION</span>
-                </div>
+            <div className="flex flex-row items-center gap-3">
+                <img src="/logo.png" alt="IDL EDUCATION Logo" width="56" height="56" className="object-contain shrink-0" style={{ height: '56px', width: 'auto' }} />
+                <h1 className="text-xl md:text-3xl font-extrabold text-white uppercase tracking-tighter leading-none">IDL EDUCATION</h1>
             </div>
             
             <div className="hidden sm:flex flex-col items-start justify-center space-y-1 text-left shrink-0">
-                <div className="flex items-center gap-2 text-[10px] font-medium text-white/90">
-                    <Phone className="w-3 h-3 text-white/60" />
+                <div className="flex items-center gap-2.5 text-[10px] font-semibold text-white/90">
+                    <Phone className="w-3.5 h-3.5 text-white/50" />
                     <span>011 45035713</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-medium text-white/90">
-                    <Mail className="w-3 h-3 text-white/60" />
+                <div className="flex items-center gap-2.5 text-[10px] font-semibold text-white/90">
+                    <Mail className="w-3.5 h-3.5 text-white/50" />
                     <span>info@idleducation.in</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-medium text-white/90">
-                    <Globe className="w-3 h-3 text-white/60" />
+                <div className="flex items-center gap-2.5 text-[10px] font-semibold text-white/90">
+                    <Globe className="w-3.5 h-3.5 text-white/50" />
                     <span>www.idleducation.in</span>
                 </div>
             </div>
@@ -141,7 +139,7 @@ const FormHeader = () => (
 );
 
 const PreviewField = ({ label, value }: { label: string, value: any }) => (
-    <div className="flex flex-col gap-1 border-b border-slate-100 pb-2">
+    <div className="flex flex-col gap-1 border-b border-slate-100 pb-2 text-left">
         <span className="text-[11px] font-semibold text-slate-500 leading-none">{label}</span>
         <span className="text-[13px] font-medium text-slate-900 leading-tight">{value || '—'}</span>
     </div>
