@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { submitFeedback } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { motion, AnimatePresence } from "framer-motion";
@@ -193,10 +193,6 @@ export default function FeedbackPage() {
                                                 render={({ field }) => (
                                                     <FormItem className="space-y-3">
                                                         <div className="flex flex-col items-center gap-4">
-                                                            <div className="text-center space-y-0.5">
-                                                                <p className="text-[10px] font-black text-foreground uppercase tracking-widest">Select your star level</p>
-                                                            </div>
-                                                            
                                                             <FormControl>
                                                                 <div className="flex items-center justify-center gap-2 md:gap-3">
                                                                     {[1, 2, 3, 4, 5].map((star) => (
@@ -271,7 +267,7 @@ export default function FeedbackPage() {
                                     </div>
 
                                     {/* Footer / Submit Button */}
-                                    <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+                                    <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:divide-slate-800">
                                         <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
                                             {form.formState.isSubmitting ? 'PROCESSING...' : 'SUBMIT FEEDBACK'}
                                             <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
