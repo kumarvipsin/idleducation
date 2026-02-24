@@ -215,80 +215,84 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                 </h2>
               </div>
     
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                {groupCourses.map((course) => (
-                  <Card key={course.id} className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex flex-col bg-card border group/card relative">
-                    <div className="relative overflow-hidden aspect-[16/9]">
-                        <GcsImage
-                            filePath={course.coverImageUrl || ""}
-                            alt={course.title}
-                            fill
-                            className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                        />
-                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                    </div>
-                    
-                    <CardContent className="p-4 flex flex-col flex-grow">
-                        <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
-                        
-                        <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                            <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest">{course.batchName}</Badge>
-                            <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.medium}</Badge>
-                        </div>
-
-                        <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold uppercase tracking-tight">
-                          <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
-                          <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
-                        </div>
-
-                        <div className="mt-4 flex items-center justify-between">
-                          <div>
-                            <div className="flex items-baseline gap-1.5">
-                                <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
-                                {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-extrabold">₹{course.originalPrice}</p>}
+              <div className="relative">
+                <div className="flex overflow-x-auto pb-6 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                    {groupCourses.map((course) => (
+                    <div key={course.id} className="flex-shrink-0 w-[285px] md:w-full h-full">
+                        <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex flex-col bg-card border group/card relative h-full">
+                            <div className="relative overflow-hidden aspect-[16/9]">
+                                <GcsImage
+                                    filePath={course.coverImageUrl || ""}
+                                    alt={course.title}
+                                    fill
+                                    className="object-cover transition-transform duration-700 group-hover/card:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                             </div>
-                            <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
-                                100% OFF
-                            </div>
-                          </div>
+                            
+                            <CardContent className="p-4 flex flex-col flex-grow">
+                                <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
+                                
+                                <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest">{course.batchName}</Badge>
+                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.medium}</Badge>
+                                </div>
 
-                          <Popover>
-                            <PopoverTrigger asChild>
-                                <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-7 w-7">
-                                    <Info className="w-3.5 h-3.5" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
-                                <ScrollArea className="max-h-40">
-                                    <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80">
-                                        {course.description}
-                                    </p>
-                                </ScrollArea>
-                                <div className="mt-4 pt-3 border-t border-white/10">
-                                    <div className="flex items-center gap-2 text-[9px] font-extrabold text-green-600">
-                                        <CheckCircle2 className="w-3 h-3" />
-                                        <span>Lifetime Access</span>
+                                <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold uppercase tracking-tight">
+                                <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
+                                <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
+                                </div>
+
+                                <div className="mt-4 flex items-center justify-between">
+                                <div>
+                                    <div className="flex items-baseline gap-1.5">
+                                        <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
+                                        {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-extrabold">₹{course.originalPrice}</p>}
+                                    </div>
+                                    <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
+                                        100% OFF
                                     </div>
                                 </div>
-                            </PopoverContent>
-                          </Popover>
-                        </div>
-                    </CardContent>
 
-                    <div className="p-4 pt-0 mt-auto">
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
-                                    <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
-                                    VIEW LESSONS
-                                </Button>
-                            </DialogTrigger>
-                            <CoursePlayerDialog course={course} />
-                        </Dialog>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-7 w-7">
+                                            <Info className="w-3.5 h-3.5" />
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
+                                        <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
+                                        <ScrollArea className="max-h-40">
+                                            <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80">
+                                                {course.description}
+                                            </p>
+                                        </ScrollArea>
+                                        <div className="mt-4 pt-3 border-t border-white/10">
+                                            <div className="flex items-center gap-2 text-[9px] font-extrabold text-green-600">
+                                                <CheckCircle2 className="w-3 h-3" />
+                                                <span>Lifetime Access</span>
+                                            </div>
+                                        </div>
+                                    </PopoverContent>
+                                </Popover>
+                                </div>
+                            </CardContent>
+
+                            <div className="p-4 pt-0 mt-auto">
+                                <Dialog>
+                                    <DialogTrigger asChild>
+                                        <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
+                                            <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
+                                            VIEW LESSONS
+                                        </Button>
+                                    </DialogTrigger>
+                                    <CoursePlayerDialog course={course} />
+                                </Dialog>
+                            </div>
+                        </Card>
                     </div>
-                  </Card>
-                ))}
+                    ))}
+                </div>
               </div>
             </section>
           ))
