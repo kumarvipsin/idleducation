@@ -358,11 +358,6 @@ export default function AdmissionPage() {
 
       <div className="container mx-auto py-12 px-4 md:px-[10%] relative z-10">
         <div className="text-center mb-8 animate-fade-in-up">
-            <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col items-center gap-4 mb-6">
-                <div className="bg-primary/10 p-4 rounded-full border border-primary/20 shadow-sm">
-                    <Sparkles className="w-8 h-8 text-primary animate-pulse" />
-                </div>
-            </motion.div>
             <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
                 Admission{' '}
                 <span className="relative inline-block">
