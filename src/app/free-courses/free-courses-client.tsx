@@ -97,9 +97,9 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     )}
 
                     {/* Brand Watermark Overlay */}
-                    <div className="absolute top-4 right-4 flex items-center gap-2 opacity-30 pointer-events-none z-10 select-none">
-                        <Image src="/logo.png" alt="IDL Logo" width={24} height={24} className="h-6 w-auto grayscale brightness-200" />
-                        <span className="text-white font-black text-[10px] tracking-[0.2em] uppercase drop-shadow-md">IDL EDUCATION</span>
+                    <div className="absolute top-6 right-6 flex items-center gap-3 opacity-80 pointer-events-none z-20 select-none">
+                        <Image src="/logo.png" alt="IDL Logo" width={32} height={32} className="h-8 w-auto drop-shadow-xl brightness-110" />
+                        <span className="text-white font-black text-[12px] md:text-sm tracking-[0.3em] uppercase drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">IDL EDUCATION</span>
                     </div>
                 </div>
             </div>
@@ -250,8 +250,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                                 
                                 <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6">{course.batchName}</Badge>
-                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6">{course.medium}</Badge>
+                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3">{course.batchName}</Badge>
+                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3">{course.medium}</Badge>
                                 </div>
 
                                 <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
