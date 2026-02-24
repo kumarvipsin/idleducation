@@ -122,10 +122,10 @@ export default function UpdatesPage() {
                                     initial={{ opacity: 0, x: -10 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center gap-4 pt-6 pb-2"
+                                    className="flex items-center gap-4 py-2 px-4 bg-primary/5 rounded-xl border border-primary/10 mt-8 mb-4 sticky top-16 z-20 backdrop-blur-sm shadow-sm"
                                 >
-                                    <h2 className="text-lg md:text-xl font-black text-foreground uppercase tracking-tighter whitespace-nowrap">{month}</h2>
-                                    <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
+                                    <h2 className="text-base md:text-lg font-black text-primary uppercase tracking-tighter whitespace-nowrap">{month}</h2>
+                                    <div className="h-[1px] flex-1 bg-primary/20 rounded-full" />
                                 </motion.div>
 
                                 <div className="space-y-2">
