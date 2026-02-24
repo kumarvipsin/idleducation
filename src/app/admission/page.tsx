@@ -669,7 +669,7 @@ export default function AdmissionPage() {
                           )} />
                       </div>
 
-                      <FormField disableHover control={form.control} name="address" render={({ field }) => (
+                      <FormField control={form.control} name="address" render={({ field }) => (
                           <FormItem className="space-y-0">
                               <FormControl>
                                   <div className="relative group h-full">
