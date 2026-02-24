@@ -194,8 +194,7 @@ export default function FeedbackPage() {
                                                     <FormItem className="space-y-3">
                                                         <div className="flex flex-col items-center gap-4">
                                                             <div className="text-center space-y-0.5">
-                                                                <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">EXPERIENCE RATING</h4>
-                                                                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your star level</p>
+                                                                <p className="text-[10px] font-black text-foreground uppercase tracking-widest">Select your star level</p>
                                                             </div>
                                                             
                                                             <FormControl>
