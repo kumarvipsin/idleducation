@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { registerForScholarship } from "@/app/actions";
 import { useState, useEffect } from "react";
@@ -143,30 +143,48 @@ export default function ScholarshipPage() {
                         </div>
                     </span>
                 </h1>
-                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold capitalize tracking-tight leading-relaxed">
+                <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold tracking-tight leading-relaxed">
                     Get Upto 70% Scholarship On Admissions Test For Academic Excellence.
                 </p>
             </div>
           </div>
 
           {/* Highlights Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm">
-                  <CardContent className="p-3 flex flex-col items-center text-center">
-                      <Trophy className="w-5 h-5 text-yellow-500 mb-1" />
-                      <p className="text-[10px] font-black text-primary uppercase">₹50K Prize</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
+                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
+                      <Trophy className="w-5 h-5 text-yellow-500" />
+                      <p className="text-[9px] font-black text-primary uppercase leading-tight">₹50K Cash<br/>Rewards</p>
                   </CardContent>
               </Card>
-              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm">
-                  <CardContent className="p-3 flex flex-col items-center text-center">
-                      <IndianRupee className="w-5 h-5 text-blue-500 mb-1" />
-                      <p className="text-[10px] font-black text-primary uppercase">₹75K Fund</p>
+              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
+                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
+                      <IndianRupee className="w-5 h-5 text-blue-500" />
+                      <p className="text-[9px] font-black text-primary uppercase leading-tight">₹75K Merit<br/>Fund</p>
                   </CardContent>
               </Card>
-              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm">
-                  <CardContent className="p-3 flex flex-col items-center text-center">
-                      <Calendar className="w-5 h-5 text-green-500 mb-1" />
-                      <p className="text-[10px] font-black text-primary uppercase">{examDates.sat} & {examDates.sun}</p>
+              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
+                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
+                      <Calendar className="w-5 h-5 text-green-500" />
+                      <p className="text-[9px] font-black text-primary uppercase leading-tight">{examDates.sat} & {examDates.sun}<br/>{examDates.monthYear.split(' ')[0]}</p>
+                  </CardContent>
+              </Card>
+              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
+                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
+                      <Award className="w-5 h-5 text-purple-500" />
+                      <p className="text-[9px] font-black text-primary uppercase leading-tight">E-Badge &<br/>Certificate</p>
+                  </CardContent>
+              </Card>
+              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
+                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
+                      <Sparkles className="w-5 h-5 text-amber-500" />
+                      <p className="text-[9px] font-black text-primary uppercase leading-tight">Free Test<br/>Registration</p>
+                  </CardContent>
+              </Card>
+              <Card className="bg-white/60 backdrop-blur-sm border-slate-200 dark:border-slate-800 shadow-sm hover:border-primary/20 transition-colors">
+                  <CardContent className="p-3 flex flex-col items-center text-center gap-1">
+                      <Globe className="w-5 h-5 text-indigo-500" />
+                      <p className="text-[9px] font-black text-primary uppercase leading-tight">All India<br/>Live Rank</p>
                   </CardContent>
               </Card>
           </div>
