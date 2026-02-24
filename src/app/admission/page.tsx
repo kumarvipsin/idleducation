@@ -90,7 +90,7 @@ const FormHeader = () => (
             <div className="flex flex-row items-center gap-3">
                 <img src="/logo.png" alt="IDL EDUCATION Logo" width="48" height="48" className="object-contain shrink-0" />
                 <div className="flex flex-col text-left">
-                    <h1 className="text-xl md:text-2xl font-extrabold text-white uppercase tracking-[0.12em] leading-none">IDL EDUCATION</h1>
+                    <h1 className="text-xl md:text-2xl font-extrabold text-white uppercase leading-none">IDL EDUCATION</h1>
                     <span className="text-[6px] md:text-[7.5px] font-semibold text-white/80 leading-tight mt-1 block">
                         (Institute Of Distance Learning Pvt. Ltd.)
                     </span>
