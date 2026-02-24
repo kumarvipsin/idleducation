@@ -9,7 +9,8 @@ import {
   Briefcase, KeyRound, Upload, Globe, MapPin, 
   Calendar as CalendarIcon, FileText, Edit, Download, 
   Home, Droplets, VenetianMask, CheckCircle, X, 
-  ArrowRight, Sparkles, IndianRupee, Banknote, Camera 
+  ArrowRight, Sparkles, IndianRupee, Banknote, Camera,
+  Users
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
