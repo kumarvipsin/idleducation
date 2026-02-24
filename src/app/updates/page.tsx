@@ -113,7 +113,7 @@ export default function UpdatesPage() {
                                                 {/* Time Row */}
                                                 <div className="flex items-center gap-2">
                                                     <div className="h-1.5 w-1.5 rounded-full bg-primary" />
-                                                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] opacity-100">
+                                                    <span className="text-[10px] font-black text-primary opacity-100">
                                                         {formatDistanceToNow(new Date(update.createdAt), { addSuffix: true })}
                                                     </span>
                                                 </div>
