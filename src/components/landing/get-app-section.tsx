@@ -2,7 +2,7 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, CheckCircle2, MapPin } from "lucide-react";
+import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, CheckCircle2, MapPin, Send, GraduationCap } from "lucide-react";
 import Image from "next/image";
 import {
   Dialog,
@@ -24,6 +24,7 @@ import { requestCallBack, submitSupportTicket } from "@/app/actions/forms";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { allPrograms } from "@/lib/courses";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 
 const callBackSchema = z.object({
   name: z.string().min(2, { message: "Name is required." }),
@@ -131,77 +132,100 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8"
+                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-0 overflow-hidden"
             >
-                <DialogHeader className="text-center mb-6">
+                <DialogHeader className="text-center p-8 pb-0">
                     <DialogTitle className="text-2xl font-extrabold text-primary">Raise a Support Ticket</DialogTitle>
                     <DialogDescription className="text-muted-foreground text-sm font-medium">Fill out the form below and our support team will get in touch with you.</DialogDescription>
                 </DialogHeader>
                 <Form {...supportForm}>
-                    <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="space-y-4">
-                        <FormField
-                            control={supportForm.control}
-                            name="studentName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Your full name *" {...field} className="pl-9" />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={supportForm.control}
-                            name="mobile"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Mobile Number *" {...field} className="pl-9" type="tel" maxLength={10} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={supportForm.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <div className="relative">
-                                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                        <Input type="email" placeholder="Your email address *" {...field} className="pl-9" />
-                                    </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={supportForm.control}
-                            name="problem"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                    <div className="relative">
-                                        <Edit className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                                        <Textarea placeholder="Describe your issue... *" {...field} className="pl-9" />
-                                    </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button type="submit" className="w-1/2 h-12 font-bold mx-auto flex" disabled={supportForm.formState.isSubmitting}>
-                            {supportForm.formState.isSubmitting ? 'Submitting...' : 'Get a Support'}
-                        </Button>
+                    <form onSubmit={supportForm.handleSubmit(onSupportSubmit)} className="flex flex-col">
+                        <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={supportForm.control}
+                                    name="studentName"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormControl>
+                                                <div className="relative group h-full">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                        <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
+                                                    <Input placeholder="Full Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-[10px] px-4 pb-2" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={supportForm.control}
+                                    name="mobile"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormControl>
+                                                <div className="relative group h-full">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                        <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
+                                                    <Input placeholder="Mobile Number *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" type="tel" maxLength={10} />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-[10px] px-4 pb-2" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <FormField
+                                control={supportForm.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                            <div className="relative group h-full">
+                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                    <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                </div>
+                                                <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={supportForm.control}
+                                name="problem"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                            <div className="relative group h-full">
+                                                <div className="absolute left-4 top-5 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                    <Edit className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                </div>
+                                                <Textarea 
+                                                    placeholder="Describe your issue in detail... *" 
+                                                    className="min-h-[140px] pl-12 pt-4 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none"
+                                                    {...field} 
+                                                />
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+                            <Button 
+                                type="submit" 
+                                className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" 
+                                disabled={supportForm.formState.isSubmitting}
+                            >
+                                {supportForm.formState.isSubmitting ? 'SUBMITTING...' : 'RAISE SUPPORT TICKET'}
+                                <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                            </Button>
+                        </div>
                     </form>
                 </Form>
             </DialogContent>
@@ -224,101 +248,124 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8"
+                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-0 overflow-hidden"
             >
-                <DialogHeader className="text-center mb-6">
+                <DialogHeader className="text-center p-8 pb-0">
                     <DialogTitle className="text-2xl font-extrabold text-primary">Request a Call Back</DialogTitle>
                     <DialogDescription className="text-muted-foreground text-sm font-medium">Our expert will call you back shortly.</DialogDescription>
                 </DialogHeader>
                  <Form {...callBackForm}>
-                    <form onSubmit={callBackForm.handleSubmit(onCallBackSubmit)} className="space-y-4">
-                        <FormField
-                            control={callBackForm.control}
-                            name="name"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Your Name *" {...field} className="pl-9" />
+                    <form onSubmit={callBackForm.handleSubmit(onCallBackSubmit)} className="flex flex-col">
+                        <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={callBackForm.control}
+                                    name="name"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormControl>
+                                                <div className="relative group h-full">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                        <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
+                                                    <Input placeholder="Full Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-[10px] px-4 pb-2" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={callBackForm.control}
+                                    name="mobile"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormControl>
+                                                <div className="relative group h-full">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                        <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
+                                                    <Input placeholder="Mobile Number *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" type="tel" maxLength={10} />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-[10px] px-4 pb-2" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={callBackForm.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormControl>
+                                                <div className="relative group h-full">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                        <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
+                                                    <Input type="email" placeholder="Email (Optional)" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-[10px] px-4 pb-2" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={callBackForm.control}
+                                    name="place"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-0">
+                                            <FormControl>
+                                                <div className="relative group h-full">
+                                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                        <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                    </div>
+                                                    <Input placeholder="Location *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                                </div>
+                                            </FormControl>
+                                            <FormMessage className="text-[10px] px-4 pb-2" />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+                            <FormField
+                                control={callBackForm.control}
+                                name="classCourse"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <div className="relative group h-full">
+                                            <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                                <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                            </div>
+                                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                        <SelectValue placeholder="Select Class/Course *" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {allPrograms.map(program => (
+                                                        <SelectItem key={program.name} value={program.name} className="text-xs font-bold">{program.name}</SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
                                         </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={callBackForm.control}
-                            name="mobile"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Mobile Number *" {...field} className="pl-9" type="tel" maxLength={10} />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={callBackForm.control}
-                            name="email"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Email (Optional)" {...field} className="pl-9" type="email" />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={callBackForm.control}
-                            name="place"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl>
-                                        <div className="relative">
-                                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <Input placeholder="Your Place *" {...field} className="pl-9" />
-                                        </div>
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={callBackForm.control}
-                            name="classCourse"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                        <FormControl>
-                                        <div className="relative">
-                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                            <SelectTrigger className="pl-9">
-                                                <SelectValue placeholder="Select Class/Course *" />
-                                            </SelectTrigger>
-                                        </div>
-                                        </FormControl>
-                                        <SelectContent>
-                                        {allPrograms.map(program => (
-                                            <SelectItem key={program.name} value={program.name}>{program.name}</SelectItem>
-                                        ))}
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button type="submit" className="w-1/2 h-12 font-bold mx-auto flex" disabled={callBackForm.formState.isSubmitting}>
-                            {callBackForm.formState.isSubmitting ? 'Requesting...' : 'Get a call back'}
-                        </Button>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+                            <Button 
+                                type="submit" 
+                                className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" 
+                                disabled={callBackForm.formState.isSubmitting}
+                            >
+                                {callBackForm.formState.isSubmitting ? 'REQUESTING...' : 'GET A CALL BACK'}
+                                <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                            </Button>
+                        </div>
                     </form>
                 </Form>
             </DialogContent>
