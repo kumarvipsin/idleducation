@@ -117,15 +117,15 @@ export default function UpdatesPage() {
                 ) : Object.keys(groupedUpdates).length > 0 ? (
                     <Accordion type="single" collapsible className="space-y-3 w-full">
                         {Object.entries(groupedUpdates).map(([month, monthUpdates], groupIndex) => (
-                            <div key={month} className="space-y-2">
+                            <div key={month} className="space-y-4">
                                 <motion.div 
                                     initial={{ opacity: 0, x: -10 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center gap-4 pt-2 pb-1"
+                                    className="flex items-center gap-4 pt-6 pb-2"
                                 >
-                                    <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] whitespace-nowrap">{month}</h2>
-                                    <div className="h-[1px] w-full bg-primary/10" />
+                                    <h2 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-tighter whitespace-nowrap">{month}</h2>
+                                    <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                 </motion.div>
 
                                 <div className="space-y-2">
