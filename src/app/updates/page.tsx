@@ -115,16 +115,16 @@ export default function UpdatesPage() {
                 {loading ? (
                     renderSkeleton()
                 ) : Object.keys(groupedUpdates).length > 0 ? (
-                    <Accordion type="single" collapsible className="space-y-6 w-full">
+                    <Accordion type="single" collapsible className="space-y-3 w-full">
                         {Object.entries(groupedUpdates).map(([month, monthUpdates], groupIndex) => (
-                            <div key={month} className="space-y-3">
+                            <div key={month} className="space-y-2">
                                 <motion.div 
                                     initial={{ opacity: 0, x: -10 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
-                                    className="flex items-center gap-4 pt-4"
+                                    className="flex items-center gap-4 pt-2 pb-1"
                                 >
-                                    <h2 className="text-xs font-black text-primary uppercase tracking-[0.2em] whitespace-nowrap">{month}</h2>
+                                    <h2 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] whitespace-nowrap">{month}</h2>
                                     <div className="h-[1px] w-full bg-primary/10" />
                                 </motion.div>
 
@@ -139,13 +139,13 @@ export default function UpdatesPage() {
                                         >
                                             <AccordionItem value={update.id} className="border-none">
                                                 <Card className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-none rounded-lg overflow-hidden group/card transition-all duration-300 hover:border-primary/20">
-                                                    <AccordionTrigger className="py-3 px-4 md:px-5 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
-                                                        <header className="flex flex-col items-start gap-1 pr-4">
+                                                    <AccordionTrigger className="py-2.5 px-4 md:px-5 hover:no-underline flex items-center justify-between group data-[state=open]:bg-primary/[0.03] transition-colors">
+                                                        <header className="flex flex-col items-start gap-0.5 pr-4">
                                                             {/* Time Row */}
                                                             <div className="flex items-center gap-2">
                                                                 <div className="h-1.5 w-1.5 rounded-full bg-primary" />
                                                                 <span className="text-[10px] font-black text-primary opacity-100">
-                                                                    {toTitleCase(formatDistanceToNow(new Date(update.createdAt), { addSuffix: true }))}
+                                                                    {toTitleCase(formatDistanceToNow(new Date(update.createdAt), { addSuffix: true }).replace(/about /i, ''))}
                                                                 </span>
                                                             </div>
                                                             {/* Date Row */}
@@ -157,7 +157,7 @@ export default function UpdatesPage() {
                                                             </div>
                                                         </header>
                                                     </AccordionTrigger>
-                                                    <AccordionContent className="px-4 md:px-5 pb-4 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-2">
+                                                    <AccordionContent className="px-4 md:px-5 pb-4 pt-0 border-t border-slate-50 dark:border-slate-800/50 mt-1">
                                                         <div className="pt-3">
                                                             <p className="text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed whitespace-pre-wrap text-left flex-1">
                                                                 {update.description}
