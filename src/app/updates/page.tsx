@@ -115,9 +115,9 @@ export default function UpdatesPage() {
                 {loading ? (
                     renderSkeleton()
                 ) : Object.keys(groupedUpdates).length > 0 ? (
-                    <Accordion type="single" collapsible className="space-y-8 w-full">
+                    <Accordion type="single" collapsible className="space-y-6 w-full">
                         {Object.entries(groupedUpdates).map(([month, monthUpdates], groupIndex) => (
-                            <div key={month} className="space-y-4">
+                            <div key={month} className="space-y-3">
                                 <motion.div 
                                     initial={{ opacity: 0, x: -10 }}
                                     whileInView={{ opacity: 1, x: 0 }}
@@ -128,7 +128,7 @@ export default function UpdatesPage() {
                                     <div className="h-[1px] w-full bg-primary/10" />
                                 </motion.div>
 
-                                <div className="space-y-4">
+                                <div className="space-y-2">
                                     {monthUpdates.map((update, index) => (
                                         <motion.div
                                             key={update.id}
