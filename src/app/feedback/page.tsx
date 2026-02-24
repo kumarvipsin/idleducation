@@ -186,12 +186,12 @@ export default function FeedbackPage() {
                                         />
 
                                         {/* Row 3: Rating Selection */}
-                                        <div className="p-6 md:p-8 bg-slate-50/30 dark:bg-slate-800/30">
+                                        <div className="p-4 md:p-5 bg-slate-50/30 dark:bg-slate-800/30">
                                             <FormField
                                                 control={form.control}
                                                 name="rating"
                                                 render={({ field }) => (
-                                                    <FormItem className="space-y-4">
+                                                    <FormItem className="space-y-3">
                                                         <div className="flex flex-col items-center gap-4">
                                                             <div className="text-center space-y-0.5">
                                                                 <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">EXPERIENCE RATING</h4>
