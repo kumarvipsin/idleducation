@@ -25,7 +25,6 @@ import { Separator } from "@/components/ui/separator";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
-import Link from "next/link";
 import { format, getDaysInMonth } from "date-fns";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
@@ -151,6 +150,13 @@ const FormHeader = () => (
     </header>
 );
 
+const PreviewField = ({ label, value }: { label: string, value: any }) => (
+    <div className="flex flex-col gap-1 border-b border-slate-100 pb-2">
+        <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest leading-none">{label}</span>
+        <span className="text-[12px] font-bold text-slate-900 leading-tight">{value || '—'}</span>
+    </div>
+);
+
 export default function AdmissionPage() {
   const { toast } = useToast();
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
@@ -251,21 +257,27 @@ export default function AdmissionPage() {
         const canvas = await html2canvas(contentToCapture, {
             scale: 2,
             useCORS: true,
+            logging: false,
+            windowWidth: 800,
+            backgroundColor: "#ffffff",
         });
 
-        const imageData = canvas.toDataURL('image/png');
+        const imgData = canvas.toDataURL('image/jpeg', 1.0);
         const pdf = new jsPDF('p', 'mm', 'a4');
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        
-        const imgProps = pdf.getImageProperties(imageData);
-        const imgWidth = pdfWidth;
-        const imgHeight = (imgProps.height * imgWidth) / imgProps.width;
+        const imgWidth = 210; // A4 width in mm
+        const pageHeight = 297; // A4 height in mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        let heightLeft = imgHeight;
+        let position = 0;
 
-        if (imgHeight > pdfHeight) {
-            pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight, undefined, 'FAST');
-        } else {
-            pdf.addImage(imageData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+            heightLeft -= pageHeight;
         }
         
         pdf.save(`${form.getValues('studentName')}_Admission_Form.pdf`);
@@ -403,10 +415,8 @@ export default function AdmissionPage() {
         src="https://checkout.razorpay.com/v1/checkout.js"
     />
     <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative selection:bg-primary/10">
-      {/* Subtle Background Texture */}
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
       
-      {/* Floating Decorative Elements */}
       <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
       <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
 
@@ -532,9 +542,7 @@ export default function AdmissionPage() {
                       </div>
                   </div>
 
-                  {/* Body Grid with Dividers */}
                   <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800 border-t">
-                      {/* Row 2: Name & DOB */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -584,7 +592,6 @@ export default function AdmissionPage() {
                           </div>
                       </div>
 
-                      {/* Row 3: Gender & Blood Group */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -636,7 +643,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 4: IDs */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -670,7 +676,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 5: Father's Info */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -704,7 +709,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 6: Mother's Info */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -738,7 +742,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 7: Contacts */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -774,7 +777,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 8: Student Email & Ph */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -809,7 +811,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 9: Address */}
                       <FormField
                           control={form.control}
                           name="address"
@@ -826,7 +827,6 @@ export default function AdmissionPage() {
                           )}
                       />
 
-                      {/* Row 10: Location Details */}
                       <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -893,7 +893,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 11: Academic Path */}
                       <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                               control={form.control}
@@ -936,7 +935,6 @@ export default function AdmissionPage() {
                           />
                       </div>
 
-                      {/* Row 12: Additional Info */}
                       <FormField
                           control={form.control}
                           name="additionalInfo"
@@ -954,7 +952,6 @@ export default function AdmissionPage() {
                       />
                   </div>
 
-                  {/* Footer / Submit Area */}
                   <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row gap-4">
                       <Button 
                           type="button" 
@@ -988,91 +985,164 @@ export default function AdmissionPage() {
     </div>
     
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-      <DialogContent className="sm:max-w-3xl rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl">
-        <DialogHeader className="p-8 pb-4 bg-primary text-white">
-          <DialogTitle className="text-2xl font-black tracking-tight">Application Preview</DialogTitle>
-          <DialogDescription className="font-bold text-[10px] uppercase tracking-[0.2em] text-white/60">Review your institutional record before final sync</DialogDescription>
+      <DialogContent className="sm:max-w-4xl max-h-[95vh] rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white">
+        <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between">
+          <div className="space-y-1">
+            <DialogTitle className="text-2xl font-black tracking-tight">Application Review</DialogTitle>
+            <DialogDescription className="font-bold text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Digital validation of institutional record</DialogDescription>
+          </div>
+          <div className="flex gap-2">
+              <Button variant="outline" size="sm" className="rounded-xl font-bold h-9" onClick={() => setIsPreviewOpen(false)}>
+                  <Edit className="w-4 h-4 mr-2" /> EDIT
+              </Button>
+              <Button size="sm" className="rounded-xl font-bold h-9 bg-primary text-white" onClick={handleDownload}>
+                  <Download className="w-4 h-4 mr-2" /> SAVE PDF
+              </Button>
+          </div>
         </DialogHeader>
-        <ScrollArea className="max-h-[60vh] bg-white">
-          <div ref={previewRef} className="p-8">
-             <div className="bg-white text-black">
-                  <div className="flex flex-row items-center justify-between border-b-2 border-slate-100 pb-6 mb-6">
-                      <div className="flex items-center gap-4">
-                          <Image src="/logo.png" alt="Logo" width={60} height={60} />
-                          <div className="flex flex-col">
-                              <h2 className="text-2xl font-black tracking-tighter uppercase leading-none">IDL EDUCATION</h2>
-                              <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mt-1">Distance Learning Excellence</p>
+        
+        <ScrollArea className="flex-1">
+          <div ref={previewRef} className="p-10 bg-white text-black min-h-[1120px] w-full max-w-[210mm] mx-auto print:p-0">
+             {/* Institutional Page 1 */}
+             <div className="space-y-8">
+                  <div className="border-[3px] border-primary p-1 rounded-3xl">
+                      <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden">
+                          <FormHeader />
+                          
+                          <div className="bg-primary/5 p-4 text-center border-b border-primary/10">
+                              <h2 className="text-sm font-black tracking-[0.3em] uppercase text-primary">STUDENT ADMISSION FORM</h2>
+                              <p className="text-[9px] font-bold text-muted-foreground uppercase mt-1">Academic Session 2026-27</p>
                           </div>
-                      </div>
-                      <div className="text-right">
-                          <p className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">STUDENT ID</p>
-                          <p className="font-mono text-lg font-black bg-slate-100 px-3 py-1 rounded-lg border border-slate-200">{form.getValues('studentId')}</p>
+
+                          <div className="p-8 space-y-10">
+                              {/* Top Meta Info */}
+                              <div className="flex justify-between items-start gap-12">
+                                  <div className="flex-1 space-y-6">
+                                      <div className="grid grid-cols-2 gap-6">
+                                          <PreviewField label="Student ID" value={form.getValues('studentId')} />
+                                          <PreviewField label="Branch Node" value={form.getValues('branch')} />
+                                      </div>
+                                      <div className="grid grid-cols-2 gap-6">
+                                          <PreviewField label="Admission Date" value={format(new Date(), 'dd/MM/yyyy')} />
+                                          <PreviewField label="Status" value="PROVISIONAL" />
+                                      </div>
+                                  </div>
+                                  <div className="shrink-0">
+                                      <div className="w-[120px] h-[150px] bg-slate-50 border-2 border-slate-100 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
+                                          {photoPreview ? (
+                                              <Image src={photoPreview} alt="Student" width={120} height={150} className="object-cover w-full h-full" />
+                                          ) : (
+                                              <User className="w-12 h-12 opacity-5" />
+                                          )}
+                                      </div>
+                                  </div>
+                              </div>
+
+                              {/* Student Identity */}
+                              <div className="space-y-6">
+                                  <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
+                                      <User className="w-3 h-3"/> I. Student Identity
+                                  </h3>
+                                  <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                                      <PreviewField label="Student Full Name" value={form.getValues('studentName')} />
+                                      <PreviewField label="Date of Birth" value={formatDateForDisplay(form.getValues('dob'))} />
+                                      <PreviewField label="Gender" value={form.getValues('gender')} />
+                                      <PreviewField label="Blood Group" value={form.getValues('bloodGroup')} />
+                                      <PreviewField label="Aadhar Number" value={form.getValues('aadharNumber')} />
+                                      <PreviewField label="APAAR/ABC ID" value={form.getValues('apaarId')} />
+                                  </div>
+                              </div>
+
+                              {/* Family Composition */}
+                              <div className="space-y-6">
+                                  <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
+                                      <Users className="w-3 h-3"/> II. Family Composition
+                                  </h3>
+                                  <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                                      <PreviewField label="Father's Name" value={form.getValues('fatherName')} />
+                                      <PreviewField label="Father's Occupation" value={form.getValues('fatherOccupation')} />
+                                      <PreviewField label="Mother's Name" value={form.getValues('motherName')} />
+                                      <PreviewField label="Mother's Occupation" value={form.getValues('motherOccupation')} />
+                                  </div>
+                              </div>
+                          </div>
                       </div>
                   </div>
+             </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
-                      <div className="md:col-span-3 space-y-4">
-                          <div className="w-full aspect-[3/4] bg-slate-50 border rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
-                              {photoPreview ? (
-                                  <Image src={photoPreview} alt="Student" width={150} height={200} className="object-cover w-full h-full" />
-                              ) : (
-                                  <User className="w-12 h-12 opacity-10" />
-                              )}
-                          </div>
-                          <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10">
-                              <p className="text-[8px] font-black text-primary uppercase tracking-widest mb-1 text-center">Assigned Branch</p>
-                              <p className="text-[10px] font-bold text-center leading-tight">{form.getValues('branch')}</p>
-                          </div>
-                      </div>
-
-                      <div className="md:col-span-9 grid grid-cols-2 gap-x-8 gap-y-4 font-bold text-[11px]">
-                          {[
-                              { label: "Full Name", value: form.getValues('studentName') },
-                              { label: "Date of Birth", value: formatDateForDisplay(form.getValues('dob')) },
-                              { label: "Gender", value: form.getValues('gender'), class: "capitalize" },
-                              { label: "Blood Group", value: form.getValues('bloodGroup') },
-                              { label: "Aadhar", value: form.getValues('aadharNumber') },
-                              { label: "Class", value: form.getValues('classApplied') },
-                              { label: "Father Name", value: form.getValues('fatherName') },
-                              { label: "Mother Name", value: form.getValues('motherName') },
-                              { label: "Email", value: form.getValues('email') },
-                              { label: "Parent Contact", value: form.getValues('fatherPhone') },
-                          ].map((item, idx) => (
-                              <div key={idx} className="flex flex-col gap-0.5 border-b border-slate-50 pb-1">
-                                  <span className="text-[8px] uppercase opacity-40 tracking-widest">{item.label}</span>
-                                  <span className={cn("text-foreground", item.class)}>{item.value || '—'}</span>
+             {/* Institutional Page 2 */}
+             <div className="mt-12 space-y-8 pt-12 border-t border-dashed border-slate-200">
+                  <div className="border-[3px] border-primary p-1 rounded-3xl">
+                      <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden p-8 space-y-10">
+                          {/* Contact & Residential Telemetry */}
+                          <div className="space-y-6">
+                              <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
+                                  <MapPin className="w-3 h-3"/> III. Contact & Residential Node
+                              </h3>
+                              <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                                  <PreviewField label="Email Address" value={form.getValues('email')} />
+                                  <PreviewField label="Student Mobile" value={form.getValues('studentPhone')} />
+                                  <PreviewField label="Father's Mobile" value={form.getValues('fatherPhone')} />
+                                  <PreviewField label="Mother's Mobile" value={form.getValues('motherPhone')} />
+                                  <div className="col-span-2">
+                                      <PreviewField label="Permanent Strategic Address" value={`${form.getValues('address')}, ${form.getValues('state')}, ${form.getValues('country')} - ${form.getValues('pincode')}`} />
+                                  </div>
                               </div>
-                          ))}
-                          <div className="col-span-full flex flex-col gap-0.5 border-b border-slate-50 pb-1 pt-2">
-                              <span className="text-[8px] uppercase opacity-40 tracking-widest">Permanent Address</span>
-                              <span className="text-foreground">{`${form.getValues('address')}, ${form.getValues('state')} - ${form.getValues('pincode')}`}</span>
+                          </div>
+
+                          {/* Academic Trajectory */}
+                          <div className="space-y-6">
+                              <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
+                                  <GraduationCap className="w-3 h-3"/> IV. Academic Trajectory
+                              </h3>
+                              <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                                  <PreviewField label="Selected Curriculum Path" value={form.getValues('classApplied')} />
+                                  <PreviewField label="Previous Educational Hub" value={form.getValues('previousSchool')} />
+                                  <div className="col-span-2">
+                                      <PreviewField label="Supplementary Intelligence" value={form.getValues('additionalInfo')} />
+                                  </div>
+                              </div>
+                          </div>
+
+                          {/* Declaration */}
+                          <div className="pt-12 space-y-12">
+                              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-[10px] text-slate-500 font-bold leading-relaxed">
+                                  Declaration: I hereby solemnly declare that all statements made in this application are true, complete and correct to the best of my knowledge and belief. I understand that the discovery of any misrepresentation or incorrect information will lead to immediate cancellation of the application/admission.
+                              </div>
+                              
+                              <div className="flex justify-between items-end pt-8">
+                                  <div className="space-y-2 text-center">
+                                      <div className="w-40 border-b-2 border-slate-900 pb-16"></div>
+                                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">Student Sign</p>
+                                  </div>
+                                  <div className="space-y-2 text-center">
+                                      <div className="w-40 border-b-2 border-slate-900 pb-16"></div>
+                                      <p className="text-[9px] font-black uppercase tracking-widest text-slate-900">Guardian Sign</p>
+                                  </div>
+                              </div>
                           </div>
                       </div>
                   </div>
              </div>
           </div>
         </ScrollArea>
-        <div className="p-6 bg-slate-50 border-t flex gap-3">
-           <Button variant="outline" className="flex-1 rounded-xl font-bold h-12 border-slate-200 bg-white" onClick={() => setIsPreviewOpen(false)}>
-              <Edit className="mr-2 h-4 w-4" />
-              MODIFY
-          </Button>
-          <Button className="flex-1 rounded-xl font-black h-12 bg-primary text-white shadow-lg shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
-            PAY & SUBMIT <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+        <div className="p-6 border-t bg-slate-50 flex gap-4">
+            <Button className="flex-1 h-14 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-xl shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
+                PROCEED TO FINAL SUBMISSION <ArrowRight className="ml-2 w-4 h-4" />
+            </Button>
         </div>
       </DialogContent>
     </Dialog>
 
     <Dialog open={isPaymentDialogOpen} onOpenChange={setIsPaymentDialogOpen}>
-      <DialogContent className="sm:max-w-md rounded-[2.5rem] border-none shadow-2xl p-8">
+      <DialogContent className="sm:max-w-md rounded-[2.5rem] border-none shadow-2xl p-8 bg-white">
           <DialogHeader>
               <div className="flex justify-center mb-6">
                   <div className="bg-primary/10 p-5 rounded-[2rem]">
                       <IndianRupee className="w-14 h-14 text-primary" />
                   </div>
               </div>
-              <DialogTitle className="text-center text-3xl font-black tracking-tight">Registration Fee</DialogTitle>
+              <DialogTitle className="text-center text-3xl font-black tracking-tight text-slate-900">Registration Fee</DialogTitle>
               <DialogDescription className="text-center font-bold text-xs text-muted-foreground uppercase tracking-[0.2em] pt-2">
                   One-time application processing fee
               </DialogDescription>
@@ -1099,14 +1169,14 @@ export default function AdmissionPage() {
     </Dialog>
     
     <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-        <DialogContent className="rounded-[2.5rem] max-w-sm border-none shadow-2xl p-10">
+        <DialogContent className="rounded-[2.5rem] max-w-sm border-none shadow-2xl p-10 bg-white">
             <DialogHeader>
                 <div className="flex justify-center mb-6">
                     <div className="bg-green-100 p-5 rounded-[2rem]">
                         <CheckCircle className="w-14 h-14 text-green-500" />
                     </div>
                 </div>
-                <DialogTitle className="text-center text-3xl font-black tracking-tight">Sync Complete!</DialogTitle>
+                <DialogTitle className="text-center text-3xl font-black tracking-tight text-slate-900">Sync Complete!</DialogTitle>
                 <DialogDescription className="text-center font-bold text-sm text-muted-foreground leading-relaxed pt-3">
                     Your application has been received and indexed. Our academic node will contact you shortly to finalize your onboarding.
                 </DialogDescription>
