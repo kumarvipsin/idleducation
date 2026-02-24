@@ -363,7 +363,7 @@ export default function AdmissionPage() {
                     <Sparkles className="w-8 h-8 text-primary animate-pulse" />
                 </div>
             </motion.div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight uppercase">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
                 Admission{' '}
                 <span className="relative inline-block">
                     <span className="relative z-10 text-primary">Form</span>
@@ -711,7 +711,7 @@ export default function AdmissionPage() {
                                       <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                                           <FormControl><SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-sm focus:ring-0"><SelectValue placeholder="Select Class/Course *" /></SelectTrigger></FormControl>
-                                          <SelectContent>{classes.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+                                          <SelectContent>{classes.map((c, i) => <SelectItem key={`${c}-${i}`} value={c}>{c}</SelectItem>)}</SelectContent>
                                       </Select>
                                   </div>
                                   <FormMessage className="text-[10px] px-4 pb-2" />
@@ -785,7 +785,7 @@ export default function AdmissionPage() {
                         <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden">
                             <FormHeader />
                             <div className="bg-primary/5 p-4 text-center border-b border-primary/10">
-                                <h2 className="text-sm font-bold text-primary uppercase">STUDENT ADMISSION FORM</h2>
+                                <h2 className="text-sm font-bold text-primary">Student Admission Form</h2>
                                 <p className="text-[10px] font-medium text-muted-foreground mt-1">Academic Session 2026-27</p>
                             </div>
                             <div className="p-8 space-y-10">
@@ -846,7 +846,7 @@ export default function AdmissionPage() {
                                 </div>
                             </div>
                             <div className="space-y-6">
-                                <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2"><GraduationCap className="w-4 h-4"/> IV. Academic Trajectory</h3>
+                                <h3 className="text-sm font-bold text-primary border-b pb-2 flex items-center gap-2"><GraduationCap className="w-4 h-4"/> V. Academic Trajectory</h3>
                                 <div className="grid grid-cols-2 gap-x-12 gap-y-6">
                                     <PreviewField label="Selected Path" value={form.getValues('classApplied')} />
                                     <PreviewField label="Previous School" value={form.getValues('previousSchool')} />
@@ -871,7 +871,7 @@ export default function AdmissionPage() {
           </ScrollArea>
           <div className="p-6 border-t bg-slate-50 flex gap-4 shrink-0">
               <Button className="flex-1 h-14 rounded-2xl font-bold text-sm bg-primary text-white shadow-xl shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
-                  PROCEED TO FINAL SUBMISSION <ArrowRight className="ml-2 w-4 h-4" />
+                  Proceed to Final Submission <ArrowRight className="ml-2 w-4 h-4" />
               </Button>
           </div>
         </DialogContent>
