@@ -1,9 +1,10 @@
+
 'use client';
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, BookOpen, Info, CheckCircle2, ShoppingCart } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TPaidCourse, TFreeCourseVideo } from "@/app/actions/types";
@@ -143,6 +144,15 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                         )}
                     </div>
                 </ScrollArea>
+                
+                {/* Mobile Close Button */}
+                <div className="lg:hidden p-4 border-t bg-slate-50 mt-auto">
+                    <DialogClose asChild>
+                        <Button variant="outline" className="w-full font-black text-[10px] tracking-widest uppercase h-11 rounded-xl shadow-sm border-slate-200">
+                            CLOSE PLAYER
+                        </Button>
+                    </DialogClose>
+                </div>
             </div>
         </DialogContent>
     );
@@ -329,7 +339,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                                   <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3 py-0 flex items-center justify-center">{course.medium}</Badge>
                               </div>
 
-                              <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
+                              <div className="text-[11px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
                                 <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
                                 <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
                               </div>
