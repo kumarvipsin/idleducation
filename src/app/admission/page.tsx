@@ -445,8 +445,6 @@ export default function AdmissionPage() {
                   {/* Row 1: Branch & Stu ID / Photo */}
                   <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                       <div className="md:col-span-8 p-6 space-y-4">
-                          <p className="font-bold text-lg text-primary">To, The Managing Director,</p>
-                          <p className="font-bold text-lg text-primary -mt-3">IDL EDUCATION PVT. LTD.</p>
                           <FormField
                               control={form.control}
                               name="branch"
