@@ -91,7 +91,7 @@ const FormHeader = () => (
                 <img src="/logo.png" alt="IDL EDUCATION Logo" width="48" height="48" className="object-contain shrink-0" />
                 <div className="flex flex-col text-left">
                     <h1 className="text-xl md:text-2xl font-extrabold text-white uppercase leading-none">IDL EDUCATION</h1>
-                    <span className="text-[6px] md:text-[7.5px] font-semibold text-white/80 leading-tight mt-1 block">
+                    <span className="text-[8.5px] md:text-[10px] font-semibold text-white/80 leading-tight mt-1 block whitespace-nowrap">
                         (Institute Of Distance Learning Pvt. Ltd.)
                     </span>
                 </div>
