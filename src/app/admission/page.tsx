@@ -115,21 +115,21 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const FormHeader = () => (
-    <header className="bg-primary text-primary-foreground p-4 md:p-5 rounded-t-2xl">
+    <header className="bg-primary text-primary-foreground p-3 md:p-4 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
             <div className="flex flex-row items-center gap-2">
-                <div className="relative w-12 h-12 shrink-0">
-                    <img src="/logo.png" alt="IDL Education Logo" className="w-12 h-12 object-contain" />
+                <div className="relative w-10 h-10 shrink-0">
+                    <img src="/logo.png" alt="IDL Education Logo" className="w-10 h-10 object-contain" />
                 </div>
                 <div className="flex flex-col leading-tight text-left">
-                    <div className="flex items-center gap-2">
-                        <span className="text-2xl font-extrabold text-white tracking-tight uppercase">IDL</span>
-                        <div className="flex flex-col text-[7px] font-bold text-white/60 tracking-tight leading-[1.1]">
+                    <div className="flex items-center gap-1.5">
+                        <span className="text-xl font-extrabold text-white tracking-tight uppercase">IDL</span>
+                        <div className="flex flex-col text-[6px] font-bold text-white/60 tracking-tight leading-[1.1]">
                             <span>Institute Of</span>
                             <span>Distance Learning Pvt. Ltd.</span>
                         </div>
                     </div>
-                    <span className="text-2xl font-extrabold text-white tracking-tight -mt-1">Education</span>
+                    <span className="text-xl font-extrabold text-white tracking-tight -mt-1">Education</span>
                 </div>
             </div>
             
@@ -987,8 +987,8 @@ export default function AdmissionPage() {
     </div>
     
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
-      <DialogContent className="sm:max-w-4xl max-h-[95vh] rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white">
-        <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between">
+      <DialogContent className="sm:max-w-5xl h-[95vh] rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white flex flex-col">
+        <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between shrink-0">
           <div className="space-y-1">
             <DialogTitle className="text-2xl font-black tracking-tight">Application Review</DialogTitle>
             <DialogDescription className="font-bold text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Digital validation of institutional record</DialogDescription>
@@ -1005,7 +1005,6 @@ export default function AdmissionPage() {
         
         <ScrollArea className="flex-1">
           <div ref={previewRef} className="p-10 bg-white text-black min-h-[1120px] w-full max-w-[210mm] mx-auto print:p-0">
-             {/* Institutional Page 1 */}
              <div className="space-y-8">
                   <div className="border-[3px] border-primary p-1 rounded-3xl">
                       <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden">
@@ -1017,7 +1016,6 @@ export default function AdmissionPage() {
                           </div>
 
                           <div className="p-8 space-y-10">
-                              {/* Top Meta Info */}
                               <div className="flex justify-between items-start gap-12">
                                   <div className="flex-1 space-y-6">
                                       <div className="grid grid-cols-2 gap-6">
@@ -1032,7 +1030,7 @@ export default function AdmissionPage() {
                                   <div className="shrink-0">
                                       <div className="w-[120px] h-[150px] bg-slate-50 border-2 border-slate-100 rounded-2xl overflow-hidden shadow-inner flex items-center justify-center">
                                           {photoPreview ? (
-                                              <Image src={photoPreview} alt="Student" width={120} height={150} className="object-cover w-full h-full" />
+                                              <img src={photoPreview} alt="Student" style={{ width: '120px', height: '150px', objectFit: 'cover' }} />
                                           ) : (
                                               <User className="w-12 h-12 opacity-5" />
                                           )}
@@ -1040,7 +1038,6 @@ export default function AdmissionPage() {
                                   </div>
                               </div>
 
-                              {/* Student Identity */}
                               <div className="space-y-6">
                                   <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
                                       <User className="w-3 h-3"/> I. Student Identity
@@ -1055,7 +1052,6 @@ export default function AdmissionPage() {
                                   </div>
                               </div>
 
-                              {/* Family Composition */}
                               <div className="space-y-6">
                                   <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
                                       <Users className="w-3 h-3"/> II. Family Composition
@@ -1072,11 +1068,9 @@ export default function AdmissionPage() {
                   </div>
              </div>
 
-             {/* Institutional Page 2 */}
              <div className="mt-12 space-y-8 pt-12 border-t border-dashed border-slate-200">
                   <div className="border-[3px] border-primary p-1 rounded-3xl">
                       <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden p-8 space-y-10">
-                          {/* Contact & Residential Telemetry */}
                           <div className="space-y-6">
                               <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
                                   <MapPin className="w-3 h-3"/> III. Contact & Residential Node
@@ -1092,7 +1086,6 @@ export default function AdmissionPage() {
                               </div>
                           </div>
 
-                          {/* Academic Trajectory */}
                           <div className="space-y-6">
                               <h3 className="text-[11px] font-black text-primary uppercase tracking-[0.2em] border-b pb-2 flex items-center gap-2">
                                   <GraduationCap className="w-3 h-3"/> IV. Academic Trajectory
@@ -1106,7 +1099,6 @@ export default function AdmissionPage() {
                               </div>
                           </div>
 
-                          {/* Declaration */}
                           <div className="pt-12 space-y-12">
                               <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-[10px] text-slate-500 font-bold leading-relaxed">
                                   Declaration: I hereby solemnly declare that all statements made in this application are true, complete and correct to the best of my knowledge and belief. I understand that the discovery of any misrepresentation or incorrect information will lead to immediate cancellation of the application/admission.
@@ -1128,7 +1120,7 @@ export default function AdmissionPage() {
              </div>
           </div>
         </ScrollArea>
-        <div className="p-6 border-t bg-slate-50 flex gap-4">
+        <div className="p-6 border-t bg-slate-50 flex gap-4 shrink-0">
             <Button className="flex-1 h-14 rounded-2xl font-black text-xs uppercase tracking-widest bg-primary text-white shadow-xl shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
                 PROCEED TO FINAL SUBMISSION <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
