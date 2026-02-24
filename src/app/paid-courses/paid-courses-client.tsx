@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
@@ -105,18 +104,18 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                     )}
                 </div>
 
-                <div className="p-4 md:p-6 bg-white border-b lg:border-b-0 border-border">
-                    <div className="flex flex-col gap-1.5">
+                <div className="p-3 md:p-4 bg-white border-b lg:border-b-0 border-border">
+                    <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             {activeChapterNumber && (
-                                <span className="text-[10px] font-extrabold text-primary uppercase tracking-widest">
+                                <span className="text-[9px] font-extrabold text-primary uppercase tracking-widest">
                                     Module {activeChapterNumber}
                                 </span>
                             )}
                             <span className="text-zinc-300">•</span>
-                            <span className="text-[10px] text-muted-foreground font-extrabold uppercase tracking-tight">{course.title}</span>
+                            <span className="text-[9px] text-muted-foreground font-extrabold uppercase tracking-tight">{course.title}</span>
                         </div>
-                        <h2 className="text-lg md:text-2xl font-extrabold text-foreground leading-tight tracking-tight mt-1">
+                        <h2 className="text-base md:text-xl font-extrabold text-foreground leading-tight tracking-tight mt-0.5">
                             {activeVideo?.title || "Select a Topic"}
                         </h2>
                     </div>
@@ -168,9 +167,9 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
                     </DialogClose>
                 </div>
 
-                <div className="p-3 bg-white border-t border-border hidden lg:flex items-center justify-center gap-2 shrink-0">
-                    <Image src="/logo.png" alt="Logo" width={14} height={14} className="opacity-40" />
-                    <span className="text-[8px] font-extrabold text-muted-foreground/60 tracking-[0.2em] uppercase">Premium Learning by IDL</span>
+                <div className="p-2 bg-white border-t border-border hidden lg:flex items-center justify-center gap-2 shrink-0">
+                    <Image src="/logo.png" alt="Logo" width={12} height={12} className="opacity-40" />
+                    <span className="text-[7px] font-extrabold text-muted-foreground/60 tracking-[0.2em] uppercase">Premium Learning by IDL</span>
                 </div>
             </div>
         </DialogContent>
@@ -356,8 +355,8 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
                               <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                               
                               <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                  <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.batchName}</Badge>
-                                  <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase">{course.medium}</Badge>
+                                  <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6">{course.batchName}</Badge>
+                                  <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6">{course.medium}</Badge>
                               </div>
 
                               <div className="text-[9px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
