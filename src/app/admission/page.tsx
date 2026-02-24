@@ -447,6 +447,20 @@ export default function AdmissionPage() {
                       <div className="md:col-span-8 p-6 space-y-4">
                           <FormField
                               control={form.control}
+                              name="studentId"
+                              render={({ field }) => (
+                                  <FormItem className="space-y-0 w-full max-w-[200px]">
+                                      <FormControl>
+                                          <div className="relative group">
+                                              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                                              <Input placeholder="Generating Stu ID..." {...field} readOnly className="pl-9 h-10 rounded-xl font-mono tracking-wider bg-white/80 border-slate-200 text-xs" />
+                                          </div>
+                                      </FormControl>
+                                  </FormItem>
+                              )}
+                          />
+                          <FormField
+                              control={form.control}
                               name="branch"
                               render={({ field }) => (
                                   <FormItem className="space-y-0">
@@ -471,20 +485,6 @@ export default function AdmissionPage() {
                           />
                       </div>
                       <div className="md:col-span-4 p-6 flex flex-col items-center justify-center gap-4 bg-slate-50/30 dark:bg-slate-800/30">
-                          <FormField
-                              control={form.control}
-                              name="studentId"
-                              render={({ field }) => (
-                                  <FormItem className="space-y-0 w-full">
-                                      <FormControl>
-                                          <div className="relative group">
-                                              <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-                                              <Input placeholder="Generating Stu ID..." {...field} readOnly className="pl-9 h-10 rounded-xl font-mono tracking-wider bg-white/80 border-slate-200 text-xs" />
-                                          </div>
-                                      </FormControl>
-                                  </FormItem>
-                              )}
-                          />
                           <FormField
                               control={form.control}
                               name="studentPhoto"
