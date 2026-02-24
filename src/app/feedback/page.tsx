@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, ArrowRight, Tag, HelpCircle, Layers } from "lucide-react";
+import { Star, Send, User, Mail, MessageSquare, Sparkles, CheckCircle, Layers } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -69,189 +69,215 @@ export default function FeedbackPage() {
     };
 
     return (
-        <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 overflow-x-hidden relative">
+        <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative selection:bg-primary/10">
+            {/* Subtle Background Texture */}
+            <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
+            
             {/* Floating Decorative Elements */}
             <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
             <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
             
-            <div className="container mx-auto px-4 md:px-6 py-12 lg:py-16 relative z-10">
-                <div className="max-w-lg mx-auto space-y-8">
+            <div className="container mx-auto px-4 md:px-6 py-12 lg:py-20 relative z-10">
+                <div className="max-w-md mx-auto space-y-10">
+                    
                     {/* Header Section */}
-                    <div className="text-center space-y-3 animate-fade-in-up">
-                        <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-white shadow-sm border border-primary/5 text-primary text-[8px] font-black uppercase tracking-wider">
-                            <Sparkles className="w-2 h-2 text-yellow-500 fill-yellow-500" />
-                            COMMUNITY VOICE
+                    <div className="text-center space-y-6">
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="flex flex-col items-center gap-4"
+                        >
+                            <div className="bg-primary/10 p-4 rounded-full border border-primary/20 shadow-sm transition-all duration-500 hover:scale-110">
+                                <Sparkles className="w-8 h-8 text-primary animate-pulse" />
+                            </div>
+                        </motion.div>
+                        
+                        <div className="space-y-3">
+                            <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+                                Share Your{' '}
+                                <span className="relative inline-block">
+                                    <span className="relative z-10 text-primary">Feedback</span>
+                                    <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                                        <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                            <path d="M0,15 Q50,5 100,15" />
+                                        </svg>
+                                    </div>
+                                </span>
+                            </h1>
+                            <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold tracking-tight leading-relaxed">
+                                We Value Your Opinion And Would Love To Hear About Your Experience.
+                            </p>
                         </div>
-                        <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
-                            Share Your{' '}
-                            <span className="relative inline-block">
-                                <span className="relative z-10 text-primary">Feedback</span>
-                                <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
-                                    <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                        <path d="M0,15 Q50,5 100,15" />
-                                    </svg>
-                                </div>
-                            </span>
-                        </h1>
-                        <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] md:text-xs font-semibold leading-relaxed whitespace-nowrap">
-                            We value your opinion and would love to hear about your experience.
-                        </p>
                     </div>
 
-                    {/* Feedback Form Card */}
-                    <Card className="shadow-xl rounded-xl border border-border bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                        <CardContent className="p-6 md:p-8 space-y-5">
+                    {/* Premium Table-Style Form Card */}
+                    <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                        <CardContent className="p-0">
                            <Form {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                                    <div className="flex flex-col gap-5">
+                                <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+                                    <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
+                                        
+                                        {/* Row 1: Name & Email */}
+                                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                            <FormField
+                                                control={form.control}
+                                                name="name"
+                                                render={({ field }) => (
+                                                    <FormItem className="space-y-0">
+                                                        <FormControl>
+                                                            <div className="relative group h-full">
+                                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                                    <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                                </div>
+                                                                <Input placeholder="Your Name (Optional)" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                                            </div>
+                                                        </FormControl>
+                                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                            <FormField
+                                                control={form.control}
+                                                name="email"
+                                                render={({ field }) => (
+                                                    <FormItem className="space-y-0">
+                                                        <FormControl>
+                                                            <div className="relative group h-full">
+                                                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                                    <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                                </div>
+                                                                <Input type="email" placeholder="Email (Optional)" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                                            </div>
+                                                        </FormControl>
+                                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        {/* Row 2: Category */}
                                         <FormField
                                             control={form.control}
-                                            name="name"
+                                            name="category"
                                             render={({ field }) => (
-                                                <FormItem>
-                                                    <FormControl>
-                                                        <div className="relative group">
-                                                            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                            <Input placeholder="Name (Optional)" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                <FormItem className="space-y-0">
+                                                    <div className="relative group h-full">
+                                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                                            <Layers className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                         </div>
-                                                    </FormControl>
-                                                    <FormMessage className="text-[10px]" />
+                                                        <Select onValueChange={field.onChange} value={field.value}>
+                                                            <FormControl>
+                                                                <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                                                    <SelectValue placeholder="Feedback Category *" />
+                                                                </SelectTrigger>
+                                                            </FormControl>
+                                                            <SelectContent>
+                                                                <SelectItem value="general" className="text-xs font-bold">General Feedback</SelectItem>
+                                                                <SelectItem value="course-content" className="text-xs font-bold">Course Content</SelectItem>
+                                                                <SelectItem value="teacher" className="text-xs font-bold">Teacher Experience</SelectItem>
+                                                                <SelectItem value="technical-issue" className="text-xs font-bold">Technical Issue</SelectItem>
+                                                                <SelectItem value="suggestion" className="text-xs font-bold">Suggestion</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    <FormMessage className="text-[10px] px-4 pb-2" />
                                                 </FormItem>
                                             )}
                                         />
+
+                                        {/* Row 3: Rating Selection */}
+                                        <div className="p-6 md:p-8 bg-slate-50/30 dark:bg-slate-800/30">
+                                            <FormField
+                                                control={form.control}
+                                                name="rating"
+                                                render={({ field }) => (
+                                                    <FormItem className="space-y-4">
+                                                        <div className="flex flex-col items-center gap-4">
+                                                            <div className="text-center space-y-0.5">
+                                                                <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">EXPERIENCE RATING</h4>
+                                                                <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your star level</p>
+                                                            </div>
+                                                            
+                                                            <FormControl>
+                                                                <div className="flex items-center justify-center gap-2 md:gap-3">
+                                                                    {[1, 2, 3, 4, 5].map((star) => (
+                                                                        <button
+                                                                            type="button"
+                                                                            key={star}
+                                                                            onMouseEnter={() => setHoverRating(star)}
+                                                                            onMouseLeave={() => setHoverRating(0)}
+                                                                            onClick={() => field.onChange(star)}
+                                                                            className="relative group focus:outline-none transition-transform active:scale-90"
+                                                                        >
+                                                                            <Star className={cn(
+                                                                                "w-8 h-8 md:w-10 md:h-10 transition-all duration-500",
+                                                                                (hoverRating || field.value) >= star 
+                                                                                    ? "text-yellow-400 fill-yellow-400 filter drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]" 
+                                                                                    : "text-slate-200 dark:text-slate-800"
+                                                                            )} />
+                                                                        </button>
+                                                                    ))}
+                                                                </div>
+                                                            </FormControl>
+
+                                                            <div className="h-6 flex items-center justify-center">
+                                                                <AnimatePresence mode="wait">
+                                                                    {(hoverRating || field.value) > 0 && (
+                                                                        <motion.div 
+                                                                            key={hoverRating || field.value}
+                                                                            initial={{ opacity: 0, scale: 0.8 }}
+                                                                            animate={{ opacity: 1, scale: 1 }}
+                                                                            exit={{ opacity: 0, scale: 0.8 }}
+                                                                            className={cn(
+                                                                                "px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.2em] border shadow-sm",
+                                                                                (hoverRating || field.value) >= 4 ? "bg-green-50 text-green-600 border-green-100" :
+                                                                                (hoverRating || field.value) >= 3 ? "bg-yellow-50 text-yellow-600 border-yellow-100" :
+                                                                                "bg-red-50 text-red-600 border-red-100"
+                                                                            )}
+                                                                        >
+                                                                            {getRatingLabel(hoverRating || field.value)}
+                                                                        </motion.div>
+                                                                    )}
+                                                                </AnimatePresence>
+                                                            </div>
+                                                        </div>
+                                                        <FormMessage className="text-center text-[10px]"/>
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        {/* Row 4: Detailed Feedback */}
                                         <FormField
                                             control={form.control}
-                                            name="email"
+                                            name="feedback"
                                             render={({ field }) => (
-                                                <FormItem>
+                                                <FormItem className="space-y-0">
                                                     <FormControl>
-                                                        <div className="relative group">
-                                                            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                            <Input type="email" placeholder="Email (Optional)" {...field} className="pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20" />
+                                                        <div className="relative group h-full">
+                                                            <div className="absolute left-4 top-5 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                                                <MessageSquare className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                                            </div>
+                                                            <Textarea 
+                                                                placeholder="Describe your experience in detail... *" 
+                                                                className="min-h-[140px] pl-12 pt-4 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none"
+                                                                {...field}
+                                                            />
                                                         </div>
                                                     </FormControl>
-                                                    <FormMessage className="text-[10px]" />
+                                                    <FormMessage className="text-[10px] px-4 pb-2" />
                                                 </FormItem>
                                             )}
                                         />
                                     </div>
-                                    
-                                    <FormField
-                                        control={form.control}
-                                        name="category"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <div className="relative group">
-                                                    <Layers className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors pointer-events-none z-10" />
-                                                    <Select onValueChange={field.onChange} value={field.value}>
-                                                        <FormControl>
-                                                            <SelectTrigger className={cn(
-                                                                "pl-9 h-10 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20",
-                                                                !field.value && "text-slate-400"
-                                                            )}>
-                                                                <SelectValue placeholder="Feedback Category *" />
-                                                            </SelectTrigger>
-                                                        </FormControl>
-                                                        <SelectContent>
-                                                            <SelectItem value="general" className="text-xs">General Feedback</SelectItem>
-                                                            <SelectItem value="course-content" className="text-xs">Course Content</SelectItem>
-                                                            <SelectItem value="teacher" className="text-xs">Teacher Experience</SelectItem>
-                                                            <SelectItem value="technical-issue" className="text-xs">Technical Issue</SelectItem>
-                                                            <SelectItem value="suggestion" className="text-xs">Suggestion</SelectItem>
-                                                        </SelectContent>
-                                                    </Select>
-                                                </div>
-                                                <FormMessage className="text-[10px]" />
-                                            </FormItem>
-                                        )}
-                                    />
 
-                                    <FormField
-                                        control={form.control}
-                                        name="rating"
-                                        render={({ field }) => (
-                                            <FormItem className="space-y-4">
-                                                <div className="flex flex-col items-center gap-4 py-2">
-                                                    <div className="text-center space-y-0.5">
-                                                        <h4 className="text-[10px] font-black text-foreground uppercase tracking-widest">EXPERIENCE RATING</h4>
-                                                        <p className="text-[8px] font-bold text-muted-foreground uppercase tracking-[0.2em]">Select your star level</p>
-                                                    </div>
-                                                    
-                                                    <FormControl>
-                                                        <div className="flex items-center justify-center gap-2 md:gap-3">
-                                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                                <button
-                                                                    type="button"
-                                                                    key={star}
-                                                                    onMouseEnter={() => setHoverRating(star)}
-                                                                    onMouseLeave={() => setHoverRating(0)}
-                                                                    onClick={() => field.onChange(star)}
-                                                                    className="relative group focus:outline-none transition-transform active:scale-90"
-                                                                >
-                                                                    <Star className={cn(
-                                                                        "w-8 h-8 md:w-10 md:h-10 transition-all duration-500",
-                                                                        (hoverRating || field.value) >= star 
-                                                                            ? "text-yellow-400 fill-yellow-400 filter drop-shadow-[0_0_8px_rgba(250,204,21,0.3)]" 
-                                                                            : "text-slate-200 dark:text-slate-800"
-                                                                    )} />
-                                                                    {(hoverRating || field.value) >= star && (
-                                                                        <div className="absolute inset-0 bg-yellow-400/10 blur-xl rounded-full -z-10 animate-pulse" />
-                                                                    )}
-                                                                </button>
-                                                            ))}
-                                                        </div>
-                                                    </FormControl>
-
-                                                    <div className="h-6 flex items-center justify-center">
-                                                        <AnimatePresence mode="wait">
-                                                            {(hoverRating || field.value) > 0 && (
-                                                                <motion.div 
-                                                                    key={hoverRating || field.value}
-                                                                    initial={{ opacity: 0, scale: 0.8 }}
-                                                                    animate={{ opacity: 1, scale: 1 }}
-                                                                    exit={{ opacity: 0, scale: 0.8 }}
-                                                                    className={cn(
-                                                                        "px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-[0.2em] border shadow-sm",
-                                                                        (hoverRating || field.value) >= 4 ? "bg-green-50 text-green-600 border-green-100" :
-                                                                        (hoverRating || field.value) >= 3 ? "bg-yellow-50 text-yellow-600 border-yellow-100" :
-                                                                        "bg-red-50 text-red-600 border-red-100"
-                                                                    )}
-                                                                >
-                                                                    {getRatingLabel(hoverRating || field.value)}
-                                                                </motion.div>
-                                                            )}
-                                                        </AnimatePresence>
-                                                    </div>
-                                                </div>
-                                                <FormMessage className="text-center text-[10px]"/>
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="feedback"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormControl>
-                                                    <div className="relative group">
-                                                        <MessageSquare className="absolute left-3 top-3 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                                        <Textarea 
-                                                            placeholder="Describe your experience in detail... *" 
-                                                            className="min-h-[100px] pl-9 bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 rounded-lg font-medium text-xs transition-all focus:ring-2 focus:ring-primary/20"
-                                                            {...field}
-                                                        />
-                                                    </div>
-                                                </FormControl>
-                                                <FormMessage className="text-[10px]" />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <Button type="submit" className="w-full h-11 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-lg shadow-none transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
-                                        {form.formState.isSubmitting ? 'PROCESSING...' : 'Submit Feedback'}
-                                        <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                                    </Button>
+                                    {/* Footer / Submit Button */}
+                                    <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+                                        <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
+                                            {form.formState.isSubmitting ? 'PROCESSING...' : 'SUBMIT FEEDBACK'}
+                                            <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                                        </Button>
+                                    </div>
                                 </form>
                            </Form>
                         </CardContent>
@@ -260,21 +286,21 @@ export default function FeedbackPage() {
             </div>
 
             <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-                <DialogContent className="rounded-xl max-w-sm">
+                <DialogContent className="rounded-[2rem] max-w-sm border-none shadow-2xl p-8">
                     <DialogHeader>
-                        <div className="flex justify-center mb-4">
-                            <div className="bg-green-100 p-3 rounded-full">
+                        <div className="flex justify-center mb-6">
+                            <div className="bg-green-100 p-4 rounded-3xl">
                                 <CheckCircle className="w-12 h-12 text-green-500" />
                             </div>
                         </div>
-                        <DialogTitle className="text-center text-xl font-black tracking-tight text-slate-900">Thank You!</DialogTitle>
-                        <DialogDescription className="text-center font-semibold text-xs text-slate-600">
-                            Your feedback has been submitted successfully. We appreciate your input!
+                        <DialogTitle className="text-center text-2xl font-black tracking-tight text-slate-900">Thank You!</DialogTitle>
+                        <DialogDescription className="text-center font-bold text-xs text-slate-600 leading-relaxed pt-2 px-2">
+                            Your feedback has been submitted successfully. We appreciate your input and will use it to enhance our services.
                         </DialogDescription>
                     </DialogHeader>
-                    <DialogFooter>
-                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-10 rounded-lg font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10">
-                            Close & Return
+                    <DialogFooter className="mt-6">
+                        <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10">
+                            Close Workspace
                         </Button>
                     </DialogFooter>
                 </DialogContent>
