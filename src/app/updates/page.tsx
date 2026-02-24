@@ -124,7 +124,7 @@ export default function UpdatesPage() {
                                     viewport={{ once: true }}
                                     className="flex items-center gap-4 pt-6 pb-2"
                                 >
-                                    <h2 className="text-xl md:text-2xl font-black text-foreground uppercase tracking-tighter whitespace-nowrap">{month}</h2>
+                                    <h2 className="text-lg md:text-xl font-black text-foreground uppercase tracking-tighter whitespace-nowrap">{month}</h2>
                                     <div className="h-[2px] flex-1 bg-gradient-to-r from-primary/30 via-primary/10 to-transparent rounded-full" />
                                 </motion.div>
 
