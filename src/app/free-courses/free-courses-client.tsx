@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
 import { GcsImage } from "@/components/gcs-image";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
@@ -74,14 +74,14 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
 
     return (
-        <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
+        <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-5xl w-full h-full lg:h-fit overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
             <DialogHeader className="sr-only">
                 <DialogTitle>{course.title}</DialogTitle>
                 <DialogDescription>Video course curriculum</DialogDescription>
             </DialogHeader>
 
-            <div className="flex-none lg:flex-grow bg-white flex flex-col relative h-auto lg:h-full">
-                <div className="aspect-video w-full relative flex items-center justify-center bg-white shadow-sm">
+            <div className="flex-none lg:flex-grow bg-white flex flex-col relative h-auto">
+                <div className="aspect-video w-full relative flex items-center justify-center bg-white">
                     {activeVideoId ? (
                         <iframe
                             className="w-full h-full"
