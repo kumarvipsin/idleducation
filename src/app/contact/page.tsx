@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent } from "@/components/ui/card";
 import { ContactForm } from "@/components/contact-form";
@@ -15,9 +14,9 @@ export default function ContactPage() {
             We are here to help! Fill out the form and our team will get back to you.
         </p>
       </div>
-      <div className="w-full max-w-md mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white">
-          <CardContent className="space-y-6 p-8">
+      <div className="w-full max-w-lg mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white overflow-hidden">
+          <CardContent className="p-0">
             <ContactForm />
           </CardContent>
         </Card>
