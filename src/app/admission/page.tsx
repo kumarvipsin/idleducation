@@ -22,12 +22,13 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { format, getDaysInMonth } from "date-fns";
 import Script from "next/script";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 const phoneRegex = /^\d{10}$/;
 const pincodeRegex = /^\d{6}$/;
@@ -356,6 +357,13 @@ export default function AdmissionPage() {
       <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
       <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
 
+      <Link href="/" className="absolute top-4 right-4 z-20">
+          <Button variant="ghost" size="icon">
+              <Home className="h-6 w-6 text-primary" />
+              <span className="sr-only">Home</span>
+          </Button>
+      </Link>
+
       <div className="container mx-auto py-12 px-4 md:px-[10%] relative z-10">
         <div className="text-center mb-8 animate-fade-in-up">
             <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
@@ -661,7 +669,7 @@ export default function AdmissionPage() {
                           )} />
                       </div>
 
-                      <FormField control={form.control} name="address" render={({ field }) => (
+                      <FormField disableHover control={form.control} name="address" render={({ field }) => (
                           <FormItem className="space-y-0">
                               <FormControl>
                                   <div className="relative group h-full">
