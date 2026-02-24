@@ -1,11 +1,16 @@
-
 'use client';
 import React from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { User, Mail, Phone, GraduationCap, Building, Info, Send, Camera, Briefcase, KeyRound, Upload, Globe, MapPin, Calendar as CalendarIcon, FileText, Edit, Download, Hash, Home, Droplets, VenetianMask, CheckCircle, X, ArrowRight, Sparkles } from "lucide-react";
+import { 
+  User, Mail, Phone, GraduationCap, Building, Info, Send, 
+  Briefcase, KeyRound, Upload, Globe, MapPin, 
+  Calendar as CalendarIcon, FileText, Edit, Download, 
+  Home, Droplets, VenetianMask, CheckCircle, X, 
+  ArrowRight, Sparkles, IndianRupee, Banknote 
+} from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,16 +22,14 @@ import html2canvas from 'html2canvas';
 import { useState, useEffect, useRef } from "react";
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
 import { Separator } from "@/components/ui/separator";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import Link from "next/link";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
 import { format, getDaysInMonth } from "date-fns";
 import { cn } from "@/lib/utils";
 import Script from "next/script";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const phoneRegex = /^\d{10}$/;
 const pincodeRegex = /^\d{6}$/;
@@ -43,7 +46,7 @@ const indianStates = [
 ];
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 const countries = [
-  "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
+  "India", "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan",
   "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia and Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina Faso", "Burundi",
   "Cabo Verde", "Cambodia", "Cameroon", "Canada", "Central African Republic", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo, Democratic Republic of the", "Congo, Republic of the", "Costa Rica", "Cote d'Ivoire", "Croatia", "Cuba", "Cyprus", "Czech Republic",
   "Denmark", "Djibouti", "Dominica", "Dominican Republic",
@@ -51,7 +54,7 @@ const countries = [
   "Fiji", "Finland", "France",
   "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana",
   "Haiti", "Honduras", "Hungary",
-  "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
+  "Iceland", "Indonesia", "Iran", "Iraq", "Ireland", "Israel", "Italy",
   "Jamaica", "Japan", "Jordan",
   "Kazakhstan", "Kenya", "Kiribati", "Kuwait", "Kyrgyzstan",
   "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg",
@@ -112,7 +115,7 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const FormHeader = () => (
-    <header className="bg-primary text-primary-foreground p-6">
+    <header className="bg-primary text-primary-foreground p-6 rounded-t-2xl">
         <div className="flex flex-row items-center justify-start gap-4 text-left">
             <div className="relative w-16 h-16 shrink-0">
                 <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
@@ -125,7 +128,7 @@ const FormHeader = () => (
                         <span>Distance Learning Pvt. Ltd.</span>
                     </div>
                 </div>
-                <span className="text-3xl font-extrabold text-white tracking-tight -mt-1">Education</span>
+                <span className="text-3xl font-extrabold text-white tracking-tight -mt-1 uppercase">Education</span>
             </div>
         </div>
     </header>
@@ -349,7 +352,7 @@ export default function AdmissionPage() {
 
 
   const classes = [
-    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIIICLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
+    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
     "JEE", "NEET", "CUET", "CBSE", "NIOS", "SSC", "BANK PO", "RRB", "CLAT", "GATE", "DEFENCE", "DELHI POLICE"
   ];
   
@@ -423,19 +426,18 @@ export default function AdmissionPage() {
               <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start">
-                      <div className="md:col-span-2 space-y-2 text-sm">
-                          <p className="font-bold">To,</p>
-                          <p className="font-bold">The Managing Director,</p>
-                          <p className="font-bold">IDL EDUCATION PVT. LTD.</p>
+                      <div className="md:col-span-2 space-y-4 text-sm">
+                          <p className="font-bold text-lg text-primary">To, The Managing Director,</p>
+                          <p className="font-bold text-lg text-primary -mt-3">IDL EDUCATION PVT. LTD.</p>
                           <FormField
                               control={form.control}
                               name="branch"
                               render={({ field }) => (
                                   <FormItem className="flex items-center gap-2">
-                                  <FormLabel className="font-bold whitespace-nowrap">Branch <span className="text-destructive">*</span>:</FormLabel>
+                                  <FormLabel className="font-bold whitespace-nowrap text-foreground">Branch <span className="text-destructive">*</span>:</FormLabel>
                                   <Select onValueChange={field.onChange} value={field.value}>
                                       <FormControl>
-                                      <SelectTrigger className="w-full h-10 rounded-xl">
+                                      <SelectTrigger className="w-full h-10 rounded-xl border-slate-200">
                                           <SelectValue placeholder="Select Your Nearest Branch" />
                                       </SelectTrigger>
                                       </FormControl>
@@ -456,9 +458,9 @@ export default function AdmissionPage() {
                               name="studentId"
                               render={({ field }) => (
                                   <FormItem className="flex items-center gap-2 w-full">
-                                  <FormLabel className="font-bold whitespace-nowrap">Stu ID. :</FormLabel>
+                                  <FormLabel className="font-bold whitespace-nowrap text-foreground">Stu ID. :</FormLabel>
                                   <FormControl>
-                                      <Input placeholder="Generating..." {...field} readOnly className="h-10 rounded-xl font-mono tracking-wider" />
+                                      <Input placeholder="Generating..." {...field} readOnly className="h-10 rounded-xl font-mono tracking-wider bg-slate-50 border-slate-200" />
                                   </FormControl>
                                   <FormMessage />
                                   </FormItem>
@@ -475,7 +477,7 @@ export default function AdmissionPage() {
                                                   <Image src={photoPreview} alt="Student photo preview" width={132} height={170} className="object-cover h-full w-full"/>
                                           ) : (
                                                   <div className="text-center text-muted-foreground p-2">
-                                                      <Upload className="w-6 h-6 mx-auto mb-2" />
+                                                      <Camera className="w-6 h-6 mx-auto mb-2" />
                                                       <p className="text-[10px] font-bold uppercase">Upload Photo</p>
                                                   </div>
                                           )}
@@ -522,7 +524,7 @@ export default function AdmissionPage() {
                           <FormControl>
                               <div className="relative group">
                                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Input placeholder="Student's Name *" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                  <Input placeholder="Student's Name *" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -536,19 +538,19 @@ export default function AdmissionPage() {
                           <FormItem>
                               <div className="grid grid-cols-3 gap-2">
                                   <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
-                                      <SelectTrigger className="rounded-xl h-12"><SelectValue placeholder="Day *" /></SelectTrigger>
+                                      <SelectTrigger className="rounded-xl h-12 border-slate-200"><SelectValue placeholder="Day *" /></SelectTrigger>
                                       <SelectContent>
                                           {availableDays.map(day => <SelectItem key={day} value={String(day)}>{day}</SelectItem>)}
                                       </SelectContent>
                                   </Select>
                                   <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
-                                      <SelectTrigger className="rounded-xl h-12"><SelectValue placeholder="Month *" /></SelectTrigger>
+                                      <SelectTrigger className="rounded-xl h-12 border-slate-200"><SelectValue placeholder="Month *" /></SelectTrigger>
                                       <SelectContent>
                                           {months.map(month => <SelectItem key={month} value={month}>{month}</SelectItem>)}
                                       </SelectContent>
                                   </Select>
                                   <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
-                                      <SelectTrigger className="rounded-xl h-12"><SelectValue placeholder="Year *" /></SelectTrigger>
+                                      <SelectTrigger className="rounded-xl h-12 border-slate-200"><SelectValue placeholder="Year *" /></SelectTrigger>
                                       <SelectContent>
                                           {years.map(year => <SelectItem key={year} value={String(year)}>{year}</SelectItem>)}
                                       </SelectContent>
@@ -569,7 +571,7 @@ export default function AdmissionPage() {
                                       <FormControl>
                                       <div className="relative group">
                                           <VenetianMask className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <SelectTrigger className="pl-9 h-12 rounded-xl">
+                                          <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200">
                                               <SelectValue placeholder="Select Gender *" />
                                           </SelectTrigger>
                                       </div>
@@ -593,7 +595,7 @@ export default function AdmissionPage() {
                                       <FormControl>
                                       <div className="relative group">
                                           <Droplets className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                          <SelectTrigger className="pl-9 h-12 rounded-xl">
+                                          <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200">
                                               <SelectValue placeholder="Select Blood Group" />
                                           </SelectTrigger>
                                       </div>
@@ -618,7 +620,7 @@ export default function AdmissionPage() {
                               <FormControl>
                                   <div className="relative group">
                                       <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                      <Input placeholder="Aadhar Number" {...field} className="pl-9 h-12 rounded-xl" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                      <Input placeholder="Aadhar Number" {...field} className="pl-9 h-12 rounded-xl border-slate-200" maxLength={12} onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                                   </div>
                               </FormControl>
                               <FormMessage />
@@ -633,7 +635,7 @@ export default function AdmissionPage() {
                               <FormControl>
                                   <div className="relative group">
                                       <KeyRound className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                      <Input placeholder="APAAR/ABC ID" {...field} className="pl-9 h-12 rounded-xl" />
+                                      <Input placeholder="APAAR/ABC ID" {...field} className="pl-9 h-12 rounded-xl border-slate-200" />
                                   </div>
                               </FormControl>
                               <FormMessage />
@@ -650,7 +652,7 @@ export default function AdmissionPage() {
                           <FormControl>
                               <div className="relative group">
                                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Input placeholder="Father's Name *" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                  <Input placeholder="Father's Name *" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -665,7 +667,7 @@ export default function AdmissionPage() {
                           <FormControl>
                           <div className="relative group">
                                   <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Input placeholder="Father's Occupation" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                  <Input placeholder="Father's Occupation" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -682,7 +684,7 @@ export default function AdmissionPage() {
                           <FormControl>
                               <div className="relative group">
                                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Input placeholder="Mother's Name *" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                                  <Input placeholder="Mother's Name *" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -697,7 +699,7 @@ export default function AdmissionPage() {
                           <FormControl>
                           <div className="relative group">
                                   <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Input placeholder="Mother's Occupation" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                  <Input placeholder="Mother's Occupation" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -714,7 +716,7 @@ export default function AdmissionPage() {
                           <FormControl>
                               <div className="relative group">
                               <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              <Input type="email" placeholder="Email Address *" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
+                              <Input type="email" placeholder="Email Address *" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(e.target.value.toLowerCase())}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -730,7 +732,7 @@ export default function AdmissionPage() {
                               <div className="relative group">
                               <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                               <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-slate-400 group-focus-within:text-primary font-bold">+91</span>
-                              <Input type="tel" placeholder="Student's Phone Number" {...field} className="pl-16 h-12 rounded-xl" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                              <Input type="tel" placeholder="Student's Phone Number" {...field} className="pl-16 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -748,7 +750,7 @@ export default function AdmissionPage() {
                               <div className="relative group">
                                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                   <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-slate-400 group-focus-within:text-primary font-bold">+91</span>
-                                  <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-16 h-12 rounded-xl" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
+                                  <Input type="tel" placeholder="Father's Contact *" {...field} className="pl-16 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -764,7 +766,7 @@ export default function AdmissionPage() {
                               <div className="relative group">
                                   <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                   <span className="absolute left-9 top-1/2 -translate-y-1/2 text-sm text-slate-400 group-focus-within:text-primary font-bold">+91</span>
-                                  <Input type="tel" placeholder="Mother's Contact *" {...field} className="pl-16 h-12 rounded-xl" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
+                                  <Input type="tel" placeholder="Mother's Contact *" {...field} className="pl-16 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -781,7 +783,7 @@ export default function AdmissionPage() {
                          <FormControl>
                               <div className="relative group">
                                   <Home className="absolute left-3 top-3 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Textarea placeholder="Full Address *" className="min-h-[100px] pl-9 rounded-xl pt-3" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                                  <Textarea placeholder="Full Address *" className="min-h-[100px] pl-9 rounded-xl pt-3 border-slate-200" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -799,7 +801,7 @@ export default function AdmissionPage() {
                                       <FormControl>
                                           <div className="relative group">
                                               <Globe className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                              <SelectTrigger className="pl-9 h-12 rounded-xl">
+                                              <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200">
                                                   <SelectValue placeholder="Select a country *" />
                                               </SelectTrigger>
                                           </div>
@@ -823,7 +825,7 @@ export default function AdmissionPage() {
                                   <FormControl>
                                   <div className="relative group">
                                       <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                      <SelectTrigger className="pl-9 h-12 rounded-xl">
+                                      <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200">
                                           <SelectValue placeholder="Select a state *" />
                                       </SelectTrigger>
                                   </div>
@@ -846,7 +848,7 @@ export default function AdmissionPage() {
                               <FormControl>
                                   <div className="relative group">
                                   <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <Input placeholder="Pincode *" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={6} />
+                                  <Input placeholder="Pincode *" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} maxLength={6} />
                                   </div>
                               </FormControl>
                               <FormMessage />
@@ -865,7 +867,7 @@ export default function AdmissionPage() {
                               <FormControl>
                               <div className="relative group">
                                   <GraduationCap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                  <SelectTrigger className="pl-9 h-12 rounded-xl">
+                                  <SelectTrigger className="pl-9 h-12 rounded-xl border-slate-200">
                                       <SelectValue placeholder="Applying for Class *" />
                                   </SelectTrigger>
                               </div>
@@ -888,7 +890,7 @@ export default function AdmissionPage() {
                           <FormControl>
                               <div className="relative group">
                               <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              <Input placeholder="Previous School Name (if any)" {...field} className="pl-9 h-12 rounded-xl" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
+                              <Input placeholder="Previous School Name (if any)" {...field} className="pl-9 h-12 rounded-xl border-slate-200" onChange={(e) => field.onChange(capitalizeWords(e.target.value))}/>
                               </div>
                           </FormControl>
                           <FormMessage />
@@ -904,7 +906,7 @@ export default function AdmissionPage() {
                       <FormControl>
                          <div className="relative group">
                               <Info className="absolute left-3 top-3 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              <Textarea placeholder="Additional Information" className="min-h-[100px] pl-9 rounded-xl pt-3" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
+                              <Textarea placeholder="Additional Information" className="min-h-[100px] pl-9 rounded-xl pt-3 border-slate-200" {...field} onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
                           </div>
                       </FormControl>
                       <FormMessage />
@@ -916,7 +918,7 @@ export default function AdmissionPage() {
           </CardContent>
         </Card>
         <div className="mt-8 flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
-            <Button type="button" size="lg" className="flex-1 rounded-xl font-bold h-12 shadow-lg shadow-primary/20" onClick={handlePreview} disabled={!form.getValues('studentId')}>
+            <Button type="button" size="lg" className="flex-1 rounded-xl font-bold h-12 shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90 text-white" onClick={handlePreview} disabled={!form.getValues('studentId')}>
                 <FileText className="mr-2 h-4 w-4" />
                 Preview Form
             </Button>
@@ -940,10 +942,9 @@ export default function AdmissionPage() {
                   <CardContent className="p-6 md:p-8 text-[11px] leading-relaxed">
                       <div className="grid grid-cols-3 gap-8 mb-6">
                            <div className="col-span-2 space-y-1">
-                              <p className="font-bold">To,</p>
-                              <p className="font-bold">The Managing Director,</p>
-                              <p className="font-bold">IDL EDUCATION PVT. LTD.</p>
-                              <p className="pt-2"><span className="font-bold uppercase opacity-60">Branch Node:</span> <span className="font-bold">{form.getValues('branch')}</span></p>
+                              <p className="font-bold text-sm">To, The Managing Director,</p>
+                              <p className="font-bold text-sm">IDL EDUCATION PVT. LTD.</p>
+                              <p className="pt-2 text-sm"><span className="font-bold uppercase opacity-60">Branch Node:</span> <span className="font-bold text-primary">{form.getValues('branch')}</span></p>
                           </div>
                            <div className="col-span-1 space-y-2 flex flex-col items-end">
                               <p className="font-mono bg-slate-100 px-2 py-1 rounded border"><span className="font-bold opacity-60">ID:</span> {form.getValues('studentId')}</p>
@@ -987,11 +988,11 @@ export default function AdmissionPage() {
               <Edit className="mr-2 h-4 w-4" />
               EDIT FORM
           </Button>
-          <Button variant="secondary" className="flex-1 rounded-xl font-bold h-12" onClick={handleDownload} disabled={form.formState.isSubmitting}>
+          <Button variant="secondary" className="flex-1 rounded-xl font-bold h-12 bg-slate-100 hover:bg-slate-200 text-slate-900 border-none" onClick={handleDownload} disabled={form.formState.isSubmitting}>
               <Download className="mr-2 h-4 w-4" />
               DOWNLOAD
           </Button>
-          <Button className="flex-1 rounded-xl font-bold h-12 shadow-lg shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
+          <Button className="flex-1 rounded-xl font-bold h-12 shadow-lg shadow-primary/20 bg-primary hover:bg-primary/90 text-white" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
             PROCEED TO PAY <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </DialogFooter>
@@ -1020,7 +1021,7 @@ export default function AdmissionPage() {
                   type="button" 
                   onClick={handlePayment}
                   disabled={form.formState.isSubmitting}
-                  className="w-full h-14 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-primary/20"
+                  className="w-full h-14 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] shadow-xl shadow-primary/20 bg-primary hover:bg-primary/90 text-white"
               >
                   {form.formState.isSubmitting ? 'PROCESSING...' : 'PAY NOW'}
               </Button>
@@ -1042,7 +1043,7 @@ export default function AdmissionPage() {
                 </DialogDescription>
             </DialogHeader>
             <DialogFooter className="mt-6">
-                <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10">Close Record</Button>
+                <Button onClick={() => setIsThankYouOpen(false)} className="w-full h-12 rounded-2xl font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/10 bg-primary hover:bg-primary/90 text-white">Close Record</Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
