@@ -96,7 +96,7 @@ export default function BookDemoPage() {
                 className="flex flex-col items-center gap-4"
             >
                 <div className="bg-primary/10 p-4 rounded-full border border-primary/20 shadow-sm transition-all duration-500 hover:scale-110">
-                    <Sparkles className="w-8 h-8 text-primary animate-pulse" />
+                    <GraduationCap className="w-8 h-8 text-primary animate-pulse" />
                 </div>
             </motion.div>
             
