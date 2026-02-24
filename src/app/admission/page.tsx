@@ -358,7 +358,7 @@ export default function AdmissionPage() {
 
       <div className="container mx-auto py-12 px-4 md:px-[10%] relative z-10">
         <div className="text-center mb-8 animate-fade-in-up">
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
+            <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
                 Admission{' '}
                 <span className="relative inline-block">
                     <span className="relative z-10 text-primary">Form</span>
