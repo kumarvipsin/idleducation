@@ -6,10 +6,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { 
   User, Mail, Phone, GraduationCap, Building, Info, Send, 
-  Briefcase, KeyRound, Upload, Globe, MapPin, 
+  Briefcase, KeyRound, Globe, MapPin, 
   Calendar as CalendarIcon, FileText, Edit, Download, 
-  Home, Droplets, VenetianMask, CheckCircle, X, 
-  ArrowRight, Sparkles, IndianRupee, Banknote, Camera,
+  Droplets, VenetianMask, CheckCircle, 
+  ArrowRight, Sparkles, IndianRupee, Camera,
   Users
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -27,7 +27,6 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import { format, getDaysInMonth } from "date-fns";
-import { cn } from "@/lib/utils";
 import Script from "next/script";
 import { motion } from "framer-motion";
 
@@ -118,18 +117,14 @@ const FormHeader = () => (
     <header className="bg-primary text-primary-foreground p-3 md:p-4 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
             <div className="flex flex-row items-center gap-2">
-                <div className="relative w-10 h-10 shrink-0">
-                    <img src="/logo.png" alt="IDL Education Logo" className="w-10 h-10 object-contain" />
+                <div className="relative w-8 h-8 shrink-0">
+                    <img src="/logo.png" alt="IDL Education Logo" className="w-8 h-8 object-contain" />
                 </div>
                 <div className="flex flex-col leading-tight text-left">
                     <div className="flex items-center gap-1.5">
-                        <span className="text-xl font-bold text-white uppercase">IDL</span>
-                        <div className="flex flex-col text-[8px] font-medium text-white/80 tracking-tight leading-[1.1]">
-                            <span>Institute Of</span>
-                            <span>Distance Learning Pvt. Ltd.</span>
-                        </div>
+                        <span className="text-lg font-bold text-white uppercase">IDL</span>
+                        <span className="text-lg font-bold text-white">Education</span>
                     </div>
-                    <span className="text-xl font-bold text-white -mt-1">Education</span>
                 </div>
             </div>
             
@@ -415,7 +410,7 @@ export default function AdmissionPage() {
         id="razorpay-checkout-js"
         src="https://checkout.razorpay.com/v1/checkout.js"
     />
-    <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative selection:bg-primary/10">
+    <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative">
       <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
       
       <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
@@ -443,7 +438,7 @@ export default function AdmissionPage() {
                     </div>
                 </span>
             </h1>
-            <p className="mt-2 text-sm text-muted-foreground">
+            <p className="mt-2 text-sm text-muted-foreground font-semibold">
                 Fill out the form below to start your journey with IDL Education.
             </p>
         </div>
@@ -508,7 +503,7 @@ export default function AdmissionPage() {
                                           ) : (
                                                   <div className="text-center text-muted-foreground p-2">
                                                       <Camera className="w-5 h-5 mx-auto mb-1 opacity-40" />
-                                                      <p className="text-[10px] font-medium uppercase">Photo</p>
+                                                      <p className="text-[10px] font-medium">Photo</p>
                                                   </div>
                                           )}
                                           </div>
@@ -990,7 +985,7 @@ export default function AdmissionPage() {
         <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between shrink-0">
           <div className="space-y-1">
             <DialogTitle className="text-2xl font-bold tracking-tight">Application Review</DialogTitle>
-            <DialogDescription className="font-medium text-xs text-muted-foreground">Validation of institutional record</DialogDescription>
+            <DialogDescription className="font-medium text-xs text-muted-foreground">Digital validation of institutional record</DialogDescription>
           </div>
           <div className="flex gap-2">
               <Button variant="outline" size="sm" className="rounded-xl font-semibold h-9" onClick={() => setIsPreviewOpen(false)}>
@@ -1003,14 +998,14 @@ export default function AdmissionPage() {
         </DialogHeader>
         
         <ScrollArea className="flex-1">
-          <div ref={previewRef} className="p-10 bg-white text-black min-h-[1120px] w-full max-w-[210mm] mx-auto print:p-0">
+          <div ref={previewRef} className="p-10 bg-white text-black min-h-[1120px] w-full max-w-[210mm] mx-auto">
              <div className="space-y-8">
                   <div className="border-[3px] border-primary p-1 rounded-3xl">
                       <div className="border border-primary/20 rounded-[1.25rem] overflow-hidden">
                           <FormHeader />
                           
                           <div className="bg-primary/5 p-4 text-center border-b border-primary/10">
-                              <h2 className="text-sm font-bold text-primary">STUDENT ADMISSION FORM</h2>
+                              <h2 className="text-sm font-bold text-primary uppercase">STUDENT ADMISSION FORM</h2>
                               <p className="text-[10px] font-medium text-muted-foreground mt-1">Academic Session 2026-27</p>
                           </div>
 
@@ -1121,7 +1116,7 @@ export default function AdmissionPage() {
         </ScrollArea>
         <div className="p-6 border-t bg-slate-50 flex gap-4 shrink-0">
             <Button className="flex-1 h-14 rounded-2xl font-bold text-sm bg-primary text-white shadow-xl shadow-primary/20" onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}>
-                Proceed to Final Submission <ArrowRight className="ml-2 w-4 h-4" />
+                PROCEED TO FINAL SUBMISSION <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
         </div>
       </DialogContent>
