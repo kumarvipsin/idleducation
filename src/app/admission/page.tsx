@@ -117,9 +117,9 @@ const FormHeader = () => (
     <header className="bg-primary text-primary-foreground p-4 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
             <div className="flex flex-row items-center gap-2">
-                <img src="/logo.png" alt="IDL Education Logo" width="48" height="48" className="object-contain" />
+                <img src="/logo.png" alt="IDL EDUCATION Logo" width="40" height="40" className="object-contain" />
                 <div className="flex flex-col leading-tight">
-                    <span className="text-xl font-bold text-white">IDL Education</span>
+                    <span className="text-xl font-bold text-white uppercase tracking-tight">IDL EDUCATION</span>
                 </div>
             </div>
             
@@ -349,7 +349,7 @@ export default function AdmissionPage() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: 'IDL Education Admission',
+        name: 'IDL EDUCATION Admission',
         description: 'Admission Registration Fee',
         order_id: order.id,
         handler: async function (response: any) {
@@ -422,7 +422,7 @@ export default function AdmissionPage() {
                     <Sparkles className="w-8 h-8 text-primary animate-pulse" />
                 </div>
             </motion.div>
-            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight">
+            <h1 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white leading-tight uppercase">
                 Admission{' '}
                 <span className="relative inline-block">
                     <span className="relative z-10 text-primary">Form</span>
@@ -434,7 +434,7 @@ export default function AdmissionPage() {
                 </span>
             </h1>
             <p className="mt-2 text-sm text-muted-foreground font-semibold">
-                Fill out the form below to start your journey with IDL Education.
+                Fill out the form below to start your journey with IDL EDUCATION.
             </p>
         </div>
         <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
