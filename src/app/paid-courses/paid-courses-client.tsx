@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
@@ -252,7 +253,26 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
   };
 
   const groupedCourses = useMemo(() => {
-    return courses.reduce((acc, course) => {
+    // Priority order for subjects
+    const subjectPriority: Record<string, number> = {
+      'maths': 1,
+      'mathematics': 1,
+      'science': 2,
+      'social science': 3,
+      'social studies': 3,
+      'sst': 3,
+      'english': 4,
+    };
+
+    const getPriority = (subject: string) => {
+      const s = subject.toLowerCase().trim();
+      for (const [key, priority] of Object.entries(subjectPriority)) {
+        if (s.includes(key)) return priority;
+      }
+      return 99;
+    };
+
+    const grouped = courses.reduce((acc, course) => {
       const key = course.class || 'Other Courses';
       const cleanKey = key.toLowerCase().includes('class') ? key : `Class ${key}`;
       if (!acc[cleanKey]) {
@@ -261,6 +281,13 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
       acc[cleanKey].push(course);
       return acc;
     }, {} as {[key: string]: TPaidCourse[]});
+
+    // Apply sorting within each class group
+    Object.keys(grouped).forEach(key => {
+      grouped[key].sort((a, b) => getPriority(a.subject) - getPriority(b.subject));
+    });
+
+    return grouped;
   }, [courses]);
 
   const sortedGroupedEntries = useMemo(() => {

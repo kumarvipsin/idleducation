@@ -105,6 +105,10 @@
         "type": {
           "type": "string",
           "description": "Categorization of the curriculum, e.g., 'Academic', 'GovernmentExam', 'OpenSchooling'."
+        },
+        "order": {
+          "type": "number",
+          "description": "Manual display priority."
         }
       },
       "required": [
@@ -139,6 +143,10 @@
         "gradeLevel": {
           "type": "number",
           "description": "The academic grade or class level for which this subject is relevant (e.g., 4 for Class 4, 12 for Class 12). Only applicable to academic curricula."
+        },
+        "order": {
+          "type": "number",
+          "description": "Manual display priority."
         }
       },
       "required": [
@@ -186,6 +194,10 @@
         "durationMinutes": {
           "type": "number",
           "description": "Estimated duration in minutes for consuming the content (e.g., video length, estimated reading time)."
+        },
+        "order": {
+          "type": "number",
+          "description": "Manual display priority for cards."
         },
         "createdAt": {
           "type": "string",
