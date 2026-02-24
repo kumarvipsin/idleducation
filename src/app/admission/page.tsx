@@ -115,34 +115,34 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const FormHeader = () => (
-    <header className="bg-primary text-primary-foreground p-6 rounded-t-2xl">
+    <header className="bg-primary text-primary-foreground p-4 md:p-5 rounded-t-2xl">
         <div className="flex flex-row items-center justify-between gap-4 text-left">
-            <div className="flex flex-row items-center gap-3">
-                <div className="relative w-16 h-16 shrink-0">
-                    <img src="/logo.png" alt="IDL Education Logo" className="w-16 h-16 object-contain" />
+            <div className="flex flex-row items-center gap-2">
+                <div className="relative w-12 h-12 shrink-0">
+                    <img src="/logo.png" alt="IDL Education Logo" className="w-12 h-12 object-contain" />
                 </div>
                 <div className="flex flex-col leading-tight text-left">
-                    <div className="flex items-center gap-2.5">
-                        <span className="text-3xl font-extrabold text-white tracking-tight uppercase">IDL</span>
-                        <div className="flex flex-col text-[8px] font-bold text-white/60 tracking-tight leading-[1.1]">
+                    <div className="flex items-center gap-2">
+                        <span className="text-2xl font-extrabold text-white tracking-tight uppercase">IDL</span>
+                        <div className="flex flex-col text-[7px] font-bold text-white/60 tracking-tight leading-[1.1]">
                             <span>Institute Of</span>
                             <span>Distance Learning Pvt. Ltd.</span>
                         </div>
                     </div>
-                    <span className="text-3xl font-extrabold text-white tracking-tight -mt-1">Education</span>
+                    <span className="text-2xl font-extrabold text-white tracking-tight -mt-1">Education</span>
                 </div>
             </div>
             
             <div className="hidden sm:flex flex-col items-start justify-center space-y-1 text-left shrink-0">
-                <div className="flex items-center gap-2 text-[10px] font-bold text-white/90">
+                <div className="flex items-center gap-2 text-[9px] font-bold text-white/90">
                     <Phone className="w-3 h-3 text-white/60" />
                     <span>011 45035713</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-bold text-white/90">
+                <div className="flex items-center gap-2 text-[9px] font-bold text-white/90">
                     <Mail className="w-3 h-3 text-white/60" />
                     <span>info@idleducation.in</span>
                 </div>
-                <div className="flex items-center gap-2 text-[10px] font-bold text-white/90">
+                <div className="flex items-center gap-2 text-[9px] font-bold text-white/90">
                     <Globe className="w-3 h-3 text-white/60" />
                     <span>www.idleducation.in</span>
                 </div>
