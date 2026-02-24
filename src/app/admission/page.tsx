@@ -10,7 +10,7 @@ import {
   Calendar as CalendarIcon, FileText, Edit, Download, 
   Droplets, VenetianMask, CheckCircle, 
   ArrowRight, Sparkles, IndianRupee, Camera,
-  Users, Home, X
+  Users, Home, X, Plus, Minus
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -28,6 +28,7 @@ import Image from "next/image";
 import { format, getDaysInMonth } from "date-fns";
 import Script from "next/script";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const phoneRegex = /^\d{10}$/;
 const pincodeRegex = /^\d{6}$/;
@@ -63,7 +64,7 @@ const countries = [
   "Qatar",
   "Romania", "Russia", "Rwanda",
   "Saint Kitts and Nevis", "Saint Lucia", "Saint Vincent and the Grenadines", "Samoa", "San Marino", "Sao Tome and Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Korea", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Sweden", "Switzerland", "Syria",
-  "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu",
+  "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Timor-Leste", "Togo", "Tonga", "Trinidad and Tobago", "Tunisia", "Turkey", "Trukmenistan", "Tuvalu",
   "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States of America", "Uruguay", "Uzbekistan",
   "Vanuatu", "Vatican City", "Venezuela", "Vietnam",
   "Yemen",
@@ -119,7 +120,7 @@ const FormHeader = () => (
                 <img src="/logo.png" alt="IDL EDUCATION Logo" width="48" height="48" className="object-contain shrink-0" style={{ height: '48px', width: 'auto' }} />
                 <div className="flex flex-col text-left">
                     <h1 className="text-xl md:text-2xl font-extrabold text-white uppercase tracking-tighter leading-none">IDL EDUCATION</h1>
-                    <span className="text-[8px] md:text-[10px] font-semibold text-white/80 leading-tight mt-0.5">
+                    <span className="text-[6px] md:text-[7.5px] font-medium text-white/80 leading-tight mt-0.5">
                         (Institute Of Distance Learning Pvt. Ltd.)
                     </span>
                 </div>
@@ -949,7 +950,7 @@ export default function AdmissionPage() {
                       <Button 
                           type="button" 
                           variant="outline"
-                          className="flex-1 h-12 rounded-xl font-semibold text-xs bg-white border-slate-200 shadow-sm"
+                          className="flex-1 h-12 rounded-xl font-bold text-xs bg-white border-slate-200 shadow-sm"
                           onClick={handlePreview}
                           disabled={!form.getValues('studentId')}
                       >
@@ -980,15 +981,15 @@ export default function AdmissionPage() {
     <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
       <DialogContent className="sm:max-w-5xl h-[95vh] rounded-[2rem] p-0 overflow-hidden border-none shadow-2xl bg-white flex flex-col">
         <DialogHeader className="p-6 pb-4 border-b bg-slate-50 flex flex-row items-center justify-between shrink-0">
-          <div className="space-y-1">
+          <div className="space-y-1 text-left">
             <DialogTitle className="text-2xl font-bold tracking-tight text-primary">Application Review</DialogTitle>
-            <DialogDescription className="font-medium text-xs text-muted-foreground">Digital validation of institutional record</DialogDescription>
+            <DialogDescription className="font-semibold text-xs text-muted-foreground">Institutional validation of student record</DialogDescription>
           </div>
           <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="rounded-xl font-semibold h-9" onClick={() => setIsPreviewOpen(false)}>
+              <Button variant="outline" size="sm" className="rounded-xl font-bold h-9" onClick={() => setIsPreviewOpen(false)}>
                   <Edit className="w-4 h-4 mr-2" /> Edit
               </Button>
-              <Button size="sm" className="rounded-xl font-semibold h-9 bg-primary text-white" onClick={handleDownload}>
+              <Button size="sm" className="rounded-xl font-bold h-9 bg-primary text-white" onClick={handleDownload}>
                   <Download className="w-4 h-4 mr-2" /> Save PDF
               </Button>
           </div>
@@ -1008,7 +1009,7 @@ export default function AdmissionPage() {
 
                           <div className="p-8 space-y-10">
                               <div className="flex justify-between items-start gap-12">
-                                  <div className="flex-1 space-y-6">
+                                  <div className="flex-1 space-y-6 text-left">
                                       <div className="grid grid-cols-2 gap-6">
                                           <PreviewField label="Student ID" value={form.getValues('studentId')} />
                                           <PreviewField label="Branch Node" value={form.getValues('branch')} />
@@ -1091,7 +1092,7 @@ export default function AdmissionPage() {
                           </div>
 
                           <div className="pt-12 space-y-12">
-                              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-[11px] text-slate-600 leading-relaxed">
+                              <div className="p-6 bg-slate-50 rounded-2xl border border-slate-100 italic text-[11px] text-slate-600 leading-relaxed text-left">
                                   Declaration: I hereby solemnly declare that all statements made in this application are true, complete and correct to the best of my knowledge and belief. I understand that the discovery of any misrepresentation or incorrect information will lead to immediate cancellation of the application/admission.
                               </div>
                               
@@ -1134,7 +1135,7 @@ export default function AdmissionPage() {
           </DialogHeader>
           <div className="py-8 space-y-6">
               <div className="flex justify-between items-center p-6 bg-muted/50 rounded-2xl border border-dashed border-primary/20">
-                  <div className="space-y-0.5">
+                  <div className="space-y-0.5 text-left">
                       <p className="text-[11px] font-semibold text-muted-foreground">Payable Amount</p>
                       <p className="text-[10px] font-medium text-primary">Valid for 2026-27 cycle</p>
                   </div>
