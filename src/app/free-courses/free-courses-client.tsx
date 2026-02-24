@@ -70,10 +70,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
     );
 
     const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
-    const activeChapterIndex = course.chapters.findIndex(chap => 
-        chap.videos.some(v => v.youtubeLink === activeVideo?.youtubeLink)
-    );
-    const activeChapterNumber = activeChapterIndex !== -1 ? activeChapterIndex + 1 : null;
 
     return (
         <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-[95vw] xl:max-w-[1400px] h-[100dvh] lg:h-[85vh] overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
@@ -99,23 +95,6 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                             <p className="text-sm font-medium">Select a lesson to begin</p>
                         </div>
                     )}
-                </div>
-
-                <div className="p-3 md:p-4 bg-white">
-                    <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2">
-                            {activeChapterNumber && (
-                                <span className="text-[9px] font-black text-primary uppercase tracking-widest">
-                                    Module {activeChapterNumber}
-                                </span>
-                            )}
-                            <span className="text-zinc-300">•</span>
-                            <span className="text-[9px] text-muted-foreground font-black uppercase tracking-tight">{course.title}</span>
-                        </div>
-                        <h2 className="text-lg md:text-xl font-black text-foreground leading-tight tracking-tight">
-                            {activeVideo?.title || "Select a Topic"}
-                        </h2>
-                    </div>
                 </div>
             </div>
 
@@ -265,7 +244,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                 <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
                                 
                                 <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6">{course.batchName}</Badge>
+                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6">{course.batchName}</Badge>
                                     <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6">{course.medium}</Badge>
                                 </div>
 
