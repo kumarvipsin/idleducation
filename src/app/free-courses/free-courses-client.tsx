@@ -3,7 +3,7 @@
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
 import { PlayCircle, BookOpen, Info, CheckCircle2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
@@ -54,9 +54,9 @@ const VideoItem = ({
                     isActive ? "text-primary" : "text-slate-700"
                 )}>{video.title}</p>
                 {isActive && (
-                    <div className="flex items-center gap-1.5 mt-1.5">
+                    <div className="flex items-center gap-1.5 mt-1">
                         <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[10px] text-primary font-black uppercase tracking-widest">Now Playing</span>
+                        <span className="text-[9px] text-primary font-black uppercase tracking-widest">Now Playing</span>
                     </div>
                 )}
             </div>
@@ -101,18 +101,18 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
                     )}
                 </div>
 
-                <div className="p-4 md:p-6 bg-white">
-                    <div className="flex flex-col gap-1.5">
+                <div className="p-3 md:p-4 bg-white">
+                    <div className="flex flex-col gap-1">
                         <div className="flex items-center gap-2">
                             {activeChapterNumber && (
-                                <span className="text-[10px] font-black text-primary uppercase tracking-widest">
+                                <span className="text-[9px] font-black text-primary uppercase tracking-widest">
                                     Module {activeChapterNumber}
                                 </span>
                             )}
                             <span className="text-zinc-300">•</span>
-                            <span className="text-[10px] text-muted-foreground font-black uppercase tracking-tight">{course.title}</span>
+                            <span className="text-[9px] text-muted-foreground font-black uppercase tracking-tight">{course.title}</span>
                         </div>
-                        <h2 className="text-xl md:text-2xl font-black text-foreground leading-tight tracking-tight">
+                        <h2 className="text-lg md:text-xl font-black text-foreground leading-tight tracking-tight">
                             {activeVideo?.title || "Select a Topic"}
                         </h2>
                     </div>
