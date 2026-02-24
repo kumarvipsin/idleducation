@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -10,7 +9,7 @@ import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { submitVolunteerForm } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -87,7 +86,7 @@ export default function VolunteerPage() {
                         
                         <div className="space-y-3">
                             <h1 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
-                                Join Our{' '}
+                                Join Our Noble{' '}
                                 <span className="relative inline-block">
                                     <span className="relative z-10 text-primary">Mission</span>
                                     <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
@@ -97,8 +96,8 @@ export default function VolunteerPage() {
                                     </div>
                                 </span>
                             </h1>
-                            <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold tracking-tight leading-relaxed uppercase">
-                                Become a volunteer and contribute to our community programs.
+                            <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-[11px] font-bold tracking-tight leading-relaxed">
+                                Become A Dedicated Volunteer And Support Our Global Community Development Programs.
                             </p>
                         </div>
                     </div>
