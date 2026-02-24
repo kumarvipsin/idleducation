@@ -128,7 +128,7 @@ const FormHeader = () => (
                         <span>Distance Learning Pvt. Ltd.</span>
                     </div>
                 </div>
-                <span className="text-3xl font-extrabold text-white tracking-tight -mt-1 uppercase">Education</span>
+                <span className="text-3xl font-extrabold text-white tracking-tight -mt-1">Education</span>
             </div>
         </div>
     </header>
