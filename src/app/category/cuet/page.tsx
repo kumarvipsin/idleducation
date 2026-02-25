@@ -15,7 +15,6 @@ import {
     Monitor,
     GraduationCap,
     Sigma,
-    CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -34,8 +33,8 @@ export default function CuetPage() {
     
     const resourceCards = [
         {
-          title: "GET THE",
-          subtitle: `CUET ${activeTab.toUpperCase()} Advantage`,
+          title: "CUET Advantage",
+          subtitle: `Specialized ${activeTab.toUpperCase()} prep`,
           icon: <Sparkles />,
           bgColor: "bg-amber-50/50 border-amber-100",
           textColor: "text-amber-900",
@@ -43,8 +42,8 @@ export default function CuetPage() {
           href: "/about"
         },
         {
-          title: "REVISION",
-          subtitle: "High-Quality Notes",
+          title: "Revision Notes",
+          subtitle: "High-quality study material",
           icon: <BookOpen />,
           bgColor: "bg-blue-50/50 border-blue-100",
           textColor: "text-blue-900",
@@ -52,8 +51,8 @@ export default function CuetPage() {
           href: "/resources/notes"
         },
          {
-          title: "SOLUTIONS",
-          subtitle: "Mock Tests & PYQs",
+          title: "Solutions & PYQs",
+          subtitle: "Mock tests and practice",
           icon: <Book />,
           bgColor: "bg-indigo-50/50 border-indigo-100",
           textColor: "text-indigo-900",
@@ -63,63 +62,51 @@ export default function CuetPage() {
     ];
 
     return (
-        <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative selection:bg-primary/10">
-            {/* Background Decorations */}
+        <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative">
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
-            <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-primary/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
-            <div className="absolute bottom-[10%] right-[5%] w-96 h-96 bg-accent/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
-
-            <div className="container mx-auto py-12 px-4 md:px-6 max-w-7xl relative z-10">
-                {/* Visual Banner */}
-                <section className="mb-12 animate-fade-in-up">
-                    <div className="relative rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white shadow-2xl">
-                        <div className="relative w-full aspect-video md:aspect-[21/6]">
+            
+            <div className="container mx-auto py-8 px-4 md:px-6 max-w-6xl relative z-10">
+                {/* Compact Banner */}
+                <section className="mb-8 animate-fade-in-up">
+                    <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-white shadow-lg">
+                        <div className="relative w-full aspect-[21/7] md:aspect-[21/5]">
                             <Image
                                 src="/result.jpg"
-                                alt="CUET Results Banner"
-                                data-ai-hint="exam result banner"
+                                alt="CUET Results"
                                 fill
                                 className="object-cover"
                                 priority
                             />
-                            <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent hidden md:block" />
+                            <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-transparent hidden md:block" />
                         </div>
                     </div>
                 </section>
 
                 {/* Heading Area */}
-                <section className="mb-16 text-center md:text-left animate-fade-in-up">
-                    <div className="flex flex-col items-center md:items-start gap-6">
-                        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-primary text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
-                            <Sparkles className="w-3.5 h-3.5 text-yellow-500 animate-pulse" />
-                            CUET 2026 PREPARATION
+                <section className="mb-12 text-center md:text-left animate-fade-in-up">
+                    <div className="flex flex-col items-center md:items-start gap-4">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-primary text-[10px] font-bold uppercase tracking-widest shadow-sm">
+                            <Sparkles className="w-3 h-3 text-yellow-500" />
+                            CUET 2026 Preparation
                         </div>
                         
-                        <div className="space-y-4">
-                            <h1 className="text-3xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tighter leading-none">
-                                CUET {activeTab.toUpperCase()}{' '}
-                                <span className="relative inline-block">
-                                    <span className="relative z-10 text-primary">Entrance 2026-27</span>
-                                    <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
-                                        <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                            <path d="M0,15 Q50,5 100,15" />
-                                        </svg>
-                                    </div>
-                                </span>
+                        <div className="space-y-2">
+                            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight leading-tight">
+                                CUET {activeTab.toUpperCase()} Entrance 2026-27
                             </h1>
-                            <p className="max-w-3xl text-slate-600 dark:text-slate-400 text-sm md:text-lg font-bold leading-relaxed">
-                                Master the Common University Entrance Test with IDL's specialized curricula. 
-                                {activeTab === 'ug' ? " Secure your seat in India's top Central, State, and Private universities." : " Advanced strategies for postgraduate excellence."}
+                            <p className="max-w-2xl text-slate-600 dark:text-slate-400 text-sm md:text-base font-medium leading-relaxed">
+                                Master the Common University Entrance Test with IDL's specialized curricula. Secure your seat in India's top universities with our focused strategy.
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-3 p-1 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md rounded-full border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <div className="flex items-center gap-2 p-1 bg-white/50 dark:bg-slate-900/50 backdrop-blur-md rounded-full border border-slate-200 dark:border-slate-800">
                             <Button 
                                 onClick={() => setActiveTab('ug')} 
                                 variant="ghost"
+                                size="sm"
                                 className={cn(
-                                    "rounded-full px-8 h-10 text-[11px] font-black uppercase tracking-widest transition-all",
-                                    activeTab === 'ug' ? "bg-primary text-white shadow-lg" : "text-slate-500 hover:text-primary"
+                                    "rounded-full px-6 text-xs font-bold transition-all h-8",
+                                    activeTab === 'ug' ? "bg-primary text-white shadow-md" : "text-slate-500"
                                 )}
                             >
                                 CUET UG
@@ -127,9 +114,10 @@ export default function CuetPage() {
                             <Button 
                                 onClick={() => setActiveTab('pg')} 
                                 variant="ghost"
+                                size="sm"
                                 className={cn(
-                                    "rounded-full px-8 h-10 text-[11px] font-black uppercase tracking-widest transition-all",
-                                    activeTab === 'pg' ? "bg-primary text-white shadow-lg" : "text-slate-500 hover:text-primary"
+                                    "rounded-full px-6 text-xs font-bold transition-all h-8",
+                                    activeTab === 'pg' ? "bg-primary text-white shadow-md" : "text-slate-500"
                                 )}
                             >
                                 CUET PG
@@ -138,67 +126,61 @@ export default function CuetPage() {
                     </div>
                 </section>
         
-                {/* Resource Quick Links */}
-                <section className="mb-20 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {/* Resource Hub */}
+                <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         {resourceCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group">
                                 <div className={cn(
-                                    "flex items-center gap-5 p-6 rounded-2xl transition-all duration-500 shadow-sm border group-hover:shadow-2xl group-hover:border-primary/20 group-hover:-translate-y-1 bg-white dark:bg-slate-900/50 backdrop-blur-sm",
+                                    "flex items-center gap-4 p-4 rounded-xl transition-all duration-300 shadow-sm border bg-white dark:bg-slate-900/50 hover:shadow-md hover:border-primary/20",
                                 )}>
-                                    <div className={cn("p-4 rounded-xl shrink-0 transition-all duration-500 group-hover:rotate-[15deg] group-hover:scale-110 border border-slate-100 dark:border-slate-800", card.iconBg)}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
+                                    <div className={cn("p-2.5 rounded-lg shrink-0 border border-slate-100 dark:border-slate-800", card.iconBg)}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-5 h-5" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className={cn("text-[13px] font-black uppercase tracking-widest leading-none mb-1.5", card.textColor)}>{card.title}</h4>
-                                        <p className={cn("text-[11px] font-bold opacity-60 truncate uppercase tracking-tight", card.textColor)}>{card.subtitle}</p>
+                                        <h4 className={cn("text-xs font-bold leading-none mb-1", card.textColor)}>{card.title}</h4>
+                                        <p className={cn("text-[10px] font-medium opacity-60 truncate", card.textColor)}>{card.subtitle}</p>
                                     </div>
-                                    <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1 opacity-20 group-hover:opacity-100", card.textColor)} />
+                                    <ArrowRight className={cn("w-4 h-4 transition-all group-hover:translate-x-1 opacity-20 group-hover:opacity-100", card.textColor)} />
                                 </div>
                             </Link>
                         ))}
                     </div>
                 </section>
 
-                {/* Subject Syllabus Nodes */}
-                <section className="mb-24 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-                    <div className="space-y-10">
-                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-l-4 border-primary pl-6">
+                {/* Subject Syllabus */}
+                <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                    <div className="space-y-6">
+                        <div className="flex flex-col md:flex-row md:items-end justify-between gap-2 border-l-4 border-primary pl-4">
                             <div>
-                                <h3 className="font-black text-2xl md:text-3xl text-slate-900 dark:text-white uppercase tracking-tighter">
-                                    Curriculum <span className="text-primary">Intelligence</span>
+                                <h3 className="font-bold text-xl md:text-2xl text-slate-900 dark:text-white tracking-tight">
+                                    Curriculum Intelligence
                                 </h3>
-                                <p className="text-[10px] md:text-xs text-muted-foreground font-black uppercase tracking-[0.2em] mt-2">Subject-wise navigation for 2026-27</p>
+                                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Subject-wise navigation for 2026-27</p>
                             </div>
-                            <Button variant="link" className="text-primary font-black text-xs uppercase tracking-widest group">
-                                View Full Exam Pattern <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+                            <Button variant="link" className="text-primary font-bold text-xs h-auto p-0 group">
+                                View Full Exam Pattern <ArrowRight className="ml-1 w-3 h-3 transition-transform group-hover:translate-x-1" />
                             </Button>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             {cuetSubjects.map((subject) => (
-                                <div key={subject.key} className="group relative bg-white dark:bg-slate-900 p-6 rounded-[2rem] border border-slate-200 dark:border-slate-800 hover:border-primary/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.05)] transition-all duration-500 flex flex-col sm:flex-row items-center justify-between gap-6 overflow-hidden">
-                                    <div className="absolute top-0 left-0 w-1.5 h-full bg-primary/5 group-hover:bg-primary transition-colors duration-500" />
-                                    <div className="flex items-center gap-5 w-full relative z-10">
-                                        <div className={cn("p-4 rounded-2xl shrink-0 transition-all duration-700 group-hover:scale-110 group-hover:rotate-12 shadow-sm border", subject.color, subject.border)}>
+                                <div key={subject.key} className="group bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-primary/30 transition-all duration-300 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <div className="flex items-center gap-4 w-full">
+                                        <div className={cn("p-3 rounded-xl shrink-0 border shadow-sm", subject.color, subject.border)}>
                                             {subject.icon}
                                         </div>
-                                        <div className="space-y-1">
-                                            <h4 className="font-black text-base text-slate-900 dark:text-white tracking-tight leading-tight">{subject.name}</h4>
-                                            <div className="flex items-center gap-2">
-                                                <div className="h-1 w-1 rounded-full bg-primary/40" />
-                                                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Core Module • Session 2026</p>
-                                            </div>
+                                        <div>
+                                            <h4 className="font-bold text-sm text-slate-900 dark:text-white leading-tight">{subject.name}</h4>
+                                            <p className="text-[10px] text-muted-foreground font-medium mt-0.5">Core Module • Session 2026</p>
                                         </div>
                                     </div>
-                                    <div className="flex flex-row items-center gap-3 w-full sm:w-auto shrink-0 relative z-10">
-                                        <Button variant="outline" size="sm" className="flex-1 sm:w-28 h-11 rounded-xl text-[10px] font-black tracking-widest uppercase text-blue-600 border-blue-100 hover:bg-blue-50 hover:border-blue-200 transition-all shadow-none group/btn">
-                                            <Eye className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
-                                            <span>SYLLABUS</span>
+                                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                                        <Button variant="outline" size="sm" className="flex-1 sm:w-24 h-8 text-[10px] font-bold tracking-wider uppercase text-blue-600 border-blue-100 hover:bg-blue-50">
+                                            SYLLABUS
                                         </Button>
-                                        <Button variant="outline" size="sm" className="flex-1 sm:w-28 h-11 rounded-xl text-[10px] font-black tracking-widest uppercase text-emerald-600 border-emerald-100 hover:bg-emerald-50 hover:border-emerald-200 transition-all shadow-none group/btn">
-                                            <Download className="w-4 h-4 mr-2 transition-transform group-hover/btn:translate-y-0.5" />
-                                            <span>PDF</span>
+                                        <Button variant="outline" size="sm" className="flex-1 sm:w-20 h-8 text-[10px] font-bold tracking-wider uppercase text-emerald-600 border-emerald-100 hover:bg-emerald-50">
+                                            PDF
                                         </Button>
                                     </div>
                                 </div>
@@ -207,90 +189,81 @@ export default function CuetPage() {
                     </div>
                 </section>
 
-                {/* Path Selection */}
-                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-                    <div className="space-y-12">
-                        <div className="text-center space-y-4">
-                            <h3 className="font-black text-2xl md:text-4xl text-slate-900 dark:text-white uppercase tracking-tighter">
-                                Strategic <span className="text-primary">Learning Tiers</span>
+                {/* Learning Path */}
+                <section className="mb-8 animate-fade-in-up" style={{animationDelay: '0.3s'}}>
+                    <div className="space-y-8">
+                        <div className="text-center space-y-2">
+                            <h3 className="font-bold text-2xl md:text-3xl text-slate-900 dark:text-white tracking-tight">
+                                Strategic Learning Tiers
                             </h3>
-                            <p className="text-[11px] md:text-sm text-muted-foreground font-bold uppercase tracking-[0.2em] max-w-xl mx-auto">Proprietary educational delivery models for specific needs</p>
+                            <p className="text-xs text-muted-foreground font-medium max-w-lg mx-auto">Proprietary educational delivery models for specific student needs</p>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                             {/* Free Courses */}
-                            <Card className="group relative border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-orange-300 transition-all duration-500 rounded-[2.5rem] shadow-xl hover:shadow-2xl hover:-translate-y-2 border-t-[12px] border-t-orange-500 overflow-hidden">
-                                <CardContent className="p-10 space-y-8 flex flex-col h-full">
+                            <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-orange-300 transition-all duration-300 rounded-2xl shadow-md border-t-8 border-t-orange-500">
+                                <CardContent className="p-6 space-y-6 flex flex-col h-full">
                                     <div className="flex items-center justify-between">
-                                        <div className="p-4 bg-orange-50 dark:bg-orange-900/20 rounded-[1.25rem] text-orange-600 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[15deg] shadow-inner">
-                                            <PlayCircle className="w-8 h-8" />
+                                        <div className="p-3 bg-orange-50 dark:bg-orange-900/20 rounded-xl text-orange-600 shadow-inner">
+                                            <PlayCircle className="w-6 h-6" />
                                         </div>
-                                        <Badge className="text-[9px] font-black uppercase tracking-[0.25em] bg-orange-500 text-white border-none px-4 py-1.5 shadow-lg shadow-orange-500/20 rounded-full">PUBLIC NODE</Badge>
+                                        <Badge className="text-[9px] font-bold uppercase tracking-wider bg-orange-500 text-white border-none rounded-full">PUBLIC NODE</Badge>
                                     </div>
-                                    <div className="space-y-3">
-                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Open Source</h4>
-                                        <p className="text-[13px] font-bold text-muted-foreground leading-relaxed">
-                                            High-definition foundational lectures available to all aspirants. Ideal for revision and concept clarification.
+                                    <div className="space-y-2">
+                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-tight">Open Source</h4>
+                                        <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+                                            High-definition foundational lectures available to all aspirants. Ideal for revision.
                                         </p>
                                     </div>
-                                    <div className="mt-auto pt-8">
-                                        <Button asChild className="w-full bg-slate-900 hover:bg-black dark:bg-orange-600 dark:hover:bg-orange-700 text-white font-black text-[10px] h-14 rounded-2xl shadow-xl transition-all uppercase tracking-[0.2em] group/btn">
-                                            <Link href="/free-courses" className="flex items-center justify-center">
-                                                ACCESS LESSONS
-                                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                                            </Link>
+                                    <div className="mt-auto pt-4">
+                                        <Button asChild size="sm" className="w-full bg-slate-900 hover:bg-black dark:bg-orange-600 dark:hover:bg-orange-700 text-white font-bold text-[10px] h-10 rounded-lg uppercase tracking-widest">
+                                            <Link href="/free-courses">ACCESS LESSONS</Link>
                                         </Button>
                                     </div>
                                 </CardContent>
                             </Card>
 
                             {/* Paid Courses */}
-                            <Card className="group relative border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-emerald-300 transition-all duration-500 rounded-[2.5rem] shadow-xl hover:shadow-2xl hover:-translate-y-2 border-t-[12px] border-t-emerald-500 overflow-hidden">
-                                <CardContent className="p-10 space-y-8 flex flex-col h-full">
+                            <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-emerald-300 transition-all duration-300 rounded-2xl shadow-md border-t-8 border-t-emerald-500">
+                                <CardContent className="p-6 space-y-6 flex flex-col h-full">
                                     <div className="flex items-center justify-between">
-                                        <div className="p-4 bg-emerald-50 dark:bg-emerald-900/20 rounded-[1.25rem] text-emerald-600 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[15deg] shadow-inner">
-                                            <IndianRupee className="w-8 h-8" />
+                                        <div className="p-3 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl text-emerald-600 shadow-inner">
+                                            <IndianRupee className="w-6 h-6" />
                                         </div>
-                                        <Badge className="text-[9px] font-black uppercase tracking-[0.25em] bg-emerald-500 text-white border-none px-4 py-1.5 shadow-lg shadow-emerald-500/20 rounded-full">PREMIUM NODE</Badge>
+                                        <Badge className="text-[9px] font-bold uppercase tracking-wider bg-emerald-500 text-white border-none rounded-full">PREMIUM NODE</Badge>
                                     </div>
-                                    <div className="space-y-3">
-                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Structured Path</h4>
-                                        <p className="text-[13px] font-bold text-muted-foreground leading-relaxed">
-                                            End-to-end comprehensive curricula with 100% syllabus coverage, premium digital notes, and mock tests.
+                                    <div className="space-y-2">
+                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-tight">Structured Path</h4>
+                                        <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+                                            End-to-end comprehensive curricula with full coverage and premium notes.
                                         </p>
                                     </div>
-                                    <div className="mt-auto pt-8">
-                                        <Button asChild className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] h-14 rounded-2xl shadow-xl transition-all uppercase tracking-[0.2em] group/btn">
-                                            <Link href="/paid-courses" className="flex items-center justify-center">
-                                                VIEW BATCHES
-                                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                                            </Link>
+                                    <div className="mt-auto pt-4">
+                                        <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[10px] h-10 rounded-lg uppercase tracking-widest">
+                                            <Link href="/paid-courses">VIEW BATCHES</Link>
                                         </Button>
                                     </div>
                                 </CardContent>
                             </Card>
 
                             {/* Live Classes */}
-                            <Card className="group relative border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-indigo-300 transition-all duration-500 rounded-[2.5rem] shadow-xl hover:shadow-2xl hover:-translate-y-2 border-t-[12px] border-t-indigo-500 overflow-hidden">
-                                <CardContent className="p-10 space-y-8 flex flex-col h-full">
+                            <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-indigo-300 transition-all duration-300 rounded-2xl shadow-md border-t-8 border-t-indigo-500">
+                                <CardContent className="p-6 space-y-6 flex flex-col h-full">
                                     <div className="flex items-center justify-between">
-                                        <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-[1.25rem] text-indigo-600 transition-transform duration-700 group-hover:scale-110 group-hover:rotate-[15deg] shadow-inner">
-                                            <Monitor className="w-8 h-8" />
+                                        <div className="p-3 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl text-indigo-600 shadow-inner">
+                                            <Monitor className="w-6 h-6" />
                                         </div>
-                                        <Badge className="text-[9px] font-black uppercase tracking-[0.25em] bg-indigo-500 text-white border-none px-4 py-1.5 shadow-lg shadow-indigo-500/20 rounded-full">ACTIVE NODE</Badge>
+                                        <Badge className="text-[9px] font-bold uppercase tracking-wider bg-indigo-500 text-white border-none rounded-full">ACTIVE NODE</Badge>
                                     </div>
-                                    <div className="space-y-3">
-                                        <h4 className="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter">Real-Time Sync</h4>
-                                        <p className="text-[13px] font-bold text-muted-foreground leading-relaxed">
-                                            Interactive real-time sessions with top faculty. Instant doubt clearing via our proprietary 2-Teacher model.
+                                    <div className="space-y-2">
+                                        <h4 className="text-lg font-bold text-slate-900 dark:text-white uppercase tracking-tight">Real-Time Sync</h4>
+                                        <p className="text-xs font-medium text-muted-foreground leading-relaxed">
+                                            Interactive real-time sessions with top faculty. Instant doubt clearing.
                                         </p>
                                     </div>
-                                    <div className="mt-auto pt-8">
-                                        <Button asChild className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] h-14 rounded-2xl shadow-xl transition-all uppercase tracking-[0.2em] group/btn">
-                                            <Link href="/book-demo" className="flex items-center justify-center">
-                                                BOOK LIVE DEMO
-                                                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                                            </Link>
+                                    <div className="mt-auto pt-4">
+                                        <Button asChild size="sm" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[10px] h-10 rounded-lg uppercase tracking-widest">
+                                            <Link href="/book-demo">BOOK LIVE DEMO</Link>
                                         </Button>
                                     </div>
                                 </CardContent>
