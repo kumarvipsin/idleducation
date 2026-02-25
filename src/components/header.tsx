@@ -1,3 +1,4 @@
+
 'use client';
 import Link from "next/link";
 import { 
@@ -73,7 +74,7 @@ const allCoursesCategories = [
     {
         name: "GOVT. EXAMS",
         description: "SSC, Banking, & Railway.",
-        href: "/examcat",
+        href: "#",
         icon: <Landmark className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white"
     },
@@ -99,12 +100,15 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
             {links && links.map((link) => {
+                const isDisabled = link.href === "#" && !link.onClick;
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
                         e.preventDefault();
                         link.onClick();
                     }
-                    onLinkClick?.();
+                    if (!isDisabled) {
+                        onLinkClick?.();
+                    }
                 };
 
                 return (
@@ -114,7 +118,10 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                         target={link.target} 
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
-                        className="group relative flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]"
+                        className={cn(
+                            "group relative flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]",
+                            isDisabled && "opacity-50 grayscale cursor-not-allowed pointer-events-none"
+                        )}
                     >
                         <div className={cn(
                             "flex items-center justify-center shadow-lg shrink-0 transition-all duration-500 group-hover:scale-110",
@@ -234,8 +241,8 @@ export function Header() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: 'IDL Foundation Donation',
-        description: `Donation for ${donationCategory}`,
+        name: 'IDL EDUCATION Admission',
+        description: 'Admission Registration Fee',
         order_id: order.id,
         handler: async function (response: any) {
             const donationData = {
@@ -497,19 +504,30 @@ export function Header() {
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                    <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
-                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
-                                                            <div className="-rotate-45">
-                                                                {icon}
+                                                {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => {
+                                                    const isDisabled = href === "#";
+                                                    return (
+                                                        <Link 
+                                                            key={label} 
+                                                            href={href} 
+                                                            onClick={() => !isDisabled && setIsMobileMenuOpen(false)} 
+                                                            className={cn(
+                                                                "group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]",
+                                                                isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                            )}
+                                                        >
+                                                            <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
+                                                                <div className="-rotate-45">
+                                                                    {icon}
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div className="space-y-0.5">
-                                                            <p className="font-extrabold text-[13px] text-foreground leading-tight">{label.toUpperCase()}</p>
-                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
-                                                        </div>
-                                                    </Link>
-                                                ))}
+                                                            <div className="space-y-0.5">
+                                                                <p className="font-extrabold text-[13px] text-foreground leading-tight">{label.toUpperCase()}</p>
+                                                                <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                            </div>
+                                                        </Link>
+                                                    )
+                                                })}
                                             </CollapsibleContent>
                                         </Collapsible>
 
