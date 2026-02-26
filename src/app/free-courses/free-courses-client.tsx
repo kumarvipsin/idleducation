@@ -234,13 +234,13 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
             <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Find high-quality lessons curated for your success</p>
         </div>
 
-        <Card className="rounded-2xl border border-border/50 bg-white/50 backdrop-blur-sm p-4 md:p-6 shadow-sm">
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+        <Card className="rounded-xl border border-border/40 bg-white/60 backdrop-blur-sm p-3 md:p-4 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                 {/* Class Filter */}
-                <div className="md:col-span-3 space-y-1.5">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Select Class</Label>
+                <div className="md:col-span-3 space-y-1">
+                    <Label className="text-xs font-medium text-slate-500 ml-0.5">Select Class</Label>
                     <Select value={selectedClass} onValueChange={setSelectedClass}>
-                        <SelectTrigger className="rounded-xl border-slate-200 font-bold text-sm h-11">
+                        <SelectTrigger className="rounded-lg border-slate-200 font-medium text-sm h-10 shadow-none">
                             <SelectValue placeholder="All Classes" />
                         </SelectTrigger>
                         <SelectContent>
@@ -253,10 +253,10 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                 </div>
 
                 {/* Subject Filter */}
-                <div className="md:col-span-3 space-y-1.5">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Select Subject</Label>
+                <div className="md:col-span-3 space-y-1">
+                    <Label className="text-xs font-medium text-slate-500 ml-0.5">Select Subject</Label>
                     <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                        <SelectTrigger className="rounded-xl border-slate-200 font-bold text-sm h-11">
+                        <SelectTrigger className="rounded-lg border-slate-200 font-medium text-sm h-10 shadow-none">
                             <SelectValue placeholder="All Subjects" />
                         </SelectTrigger>
                         <SelectContent>
@@ -269,22 +269,22 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                 </div>
 
                 {/* Search Filter */}
-                <div className="md:col-span-4 space-y-1.5">
-                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Search Keywords</Label>
+                <div className="md:col-span-4 space-y-1">
+                    <Label className="text-xs font-medium text-slate-500 ml-0.5">Search Keywords</Label>
                     <div className="relative group">
-                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
                         <Input 
                             placeholder="e.g. Algebra, Physics, etc." 
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10 rounded-xl border-slate-200 font-bold text-sm h-11 focus-visible:ring-primary/20"
+                            className="pl-9 rounded-lg border-slate-200 font-medium text-sm h-10 shadow-none focus-visible:ring-1 focus-visible:ring-primary/20"
                         />
                         {searchTerm && (
                             <button 
                                 onClick={() => setSearchTerm("")}
-                                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                             >
-                                <X className="h-4 w-4" />
+                                <X className="h-3.5 w-3.5" />
                             </button>
                         )}
                     </div>
@@ -295,9 +295,9 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                     <Button 
                         variant="ghost" 
                         onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
-                        className="w-full h-11 rounded-xl font-black text-[10px] tracking-widest uppercase hover:bg-red-50 hover:text-red-600 border border-transparent hover:border-red-100 transition-all"
+                        className="w-full h-10 rounded-lg font-semibold text-xs hover:bg-slate-100 text-slate-600 transition-all"
                     >
-                        Reset Filters
+                        Clear All
                     </Button>
                 </div>
             </div>
