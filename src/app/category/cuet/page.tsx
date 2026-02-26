@@ -305,13 +305,13 @@ export default function CuetPage() {
     
     const resourceCards = [
         {
-          title: "CUET Advantage",
-          subtitle: `Specialized ${activeTab.toUpperCase()} prep`,
+          title: "CUET Syllabus 2026",
+          subtitle: "Latest exam pattern and section-wise syllabus guide",
           icon: <Sparkles />,
           bgColor: "bg-white dark:bg-slate-900/50",
           textColor: "text-slate-900",
           iconBg: "bg-amber-50 text-amber-600",
-          href: "/about"
+          href: "/resources/ncert-solutions"
         },
         {
           title: "Revision Notes",
