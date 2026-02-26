@@ -18,11 +18,13 @@ import {
     Zap,
     Atom,
     ChevronRight,
-    Sparkles
+    Sparkles,
+    CheckCircle2
 } from "lucide-react";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { Separator } from "@/components/ui/separator";
 
 const subjects = [
     {
@@ -177,7 +179,7 @@ export default function CuetStudyMaterialPage() {
                                         {/* Buttons Row */}
                                         <div className="flex flex-col sm:flex-row gap-2">
                                             <Button variant="outline" className="flex-1 rounded-xl h-11 font-black text-[10px] uppercase tracking-widest border-slate-200 group/dl">
-                                                <Download className="w-3.5 h-3.5 mr-2 transition-transform group-hover/dl:-translate-y-0.5" />
+                                                <Download className="w-3.5 h-3.5 mr-2 transition-transform group/dl:-translate-y-0.5" />
                                                 Free Sample
                                             </Button>
                                             <Button asChild className="flex-1 rounded-xl h-11 font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20">
