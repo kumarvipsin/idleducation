@@ -367,11 +367,6 @@ export default function CuetPage() {
                 {/* Compact Heading Area */}
                 <section className="mb-10 text-center md:text-left animate-fade-in-up">
                     <div className="flex flex-col items-center md:items-start gap-3">
-                        <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-wider">
-                            <Sparkles className="w-3 h-3 text-yellow-500" />
-                            CUET 2026 Preparation
-                        </div>
-                        
                         <div className="space-y-1">
                             <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                                 CUET {activeTab.toUpperCase()} Entrance 2026-27
@@ -407,7 +402,7 @@ export default function CuetPage() {
                         </div>
                     </div>
                 </section>
-        
+
                 {/* Compact Resource Hub */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
