@@ -273,7 +273,6 @@ const CoursePlayerDialog = ({ course }: { course: any }) => {
 };
 
 export default function CuetPage() {
-    const [activeTab, setActiveTab] = useState('ug');
     const { user } = useAuth();
     const { toast } = useToast();
     const router = useRouter();
@@ -407,31 +406,6 @@ export default function CuetPage() {
                             <p className="max-w-3xl text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed">
                                 For students of class XII to secure admission in the top Central Universities of the country, the ability to grasp concepts and attempt multiple choice questions accurately is essential in this exam. With the team of best faculties, latest study materials, daily practice worksheets and regular class tests; CUET (UG) with IDL a stepping stone not just for academic success but also a bright future.
                             </p>
-                        </div>
-
-                        <div className="flex items-center gap-1.5 p-1 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md rounded-full border shadow-sm">
-                            <Button 
-                                onClick={() => setActiveTab('ug')} 
-                                variant="ghost"
-                                size="sm"
-                                className={cn(
-                                    "rounded-full px-5 text-xs font-bold transition-all h-7",
-                                    activeTab === 'ug' ? "bg-primary text-white shadow-sm" : "text-slate-500 hover:bg-primary/5"
-                                )}
-                            >
-                                CUET UG
-                            </Button>
-                            <Button 
-                                onClick={() => setActiveTab('pg')} 
-                                variant="ghost"
-                                size="sm"
-                                className={cn(
-                                    "rounded-full px-5 text-xs font-bold transition-all h-7",
-                                    activeTab === 'pg' ? "bg-primary text-white shadow-sm" : "text-slate-500 hover:bg-primary/5"
-                                )}
-                            >
-                                CUET PG
-                            </Button>
                         </div>
                     </div>
                 </section>
