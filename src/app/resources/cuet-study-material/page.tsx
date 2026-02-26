@@ -106,58 +106,58 @@ export default function CuetStudyMaterialPage() {
         <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative selection:bg-primary/10">
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
             
-            <div className="container mx-auto py-12 px-4 md:px-6 max-w-6xl relative z-10">
+            <div className="container mx-auto py-10 px-4 md:px-6 max-w-6xl relative z-10">
                 
                 {/* Back Button */}
-                <div className="mb-8">
-                    <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-black uppercase tracking-widest text-[10px]">
+                <div className="mb-6">
+                    <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[9px] h-8">
                         <Link href="/category/cuet">
-                            <ArrowLeft className="mr-2 h-4 w-4" /> 
+                            <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> 
                             Back to CUET Portal
                         </Link>
                     </Button>
                 </div>
 
                 {/* Header */}
-                <div className="text-center mb-16 space-y-4">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
-                        <Sparkles className="w-3 h-3 text-yellow-500" />
+                <div className="text-center mb-12 space-y-3">
+                    <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[9px] font-bold uppercase tracking-widest">
+                        <Sparkles className="w-2.5 h-2.5 text-yellow-500" />
                         PREMIUM STUDY VAULT
                     </div>
-                    <h1 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
+                    <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
                         CUET 2026{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10 text-primary">Study Material</span>
-                            <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
                                 <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
                                     <path d="M0,15 Q50,5 100,15" />
                                 </svg>
                             </div>
                         </span>
                     </h1>
-                    <p className="max-w-2xl mx-auto text-slate-600 dark:text-slate-400 text-sm font-bold uppercase tracking-tight opacity-80">
+                    <p className="max-w-xl mx-auto text-slate-600 dark:text-slate-400 text-xs font-semibold uppercase tracking-tight opacity-80">
                         Expert-Curated Academic Assets For India's Toughest Entrance Exams.
                     </p>
                 </div>
 
                 {/* Subject Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                     {subjects.map((subject, index) => (
-                        <Card key={index} className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-xl transition-all duration-500 group/card flex flex-col h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                        <Card key={index} className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm hover:shadow-lg transition-all duration-500 group/card flex flex-col h-full animate-fade-in-up" style={{ animationDelay: `${index * 0.05}s` }}>
                             <CardContent className="p-0 flex flex-col h-full">
                                 {/* Subject Identity Header */}
-                                <div className={cn("p-6 flex items-start gap-5 transition-colors", subject.color)}>
-                                    <div className={cn("p-4 rounded-2xl shadow-sm shrink-0 group-hover/card:scale-110 group-hover/card:rotate-6 transition-all duration-500", subject.iconBg)}>
-                                        {React.cloneElement(subject.icon as React.ReactElement, { className: "w-8 h-8" })}
+                                <div className={cn("p-4 flex items-center gap-4 transition-colors border-b border-black/[0.03]", subject.color)}>
+                                    <div className={cn("p-3 rounded-xl shadow-sm shrink-0 group-hover/card:scale-110 group-hover/card:rotate-3 transition-all duration-500", subject.iconBg)}>
+                                        {React.cloneElement(subject.icon as React.ReactElement, { className: "w-6 h-6" })}
                                     </div>
-                                    <div className="space-y-1">
-                                        <h3 className="text-xl font-black tracking-tighter leading-none">{subject.name}</h3>
-                                        <p className="text-[10px] font-black uppercase tracking-[0.15em] opacity-60">CUET 2026-27 Module</p>
+                                    <div className="space-y-0.5">
+                                        <h3 className="text-lg font-bold tracking-tight leading-none">{subject.name}</h3>
+                                        <p className="text-[9px] font-bold uppercase tracking-[0.1em] opacity-60">CUET 2026-27 Module</p>
                                     </div>
                                 </div>
 
-                                <div className="p-6 flex-grow flex flex-col">
-                                    <p className="text-sm font-medium text-slate-600 dark:text-slate-400 leading-relaxed text-left line-clamp-3 mb-6">
+                                <div className="p-5 flex-grow flex flex-col">
+                                    <p className="text-[13px] font-normal text-slate-600 dark:text-slate-400 leading-relaxed text-left line-clamp-3 mb-5">
                                         {subject.description}
                                     </p>
 
@@ -165,26 +165,26 @@ export default function CuetStudyMaterialPage() {
                                         {/* Pricing Row */}
                                         <div className="flex items-center justify-between">
                                             <div>
-                                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Single Subject Access</p>
-                                                <div className="flex items-baseline gap-2">
-                                                    <span className="text-2xl font-black text-foreground">₹{subject.price}</span>
-                                                    <span className="text-xs font-bold text-slate-400 line-through opacity-50">₹{subject.originalPrice}</span>
+                                                <p className="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Single Access</p>
+                                                <div className="flex items-baseline gap-1.5">
+                                                    <span className="text-xl font-bold text-foreground">₹{subject.price}</span>
+                                                    <span className="text-[11px] font-medium text-slate-400 line-through opacity-50">₹{subject.originalPrice}</span>
                                                 </div>
                                             </div>
-                                            <Badge className="bg-green-100 text-green-600 border-none font-black text-[9px] px-2.5 py-1">SAVE {Math.round(((subject.originalPrice - subject.price) / subject.originalPrice) * 100)}%</Badge>
+                                            <Badge className="bg-green-100 text-green-600 border-none font-bold text-[8px] px-2 py-0.5 rounded-md uppercase">SAVE {Math.round(((subject.originalPrice - subject.price) / subject.originalPrice) * 100)}%</Badge>
                                         </div>
 
-                                        <Separator className="opacity-50" />
+                                        <Separator className="opacity-40" />
 
                                         {/* Buttons Row */}
                                         <div className="flex flex-col sm:flex-row gap-2">
-                                            <Button variant="outline" className="flex-1 rounded-xl h-11 font-black text-[10px] uppercase tracking-widest border-slate-200 group/dl">
-                                                <Download className="w-3.5 h-3.5 mr-2 transition-transform group/dl:-translate-y-0.5" />
+                                            <Button variant="outline" className="flex-1 rounded-lg h-10 font-bold text-[10px] uppercase tracking-widest border-slate-200 group/dl">
+                                                <Download className="w-3.5 h-3.5 mr-1.5 transition-transform group/dl:-translate-y-0.5" />
                                                 Free Sample
                                             </Button>
-                                            <Button asChild className="flex-1 rounded-xl h-11 font-black text-[10px] uppercase tracking-widest shadow-lg shadow-primary/20">
+                                            <Button asChild className="flex-1 rounded-lg h-10 font-bold text-[10px] uppercase tracking-widest shadow-md shadow-primary/10">
                                                 <Link href="/store">
-                                                    <ShoppingCart className="w-3.5 h-3.5 mr-2" />
+                                                    <ShoppingCart className="w-3.5 h-3.5 mr-1.5" />
                                                     Get Access
                                                 </Link>
                                             </Button>
@@ -197,17 +197,17 @@ export default function CuetStudyMaterialPage() {
                 </div>
 
                 {/* Footer Section */}
-                <div className="mt-20 pt-12 border-t border-slate-100 text-center animate-fade-in-up">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-6">Quality Ensured By IDL Research Node</p>
-                    <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+                <div className="mt-16 pt-10 border-t border-slate-100 text-center animate-fade-in-up">
+                    <p className="text-[9px] font-bold text-slate-400 uppercase tracking-[0.3em] mb-6">Quality Ensured By IDL Research Node</p>
+                    <div className="flex flex-wrap justify-center gap-6 md:gap-12">
                         {[
-                            { label: "100% NCERT ALIGNED", icon: <CheckCircle2 className="w-4 h-4 text-emerald-500" /> },
-                            { label: "CUET PATTERN VERIFIED", icon: <CheckCircle2 className="w-4 h-4 text-emerald-500" /> },
-                            { label: "FACULTY CURATED", icon: <CheckCircle2 className="w-4 h-4 text-emerald-500" /> }
+                            { label: "100% NCERT ALIGNED", icon: <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> },
+                            { label: "CUET PATTERN VERIFIED", icon: <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> },
+                            { label: "FACULTY CURATED", icon: <CheckCircle2 className="w-3.5 h-3.5 text-emerald-500" /> }
                         ].map((item, i) => (
-                            <div key={i} className="flex items-center gap-2.5">
+                            <div key={i} className="flex items-center gap-2">
                                 {item.icon}
-                                <span className="text-[11px] font-black tracking-tight text-foreground/60">{item.label}</span>
+                                <span className="text-[10px] font-bold tracking-tight text-foreground/60">{item.label}</span>
                             </div>
                         ))}
                     </div>
