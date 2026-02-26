@@ -330,7 +330,7 @@ export default function CuetPage() {
           bgColor: "bg-white dark:bg-slate-900/50",
           textColor: "text-slate-900",
           iconBg: "bg-blue-50 text-blue-600",
-          href: "/resources/notes"
+          href: "/resources/cuet-study-material"
         },
          {
           title: "Mock Tests",
