@@ -13,7 +13,8 @@ import {
     ShoppingCart,
     Info,
     CheckCircle2,
-    X
+    X,
+    FileText
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -307,7 +308,7 @@ export default function CuetPage() {
         {
           title: "CUET Syllabus 2026",
           subtitle: "Latest exam pattern and section-wise syllabus guide",
-          icon: <Sparkles />,
+          icon: <FileText />,
           bgColor: "bg-white dark:bg-slate-900/50",
           textColor: "text-slate-900",
           iconBg: "bg-amber-50 text-amber-600",
