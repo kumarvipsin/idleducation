@@ -8,16 +8,12 @@ import {
     BookOpen, 
     Sparkles, 
     Book, 
-    PlayCircle,
-    IndianRupee,
-    Monitor,
     GraduationCap,
     Sigma,
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 
 const cuetSubjects = [
     { name: "Language (Section IA & IB)", key: "language", icon: <BookOpen className="w-4 h-4" />, color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/20 dark:text-emerald-400", border: "border-emerald-100" },
@@ -179,89 +175,6 @@ export default function CuetPage() {
                                     </div>
                                 </div>
                             ))}
-                        </div>
-                    </div>
-                </section>
-
-                {/* Compact Learning Path */}
-                <section className="animate-fade-in-up" style={{animationDelay: '0.3s'}}>
-                    <div className="space-y-6">
-                        <div className="text-center space-y-1">
-                            <h3 className="font-bold text-xl md:text-2xl text-slate-900 dark:text-white tracking-tight">
-                                Strategic Learning Tiers
-                            </h3>
-                            <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-widest">Choose your path to excellence</p>
-                        </div>
-
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                            {/* Free Courses */}
-                            <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-orange-200 transition-all duration-300 rounded-xl shadow-sm border-t-4 border-t-orange-500 overflow-hidden">
-                                <CardContent className="p-5 space-y-4 flex flex-col h-full">
-                                    <div className="flex items-center justify-between">
-                                        <div className="p-2 bg-orange-50 dark:bg-orange-900/20 rounded-lg text-orange-600 shadow-sm">
-                                            <PlayCircle className="w-5 h-5" />
-                                        </div>
-                                        <Badge className="text-[8px] font-bold uppercase tracking-wider bg-orange-500 text-white border-none rounded-full">OPEN NODE</Badge>
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">Free Courses</h4>
-                                        <p className="text-[11px] font-medium text-muted-foreground leading-relaxed">
-                                            Foundational lectures available to all aspirants. Ideal for rapid revision.
-                                        </p>
-                                    </div>
-                                    <div className="mt-auto pt-3">
-                                        <Button asChild size="sm" className="w-full bg-slate-900 hover:bg-black dark:bg-orange-600 dark:hover:bg-orange-700 text-white font-bold text-[9px] h-9 rounded-lg uppercase tracking-widest">
-                                            <Link href="/free-courses">ACCESS LESSONS</Link>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            {/* Paid Courses */}
-                            <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-emerald-200 transition-all duration-300 rounded-xl shadow-sm border-t-4 border-t-emerald-500 overflow-hidden">
-                                <CardContent className="p-5 space-y-4 flex flex-col h-full">
-                                    <div className="flex items-center justify-between">
-                                        <div className="p-2 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg text-emerald-600 shadow-sm">
-                                            <IndianRupee className="w-5 h-5" />
-                                        </div>
-                                        <Badge className="text-[8px] font-bold uppercase tracking-wider bg-emerald-500 text-white border-none rounded-full">PREMIUM NODE</Badge>
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">Structured Path</h4>
-                                        <p className="text-[11px] font-medium text-muted-foreground leading-relaxed">
-                                            Comprehensive curricula with structured paths and 100% syllabus coverage.
-                                        </p>
-                                    </div>
-                                    <div className="mt-auto pt-3">
-                                        <Button asChild size="sm" className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[9px] h-9 rounded-lg uppercase tracking-widest">
-                                            <Link href="/paid-courses">VIEW BATCHES</Link>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            {/* Live Classes */}
-                            <Card className="border border-slate-200 dark:border-slate-800 bg-white dark:bg-card hover:border-indigo-200 transition-all duration-300 rounded-xl shadow-sm border-t-4 border-t-indigo-500 overflow-hidden">
-                                <CardContent className="p-5 space-y-4 flex flex-col h-full">
-                                    <div className="flex items-center justify-between">
-                                        <div className="p-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-lg text-indigo-600 shadow-sm">
-                                            <Monitor className="w-5 h-5" />
-                                        </div>
-                                        <Badge className="text-[8px] font-bold uppercase tracking-wider bg-indigo-500 text-white border-none rounded-full">ACTIVE NODE</Badge>
-                                    </div>
-                                    <div className="space-y-1.5">
-                                        <h4 className="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-tight">Real-Time Sync</h4>
-                                        <p className="text-[11px] font-medium text-muted-foreground leading-relaxed">
-                                            Interactive sessions with top faculty. Instant doubt clearing and peer learning.
-                                        </p>
-                                    </div>
-                                    <div className="mt-auto pt-3">
-                                        <Button asChild size="sm" className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[9px] h-9 rounded-lg uppercase tracking-widest">
-                                            <Link href="/book-demo">JOIN LIVE DEMO</Link>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
                         </div>
                     </div>
                 </section>
