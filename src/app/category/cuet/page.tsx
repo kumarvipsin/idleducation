@@ -14,7 +14,12 @@ import {
     Info,
     CheckCircle2,
     X,
-    FileText
+    FileText,
+    Library,
+    BookCheck,
+    ClipboardList,
+    Calendar,
+    Search
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -104,6 +109,34 @@ const cuetCourses = [
                 videos: [{ title: "Era of One Party Dominance", youtubeLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ", order: 0 }]
             }
         ]
+    }
+];
+
+const quickInfoCards = [
+    {
+        label: "Understanding CUET (UG) 2026",
+        icon: <BookOpen className="w-8 h-8 text-amber-500" />,
+        href: "/resources/ncert-solutions"
+    },
+    {
+        label: "Courses with IDL CUET",
+        icon: <Library className="w-8 h-8 text-blue-600" />,
+        href: "/paid-courses"
+    },
+    {
+        label: "All About CUET",
+        icon: <BookCheck className="w-8 h-8 text-emerald-600" />,
+        href: "/about"
+    },
+    {
+        label: "Practice Quiz",
+        icon: <ClipboardList className="w-8 h-8 text-indigo-600" />,
+        href: "/resources/ncert-solutions"
+    },
+    {
+        label: "Previous Year Papers",
+        icon: <Calendar className="w-8 h-8 text-rose-600" />,
+        href: "/resources/previous-year-questions"
     }
 ];
 
@@ -403,8 +436,26 @@ export default function CuetPage() {
                     </div>
                 </section>
 
+                {/* Quick Info Cards Matching User Design */}
+                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                        {quickInfoCards.map((card, index) => (
+                            <Link key={index} href={card.href} className="group">
+                                <div className="bg-[#FFF5F5] dark:bg-slate-900/40 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 transition-all hover:shadow-md border border-transparent hover:border-rose-100 h-full">
+                                    <div className="transition-transform duration-300 group-hover:scale-110">
+                                        {card.icon}
+                                    </div>
+                                    <p className="text-[11px] font-bold text-slate-800 dark:text-slate-200 tracking-tight leading-tight uppercase">
+                                        {card.label}
+                                    </p>
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </section>
+
                 {/* Compact Resource Hub */}
-                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.1s'}}>
+                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {resourceCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group">
@@ -426,7 +477,7 @@ export default function CuetPage() {
                 </section>
 
                 {/* Courses Section */}
-                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
+                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.25s'}}>
                     <div className="space-y-8">
                         <div className="flex items-center justify-between border-l-4 border-primary pl-3">
                             <div>
