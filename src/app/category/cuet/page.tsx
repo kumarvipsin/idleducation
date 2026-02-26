@@ -31,6 +31,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import Script from "next/script";
 
+// Custom Adobe-style PDF Icon matching the user's provided image
+const AdobePdfIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M14 2V8H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M11.5 12.5C11.5 12.5 10.5 11.5 9.5 13.5C8.5 15.5 10.5 17.5 11.5 16.5C12.5 15.5 13.5 12.5 15.5 12.5C17.5 12.5 17.5 14.5 15.5 15.5C13.5 16.5 11.5 12.5 11.5 12.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 // Mock CUET Courses matching TPaidCourse structure
 const cuetCourses = [
     {
@@ -308,10 +317,10 @@ export default function CuetPage() {
         {
           title: "CUET Syllabus 2026",
           subtitle: "Latest exam pattern and section-wise syllabus guide",
-          icon: <FileText />,
+          icon: <AdobePdfIcon />,
           bgColor: "bg-white dark:bg-slate-900/50",
           textColor: "text-slate-900",
-          iconBg: "bg-amber-50 text-amber-600",
+          iconBg: "bg-red-50 text-red-600",
           href: "/resources/ncert-solutions"
         },
         {
