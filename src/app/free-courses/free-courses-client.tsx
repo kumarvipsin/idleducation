@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2 } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2, Search, Filter, X } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 const VideoItem = ({
     video,
@@ -147,7 +149,31 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 
 export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
   const [mounted, setMounted] = useState(false);
+  const [selectedClass, setSelectedClass] = useState("all");
+  const [selectedSubject, setSelectedSubject] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
+
   useEffect(() => setMounted(true), []);
+
+  const availableClasses = useMemo(() => {
+    const unique = Array.from(new Set(courses.map(c => c.class))).filter(Boolean).sort();
+    return unique;
+  }, [courses]);
+
+  const availableSubjects = useMemo(() => {
+    const unique = Array.from(new Set(courses.map(c => c.subject))).filter(Boolean).sort();
+    return unique;
+  }, [courses]);
+
+  const filteredCourses = useMemo(() => {
+    return courses.filter(course => {
+      const matchesClass = selectedClass === "all" || course.class === selectedClass;
+      const matchesSubject = selectedSubject === "all" || course.subject === selectedSubject;
+      const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            course.description?.toLowerCase().includes(searchTerm.toLowerCase());
+      return matchesClass && matchesSubject && matchesSearch;
+    });
+  }, [courses, selectedClass, selectedSubject, searchTerm]);
 
   const groupedCourses = useMemo(() => {
     const subjectPriority: Record<string, number> = {
@@ -168,7 +194,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
       return 99;
     };
 
-    const grouped = courses.reduce((acc, course) => {
+    const grouped = filteredCourses.reduce((acc, course) => {
       const rawClass = (course.class || 'Other Courses').trim();
       const existingKey = Object.keys(acc).find(k => k.toLowerCase() === rawClass.toLowerCase());
       const key = existingKey || rawClass;
@@ -185,7 +211,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
     });
 
     return grouped;
-  }, [courses]);
+  }, [filteredCourses]);
 
   const sortedGroupedEntries = useMemo(() => {
     return Object.entries(groupedCourses).sort(([keyA], [keyB]) => {
@@ -199,6 +225,85 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
 
   return (
     <div className="container mx-auto py-6 md:py-10 px-4 md:px-6">
+      
+      {/* Filtration Section */}
+      <div className="mb-12 space-y-6">
+        <div className="text-center max-w-2xl mx-auto space-y-2">
+            <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Free Course Library</h1>
+            <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Find high-quality lessons curated for your success</p>
+        </div>
+
+        <Card className="rounded-2xl border border-border/50 bg-white/50 backdrop-blur-sm p-4 md:p-6 shadow-sm">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
+                {/* Class Filter */}
+                <div className="md:col-span-3 space-y-1.5">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Select Class</Label>
+                    <Select value={selectedClass} onValueChange={setSelectedClass}>
+                        <SelectTrigger className="rounded-xl border-slate-200 font-bold text-sm h-11">
+                            <SelectValue placeholder="All Classes" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Classes</SelectItem>
+                            {availableClasses.map(c => (
+                                <SelectItem key={c} value={c}>{c}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                {/* Subject Filter */}
+                <div className="md:col-span-3 space-y-1.5">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Select Subject</Label>
+                    <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                        <SelectTrigger className="rounded-xl border-slate-200 font-bold text-sm h-11">
+                            <SelectValue placeholder="All Subjects" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="all">All Subjects</SelectItem>
+                            {availableSubjects.map(s => (
+                                <SelectItem key={s} value={s}>{s}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                {/* Search Filter */}
+                <div className="md:col-span-4 space-y-1.5">
+                    <Label className="text-[10px] font-black uppercase tracking-widest text-slate-500 ml-1">Search Keywords</Label>
+                    <div className="relative group">
+                        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                        <Input 
+                            placeholder="e.g. Algebra, Physics, etc." 
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="pl-10 rounded-xl border-slate-200 font-bold text-sm h-11 focus-visible:ring-primary/20"
+                        />
+                        {searchTerm && (
+                            <button 
+                                onClick={() => setSearchTerm("")}
+                                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* Reset Button */}
+                <div className="md:col-span-2">
+                    <Button 
+                        variant="ghost" 
+                        onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
+                        className="w-full h-11 rounded-xl font-black text-[10px] tracking-widest uppercase hover:bg-red-50 hover:text-red-600 border border-transparent hover:border-red-100 transition-all"
+                    >
+                        Reset Filters
+                    </Button>
+                </div>
+            </div>
+        </Card>
+      </div>
+
+      {/* Courses Display */}
       {sortedGroupedEntries.length > 0 ? (
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => {
             const words = groupTitle.split(' ');
@@ -206,7 +311,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
             const lastWord = words[words.length - 1];
 
             return (
-                <section key={groupTitle} className="mb-12">
+                <section key={groupTitle} className="mb-12 last:mb-0">
                   <div className="mb-8 text-center sm:text-left">
                     <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
                         {firstPart}{' '}
@@ -308,8 +413,15 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
             <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
                 <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
             </div>
-            <h2 className="text-xl font-extrabold text-foreground/40 tracking-tight uppercase">No courses found</h2>
-            <p className="text-xs text-muted-foreground font-extrabold">New learning material is coming soon!</p>
+            <h2 className="text-xl font-extrabold text-foreground/40 tracking-tight uppercase">No matching courses found</h2>
+            <p className="text-xs text-muted-foreground font-extrabold">Try adjusting your filters or search keywords.</p>
+            <Button 
+                variant="link" 
+                onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
+                className="text-primary font-black uppercase text-[10px] tracking-widest"
+            >
+                Clear all filters
+            </Button>
         </div>
       )}
     </div>
