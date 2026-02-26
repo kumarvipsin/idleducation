@@ -324,7 +324,7 @@ export default function CuetPage() {
           href: "/resources/ncert-solutions"
         },
         {
-          title: "Revision Notes",
+          title: "CUET Study Material",
           subtitle: "Expert study material",
           icon: <BookOpen />,
           bgColor: "bg-white dark:bg-slate-900/50",
