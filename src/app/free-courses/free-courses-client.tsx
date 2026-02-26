@@ -229,11 +229,6 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
       
       {/* Filtration Section */}
       <div className="mb-12 space-y-6">
-        <div className="text-center max-w-2xl mx-auto space-y-2">
-            <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">Free Course Library</h1>
-            <p className="text-sm text-muted-foreground font-bold uppercase tracking-widest">Find high-quality lessons curated for your success</p>
-        </div>
-
         <Card className="rounded-xl border border-border/40 bg-white/60 backdrop-blur-sm p-3 md:p-4 shadow-sm">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
                 {/* Class Filter */}
