@@ -23,7 +23,9 @@ import {
     Monitor, 
     BarChart3, 
     Send,
-    MapPin
+    MapPin,
+    Plus,
+    Minus
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -32,7 +34,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
@@ -65,7 +67,7 @@ const timelineData = [
         items: [
             { icon: <Building className="w-3.5 h-3.5" />, text: "Conducted by: National Testing Agency (NTA)" },
             { icon: <Globe className="w-3.5 h-3.5" />, text: "National-level entrance test" },
-            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "For UG admissions in Central & participating universities" }
+            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "For Undergraduate admissions in Central & participating universities" }
         ],
         accent: "bg-blue-600"
     },
@@ -184,13 +186,13 @@ export default function UnderstandingCuetPage() {
             <div className="space-y-6">
               <div className="flex items-start gap-4 text-left">
                 <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
-                <p className="text-slate-600 font-medium leading-relaxed">
+                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
                   Secure admission to undergraduate (UG) programs at top Central Universities in India by taking the Common Universities Entrance Test (CUET).
                 </p>
               </div>
               <div className="flex items-start gap-4 text-left">
                 <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
-                <p className="text-slate-600 font-medium leading-relaxed">
+                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
                   CUET (UG) is highly competitive with lakhs candidates seeking seats at the top universities in the country.
                 </p>
               </div>
@@ -508,6 +510,31 @@ export default function UnderstandingCuetPage() {
                             );
                         })}
                     </div>
+                </div>
+            </div>
+        </section>
+
+        {/* WHERE Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-where/800/800" 
+                            alt="Where is CUET Conducted" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="online learning illustration"
+                        />
+                    </div>
+                </div>
+                <div className="space-y-6">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
+                    </p>
                 </div>
             </div>
         </section>
