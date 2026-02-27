@@ -436,11 +436,6 @@ export default function UnderstandingCuetPage() {
       {/* Detailed Info Section (Full Width White Background) */}
       <section className="w-full bg-white py-20 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="text-center mb-12">
-                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
-                    UNDERSTANDING <span className="text-red-600">CUET(UG)</span> EXAM
-                </h2>
-            </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
                     <div className="relative w-full h-full max-w-md">
@@ -455,7 +450,7 @@ export default function UnderstandingCuetPage() {
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight text-left">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
                             <span className="text-red-600">WHAT</span> IS CUET?
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
@@ -801,28 +796,24 @@ export default function UnderstandingCuetPage() {
         </section>
       </div>
 
-      <AnimatePresence>
-        {isSuccessOpen && (
-          <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
-            <DialogContent className="rounded-3xl max-w-sm">
-              <DialogHeader>
-                <div className="flex justify-center mb-4">
-                  <CheckCircle2 className="w-16 h-16 text-green-500" />
-                </div>
-                <DialogTitle className="text-center text-2xl font-bold">Inquiry Received!</DialogTitle>
-                <DialogDescription className="text-center font-medium leading-relaxed">
-                  Thank you for choosing IDL CUET. Our expert counselor will call you back within 24 hours to guide you.
-                </DialogDescription>
-              </DialogHeader>
-              <DialogFooter>
-                <Button onClick={() => setIsSuccessOpen(false)} className="w-full rounded-xl h-12 font-bold bg-red-600 hover:bg-red-700 text-white">
-                  Dismiss
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
-        )}
-      </AnimatePresence>
+      <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
+        <DialogContent className="rounded-3xl max-w-sm">
+          <DialogHeader>
+            <div className="flex justify-center mb-4">
+              <CheckCircle2 className="w-16 h-16 text-green-500" />
+            </div>
+            <DialogTitle className="text-center text-2xl font-bold">Inquiry Received!</DialogTitle>
+            <DialogDescription className="text-center font-medium leading-relaxed">
+              Thank you for choosing IDL CUET. Our expert counselor will call you back within 24 hours to guide you.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button onClick={() => setIsSuccessOpen(false)} className="w-full rounded-xl h-12 font-bold bg-red-600 hover:bg-red-700 text-white">
+              Dismiss
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
