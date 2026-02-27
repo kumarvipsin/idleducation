@@ -10,7 +10,6 @@ import {
     Sparkles, 
     ArrowRight, 
     CheckCircle2, 
-    PlayCircle, 
     Building, 
     Globe, 
     GraduationCap, 
@@ -477,7 +476,7 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      {/* WHY CUET (UG)? Section - Restyled to match WHAT IS CUET */}
+      {/* WHY CUET (UG)? Section */}
       <section className="w-full py-12 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
@@ -515,7 +514,7 @@ export default function UnderstandingCuetPage() {
                             alt="Why CUET is beneficial" 
                             fill 
                             className="object-contain"
-                            data-ai-hint="student benefit"
+                            data-ai-hint="student benefits"
                         />
                     </div>
                 </div>
@@ -523,44 +522,55 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 md:px-6">
-        
-        {/* Who Can Appear Section */}
-        <section className="animate-fade-in-up mb-24">
-            <div className="max-w-4xl  mx-auto text-center space-y-10">
-                <div className="space-y-4">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
-                        <span className="relative z-10"><span className="text-red-600">WHO</span> Can Appear For CUET (UG)?</span>
-                        <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
-                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                <path d="M0,15 Q50,5 100,15" />
-                             </svg>
-                        </div>
-                    </h3>
+      {/* WHO Can Appear For CUET (UG)? Section */}
+      <section className="w-full bg-white py-12 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-who/800/800" 
+                            alt="Who can appear for CUET" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="eligible students"
+                        />
+                    </div>
                 </div>
+                <div className="space-y-8">
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
+                        </h3>
+                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                            Students aiming for top-tier higher education in India should know if they are eligible:
+                        </p>
+                    </div>
 
-                <div className="flex flex-col gap-4 text-left max-w-2xl mx-auto">
-                    {[
-                        "Students qualified in 10+2 / Intermediate or equivalent.",
-                        "Candidates from any recognised educational board.",
-                        "Students seeking admission to various Science, Commerce and Humanities UG courses.",
-                        "Aspirants targeting admissions in top Central Universities."
-                    ].map((item, i) => (
-                         <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
-                            <div className="p-1 rounded-full  bg-red-100 text-red-600">
-                                <CheckCircle2 className="w-4 h-4" />
-                            </div>
-                            <span className="text-slate-600 font-bold text-sm md:text-base leading-snug">
-                                 {item}
-                            </span>
-                        </div>
-                    ))}
+                    <ul className="space-y-3">
+                        {[
+                            "Qualified their 10+2 or intermediate or equivalent from any recognised board.",
+                            "Candidates seeking admission to various Science, Commerce and Humanities UG courses.",
+                            "Aspirants targeting admissions in top Central Universities across India.",
+                            "Equal platform access for students from all educational backgrounds."
+                        ].map((item, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                                <span className="text-red-600 font-bold">•</span>
+                                <span className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left flex-1">
+                                    {item}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </div>
-        </section>
+        </div>
+      </section>
 
+      <div className="container mx-auto px-4 md:px-6">
+        
         {/* When Section Header */}
-        <section className="animate-fade-in-up mb-10">
+        <section className="animate-fade-in-up mb-10 mt-20">
             <div className="text-center space-y-2">
                 <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter text-center">
                     <span className="text-red-600">WHEN</span> is CUET (UG) Conducted?
@@ -736,7 +746,7 @@ export default function UnderstandingCuetPage() {
                             alt="Where is CUET Conducted" 
                             fill 
                             className="object-contain"
-                            data-ai-hint="online learning illustration"
+                            data-ai-hint="learning locations"
                         />
                     </div>
                 </div>
@@ -782,7 +792,7 @@ export default function UnderstandingCuetPage() {
                         alt="Marking Scheme"
                         fill
                         className="object-cover"
-                        data-ai-hint="exam marks calculation"
+                        data-ai-hint="exam evaluation"
                     />
                 </div>
             </div>
