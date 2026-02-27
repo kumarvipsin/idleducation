@@ -740,11 +740,10 @@ export default function UnderstandingCuetPage() {
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
                     <div className="relative w-full h-full max-w-md">
                         <Image 
-                            src="https://picsum.photos/seed/cuet-where/800/800" 
+                            src="/cuet5.png" 
                             alt="Where is CUET Conducted" 
                             fill 
                             className="object-contain"
-                            data-ai-hint="learning locations"
                         />
                     </div>
                 </div>
