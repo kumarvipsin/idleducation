@@ -22,7 +22,8 @@ import {
     Ticket, 
     Monitor, 
     BarChart3, 
-    Send 
+    Send,
+    MapPin
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
