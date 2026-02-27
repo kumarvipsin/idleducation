@@ -9,7 +9,7 @@ import { Sparkles, ArrowRight, CheckCircle2, PlayCircle } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -338,6 +338,18 @@ export default function UnderstandingCuetPage() {
                         allowFullScreen
                     ></iframe>
                 </div>
+            </div>
+        </section>
+
+        {/* When Section (Matching the Image) */}
+        <section className="animate-fade-in-up mb-20">
+            <div className="text-center space-y-2">
+                <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter text-center">
+                    <span className="text-red-600">WHEN</span> is CUET (UG) Conducted?
+                </h3>
+                <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-center">
+                    Conducted once a year, usually in May, the exam spans multiple days.
+                </p>
             </div>
         </section>
       </div>
