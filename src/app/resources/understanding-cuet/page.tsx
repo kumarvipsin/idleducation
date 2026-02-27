@@ -443,14 +443,6 @@ export default function UnderstandingCuetPage() {
         <section className="animate-fade-in-up mb-24 relative">
             <div className="max-w-5xl mx-auto px-4">
                 
-                {/* Header */}
-                <div className="text-center mb-4 space-y-0.5">
-                    <h2 className="text-xs md:text-sm font-black text-slate-900 uppercase tracking-tight flex items-center justify-center gap-1.5">
-                        <span className="text-sm">🛤️</span> CUET (UG) Pathway
-                    </h2>
-                    <p className="text-red-600 font-bold uppercase text-[7px] tracking-[0.2em]">The complete institutional timeline</p>
-                </div>
-
                 <div className="relative">
                     {/* Central Connecting Pathway (Desktop) */}
                     <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
