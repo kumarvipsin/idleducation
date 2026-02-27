@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
     Sparkles, 
@@ -477,56 +478,73 @@ export default function UnderstandingCuetPage() {
       </section>
 
       <div className="container mx-auto px-4 md:px-6">
-        {/* Why and Who Section */}
-        <section className="animate-fade-in-up mt-20 mb-24">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-                {/* Why Card */}
-                <Card className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden h-full">
-                    <CardContent className="p-8 md:p-10 space-y-6">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                            <span className="text-red-600">WHY</span> CUET (UG)?
-                        </h3>
-                        <div className="space-y-4">
-                            <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                                This examination is beneficial to the students as it :
-                            </p>
-                            <ul className="space-y-3">
-                                {[
-                                    "Tests fundamental skills and concepts.",
-                                    "Reduces the hassle of taking multiple entrance exams.",
-                                    "Provides a level playing field for students from different boards.",
-                                    "Ensures fairness for applicants by bringing all on a single platform."
-                                ].map((item, i) => (
-                                    <li key={i} className="flex items-start gap-2">
-                                        <span className="text-red-600 font-bold">•</span>
-                                        <span className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-snug text-left flex-1">
-                                            {item}
-                                        </span>
-                                    </li>
-                                ))}
-                            </ul>
+        
+        {/* Why CUET Section */}
+        <section className="animate-fade-in-up mt-20 mb-16">
+            <div className="max-w-4xl mx-auto text-center space-y-10">
+                <div className="space-y-4">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
+                        <span className="relative z-10"><span className="text-red-600">WHY</span> CUET (UG)?</span>
+                        <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                            </svg>
                         </div>
-                    </CardContent>
-                </Card>
+                    </h3>
+                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
+                        This examination is beneficial to the students as it :
+                    </p>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+                    {[
+                        "Tests fundamental skills and concepts.",
+                        "Reduces the hassle of taking multiple entrance exams.",
+                        "Provides a level playing field for students from different boards.",
+                        "Ensures fairness for applicants by bringing all on a single platform."
+                    ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-3 p-4 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300">
+                            <div className="mt-1.5 h-2 w-2 rounded-full bg-red-600 shrink-0" />
+                            <span className="text-slate-600 font-bold text-sm md:text-base leading-snug"> 
+                                {item}
+                            </span>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
 
-                {/* Who Card */}
-                <Card className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden h-full">
-                    <CardContent className="p-8 md:p-10 space-y-6">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                            <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
-                        </h3>
-                        <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                            Students who have qualified their 10+2 or intermediate or equivalent from any recognised board and seek admission to various Science, Commerce and Humanities undergraduate courses in top Central Universities.
-                        </p>
-                        <div className="pt-4">
-                            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-100 dark:border-red-800/30">
-                                <p className="text-[10px] font-black text-red-600 dark:text-red-400 uppercase tracking-widest flex items-center gap-2">
-                                    <GraduationCap className="w-4 h-4" /> Eligibility Criteria Verified
-                                </p>
-                            </div>
+        {/* Who Can Appear Section */}
+        <section className="animate-fade-in-up mb-24">
+            <div className="max-w-4xl  mx-auto text-center space-y-10">
+                <div className="space-y-4">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
+                        <span className="relative z-10"><span className="text-red-600">WHO</span> Can Appear For CUET (UG)?</span>
+                        <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                <path d="M0,15 Q50,5 100,15" />
+                             </svg>
                         </div>
-                    </CardContent>
-                </Card>
+                    </h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+                    {[
+                        "Students qualified in 10+2 / Intermediate or equivalent.",
+                        "Candidates from any recognised educational board.",
+                        "Students seeking admission to various Science, Commerce and Humanities UG courses.",
+                        "Aspirants targeting admissions in top Central Universities."
+                    ].map((item, i) => (
+                         <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-white/50 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
+                            <div className="p-1 rounded-full  bg-red-100 text-red-600">
+                                <CheckCircle2 className="w-4 h-4" />
+                            </div>
+                            <span className="text-slate-600 font-bold text-sm md:text-base leading-snug">
+                                 {item}
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </section>
 
