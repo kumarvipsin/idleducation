@@ -67,7 +67,7 @@ const timelineData = [
         items: [
             { icon: <Building className="w-3.5 h-3.5" />, text: "Conducted by: National Testing Agency (NTA)" },
             { icon: <Globe className="w-3.5 h-3.5" />, text: "National-level entrance test" },
-            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "For Undergraduate admissions in Central & participating universities" }
+            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "For Undergraduate admissions in Central & other participating universities" }
         ],
         accent: "bg-blue-600"
     },
@@ -85,7 +85,7 @@ const timelineData = [
         title: "Usual Exam Month",
         items: [
             { icon: <Calendar className="w-3.5 h-3.5" />, text: "Generally held in May – June" },
-            { icon: <Info className="w-3.5 h-3.5" />, text: "Sometimes extended to July (if phases required)" }
+            { icon: <Info className="w-3.5 h-3.5" />, text: "Sometimes extended to July (if multiple phases required)" }
         ],
         accent: "bg-violet-600"
     },
@@ -93,8 +93,8 @@ const timelineData = [
         number: 4,
         title: "Application Timeline",
         items: [
-            { icon: <Edit className="w-3.5 h-3.5" />, text: "Form Release: February – March" },
-            { icon: <Clock className="w-3.5 h-3.5" />, text: "Last Date: March – April" },
+            { icon: <Edit className="w-3.5 h-3.5" />, text: "Application Form Release: February – March" },
+            { icon: <Clock className="w-3.5 h-3.5" />, text: "Last Date to Apply: March – April" },
             { icon: <Edit className="w-3.5 h-3.5" />, text: "Correction Window: Few days after last date" }
         ],
         accent: "bg-red-600"
@@ -385,7 +385,7 @@ export default function UnderstandingCuetPage() {
                             <span className="text-red-600">WHY</span> CUET (UG)?
                         </h3>
                         <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                            This examination is beneficial to the students as it:
+                            This examination is beneficial to the students as it :
                         </p>
                         <ul className="space-y-3">
                             {[
@@ -455,7 +455,7 @@ export default function UnderstandingCuetPage() {
                             return (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
+                                    initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -510,6 +510,31 @@ export default function UnderstandingCuetPage() {
                             );
                         })}
                     </div>
+                </div>
+            </div>
+        </section>
+
+        {/* WHERE Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-where/800/800" 
+                            alt="Where is CUET Conducted" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="online learning illustration"
+                        />
+                    </div>
+                </div>
+                <div className="space-y-6">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
+                    </p>
                 </div>
             </div>
         </section>
@@ -597,27 +622,39 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* WHERE Section */}
+        {/* Marking Scheme Section */}
         <section className="animate-fade-in-up mt-20 mb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
-                        <Image 
-                            src="https://picsum.photos/seed/cuet-where/800/800" 
-                            alt="Where is CUET Conducted" 
-                            fill 
-                            className="object-contain"
-                            data-ai-hint="online learning illustration"
-                        />
-                    </div>
-                </div>
                 <div className="space-y-6">
                     <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                        <span className="text-red-600">MARKING</span> SCHEME
                     </h3>
                     <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
+                        Understanding the scoring system is crucial for a better attempt strategy. Here is how you will be graded:
                     </p>
+                    <div className="space-y-4">
+                        <div className="flex items-center gap-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-800/30">
+                            <div className="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">+5</div>
+                            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For each correct answer</span>
+                        </div>
+                        <div className="flex items-center gap-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-100 dark:border-red-800/30">
+                            <div className="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">-1</div>
+                            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For each incorrect answer</span>
+                        </div>
+                        <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
+                            <div className="bg-slate-400 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">0</div>
+                            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For unanswered or marked for review questions</span>
+                        </div>
+                    </div>
+                </div>
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm">
+                    <Image
+                        src="https://picsum.photos/seed/cuet-marks/800/600"
+                        alt="Marking Scheme"
+                        fill
+                        className="object-cover"
+                        data-ai-hint="exam marks calculation"
+                    />
                 </div>
             </div>
         </section>
