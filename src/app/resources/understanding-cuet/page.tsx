@@ -85,10 +85,10 @@ export default function UnderstandingCuetPage() {
           {/* Left Content */}
           <div className="space-y-8 animate-fade-in-up">
             <div className="space-y-4">
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight">
+              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left">
                 ACE <span className="text-red-600">CUET(UG)</span> 2026.
               </h1>
-              <h2 className="text-xl md:text-2xl font-bold text-slate-800">
+              <h2 className="text-xl md:text-2xl font-bold text-slate-800 text-left">
                 Unlock doors to your dream college!
               </h2>
             </div>
@@ -238,7 +238,7 @@ export default function UnderstandingCuetPage() {
 
         <Separator className="mb-20 opacity-10 bg-red-200" />
 
-        {/* Detailed Info Section (Repositioned Below) */}
+        {/* Detailed Info Section */}
         <section className="animate-fade-in-up">
             <div className="text-center mb-12">
                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
@@ -283,6 +283,60 @@ export default function UnderstandingCuetPage() {
                             </li>
                         ))}
                     </ul>
+                </div>
+            </div>
+        </section>
+
+        {/* Why and Who Section (Matching the Image) */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <div className="space-y-10">
+                    {/* WHY Section */}
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHY</span> CUET (UG)?
+                        </h3>
+                        <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                            This examination is beneficial to the students as it:
+                        </p>
+                        <ul className="space-y-3">
+                            {[
+                                "Tests fundamental skills and concepts.",
+                                "Reduces the hassle of taking multiple entrance exams.",
+                                "Provides a level playing field for students from different boards.",
+                                "Ensures fairness for applicants by bringing all on a single platform."
+                            ].map((item, i) => (
+                                <li key={i} className="flex items-start gap-2">
+                                    <span className="text-red-600 font-bold">•</span>
+                                    <span className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-snug text-left flex-1">
+                                        {item}
+                                    </span>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* WHO Section */}
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
+                        </h3>
+                        <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                            Students who have qualified their 10+2 or intermediate or equivalent from any recognised board and seek admission to various Science, Commerce and Humanities undergraduate courses in top Central Universities.
+                        </p>
+                    </div>
+                </div>
+
+                {/* Video Section */}
+                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-black border-4 border-white/10 mt-2">
+                    <iframe
+                        className="w-full h-full"
+                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                        title="CUET Benefits Video"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                    ></iframe>
                 </div>
             </div>
         </section>
