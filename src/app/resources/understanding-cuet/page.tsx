@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from "react";
@@ -244,9 +243,9 @@ export default function UnderstandingCuetPage() {
                 </div>
             </div>
 
-            {/* Right Form Card (Stylized like Contact Us) */}
+            {/* Right Form Card (Unified styling with Contact Us) */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-slate-200 dark:border-slate-800 overflow-hidden">
+                <Card className="w-full max-w-lg mx-auto bg-white dark:bg-card shadow-2xl rounded-2xl border-2 border-primary/10 overflow-hidden">
                 <CardHeader className="text-center p-8 pb-0">
                     <CardTitle className="text-2xl font-black text-red-600 tracking-tighter uppercase">Join IDL CUET (UG) Now</CardTitle>
                     <CardDescription className="text-muted-foreground text-[11px] font-black uppercase tracking-widest">Fill out the form to get a call back</CardDescription>
@@ -441,11 +440,10 @@ export default function UnderstandingCuetPage() {
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
                     <div className="relative w-full h-full max-w-md">
                         <Image 
-                            src="https://picsum.photos/seed/cuet-info/800/800" 
+                            src="/cuet.png" 
                             alt="Understanding CUET Exam" 
                             fill 
                             className="object-contain"
-                            data-ai-hint="student studying"
                         />
                     </div>
                 </div>
