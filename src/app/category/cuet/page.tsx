@@ -122,13 +122,6 @@ const quickInfoCards = [
         iconBg: "bg-amber-50"
     },
     {
-        label: "Courses with IDL CUET",
-        icon: <Library />,
-        href: "/paid-courses",
-        color: "text-blue-600",
-        iconBg: "bg-blue-50"
-    },
-    {
         label: "All About CUET",
         icon: <BookCheck />,
         href: "/about",
@@ -393,7 +386,7 @@ export default function CuetPage() {
 
                 {/* Quick Info Cards - Rectangular Style */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         {quickInfoCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group h-full">
                                 <div className={cn(
