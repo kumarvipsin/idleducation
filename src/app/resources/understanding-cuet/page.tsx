@@ -25,22 +25,16 @@ import {
     MapPin,
     Plus,
     Minus,
-    Users,
-    HandHeart,
-    ClipboardList,
-    FileText,
-    BookOpen,
-    ShieldCheck,
     User,
     Mail,
     Phone,
-    Search,
-    X
+    X,
+    ShieldCheck
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -249,155 +243,187 @@ export default function UnderstandingCuetPage() {
                 </div>
             </div>
 
-            {/* Right Form Card (Contact Us Style) */}
+            {/* Right Form Card (Stylized like Contact Us) */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
+                <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-slate-200 dark:border-slate-800 overflow-hidden">
                 <CardHeader className="text-center p-8 pb-0">
-                    <CardTitle className="text-2xl font-extrabold text-red-600 tracking-tighter uppercase">Join IDL CUET (UG) Now</CardTitle>
-                    <CardDescription className="text-muted-foreground text-[13px] font-extrabold uppercase">Fill out the form to get a call back</CardDescription>
+                    <CardTitle className="text-2xl font-black text-red-600 tracking-tighter uppercase">Join IDL CUET (UG) Now</CardTitle>
+                    <CardDescription className="text-muted-foreground text-[11px] font-black uppercase tracking-widest">Fill out the form to get a call back</CardDescription>
                 </CardHeader>
-                <CardContent className="p-8">
+                <CardContent className="p-0 mt-6">
                     <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FormField
-                            control={form.control}
-                            name="fullName"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <FormControl>
-                                <div className="relative group">
-                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="Full Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
-                                </div>
-                                </FormControl>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <FormControl>
-                                <div className="relative group">
-                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="email" placeholder="Email *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
-                                </div>
-                                </FormControl>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+                        <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
+                            {/* Row 1 */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={form.control}
+                                    name="fullName"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                        <div className="relative group h-full">
+                                            <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-red-600 transition-colors" />
+                                            <Input placeholder="Full Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                        </div>
+                                        </FormControl>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="email"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                        <div className="relative group h-full">
+                                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-red-600 transition-colors" />
+                                            <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                        </div>
+                                        </FormControl>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {/* Row 2 */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={form.control}
+                                    name="mobile"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                        <div className="relative group h-full">
+                                            <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-red-600 transition-colors" />
+                                            <Input type="tel" placeholder="Phone Number *" {...field} maxLength={10} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                        </div>
+                                        </FormControl>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="targetYear"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <div className="relative group h-full">
+                                            <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
+                                            <Select onValueChange={field.onChange} value={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus:ring-0 shadow-none">
+                                                        <SelectValue placeholder="Target Year *" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {targetYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {/* Row 3 */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={form.control}
+                                    name="state"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <div className="relative group h-full">
+                                            <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
+                                            <Select onValueChange={field.onChange} value={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus:ring-0 shadow-none">
+                                                        <SelectValue placeholder="State *" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {indianStates.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="city"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <FormControl>
+                                        <div className="relative group h-full">
+                                            <Building className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-red-600 transition-colors" />
+                                            <Input placeholder="City *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                        </div>
+                                        </FormControl>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {/* Row 4 */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                <FormField
+                                    control={form.control}
+                                    name="preferredUniversity"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <div className="relative group h-full">
+                                            <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
+                                            <Select onValueChange={field.onChange} value={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus:ring-0 shadow-none">
+                                                        <SelectValue placeholder="University *" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {universities.map(uni => <SelectItem key={uni} value={uni}>{uni}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="stream"
+                                    render={({ field }) => (
+                                    <FormItem className="space-y-0">
+                                        <div className="relative group h-full">
+                                            <Monitor className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
+                                            <Select onValueChange={field.onChange} value={field.value}>
+                                                <FormControl>
+                                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus:ring-0 shadow-none">
+                                                        <SelectValue placeholder="Stream *" />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    {streams.map(stream => <SelectItem key={stream} value={stream}>{stream}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <FormMessage className="text-[10px] px-4 pb-2" />
+                                    </FormItem>
+                                    )}
+                                />
+                            </div>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FormField
-                            control={form.control}
-                            name="mobile"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <FormControl>
-                                <div className="relative group">
-                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input type="tel" placeholder="Phone *" {...field} maxLength={10} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
-                                </div>
-                                </FormControl>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="targetYear"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="Target Year *" /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {targetYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
-                                </SelectContent>
-                                </Select>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
+                        <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+                            <Button type="submit" size="lg" className="w-full h-12 text-[11px] font-black bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg shadow-red-600/20 transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
+                                {form.formState.isSubmitting ? 'Submitting...' : 'SUBMIT ENQUIRY'}
+                                <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                            </Button>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FormField
-                            control={form.control}
-                            name="state"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="State *" /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {indianStates.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
-                                </SelectContent>
-                                </Select>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="city"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <FormControl>
-                                <div className="relative group">
-                                    <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                    <Input placeholder="City *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
-                                </div>
-                                </FormControl>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                        <FormField
-                            control={form.control}
-                            name="preferredUniversity"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="University *" /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {universities.map(uni => <SelectItem key={uni} value={uni}>{uni}</SelectItem>)}
-                                </SelectContent>
-                                </Select>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="stream"
-                            render={({ field }) => (
-                            <FormItem className="space-y-0">
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                <FormControl>
-                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="Stream *" /></SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                    {streams.map(stream => <SelectItem key={stream} value={stream}>{stream}</SelectItem>)}
-                                </SelectContent>
-                                </Select>
-                                <FormMessage className="text-[10px]" />
-                            </FormItem>
-                            )}
-                        />
-                        </div>
-                        <Button type="submit" size="lg" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-red-600/20 uppercase" disabled={form.formState.isSubmitting}>
-                        {form.formState.isSubmitting ? 'Submitting...' : 'SUBMIT ENQUIRY'}
-                        </Button>
                     </form>
                     </Form>
                 </CardContent>
@@ -429,10 +455,10 @@ export default function UnderstandingCuetPage() {
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                        <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight text-left">
                             <span className="text-red-600">WHAT</span> IS CUET?
                         </h3>
-                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                        <p className="text-slate-600 font-bold text-xs md:text-sm leading-relaxed text-left">
                             Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
                         </p>
                     </div>
@@ -447,7 +473,7 @@ export default function UnderstandingCuetPage() {
                                 <div className="mt-1 bg-red-600 rounded-sm p-0.5 shadow-sm transition-transform group-hover:scale-110 shrink-0">
                                     <PlayCircle className="w-4 h-4 text-white fill-white" />
                                 </div>
-                                <span className="text-slate-600 font-bold text-sm md:text-base leading-snug text-left flex-1">
+                                <span className="text-slate-600 font-bold text-xs md:text-sm leading-snug text-left flex-1">
                                     {item}
                                 </span>
                             </li>
@@ -522,7 +548,7 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* WHERE IS CUET (UG) CONDUCTED? Section */}
+        {/* WHERE Section */}
         <section className="animate-fade-in-up mt-20 mb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
