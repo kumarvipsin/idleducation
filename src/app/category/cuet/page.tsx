@@ -35,8 +35,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import Script from "next/script";
+import { Separator } from "@/components/ui/separator";
 
-// Custom Adobe-style PDF Icon matching the user's provided image
+// Custom Adobe-style PDF Icon
 const AdobePdfIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
     <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -115,28 +116,38 @@ const cuetCourses = [
 const quickInfoCards = [
     {
         label: "Understanding CUET (UG) 2026",
-        icon: <BookOpen className="w-8 h-8 text-amber-500" />,
-        href: "/resources/ncert-solutions"
+        icon: <BookOpen />,
+        href: "/resources/ncert-solutions",
+        color: "text-amber-600",
+        iconBg: "bg-amber-50"
     },
     {
         label: "Courses with IDL CUET",
-        icon: <Library className="w-8 h-8 text-blue-600" />,
-        href: "/paid-courses"
+        icon: <Library />,
+        href: "/paid-courses",
+        color: "text-blue-600",
+        iconBg: "bg-blue-50"
     },
     {
         label: "All About CUET",
-        icon: <BookCheck className="w-8 h-8 text-emerald-600" />,
-        href: "/about"
+        icon: <BookCheck />,
+        href: "/about",
+        color: "text-emerald-600",
+        iconBg: "bg-emerald-50"
     },
     {
         label: "Practice Quiz",
-        icon: <ClipboardList className="w-8 h-8 text-indigo-600" />,
-        href: "/resources/ncert-solutions"
+        icon: <ClipboardList />,
+        href: "/resources/ncert-solutions",
+        color: "text-indigo-600",
+        iconBg: "bg-indigo-50"
     },
     {
         label: "Previous Year Papers",
-        icon: <Calendar className="w-8 h-8 text-rose-600" />,
-        href: "/resources/previous-year-questions"
+        icon: <Calendar />,
+        href: "/resources/previous-year-questions",
+        color: "text-rose-600",
+        iconBg: "bg-rose-50"
     }
 ];
 
@@ -400,28 +411,31 @@ export default function CuetPage() {
                 <section className="mb-10 text-center md:text-left animate-fade-in-up">
                     <div className="flex flex-col items-center md:items-start gap-3">
                         <div className="space-y-1">
-                            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight">
+                            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight text-left">
                                 Target CUET (UG) 2026
                             </h1>
-                            <p className="max-w-3xl text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed">
+                            <p className="max-w-3xl text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed text-left">
                                 For students of class XII to secure admission in the top Central Universities of the country, the ability to grasp concepts and attempt multiple choice questions accurately is essential in this exam. With the team of best faculties, latest study materials, daily practice worksheets and regular class tests; CUET (UG) with IDL a stepping stone not just for academic success but also a bright future.
                             </p>
                         </div>
                     </div>
                 </section>
 
-                {/* Quick Info Cards Matching User Design */}
+                {/* Quick Info Cards - Rectangular Style */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
                         {quickInfoCards.map((card, index) => (
-                            <Link key={index} href={card.href} className="group">
-                                <div className="bg-[#FFF5F5] dark:bg-slate-900/40 rounded-xl p-6 flex flex-col items-center justify-center text-center gap-4 transition-all hover:shadow-md border border-transparent hover:border-rose-100 h-full">
-                                    <div className="transition-transform duration-300 group-hover:scale-110">
-                                        {card.icon}
+                            <Link key={index} href={card.href} className="group h-full">
+                                <div className={cn(
+                                    "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 shadow-sm border bg-white dark:bg-slate-900/50 hover:shadow-md hover:border-primary/20 h-full",
+                                )}>
+                                    <div className={cn("p-2.5 rounded-lg shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-transform duration-500 group-hover:rotate-6", card.iconBg, card.color)}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-4 h-4" })}
                                     </div>
-                                    <p className="text-[11px] font-bold text-slate-800 dark:text-slate-200 tracking-tight leading-tight uppercase">
-                                        {card.label}
-                                    </p>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="text-[11px] font-bold leading-tight text-foreground uppercase tracking-tight">{card.label}</h4>
+                                    </div>
+                                    <ArrowRight className="w-3.5 h-3.5 transition-all group-hover:translate-x-1 opacity-20 group-hover:opacity-100 shrink-0" />
                                 </div>
                             </Link>
                         ))}
@@ -454,7 +468,7 @@ export default function CuetPage() {
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.25s'}}>
                     <div className="space-y-8">
                         <div className="flex items-center justify-between border-l-4 border-primary pl-3">
-                            <div>
+                            <div className="text-left">
                                 <h3 className="font-bold text-lg md:text-xl text-slate-900 dark:text-white tracking-tight">
                                     CUET Courses-2026
                                 </h3>
@@ -488,8 +502,8 @@ export default function CuetPage() {
                                                 <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-extrabold text-[9px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
                                             </div>
                                             
-                                            <CardContent className="p-4 flex flex-col flex-grow">
-                                                <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
+                                            <CardContent className="p-4 flex flex-col flex-grow text-left">
+                                                <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors text-left">{course.title}</CardTitleUI>
                                                 
                                                 <div className="flex flex-wrap items-center gap-1.5 mb-3">
                                                     <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3 py-0 flex items-center justify-center">{course.batchName}</Badge>
@@ -521,9 +535,9 @@ export default function CuetPage() {
                                                             </Button>
                                                         </PopoverTrigger>
                                                         <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                                            <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
+                                                            <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest text-left">About this course</h4>
                                                             <ScrollArea className="max-h-40">
-                                                                <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80">
+                                                                <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80 text-left">
                                                                     {course.description}
                                                                 </p>
                                                             </ScrollArea>
