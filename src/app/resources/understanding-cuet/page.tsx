@@ -496,14 +496,14 @@ export default function UnderstandingCuetPage() {
                     </p>
                 </div>
                 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+                <div className="flex flex-col gap-4 text-left max-w-2xl mx-auto">
                     {[
                         "Tests fundamental skills and concepts.",
                         "Reduces the hassle of taking multiple entrance exams.",
                         "Provides a level playing field for students from different boards.",
                         "Ensures fairness for applicants by bringing all on a single platform."
                     ].map((item, i) => (
-                        <div key={i} className="flex items-start gap-3 p-4 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300">
+                        <div key={i} className="flex items-start gap-3 p-4 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300 border border-transparent hover:border-slate-100">
                             <div className="mt-1.5 h-2 w-2 rounded-full bg-red-600 shrink-0" />
                             <span className="text-slate-600 font-bold text-sm md:text-base leading-snug"> 
                                 {item}
@@ -528,14 +528,14 @@ export default function UnderstandingCuetPage() {
                     </h3>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
+                <div className="flex flex-col gap-4 text-left max-w-2xl mx-auto">
                     {[
                         "Students qualified in 10+2 / Intermediate or equivalent.",
                         "Candidates from any recognised educational board.",
                         "Students seeking admission to various Science, Commerce and Humanities UG courses.",
                         "Aspirants targeting admissions in top Central Universities."
                     ].map((item, i) => (
-                         <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-white/50 border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
+                         <div key={i} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300">
                             <div className="p-1 rounded-full  bg-red-100 text-red-600">
                                 <CheckCircle2 className="w-4 h-4" />
                             </div>
