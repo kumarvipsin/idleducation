@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState, useEffect, useMemo } from "react";
@@ -117,7 +118,7 @@ const quickInfoCards = [
     {
         label: "Understanding CUET (UG) 2026",
         icon: <BookOpen />,
-        href: "/resources/ncert-solutions",
+        href: "/resources/understanding-cuet",
         color: "text-amber-600",
         iconBg: "bg-amber-50"
     },
@@ -377,7 +378,7 @@ export default function CuetPage() {
                             <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight text-left">
                                 Target CUET (UG) 2026
                             </h1>
-                            <p className="max-w-none text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed text-left">
+                            <p className="w-full text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed text-left">
                                 For students of class XII to secure admission in the top Central Universities of the country, the ability to grasp concepts and attempt multiple choice questions accurately is essential in this exam. With the team of best faculties, latest study materials, daily practice worksheets and regular class tests; CUET (UG) with IDL a stepping stone not just for academic success but also a bright future.
                             </p>
                         </div>
