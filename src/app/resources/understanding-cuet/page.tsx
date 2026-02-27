@@ -458,22 +458,20 @@ export default function UnderstandingCuetPage() {
                         <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tight text-left">
                             <span className="text-red-600">WHAT</span> IS CUET?
                         </h3>
-                        <p className="text-slate-600 font-bold text-xs md:text-sm leading-relaxed text-left">
+                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                             Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
                         </p>
                     </div>
 
-                    <ul className="space-y-5">
+                    <ul className="space-y-3">
                         {[
                             "Introduced by the National Testing Agency (NTA) in 2022.",
                             "One examination for candidates to participate in the admission processes.",
                             "Platform of equal opportunities for candidates across the country."
                         ].map((item, i) => (
-                            <li key={i} className="flex items-start gap-4 group">
-                                <div className="mt-1 bg-red-600 rounded-sm p-0.5 shadow-sm transition-transform group-hover:scale-110 shrink-0">
-                                    <PlayCircle className="w-4 h-4 text-white fill-white" />
-                                </div>
-                                <span className="text-slate-600 font-bold text-xs md:text-sm leading-snug text-left flex-1">
+                            <li key={i} className="flex items-start gap-2">
+                                <span className="text-red-600 font-bold">•</span>
+                                <span className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left flex-1">
                                     {item}
                                 </span>
                             </li>
@@ -548,27 +546,75 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* WHERE Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
-                        <Image 
-                            src="https://picsum.photos/seed/cuet-where/800/800" 
-                            alt="Where is CUET Conducted" 
-                            fill 
-                            className="object-contain"
-                            data-ai-hint="online learning illustration"
-                        />
+        {/* Modern Pathway Mind Map Section */}
+        <section className="animate-fade-in-up mb-24 relative">
+            <div className="max-w-5xl mx-auto px-4">
+                
+                <div className="relative">
+                    {/* Central Connecting Pathway (Desktop) */}
+                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
+
+                    <div className="space-y-12 md:space-y-0">
+                        {timelineData.map((item, index) => {
+                            const isEven = index % 2 === 0;
+                            return (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    className={cn(
+                                        "relative flex flex-col md:flex-row items-center justify-between md:mb-20 last:mb-0",
+                                        isEven ? "md:flex-row-reverse" : "md:flex-row"
+                                    )}
+                                >
+                                    {/* Content Card */}
+                                    <div className="w-full md:w-[45%] ml-12 md:ml-0">
+                                        <Card className={cn(
+                                            "border-none shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-500 rounded-2xl group overflow-hidden",
+                                            "bg-white dark:bg-slate-900"
+                                        )}>
+                                            <div className={cn("h-1.5 w-full", item.accent)} />
+                                            <CardContent className="p-6 md:p-8 space-y-4">
+                                                <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight flex items-center gap-2">
+                                                    <span className={cn("text-white w-6 h-6 rounded-md flex items-center justify-center text-xs shrink-0", item.accent)}>
+                                                        {item.number}
+                                                    </span>
+                                                    {item.title}
+                                                </h4>
+                                                <ul className="space-y-3">
+                                                    {item.items.map((li, idx) => (
+                                                        <li key={idx} className="flex items-start gap-3 group/li">
+                                                            <div className={cn("mt-1 p-1 rounded-md transition-all group-hover/li:scale-110", "bg-slate-50 dark:bg-slate-800 text-primary")}>
+                                                                {li.icon}
+                                                            </div>
+                                                            <span className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">{li.text}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Interactive Center Node */}
+                                    <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-y-1/2 -translate-x-1/2 z-10">
+                                        <div className={cn(
+                                            "w-8 h-8 rounded-full bg-white shadow-xl border-4 flex items-center justify-center font-black text-xs transition-transform duration-500 group-hover:scale-125",
+                                            "border-slate-100 text-slate-900 ring-4 ring-white/50"
+                                        )}>
+                                            {item.number}
+                                        </div>
+                                        {/* Animated Pulse Ring */}
+                                        <div className={cn("absolute inset-0 rounded-full animate-ping opacity-20", item.accent)} />
+                                    </div>
+
+                                    {/* Placeholder for alternating layout */}
+                                    <div className="hidden md:block md:w-[45%]" />
+                                </motion.div>
+                            );
+                        })}
                     </div>
-                </div>
-                <div className="space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
-                    </p>
                 </div>
             </div>
         </section>
@@ -582,6 +628,7 @@ export default function UnderstandingCuetPage() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+                {/* Left Side: Structure */}
                 <div className="space-y-8">
                     <div className="space-y-4">
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
@@ -622,6 +669,7 @@ export default function UnderstandingCuetPage() {
                     </div>
                 </div>
 
+                {/* Right Side: Table & Note */}
                 <div className="space-y-6">
                     <p className="text-slate-900 font-black text-sm md:text-base leading-relaxed text-left">
                         <span className="text-red-600">Note:</span> Candidates may choose a maximum 5 subjects including Languages and General Aptitude Test
@@ -650,6 +698,31 @@ export default function UnderstandingCuetPage() {
                             ))}
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        {/* WHERE Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-where/800/800" 
+                            alt="Where is CUET Conducted" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="online learning illustration"
+                        />
+                    </div>
+                </div>
+                <div className="space-y-6">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
+                    </p>
                 </div>
             </div>
         </section>
