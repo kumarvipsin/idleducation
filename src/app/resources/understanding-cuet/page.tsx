@@ -35,7 +35,7 @@ import {
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -137,12 +137,12 @@ const timelineData = [
 const whyChooseFeatures = [
     {
         title: "Expert Faculty",
-        description: "A team of expert faculties under the guidance of Dr. Vikas Divyakirti mentor students through the academic journey with personalized support and insightful instructions.",
+        description: "A team of expert faculties under the guidance of our academic director mentor students through the academic journey with personalized support and insightful instructions.",
         accent: "bg-red-500"
     },
     {
         title: "Exam Oriented Foundation",
-        description: "Drishti CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems.",
+        description: "IDL CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems.",
         accent: "bg-blue-500"
     },
     {
@@ -249,7 +249,7 @@ export default function UnderstandingCuetPage() {
               <CardContent className="p-8 md:p-10 space-y-8">
                 <div className="text-center space-y-2">
                   <h3 className="text-xl md:text-2xl font-black text-red-600 uppercase tracking-tight leading-tight">
-                    Join Drishti CUET (UG) Now
+                    Join IDL CUET (UG) Now
                   </h3>
                   <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">
                     Fill out the form to get a call back
@@ -479,75 +479,27 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* Modern Pathway Mind Map Section */}
-        <section className="animate-fade-in-up mb-24 relative">
-            <div className="max-w-5xl mx-auto px-4">
-                
-                <div className="relative">
-                    {/* Central Connecting Pathway (Desktop) */}
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
-
-                    <div className="space-y-12 md:space-y-0">
-                        {timelineData.map((item, index) => {
-                            const isEven = index % 2 === 0;
-                            return (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className={cn(
-                                        "relative flex flex-col md:flex-row items-center justify-between md:mb-20 last:mb-0",
-                                        isEven ? "md:flex-row-reverse" : "md:flex-row"
-                                    )}
-                                >
-                                    {/* Content Card */}
-                                    <div className="w-full md:w-[45%] ml-12 md:ml-0">
-                                        <Card className={cn(
-                                            "border-none shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-500 rounded-2xl group overflow-hidden",
-                                            "bg-white dark:bg-slate-900"
-                                        )}>
-                                            <div className={cn("h-1.5 w-full", item.accent)} />
-                                            <CardContent className="p-6 md:p-8 space-y-4">
-                                                <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight flex items-center gap-2">
-                                                    <span className={cn("text-white w-6 h-6 rounded-md flex items-center justify-center text-xs shrink-0", item.accent)}>
-                                                        {item.number}
-                                                    </span>
-                                                    {item.title}
-                                                </h4>
-                                                <ul className="space-y-3">
-                                                    {item.items.map((li, idx) => (
-                                                        <li key={idx} className="flex items-start gap-3 group/li">
-                                                            <div className={cn("mt-1 p-1 rounded-md transition-all group-hover/li:scale-110", "bg-slate-50 dark:bg-slate-800 text-primary")}>
-                                                                {li.icon}
-                                                            </div>
-                                                            <span className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">{li.text}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-
-                                    {/* Interactive Center Node */}
-                                    <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-y-1/2 -translate-x-1/2 z-10">
-                                        <div className={cn(
-                                            "w-8 h-8 rounded-full bg-white shadow-xl border-4 flex items-center justify-center font-black text-xs transition-transform duration-500 group-hover:scale-125",
-                                            "border-slate-100 text-slate-900 ring-4 ring-white/50"
-                                        )}>
-                                            {item.number}
-                                        </div>
-                                        {/* Animated Pulse Ring */}
-                                        <div className={cn("absolute inset-0 rounded-full animate-ping opacity-20", item.accent)} />
-                                    </div>
-
-                                    {/* Placeholder for alternating layout */}
-                                    <div className="hidden md:block md:w-[45%]" />
-                                </motion.div>
-                            );
-                        })}
+        {/* WHERE IS CUET (UG) CONDUCTED? Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-where/800/800" 
+                            alt="Where is CUET Conducted" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="online learning illustration"
+                        />
                     </div>
+                </div>
+                <div className="space-y-6">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
+                    </p>
                 </div>
             </div>
         </section>
@@ -635,27 +587,75 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* WHERE Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
-                        <Image 
-                            src="https://picsum.photos/seed/cuet-where/800/800" 
-                            alt="Where is CUET Conducted" 
-                            fill 
-                            className="object-contain"
-                            data-ai-hint="online learning illustration"
-                        />
+        {/* Modern Pathway Mind Map Section */}
+        <section className="animate-fade-in-up mb-24 relative">
+            <div className="max-w-5xl mx-auto px-4">
+                
+                <div className="relative">
+                    {/* Central Connecting Pathway (Desktop) */}
+                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
+
+                    <div className="space-y-12 md:space-y-0">
+                        {timelineData.map((item, index) => {
+                            const isEven = index % 2 === 0;
+                            return (
+                                <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                                    className={cn(
+                                        "relative flex flex-col md:flex-row items-center justify-between md:mb-20 last:mb-0",
+                                        isEven ? "md:flex-row-reverse" : "md:flex-row"
+                                    )}
+                                >
+                                    {/* Content Card */}
+                                    <div className="w-full md:w-[45%] ml-12 md:ml-0">
+                                        <Card className={cn(
+                                            "border-none shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-500 rounded-2xl group overflow-hidden",
+                                            "bg-white dark:bg-slate-900"
+                                        )}>
+                                            <div className={cn("h-1.5 w-full", item.accent)} />
+                                            <CardContent className="p-6 md:p-8 space-y-4">
+                                                <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight flex items-center gap-2">
+                                                    <span className={cn("text-white w-6 h-6 rounded-md flex items-center justify-center text-xs shrink-0", item.accent)}>
+                                                        {item.number}
+                                                    </span>
+                                                    {item.title}
+                                                </h4>
+                                                <ul className="space-y-3">
+                                                    {item.items.map((li, idx) => (
+                                                        <li key={idx} className="flex items-start gap-3 group/li">
+                                                            <div className={cn("mt-1 p-1 rounded-md transition-all group-hover/li:scale-110", "bg-slate-50 dark:bg-slate-800 text-primary")}>
+                                                                {li.icon}
+                                                            </div>
+                                                            <span className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">{li.text}</span>
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            </CardContent>
+                                        </Card>
+                                    </div>
+
+                                    {/* Interactive Center Node */}
+                                    <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-y-1/2 -translate-x-1/2 z-10">
+                                        <div className={cn(
+                                            "w-8 h-8 rounded-full bg-white shadow-xl border-4 flex items-center justify-center font-black text-xs transition-transform duration-500 group-hover:scale-125",
+                                            "border-slate-100 text-slate-900 ring-4 ring-white/50"
+                                        )}>
+                                            {item.number}
+                                        </div>
+                                        {/* Animated Pulse Ring */}
+                                        <div className={cn("absolute inset-0 rounded-full animate-ping opacity-20", item.accent)} />
+                                    </div>
+
+                                    {/* Placeholder for alternating layout */}
+                                    <div className="hidden md:block md:w-[45%]" />
+                                </motion.div>
+                            );
+                        })}
                     </div>
-                </div>
-                <div className="space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
-                    </p>
                 </div>
             </div>
         </section>
@@ -702,13 +702,13 @@ export default function UnderstandingCuetPage() {
             <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
                     <ShieldCheck className="w-3.5 h-3.5" />
-                    DRISHTI ADVANTAGE
+                    IDL ADVANTAGE
                 </div>
                 <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">
-                    WHY CHOOSE <span className="text-red-600">DRISHTI CUET</span>?
+                    WHY CHOOSE <span className="text-red-600">IDL CUET</span>?
                 </h2>
                 <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-lg leading-relaxed text-balance">
-                    In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication. Drishti stands as a beacon of excellence for young aspirants.
+                    In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication. IDL stands as a beacon of excellence for young aspirants.
                 </p>
             </div>
 
@@ -745,7 +745,7 @@ export default function UnderstandingCuetPage() {
             </div>
             <DialogTitle className="text-center text-2xl font-bold">Inquiry Received!</DialogTitle>
             <DialogDescription className="text-center font-medium leading-relaxed">
-              Thank you for choosing Drishti CUET. Our expert counselor will call you back within 24 hours to guide you.
+              Thank you for choosing IDL CUET. Our expert counselor will call you back within 24 hours to guide you.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter>
