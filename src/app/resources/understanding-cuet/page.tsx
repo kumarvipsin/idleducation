@@ -63,7 +63,7 @@ const indianStates = [
 
 const targetYears = ["2026", "2027", "2028"];
 const streams = ["Science", "Commerce", "Arts/Humanities", "Other"];
-const universities = ["University of Delhi", "Banaras Hindu University", "Jawaharlal Nehru University", "Jamia Millia Islamia", "Aligarh Muslim University", "Other"];
+const universities = ["University of Delhi", "Banaras Hindu University", "Jawaharlal Nehru University", "Jamia Millia Islamia", "Aligarh Hindu University", "Other"];
 
 const timelineData = [
     {
@@ -477,43 +477,54 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 md:px-6">
-        
-        {/* Why CUET Section */}
-        <section className="animate-fade-in-up mt-20 mb-16">
-            <div className="max-w-4xl mx-auto text-center space-y-10">
-                <div className="space-y-4">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
-                        <span className="relative z-10"><span className="text-red-600">WHY</span> CUET (UG)?</span>
-                        <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
-                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                <path d="M0,15 Q50,5 100,15" />
-                            </svg>
-                        </div>
-                    </h3>
-                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
-                        This examination is beneficial to the students as it :
-                    </p>
+      {/* WHY CUET (UG)? Section - Restyled to match WHAT IS CUET */}
+      <section className="w-full py-12 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <div className="space-y-8 order-2 lg:order-1">
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHY</span> CUET (UG)?
+                        </h3>
+                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                            This examination is beneficial to the students as it:
+                        </p>
+                    </div>
+
+                    <ul className="space-y-3">
+                        {[
+                            "Tests fundamental skills and concepts.",
+                            "Reduces the hassle of taking multiple entrance exams.",
+                            "Provides a level playing field for students from different boards.",
+                            "Ensures fairness for applicants by bringing all on a single platform."
+                        ].map((item, i) => (
+                            <li key={i} className="flex items-start gap-2">
+                                <span className="text-red-600 font-bold">•</span>
+                                <span className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left flex-1">
+                                    {item}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
                 
-                <div className="flex flex-col gap-4 text-left max-w-2xl mx-auto">
-                    {[
-                        "Tests fundamental skills and concepts.",
-                        "Reduces the hassle of taking multiple entrance exams.",
-                        "Provides a level playing field for students from different boards.",
-                        "Ensures fairness for applicants by bringing all on a single platform."
-                    ].map((item, i) => (
-                        <div key={i} className="flex items-start gap-3 p-4 rounded-xl hover:bg-white hover:shadow-md transition-all duration-300 border border-transparent hover:border-slate-100">
-                            <div className="mt-1.5 h-2 w-2 rounded-full bg-red-600 shrink-0" />
-                            <span className="text-slate-600 font-bold text-sm md:text-base leading-snug"> 
-                                {item}
-                            </span>
-                        </div>
-                    ))}
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-why/800/800" 
+                            alt="Why CUET is beneficial" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="student benefit"
+                        />
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+      </section>
 
+      <div className="container mx-auto px-4 md:px-6">
+        
         {/* Who Can Appear Section */}
         <section className="animate-fade-in-up mb-24">
             <div className="max-w-4xl  mx-auto text-center space-y-10">
