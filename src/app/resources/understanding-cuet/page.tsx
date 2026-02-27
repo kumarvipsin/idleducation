@@ -25,7 +25,12 @@ import {
     Send,
     MapPin,
     Plus,
-    Minus
+    Minus,
+    Users,
+    HandHeart,
+    ClipboardList,
+    FileText,
+    BookOpen
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -455,7 +460,7 @@ export default function UnderstandingCuetPage() {
                             return (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, x: -30 }}
+                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true, margin: "-100px" }}
                                     transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -638,7 +643,7 @@ export default function UnderstandingCuetPage() {
                             <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For each correct answer</span>
                         </div>
                         <div className="flex items-center gap-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-100 dark:border-red-800/30">
-                            <div className="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">-1</div>
+                            <div className="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">-1</div>
                             <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For each incorrect answer</span>
                         </div>
                         <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
@@ -656,6 +661,65 @@ export default function UnderstandingCuetPage() {
                         data-ai-hint="exam marks calculation"
                     />
                 </div>
+            </div>
+        </section>
+
+        {/* Why Choose Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="text-center mb-12 max-w-4xl mx-auto space-y-4">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                    Why Choose <span className="text-red-600">DRISHTI CUET</span>?
+                </h2>
+                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
+                    In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication and hard work. Drishti, with its pioneering CUET (UG) program, stands as a beacon of excellence for young aspirants.
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                {[
+                    {
+                        title: "Expert Faculty",
+                        description: "A team of expert faculties under the guidance of Dr. Vikas Divyakirti mentor students through the academic journey with personalized support and insightful instructions.",
+                        icon: <Users className="w-10 h-10" />
+                    },
+                    {
+                        title: "Exam Oriented Foundation",
+                        description: "Drishti CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems with deep understanding of their subjects.",
+                        icon: <Building className="w-10 h-10" />
+                    },
+                    {
+                        title: "One-to-One Guidance",
+                        description: "We offer personalized guidance, regular doubt sessions and interaction with faculties ensuring that each student receives tailored support and attention to maximize their academic and personal growth.",
+                        icon: <HandHeart className="w-10 h-10" />
+                    },
+                    {
+                        title: "Regular Class Tests",
+                        description: "Our class tests are meticulously structured to simulate CUET (UG) exam conditions and provide targeted feedback. We ensure students are well-equipped to confidently navigate the challenges of CUET (UG).",
+                        icon: <ClipboardList className="w-10 h-10" />
+                    },
+                    {
+                        title: "Topic-wise Practice Worksheets",
+                        description: "We aim to strengthen analytical skills with conceptual clarity which are crucial for navigating CUET (UG) questions by providing students with worksheets. These resources are customized to sharpen their critical thinking ensuring they're prepared to tackle the complexities of the exam with confidence.",
+                        icon: <FileText className="w-10 h-10" />
+                    },
+                    {
+                        title: "Printed Study Materials",
+                        description: "The study materials prepared ensure meeting the demands of the exam. Prepared by our dedicated content writers, the material is also reviewed by the faculty team to ensure its correlation with the lectures conducted in class.",
+                        icon: <BookOpen className="w-10 h-10" />
+                    }
+                ].map((feature, i) => (
+                    <Card key={i} className="border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow rounded-xl bg-white dark:bg-slate-900">
+                        <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
+                            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-full text-red-600 shrink-0">
+                                {feature.icon}
+                            </div>
+                            <h4 className="font-black text-slate-900 dark:text-white uppercase text-sm tracking-tight">{feature.title}</h4>
+                            <p className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">
+                                {feature.description}
+                            </p>
+                        </CardContent>
+                    </Card>
+                ))}
             </div>
         </section>
       </div>
