@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from "react";
@@ -30,7 +31,8 @@ import {
     HandHeart,
     ClipboardList,
     FileText,
-    BookOpen
+    BookOpen,
+    ShieldCheck
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -131,6 +133,51 @@ const timelineData = [
             { icon: <Send className="w-3.5 h-3.5" />, text: "Followed by university counselling process" }
         ],
         accent: "bg-amber-600"
+    }
+];
+
+const whyChooseFeatures = [
+    {
+        title: "Expert Faculty",
+        description: "A team of expert faculties under the guidance of Dr. Vikas Divyakirti mentor students through the academic journey with personalized support and insightful instructions.",
+        icon: <Users className="w-6 h-6 md:w-8 md:h-8" />,
+        className: "lg:col-span-2 lg:row-span-1",
+        accent: "bg-red-500"
+    },
+    {
+        title: "Exam Oriented Foundation",
+        description: "Drishti CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems.",
+        icon: <Building className="w-6 h-6 md:w-8 md:h-8" />,
+        className: "lg:col-span-1 lg:row-span-1",
+        accent: "bg-blue-500"
+    },
+    {
+        title: "One-to-One Guidance",
+        description: "We offer personalized guidance, regular doubt sessions and interaction with faculties ensuring each student receives tailored support.",
+        icon: <HandHeart className="w-6 h-6 md:w-8 md:h-8" />,
+        className: "lg:col-span-1 lg:row-span-1",
+        accent: "bg-amber-500"
+    },
+    {
+        title: "Regular Class Tests",
+        description: "Our class tests are meticulously structured to simulate CUET (UG) exam conditions and provide targeted feedback for improvement.",
+        icon: <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
+        className: "lg:col-span-2 lg:row-span-1",
+        accent: "bg-emerald-500"
+    },
+    {
+        title: "Topic-wise Practice Worksheets",
+        description: "Customized worksheets to sharpen critical thinking, ensuring students are prepared to tackle the complexities of the exam with confidence.",
+        icon: <FileText className="w-6 h-6 md:w-8 md:h-8" />,
+        className: "lg:col-span-1 lg:row-span-1",
+        accent: "bg-indigo-500"
+    },
+    {
+        title: "Printed Study Materials",
+        description: "Materials curated by dedicated content writers and reviewed by the faculty team to ensure 100% correlation with lectures.",
+        icon: <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
+        className: "lg:col-span-2 lg:row-span-1",
+        accent: "bg-rose-500"
     }
 ];
 
@@ -664,61 +711,60 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* Why Choose Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
-            <div className="text-center mb-12 max-w-4xl mx-auto space-y-4">
-                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
-                    Why Choose <span className="text-red-600">DRISHTI CUET</span>?
+        {/* Why Choose Section - Modern Bento Style */}
+        <section className="animate-fade-in-up mt-32 mb-20 px-4">
+            <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
+                    <ShieldCheck className="w-3.5 h-3.5" />
+                    DRISHTI ADVANTAGE
+                </div>
+                <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">
+                    WHY CHOOSE <span className="text-red-600">DRISHTI CUET</span>?
                 </h2>
-                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
-                    In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication and hard work. Drishti, with its pioneering CUET (UG) program, stands as a beacon of excellence for young aspirants.
+                <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-lg leading-relaxed text-balance">
+                    In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication. Drishti stands as a beacon of excellence for young aspirants.
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                {[
-                    {
-                        title: "Expert Faculty",
-                        description: "A team of expert faculties under the guidance of Dr. Vikas Divyakirti mentor students through the academic journey with personalized support and insightful instructions.",
-                        icon: <Users className="w-10 h-10" />
-                    },
-                    {
-                        title: "Exam Oriented Foundation",
-                        description: "Drishti CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems with deep understanding of their subjects.",
-                        icon: <Building className="w-10 h-10" />
-                    },
-                    {
-                        title: "One-to-One Guidance",
-                        description: "We offer personalized guidance, regular doubt sessions and interaction with faculties ensuring that each student receives tailored support and attention to maximize their academic and personal growth.",
-                        icon: <HandHeart className="w-10 h-10" />
-                    },
-                    {
-                        title: "Regular Class Tests",
-                        description: "Our class tests are meticulously structured to simulate CUET (UG) exam conditions and provide targeted feedback. We ensure students are well-equipped to confidently navigate the challenges of CUET (UG).",
-                        icon: <ClipboardList className="w-10 h-10" />
-                    },
-                    {
-                        title: "Topic-wise Practice Worksheets",
-                        description: "We aim to strengthen analytical skills with conceptual clarity which are crucial for navigating CUET (UG) questions by providing students with worksheets. These resources are customized to sharpen their critical thinking ensuring they're prepared to tackle the complexities of the exam with confidence.",
-                        icon: <FileText className="w-10 h-10" />
-                    },
-                    {
-                        title: "Printed Study Materials",
-                        description: "The study materials prepared ensure meeting the demands of the exam. Prepared by our dedicated content writers, the material is also reviewed by the faculty team to ensure its correlation with the lectures conducted in class.",
-                        icon: <BookOpen className="w-10 h-10" />
-                    }
-                ].map((feature, i) => (
-                    <Card key={i} className="border-slate-100 dark:border-slate-800 shadow-sm hover:shadow-md transition-shadow rounded-xl bg-white dark:bg-slate-900">
-                        <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
-                            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-full text-red-600 shrink-0">
-                                {feature.icon}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
+                {whyChooseFeatures.map((feature, i) => (
+                    <motion.div
+                        key={i}
+                        whileHover={{ y: -5 }}
+                        className={cn(
+                            "relative overflow-hidden p-8 rounded-[2.5rem] border transition-all duration-500 group",
+                            "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] hover:shadow-2xl",
+                            feature.className
+                        )}
+                    >
+                        {/* Background Giant Number */}
+                        <span className="absolute -right-4 -bottom-8 text-9xl font-black text-slate-50 dark:text-white/[0.02] pointer-events-none transition-all group-hover:scale-110 group-hover:-translate-y-4">
+                            0{i + 1}
+                        </span>
+
+                        <div className="relative z-10 flex flex-col h-full">
+                            <div className={cn(
+                                "w-14 h-14 md:w-16 md:h-16 rounded-3xl flex items-center justify-center mb-8 shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3",
+                                "bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white border border-white/20"
+                            )}>
+                                {React.cloneElement(feature.icon as React.ReactElement, { className: "w-7 h-7 md:w-8 md:h-8" })}
                             </div>
-                            <h4 className="font-black text-slate-900 dark:text-white uppercase text-sm tracking-tight">{feature.title}</h4>
-                            <p className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">
+                            
+                            <h4 className="font-black text-slate-900 dark:text-white uppercase text-base md:text-lg tracking-tight mb-4 group-hover:text-red-600 transition-colors">
+                                {feature.title}
+                            </h4>
+                            
+                            <p className="text-slate-500 dark:text-slate-400 font-bold text-xs md:text-sm leading-relaxed text-left flex-1 opacity-80 group-hover:opacity-100 transition-opacity">
                                 {feature.description}
                             </p>
-                        </CardContent>
-                    </Card>
+
+                            <div className="mt-8 pt-6 border-t border-slate-50 dark:border-slate-800">
+                                <div className="flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest opacity-0 group-hover:opacity-100 transform translate-x-2 group-hover:translate-x-0 transition-all duration-500">
+                                    Learn More <ArrowRight className="w-3 h-3" />
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 ))}
             </div>
         </section>
