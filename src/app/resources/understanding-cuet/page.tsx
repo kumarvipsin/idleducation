@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
@@ -30,7 +30,12 @@ import {
     ClipboardList,
     FileText,
     BookOpen,
-    ShieldCheck
+    ShieldCheck,
+    User,
+    Mail,
+    Phone,
+    Search,
+    X
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -245,118 +250,171 @@ export default function UnderstandingCuetPage() {
 
           {/* Right Form Card */}
           <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <Card className="bg-white border-none shadow-[0_20px_50px_rgba(0,0,0,0.1)] rounded-xl overflow-hidden">
-              <CardContent className="p-8 md:p-10 space-y-8">
-                <div className="text-center space-y-2">
-                  <h3 className="text-xl md:text-2xl font-black text-red-600 uppercase tracking-tight leading-tight">
-                    Join IDL CUET (UG) Now
-                  </h3>
-                  <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">
-                    Fill out the form to get a call back
-                  </p>
-                </div>
-
+            <Card className="bg-white border-2 border-primary/10 shadow-2xl rounded-2xl overflow-hidden">
+              <CardHeader className="bg-slate-50/50 border-b p-6 text-center space-y-1">
+                <CardTitle className="text-xl md:text-2xl font-black text-red-600 uppercase tracking-tight">
+                  Join IDL CUET (UG) Now
+                </CardTitle>
+                <CardDescription className="text-slate-500 font-bold text-[10px] uppercase tracking-widest">
+                  Fill out the form to get a call back
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="p-0">
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField control={form.control} name="fullName" render={({ field }) => (
-                        <FormItem>
-                          <FormControl><Input placeholder="Full Name*" {...field} className="h-12 border-slate-200" /></FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
-                      <FormField control={form.control} name="email" render={({ field }) => (
-                        <FormItem>
-                          <FormControl><Input type="email" placeholder="Email*" {...field} className="h-12 border-slate-200" /></FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
+                    <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                        <FormField control={form.control} name="fullName" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <FormControl>
+                              <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                  <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Input placeholder="Full Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="email" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <FormControl>
+                              <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                  <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                        <FormField control={form.control} name="mobile" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <FormControl>
+                              <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                  <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Input type="tel" placeholder="Mobile Number *" {...field} maxLength={10} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="targetYear" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <div className="relative group h-full">
+                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                <Calendar className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                              </div>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                    <SelectValue placeholder="Target Year *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {targetYears.map(year => <SelectItem key={year} value={year} className="text-xs font-bold">{year}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                        <FormField control={form.control} name="state" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <div className="relative group h-full">
+                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                              </div>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                    <SelectValue placeholder="Select State *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {indianStates.map(state => <SelectItem key={state} value={state} className="text-xs font-bold">{state}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="city" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <FormControl>
+                              <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                  <Building className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Input placeholder="Enter City *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                        <FormField control={form.control} name="preferredUniversity" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <div className="relative group h-full">
+                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                              </div>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                    <SelectValue placeholder="Preferred University *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {universities.map(uni => <SelectItem key={uni} value={uni} className="text-xs font-bold">{uni}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                        <FormField control={form.control} name="stream" render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <div className="relative group h-full">
+                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                <Search className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                              </div>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                    <SelectValue placeholder="Select Stream *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {streams.map(stream => <SelectItem key={stream} value={stream} className="text-xs font-bold">{stream}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )} />
+                      </div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField control={form.control} name="mobile" render={({ field }) => (
-                        <FormItem>
-                          <FormControl><Input type="tel" placeholder="Mobile Number*" {...field} maxLength={10} className="h-12 border-slate-200" /></FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
-                      <FormField control={form.control} name="targetYear" render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 border-slate-200 font-medium">
-                                <SelectValue placeholder="Target Year*" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {targetYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
+                    <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
+                      <Button type="submit" className="w-full h-12 text-[11px] font-black bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg shadow-red-600/20 transition-all active:scale-[0.98] group uppercase tracking-tight">
+                        Submit Enquiry
+                        <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                      </Button>
                     </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField control={form.control} name="state" render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 border-slate-200 font-medium text-left">
-                                <SelectValue placeholder="State*" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {indianStates.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
-                      <FormField control={form.control} name="city" render={({ field }) => (
-                        <FormItem>
-                          <FormControl><Input placeholder="City*" {...field} className="h-12 border-slate-200" /></FormControl>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <FormField control={form.control} name="preferredUniversity" render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 border-slate-200 font-medium text-left">
-                                <SelectValue placeholder="Preferred University*" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {universities.map(uni => <SelectItem key={uni} value={uni}>{uni}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
-                      <FormField control={form.control} name="stream" render={({ field }) => (
-                        <FormItem>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-12 border-slate-200 font-medium">
-                                <SelectValue placeholder="Stream*" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {streams.map(stream => <SelectItem key={stream} value={stream}>{stream}</SelectItem>)}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-[10px]" />
-                        </FormItem>
-                      )} />
-                    </div>
-
-                    <Button type="submit" className="w-full h-14 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-lg shadow-xl shadow-red-600/20 transition-all active:scale-95 uppercase tracking-tight">
-                      Submit Enquiry
-                    </Button>
                   </form>
                 </Form>
               </CardContent>
@@ -737,24 +795,28 @@ export default function UnderstandingCuetPage() {
         </section>
       </div>
 
-      <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
-        <DialogContent className="rounded-3xl max-w-sm">
-          <DialogHeader>
-            <div className="flex justify-center mb-4">
-              <CheckCircle2 className="w-16 h-16 text-green-500" />
-            </div>
-            <DialogTitle className="text-center text-2xl font-bold">Inquiry Received!</DialogTitle>
-            <DialogDescription className="text-center font-medium leading-relaxed">
-              Thank you for choosing IDL CUET. Our expert counselor will call you back within 24 hours to guide you.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button onClick={() => setIsSuccessOpen(false)} className="w-full rounded-xl h-12 font-bold bg-red-600 hover:bg-red-700 text-white">
-              Dismiss
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <AnimatePresence>
+        {isSuccessOpen && (
+          <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
+            <DialogContent className="rounded-3xl max-w-sm">
+              <DialogHeader>
+                <div className="flex justify-center mb-4">
+                  <CheckCircle2 className="w-16 h-16 text-green-500" />
+                </div>
+                <DialogTitle className="text-center text-2xl font-bold">Inquiry Received!</DialogTitle>
+                <DialogDescription className="text-center font-medium leading-relaxed">
+                  Thank you for choosing IDL CUET. Our expert counselor will call you back within 24 hours to guide you.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Button onClick={() => setIsSuccessOpen(false)} className="w-full rounded-xl h-12 font-bold bg-red-600 hover:bg-red-700 text-white">
+                  Dismiss
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
