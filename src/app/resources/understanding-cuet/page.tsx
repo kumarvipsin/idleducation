@@ -213,7 +213,7 @@ export default function UnderstandingCuetPage() {
             {/* Left Content */}
             <div className="space-y-8 animate-fade-in-up">
                 <div className="space-y-4">
-                <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left uppercase">
                     ACE <span className="text-red-600">CUET(UG)</span> 2026.
                 </h1>
                 <h2 className="text-xl md:text-2xl font-bold text-slate-800 text-left">
@@ -243,7 +243,7 @@ export default function UnderstandingCuetPage() {
                 </div>
             </div>
 
-            {/* Right Form Card (Unified styling with Contact Us) */}
+            {/* Right Form Card */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <Card className="w-full max-w-lg mx-auto bg-white dark:bg-card shadow-2xl rounded-2xl border-2 border-primary/10 overflow-hidden">
                 <CardHeader className="text-center p-8 pb-0">
@@ -433,8 +433,8 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      {/* Detailed Info Section (Full Width White Background) */}
-      <section className="w-full bg-white py-8 animate-fade-in-up">
+      {/* WHAT IS CUET? Section */}
+      <section className="w-full bg-white py-12 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
@@ -478,58 +478,60 @@ export default function UnderstandingCuetPage() {
 
       <div className="container mx-auto px-4 md:px-6">
         {/* Why and Who Section */}
-        <section className="animate-fade-in-up mt-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                <div className="space-y-10">
-                    <div className="space-y-4">
+        <section className="animate-fade-in-up mt-20 mb-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                {/* Why Card */}
+                <Card className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden h-full">
+                    <CardContent className="p-8 md:p-10 space-y-6">
                         <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
                             <span className="text-red-600">WHY</span> CUET (UG)?
                         </h3>
-                        <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                            This examination is beneficial to the students as it :
-                        </p>
-                        <ul className="space-y-3">
-                            {[
-                                "Tests fundamental skills and concepts.",
-                                "Reduces the hassle of taking multiple entrance exams.",
-                                "Provides a level playing field for students from different boards.",
-                                "Ensures fairness for applicants by bringing all on a single platform."
-                            ].map((item, i) => (
-                                <li key={i} className="flex items-start gap-2">
-                                    <span className="text-red-600 font-bold">•</span>
-                                    <span className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-snug text-left flex-1">
-                                        {item}
-                                    </span>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
+                        <div className="space-y-4">
+                            <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                                This examination is beneficial to the students as it :
+                            </p>
+                            <ul className="space-y-3">
+                                {[
+                                    "Tests fundamental skills and concepts.",
+                                    "Reduces the hassle of taking multiple entrance exams.",
+                                    "Provides a level playing field for students from different boards.",
+                                    "Ensures fairness for applicants by bringing all on a single platform."
+                                ].map((item, i) => (
+                                    <li key={i} className="flex items-start gap-2">
+                                        <span className="text-red-600 font-bold">•</span>
+                                        <span className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-snug text-left flex-1">
+                                            {item}
+                                        </span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </CardContent>
+                </Card>
 
-                    <div className="space-y-4">
+                {/* Who Card */}
+                <Card className="bg-white dark:bg-slate-900 rounded-[2rem] shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden h-full">
+                    <CardContent className="p-8 md:p-10 space-y-6">
                         <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
                             <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
                         </h3>
                         <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
                             Students who have qualified their 10+2 or intermediate or equivalent from any recognised board and seek admission to various Science, Commerce and Humanities undergraduate courses in top Central Universities.
                         </p>
-                    </div>
-                </div>
-
-                <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-black border-4 border-white/10 mt-2">
-                    <iframe
-                        className="w-full h-full"
-                        src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
-                        title="CUET Benefits Video"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        allowFullScreen
-                    ></iframe>
-                </div>
+                        <div className="pt-4">
+                            <div className="p-4 bg-red-50 dark:bg-red-900/20 rounded-2xl border border-red-100 dark:border-red-800/30">
+                                <p className="text-[10px] font-black text-red-600 dark:text-red-400 uppercase tracking-widest flex items-center gap-2">
+                                    <GraduationCap className="w-4 h-4" /> Eligibility Criteria Verified
+                                </p>
+                            </div>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
         </section>
 
-        {/* When Section */}
-        <section className="animate-fade-in-up mt-20 mb-10">
+        {/* When Section Header */}
+        <section className="animate-fade-in-up mb-10">
             <div className="text-center space-y-2">
                 <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter text-center">
                     <span className="text-red-600">WHEN</span> is CUET (UG) Conducted?
@@ -543,7 +545,6 @@ export default function UnderstandingCuetPage() {
         {/* Modern Pathway Mind Map Section */}
         <section className="animate-fade-in-up mb-24 relative">
             <div className="max-w-5xl mx-auto px-4">
-                
                 <div className="relative">
                     {/* Central Connecting Pathway (Desktop) */}
                     <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
