@@ -186,13 +186,13 @@ export default function UnderstandingCuetPage() {
             <div className="space-y-6">
               <div className="flex items-start gap-4 text-left">
                 <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
-                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
+                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                   Secure admission to undergraduate (UG) programs at top Central Universities in India by taking the Common Universities Entrance Test (CUET).
                 </p>
               </div>
               <div className="flex items-start gap-4 text-left">
                 <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
-                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
+                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                   CUET (UG) is highly competitive with lakhs candidates seeking seats at the top universities in the country.
                 </p>
               </div>
@@ -509,6 +509,89 @@ export default function UnderstandingCuetPage() {
                                 </motion.div>
                             );
                         })}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {/* Exam Pattern Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="text-center mb-12">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                    Exam Pattern of <span className="text-red-600">CUET (UG)</span>
+                </h2>
+            </div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
+                {/* Left Side: Structure */}
+                <div className="space-y-8">
+                    <div className="space-y-4">
+                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                            The exam is broadly divided into three sections of 37 Subjects in total:
+                        </p>
+                        <ul className="space-y-2 ml-4">
+                            {[
+                                "13 Languages",
+                                "23 Domain-specific subjects",
+                                "01 General Aptitude Test"
+                            ].map((item, i) => (
+                                <li key={i} className="flex items-center gap-2 text-slate-600 font-bold text-sm md:text-base">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div className="space-y-6">
+                        <div className="flex gap-4 items-start text-left">
+                            <span className="font-black text-red-600 text-lg">1.</span>
+                            <div className="space-y-2">
+                                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
+                                    50 questions in all sections – General Aptitude Test, Languages and Domain-specific subjects.
+                                </p>
+                                <p className="text-slate-900 font-black text-sm md:text-base leading-relaxed">
+                                    <span className="text-red-600">Note:</span> Students are allowed to appear for CUET (UG) in any subject irrespective of subjects studied in class 12th
+                                </p>
+                            </div>
+                        </div>
+                        <div className="flex gap-4 items-start text-left">
+                            <span className="font-black text-red-600 text-lg">2.</span>
+                            <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed">
+                                The duration of the test will be of 60 minutes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Right Side: Table & Note */}
+                <div className="space-y-6">
+                    <p className="text-slate-900 font-black text-sm md:text-base leading-relaxed text-left">
+                        <span className="text-red-600">Note:</span> Candidates may choose a maximum 5 subjects including Languages and General Aptitude Test
+                    </p>
+
+                    <div className="rounded-2xl border-2 border-purple-200 overflow-hidden shadow-sm">
+                        <div className="divide-y-2 divide-purple-100">
+                            {[
+                                { label: "Mode", value: "Computer Based Test (CBT)" },
+                                { label: "Exam Pattern", value: "Objective type with Multiple Choice Questions" },
+                                { label: "Medium", value: "13 languages (Assamese, Bengali, English, Gujarati, Hindi, Kannada, Malayalam, Marathi, Punjabi, Odia, Tamil, Telugu, and Urdu)" },
+                                { label: "Registration", value: "Registration will be online at https://exams.nta.ac.in/CUET-UG/", isLink: true }
+                            ].map((row, i) => (
+                                <div key={i} className="grid grid-cols-3 md:grid-cols-4 divide-x-2 divide-purple-100">
+                                    <div className="p-4 bg-purple-50/30 flex items-center font-black text-[10px] md:text-xs text-slate-900 uppercase tracking-tight">
+                                        {row.label}
+                                    </div>
+                                    <div className="col-span-2 md:col-span-3 p-4 bg-white flex items-center text-[11px] md:text-xs font-bold text-slate-600 leading-relaxed text-left">
+                                        {row.isLink ? (
+                                            <span className="break-all">
+                                                Registration will be online at <a href="https://exams.nta.ac.in/CUET-UG/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">https://exams.nta.ac.in/CUET-UG/</a>
+                                            </span>
+                                        ) : row.value}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
                 </div>
             </div>
