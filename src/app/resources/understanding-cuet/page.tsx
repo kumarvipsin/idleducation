@@ -5,7 +5,25 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles, ArrowRight, CheckCircle2, PlayCircle } from "lucide-react";
+import { 
+    Sparkles, 
+    ArrowRight, 
+    CheckCircle2, 
+    PlayCircle, 
+    Target, 
+    Building, 
+    Globe, 
+    GraduationCap, 
+    Repeat, 
+    Calendar, 
+    Info, 
+    Edit, 
+    Clock, 
+    Ticket, 
+    Monitor, 
+    BarChart3, 
+    Send 
+} from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -236,10 +254,8 @@ export default function UnderstandingCuetPage() {
           </div>
         </div>
 
-        <Separator className="mb-20 opacity-10 bg-red-200" />
-
         {/* Detailed Info Section */}
-        <section className="animate-fade-in-up">
+        <section className="animate-fade-in-up mt-20">
             <div className="text-center mb-12">
                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
                     UNDERSTANDING <span className="text-red-600">CUET(UG)</span> EXAM
@@ -287,8 +303,8 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* Why and Who Section (Matching the Image) */}
-        <section className="animate-fade-in-up mt-20 mb-20">
+        {/* Why and Who Section */}
+        <section className="animate-fade-in-up mt-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                 <div className="space-y-10">
                     {/* WHY Section */}
@@ -341,8 +357,8 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* When Section (Matching the Image) */}
-        <section className="animate-fade-in-up mb-20">
+        {/* When Section */}
+        <section className="animate-fade-in-up mt-20 mb-10">
             <div className="text-center space-y-2">
                 <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter text-center">
                     <span className="text-red-600">WHEN</span> is CUET (UG) Conducted?
@@ -350,6 +366,171 @@ export default function UnderstandingCuetPage() {
                 <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-center">
                     Conducted once a year, usually in May, the exam spans multiple days.
                 </p>
+            </div>
+        </section>
+
+        {/* Mind Map Section */}
+        <section className="animate-fade-in-up mb-20">
+            <div className="max-w-6xl mx-auto space-y-12">
+                <div className="text-left space-y-2 border-l-4 border-red-600 pl-6">
+                    <h2 className="text-xl md:text-2xl font-black text-slate-900 uppercase flex items-center gap-3">
+                        <span className="text-2xl">📚</span> Mind Map: WHEN is CUET (UG) Conducted?
+                    </h2>
+                    <div className="flex items-center gap-2 text-red-600 font-bold uppercase text-xs tracking-widest">
+                        <Target className="w-4 h-4" /> Main Topic: CUET (UG) Exam Schedule
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-8">
+                    {/* Left Column */}
+                    <div className="space-y-10">
+                        {/* 1. Conducting Authority */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">1</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Conducting Authority</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Building className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Conducted by: <span className="text-slate-900">National Testing Agency (NTA)</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Globe className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>National-level entrance test</span>
+                                </li>
+                                <li className="flex items-start gap-2 text-slate-600 font-bold text-sm">
+                                    <GraduationCap className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" /> 
+                                    <span>For Undergraduate admissions in Central & other participating universities</span>
+                                </li>
+                            </ul>
+                            <Separator className="mt-6 opacity-40" />
+                        </div>
+
+                        {/* 2. Exam Frequency */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">2</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Exam Frequency</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Repeat className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Conducted <span className="text-slate-900">Once Every Year</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>For admission in the same academic session</span>
+                                </li>
+                            </ul>
+                            <Separator className="mt-6 opacity-40" />
+                        </div>
+
+                        {/* 3. Usual Exam Month */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">3</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Usual Exam Month</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Calendar className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Generally held in <span className="text-slate-900">May – June</span></span>
+                                </li>
+                                <li className="flex items-start gap-2 text-slate-600 font-bold text-sm">
+                                    <Info className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" /> 
+                                    <span>Sometimes extended to <span className="text-slate-900">July</span> (if multiple phases required)</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {/* Right Column */}
+                    <div className="space-y-10">
+                        {/* 4. Application Timeline */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">4</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Application Timeline</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Edit className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Application Form Release: <span className="text-slate-900">February – March</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Clock className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Last Date to Apply: <span className="text-slate-900">March – April</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Edit className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Correction Window: Few days after last date</span>
+                                </li>
+                            </ul>
+                            <Separator className="mt-6 opacity-40" />
+                        </div>
+
+                        {/* 5. Admit Card Release */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">5</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Admit Card Release</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Ticket className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Released <span className="text-slate-900">3–7 days</span> before exam date</span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Globe className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Available online on official website</span>
+                                </li>
+                            </ul>
+                            <Separator className="mt-6 opacity-40" />
+                        </div>
+
+                        {/* 6. Exam Mode & Duration */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">6</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Exam Mode & Duration</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Monitor className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Mode: <span className="text-slate-900">Computer-Based Test (CBT)</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Clock className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Conducted in <span className="text-slate-900">Multiple Shifts</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <MapPin className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Across various cities in India</span>
+                                </li>
+                            </ul>
+                            <Separator className="mt-6 opacity-40" />
+                        </div>
+
+                        {/* 7. Result Declaration */}
+                        <div className="space-y-4 relative">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-blue-600 text-white w-6 h-6 rounded flex items-center justify-center font-black text-xs">7</div>
+                                <h4 className="font-black text-slate-900 uppercase text-sm tracking-tight">Result Declaration</h4>
+                            </div>
+                            <ul className="space-y-2 ml-9">
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <BarChart3 className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Results usually declared in <span className="text-slate-900">July</span></span>
+                                </li>
+                                <li className="flex items-center gap-2 text-slate-600 font-bold text-sm">
+                                    <Send className="w-3.5 h-3.5 text-blue-600" /> 
+                                    <span>Followed by university counselling process</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
       </div>
