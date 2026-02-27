@@ -79,58 +79,8 @@ export default function UnderstandingCuetPage() {
     <div className="min-h-screen w-full bg-[#FFF5F5] py-12 md:py-20">
       <div className="container mx-auto px-4 md:px-6">
         
-        {/* Top Info Section (From Image) */}
-        <section className="mb-20 animate-fade-in-up">
-            <div className="text-center mb-12">
-                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
-                    UNDERSTANDING <span className="text-red-600">CUET(UG)</span> EXAM
-                </h2>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
-                        <Image 
-                            src="https://picsum.photos/seed/cuet-info/800/800" 
-                            alt="Understanding CUET Exam" 
-                            fill 
-                            className="object-contain"
-                            data-ai-hint="student studying"
-                        />
-                    </div>
-                </div>
-                <div className="space-y-8">
-                    <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
-                            <span className="text-red-600">WHAT</span> IS CUET?
-                        </h3>
-                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
-                            Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
-                        </p>
-                    </div>
-
-                    <ul className="space-y-5">
-                        {[
-                            "Introduced by the National Testing Agency (NTA) in 2022.",
-                            "One examination for candidates to participate in the admission processes.",
-                            "Platform of equal opportunities for candidates across the country."
-                        ].map((item, i) => (
-                            <li key={i} className="flex items-start gap-4 group">
-                                <div className="mt-1 bg-red-600 rounded-sm p-0.5 shadow-sm transition-transform group-hover:scale-110">
-                                    <PlayCircle className="w-4 h-4 text-white fill-white" />
-                                </div>
-                                <span className="text-slate-600 font-bold text-sm md:text-base leading-snug text-left flex-1">
-                                    {item}
-                                </span>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <Separator className="mb-20 opacity-10 bg-red-200" />
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+        {/* Top Hero/Form Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mb-20">
           
           {/* Left Content */}
           <div className="space-y-8 animate-fade-in-up">
@@ -144,13 +94,13 @@ export default function UnderstandingCuetPage() {
             </div>
 
             <div className="space-y-6">
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 text-left">
                 <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
                 <p className="text-slate-600 font-medium leading-relaxed">
                   Secure admission to undergraduate (UG) programs at top Central Universities in India by taking the Common Universities Entrance Test (CUET).
                 </p>
               </div>
-              <div className="flex items-start gap-4">
+              <div className="flex items-start gap-4 text-left">
                 <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
                 <p className="text-slate-600 font-medium leading-relaxed">
                   CUET (UG) is highly competitive with lakhs candidates seeking seats at the top universities in the country.
@@ -158,9 +108,11 @@ export default function UnderstandingCuetPage() {
               </div>
             </div>
 
-            <Button size="lg" className="rounded-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 px-10 shadow-xl shadow-red-600/20 group uppercase tracking-tight">
-              Target CUET (UG) 2026 <ArrowRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className="text-left">
+                <Button size="lg" className="rounded-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 px-10 shadow-xl shadow-red-600/20 group uppercase tracking-tight">
+                Target CUET (UG) 2026 <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+            </div>
           </div>
 
           {/* Right Form Card */}
@@ -283,6 +235,57 @@ export default function UnderstandingCuetPage() {
             </Card>
           </div>
         </div>
+
+        <Separator className="mb-20 opacity-10 bg-red-200" />
+
+        {/* Detailed Info Section (Repositioned Below) */}
+        <section className="animate-fade-in-up">
+            <div className="text-center mb-12">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                    UNDERSTANDING <span className="text-red-600">CUET(UG)</span> EXAM
+                </h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-info/800/800" 
+                            alt="Understanding CUET Exam" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="student studying"
+                        />
+                    </div>
+                </div>
+                <div className="space-y-8">
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHAT</span> IS CUET?
+                        </h3>
+                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                            Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
+                        </p>
+                    </div>
+
+                    <ul className="space-y-5">
+                        {[
+                            "Introduced by the National Testing Agency (NTA) in 2022.",
+                            "One examination for candidates to participate in the admission processes.",
+                            "Platform of equal opportunities for candidates across the country."
+                        ].map((item, i) => (
+                            <li key={i} className="flex items-start gap-4 group">
+                                <div className="mt-1 bg-red-600 rounded-sm p-0.5 shadow-sm transition-transform group-hover:scale-110 shrink-0">
+                                    <PlayCircle className="w-4 h-4 text-white fill-white" />
+                                </div>
+                                <span className="text-slate-600 font-bold text-sm md:text-base leading-snug text-left flex-1">
+                                    {item}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </section>
       </div>
 
       <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
