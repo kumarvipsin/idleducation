@@ -65,7 +65,7 @@ const allCoursesCategories = [
         colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white"
     },
     {
-        name: "CUET UG/PG",
+        name: "CUET EXAM",
         description: "University entrance tests.",
         href: "/category/cuet",
         icon: <Building className="h-4 w-4" />,
@@ -573,29 +573,36 @@ export function Header() {
                                                     <div key={group.title} className="space-y-2">
                                                         <h4 className="px-4 text-[10px] font-semibold text-primary uppercase tracking-widest">{group.title}</h4>
                                                         <div className="space-y-1">
-                                                            {group.links.map((link) => (
-                                                                <Link 
-                                                                    key={link.label} 
-                                                                    href={link.onClick ? '#' : link.href} 
-                                                                    target={link.target} 
-                                                                    rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                                                                    onClick={() => {
-                                                                        if(link.onClick) link.onClick(); 
-                                                                        setIsMobileMenuOpen(false);
-                                                                    }} 
-                                                                    className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]"
-                                                                >
-                                                                    <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", link.colorClasses)}>
-                                                                        <div className="-rotate-45">
-                                                                            {link.icon}
+                                                            {group.links.map((link) => {
+                                                                const handleClick = (e: React.MouseEvent) => {
+                                                                    if (link.onClick) {
+                                                                        e.preventDefault();
+                                                                        link.onClick();
+                                                                    }
+                                                                    setIsMobileMenuOpen(false);
+                                                                };
+
+                                                                return (
+                                                                    <Link 
+                                                                        key={link.label} 
+                                                                        href={link.onClick ? '#' : link.href} 
+                                                                        target={link.target} 
+                                                                        rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                                                        onClick={handleClick} 
+                                                                        className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]"
+                                                                    >
+                                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", link.colorClasses)}>
+                                                                            <div className="-rotate-45">
+                                                                                {link.icon}
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
-                                                                    <div className="space-y-0.5">
-                                                                        <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
-                                                                        <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{link.description}</p>
-                                                                    </div>
-                                                                </Link>
-                                                            ))}
+                                                                        <div className="space-y-0.5">
+                                                                            <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
+                                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{link.description}</p>
+                                                                        </div>
+                                                                    </Link>
+                                                                )
+                                                            })}
                                                         </div>
                                                     </div>
                                                 ))}

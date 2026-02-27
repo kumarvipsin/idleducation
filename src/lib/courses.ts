@@ -28,7 +28,7 @@ export const DISCOVER_COURSES = [
     { name: "FREE COURSES", href: "/free-courses" },
     { name: "PAID COURSES", href: "/paid-courses" },
     { name: "SCHOOL BOARD", href: "/school" },
-    { name: "CUET UG/PG", href: "/category/cuet" },
+    { name: "CUET EXAM", href: "/category/cuet" },
     { name: "GOVT. EXAMS", href: "#" },
     { name: "TEST SERIES", href: "#" },
 ];

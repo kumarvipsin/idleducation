@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from "react";
@@ -434,7 +435,7 @@ export default function UnderstandingCuetPage() {
       </section>
 
       {/* Detailed Info Section (Full Width White Background) */}
-      <section className="w-full bg-white py-20 animate-fade-in-up">
+      <section className="w-full bg-white py-8 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">

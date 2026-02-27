@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -10,7 +11,7 @@ const iconMap: { [key: string]: React.ReactNode } = {
     "FREE COURSES": <BookOpen className="w-6 h-6 md:w-8 md:h-8" />,
     "PAID COURSES": <IndianRupee className="w-6 h-6 md:w-8 md:h-8" />,
     "SCHOOL BOARD": <GraduationCap className="w-6 h-6 md:w-8 md:h-8" />,
-    "CUET UG/PG": <GraduationCap className="h-6 w-6 md:h-8 md:w-8" />,
+    "CUET EXAM": <GraduationCap className="h-6 w-6 md:h-8 md:w-8" />,
     "GOVT. EXAMS": <Landmark className="w-6 h-6 md:w-8 md:h-8" />,
     "TEST SERIES": <ClipboardList className="w-6 h-6 md:w-8 md:h-8" />,
 };
@@ -19,7 +20,7 @@ const colorMap: { [key: string]: string } = {
     "FREE COURSES": "bg-orange-100 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400",
     "PAID COURSES": "bg-lime-100 dark:bg-lime-900/30 text-lime-600 dark:text-lime-400",
     "SCHOOL BOARD": "bg-teal-100 dark:bg-teal-900/30 text-teal-600 dark:text-teal-400",
-    "CUET UG/PG": "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
+    "CUET EXAM": "bg-cyan-100 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400",
     "GOVT. EXAMS": "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400",
     "TEST SERIES": "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400",
 };
