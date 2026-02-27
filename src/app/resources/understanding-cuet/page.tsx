@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from "react";
@@ -6,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Sparkles, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle2, PlayCircle } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -15,6 +14,8 @@ import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import { Separator } from "@/components/ui/separator";
 
 const cuetInquirySchema = z.object({
   fullName: z.string().min(2, "Full name is required."),
@@ -77,6 +78,58 @@ export default function UnderstandingCuetPage() {
   return (
     <div className="min-h-screen w-full bg-[#FFF5F5] py-12 md:py-20">
       <div className="container mx-auto px-4 md:px-6">
+        
+        {/* Top Info Section (From Image) */}
+        <section className="mb-20 animate-fade-in-up">
+            <div className="text-center mb-12">
+                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                    UNDERSTANDING <span className="text-red-600">CUET(UG)</span> EXAM
+                </h2>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-info/800/800" 
+                            alt="Understanding CUET Exam" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="student studying"
+                        />
+                    </div>
+                </div>
+                <div className="space-y-8">
+                    <div className="space-y-4">
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHAT</span> IS CUET?
+                        </h3>
+                        <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                            Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
+                        </p>
+                    </div>
+
+                    <ul className="space-y-5">
+                        {[
+                            "Introduced by the National Testing Agency (NTA) in 2022.",
+                            "One examination for candidates to participate in the admission processes.",
+                            "Platform of equal opportunities for candidates across the country."
+                        ].map((item, i) => (
+                            <li key={i} className="flex items-start gap-4 group">
+                                <div className="mt-1 bg-red-600 rounded-sm p-0.5 shadow-sm transition-transform group-hover:scale-110">
+                                    <PlayCircle className="w-4 h-4 text-white fill-white" />
+                                </div>
+                                <span className="text-slate-600 font-bold text-sm md:text-base leading-snug text-left flex-1">
+                                    {item}
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <Separator className="mb-20 opacity-10 bg-red-200" />
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
           
           {/* Left Content */}
@@ -106,7 +159,7 @@ export default function UnderstandingCuetPage() {
             </div>
 
             <Button size="lg" className="rounded-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 px-10 shadow-xl shadow-red-600/20 group uppercase tracking-tight">
-              Target CUET (UG) 2026 › 
+              Target CUET (UG) 2026 <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
 
@@ -169,8 +222,8 @@ export default function UnderstandingCuetPage() {
                         <FormItem>
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
-                              <SelectTrigger className="h-12 border-slate-200 font-medium">
-                                <SelectValue placeholder="State" />
+                              <SelectTrigger className="h-12 border-slate-200 font-medium text-left">
+                                <SelectValue placeholder="State*" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -182,7 +235,7 @@ export default function UnderstandingCuetPage() {
                       )} />
                       <FormField control={form.control} name="city" render={({ field }) => (
                         <FormItem>
-                          <FormControl><Input placeholder="City" {...field} className="h-12 border-slate-200" /></FormControl>
+                          <FormControl><Input placeholder="City*" {...field} className="h-12 border-slate-200" /></FormControl>
                           <FormMessage className="text-[10px]" />
                         </FormItem>
                       )} />
@@ -194,7 +247,7 @@ export default function UnderstandingCuetPage() {
                           <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger className="h-12 border-slate-200 font-medium text-left">
-                                <SelectValue placeholder="Preferred University" />
+                                <SelectValue placeholder="Preferred University*" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
@@ -222,7 +275,7 @@ export default function UnderstandingCuetPage() {
                     </div>
 
                     <Button type="submit" className="w-full h-14 rounded-full bg-red-600 hover:bg-red-700 text-white font-bold text-lg shadow-xl shadow-red-600/20 transition-all active:scale-95 uppercase tracking-tight">
-                      Submit
+                      Submit Enquiry
                     </Button>
                   </form>
                 </Form>
