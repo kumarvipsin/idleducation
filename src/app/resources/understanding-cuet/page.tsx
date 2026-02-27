@@ -477,7 +477,7 @@ export default function UnderstandingCuetPage() {
       </section>
 
       {/* WHY CUET (UG)? Section */}
-      <section className="w-full py-12 animate-fade-in-up">
+      <section className="w-full bg-white py-12 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="space-y-8 order-2 lg:order-1">
@@ -528,11 +528,10 @@ export default function UnderstandingCuetPage() {
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
                     <div className="relative w-full h-full max-w-md">
                         <Image 
-                            src="https://picsum.photos/seed/cuet-who/800/800" 
+                            src="/cuet3.png" 
                             alt="Who can appear for CUET" 
                             fill 
                             className="object-contain"
-                            data-ai-hint="eligible students"
                         />
                     </div>
                 </div>
