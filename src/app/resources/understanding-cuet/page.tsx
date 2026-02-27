@@ -444,11 +444,11 @@ export default function UnderstandingCuetPage() {
             <div className="max-w-5xl mx-auto px-4">
                 
                 {/* Header */}
-                <div className="text-center mb-16 space-y-2">
-                    <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight flex items-center justify-center gap-3">
-                        <span className="text-2xl">🛤️</span> CUET (UG) Pathway
+                <div className="text-center mb-8 space-y-1">
+                    <h2 className="text-lg md:text-xl font-black text-slate-900 uppercase tracking-tight flex items-center justify-center gap-2">
+                        <span className="text-lg">🛤️</span> CUET (UG) Pathway
                     </h2>
-                    <p className="text-red-600 font-bold uppercase text-[10px] tracking-[0.2em]">The complete institutional timeline</p>
+                    <p className="text-red-600 font-bold uppercase text-[8px] tracking-[0.2em]">The complete institutional timeline</p>
                 </div>
 
                 <div className="relative">
