@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from "react";
@@ -139,37 +138,31 @@ const whyChooseFeatures = [
     {
         title: "Expert Faculty",
         description: "A team of expert faculties under the guidance of Dr. Vikas Divyakirti mentor students through the academic journey with personalized support and insightful instructions.",
-        icon: <Users className="w-6 h-6" />,
         accent: "bg-red-500"
     },
     {
         title: "Exam Oriented Foundation",
         description: "Drishti CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems.",
-        icon: <Building className="w-6 h-6" />,
         accent: "bg-blue-500"
     },
     {
         title: "One-to-One Guidance",
         description: "We offer personalized guidance, regular doubt sessions and interaction with faculties ensuring each student receives tailored support.",
-        icon: <HandHeart className="w-6 h-6" />,
         accent: "bg-amber-500"
     },
     {
         title: "Regular Class Tests",
         description: "Our class tests are meticulously structured to simulate CUET (UG) exam conditions and provide targeted feedback for improvement.",
-        icon: <ClipboardList className="w-6 h-6" />,
         accent: "bg-emerald-500"
     },
     {
         title: "Topic-wise Practice Worksheets",
         description: "Customized worksheets to sharpen critical thinking, ensuring students are prepared to tackle the complexities of the exam with confidence.",
-        icon: <FileText className="w-6 h-6" />,
         accent: "bg-indigo-500"
     },
     {
         title: "Printed Study Materials",
         description: "Materials curated by dedicated content writers and reviewed by the faculty team to ensure 100% correlation with lectures.",
-        icon: <BookOpen className="w-6 h-6" />,
         accent: "bg-rose-500"
     }
 ];
@@ -559,31 +552,6 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* WHERE Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
-                        <Image 
-                            src="https://picsum.photos/seed/cuet-where/800/800" 
-                            alt="Where is CUET Conducted" 
-                            fill 
-                            className="object-contain"
-                            data-ai-hint="online learning illustration"
-                        />
-                    </div>
-                </div>
-                <div className="space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
-                    </h3>
-                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
-                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
-                    </p>
-                </div>
-            </div>
-        </section>
-
         {/* Exam Pattern Section */}
         <section className="animate-fade-in-up mt-20 mb-20">
             <div className="text-center mb-12">
@@ -667,6 +635,31 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
+        {/* WHERE Section */}
+        <section className="animate-fade-in-up mt-20 mb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image 
+                            src="https://picsum.photos/seed/cuet-where/800/800" 
+                            alt="Where is CUET Conducted" 
+                            fill 
+                            className="object-contain"
+                            data-ai-hint="online learning illustration"
+                        />
+                    </div>
+                </div>
+                <div className="space-y-6">
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
+                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                    </h3>
+                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                        This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
+                    </p>
+                </div>
+            </div>
+        </section>
+
         {/* Marking Scheme Section */}
         <section className="animate-fade-in-up mt-20 mb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
@@ -722,14 +715,8 @@ export default function UnderstandingCuetPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 max-w-6xl mx-auto">
                 {whyChooseFeatures.map((feature, i) => (
                     <div key={i} className="group relative flex flex-col items-start gap-4 animate-fade-in-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                        {/* Numerical & Icon Header */}
+                        {/* Numerical Header */}
                         <div className="flex items-center gap-4">
-                            <div className={cn(
-                                "w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-500 group-hover:rotate-[15deg] group-hover:scale-110",
-                                "bg-primary text-white shadow-lg shadow-primary/20"
-                            )}>
-                                {React.cloneElement(feature.icon as React.ReactElement, { className: "w-6 h-6" })}
-                            </div>
                             <span className="text-4xl font-black text-slate-100 dark:text-white/5 transition-colors group-hover:text-primary/10 select-none">
                                 0{i + 1}
                             </span>
