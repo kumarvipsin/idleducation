@@ -209,221 +209,207 @@ export default function UnderstandingCuetPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FFF5F5] py-12 md:py-20">
-      <div className="container mx-auto px-4 md:px-6">
-        
-        {/* Top Hero/Form Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto mb-20">
-          
-          {/* Left Content */}
-          <div className="space-y-8 animate-fade-in-up">
-            <div className="space-y-4">
-              <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left">
-                ACE <span className="text-red-600">CUET(UG)</span> 2026.
-              </h1>
-              <h2 className="text-xl md:text-2xl font-bold text-slate-800 text-left">
-                Unlock doors to your dream college!
-              </h2>
+    <div className="min-h-screen w-full bg-[#FFF5F5]">
+      
+      {/* Top Hero/Form Section */}
+      <section className="py-12 md:py-20">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+            
+            {/* Left Content */}
+            <div className="space-y-8 animate-fade-in-up">
+                <div className="space-y-4">
+                <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left">
+                    ACE <span className="text-red-600">CUET(UG)</span> 2026.
+                </h1>
+                <h2 className="text-xl md:text-2xl font-bold text-slate-800 text-left">
+                    Unlock doors to your dream college!
+                </h2>
+                </div>
+
+                <div className="space-y-6">
+                <div className="flex items-start gap-4 text-left">
+                    <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
+                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                    Secure admission to undergraduate (UG) programs at top Central Universities in India by taking the Common Universities Entrance Test (CUET).
+                    </p>
+                </div>
+                <div className="flex items-start gap-4 text-left">
+                    <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
+                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
+                    CUET (UG) is highly competitive with lakhs candidates seeking seats at the top universities in the country.
+                    </p>
+                </div>
+                </div>
+
+                <div className="text-left">
+                    <Button size="lg" className="rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold h-12 px-10 shadow-xl shadow-red-600/20 group uppercase tracking-tight">
+                    Target CUET (UG) 2026 <ArrowRight className="ml-2 h-5 w-5" />
+                    </Button>
+                </div>
             </div>
 
-            <div className="space-y-6">
-              <div className="flex items-start gap-4 text-left">
-                <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
-                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
-                  Secure admission to undergraduate (UG) programs at top Central Universities in India by taking the Common Universities Entrance Test (CUET).
-                </p>
-              </div>
-              <div className="flex items-start gap-4 text-left">
-                <Sparkles className="w-5 h-5 text-yellow-400 shrink-0 mt-1" />
-                <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
-                  CUET (UG) is highly competitive with lakhs candidates seeking seats at the top universities in the country.
-                </p>
-              </div>
+            {/* Right Form Card (Contact Us Style) */}
+            <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+                <Card className="w-full max-w-lg mx-auto bg-white/80 dark:bg-card/80 backdrop-blur-sm shadow-2xl rounded-2xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden">
+                <CardHeader className="text-center p-8 pb-0">
+                    <CardTitle className="text-2xl font-extrabold text-red-600 tracking-tighter uppercase">Join IDL CUET (UG) Now</CardTitle>
+                    <CardDescription className="text-muted-foreground text-[13px] font-extrabold uppercase">Fill out the form to get a call back</CardDescription>
+                </CardHeader>
+                <CardContent className="p-8">
+                    <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="fullName"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <FormControl>
+                                <div className="relative group">
+                                    <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="Full Name *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
+                                </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <FormControl>
+                                <div className="relative group">
+                                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="email" placeholder="Email *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
+                                </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="mobile"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <FormControl>
+                                <div className="relative group">
+                                    <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input type="tel" placeholder="Phone *" {...field} maxLength={10} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
+                                </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="targetYear"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="Target Year *" /></SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {targetYears.map(year => <SelectItem key={year} value={year}>{year}</SelectItem>)}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="State *" /></SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {indianStates.map(state => <SelectItem key={state} value={state}>{state}</SelectItem>)}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="city"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <FormControl>
+                                <div className="relative group">
+                                    <Building className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                                    <Input placeholder="City *" {...field} className="pl-9 h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]" />
+                                </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <FormField
+                            control={form.control}
+                            name="preferredUniversity"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="University *" /></SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {universities.map(uni => <SelectItem key={uni} value={uni}>{uni}</SelectItem>)}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="stream"
+                            render={({ field }) => (
+                            <FormItem className="space-y-0">
+                                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                <FormControl>
+                                    <SelectTrigger className="h-12 bg-gray-100 dark:bg-gray-800/50 border-0 rounded-lg font-bold text-[13px]"><SelectValue placeholder="Stream *" /></SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                    {streams.map(stream => <SelectItem key={stream} value={stream}>{stream}</SelectItem>)}
+                                </SelectContent>
+                                </Select>
+                                <FormMessage className="text-[10px]" />
+                            </FormItem>
+                            )}
+                        />
+                        </div>
+                        <Button type="submit" size="lg" className="w-full bg-red-600 hover:bg-red-700 text-white font-bold h-12 rounded-lg shadow-lg shadow-red-600/20 uppercase" disabled={form.formState.isSubmitting}>
+                        {form.formState.isSubmitting ? 'Submitting...' : 'SUBMIT ENQUIRY'}
+                        </Button>
+                    </form>
+                    </Form>
+                </CardContent>
+                </Card>
             </div>
-
-            <div className="text-left">
-                <Button size="lg" className="rounded-full bg-red-600 hover:bg-red-700 text-white font-bold h-14 px-10 shadow-xl shadow-red-600/20 group uppercase tracking-tight">
-                Target CUET (UG) 2026 <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
             </div>
-          </div>
-
-          {/* Right Form Card */}
-          <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            <Card className="bg-white border-2 border-primary/10 shadow-2xl rounded-2xl overflow-hidden">
-              <CardHeader className="bg-slate-50/50 border-b p-6 text-center space-y-1">
-                <CardTitle className="text-xl md:text-2xl font-black text-red-600 uppercase tracking-tight">
-                  Join IDL CUET (UG) Now
-                </CardTitle>
-                <CardDescription className="text-slate-500 font-bold text-[10px] uppercase tracking-widest">
-                  Fill out the form to get a call back
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="p-0">
-                <Form {...form}>
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
-                    <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
-                      
-                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                        <FormField control={form.control} name="fullName" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <FormControl>
-                              <div className="relative group h-full">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                  <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                </div>
-                                <Input placeholder="Full Name *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                        <FormField control={form.control} name="email" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <FormControl>
-                              <div className="relative group h-full">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                  <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                </div>
-                                <Input type="email" placeholder="Email Address *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                        <FormField control={form.control} name="mobile" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <FormControl>
-                              <div className="relative group h-full">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                  <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                </div>
-                                <Input type="tel" placeholder="Mobile Number *" {...field} maxLength={10} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                        <FormField control={form.control} name="targetYear" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <div className="relative group h-full">
-                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-                                <Calendar className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              </div>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Target Year *" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {targetYears.map(year => <SelectItem key={year} value={year} className="text-xs font-bold">{year}</SelectItem>)}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                        <FormField control={form.control} name="state" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <div className="relative group h-full">
-                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-                                <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              </div>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select State *" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {indianStates.map(state => <SelectItem key={state} value={state} className="text-xs font-bold">{state}</SelectItem>)}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                        <FormField control={form.control} name="city" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <FormControl>
-                              <div className="relative group h-full">
-                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                  <Building className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                                </div>
-                                <Input placeholder="Enter City *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                      </div>
-
-                      <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                        <FormField control={form.control} name="preferredUniversity" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <div className="relative group h-full">
-                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-                                <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              </div>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Preferred University *" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {universities.map(uni => <SelectItem key={uni} value={uni} className="text-xs font-bold">{uni}</SelectItem>)}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                        <FormField control={form.control} name="stream" render={({ field }) => (
-                          <FormItem className="space-y-0">
-                            <div className="relative group h-full">
-                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-                                <Search className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                              </div>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select Stream *" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {streams.map(stream => <SelectItem key={stream} value={stream} className="text-xs font-bold">{stream}</SelectItem>)}
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <FormMessage className="text-[10px] px-4 pb-2" />
-                          </FormItem>
-                        )} />
-                      </div>
-                    </div>
-
-                    <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
-                      <Button type="submit" className="w-full h-12 text-[11px] font-black bg-red-600 hover:bg-red-700 text-white rounded-xl shadow-lg shadow-red-600/20 transition-all active:scale-[0.98] group uppercase tracking-tight">
-                        Submit Enquiry
-                        <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                      </Button>
-                    </div>
-                  </form>
-                </Form>
-              </CardContent>
-            </Card>
-          </div>
         </div>
+      </section>
 
-        {/* Detailed Info Section */}
-        <section className="animate-fade-in-up mt-20">
+      {/* Detailed Info Section (Full Width White Background) */}
+      <section className="w-full bg-white py-20 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
                 <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
                     UNDERSTANDING <span className="text-red-600">CUET(UG)</span> EXAM
@@ -469,13 +455,14 @@ export default function UnderstandingCuetPage() {
                     </ul>
                 </div>
             </div>
-        </section>
+        </div>
+      </section>
 
+      <div className="container mx-auto px-4 md:px-6">
         {/* Why and Who Section */}
         <section className="animate-fade-in-up mt-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
                 <div className="space-y-10">
-                    {/* WHY Section */}
                     <div className="space-y-4">
                         <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
                             <span className="text-red-600">WHY</span> CUET (UG)?
@@ -500,7 +487,6 @@ export default function UnderstandingCuetPage() {
                         </ul>
                     </div>
 
-                    {/* WHO Section */}
                     <div className="space-y-4">
                         <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
                             <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
@@ -511,7 +497,6 @@ export default function UnderstandingCuetPage() {
                     </div>
                 </div>
 
-                {/* Video Section */}
                 <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl bg-black border-4 border-white/10 mt-2">
                     <iframe
                         className="w-full h-full"
@@ -571,7 +556,6 @@ export default function UnderstandingCuetPage() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
-                {/* Left Side: Structure */}
                 <div className="space-y-8">
                     <div className="space-y-4">
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
@@ -612,7 +596,6 @@ export default function UnderstandingCuetPage() {
                     </div>
                 </div>
 
-                {/* Right Side: Table & Note */}
                 <div className="space-y-6">
                     <p className="text-slate-900 font-black text-sm md:text-base leading-relaxed text-left">
                         <span className="text-red-600">Note:</span> Candidates may choose a maximum 5 subjects including Languages and General Aptitude Test
@@ -640,79 +623,6 @@ export default function UnderstandingCuetPage() {
                                 </div>
                             ))}
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        {/* Modern Pathway Mind Map Section */}
-        <section className="animate-fade-in-up mb-24 relative">
-            <div className="max-w-5xl mx-auto px-4">
-                
-                <div className="relative">
-                    {/* Central Connecting Pathway (Desktop) */}
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
-
-                    <div className="space-y-12 md:space-y-0">
-                        {timelineData.map((item, index) => {
-                            const isEven = index % 2 === 0;
-                            return (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className={cn(
-                                        "relative flex flex-col md:flex-row items-center justify-between md:mb-20 last:mb-0",
-                                        isEven ? "md:flex-row-reverse" : "md:flex-row"
-                                    )}
-                                >
-                                    {/* Content Card */}
-                                    <div className="w-full md:w-[45%] ml-12 md:ml-0">
-                                        <Card className={cn(
-                                            "border-none shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-500 rounded-2xl group overflow-hidden",
-                                            "bg-white dark:bg-slate-900"
-                                        )}>
-                                            <div className={cn("h-1.5 w-full", item.accent)} />
-                                            <CardContent className="p-6 md:p-8 space-y-4">
-                                                <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight flex items-center gap-2">
-                                                    <span className={cn("text-white w-6 h-6 rounded-md flex items-center justify-center text-xs shrink-0", item.accent)}>
-                                                        {item.number}
-                                                    </span>
-                                                    {item.title}
-                                                </h4>
-                                                <ul className="space-y-3">
-                                                    {item.items.map((li, idx) => (
-                                                        <li key={idx} className="flex items-start gap-3 group/li">
-                                                            <div className={cn("mt-1 p-1 rounded-md transition-all group-hover/li:scale-110", "bg-slate-50 dark:bg-slate-800 text-primary")}>
-                                                                {li.icon}
-                                                            </div>
-                                                            <span className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">{li.text}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </CardContent>
-                                        </Card>
-                                    </div>
-
-                                    {/* Interactive Center Node */}
-                                    <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-y-1/2 -translate-x-1/2 z-10">
-                                        <div className={cn(
-                                            "w-8 h-8 rounded-full bg-white shadow-xl border-4 flex items-center justify-center font-black text-xs transition-transform duration-500 group-hover:scale-125",
-                                            "border-slate-100 text-slate-900 ring-4 ring-white/50"
-                                        )}>
-                                            {item.number}
-                                        </div>
-                                        {/* Animated Pulse Ring */}
-                                        <div className={cn("absolute inset-0 rounded-full animate-ping opacity-20", item.accent)} />
-                                    </div>
-
-                                    {/* Placeholder for alternating layout */}
-                                    <div className="hidden md:block md:w-[45%]" />
-                                </motion.div>
-                            );
-                        })}
                     </div>
                 </div>
             </div>
@@ -755,7 +665,7 @@ export default function UnderstandingCuetPage() {
             </div>
         </section>
 
-        {/* Why Choose Section - Institutional Feature Strip Style */}
+        {/* Why Choose Section */}
         <section className="animate-fade-in-up mt-32 mb-20 px-4">
             <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
@@ -773,14 +683,11 @@ export default function UnderstandingCuetPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-16 max-w-6xl mx-auto">
                 {whyChooseFeatures.map((feature, i) => (
                     <div key={i} className="group relative flex flex-col items-start gap-4 animate-fade-in-up" style={{ animationDelay: `${i * 0.1}s` }}>
-                        {/* Numerical Header */}
                         <div className="flex items-center gap-4">
                             <span className="text-4xl font-black text-slate-100 dark:text-white/5 transition-colors group-hover:text-primary/10 select-none">
                                 0{i + 1}
                             </span>
                         </div>
-
-                        {/* Content Strip */}
                         <div className="space-y-3 border-l-2 border-slate-100 dark:border-slate-800 pl-6 group-hover:border-primary transition-colors duration-500">
                             <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight group-hover:text-primary transition-colors">
                                 {feature.title}
