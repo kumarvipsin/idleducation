@@ -355,36 +355,6 @@ export default function CuetPage() {
         const rzp = new window.Razorpay(options);
         rzp.open();
     };
-    
-    const resourceCards = [
-        {
-          title: "CUET Syllabus 2026",
-          subtitle: "Latest exam pattern and section-wise syllabus guide",
-          icon: <AdobePdfIcon />,
-          bgColor: "bg-white dark:bg-slate-900/50",
-          textColor: "text-slate-900",
-          iconBg: "bg-red-50 text-red-600",
-          href: "/resources/ncert-solutions"
-        },
-        {
-          title: "CUET Study Material",
-          subtitle: "Expert study material",
-          icon: <BookOpen />,
-          bgColor: "bg-white dark:bg-slate-900/50",
-          textColor: "text-slate-900",
-          iconBg: "bg-blue-50 text-blue-600",
-          href: "/resources/cuet-study-material"
-        },
-         {
-          title: "Mock Tests",
-          subtitle: "Practice & PYQs",
-          icon: <Book />,
-          bgColor: "bg-white dark:bg-slate-900/50",
-          textColor: "text-slate-900",
-          iconBg: "bg-indigo-50 text-indigo-600",
-          href: "/resources/ncert-solutions"
-        }
-    ];
 
     return (
         <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative">
@@ -436,28 +406,6 @@ export default function CuetPage() {
                                         <h4 className="text-[11px] font-bold leading-tight text-foreground uppercase tracking-tight">{card.label}</h4>
                                     </div>
                                     <ArrowRight className="w-3.5 h-3.5 transition-all group-hover:translate-x-1 opacity-20 group-hover:opacity-100 shrink-0" />
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
-
-                {/* Compact Resource Hub */}
-                <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        {resourceCards.map((card, index) => (
-                            <Link key={index} href={card.href} className="group">
-                                <div className={cn(
-                                    "flex items-center gap-3 p-3.5 rounded-xl transition-all duration-300 shadow-sm border bg-white dark:bg-slate-900/50 hover:shadow-md hover:border-primary/20",
-                                )}>
-                                    <div className={cn("p-2 rounded-lg shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm", card.iconBg)}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-4 h-4" })}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="text-xs font-bold leading-none mb-1 text-foreground">{card.title}</h4>
-                                        <p className="text-[10px] font-medium text-muted-foreground truncate">{card.subtitle}</p>
-                                    </div>
-                                    <ArrowRight className="w-3.5 h-3.5 transition-all group-hover:translate-x-1 opacity-20 group-hover:opacity-100" />
                                 </div>
                             </Link>
                         ))}
