@@ -34,7 +34,7 @@ import {
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -510,11 +510,10 @@ export default function UnderstandingCuetPage() {
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
                     <div className="relative w-full h-full max-w-md">
                         <Image 
-                            src="https://picsum.photos/seed/cuet-why/800/800" 
+                            src="/cuet2.png" 
                             alt="Why CUET is beneficial" 
                             fill 
                             className="object-contain"
-                            data-ai-hint="student benefits"
                         />
                     </div>
                 </div>
