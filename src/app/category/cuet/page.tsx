@@ -116,7 +116,7 @@ const quickInfoCards = [
     {
         label: "All About CUET",
         icon: <BookCheck />,
-        href: "/resources/understanding-cuet",
+        href: "/resources/all-about-cuet",
         target: "_blank",
         color: "text-emerald-600",
         iconBg: "bg-emerald-50"
