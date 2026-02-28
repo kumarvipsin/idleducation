@@ -66,7 +66,7 @@ export default function AllAboutCuetPage() {
     <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 selection:bg-primary/10">
       
       {/* 1. Hero Section - Premium Visual Narrative */}
-      <section className="relative w-full py-16 md:py-28 bg-white overflow-hidden">
+      <section className="relative w-full py-12 md:py-20 bg-white overflow-hidden">
         {/* Subtle Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,#fee2e2_0%,transparent_50%)] opacity-40 pointer-events-none" />
         
@@ -78,13 +78,13 @@ export default function AllAboutCuetPage() {
                             <Sparkles className="w-3 h-3 text-yellow-500" />
                             Official 2026 Guide
                         </div>
-                        <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.85] uppercase">
+                        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight uppercase">
                             ALL ABOUT <br/>
                             <span className="text-red-600">CUET (UG)</span>
                         </h1>
                     </div>
                     
-                    <p className="text-slate-600 font-bold text-base md:text-xl leading-relaxed max-w-lg opacity-80">
+                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed max-w-lg opacity-80">
                         The ultimate technical blueprint for India's largest entrance gateway. Master the syllabus, understand the marking, and secure your future.
                     </p>
 
@@ -99,11 +99,8 @@ export default function AllAboutCuetPage() {
                 </div>
 
                 <div className="relative flex items-center justify-center animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                    <div className="relative group">
-                        <div className="absolute inset-0 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-all duration-700" />
-                        <div className="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px] rounded-full overflow-hidden bg-white border-[16px] border-slate-50 shadow-2xl transition-transform duration-700 group-hover:scale-[1.02]">
-                            <Image src="/cuet.png" alt="CUET Portal" fill className="object-contain p-12" priority />
-                        </div>
+                    <div className="relative w-[320px] h-[320px] md:w-[500px] md:h-[500px]">
+                        <Image src="/cuet.png" alt="CUET Portal" fill className="object-contain p-4" priority />
                     </div>
                 </div>
             </div>
@@ -113,7 +110,7 @@ export default function AllAboutCuetPage() {
       {/* 2. Redesigned Compact & Premium Syllabus Matrix */}
       <section className="py-20 md:py-32 bg-white border-t border-slate-100">
         <div className="container mx-auto px-4 md:px-6">
-            <div className="max-w-5xl mx-auto">
+            <div className="max-w-6xl mx-auto">
                 
                 {/* Section Title */}
                 <div className="text-left mb-12 space-y-2">
