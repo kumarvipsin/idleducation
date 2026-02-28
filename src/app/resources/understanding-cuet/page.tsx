@@ -434,23 +434,24 @@ export default function UnderstandingCuetPage() {
       </section>
 
       {/* WHAT IS CUET? Section */}
-      <section className="w-full bg-white py-12 animate-fade-in-up">
+      <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
                         <Image 
                             src="/cuet.png" 
                             alt="Understanding CUET Exam" 
                             fill 
-                            className="object-contain"
+                            className="object-contain p-8"
                         />
                     </div>
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
-                            <span className="text-red-600">WHAT</span> IS CUET?
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
+                            <span className="relative z-10 text-red-600">WHAT</span> IS CUET?
+                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                             Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
@@ -463,8 +464,8 @@ export default function UnderstandingCuetPage() {
                             "One examination for candidates to participate in the admission processes.",
                             "Platform of equal opportunities for candidates across the country."
                         ].map((item, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                                <span className="text-red-600 font-bold">•</span>
+                            <li key={i} className="flex items-start gap-3">
+                                <div className="mt-1.5 h-2 w-2 rounded-full bg-red-600 shrink-0" />
                                 <span className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left flex-1">
                                     {item}
                                 </span>
@@ -477,13 +478,14 @@ export default function UnderstandingCuetPage() {
       </section>
 
       {/* WHY CUET (UG)? Section */}
-      <section className="w-full bg-white py-12 animate-fade-in-up">
+      <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="space-y-8 order-2 lg:order-1">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
-                            <span className="text-red-600">WHY</span> CUET (UG)?
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
+                            <span className="relative z-10 text-red-600">WHY</span> CUET (UG)?
+                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                             This examination is beneficial to the students as it:
@@ -497,8 +499,8 @@ export default function UnderstandingCuetPage() {
                             "Provides a level playing field for students from different boards.",
                             "Ensures fairness for applicants by bringing all on a single platform."
                         ].map((item, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                                <span className="text-red-600 font-bold">•</span>
+                            <li key={i} className="flex items-start gap-3">
+                                <div className="mt-1.5 h-2 w-2 rounded-full bg-red-600 shrink-0" />
                                 <span className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left flex-1">
                                     {item}
                                 </span>
@@ -508,12 +510,12 @@ export default function UnderstandingCuetPage() {
                 </div>
                 
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
-                    <div className="relative w-full h-full max-w-md">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
                         <Image 
                             src="/cuet2.png" 
                             alt="Why CUET is beneficial" 
                             fill 
-                            className="object-contain"
+                            className="object-contain p-8"
                         />
                     </div>
                 </div>
@@ -522,23 +524,24 @@ export default function UnderstandingCuetPage() {
       </section>
 
       {/* WHO Can Appear For CUET (UG)? Section */}
-      <section className="w-full bg-white py-12 animate-fade-in-up">
+      <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
                         <Image 
                             src="/cuet3.png" 
                             alt="Who can appear for CUET" 
                             fill 
-                            className="object-contain"
+                            className="object-contain p-8"
                         />
                     </div>
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
-                            <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
+                            <span className="relative z-10 text-red-600">WHO</span> Can Appear For CUET (UG)?
+                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                             Students aiming for top-tier higher education in India should know if they are eligible:
@@ -552,8 +555,8 @@ export default function UnderstandingCuetPage() {
                             "Aspirants targeting admissions in top Central Universities across India.",
                             "Equal platform access for students from all educational backgrounds."
                         ].map((item, i) => (
-                            <li key={i} className="flex items-start gap-2">
-                                <span className="text-red-600 font-bold">•</span>
+                            <li key={i} className="flex items-start gap-3">
+                                <div className="mt-1.5 h-2 w-2 rounded-full bg-red-600 shrink-0" />
                                 <span className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left flex-1">
                                     {item}
                                 </span>
@@ -565,98 +568,95 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 md:px-6">
-        
-        {/* When Section Header */}
-        <section className="animate-fade-in-up mb-10 mt-20">
-            <div className="text-center space-y-2">
-                <h3 className="text-xl md:text-2xl font-black text-slate-900 uppercase tracking-tighter text-center">
-                    <span className="text-red-600">WHEN</span> is CUET (UG) Conducted?
+      {/* WHEN is CUET (UG) Conducted? Section */}
+      <section className="w-full py-12 md:py-20 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="text-center mb-12">
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
+                    <span className="relative z-10 text-red-600">WHEN</span> is CUET (UG) Conducted?
+                    <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                 </h3>
-                <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-center">
+                <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed mt-2">
                     Conducted once a year, usually in May, the exam spans multiple days.
                 </p>
             </div>
-        </section>
 
-        {/* Modern Pathway Mind Map Section */}
-        <section className="animate-fade-in-up mb-24 relative">
-            <div className="max-w-5xl mx-auto px-4">
-                <div className="relative">
-                    {/* Central Connecting Pathway (Desktop) */}
-                    <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
+            <div className="max-w-5xl mx-auto relative px-4">
+                {/* Central Connecting Pathway (Desktop) */}
+                <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 md:w-1.5 bg-gradient-to-b from-red-600 via-indigo-600 to-blue-600 rounded-full transform md:-translate-x-1/2 opacity-20" />
 
-                    <div className="space-y-12 md:space-y-0">
-                        {timelineData.map((item, index) => {
-                            const isEven = index % 2 === 0;
-                            return (
-                                <motion.div
-                                    key={index}
-                                    initial={{ opacity: 0, x: isEven ? -30 : 30 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true, margin: "-100px" }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                                    className={cn(
-                                        "relative flex flex-col md:flex-row items-center justify-between md:mb-20 last:mb-0",
-                                        isEven ? "md:flex-row-reverse" : "md:flex-row"
-                                    )}
-                                >
-                                    {/* Content Card */}
-                                    <div className="w-full md:w-[45%] ml-12 md:ml-0">
-                                        <Card className={cn(
-                                            "border-none shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_40px_-10px_rgba(0,0,0,0.15)] transition-all duration-500 rounded-2xl group overflow-hidden",
-                                            "bg-white dark:bg-slate-900"
-                                        )}>
-                                            <div className={cn("h-1.5 w-full", item.accent)} />
-                                            <CardContent className="p-6 md:p-8 space-y-4">
-                                                <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight flex items-center gap-2">
-                                                    <span className={cn("text-white w-6 h-6 rounded-md flex items-center justify-center text-xs shrink-0", item.accent)}>
-                                                        {item.number}
-                                                    </span>
-                                                    {item.title}
-                                                </h4>
-                                                <ul className="space-y-3">
-                                                    {item.items.map((li, idx) => (
-                                                        <li key={idx} className="flex items-start gap-3 group/li">
-                                                            <div className={cn("mt-1 p-1 rounded-md transition-all group-hover/li:scale-110", "bg-slate-50 dark:bg-slate-800 text-primary")}>
-                                                                {li.icon}
-                                                            </div>
-                                                            <span className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">{li.text}</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                            </CardContent>
-                                        </Card>
+                <div className="space-y-12 md:space-y-0">
+                    {timelineData.map((item, index) => {
+                        const isEven = index % 2 === 0;
+                        return (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, x: isEven ? -30 : 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-100px" }}
+                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                className={cn(
+                                    "relative flex flex-col md:flex-row items-center justify-between md:mb-20 last:mb-0",
+                                    isEven ? "md:flex-row-reverse" : "md:flex-row"
+                                )}
+                            >
+                                {/* Content Card */}
+                                <div className="w-full md:w-[45%] ml-12 md:ml-0">
+                                    <Card className={cn(
+                                        "border-none shadow-xl hover:shadow-2xl transition-all duration-500 rounded-2xl group overflow-hidden",
+                                        "bg-white dark:bg-slate-900"
+                                    )}>
+                                        <div className={cn("h-1.5 w-full", item.accent)} />
+                                        <CardContent className="p-6 md:p-8 space-y-4">
+                                            <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight flex items-center gap-2">
+                                                <span className={cn("text-white w-6 h-6 rounded-md flex items-center justify-center text-xs shrink-0", item.accent)}>
+                                                    {item.number}
+                                                </span>
+                                                {item.title}
+                                            </h4>
+                                            <ul className="space-y-3 text-left">
+                                                {item.items.map((li, idx) => (
+                                                    <li key={idx} className="flex items-start gap-3 group/li">
+                                                        <div className={cn("mt-1 p-1 rounded-md transition-all group-hover/li:scale-110", "bg-slate-50 dark:bg-slate-800 text-primary")}>
+                                                            {li.icon}
+                                                        </div>
+                                                        <span className="text-slate-600 dark:text-slate-400 font-bold text-xs leading-relaxed">{li.text}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </CardContent>
+                                    </Card>
+                                </div>
+
+                                {/* Interactive Center Node */}
+                                <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-y-1/2 -translate-x-1/2 z-10">
+                                    <div className={cn(
+                                        "w-8 h-8 rounded-full bg-white shadow-xl border-4 flex items-center justify-center font-black text-xs transition-transform duration-500 group-hover:scale-125",
+                                        "border-slate-100 text-slate-900 ring-4 ring-white/50"
+                                    )}>
+                                        {item.number}
                                     </div>
+                                    <div className={cn("absolute inset-0 rounded-full animate-ping opacity-20", item.accent)} />
+                                </div>
 
-                                    {/* Interactive Center Node */}
-                                    <div className="absolute left-4 md:left-1/2 top-0 md:top-1/2 md:-translate-y-1/2 -translate-x-1/2 z-10">
-                                        <div className={cn(
-                                            "w-8 h-8 rounded-full bg-white shadow-xl border-4 flex items-center justify-center font-black text-xs transition-transform duration-500 group-hover:scale-125",
-                                            "border-slate-100 text-slate-900 ring-4 ring-white/50"
-                                        )}>
-                                            {item.number}
-                                        </div>
-                                        {/* Animated Pulse Ring */}
-                                        <div className={cn("absolute inset-0 rounded-full animate-ping opacity-20", item.accent)} />
-                                    </div>
-
-                                    {/* Placeholder for alternating layout */}
-                                    <div className="hidden md:block md:w-[45%]" />
-                                </motion.div>
-                            );
-                        })}
-                    </div>
+                                {/* Placeholder for alternating layout */}
+                                <div className="hidden md:block md:w-[45%]" />
+                            </motion.div>
+                        );
+                    })}
                 </div>
             </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Exam Pattern Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
+      {/* EXAM PATTERN Section */}
+      <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
-                <h2 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
                     Exam Pattern of <span className="text-red-600">CUET (UG)</span>
-                </h2>
+                    <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                </h3>
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start max-w-6xl mx-auto">
@@ -666,14 +666,14 @@ export default function UnderstandingCuetPage() {
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                             The exam is broadly divided into three sections of 37 Subjects in total:
                         </p>
-                        <ul className="space-y-2 ml-4">
+                        <ul className="space-y-3 ml-4">
                             {[
                                 "13 Languages",
                                 "23 Domain-specific subjects",
                                 "01 General Aptitude Test"
                             ].map((item, i) => (
-                                <li key={i} className="flex items-center gap-2 text-slate-600 font-bold text-sm md:text-base">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-red-600" />
+                                <li key={i} className="flex items-center gap-3 text-slate-600 font-bold text-sm md:text-base">
+                                    <div className="w-2 h-2 rounded-full bg-red-600 shrink-0" />
                                     {item}
                                 </li>
                             ))}
@@ -688,7 +688,7 @@ export default function UnderstandingCuetPage() {
                                     50 questions in all sections – General Aptitude Test, Languages and Domain-specific subjects.
                                 </p>
                                 <p className="text-slate-900 font-black text-sm md:text-base leading-relaxed">
-                                    <span className="text-red-600">Note:</span> Students are allowed to appear for CUET (UG) in any subject irrespective of subjects studied in class 12th
+                                    <span className="text-red-600 uppercase">Note:</span> Students are allowed to appear for CUET (UG) in any subject irrespective of subjects studied in class 12th
                                 </p>
                             </div>
                         </div>
@@ -704,19 +704,19 @@ export default function UnderstandingCuetPage() {
                 {/* Right Side: Table & Note */}
                 <div className="space-y-6">
                     <p className="text-slate-900 font-black text-sm md:text-base leading-relaxed text-left">
-                        <span className="text-red-600">Note:</span> Candidates may choose a maximum 5 subjects including Languages and General Aptitude Test
+                        <span className="text-red-600 uppercase">Note:</span> Candidates may choose a maximum 5 subjects including Languages and General Aptitude Test
                     </p>
 
-                    <div className="rounded-2xl border-2 border-purple-200 overflow-hidden shadow-sm">
-                        <div className="divide-y-2 divide-purple-100">
+                    <div className="rounded-2xl border-2 border-primary/10 overflow-hidden shadow-sm bg-white">
+                        <div className="divide-y divide-slate-100">
                             {[
                                 { label: "Mode", value: "Computer Based Test (CBT)" },
                                 { label: "Exam Pattern", value: "Objective type with Multiple Choice Questions" },
-                                { label: "Medium", value: "13 languages (Assamese, Bengali, English, Gujarati, Hindi, Kannada, Malayalam, Marathi, Punjabi, Odia, Tamil, Telugu, and Urdu)" },
-                                { label: "Registration", value: "Registration will be online at https://exams.nta.ac.in/CUET-UG/", isLink: true }
+                                { label: "Medium", value: "13 languages (English, Hindi, Assamese, Bengali, Gujarati, Kannada, Malayalam, Marathi, Punjabi, Odia, Tamil, Telugu, and Urdu)" },
+                                { label: "Registration", value: "Online at https://exams.nta.ac.in/CUET-UG/", isLink: true }
                             ].map((row, i) => (
-                                <div key={i} className="grid grid-cols-3 md:grid-cols-4 divide-x-2 divide-purple-100">
-                                    <div className="p-4 bg-purple-50/30 flex items-center font-black text-[10px] md:text-xs text-slate-900 uppercase tracking-tight">
+                                <div key={i} className="grid grid-cols-3 md:grid-cols-4 divide-x divide-slate-100">
+                                    <div className="p-4 bg-slate-50 flex items-center font-black text-[10px] md:text-xs text-slate-900 uppercase tracking-tight">
                                         {row.label}
                                     </div>
                                     <div className="col-span-2 md:col-span-3 p-4 bg-white flex items-center text-[11px] md:text-xs font-bold text-slate-600 leading-relaxed text-left">
@@ -732,28 +732,29 @@ export default function UnderstandingCuetPage() {
                     </div>
                 </div>
             </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       {/* WHERE IS CUET (UG) CONDUCTED? Section */}
       <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-full h-full max-w-md">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
                         <Image 
                             src="/cuet5.png" 
                             alt="Where is CUET Conducted" 
                             fill 
-                            className="object-contain"
+                            className="object-contain p-8"
                         />
                     </div>
                 </div>
                 <div className="space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
+                        <span className="relative z-10 text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
+                        <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                     </h3>
-                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                         This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
                     </p>
                 </div>
@@ -766,34 +767,35 @@ export default function UnderstandingCuetPage() {
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="space-y-6 order-2 lg:order-1">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
-                        <span className="text-red-600">MARKING</span> SCHEME
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
+                        <span className="relative z-10 text-red-600">MARKING</span> SCHEME
+                        <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                     </h3>
-                    <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed text-left">
+                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left">
                         Understanding the scoring system is crucial for a better attempt strategy. Here is how you will be graded:
                     </p>
                     <div className="space-y-4">
-                        <div className="flex items-center gap-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-xl border border-green-100 dark:border-green-800/30">
-                            <div className="bg-green-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">+5</div>
-                            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For each correct answer</span>
+                        <div className="flex items-center gap-4 p-4 bg-green-50 rounded-xl border border-green-100 shadow-sm">
+                            <div className="bg-green-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0">+5</div>
+                            <span className="text-sm font-bold text-slate-700">For each correct answer</span>
                         </div>
-                        <div className="flex items-center gap-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-xl border border-red-100 dark:border-red-800/30">
-                            <div className="bg-red-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">-1</div>
-                            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For each incorrect answer</span>
+                        <div className="flex items-center gap-4 p-4 bg-red-50 rounded-xl border border-red-100 shadow-sm">
+                            <div className="bg-red-500 text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0">-1</div>
+                            <span className="text-sm font-bold text-slate-700">For each incorrect answer</span>
                         </div>
-                        <div className="flex items-center gap-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-100 dark:border-slate-700">
-                            <div className="bg-slate-400 text-white w-8 h-8 rounded-full flex items-center justify-center font-black text-xs shrink-0">0</div>
-                            <span className="text-sm font-bold text-slate-700 dark:text-slate-300">For unanswered or marked for review questions</span>
+                        <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl border border-slate-100 shadow-sm">
+                            <div className="bg-slate-400 text-white w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0">0</div>
+                            <span className="text-sm font-bold text-slate-700">For unanswered or marked for review questions</span>
                         </div>
                     </div>
                 </div>
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
-                    <div className="relative w-full h-full max-w-md">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-4 border-white shadow-2xl overflow-hidden bg-white">
                         <Image
                             src="https://picsum.photos/seed/cuet-marks/800/600"
                             alt="Marking Scheme"
                             fill
-                            className="object-cover rounded-xl shadow-lg border-4 border-white"
+                            className="object-cover p-4"
                             data-ai-hint="exam evaluation"
                         />
                     </div>
@@ -802,18 +804,19 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Why Choose Section */}
-        <section className="animate-fade-in-up mt-32 mb-20 px-4">
+      {/* WHY CHOOSE IDL CUET? Section */}
+      <section className="w-full bg-white py-16 md:py-24 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
                 <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
                     <ShieldCheck className="w-3.5 h-3.5" />
                     IDL ADVANTAGE
                 </div>
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">
-                    WHY CHOOSE <span className="text-red-600">IDL CUET</span>?
+                <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none relative inline-block">
+                    <span className="relative z-10">WHY CHOOSE <span className="text-red-600">IDL CUET</span>?</span>
+                    <div className="absolute -bottom-2 left-0 w-full h-3 z-0 opacity-20 bg-red-600 rounded-full" />
                 </h2>
-                <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-lg leading-relaxed text-balance">
+                <p className="text-slate-600 font-bold text-sm md:text-lg leading-relaxed text-balance">
                     In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication. IDL stands as a beacon of excellence for young aspirants.
                 </p>
             </div>
@@ -822,23 +825,23 @@ export default function UnderstandingCuetPage() {
                 {whyChooseFeatures.map((feature, i) => (
                     <div key={i} className="group relative flex flex-col items-start gap-4 animate-fade-in-up" style={{ animationDelay: `${i * 0.1}s` }}>
                         <div className="flex items-center gap-4">
-                            <span className="text-4xl font-black text-slate-100 dark:text-white/5 transition-colors group-hover:text-primary/10 select-none">
+                            <span className="text-4xl font-black text-slate-100 transition-colors group-hover:text-primary/10 select-none">
                                 0{i + 1}
                             </span>
                         </div>
-                        <div className="space-y-3 border-l-2 border-slate-100 dark:border-slate-800 pl-6 group-hover:border-primary transition-colors duration-500">
-                            <h4 className="font-black text-slate-900 dark:text-white uppercase text-base tracking-tight group-hover:text-primary transition-colors">
+                        <div className="space-y-3 border-l-2 border-slate-100 pl-6 group-hover:border-red-600 transition-colors duration-500">
+                            <h4 className="font-black text-slate-900 uppercase text-base tracking-tight group-hover:text-red-600 transition-colors">
                                 {feature.title}
                             </h4>
-                            <p className="text-slate-500 dark:text-slate-400 font-bold text-xs leading-relaxed text-left opacity-80 group-hover:opacity-100 transition-opacity">
+                            <p className="text-slate-500 font-bold text-xs leading-relaxed text-left opacity-80 group-hover:opacity-100 transition-opacity">
                                 {feature.description}
                             </p>
                         </div>
                     </div>
                 ))}
             </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
       <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
         <DialogContent className="rounded-3xl max-w-sm">
