@@ -117,7 +117,6 @@ const quickInfoCards = [
         label: "All About CUET",
         icon: <BookCheck />,
         href: "/resources/all-about-cuet",
-        target: "_blank",
         color: "text-emerald-600",
         iconBg: "bg-emerald-50"
     },
@@ -214,7 +213,7 @@ const CoursePlayerDialog = ({ course }: { course: any }) => {
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
-                        ></iframe>
+                        ></iframe >
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 space-y-4">
                             <PlayCircle className="w-16 h-16 opacity-20" />
@@ -367,8 +366,8 @@ export default function CuetPage() {
                 <section className="mb-10 text-center md:text-left animate-fade-in-up">
                     <div className="flex flex-col items-center md:items-start gap-3">
                         <div className="space-y-1">
-                            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left uppercase">
-                                TARGET <span className="text-red-600">CUET(UG)</span> 2026
+                            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-red-600 leading-tight text-left uppercase">
+                                TARGET CUET (UG) 2026
                             </h1>
                             <p className="w-full text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed text-left">
                                 For students of class XII to secure admission in the top Central Universities of the country, the ability to grasp concepts and attempt multiple choice questions accurately is essential in this exam. With the team of best faculties, latest study materials, daily practice worksheets and regular class tests; CUET (UG) with IDL a stepping stone not just for academic success but also a bright future.
@@ -381,7 +380,7 @@ export default function CuetPage() {
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         {quickInfoCards.map((card, index) => (
-                            <Link key={index} href={card.href} target={card.target} className="group h-full">
+                            <Link key={index} href={card.href} className="group h-full">
                                 <div className={cn(
                                     "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 shadow-sm border bg-white dark:bg-slate-900/50 hover:shadow-md hover:border-primary/20 h-full",
                                 )}>
