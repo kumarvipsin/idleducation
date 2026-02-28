@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from "react";
+import React from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
@@ -11,19 +11,14 @@ import {
     Zap, 
     Globe, 
     ArrowRight, 
-    BookCheck, 
     X, 
     FileText, 
     Sparkles, 
-    ShieldCheck,
-    ChevronRight,
-    Search,
-    CheckCircle2
+    CheckCircle2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getSignedUrlForPdf } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { motion, AnimatePresence } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 
 const domainSubjects = [
@@ -74,10 +69,6 @@ export default function AllAboutCuetPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
                 <div className="space-y-8 animate-fade-in-up text-left">
                     <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em]">
-                            <Sparkles className="w-3 h-3 text-yellow-500" />
-                            Official 2026 Guide
-                        </div>
                         <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight uppercase whitespace-nowrap">
                             ALL ABOUT <span className="text-red-600">CUET (UG)</span>
                         </h1>
