@@ -69,67 +69,65 @@ const timelineData = [
         number: 1,
         title: "Conducting Authority",
         items: [
-            { icon: <Building className="w-3.5 h-3.5" />, text: "Conducted by: National Testing Agency (NTA)" },
-            { icon: <Globe className="w-3.5 h-3.5" />, text: "National-level entrance test" },
-            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "For Undergraduate admissions in Central & other participating universities" }
+            { icon: <Building className="w-3.5 h-3.5" />, text: "Conducted by: NTA" },
+            { icon: <Globe className="w-3.5 h-3.5" />, text: "National-level test" },
+            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "UG admissions" }
         ],
-        accent: "bg-blue-600"
+        accent: "bg-blue-600 shadow-blue-500/20"
     },
     {
         number: 2,
         title: "Exam Frequency",
         items: [
-            { icon: <Repeat className="w-3.5 h-3.5" />, text: "Conducted Once Every Year" },
-            { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: "For admission in the same academic session" }
+            { icon: <Repeat className="w-3.5 h-3.5" />, text: "Once Every Year" },
+            { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: "Annual intake" }
         ],
-        accent: "bg-indigo-600"
+        accent: "bg-indigo-600 shadow-indigo-500/20"
     },
     {
         number: 3,
-        title: "Usual Exam Month",
+        title: "Exam Month",
         items: [
-            { icon: <Calendar className="w-3.5 h-3.5" />, text: "Generally held in May – June" },
-            { icon: <Info className="w-3.5 h-3.5" />, text: "Sometimes extended to July (if multiple phases required)" }
+            { icon: <Calendar className="w-3.5 h-3.5" />, text: "May – June" },
+            { icon: <Info className="w-3.5 h-3.5" />, text: "Extended if needed" }
         ],
-        accent: "bg-violet-600"
+        accent: "bg-violet-600 shadow-violet-500/20"
     },
     {
         number: 4,
-        title: "Application Timeline",
+        title: "Timeline",
         items: [
-            { icon: <Edit className="w-3.5 h-3.5" />, text: "Application Form Release: February – March" },
-            { icon: <Clock className="w-3.5 h-3.5" />, text: "Last Date to Apply: March – April" },
-            { icon: <Edit className="w-3.5 h-3.5" />, text: "Correction Window: Few days after last date" }
+            { icon: <Edit className="w-3.5 h-3.5" />, text: "Release: Feb – Mar" },
+            { icon: <Clock className="w-3.5 h-3.5" />, text: "Last Date: Apr" }
         ],
-        accent: "bg-red-600"
+        accent: "bg-red-600 shadow-red-500/20"
     },
     {
         number: 5,
-        title: "Admit Card Release",
+        title: "Admit Card",
         items: [
-            { icon: <Ticket className="w-3.5 h-3.5" />, text: "Released 3–7 days before exam date" },
-            { icon: <Globe className="w-3.5 h-3.5" />, text: "Available online on official website" }
+            { icon: <Ticket className="w-3.5 h-3.5" />, text: "3–7 days before" },
+            { icon: <Globe className="w-3.5 h-3.5" />, text: "Download online" }
         ],
-        accent: "bg-rose-600"
+        accent: "bg-rose-600 shadow-rose-500/20"
     },
     {
         number: 6,
-        title: "Exam Mode & Duration",
+        title: "Mode & Duration",
         items: [
-            { icon: <Monitor className="w-3.5 h-3.5" />, text: "Mode: Computer-Based Test (CBT)" },
-            { icon: <Clock className="w-3.5 h-3.5" />, text: "Conducted in Multiple Shifts" },
-            { icon: <MapPin className="w-3.5 h-3.5" />, text: "Across various cities in India" }
+            { icon: <Monitor className="w-3.5 h-3.5" />, text: "Mode: CBT" },
+            { icon: <MapPin className="w-3.5 h-3.5" />, text: "Multi-city shifts" }
         ],
-        accent: "bg-orange-600"
+        accent: "bg-orange-600 shadow-orange-500/20"
     },
     {
         number: 7,
-        title: "Result Declaration",
+        title: "Declaration",
         items: [
-            { icon: <BarChart3 className="w-3.5 h-3.5" />, text: "Results usually declared in July" },
-            { icon: <Send className="w-3.5 h-3.5" />, text: "Followed by university counselling process" }
+            { icon: <BarChart3 className="w-3.5 h-3.5" />, text: "Results: July" },
+            { icon: <Send className="w-3.5 h-3.5" />, text: "Counselling follows" }
         ],
-        accent: "bg-amber-600"
+        accent: "bg-amber-600 shadow-amber-500/20"
     }
 ];
 
@@ -581,39 +579,35 @@ export default function UnderstandingCuetPage() {
                 </p>
             </div>
 
-            <div className="max-w-4xl mx-auto px-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+            <div className="max-w-6xl mx-auto px-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {timelineData.map((item, index) => (
                         <motion.div
                             key={index}
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
+                            viewport={{ once: true }}
                             transition={{ duration: 0.4, delay: index * 0.05 }}
+                            className="group relative"
                         >
-                            <Card className="h-full border-none shadow-md hover:shadow-xl transition-all duration-300 rounded-2xl group overflow-hidden bg-slate-50/50 dark:bg-slate-900/50">
-                                <div className={cn("h-1.5 w-full", item.accent)} />
-                                <CardContent className="p-5 space-y-4">
-                                    <div className="flex items-center gap-3 mb-2">
-                                        <div className={cn("w-8 h-8 rounded-lg flex items-center justify-center text-white font-black text-xs shrink-0", item.accent)}>
-                                            {item.number}
+                            <div className="h-full p-6 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 hover:shadow-xl hover:-translate-y-1">
+                                <div className={cn("w-10 h-10 rounded-2xl flex items-center justify-center text-white font-black text-sm mb-6 shadow-lg", item.accent)}>
+                                    {item.number}
+                                </div>
+                                <h4 className="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tight mb-4 group-hover:text-primary transition-colors">
+                                    {item.title}
+                                </h4>
+                                <div className="space-y-3">
+                                    {item.items.map((li, idx) => (
+                                        <div key={idx} className="flex items-start gap-3">
+                                            <div className="mt-1 text-primary/40 group-hover:text-primary transition-colors shrink-0">
+                                                {li.icon}
+                                            </div>
+                                            <span className="text-slate-600 dark:text-slate-400 font-bold text-[11px] leading-snug text-left">{li.text}</span>
                                         </div>
-                                        <h4 className="font-black text-slate-900 dark:text-white uppercase text-xs tracking-tight group-hover:text-primary transition-colors">
-                                            {item.title}
-                                        </h4>
-                                    </div>
-                                    <ul className="space-y-3">
-                                        {item.items.map((li, idx) => (
-                                            <li key={idx} className="flex items-start gap-2.5">
-                                                <div className="mt-0.5 p-1 rounded-md bg-white dark:bg-slate-800 text-primary shrink-0 shadow-sm">
-                                                    {li.icon}
-                                                </div>
-                                                <span className="text-slate-600 dark:text-slate-400 font-bold text-[11px] leading-relaxed text-left">{li.text}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </CardContent>
-                            </Card>
+                                    ))}
+                                </div>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
