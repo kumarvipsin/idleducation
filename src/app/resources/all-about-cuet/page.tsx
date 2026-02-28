@@ -17,7 +17,8 @@ import {
     Sparkles, 
     ShieldCheck,
     ChevronRight,
-    Search
+    Search,
+    CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getSignedUrlForPdf } from "@/app/actions";
@@ -75,7 +76,7 @@ export default function AllAboutCuetPage() {
                 <div className="space-y-10 animate-fade-in-up text-left">
                     <div className="space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em]">
-                            <Sparkles className="w-3 h-3" />
+                            <Sparkles className="w-3 h-3 text-yellow-500" />
                             Official 2026 Guide
                         </div>
                         <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 leading-[0.85] uppercase">
