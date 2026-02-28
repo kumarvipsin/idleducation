@@ -375,8 +375,8 @@ export default function CuetPage() {
                 <section className="mb-10 text-center md:text-left animate-fade-in-up">
                     <div className="flex flex-col items-center md:items-start gap-3">
                         <div className="space-y-1">
-                            <h1 className="text-2xl md:text-4xl font-bold text-slate-900 dark:text-white tracking-tight text-left">
-                                Target CUET (UG) 2026
+                            <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left uppercase">
+                                TARGET <span className="text-red-600">CUET(UG)</span> 2026
                             </h1>
                             <p className="w-full text-slate-600 dark:text-slate-400 text-sm font-medium leading-relaxed text-left">
                                 For students of class XII to secure admission in the top Central Universities of the country, the ability to grasp concepts and attempt multiple choice questions accurately is essential in this exam. With the team of best faculties, latest study materials, daily practice worksheets and regular class tests; CUET (UG) with IDL a stepping stone not just for academic success but also a bright future.
