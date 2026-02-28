@@ -454,9 +454,8 @@ export default function UnderstandingCuetPage() {
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
-                            <span className="relative z-10 text-red-600">WHAT</span> IS CUET?
-                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHAT</span> IS CUET?
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left text-balance">
                             Common Universities Entrance Test (CUET) is a standardised exam for admission into various undergraduate (UG), postgraduate and research programs in Central Universities under the Ministry of Education (MoE), Government of India.
@@ -488,9 +487,8 @@ export default function UnderstandingCuetPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="space-y-8 order-2 lg:order-1">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
-                            <span className="relative z-10 text-red-600">WHY</span> CUET (UG)?
-                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHY</span> CUET (UG)?
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left text-balance">
                             This examination is beneficial to the students as it:
@@ -544,9 +542,8 @@ export default function UnderstandingCuetPage() {
                 </div>
                 <div className="space-y-8">
                     <div className="space-y-4">
-                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
-                            <span className="relative z-10 text-red-600">WHO</span> Can Appear For CUET (UG)?
-                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                        <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                            <span className="text-red-600">WHO</span> Can Appear For CUET (UG)?
                         </h3>
                         <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left text-balance">
                             Students aiming for top-tier higher education in India should know if they are eligible:
@@ -577,9 +574,8 @@ export default function UnderstandingCuetPage() {
       <section className="w-full bg-white py-12 md:py-24 animate-fade-in-up border-t">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-16 max-w-4xl mx-auto">
-                <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
-                    <span className="relative z-10 text-red-600">WHEN</span> is CUET (UG) Conducted?
-                    <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
+                    <span className="text-red-600">WHEN</span> is CUET (UG) Conducted?
                 </h3>
                 <p className="text-slate-600 dark:text-slate-400 font-bold text-sm md:text-base leading-relaxed mt-3 text-balance">
                     Conducted once a year, usually in May, the exam spans multiple days across the nation.
@@ -619,9 +615,8 @@ export default function UnderstandingCuetPage() {
       <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up border-t">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-12">
-                <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter relative inline-block">
+                <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tighter">
                     Exam Pattern of <span className="text-red-600">CUET (UG)</span>
-                    <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
                 </h3>
             </div>
             
@@ -716,9 +711,8 @@ export default function UnderstandingCuetPage() {
                     </div>
                 </div>
                 <div className="space-y-6">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
-                        <span className="relative z-10 text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
-                        <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                        <span className="text-red-600">WHERE</span> IS CUET (UG) CONDUCTED?
                     </h3>
                     <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left text-balance">
                         This examination is conducted in 13 languages across multiple cities in India. The mode of examination is Online - Computer Based Test (CBT).
@@ -733,9 +727,8 @@ export default function UnderstandingCuetPage() {
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="space-y-6 order-2 lg:order-1">
-                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left relative inline-block">
-                        <span className="relative z-10 text-red-600">MARKING</span> SCHEME
-                        <div className="absolute -bottom-1 left-0 w-full h-2 z-0 opacity-20 bg-red-600 rounded-full" />
+                    <h3 className="text-2xl md:text-3xl font-black text-slate-900 uppercase tracking-tight text-left">
+                        <span className="text-red-600">MARKING</span> SCHEME
                     </h3>
                     <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed text-left text-balance">
                         Understanding the scoring system is crucial for a better attempt strategy. Here is how you will be graded:
@@ -778,9 +771,8 @@ export default function UnderstandingCuetPage() {
                     <ShieldCheck className="w-3.5 h-3.5" />
                     IDL ADVANTAGE
                 </div>
-                <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none relative inline-block">
-                    <span className="relative z-10">WHY CHOOSE <span className="text-red-600">IDL CUET</span>?</span>
-                    <div className="absolute -bottom-2 left-0 w-full h-3 z-0 opacity-20 bg-red-600 rounded-full" />
+                <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
+                    WHY CHOOSE <span className="text-red-600">IDL CUET</span>?
                 </h2>
                 <p className="text-slate-600 font-bold text-sm md:text-lg leading-relaxed text-balance">
                     In the journey towards achieving a distinguished career, choosing the right guide is as crucial as the aspirant's dedication. IDL stands as a beacon of excellence for young aspirants.
