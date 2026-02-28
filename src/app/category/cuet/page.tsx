@@ -375,21 +375,32 @@ export default function CuetPage() {
                     </div>
                 </section>
 
-                {/* Quick Info Cards - Rectangular Style */}
+                {/* Quick Info Cards - Premium Interactive Grid */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {quickInfoCards.map((card, index) => (
-                            <Link key={index} href={card.href} className="group h-full">
+                            <Link key={index} href={card.href} className="group/card h-full">
                                 <div className={cn(
-                                    "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 shadow-sm border bg-white dark:bg-slate-900/50 hover:shadow-md hover:border-primary/20 h-full",
+                                    "flex items-center gap-4 p-4 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden",
                                 )}>
-                                    <div className={cn("p-2.5 rounded-lg shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-transform duration-500 group-hover:rotate-6", card.iconBg, card.color)}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-4 h-4" })}
+                                    {/* Subtle hover accent line */}
+                                    <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
+                                    
+                                    <div className={cn(
+                                        "p-3 rounded-xl shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 group-hover/card:rotate-6 group-hover/card:scale-110", 
+                                        card.iconBg, 
+                                        card.color
+                                    )}>
+                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-5 h-5" })}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-[11px] font-bold leading-tight text-foreground uppercase tracking-tight">{card.label}</h4>
+                                        <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors">
+                                            {card.label}
+                                        </h4>
                                     </div>
-                                    <ArrowRight className="w-3.5 h-3.5 transition-all group-hover:translate-x-1 opacity-20 group-hover:opacity-100 shrink-0" />
+                                    <div className="bg-primary/5 rounded-full p-1 opacity-0 group-hover/card:opacity-100 transition-all transform translate-x-2 group-hover/card:translate-x-0">
+                                        <ArrowRight className="w-3.5 h-3.5 text-primary" />
+                                    </div>
                                 </div>
                             </Link>
                         ))}
@@ -489,7 +500,7 @@ export default function CuetPage() {
                                                     <Dialog>
                                                         <DialogTrigger asChild>
                                                             <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
-                                                                <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover:btn:scale-110" />
+                                                                <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
                                                                 VIEW LESSONS
                                                             </Button>
                                                         </DialogTrigger>
