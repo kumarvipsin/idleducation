@@ -1,32 +1,26 @@
+
 'use client';
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
     ArrowRight, 
     BookOpen, 
-    Sparkles, 
-    Book, 
     PlayCircle,
     IndianRupee,
     ShoppingCart,
     Info,
     CheckCircle2,
-    X,
-    FileText,
-    Library,
     BookCheck,
     ClipboardList,
-    Calendar,
-    Search
+    Calendar
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/context/auth-context";
-import { useCart } from "@/context/cart-context";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { getUserPurchasedCourses, recordCoursePurchase, createRazorpayOrder } from "@/app/actions";
@@ -35,7 +29,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import Script from "next/script";
-import { Separator } from "@/components/ui/separator";
 
 // Mock CUET Courses matching TPaidCourse structure
 const cuetCourses = [
@@ -345,7 +338,7 @@ export default function CuetPage() {
             <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
             
-            <div className="container mx-auto py-6 px-4 md:px-6 max-w-6xl relative z-10">
+            <div className="container mx-auto py-6 md:py-10 px-4 md:px-6 relative z-10">
                 {/* Banner */}
                 <section className="mb-6 animate-fade-in-up">
                     <div className="relative rounded-xl overflow-hidden border bg-white shadow-sm">
@@ -375,15 +368,15 @@ export default function CuetPage() {
                     </div>
                 </section>
 
-                {/* Quick Info Cards - Premium Interactive Grid */}
+                {/* Quick Info Cards - Premium Institutional Grid */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {quickInfoCards.map((card, index) => (
                             <Link key={index} href={card.href} className="group/card h-full">
                                 <div className={cn(
-                                    "flex items-center gap-4 p-4 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden",
+                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden",
                                 )}>
-                                    {/* Subtle hover accent line */}
+                                    {/* Premium institutional line */}
                                     <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
                                     
                                     <div className={cn(
@@ -407,7 +400,7 @@ export default function CuetPage() {
                     </div>
                 </section>
 
-                {/* Courses Section */}
+                {/* Courses Section - Synchronized with /paid-courses grid */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.25s'}}>
                     <div className="space-y-8">
                         <div className="flex items-center justify-between border-l-4 border-primary pl-3">
@@ -419,108 +412,101 @@ export default function CuetPage() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {cuetCourses.map((course) => {
-                                const isPurchased = purchasedCourseIds.includes(course.id);
-                                return (
-                                    <div key={course.id} className="flex-shrink-0 w-full h-full">
-                                        <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex flex-col bg-card border group/card relative h-full">
-                                            <div className="relative overflow-hidden aspect-[16/9]">
-                                                {course.coverImageUrl.startsWith('https') ? (
+                        <div className="relative">
+                            <div className="flex overflow-x-auto pb-6 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                                {cuetCourses.map((course) => {
+                                    const isPurchased = purchasedCourseIds.includes(course.id);
+                                    return (
+                                        <div key={course.id} className="flex-shrink-0 w-[285px] md:w-full h-full">
+                                            <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex flex-col bg-card border group/card relative h-full">
+                                                <div className="relative overflow-hidden aspect-[16/9]">
                                                     <Image
                                                         src={course.coverImageUrl}
                                                         alt={course.title}
                                                         fill
                                                         className="object-cover transition-transform duration-700 group-hover/card:scale-110"
                                                     />
-                                                ) : (
-                                                    <GcsImage
-                                                        filePath={course.coverImageUrl}
-                                                        alt={course.title}
-                                                        fill
-                                                        className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                                                    />
-                                                )}
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                                                <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-extrabold text-[9px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
-                                            </div>
-                                            
-                                            <CardContent className="p-4 flex flex-col flex-grow text-left">
-                                                <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors text-left">{course.title}</CardTitleUI>
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                                                    <Badge className="absolute top-3 right-3 bg-primary/90 text-white font-extrabold text-[9px] tracking-widest rounded-lg px-3 py-1 uppercase shadow-lg">PREMIUM</Badge>
+                                                </div>
                                                 
-                                                <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                                    <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3 py-0 flex items-center justify-center">{course.batchName}</Badge>
-                                                    <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3 py-0 flex items-center justify-center">{course.medium}</Badge>
-                                                </div>
-
-                                                <div className="text-[11px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
-                                                    <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
-                                                    <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
-                                                </div>
-
-                                                <div className="mt-4 flex items-center justify-between">
-                                                    <div>
-                                                        <div className="flex items-baseline gap-1.5">
-                                                            <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
-                                                            {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-extrabold">₹{course.originalPrice}</p>}
-                                                        </div>
-                                                        {course.originalPrice > course.price && (
-                                                            <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
-                                                                {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}% OFF
-                                                            </div>
-                                                        )}
+                                                <CardContent className="p-4 flex flex-col flex-grow text-left">
+                                                    <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors text-left">{course.title}</CardTitleUI>
+                                                    
+                                                    <div className="flex flex-wrap items-center gap-1.5 mb-3">
+                                                        <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3 py-0 flex items-center justify-center">{course.batchName}</Badge>
+                                                        <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3 py-0 flex items-center justify-center">{course.medium}</Badge>
                                                     </div>
 
-                                                    <Popover>
-                                                        <PopoverTrigger asChild>
-                                                            <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-7 w-7">
-                                                                <Info className="w-3.5 h-3.5" />
-                                                            </Button>
-                                                        </PopoverTrigger>
-                                                        <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                                            <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest text-left">About this course</h4>
-                                                            <ScrollArea className="max-h-40">
-                                                                <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80 text-left">
-                                                                    {course.description}
-                                                                </p>
-                                                            </ScrollArea>
-                                                            <div className="mt-4 pt-3 border-t border-white/10">
-                                                                <div className="flex items-center gap-2 text-[9px] font-extrabold text-green-600">
-                                                                    <CheckCircle2 className="w-3 h-3" />
-                                                                    <span>Full Syllabus Access</span>
-                                                                </div>
-                                                            </div>
-                                                        </PopoverContent>
-                                                    </Popover>
-                                                </div>
-                                            </CardContent>
+                                                    <div className="text-[11px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
+                                                        <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
+                                                        <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
+                                                    </div>
 
-                                            <div className="p-4 pt-0 mt-auto">
-                                                {isPurchased ? (
-                                                    <Dialog>
-                                                        <DialogTrigger asChild>
-                                                            <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
-                                                                <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
-                                                                VIEW LESSONS
-                                                            </Button>
-                                                        </DialogTrigger>
-                                                        <CoursePlayerDialog course={course} />
-                                                    </Dialog>
-                                                ) : (
-                                                    <Button 
-                                                        onClick={() => handlePurchase(course)}
-                                                        disabled={isProcessing}
-                                                        className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight"
-                                                    >
-                                                        <ShoppingCart className="w-3.5 h-3.5 mr-2" />
-                                                        {isProcessing ? 'PROCESSING...' : 'BUY NOW'}
-                                                    </Button>
-                                                )}
-                                            </div>
-                                        </Card>
-                                    </div>
-                                );
-                            })}
+                                                    <div className="mt-4 flex items-center justify-between">
+                                                        <div>
+                                                            <div className="flex items-baseline gap-1.5">
+                                                                <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
+                                                                {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-extrabold">₹{course.originalPrice}</p>}
+                                                            </div>
+                                                            {course.originalPrice > course.price && (
+                                                                <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
+                                                                    {Math.round(((course.originalPrice - course.price) / course.originalPrice) * 100)}% OFF
+                                                                </div>
+                                                            )}
+                                                        </div>
+
+                                                        <Popover>
+                                                            <PopoverTrigger asChild>
+                                                                <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-7 w-7">
+                                                                    <Info className="w-3.5 h-3.5" />
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
+                                                                <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest text-left">About this course</h4>
+                                                                <ScrollArea className="max-h-40">
+                                                                    <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80 text-left">
+                                                                        {course.description}
+                                                                    </p>
+                                                                </ScrollArea>
+                                                                <div className="mt-4 pt-3 border-t border-white/10">
+                                                                    <div className="flex items-center gap-2 text-[9px] font-extrabold text-green-600">
+                                                                        <CheckCircle2 className="w-3 h-3" />
+                                                                        <span>Full Syllabus Access</span>
+                                                                    </div>
+                                                                </div>
+                                                            </PopoverContent>
+                                                        </Popover>
+                                                    </div>
+                                                </CardContent>
+
+                                                <div className="p-4 pt-0 mt-auto">
+                                                    {isPurchased ? (
+                                                        <Dialog>
+                                                            <DialogTrigger asChild>
+                                                                <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
+                                                                    <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover/btn:scale-110" />
+                                                                    VIEW LESSONS
+                                                                </Button>
+                                                            </DialogTrigger>
+                                                            <CoursePlayerDialog course={course} />
+                                                        </Dialog>
+                                                    ) : (
+                                                        <Button 
+                                                            onClick={() => handlePurchase(course)}
+                                                            disabled={isProcessing}
+                                                            className="w-full bg-orange-500 hover:bg-orange-600 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight"
+                                                        >
+                                                            <ShoppingCart className="w-3.5 h-3.5 mr-2" />
+                                                            {isProcessing ? 'PROCESSING...' : 'BUY NOW'}
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </Card>
+                                        </div>
+                                    );
+                                })}
+                            </div>
                         </div>
                     </div>
                 </section>
