@@ -733,10 +733,12 @@ export default function UnderstandingCuetPage() {
                 </div>
             </div>
         </section>
+      </div>
 
-        {/* WHERE Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
+      {/* WHERE Section */}
+      <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
                     <div className="relative w-full h-full max-w-md">
                         <Image 
@@ -756,8 +758,10 @@ export default function UnderstandingCuetPage() {
                     </p>
                 </div>
             </div>
-        </section>
+        </div>
+      </section>
 
+      <div className="container mx-auto px-4 md:px-6">
         {/* Marking Scheme Section */}
         <section className="animate-fade-in-up mt-20 mb-20">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
