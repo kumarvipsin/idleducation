@@ -735,7 +735,7 @@ export default function UnderstandingCuetPage() {
         </section>
       </div>
 
-      {/* WHERE Section */}
+      {/* WHERE IS CUET (UG) CONDUCTED? Section */}
       <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
@@ -761,11 +761,11 @@ export default function UnderstandingCuetPage() {
         </div>
       </section>
 
-      <div className="container mx-auto px-4 md:px-6">
-        {/* Marking Scheme Section */}
-        <section className="animate-fade-in-up mt-20 mb-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto p-8 md:p-12 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800">
-                <div className="space-y-6">
+      {/* MARKING SCHEME Section */}
+      <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
+        <div className="container mx-auto px-4 md:px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <div className="space-y-6 order-2 lg:order-1">
                     <h3 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tight text-left">
                         <span className="text-red-600">MARKING</span> SCHEME
                     </h3>
@@ -787,18 +787,22 @@ export default function UnderstandingCuetPage() {
                         </div>
                     </div>
                 </div>
-                <div className="relative aspect-video rounded-xl overflow-hidden shadow-sm">
-                    <Image
-                        src="https://picsum.photos/seed/cuet-marks/800/600"
-                        alt="Marking Scheme"
-                        fill
-                        className="object-cover"
-                        data-ai-hint="exam evaluation"
-                    />
+                <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
+                    <div className="relative w-full h-full max-w-md">
+                        <Image
+                            src="https://picsum.photos/seed/cuet-marks/800/600"
+                            alt="Marking Scheme"
+                            fill
+                            className="object-cover rounded-xl shadow-lg border-4 border-white"
+                            data-ai-hint="exam evaluation"
+                        />
+                    </div>
                 </div>
             </div>
-        </section>
+        </div>
+      </section>
 
+      <div className="container mx-auto px-4 md:px-6">
         {/* Why Choose Section */}
         <section className="animate-fade-in-up mt-32 mb-20 px-4">
             <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
