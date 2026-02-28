@@ -443,7 +443,7 @@ export default function UnderstandingCuetPage() {
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-none">
                         <Image 
                             src="/cuet.png" 
                             alt="Understanding CUET Exam" 
@@ -513,7 +513,7 @@ export default function UnderstandingCuetPage() {
                 </div>
                 
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-none">
                         <Image 
                             src="/cuet2.png" 
                             alt="Why CUET is beneficial" 
@@ -531,7 +531,7 @@ export default function UnderstandingCuetPage() {
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-none">
                         <Image 
                             src="/cuet3.png" 
                             alt="Who can appear for CUET" 
@@ -701,7 +701,7 @@ export default function UnderstandingCuetPage() {
         <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-none">
                         <Image 
                             src="/cuet5.png" 
                             alt="Where is CUET Conducted" 
@@ -749,7 +749,7 @@ export default function UnderstandingCuetPage() {
                     </div>
                 </div>
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-none">
                         <Image
                             src="https://picsum.photos/seed/cuet-marks/800/600"
                             alt="Marking Scheme"
@@ -767,10 +767,6 @@ export default function UnderstandingCuetPage() {
       <section className="w-full bg-white py-16 md:py-24 animate-fade-in-up border-t">
         <div className="container mx-auto px-4 md:px-6">
             <div className="text-center mb-16 max-w-4xl mx-auto space-y-6">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em] shadow-sm">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    IDL ADVANTAGE
-                </div>
                 <h2 className="text-3xl md:text-5xl font-black text-slate-900 uppercase tracking-tighter leading-none">
                     WHY CHOOSE <span className="text-red-600">IDL CUET</span>?
                 </h2>
