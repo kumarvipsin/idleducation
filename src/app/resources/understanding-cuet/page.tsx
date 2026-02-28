@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from "react";
@@ -219,7 +220,7 @@ export default function UnderstandingCuetPage() {
             <div className="space-y-8 animate-fade-in-up">
                 <div className="space-y-4">
                 <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight text-left uppercase">
-                    ACE <span className="text-red-600">CUET(UG)</span> 2026.
+                    ACE <span className="text-red-600">CUET(UG)</span> 2026
                 </h1>
                 <h2 className="text-xl md:text-2xl font-bold text-slate-800 text-left">
                     Unlock doors to your dream college!

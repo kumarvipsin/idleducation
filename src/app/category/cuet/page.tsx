@@ -38,15 +38,6 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import Script from "next/script";
 import { Separator } from "@/components/ui/separator";
 
-// Custom Adobe-style PDF Icon
-const AdobePdfIcon = (props: React.SVGProps<SVGSVGElement>) => (
-  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
-    <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M14 2V8H20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    <path d="M11.5 12.5C11.5 12.5 10.5 11.5 9.5 13.5C8.5 15.5 10.5 17.5 11.5 16.5C12.5 15.5 13.5 12.5 15.5 12.5C17.5 12.5 17.5 14.5 15.5 15.5C13.5 16.5 11.5 12.5 11.5 12.5Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-  </svg>
-);
-
 // Mock CUET Courses matching TPaidCourse structure
 const cuetCourses = [
     {
@@ -125,7 +116,8 @@ const quickInfoCards = [
     {
         label: "All About CUET",
         icon: <BookCheck />,
-        href: "/about",
+        href: "/resources/understanding-cuet",
+        target: "_blank",
         color: "text-emerald-600",
         iconBg: "bg-emerald-50"
     },
@@ -389,7 +381,7 @@ export default function CuetPage() {
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                         {quickInfoCards.map((card, index) => (
-                            <Link key={index} href={card.href} className="group h-full">
+                            <Link key={index} href={card.href} target={card.target} className="group h-full">
                                 <div className={cn(
                                     "flex items-center gap-3 p-3 rounded-xl transition-all duration-300 shadow-sm border bg-white dark:bg-slate-900/50 hover:shadow-md hover:border-primary/20 h-full",
                                 )}>
