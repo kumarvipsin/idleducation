@@ -1,8 +1,7 @@
-
 'use client';
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -27,10 +26,8 @@ import {
     Mail,
     Phone,
     Trophy,
-    Award,
-    Zap,
-    Scale,
-    TrendingUp
+    X,
+    Minus
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,10 +36,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { format } from "date-fns";
 
 const cuetInquirySchema = z.object({
   fullName: z.string().min(2, "Full name is required."),
@@ -412,7 +409,7 @@ export default function AllAboutCuetPage() {
                                           <FormItem><FormLabel className="font-black text-[10px] uppercase tracking-widest text-slate-400">Full Name</FormLabel><FormControl><Input placeholder="Your full name" {...field} className="h-12 rounded-xl bg-slate-50 border-slate-100 font-bold"/></FormControl><FormMessage /></FormItem>
                                       )} />
                                       <FormField control={form.control} name="mobile" render={({ field }) => (
-                                          <FormItem><FormLabel className="font-black text-[10px] uppercase tracking-widest text-slate-400">Phone</FormLabel><FormControl><Input placeholder="10-digit number" {...field} maxLength={10} className="h-12 rounded-xl bg-slate-50 border-slate-100 font-bold"/></FormControl><FormMessage /></FormItem>
+                                          <FormItem><FormLabel className="font-black text-[10px] uppercase tracking-widest text-slate-400">Phone</FormLabel><FormControl><Input placeholder="10-digit number" {...field} className="h-12 rounded-xl bg-slate-50 border-slate-100 font-bold"/></FormControl><FormMessage /></FormItem>
                                       )} />
                                   </div>
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
