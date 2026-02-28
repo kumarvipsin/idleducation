@@ -365,7 +365,7 @@ export default function UnderstandingCuetPage() {
                                     <FormItem className="space-y-0">
                                         <FormControl>
                                         <div className="relative group h-full">
-                                            <Building className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-red-600 transition-colors" />
+                                            <Building className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-red-600 transition-colors" />
                                             <Input placeholder="City *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
                                         </div>
                                         </FormControl>
@@ -751,7 +751,7 @@ export default function UnderstandingCuetPage() {
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center order-1 lg:order-2">
                     <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-none">
                         <Image
-                            src="https://picsum.photos/seed/cuet-marks/800/600"
+                            src="/cuet6.png"
                             alt="Marking Scheme"
                             fill
                             className="object-cover p-4"
