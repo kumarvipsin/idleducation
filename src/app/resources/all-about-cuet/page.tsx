@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import Link from "next/link";
 import { 
@@ -72,19 +72,18 @@ export default function AllAboutCuetPage() {
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
-                <div className="space-y-10 animate-fade-in-up text-left">
+                <div className="space-y-8 animate-fade-in-up text-left">
                     <div className="space-y-4">
                         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 text-[10px] font-black uppercase tracking-[0.2em]">
                             <Sparkles className="w-3 h-3 text-yellow-500" />
                             Official 2026 Guide
                         </div>
-                        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight uppercase">
-                            ALL ABOUT <br/>
-                            <span className="text-red-600">CUET (UG)</span>
+                        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight uppercase whitespace-nowrap">
+                            ALL ABOUT <span className="text-red-600">CUET (UG)</span>
                         </h1>
                     </div>
                     
-                    <p className="text-slate-600 font-bold text-sm md:text-base leading-relaxed max-w-lg opacity-80">
+                    <p className="text-slate-600 font-bold text-xs md:text-sm leading-relaxed max-w-lg opacity-80">
                         The ultimate technical blueprint for India's largest entrance gateway. Master the syllabus, understand the marking, and secure your future.
                     </p>
 
