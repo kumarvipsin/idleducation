@@ -61,9 +61,9 @@ export default function AllAboutCuetPage() {
     <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 selection:bg-primary/10">
       
       {/* 1. Hero Section - Premium Visual Narrative */}
-      <section className="relative w-full py-12 md:py-20 bg-white overflow-hidden">
+      <section className="relative w-full pt-0 pb-12 md:pt-0 md:pb-20 bg-white overflow-hidden">
         {/* Subtle Background Elements */}
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,#fee2e2_0%,transparent_50%)] opacity-40 pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at:50%_-20%,#fee2e2_0%,transparent_50%)] opacity-40 pointer-events-none" />
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
