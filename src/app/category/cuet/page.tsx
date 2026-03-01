@@ -344,10 +344,10 @@ export default function CuetPage() {
             <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
             
             <div className="container mx-auto py-6 md:py-10 px-4 md:px-6 relative z-10">
-                {/* Banner */}
+                {/* Banner - Styled to match main hero slider */}
                 <section className="mb-6 animate-fade-in-up">
-                    <div className="relative rounded-xl overflow-hidden border bg-white shadow-sm">
-                        <div className="relative w-full aspect-[21/7] md:aspect-[21/5]">
+                    <div className="relative rounded-2xl overflow-hidden border border-border/50 bg-white shadow-sm">
+                        <div className="relative w-full aspect-video md:aspect-[16/6]">
                             <Image
                                 src="/result.jpg"
                                 alt="CUET Results"
