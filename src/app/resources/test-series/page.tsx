@@ -13,7 +13,8 @@ import {
     LayoutDashboard,
     PlayCircle,
     Book,
-    X
+    X,
+    ClipboardList
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -115,10 +116,10 @@ export default function TestSeriesPage() {
                                         </div>
                                         <Select value={selectedClass} onValueChange={setSelectedClass}>
                                             <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
-                                                <SelectValue placeholder="Filter by Class" />
+                                                <SelectValue placeholder="Target Exam" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="all" className="text-xs font-bold">All Classes</SelectItem>
+                                                <SelectItem value="all" className="text-xs font-bold">All Exams</SelectItem>
                                                 <SelectItem value="class-10" className="text-xs font-bold">Class 10</SelectItem>
                                                 <SelectItem value="class-12" className="text-xs font-bold">Class 12</SelectItem>
                                                 <SelectItem value="cuet" className="text-xs font-bold">CUET UG</SelectItem>
@@ -135,10 +136,10 @@ export default function TestSeriesPage() {
                                         </div>
                                         <Select value={selectedSubject} onValueChange={setSelectedSubject}>
                                             <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
-                                                <SelectValue placeholder="Filter by Subject" />
+                                                <SelectValue placeholder="Stream / Subject" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="all" className="text-xs font-bold">All Subjects</SelectItem>
+                                                <SelectItem value="all" className="text-xs font-bold">All Streams</SelectItem>
                                                 <SelectItem value="science" className="text-xs font-bold">Science</SelectItem>
                                                 <SelectItem value="commerce" className="text-xs font-bold">Commerce</SelectItem>
                                                 <SelectItem value="arts" className="text-xs font-bold">Arts</SelectItem>
@@ -154,7 +155,7 @@ export default function TestSeriesPage() {
                                             <Search className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                         </div>
                                         <Input 
-                                            placeholder="Search Test Passes..." 
+                                            placeholder="Search Mock Tests..." 
                                             value={searchTerm}
                                             onChange={(e) => setSearchTerm(e.target.value)}
                                             className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
