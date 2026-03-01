@@ -113,9 +113,9 @@ const quickInfoCards = [
         iconBg: "bg-emerald-50"
     },
     {
-        label: "Practice Quiz",
+        label: "Mock Test",
         icon: <ClipboardList />,
-        href: "/resources/ncert-solutions",
+        href: "#",
         color: "text-indigo-600",
         iconBg: "bg-indigo-50"
     },
@@ -371,32 +371,44 @@ export default function CuetPage() {
                 {/* Quick Info Cards - Premium Institutional Grid */}
                 <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {quickInfoCards.map((card, index) => (
-                            <Link key={index} href={card.href} className="group/card h-full">
-                                <div className={cn(
-                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden",
-                                )}>
-                                    {/* Premium institutional line */}
-                                    <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
-                                    
+                        {quickInfoCards.map((card, index) => {
+                            const isActionable = card.href !== "#";
+                            return (
+                                <Link 
+                                    key={index} 
+                                    href={card.href} 
+                                    className={cn(
+                                        "group/card h-full",
+                                        !isActionable && "pointer-events-none opacity-80"
+                                    )}
+                                >
                                     <div className={cn(
-                                        "p-3 rounded-xl shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 group-hover/card:rotate-6 group-hover/card:scale-110", 
-                                        card.iconBg, 
-                                        card.color
+                                        "flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden",
                                     )}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-5 h-5" })}
+                                        {/* Premium institutional line */}
+                                        <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
+                                        
+                                        <div className={cn(
+                                            "p-3 rounded-xl shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 group-hover/card:rotate-6 group-hover/card:scale-110", 
+                                            card.iconBg, 
+                                            card.color
+                                        )}>
+                                            {React.cloneElement(card.icon as React.ReactElement, { className: "w-5 h-5" })}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors">
+                                                {card.label}
+                                            </h4>
+                                        </div>
+                                        {isActionable && (
+                                            <div className="bg-primary/5 rounded-full p-1 opacity-0 group-hover/card:opacity-100 transition-all transform translate-x-2 group-hover/card:translate-x-0">
+                                                <ArrowRight className="w-3.5 h-3.5 text-primary" />
+                                            </div>
+                                        )}
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors">
-                                            {card.label}
-                                        </h4>
-                                    </div>
-                                    <div className="bg-primary/5 rounded-full p-1 opacity-0 group-hover/card:opacity-100 transition-all transform translate-x-2 group-hover/card:translate-x-0">
-                                        <ArrowRight className="w-3.5 h-3.5 text-primary" />
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            )
+                        })}
                     </div>
                 </section>
 
