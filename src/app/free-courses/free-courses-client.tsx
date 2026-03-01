@@ -302,25 +302,16 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
       {/* Courses Display */}
       {sortedGroupedEntries.length > 0 ? (
         sortedGroupedEntries.map(([groupTitle, groupCourses]) => {
-            const words = groupTitle.split(' ');
-            const firstPart = words.slice(0, -1).join(' ');
-            const lastWord = words[words.length - 1];
-
             return (
                 <section key={groupTitle} className="mb-12 last:mb-0">
-                  <div className="mb-8 text-center sm:text-left">
-                    <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white tracking-tighter leading-tight">
-                        {firstPart}{' '}
-                        <span className="relative inline-block">
-                            <span className="relative z-10 text-primary">{lastWord}</span>
-                            <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
-                                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                    <path d="M0,15 Q50,5 100,15" />
-                                </svg>
-                            </div>
-                        </span>
-                    </h2>
-                  </div>
+                  <div className="flex items-center justify-between border-l-4 border-primary pl-3 mb-8">
+                        <div className="text-left">
+                            <h3 className="font-black text-xl md:text-2xl text-slate-900 dark:text-white tracking-tighter uppercase">
+                                {groupTitle}
+                            </h3>
+                            <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mt-1">Free Access</p>
+                        </div>
+                    </div>
         
                   <div className="relative">
                     <div className="flex overflow-x-auto pb-6 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -337,8 +328,8 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                                 </div>
                                 
-                                <CardContent className="p-4 flex flex-col flex-grow">
-                                    <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors">{course.title}</CardTitleUI>
+                                <CardContent className="p-4 flex flex-col flex-grow text-left">
+                                    <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors text-left">{course.title}</CardTitleUI>
                                     
                                     <div className="flex flex-wrap items-center gap-1.5 mb-3">
                                         <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3 py-0 flex items-center justify-center">{course.batchName}</Badge>
@@ -368,9 +359,9 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
                                             </Button>
                                         </PopoverTrigger>
                                         <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                            <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest">About this course</h4>
+                                            <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest text-left">About this course</h4>
                                             <ScrollArea className="max-h-40">
-                                                <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80">
+                                                <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80 text-left">
                                                     {course.description}
                                                 </p>
                                             </ScrollArea>
