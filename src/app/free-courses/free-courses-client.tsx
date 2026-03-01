@@ -225,7 +225,7 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
   if (!mounted) return null;
 
   return (
-    <div className="container mx-auto py-6 md:py-10 px-4 md:px-6">
+    <div className="container mx-auto py-6 md:py-10 px-4 md:px-6 max-w-7xl relative z-10">
       
       {/* Filtration Section - Premium Institutional Style */}
       <div className="mb-12">

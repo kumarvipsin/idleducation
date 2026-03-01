@@ -6,15 +6,13 @@ import { Button } from "@/components/ui/button";
 import { 
     Search, 
     CheckCircle2, 
-    Zap, 
     ArrowRight,
     GraduationCap,
     FileText,
     LayoutDashboard,
     PlayCircle,
     Book,
-    X,
-    ClipboardList
+    X
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -100,11 +98,11 @@ export default function TestSeriesPage() {
     const [searchTerm, setSearchTerm] = useState("");
 
     return (
-        <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 relative py-12 md:py-20">
-            <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
+        <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 relative">
+            <div className="container mx-auto py-6 md:py-10 px-4 md:px-6 max-w-7xl relative z-10">
                 
                 {/* Filtration Section - Premium Institutional Style */}
-                <div className="mb-16">
+                <div className="mb-12">
                     <Card className="rounded-sm border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-none">
                         <CardContent className="p-0">
                             <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
