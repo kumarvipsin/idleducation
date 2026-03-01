@@ -30,5 +30,5 @@ export const DISCOVER_COURSES = [
     { name: "SCHOOL BOARD", href: "/school" },
     { name: "CUET EXAM", href: "/category/cuet" },
     { name: "GOVT. EXAMS", href: "#" },
-    { name: "TEST SERIES", href: "#" },
+    { name: "TEST SERIES", href: "/resources/test-series" },
 ];

@@ -81,7 +81,7 @@ const allCoursesCategories = [
     {
         name: "TEST SERIES",
         description: "Rigorous preparation tests.",
-        href: "#",
+        href: "/resources/test-series",
         icon: <ClipboardList className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white"
     },
@@ -241,8 +241,8 @@ export function Header() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: 'IDL EDUCATION Admission',
-        description: 'Admission Registration Fee',
+        name: 'IDL Foundation Donation',
+        description: `Donation for ${donationCategory}`,
         order_id: order.id,
         handler: async function (response: any) {
             const donationData = {
