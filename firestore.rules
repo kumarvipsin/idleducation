@@ -1,39 +1,34 @@
-/**
- * Educational Platform Security Rules
- *
- * Core Philosophy:
- * This ruleset enforces a strict user-ownership model for all personal data (profiles, study plans,
- * progress, and test results) while providing a robust administrative layer for content management.
- * Security is handled at the path level to ensure atomic authorization without costly lookups.
- *
- * Data Structure:
- * - /users/{userId}: The root for all user-specific data. Document IDs match Auth UIDs.
- * - /boards, /examTypes, /subjects: Static reference data for the platform.
- * - /courses, /practiceTests, /questions: The learning content hierarchy.
- * - /roles_admin/{adminUid}: A dedicated collection for identifying administrative users.
- *
- * Key Security Decisions:
- * 1. Ownership: Users have full access to their own /users/{userId} tree.
- * 2. Content Visibility: Learning content (courses, modules, etc.) uses an 'isPublished' 
- *    flag to control public visibility. 
- * 3. Administrative Control: All write operations on public content are restricted 
- *    to users identified in the /roles_admin collection.
- * 4. Question Privacy: Questions and AnswerOptions are readable by signed-in users 
- *    to facilitate test-taking but are not listable to prevent content scraping.
- *
- * Denormalization for Authorization:
- * - Ownership fields (userId) are required on creation for all user-scoped documents 
- *   to ensure path-to-data consistency.
- * - 'isPublished' flags are used on content documents for fast, single-document read checks.
- */
-
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    /**
+     * EDUVERSE SECURITY RULES
+     *
+     * CORE PHILOSOPHY:
+     * This ruleset enforces a strict ownership model for personal user data and a role-based
+     * model for educational content. It prioritizes "Authorization Independence," ensuring that 
+     * security decisions for sub-documents do not require costly lookups to parent documents.
+     *
+     * DATA STRUCTURE:
+     * - /users/{userId}: Private user profiles and preferences.
+     * - /users/{userId}/studyPlans: User-specific personalized learning paths.
+     * - /users/{userId}/userProgress: Granular tracking of user interactions.
+     * - /admins/{adminId}: A registry of users with elevated privileges.
+     * - /curricula/...: A public hierarchy of educational content (Curricula -> Courses -> Subjects -> Materials/Exams/Questions).
+     *
+     * KEY SECURITY DECISIONS:
+     * - Denormalization for Authorization: User IDs are stored both in the path and within documents 
+     *   (e.g., userId, creatorId) to allow fast, non-relational ownership checks.
+     * - Structural Segregation: Educational content is kept in a global tree, readable by all 
+     *   authenticated users but modifiable only by those present in the /admins collection.
+     * - Prototyping Mode: Rules enforce "Who" (Authorization) and "Relational Links" (Integrity) 
+     *   but do not restrict the specific fields or data types of the content itself.
+     */
+
     // --- Helper Functions ---
 
-    /** @description Checks if the user is authenticated. */
+    /** @description Checks if the request is from an authenticated user. */
     function isSignedIn() {
       return request.auth != null;
     }
@@ -43,173 +38,122 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    /** @description Checks ownership and ensures the document exists for updates/deletes. */
+    /** @description Checks ownership and ensures the document already exists for update/delete. */
     function isExistingOwner(userId) {
       return isOwner(userId) && resource != null;
     }
 
-    /** @description Checks if the authenticated user has administrative privileges. */
+    /** @description Checks if the authenticated user is registered in the admins collection. */
     function isAdmin() {
-      return isSignedIn() && exists(/databases/$(database)/documents/roles_admin/$(request.auth.uid));
-    }
-
-    /** @description Checks if a document is marked as published. */
-    function isPublished() {
-      return resource.data.isPublished == true;
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
     // --- Collection Rules ---
 
     /**
-     * @description Rules for the UserProfile entity. Users manage their own profiles.
+     * @description Rules for user profile documents. Ensures users can only manage their own profile.
      * @path /users/{userId}
-     * @allow create: if isOwner(userId) && request.resource.data.id == userId;
-     * @deny update: if request.resource.data.id != resource.data.id;
-     * @principle Pattern 1 (Ownership) & Pattern 4 (Self-Creation).
+     * @allow (get, list, create, update) if auth.uid == userId
+     * @deny (create) if auth.uid != userId
+     * @principle Enforces path-based ownership and validates internal ID consistency.
      */
     match /users/{userId} {
       allow get, list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
       allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(userId);
-
-      /**
-       * @description Personalized study plans.
-       * @path /users/{userId}/studyPlans/{studyPlanId}
-       * @allow create: if isOwner(userId) && request.resource.data.userId == userId;
-       * @principle Enforces path-based ownership and relational integrity.
-       */
-      match /studyPlans/{studyPlanId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-
-        /**
-         * @description Tasks within a study plan.
-         * @path /users/{userId}/studyPlans/{studyPlanId}/tasks/{studyPlanTaskId}
-         */
-        match /tasks/{studyPlanTaskId} {
-          allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId) && request.resource.data.studyPlanId == studyPlanId;
-          allow update: if isExistingOwner(userId) && request.resource.data.studyPlanId == resource.data.studyPlanId;
-          allow delete: if isExistingOwner(userId);
-        }
-      }
-
-      /**
-       * @description Tracking progress for courses and content.
-       * @path /users/{userId}/courseProgress/{courseId}
-       */
-      match /courseProgress/{courseId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-      }
-
-      match /contentProgress/{contentItemId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-      }
-
-      /**
-       * @description Records of user test attempts and their answers.
-       * @path /users/{userId}/testAttempts/{testAttemptId}
-       */
-      match /testAttempts/{testAttemptId} {
-        allow get, list: if isOwner(userId);
-        allow create: if isOwner(userId) && request.resource.data.userId == userId;
-        allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
-        allow delete: if isExistingOwner(userId);
-
-        match /answers/{answerId} {
-          allow get, list: if isOwner(userId);
-          allow create: if isOwner(userId) && request.resource.data.userTestAttemptId == testAttemptId;
-          allow update: if isExistingOwner(userId) && request.resource.data.userTestAttemptId == resource.data.userTestAttemptId;
-          allow delete: if isExistingOwner(userId);
-        }
-      }
+      allow delete: if false; // Profiles are generally preserved; delete requires admin or special logic.
     }
 
     /**
-     * @description Reference data collections. Public read, Admin write.
-     * @path /boards/{boardId}, /examTypes/{examTypeId}, /subjects/{subjectId}
-     * @allow get: if true;
-     * @deny create: if !isAdmin();
-     * @principle Restricted administrative writes for global reference data.
+     * @description Registry for administrative users. Used to grant write access to global content.
+     * @path /admins/{adminId}
+     * @allow (get) if auth.uid == adminId
+     * @deny (list) if not an admin
+     * @principle Role-based access control via a dedicated collection.
      */
-    match /boards/{boardId} {
-      allow get, list: if true;
-      allow create, update, delete: if isAdmin();
-    }
-    match /examTypes/{examTypeId} {
-      allow get, list: if true;
-      allow create, update, delete: if isAdmin();
-    }
-    match /subjects/{subjectId} {
-      allow get, list: if true;
-      allow create, update, delete: if isAdmin();
-    }
-
-    /**
-     * @description Learning content (Courses, Modules, ContentItems). Visible if published.
-     * @path /courses/{courseId}
-     * @allow list: if resource.data.isPublished == true || isAdmin();
-     * @principle Pattern 5 (Public Read with Admin Writes).
-     */
-    match /courses/{courseId} {
-      allow get, list: if isPublished() || isAdmin();
-      allow create, update, delete: if isAdmin();
-
-      match /modules/{moduleId} {
-        allow get, list: if isPublished() || isAdmin();
-        allow create, update, delete: if isAdmin();
-
-        match /contentItems/{contentItemId} {
-          allow get, list: if isPublished() || isAdmin();
-          allow create, update, delete: if isAdmin();
-        }
-      }
-    }
-
-    /**
-     * @description Practice tests. Visible if published.
-     * @path /practiceTests/{practiceTestId}
-     */
-    match /practiceTests/{practiceTestId} {
-      allow get, list: if isPublished() || isAdmin();
-      allow create, update, delete: if isAdmin();
-    }
-
-    /**
-     * @description Question pool. Restricted listing to prevent scraping.
-     * @path /questions/{questionId}
-     * @allow get: if isSignedIn();
-     * @deny list: if !isAdmin();
-     * @principle Limits bulk data access while allowing functional app usage.
-     */
-    match /questions/{questionId} {
-      allow get: if isSignedIn();
+    match /admins/{adminId} {
+      allow get: if isOwner(adminId);
       allow list: if isAdmin();
-      allow create, update, delete: if isAdmin();
+      allow create, update, delete: if false; // Admin status managed via backend/console for security.
+    }
 
-      match /answerOptions/{answerOptionId} {
-        allow get: if isSignedIn();
-        allow list: if isAdmin();
-        allow create, update, delete: if isAdmin();
+    /**
+     * @description Rules for global educational content. Publicly readable, admin-only writes.
+     * @path /curricula/{curriculumId}
+     * @allow (get, list) if signedIn
+     * @deny (write) if not an admin
+     * @principle Authenticated read access with admin-restricted content management.
+     */
+    match /curricula/{curriculumId} {
+      allow get, list: if isSignedIn();
+      allow create: if isAdmin();
+      allow update, delete: if isAdmin() && resource != null;
+
+      // Nested Courses
+      match /courses/{courseId} {
+        allow get, list: if isSignedIn();
+        allow create: if isAdmin() && request.resource.data.curriculumId == curriculumId;
+        allow update: if isAdmin() && resource != null && request.resource.data.curriculumId == resource.data.curriculumId;
+        allow delete: if isAdmin() && resource != null;
+
+        // Nested Subjects
+        match /subjects/{subjectId} {
+          allow get, list: if isSignedIn();
+          allow create: if isAdmin() && request.resource.data.courseId == courseId;
+          allow update: if isAdmin() && resource != null && request.resource.data.courseId == resource.data.courseId;
+          allow delete: if isAdmin() && resource != null;
+
+          // Nested Materials, Exams, and Questions
+          match /learningMaterials/{materialId} {
+            allow get, list: if isSignedIn();
+            allow create: if isAdmin() && request.resource.data.subjectId == subjectId;
+            allow update: if isAdmin() && resource != null && request.resource.data.subjectId == resource.data.subjectId;
+            allow delete: if isAdmin() && resource != null;
+          }
+
+          match /exams/{examId} {
+            allow get, list: if isSignedIn();
+            allow create: if isAdmin() && request.resource.data.subjectId == subjectId;
+            allow update: if isAdmin() && resource != null && request.resource.data.subjectId == resource.data.subjectId;
+            allow delete: if isAdmin() && resource != null;
+          }
+
+          match /questions/{questionId} {
+            allow get, list: if isSignedIn();
+            allow create: if isAdmin() && request.resource.data.subjectId == subjectId;
+            allow update: if isAdmin() && resource != null && request.resource.data.subjectId == resource.data.subjectId;
+            allow delete: if isAdmin() && resource != null;
+          }
+        }
       }
     }
 
     /**
-     * @description Administrative roles. Read-only for verification.
-     * @path /roles_admin/{adminUid}
+     * @description Personalized study plans. Restricted to the owner.
+     * @path /users/{userId}/studyPlans/{studyPlanId}
+     * @allow (create, update) if auth.uid == userId
+     * @deny (list) if auth.uid != userId
+     * @principle Path-based ownership with denormalized field validation for relational integrity.
      */
-    match /roles_admin/{adminUid} {
-      allow get: if isSignedIn();
-      allow list, write: if false;
+    match /users/{userId}/studyPlans/{studyPlanId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
+    }
+
+    /**
+     * @description User progress tracking. Highly sensitive private data.
+     * @path /users/{userId}/userProgress/{userProgressId}
+     * @allow (all) if auth.uid == userId
+     * @deny (get) if auth.uid != userId
+     * @principle Ensures users can only view and modify their own learning progress.
+     */
+    match /users/{userId}/userProgress/{userProgressId} {
+      allow get, list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.userId == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.userId == resource.data.userId;
+      allow delete: if isExistingOwner(userId);
     }
   }
 }
