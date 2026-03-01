@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
 import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, ShoppingCart, Search, X } from "lucide-react";
+import { PlayCircle, BookOpen, Info, CheckCircle2, ShoppingCart, Search, X, GraduationCap, Book, Filter } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -306,75 +306,83 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
       <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
       <div className="container mx-auto py-6 md:py-10 px-4 md:px-6">
         
-        {/* Filtration Section */}
-        <div className="mb-12 space-y-6">
-            <Card className="rounded-xl border border-border/40 bg-white/60 backdrop-blur-sm p-3 md:p-4 shadow-sm">
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-3 items-end">
-                    {/* Class Filter */}
-                    <div className="md:col-span-3 space-y-1">
-                        <Label className="text-xs font-medium text-slate-500 ml-0.5">Select Class</Label>
-                        <Select value={selectedClass} onValueChange={setSelectedClass}>
-                            <SelectTrigger className="rounded-lg border-slate-200 font-medium text-sm h-10 shadow-none">
-                                <SelectValue placeholder="All Classes" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Classes</SelectItem>
-                                {availableClasses.map(c => (
-                                    <SelectItem key={c} value={c}>{c}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+        {/* Filtration Section - Premium Institutional Style */}
+        <div className="mb-12">
+            <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+                <CardContent className="p-0">
+                    <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                        {/* Class Filter Cell */}
+                        <div className="md:col-span-3">
+                            <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10 transition-transform duration-300 group-focus-within:scale-110">
+                                    <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Select value={selectedClass} onValueChange={setSelectedClass}>
+                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
+                                        <SelectValue placeholder="Filter by Class" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all" className="text-xs font-bold">All Classes</SelectItem>
+                                        {availableClasses.map(c => <SelectItem key={c} value={c} className="text-xs font-bold">{c}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
 
-                    {/* Subject Filter */}
-                    <div className="md:col-span-3 space-y-1">
-                        <Label className="text-xs font-medium text-slate-500 ml-0.5">Select Subject</Label>
-                        <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                            <SelectTrigger className="rounded-lg border-slate-200 font-medium text-sm h-10 shadow-none">
-                                <SelectValue placeholder="All Subjects" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="all">All Subjects</SelectItem>
-                                {availableSubjects.map(s => (
-                                    <SelectItem key={s} value={s}>{s}</SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                        {/* Subject Filter Cell */}
+                        <div className="md:col-span-3">
+                            <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10 transition-transform duration-300 group-focus-within:scale-110">
+                                    <Book className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
+                                        <SelectValue placeholder="Filter by Subject" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all" className="text-xs font-bold">All Subjects</SelectItem>
+                                        {availableSubjects.map(s => <SelectItem key={s} value={s} className="text-xs font-bold">{s}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
 
-                    {/* Search Filter */}
-                    <div className="md:col-span-4 space-y-1">
-                        <Label className="text-xs font-medium text-slate-500 ml-0.5">Search Batches</Label>
-                        <div className="relative group">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 group-focus-within:text-primary transition-colors" />
-                            <Input 
-                                placeholder="Search by title..." 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-9 rounded-lg border-slate-200 font-medium text-sm h-10 shadow-none focus-visible:ring-1 focus-visible:ring-primary/20"
-                            />
-                            {searchTerm && (
-                                <button 
-                                    onClick={() => setSearchTerm("")}
-                                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-                                >
-                                    <X className="h-3.5 w-3.5" />
-                                </button>
-                            )}
+                        {/* Search Filter Cell */}
+                        <div className="md:col-span-4">
+                            <div className="relative group h-full">
+                                <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Search className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                </div>
+                                <Input 
+                                    placeholder="Search by Title... *" 
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                />
+                                {searchTerm && (
+                                    <button 
+                                        onClick={() => setSearchTerm("")}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                                    >
+                                        <X className="h-4 w-4" />
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Clear Button Cell */}
+                        <div className="md:col-span-2 bg-slate-50 dark:bg-slate-800/50">
+                            <Button 
+                                variant="ghost" 
+                                onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
+                                className="w-full h-14 border-0 rounded-none font-black text-[10px] tracking-widest uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-600 dark:text-slate-400"
+                            >
+                                <X className="mr-2 h-3.5 w-3.5" />
+                                Clear All
+                            </Button>
                         </div>
                     </div>
-
-                    {/* Reset Button */}
-                    <div className="md:col-span-2">
-                        <Button 
-                            variant="ghost" 
-                            onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
-                            className="w-full h-10 rounded-lg font-semibold text-xs hover:bg-slate-100 text-slate-600 transition-all"
-                        >
-                            Clear All
-                        </Button>
-                    </div>
-                </div>
+                </CardContent>
             </Card>
         </div>
 
