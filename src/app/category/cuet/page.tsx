@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect } from "react";
@@ -115,7 +114,7 @@ const quickInfoCards = [
     {
         label: "Mock Test",
         icon: <ClipboardList />,
-        href: "#",
+        href: "/resources/test-series",
         color: "text-indigo-600",
         iconBg: "bg-indigo-50"
     },
@@ -205,7 +204,7 @@ const CoursePlayerDialog = ({ course }: { course: any }) => {
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                             allowFullScreen
-                        ></iframe >
+                        ></iframe>
                     ) : (
                         <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 space-y-4">
                             <PlayCircle className="w-16 h-16 opacity-20" />
