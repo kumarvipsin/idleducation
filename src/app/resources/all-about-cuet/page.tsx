@@ -92,6 +92,10 @@ export default function AllAboutCuetPage() {
       
       {/* 1. Hero Section */}
       <section className="relative w-full pt-0 pb-12 md:pt-0 md:pb-20 bg-white overflow-hidden">
+        {/* Floating Decorative Elements */}
+        <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+        <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+        
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at:50%_-20%,#fee2e2_0%,transparent_50%)] opacity-40 pointer-events-none" />
         
         <div className="container mx-auto px-4 md:px-6 relative z-10">
