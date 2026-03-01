@@ -416,10 +416,10 @@ export default function CuetPage() {
                     <div className="space-y-8">
                         <div className="flex items-center justify-between border-l-4 border-primary pl-3">
                             <div className="text-left">
-                                <h3 className="font-bold text-lg md:text-xl text-slate-900 dark:text-white tracking-tight">
+                                <h3 className="font-black text-xl md:text-2xl text-slate-900 dark:text-white tracking-tighter uppercase">
                                     CUET Courses-2026
                                 </h3>
-                                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Premium Batches</p>
+                                <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mt-1">Premium Batches</p>
                             </div>
                         </div>
 
