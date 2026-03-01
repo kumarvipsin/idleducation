@@ -1,28 +1,26 @@
 
 'use client';
 
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import React, { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
-    ClipboardList, 
-    ArrowLeft, 
     Search, 
-    Filter, 
-    Lock, 
     CheckCircle2, 
     Zap, 
     ArrowRight,
     GraduationCap,
     FileText,
     LayoutDashboard,
-    PlayCircle
+    PlayCircle,
+    Book,
+    X
 } from "lucide-react";
-import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const testPasses = [
   {
@@ -39,7 +37,7 @@ const testPasses = [
       accent: "bg-[#3B82F6]",
       button: "bg-[#5B51D8] hover:bg-[#4A44B5]",
       badge: "bg-[#D9A54D]",
-      mosaic: ["bg-blue-200", "bg-blue-400", "bg-blue-300", "bg-blue-500"]
+      mosaic: ["bg-blue-200", "bg-blue-400", "bg-blue-300", "bg-blue-50"]
     },
     features: [
       { icon: <GraduationCap className="w-4 h-4" />, label: "Subjects Covered:", value: "6+ major Subjects" },
@@ -62,7 +60,7 @@ const testPasses = [
       accent: "bg-[#F59E0B]",
       button: "bg-[#5B51D8] hover:bg-[#4A44B5]",
       badge: "bg-[#D9A54D]",
-      mosaic: ["bg-orange-200", "bg-orange-400", "bg-orange-300", "bg-orange-500"]
+      mosaic: ["bg-orange-200", "bg-orange-400", "bg-orange-300", "bg-orange-50"]
     },
     features: [
       { icon: <GraduationCap className="w-4 h-4" />, label: "Subjects Covered:", value: "10+ major Subjects" },
@@ -85,7 +83,7 @@ const testPasses = [
       accent: "bg-[#10B981]",
       button: "bg-[#5B51D8] hover:bg-[#4A44B5]",
       badge: "bg-[#D9A54D]",
-      mosaic: ["bg-green-200", "bg-green-400", "bg-green-300", "bg-green-500"]
+      mosaic: ["bg-green-200", "bg-green-400", "bg-green-300", "bg-green-50"]
     },
     features: [
       { icon: <GraduationCap className="w-4 h-4" />, label: "Subjects Covered:", value: "6+ major Subjects" },
@@ -97,6 +95,10 @@ const testPasses = [
 ];
 
 export default function TestSeriesPage() {
+    const [selectedClass, setSelectedClass] = useState("all");
+    const [selectedSubject, setSelectedSubject] = useState("all");
+    const [searchTerm, setSearchTerm] = useState("");
+
     return (
         <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 relative py-12 md:py-20">
             <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
@@ -109,6 +111,90 @@ export default function TestSeriesPage() {
                     <p className="text-slate-500 font-bold text-sm uppercase tracking-widest max-w-2xl mx-auto">
                         Unlock unlimited attempts and detailed performance analytics
                     </p>
+                </div>
+
+                {/* Filtration Section - Premium Institutional Style */}
+                <div className="mb-16">
+                    <Card className="rounded-sm border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-none">
+                        <CardContent className="p-0">
+                            <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                                {/* Class Filter Cell */}
+                                <div className="md:col-span-3">
+                                    <div className="relative group h-full">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10 transition-transform duration-300 group-focus-within:scale-110">
+                                            <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                        </div>
+                                        <Select value={selectedClass} onValueChange={setSelectedClass}>
+                                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
+                                                <SelectValue placeholder="Filter by Class" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="all" className="text-xs font-bold">All Classes</SelectItem>
+                                                <SelectItem value="class-10" className="text-xs font-bold">Class 10</SelectItem>
+                                                <SelectItem value="class-12" className="text-xs font-bold">Class 12</SelectItem>
+                                                <SelectItem value="cuet" className="text-xs font-bold">CUET UG</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
+
+                                {/* Subject Filter Cell */}
+                                <div className="md:col-span-3">
+                                    <div className="relative group h-full">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10 transition-transform duration-300 group-focus-within:scale-110">
+                                            <Book className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                        </div>
+                                        <Select value={selectedSubject} onValueChange={setSelectedSubject}>
+                                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
+                                                <SelectValue placeholder="Filter by Subject" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                <SelectItem value="all" className="text-xs font-bold">All Subjects</SelectItem>
+                                                <SelectItem value="science" className="text-xs font-bold">Science</SelectItem>
+                                                <SelectItem value="commerce" className="text-xs font-bold">Commerce</SelectItem>
+                                                <SelectItem value="arts" className="text-xs font-bold">Arts</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
+
+                                {/* Search Filter Cell */}
+                                <div className="md:col-span-4">
+                                    <div className="relative group h-full">
+                                        <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                            <Search className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                        </div>
+                                        <Input 
+                                            placeholder="Search Test Passes..." 
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                        />
+                                        {searchTerm && (
+                                            <button 
+                                                onClick={() => setSearchTerm("")}
+                                                className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
+                                            >
+                                                <X className="h-4 w-4" />
+                                            </button>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Clear Button Cell */}
+                                <div className="md:col-span-2 bg-slate-50 dark:bg-slate-800/50">
+                                    <Button 
+                                        variant="ghost" 
+                                        onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
+                                        className="w-full h-14 border-0 rounded-none font-black text-[10px] tracking-widest uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-600 dark:text-slate-400"
+                                    >
+                                        <X className="mr-2 h-3.5 w-3.5" />
+                                        Clear All
+                                    </Button>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
                 </div>
 
                 {/* Grid of Passes */}
