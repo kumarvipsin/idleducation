@@ -42,15 +42,6 @@ export default function TestSeriesPage() {
         <div className="min-h-screen w-full bg-[#F8F7FF] dark:bg-slate-950 relative py-12">
             <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
                 
-                {/* Back Link */}
-                <div className="mb-8">
-                    <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[10px] h-9 rounded-xl">
-                        <Link href="/category/cuet">
-                            <ArrowLeft className="mr-2 h-4 w-4" /> Back to CUET Portal
-                        </Link>
-                    </Button>
-                </div>
-
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div className="space-y-3 text-left">
