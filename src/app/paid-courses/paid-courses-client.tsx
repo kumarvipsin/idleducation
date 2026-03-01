@@ -308,7 +308,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
         
         {/* Filtration Section - Premium Institutional Style */}
         <div className="mb-12">
-            <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+            <Card className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-none">
                 <CardContent className="p-0">
                     <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                         {/* Class Filter Cell */}

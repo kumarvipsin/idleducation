@@ -13,7 +13,11 @@ import {
     CheckCircle2,
     BookCheck,
     ClipboardList,
-    Calendar
+    Calendar,
+    GraduationCap,
+    Book,
+    Search,
+    X
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,6 +32,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import Script from "next/script";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 
 // Mock CUET Courses matching TPaidCourse structure
 const cuetCourses = [
