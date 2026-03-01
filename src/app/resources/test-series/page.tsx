@@ -45,10 +45,6 @@ export default function TestSeriesPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                     <div className="space-y-3 text-left">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-black uppercase tracking-widest">
-                            <Zap className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                            Assessment Node
-                        </div>
                         <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white uppercase">
                             Test <span className="text-primary">Series</span>
                         </h1>
@@ -112,7 +108,7 @@ export default function TestSeriesPage() {
                                     ) : (
                                         <Button className="w-full h-12 rounded-xl font-black text-[10px] tracking-widest uppercase shadow-lg shadow-primary/20 group/btn">
                                             Start Assessment
-                                            <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
+                                            <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:btn:translate-x-1" />
                                         </Button>
                                     )}
                                 </div>
