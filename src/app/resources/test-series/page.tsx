@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState } from "react";
@@ -103,16 +102,6 @@ export default function TestSeriesPage() {
         <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 relative py-12 md:py-20">
             <div className="container mx-auto px-4 md:px-6 max-w-7xl relative z-10">
                 
-                {/* Heading Area */}
-                <div className="text-center mb-16 space-y-4">
-                    <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 dark:text-white uppercase">
-                        Select Your <span className="text-[#5B51D8]">Test Pass</span>
-                    </h1>
-                    <p className="text-slate-500 font-bold text-sm uppercase tracking-widest max-w-2xl mx-auto">
-                        Unlock unlimited attempts and detailed performance analytics
-                    </p>
-                </div>
-
                 {/* Filtration Section - Premium Institutional Style */}
                 <div className="mb-16">
                     <Card className="rounded-sm border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-none">
