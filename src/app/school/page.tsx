@@ -70,27 +70,24 @@ function SchoolPageContent() {
           title: "GET THE",
           subtitle: `Advantage For ${activeTab}`,
           icon: <Sparkles />,
-          bgColor: "bg-amber-50 border-amber-100",
-          textColor: "text-amber-900",
-          iconBg: "bg-amber-100 text-amber-600",
+          color: "text-amber-600",
+          iconBg: "bg-amber-50",
           href: "/about"
         },
         {
           title: "REVISION",
           subtitle: "High-Quality Notes",
           icon: <BookOpen />,
-          bgColor: "bg-blue-50 border-blue-100",
-          textColor: "text-blue-900",
-          iconBg: "bg-blue-100 text-blue-600",
+          color: "text-blue-600",
+          iconBg: "bg-blue-50",
           href: "/resources/notes"
         },
          {
           title: "SOLUTIONS",
           subtitle: "NCERT Step-by-Step",
           icon: <Book />,
-          bgColor: "bg-indigo-50 border-indigo-100",
-          textColor: "text-indigo-900",
-          iconBg: "bg-indigo-100 text-indigo-600",
+          color: "text-indigo-600",
+          iconBg: "bg-indigo-50",
           href: "/resources/ncert-solutions"
         }
     ];
@@ -156,25 +153,35 @@ function SchoolPageContent() {
     
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-                    {resourceCards.map((card, index) => {
-                        return (
-                            <Link key={index} href={card.href} className="group">
+                    {resourceCards.map((card, index) => (
+                        <Link 
+                            key={index} 
+                            href={card.href} 
+                            className="group/card h-full"
+                        >
+                            <div className="flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden">
+                                {/* Premium institutional line */}
+                                <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
+                                
                                 <div className={cn(
-                                    "flex items-center gap-4 p-5 rounded-xl transition-all duration-300 shadow-sm border group-hover:shadow-md group-hover:scale-[1.02] active:scale-[0.98]",
-                                    card.bgColor
+                                    "p-3 rounded-xl shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 group-hover/card:rotate-6 group-hover/card:scale-110", 
+                                    card.iconBg, 
+                                    card.color
                                 )}>
-                                    <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:rotate-12 shadow-sm", card.iconBg)}>
-                                        {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <h4 className={cn("text-[13px] font-black uppercase tracking-tight leading-tight", card.title)}>{card.title}</h4>
-                                        <p className={cn("text-[11px] font-bold opacity-80 truncate", card.textColor)}>{card.subtitle}</p>
-                                    </div>
-                                    <ArrowRight className={cn("w-5 h-5 transition-all group-hover:translate-x-1", card.textColor)} />
+                                    {React.cloneElement(card.icon as React.ReactElement, { className: "w-6 h-6" })}
                                 </div>
-                            </Link>
-                        );
-                    })}
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors text-left">
+                                        <span className="block opacity-60 text-[10px] mb-0.5">{card.title}</span>
+                                        <span className="block">{card.subtitle}</span>
+                                    </h4>
+                                </div>
+                                <div className="bg-primary/5 rounded-full p-1 opacity-0 group-hover/card:opacity-100 transition-all transform translate-x-2 group-hover/card:translate-x-0">
+                                    <ArrowRight className="w-3.5 h-3.5 text-primary" />
+                                </div>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
             </section>
 
