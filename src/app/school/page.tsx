@@ -1,4 +1,3 @@
-
 'use client';
 
 import React, { useState, useEffect, Suspense } from "react";
@@ -18,10 +17,6 @@ import {
     Eye, 
     Download, 
     Home,
-    PlayCircle,
-    IndianRupee,
-    Monitor,
-    CheckCircle2,
     MapPin
 } from "lucide-react";
 import Link from "next/link";
@@ -29,7 +24,6 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const schoolSubjects = [
@@ -44,33 +38,6 @@ const seniorSubjects = [
     { name: "History", key: "history", icon: <Landmark className="w-5 h-5" />, color: "bg-orange-50 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400" },
     { name: "English", key: "english", icon: <BookText className="w-5 h-5" />, color: "bg-purple-50 text-purple-600 dark:bg-purple-900/20 dark:text-purple-400" },
     { name: "Economics", key: "economics", icon: <TrendingUp className="w-5 h-5" />, color: "bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400" },
-];
-
-const quickInfoCards = [
-    {
-        title: "GET THE",
-        subtitle: "Academic Advantage",
-        icon: <Sparkles />,
-        color: "text-amber-600",
-        iconBg: "bg-amber-50",
-        href: "/about"
-    },
-    {
-        title: "REVISION",
-        subtitle: "High-Quality Notes",
-        icon: <BookOpen />,
-        color: "text-blue-600",
-        iconBg: "bg-blue-50",
-        href: "/resources/notes"
-    },
-    {
-        title: "SOLUTIONS",
-        subtitle: "NCERT Step-by-Step",
-        icon: <Book />,
-        color: "text-indigo-600",
-        iconBg: "bg-indigo-50",
-        href: "/resources/ncert-solutions"
-    }
 ];
 
 function SchoolPageContent() {
@@ -92,6 +59,33 @@ function SchoolPageContent() {
         router.push(`/school?class=${encodeURIComponent(className)}`, { scroll: false });
     };
     
+    const quickInfoCards = [
+        {
+            title: "GET THE",
+            subtitle: `Advantage For ${activeTab}`,
+            icon: <Sparkles />,
+            color: "text-amber-600",
+            iconBg: "bg-amber-50",
+            href: "/about"
+        },
+        {
+            title: "REVISION",
+            subtitle: "High-Quality Notes",
+            icon: <BookOpen />,
+            color: "text-blue-600",
+            iconBg: "bg-blue-50",
+            href: "/resources/notes"
+        },
+        {
+            title: "SOLUTIONS",
+            subtitle: "NCERT Step-by-Step",
+            icon: <Book />,
+            color: "text-indigo-600",
+            iconBg: "bg-indigo-50",
+            href: "/resources/ncert-solutions"
+        }
+    ];
+
     const currentSubjects = (activeTab === "Class 11" || activeTab === "Class 12") ? seniorSubjects : schoolSubjects;
 
     return (
@@ -141,6 +135,7 @@ function SchoolPageContent() {
                 </div>
             </div>
     
+            {/* Redesigned Quick Info Cards matching CUET Portal style */}
             <section className="mb-12 animate-fade-in-up" style={{animationDelay: '0.15s'}}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
                     {quickInfoCards.map((card, index) => (
@@ -149,7 +144,7 @@ function SchoolPageContent() {
                             href={card.href} 
                             className="group/card h-full"
                         >
-                            <div className="flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden">
+                            <div className="flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden text-left">
                                 <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
                                 <div className={cn(
                                     "p-3 rounded-xl shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 group-hover/card:rotate-6 group-hover/card:scale-110", 
@@ -159,7 +154,7 @@ function SchoolPageContent() {
                                     {React.cloneElement(card.icon as React.ReactElement, { className: "w-5 h-5" })}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors text-left">
+                                    <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors">
                                         <span className="block opacity-60 text-[10px] mb-0.5">{card.title}</span>
                                         <span className="block">{card.subtitle}</span>
                                     </h4>

@@ -10,24 +10,13 @@ import {
     ArrowRight, 
     CheckCircle2, 
     Building, 
-    Globe, 
     GraduationCap, 
-    Repeat, 
     Calendar, 
-    Info, 
-    Edit, 
-    Clock, 
-    Ticket, 
-    Monitor, 
-    BarChart3, 
+    User, 
+    Mail, 
+    Phone, 
     Send,
-    MapPin,
-    User,
-    Mail,
-    Phone,
-    ShieldCheck,
-    Zap,
-    Landmark
+    MapPin
 } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,9 +25,8 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from "@/component
 import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
 
 const cuetInquirySchema = z.object({
   fullName: z.string().min(2, "Full name is required."),
@@ -100,7 +88,7 @@ export default function UnderstandingCuetPage() {
   return (
     <div className="min-h-screen w-full bg-white relative overflow-hidden">
       
-      {/* Decorative Floating Blobs - Adjusted for atmospheric depth */}
+      {/* Premium Decorative Blurred Background Elements */}
       <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
       <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
 
@@ -295,7 +283,7 @@ export default function UnderstandingCuetPage() {
                                     render={({ field }) => (
                                     <FormItem className="space-y-0">
                                         <div className="relative group h-full">
-                                            <Monitor className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
+                                            <GraduationCap className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 z-10" />
                                             <Select onValueChange={field.onChange} value={field.value}>
                                                 <FormControl>
                                                     <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus:ring-0 shadow-none">

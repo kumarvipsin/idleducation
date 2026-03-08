@@ -54,6 +54,7 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         return { success: true, url: url };
     } catch (error: any) {
         console.error("Error generating signed URL for:", publicUrl, "Error details:", error);
+        // On error, return original URL as fallback
         return { success: true, url: publicUrl };
     }
 }

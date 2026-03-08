@@ -11,13 +11,10 @@ import {
     Zap, 
     Globe, 
     ArrowRight, 
-    X, 
-    FileText, 
-    Sparkles, 
-    CheckCircle2,
     FlaskConical,
     BarChart3,
-    Landmark
+    Landmark,
+    CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { getSignedUrlForPdf } from "@/app/actions";
@@ -82,7 +79,7 @@ export default function AllAboutCuetPage() {
         toast({
             variant: "destructive",
             title: "Access Denied",
-            description: "Resource is temporarily unavailable for offline updates.",
+            description: "Resource is temporarily unavailable.",
         });
     }
   };
@@ -90,7 +87,7 @@ export default function AllAboutCuetPage() {
   return (
     <div className="min-h-screen w-full bg-[#FBFBFE] dark:bg-slate-950 selection:bg-primary/10">
       
-      {/* 1. Hero Section */}
+      {/* 1. Hero Section with Premium Blurs */}
       <section className="relative w-full pt-0 pb-12 md:pt-0 md:pb-20 bg-white overflow-hidden">
         {/* Floating Decorative Elements */}
         <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
@@ -101,7 +98,7 @@ export default function AllAboutCuetPage() {
         <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center max-w-6xl mx-auto">
                 <div className="space-y-8 animate-fade-in-up text-left">
-                    <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight uppercase whitespace-nowrap">
+                    <h1 className="text-3xl md:text-5xl font-black tracking-tight text-slate-900 leading-tight uppercase">
                         ALL ABOUT <span className="text-red-600">CUET (UG)</span>
                     </h1>
                     
@@ -136,11 +133,11 @@ export default function AllAboutCuetPage() {
                     <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">
                         Curriculum <span className="text-red-600">Matrix</span>
                     </h2>
-                    <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">Download Official Syllabus PDFs for 2026</p>
+                    <p className="text-slate-500 font-bold text-xs uppercase tracking-widest text-left">Download Official Syllabus PDFs for 2026</p>
                 </div>
 
                 <div className="space-y-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                         <div className="group flex items-center justify-between p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-red-200 hover:bg-white hover:shadow-xl transition-all duration-500">
                             <div className="flex items-center gap-4">
                                 <div className="p-3 bg-white text-red-600 rounded-xl shadow-sm border border-slate-100">
@@ -182,7 +179,7 @@ export default function AllAboutCuetPage() {
                         <div className="p-1">
                             <div className="bg-slate-50/50 rounded-[calc(2rem-4px)] p-8 md:p-10 space-y-10">
                                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                                    <div className="space-y-1">
+                                    <div className="space-y-1 text-left">
                                         <h3 className="text-xl font-black text-slate-900 uppercase tracking-tight flex items-center gap-3">
                                             <Globe className="w-6 h-6 text-red-600" />
                                             Domain Specific Subjects
@@ -224,7 +221,7 @@ export default function AllAboutCuetPage() {
                     <h2 className="text-3xl font-black text-slate-900 uppercase tracking-tight">
                         Academic <span className="text-red-600">Catalogs</span>
                     </h2>
-                    <p className="text-slate-500 font-bold text-xs uppercase tracking-widest">Comprehensive stream-wise guides for UG admissions</p>
+                    <p className="text-slate-500 font-bold text-xs uppercase tracking-widest text-left">Comprehensive stream-wise guides for UG admissions</p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -249,7 +246,7 @@ export default function AllAboutCuetPage() {
                                         {catalog.description}
                                     </p>
                                 </div>
-                                <div className="space-y-2 pb-2">
+                                <div className="space-y-2 pb-2 text-left">
                                     {catalog.subjects.map(s => (
                                         <div key={s} className="flex items-center gap-2 text-[9px] font-black text-slate-500 uppercase tracking-tighter">
                                             <div className={cn(

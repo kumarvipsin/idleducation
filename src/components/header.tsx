@@ -1,12 +1,12 @@
 'use client';
 import Link from "next/link";
 import { 
-  BookOpen, LogIn, Menu, Phone, Mail, GraduationCap, FileText, 
+  BookOpen, Menu, Phone, Mail, GraduationCap, FileText, 
   ImageIcon, User, LayoutDashboard, LogOut, X, AlignJustify, 
   ShoppingCart, MessageSquare, Info, ChevronDown, Heart, HelpCircle, 
   FileType, UserPlus, IndianRupee, Landmark, ClipboardList, 
   UserCircle, Building, Users, HandHeart, Banknote,
-  Edit, Headset, Copy, CheckCircle2, MapPin, AlignLeft, Search,
+  Edit, Headset, CheckCircle2, MapPin, Search,
   Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell
 } from "lucide-react";
 import { Button } from "./ui/button";
@@ -18,7 +18,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger 
 } from "./ui/dropdown-menu";
 import { useEffect, useState, useCallback, useRef } from "react";
-import { createRazorpayOrder, recordDonation } from "@/app/actions";
+import { createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
 import Image from "next/image";
 import { 
   Dialog, DialogContent, DialogDescription, DialogHeader, 
@@ -28,9 +28,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Input } from "./ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
 import { cn } from "@/lib/utils";
-import { useCart } from "@/context/cart-context";
 import { GcsImage } from "./gcs-image";
-import { allPrograms } from "@/lib/courses";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
@@ -38,6 +36,7 @@ import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
+import { formatDistanceToNow } from 'date-fns';
 
 const megaMenuBg = "bg-white shadow-2xl";
 
@@ -73,7 +72,7 @@ const allCoursesCategories = [
     {
         name: "GOVT. EXAMS",
         description: "SSC, Banking, & Railway.",
-        href: "#",
+        href: "/examcat",
         icon: <Landmark className="h-4 w-4" />,
         colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white"
     },
@@ -99,7 +98,8 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
             {links && links.map((link) => {
-                const isDisabled = link.disabled || (link.href === "#" && !link.onClick);
+                // Register Now is specifically disabled per user request
+                const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
                         e.preventDefault();
@@ -118,7 +118,7 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
                         className={cn(
-                            "group relative flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98]",
+                            "group relative flex items-center gap-2 p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-border/50 hover:border-primary/20 hover:bg-primary/[0.01] transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] active:scale-[0.98] text-left",
                             isDisabled && "opacity-50 grayscale cursor-not-allowed pointer-events-none"
                         )}
                     >
@@ -164,9 +164,9 @@ export function Header() {
   const [donorDetails, setDonorDetails] = useState({ name: '', contact: '', email: '', place: '' });
   const [donationAmount, setDonationAmount] = useState('');
 
-  const logoHref = "/";
-  const isIdlFoundationPage = pathname === '/idl-foundation';
-  
+  const [updates, setUpdates] = useState<Update[]>([]);
+  const [hasNewUpdates, setHasNewUpdates] = useState(false);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
@@ -240,7 +240,7 @@ export function Header() {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: order.currency,
-        name: 'IDL Foundation Donation',
+        name: 'IDL Education',
         description: `Donation for ${donationCategory}`,
         order_id: order.id,
         handler: async function (response: any) {
@@ -262,10 +262,6 @@ export function Header() {
             name: donorDetails.name,
             email: donorDetails.email,
             contact: donorDetails.contact,
-        },
-        notes: {
-            category: donationCategory,
-            place: donorDetails.place,
         },
         theme: {
             color: '#0d47a1',
@@ -312,7 +308,7 @@ export function Header() {
       { href: "/scholarship", label: "Scholarship", icon: <Award className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship." },
   ];
 
-  const navItemClass = "relative h-full flex items-center h-auto py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent data-[active=true]:text-primary data-[active=true]:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100 data-[active=true]:after:scale-x-100";
+  const navItemClass = "relative h-full flex items-center py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
 
   const renderAuthSection = () => {
     if (loading) return <Skeleton className="h-10 w-10 rounded-full" />;
@@ -352,56 +348,6 @@ export function Header() {
       );
     }
     
-    if (isIdlFoundationPage) {
-        return (
-            <Dialog open={isDonateDialogOpen} onOpenChange={(open) => { setIsDonateDialogOpen(open); if (!open) setDonationStep(1); }}>
-                <DialogTrigger asChild>
-                    <Button onClick={() => setIsDonateDialogOpen(true)} className="font-extrabold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out bg-red-600 text-white hover:bg-red-700 h-10 px-6">
-                        Donate <Heart className="w-4 h-4 ml-2 fill-white text-white" />
-                    </Button>
-                </DialogTrigger>
-                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8">
-                    <DialogHeader className="text-center mb-6">
-                        <DialogTitle className="text-2xl font-extrabold text-center text-primary">Thank You for Your Support!</DialogTitle>
-                        <DialogDescription className="text-center font-bold">Your generosity helps us create a better world.</DialogDescription>
-                    </DialogHeader>
-                    {donationStep === 1 ? (
-                        <div className="py-4 space-y-4">
-                            <RadioGroup onValueChange={setDonationCategory} value={donationCategory}>
-                                {donationCategories.map(category => (
-                                    <div key={category.title} className="flex items-center space-x-2">
-                                        <RadioGroupItem value={category.title} id={`header-${category.title}`} />
-                                        <Label htmlFor={`header-${category.title}`} className="font-bold">{category.title}</Label>
-                                    </div>
-                                ))}
-                            </RadioGroup>
-                            <Button onClick={handleDonateClick} disabled={!donationCategory} className="w-full font-bold">
-                                Donate to {donationCategory || "..."}
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className="pt-4 space-y-3">
-                            <p className="text-center font-bold text-sm">You are donating to "{donationCategory}".</p>
-                            <div className="relative">
-                                <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                                <Input id="header-amount" name="amount" type="number" placeholder="Enter Amount" value={donationAmount} onChange={(e) => setDonationAmount(e.target.value)} className="pl-9 h-9 text-sm" />
-                            </div>
-                            <Input id="header-name" name="name" placeholder="Name (Optional)" value={donorDetails.name} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Input id="header-contact" name="contact" placeholder="Contact (Optional)" value={donorDetails.contact} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Input id="header-email" name="email" type="email" placeholder="Email (Optional)" value={donorDetails.email} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Input id="header-place" name="place" placeholder="Place (Optional)" value={donorDetails.place} onChange={handleDetailChange} className="h-9 text-sm" />
-                            <Button onClick={handlePayment} className="w-full bg-green-600 hover:bg-green-700 h-9 text-sm font-extrabold">
-                                <Banknote className="mr-2 h-4 w-4" />
-                                Proceed to Final Payment
-                            </Button>
-                            <Button variant="link" onClick={() => setDonationStep(1)} className="text-xs w-full h-auto py-1 font-bold">Change Category</Button>
-                        </div>
-                    )}
-                </DialogContent>
-            </Dialog>
-        );
-    }
-
     return (
       <Link href="/login" className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
         <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
@@ -417,19 +363,19 @@ export function Header() {
         show ? "translate-y-0" : "-translate-y-full"
       )}>
           <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-              <Link href={logoHref} className="flex items-center justify-center -ml-2">
+              <Link href="/" className="flex items-center justify-center -ml-2">
                 <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
               </Link>
               
                <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
                   <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
-                        {!isIdlFoundationPage ? (
+                        {!pathname.startsWith('/idl-foundation') ? (
                           <>
                             <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'explore'} className={navItemClass}>ALL COURSES</Button>
+                              <Button variant="ghost" className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}>ALL COURSES</Button>
                             </div>
                             <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center">
-                              <Button variant="ghost" data-active={activeMenu === 'apply'} className={navItemClass}>APPLY FOR</Button>
+                              <Button variant="ghost" className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}>APPLY FOR</Button>
                             </div>
                              <div className="h-full flex items-center">
                               <Button asChild variant="ghost" className={navItemClass}>
@@ -439,7 +385,7 @@ export function Header() {
                                   </Button>
                               </div>
                                <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center">
-                                <Button variant="ghost" data-active={activeMenu === 'more'} className={navItemClass}>MORE</Button>
+                                <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
                             </div>
                           </>
                         ) : (
@@ -470,7 +416,7 @@ export function Header() {
                     <SheetContent side="left" className="p-0 w-80">
                         <SheetHeader className="p-4 border-b bg-muted/10 text-left">
                             <SheetTitle asChild>
-                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-row items-center justify-start gap-3 group">
+                                <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-row items-center justify-start gap-3 group text-left">
                                     <div className="relative w-16 h-16 shrink-0">
                                         <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
                                     </div>
@@ -489,7 +435,6 @@ export function Header() {
                         </SheetHeader>
                         <div className="h-[calc(100vh-5.5rem)] flex flex-col">
                             <ScrollArea className="flex-1">
-                                {!isIdlFoundationPage && (
                                 <div className="p-4 space-y-6">
                                     <div className="space-y-3">
                                         <Collapsible open={openMobileAccordion === 'all-courses'} onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}>
@@ -503,30 +448,24 @@ export function Header() {
                                                 </button>
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => {
-                                                    const isDisabled = href === "#";
-                                                    return (
-                                                        <Link 
-                                                            key={label} 
-                                                            href={href} 
-                                                            onClick={() => !isDisabled && setIsMobileMenuOpen(false)} 
-                                                            className={cn(
-                                                                "group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]",
-                                                                isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                            )}
-                                                        >
-                                                            <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
-                                                                <div className="-rotate-45">
-                                                                    {icon}
-                                                                </div>
+                                                {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
+                                                    <Link 
+                                                        key={label} 
+                                                        href={href} 
+                                                        onClick={() => setIsMobileMenuOpen(false)} 
+                                                        className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98] text-left"
+                                                    >
+                                                        <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses)}>
+                                                            <div className="-rotate-45">
+                                                                {icon}
                                                             </div>
-                                                            <div className="space-y-0.5">
-                                                                <p className="font-extrabold text-[13px] text-foreground leading-tight">{label.toUpperCase()}</p>
-                                                                <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
-                                                            </div>
-                                                        </Link>
-                                                    )
-                                                })}
+                                                        </div>
+                                                        <div className="space-y-0.5 text-left">
+                                                            <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
+                                                            <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
+                                                        </div>
+                                                    </Link>
+                                                ))}
                                             </CollapsibleContent>
                                         </Collapsible>
 
@@ -542,13 +481,13 @@ export function Header() {
                                             </CollapsibleTrigger>
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
-                                                    <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]">
+                                                    <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98] text-left">
                                                         <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", colorClasses || "bg-primary text-white")}>
                                                             <div className="-rotate-45">
                                                                 {icon}
                                                             </div>
                                                         </div>
-                                                        <div className="space-y-0.5">
+                                                        <div className="space-y-0.5 text-left">
                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{label}</p>
                                                             <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{description}</p>
                                                         </div>
@@ -570,10 +509,10 @@ export function Header() {
                                             <CollapsibleContent className="px-1 py-3 bg-white space-y-6 animate-in fade-in slide-in-from-top-2 duration-300">
                                                 {moreMenuGroups.map((group) => (
                                                     <div key={group.title} className="space-y-2">
-                                                        <h4 className="px-4 text-[10px] font-semibold text-primary uppercase tracking-widest">{group.title}</h4>
+                                                        <h4 className="px-4 text-[10px] font-semibold text-primary uppercase tracking-widest text-left">{group.title}</h4>
                                                         <div className="space-y-1">
                                                             {group.links.map((link) => {
-                                                                const isDisabled = link.disabled || (link.href === "#" && !link.onClick);
+                                                                const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
                                                                 const handleClick = (e: React.MouseEvent) => {
                                                                     if (link.onClick) {
                                                                         e.preventDefault();
@@ -588,11 +527,9 @@ export function Header() {
                                                                     <Link 
                                                                         key={link.label} 
                                                                         href={isDisabled ? '#' : link.href} 
-                                                                        target={link.target} 
-                                                                        rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                                         onClick={handleClick} 
                                                                         className={cn(
-                                                                            "group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]",
+                                                                            "group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98] text-left",
                                                                             isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                         )}
                                                                     >
@@ -601,7 +538,7 @@ export function Header() {
                                                                                 {link.icon}
                                                                             </div>
                                                                         </div>
-                                                                        <div className="space-y-0.5">
+                                                                        <div className="space-y-0.5 text-left">
                                                                             <p className="font-extrabold text-[13px] text-foreground leading-tight">{link.label}</p>
                                                                             <p className="text-[10px] font-bold text-muted-foreground leading-tight line-clamp-1 opacity-80">{link.description}</p>
                                                                         </div>
@@ -614,24 +551,7 @@ export function Header() {
                                             </CollapsibleContent>
                                         </Collapsible>
                                     </div>
-
-                                    <div className="space-y-3">
-                                        <Link href="/store" target="_blank" rel="noopener noreferrer" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
-                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-orange-600">
-                                                <ShoppingCart className="h-4 w-4" /> 
-                                                IDL Store
-                                            </span>
-                                        </Link>
-
-                                        <a href="tel:8860040010" onClick={() => setIsMobileMenuOpen(false)} className="w-full flex items-center p-4 rounded-xl bg-white hover:bg-muted transition-all border border-border active:scale-[0.98]">
-                                            <span className="flex items-center gap-3 font-extrabold text-xs uppercase tracking-tight text-primary">
-                                                <Phone className="h-4 w-4" /> 
-                                                Call Now
-                                            </span>
-                                        </a>
-                                    </div>
                                 </div>
-                                )}
                                 <div className="p-4 border-t mt-auto bg-muted/10">
                                     {user ? (
                                         <Link href={getProfilePath(user)} className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
@@ -680,10 +600,10 @@ export function Header() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         {moreMenuGroups.map((group) => (
                             <div key={group.title} className="space-y-4">
-                                <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3">{group.title}</h4>
+                                <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3 text-left">{group.title}</h4>
                                 <div className="grid grid-cols-1 gap-1">
                                     {group.links.map((link) => {
-                                        const isDisabled = link.disabled || (link.href === "#" && !link.onClick);
+                                        const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
                                         const handleClick = (e: React.MouseEvent) => {
                                             if (link.onClick) {
                                                 e.preventDefault();
@@ -702,7 +622,7 @@ export function Header() {
                                                 rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                 onClick={handleClick}
                                                 className={cn(
-                                                    "group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200",
+                                                    "group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200 text-left",
                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
                                                 )}
                                             >
@@ -714,7 +634,7 @@ export function Header() {
                                                         {link.icon}
                                                     </div>
                                                 </div>
-                                                <div className="space-y-0.5">
+                                                <div className="space-y-0.5 text-left">
                                                     <p className="font-extrabold text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{link.label}</p>
                                                     <p className="text-[9px] font-bold text-muted-foreground line-clamp-1 opacity-80">{link.description}</p>
                                                 </div>

@@ -1,7 +1,6 @@
 'use server';
 /**
  * @fileOverview Server actions for managing free courses.
- * Changed to 'use server' to allow use of server-only functions like revalidatePath.
  */
 import { db } from "@/lib/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc } from "firebase/firestore";
@@ -70,7 +69,7 @@ export async function addFreeCourse(formData: FormData) {
       courseData.coverImageUrl = await uploadFileToGCS(coverImageFile, destination);
     }
     
-    // Parse chapters and videos from nested form field names (e.g., chapters[0].name)
+    // Parse chapters and videos from nested form field names
     const chapterEntries: { [key: number]: { name?: string; videos: { [key: number]: { title?: string; youtubeLink?: string } } } } = {};
     for (const [key, value] of formData.entries()) {
         const chapterMatch = key.match(/^chapters\[(\d+)\]\.name$/);
@@ -111,6 +110,7 @@ export async function addFreeCourse(formData: FormData) {
 
     await addDoc(collection(db, "freeCourses"), courseData);
     
+    // Lazy load revalidatePath to avoid client-side bundling issues
     const { revalidatePath } = await import('next/cache');
     revalidatePath('/free-courses');
     

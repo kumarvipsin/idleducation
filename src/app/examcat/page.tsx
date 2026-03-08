@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect, Suspense, ReactElement, cloneElement } from 'react';
@@ -9,12 +8,7 @@ import {
     BookOpen, 
     Sparkles, 
     Book, 
-    PlayCircle,
-    IndianRupee,
-    Monitor,
-    Users,
-    Calendar,
-    MessageSquare
+    Calendar
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -40,30 +34,30 @@ function ExamcatPageContent() {
         router.push(`/examcat?category=${encodeURIComponent(tab)}`, { scroll: false });
     };
     
-    const resourceCards = [
+    const quickInfoCards = [
         {
-          title: "GET THE",
-          subtitle: "Govt Job Advantage",
-          icon: <Sparkles />,
-          color: "text-amber-600",
-          iconBg: "bg-amber-50",
-          href: "/about"
+            title: "GET THE",
+            subtitle: "Govt Job Advantage",
+            icon: <Sparkles />,
+            color: "text-amber-600",
+            iconBg: "bg-amber-50",
+            href: "/about"
         },
         {
-          title: "TEST SERIES",
-          subtitle: "High-Quality Prep",
-          icon: <BookOpen />,
-          color: "text-blue-600",
-          iconBg: "bg-blue-50",
-          href: "/resources/notes"
+            title: "REVISION",
+            subtitle: "High-Quality Notes",
+            icon: <BookOpen />,
+            color: "text-blue-600",
+            iconBg: "bg-blue-50",
+            href: "/resources/notes"
         },
-         {
-          title: "SOLUTIONS",
-          subtitle: "PYQs & Mock Tests",
-          icon: <Book />,
-          color: "text-indigo-600",
-          iconBg: "bg-indigo-50",
-          href: "/resources/ncert-solutions"
+        {
+            title: "SOLUTIONS",
+            subtitle: "PYQs & Mock Tests",
+            icon: <Book />,
+            color: "text-indigo-600",
+            iconBg: "bg-indigo-50",
+            href: "/resources/ncert-solutions"
         }
     ];
 
@@ -123,7 +117,6 @@ function ExamcatPageContent() {
                         <Image
                             src="/result.jpg"
                             alt="Government Exams Results"
-                            data-ai-hint="exam result banner"
                             fill
                             className="object-cover"
                         />
@@ -174,18 +167,17 @@ function ExamcatPageContent() {
                 </div>
             </div>
     
+            {/* Redesigned Quick Info Cards matching CUET Portal style */}
             <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.2s'}}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-5xl mx-auto">
-                    {resourceCards.map((card, index) => (
+                    {quickInfoCards.map((card, index) => (
                         <Link 
                             key={index} 
                             href={card.href} 
                             className="group/card h-full"
                         >
-                            <div className="flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden">
-                                {/* Premium institutional line */}
+                            <div className="flex items-center gap-4 p-5 rounded-xl transition-all duration-500 shadow-sm border border-slate-100 bg-white dark:bg-slate-900/50 hover:shadow-xl hover:border-primary/30 h-full group/item relative overflow-hidden text-left">
                                 <div className="absolute bottom-0 left-0 w-0 h-1 bg-primary transition-all duration-500 group-hover/card:w-full" />
-                                
                                 <div className={cn(
                                     "p-3 rounded-xl shrink-0 border border-slate-100 dark:border-slate-800 shadow-sm transition-all duration-500 group-hover/card:rotate-6 group-hover/card:scale-110", 
                                     card.iconBg, 
@@ -194,7 +186,7 @@ function ExamcatPageContent() {
                                     {cloneElement(card.icon as ReactElement, { className: "w-6 h-6" })}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors text-left">
+                                    <h4 className="text-[12px] font-black leading-tight text-slate-900 dark:text-white uppercase tracking-tight group-hover/card:text-primary transition-colors">
                                         <span className="block opacity-60 text-[10px] mb-0.5">{card.title}</span>
                                         <span className="block">{card.subtitle}</span>
                                     </h4>
@@ -227,12 +219,11 @@ function ExamcatPageContent() {
                                 <Image
                                     src={course.imageUrl}
                                     alt={course.title}
-                                    data-ai-hint={course.imageHint}
                                     fill
                                     className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                                 />
                             </div>
-                            <CardContent className="p-5 flex flex-col flex-grow">
+                            <CardContent className="p-5 flex flex-col flex-grow text-left">
                                 <h3 className="font-extrabold text-base leading-tight mb-2 group-hover/card:text-primary transition-colors line-clamp-2">{course.title}</h3>
                                 
                                 <div className="flex items-center gap-2 mb-3">
@@ -258,90 +249,6 @@ function ExamcatPageContent() {
                             </CardContent>
                         </Card>
                         ))}
-                    </div>
-                </div>
-            </section>
-
-            <section className="mb-16 animate-fade-in-up" style={{animationDelay: '0.4s'}}>
-                <div className="space-y-8">
-                    <div className="flex items-center gap-3 border-l-4 border-primary pl-4">
-                        <div>
-                            <h3 className="font-bold text-xl md:text-2xl text-foreground uppercase tracking-tight text-primary">
-                                Choose Your Learning Path
-                            </h3>
-                            <p className="text-[10px] md:text-xs text-muted-foreground font-bold uppercase tracking-wide mt-1">Premium solutions for every aspirant</p>
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {/* Free Courses */}
-                        <Card className="group relative border bg-white dark:bg-card hover:border-orange-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-orange-500 overflow-hidden">
-                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
-                                <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-orange-50 rounded-lg text-orange-600">
-                                        <PlayCircle className="w-6 h-6" />
-                                    </div>
-                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-orange-200 text-orange-600 bg-orange-50/50">ACCESS</Badge>
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Free Courses</h4>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
-                                        Access expert-led video lessons at no cost. Perfect for foundation building and revisions.
-                                    </p>
-                                </div>
-                                <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-orange-500 text-orange-600 hover:bg-orange-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
-                                        <Link href="/free-courses">Explore Free Courses</Link>
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Paid Courses */}
-                        <Card className="group relative border bg-white dark:bg-card hover:border-emerald-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-emerald-500 overflow-hidden">
-                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
-                                <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-emerald-50 rounded-lg text-emerald-600">
-                                        <IndianRupee className="w-6 h-6" />
-                                    </div>
-                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-emerald-200 text-emerald-600 bg-emerald-50/50">PREMIUM</Badge>
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Paid Courses</h4>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
-                                        Comprehensive curricula with structured paths, premium notes, and 100% coverage.
-                                    </p>
-                                </div>
-                                <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-emerald-500 text-emerald-600 hover:bg-emerald-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
-                                        <Link href="/paid-courses">Explore Paid Courses</Link>
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Live Classes */}
-                        <Card className="group relative border bg-white dark:bg-card hover:border-indigo-200 transition-all duration-300 rounded-xl shadow-sm hover:shadow-md border-t-4 border-t-indigo-500 overflow-hidden">
-                            <CardContent className="p-6 space-y-4 flex flex-col h-full">
-                                <div className="flex items-center justify-between">
-                                    <div className="p-2.5 bg-indigo-50 rounded-lg text-indigo-600">
-                                        <Monitor className="w-6 h-6" />
-                                    </div>
-                                    <Badge variant="outline" className="text-[8px] font-bold uppercase tracking-widest border-indigo-200 text-indigo-600 bg-indigo-50/50">LIVE</Badge>
-                                </div>
-                                <div className="space-y-1">
-                                    <h4 className="text-base font-black text-foreground uppercase tracking-tight">Live Classes</h4>
-                                    <p className="text-[11px] font-bold text-muted-foreground leading-relaxed">
-                                        Interactive real-time sessions with top faculty. Instant doubt clearing and peer learning.
-                                    </p>
-                                </div>
-                                <div className="mt-auto pt-4">
-                                    <Button asChild variant="outline" className="w-full border-indigo-500 text-indigo-600 hover:bg-indigo-500 hover:text-white font-bold text-sm h-12 rounded-lg shadow-none transition-all">
-                                        <Link href="/book-demo">Join Live Session</Link>
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
                     </div>
                 </div>
             </section>
