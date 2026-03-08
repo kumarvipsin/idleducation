@@ -56,7 +56,7 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         const url = await getSignedUrl(filePath);
         return { success: true, url: url };
     } catch (error: any) {
-        console.error("Error generating signed URL:", error);
+        console.error("Error generating signed URL for:", publicUrl, "Error details:", error);
         // Fallback: If signing fails for any reason, return the original URL instead of an error
         // This handles cases where images might already be public or the path is already a direct link
         return { success: true, url: publicUrl };

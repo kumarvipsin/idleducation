@@ -22,6 +22,24 @@ export async function getFreeCourses() {
 }
 
 /**
+ * Fetches a single free course by its ID.
+ */
+export async function getFreeCourseById(id: string) {
+    try {
+        const docRef = doc(db, "freeCourses", id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return { success: true, data: { id: docSnap.id, ...serializeFirestoreData(docSnap.data()) } };
+        } else {
+            return { success: false, message: "Course not found." };
+        }
+    } catch (error) {
+        console.error("Error fetching free course:", error);
+        return { success: false, message: "Failed to fetch course details." };
+    }
+}
+
+/**
  * Adds a new free course to Firestore, including uploading a cover image to GCS.
  */
 export async function addFreeCourse(formData: FormData) {

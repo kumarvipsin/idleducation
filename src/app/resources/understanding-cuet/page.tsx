@@ -135,39 +135,6 @@ const timelineData = [
     }
 ];
 
-const whyChooseFeatures = [
-    {
-        title: "Expert Faculty",
-        description: "A team of expert faculties under the guidance of our academic director mentor students through the academic journey with personalized support and insightful instructions.",
-        accent: "bg-red-500"
-    },
-    {
-        title: "Exam Oriented Foundation",
-        description: "IDL CUET (UG) program focuses on building a strong foundational knowledge base to ensure that when students eventually face the exam, they are well-prepared to solve problems.",
-        accent: "bg-blue-500"
-    },
-    {
-        title: "One-to-One Guidance",
-        description: "We offer personalized guidance, regular doubt sessions and interaction with faculties ensuring each student receives tailored support.",
-        accent: "bg-amber-500"
-    },
-    {
-        title: "Regular Class Tests",
-        description: "Our class tests are meticulously structured to simulate CUET (UG) exam conditions and provide targeted feedback for improvement.",
-        accent: "bg-emerald-500"
-    },
-    {
-        title: "Topic-wise Practice Worksheets",
-        description: "Customized worksheets to sharpen critical thinking, ensuring students are prepared to tackle the complexities of the exam with confidence.",
-        accent: "bg-indigo-500"
-    },
-    {
-        title: "Printed Study Materials",
-        description: "Materials curated by dedicated content writers and reviewed by the faculty team to ensure 100% correlation with lectures.",
-        accent: "bg-rose-500"
-    }
-];
-
 export default function UnderstandingCuetPage() {
   const { toast } = useToast();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -205,15 +172,15 @@ export default function UnderstandingCuetPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FFF5F5]">
+    <div className="min-h-screen w-full bg-[#FFF5F5] relative overflow-hidden">
       
+      {/* Decorative Floating Blobs */}
+      <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+      <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
+
       {/* Top Hero/Form Section */}
-      <section className="relative w-full py-12 md:py-20 bg-white overflow-hidden">
-        {/* Floating Decorative Elements */}
-        <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
-        <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
-        
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
+      <section className="relative w-full py-12 md:py-20 bg-white/80 backdrop-blur-sm z-10">
+        <div className="container mx-auto px-4 md:px-6">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
             
             {/* Left Content */}
@@ -251,7 +218,7 @@ export default function UnderstandingCuetPage() {
 
             {/* Right Form Card */}
             <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                <Card className="w-full max-w-lg mx-auto bg-white dark:bg-card shadow-2xl rounded-2xl border-2 border-primary/10 overflow-hidden">
+                <Card className="w-full max-w-lg mx-auto bg-white/90 backdrop-blur-xl shadow-2xl rounded-2xl border-2 border-primary/10 overflow-hidden">
                 <CardHeader className="text-center p-8 pb-0">
                     <CardTitle className="text-2xl font-black text-red-600 tracking-tighter uppercase">Join IDL CUET (UG) Now</CardTitle>
                     <CardDescription className="text-muted-foreground text-[11px] font-black uppercase tracking-widest">Fill out the form to get a call back</CardDescription>
@@ -373,7 +340,6 @@ export default function UnderstandingCuetPage() {
                                 />
                             </div>
 
-                            {/* Row 4 */}
                             <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                                 <FormField
                                     control={form.control}
@@ -438,10 +404,10 @@ export default function UnderstandingCuetPage() {
 
       {/* WHAT IS CUET? Section */}
       <section className="w-full bg-white py-12 md:py-20 animate-fade-in-up">
-        <div className="container mx-auto px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
                 <div className="relative aspect-video lg:aspect-square flex items-center justify-center">
-                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white">
+                    <div className="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px] rounded-full border-[12px] border-white overflow-hidden bg-white shadow-2xl shadow-red-500/10">
                         <Image 
                             src="/cuet.png" 
                             alt="Understanding CUET Exam" 

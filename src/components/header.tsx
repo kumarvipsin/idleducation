@@ -99,7 +99,7 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
     <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2">
             {links && links.map((link) => {
-                const isDisabled = link.href === "#" && !link.onClick;
+                const isDisabled = link.disabled || (link.href === "#" && !link.onClick);
                 const handleClick = (e: React.MouseEvent) => {
                     if (link.onClick) {
                         e.preventDefault();
@@ -113,7 +113,7 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
                 return (
                     <Link 
                         key={link.label} 
-                        href={link.href} 
+                        href={isDisabled ? '#' : link.href} 
                         target={link.target} 
                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                         onClick={handleClick}
@@ -299,7 +299,7 @@ export function Header() {
         links: [
             { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-red-400 to-red-600 text-white", target: "_blank", description: "Support our cause." },
             { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-pink-400 to-pink-600 text-white", description: "Contribute to our mission." },
-            { href: "#", label: "Register Now", icon: <UserPlus className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Unlock full website access." },
+            { href: "#", label: "Register Now", icon: <UserPlus className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Unlock full website access.", disabled: true },
         ]
     }
   ];
@@ -573,22 +573,28 @@ export function Header() {
                                                         <h4 className="px-4 text-[10px] font-semibold text-primary uppercase tracking-widest">{group.title}</h4>
                                                         <div className="space-y-1">
                                                             {group.links.map((link) => {
+                                                                const isDisabled = link.disabled || (link.href === "#" && !link.onClick);
                                                                 const handleClick = (e: React.MouseEvent) => {
                                                                     if (link.onClick) {
                                                                         e.preventDefault();
                                                                         link.onClick();
                                                                     }
-                                                                    setIsMobileMenuOpen(false);
+                                                                    if (!isDisabled) {
+                                                                        setIsMobileMenuOpen(false);
+                                                                    }
                                                                 };
 
                                                                 return (
                                                                     <Link 
                                                                         key={link.label} 
-                                                                        href={link.onClick ? '#' : link.href} 
+                                                                        href={isDisabled ? '#' : link.href} 
                                                                         target={link.target} 
                                                                         rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                                         onClick={handleClick} 
-                                                                        className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]"
+                                                                        className={cn(
+                                                                            "group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98]",
+                                                                            isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                        )}
                                                                     >
                                                                         <div className={cn("flex items-center justify-center w-9 h-9 rotate-45 rounded-sm mt-0.5 shadow-sm shrink-0", link.colorClasses)}>
                                                                             <div className="-rotate-45">
@@ -677,22 +683,28 @@ export function Header() {
                                 <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3">{group.title}</h4>
                                 <div className="grid grid-cols-1 gap-1">
                                     {group.links.map((link) => {
+                                        const isDisabled = link.disabled || (link.href === "#" && !link.onClick);
                                         const handleClick = (e: React.MouseEvent) => {
                                             if (link.onClick) {
                                                 e.preventDefault();
                                                 link.onClick();
                                             }
-                                            setActiveMenu(null);
+                                            if (!isDisabled) {
+                                                setActiveMenu(null);
+                                            }
                                         };
 
                                         return (
                                             <Link 
                                                 key={link.label} 
-                                                href={link.onClick ? '#' : link.href} 
+                                                href={isDisabled ? '#' : link.href} 
                                                 target={link.target} 
                                                 rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
                                                 onClick={handleClick}
-                                                className="group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200"
+                                                className={cn(
+                                                    "group relative flex items-center gap-2 p-2 rounded-xl hover:bg-muted transition-all duration-200",
+                                                    isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                )}
                                             >
                                                 <div className={cn(
                                                     "flex items-center justify-center w-9 h-9 rotate-45 rounded-md shadow-sm shrink-0 transition-all duration-500 group-hover:scale-110",
