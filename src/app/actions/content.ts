@@ -31,7 +31,11 @@ export async function getSignedUrlForPdf(publicUrl: string) {
     }
     
     // If it's already a full HTTP URL that doesn't belong to our storage, return it as is
-    if (publicUrl.startsWith('http') && !publicUrl.includes('storage.googleapis.com')) {
+    // Also skip signing if it's already a signed URL (contains GoogleAccessId) or a standard web image
+    if (publicUrl.startsWith('http') && 
+        (!publicUrl.includes('storage.googleapis.com') || 
+         publicUrl.includes('GoogleAccessId') || 
+         publicUrl.includes('Signature'))) {
         return { success: true, url: publicUrl };
     }
 
@@ -40,15 +44,23 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         let filePath = publicUrl;
 
         // If it's a full GCS URL, extract the path part
-        if (publicUrl.includes(bucketName)) {
-            filePath = decodeURIComponent(publicUrl.substring(publicUrl.indexOf(bucketName) + bucketName.length + 1));
+        if (publicUrl.includes('storage.googleapis.com') && publicUrl.includes(bucketName)) {
+            const bucketIndex = publicUrl.indexOf(bucketName);
+            filePath = decodeURIComponent(publicUrl.substring(bucketIndex + bucketName.length + 1));
+        }
+        
+        // If it's still a full URL after extraction attempt, just return it
+        if (filePath.startsWith('http')) {
+            return { success: true, url: filePath };
         }
         
         const url = await getSignedUrl(filePath);
         return { success: true, url: url };
     } catch (error: any) {
         console.error("Error generating signed URL:", error);
-        return { success: false, message: `Could not get viewable link. Details: ${error.message || error}` };
+        // Fallback: If signing fails for any reason, return the original URL instead of an error
+        // This handles cases where images might already be public or the path is already a direct link
+        return { success: true, url: publicUrl };
     }
 }
 
