@@ -5,6 +5,7 @@ import { getSignedUrlForPdf } from '@/app/actions/content';
 /**
  * API route to fetch all hero slides.
  * Used by the mobile app to populate the main home screen banner.
+ * Ensures all image URLs are signed for secure access.
  */
 export async function GET() {
   try {
@@ -18,7 +19,7 @@ export async function GET() {
             }
             return slide;
         }));
-        return NextResponse.json({ ...result, data: signedData });
+        return NextResponse.json({ success: true, data: signedData });
     }
 
     return NextResponse.json(result);

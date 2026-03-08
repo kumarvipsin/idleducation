@@ -4,9 +4,6 @@ import { db } from "@/lib/firebase";
 import { doc, setDoc, deleteDoc, updateDoc, getDoc, writeBatch, arrayUnion, arrayRemove, getDocs, collection, serverTimestamp, deleteField, addDoc } from "firebase/firestore";
 import { z } from "zod";
 import { uploadFileToGCS, getSignedUrl } from '@/lib/gcs';
-import { revalidatePath } from "next/cache";
-import { TClass, TSubject, TPart, TChapter, TTopic, TSubTopic } from './types';
-
 
 // Helper to generate a slug from a string
 const generateSlug = (name: string) => {
@@ -29,36 +26,34 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         return { success: false, message: 'No valid file URL provided.' };
     }
     
-    // If it's already a full HTTP URL that doesn't belong to our storage, return it as is
-    // Also skip signing if it's already a signed URL (contains GoogleAccessId) or a standard web image
-    if (publicUrl.startsWith('http') && 
-        (!publicUrl.includes('storage.googleapis.com') || 
-         publicUrl.includes('GoogleAccessId') || 
-         publicUrl.includes('Signature'))) {
+    // Always return as-is if it's already a signed URL or doesn't look like our storage
+    if (publicUrl.includes('GoogleAccessId=') || publicUrl.includes('Signature=')) {
+        return { success: true, url: publicUrl };
+    }
+
+    if (!publicUrl.includes('storage.googleapis.com')) {
         return { success: true, url: publicUrl };
     }
 
     try {
-        const bucketName = process.env.GCS_BUCKET_NAME || 'idlcloud';
+        const bucketName = 'idlcloud';
         let filePath = publicUrl;
 
         // If it's a full GCS URL, extract the path part
-        if (publicUrl.includes('storage.googleapis.com') && publicUrl.includes(bucketName)) {
-            const bucketIndex = publicUrl.indexOf(bucketName);
-            filePath = decodeURIComponent(publicUrl.substring(bucketIndex + bucketName.length + 1));
+        if (publicUrl.includes(bucketName)) {
+            const parts = publicUrl.split(`${bucketName}/`);
+            if (parts.length > 1) {
+                filePath = decodeURIComponent(parts[1]);
+            }
         }
         
-        // If it's still a full URL after extraction attempt, just return it
-        if (filePath.startsWith('http')) {
-            return { success: true, url: filePath };
-        }
-        
+        // Clean up any remaining query params if it's just a raw GCS URL
+        filePath = filePath.split('?')[0];
+
         const url = await getSignedUrl(filePath);
         return { success: true, url: url };
     } catch (error: any) {
         console.error("Error generating signed URL for:", publicUrl, "Error details:", error);
-        // Fallback: If signing fails for any reason, return the original URL instead of an error
-        // This handles cases where images might already be public or the path is already a direct link
         return { success: true, url: publicUrl };
     }
 }
@@ -221,7 +216,7 @@ export async function addSubject(collectionType: CollectionType, classId: string
     if (!classId || !subjectName) return { success: false, message: "Class ID and Subject Name are required." };
 
     const subjectKey = generateSlug(subjectName);
-    const subjectData: TSubject = {
+    const subjectData: any = {
         name: subjectName,
         createdAt: new Date().toISOString(),
         parts: {},
@@ -299,7 +294,7 @@ export async function addPart(collectionType: CollectionType, classId: string, s
     if (!classId || !subjectKey || !partName) return { success: false, message: "Class ID, Subject Key and Part Name are required." };
 
     const partKey = generateSlug(partName);
-    const partData: TPart = {
+    const partData: any = {
         name: partName,
         createdAt: new Date().toISOString(),
         chapters: [],
@@ -384,7 +379,7 @@ export async function addChapter(
 ) {
     if (!chapterName) return { success: false, message: "Chapter name is required." };
 
-    const chapterData: TChapter = {
+    const chapterData: any = {
         name: chapterName,
         createdAt: new Date().toISOString(),
         topics: [],
@@ -530,14 +525,14 @@ export async function addTopic(
     const slug = generateSlug(topicName);
     const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
 
-    const topicData: TTopic = {
+    const topicData: any = {
         name: topicName,
         createdAt: new Date().toISOString(),
         subTopics: [],
         order: isNaN(order) ? 99 : order,
     };
 
-    const pdfFields: (keyof TTopic)[] = [
+    const pdfFields: string[] = [
         'pdfUrl_en', 
         'pdfUrl_hi', 
         'notePdfUrl_en', 
@@ -625,7 +620,7 @@ export async function editTopic(
         const slug = generateSlug(newTopicName);
         const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/${slug}`;
 
-        const pdfFields: (keyof TTopic)[] = [
+        const pdfFields: string[] = [
             'pdfUrl_en', 
             'pdfUrl_hi', 
             'notePdfUrl_en', 
@@ -697,7 +692,7 @@ export async function addSubTopic(collectionType: CollectionType, classId: strin
     const slug = generateSlug(subTopicName);
     const baseDestination = `${collectionType}/${classId}/${subjectKey}/${partKey || 'chapters'}/chapter-${chapterIndex}/topic-${topicIndex}/${slug}`;
 
-    const subTopicData: TSubTopic = {
+    const subTopicData: any = {
         name: subTopicName,
         createdAt: new Date().toISOString(),
         order: isNaN(order) ? 99 : order,

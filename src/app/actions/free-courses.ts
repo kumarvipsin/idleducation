@@ -7,7 +7,6 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
-import { revalidatePath } from 'next/cache';
 
 /**
  * Fetches all free courses from Firestore, ordered by creation date.
@@ -111,7 +110,10 @@ export async function addFreeCourse(formData: FormData) {
     }
 
     await addDoc(collection(db, "freeCourses"), courseData);
+    
+    const { revalidatePath } = await import('next/cache');
     revalidatePath('/free-courses');
+    
     return { success: true, message: "Free course added successfully." };
   } catch (error: any) {
     console.error("Error adding free course:", error);
@@ -190,7 +192,9 @@ export async function editFreeCourse(id: string, formData: FormData) {
     const docRef = doc(db, "freeCourses", id);
     await updateDoc(docRef, courseData);
 
+    const { revalidatePath } = await import('next/cache');
     revalidatePath('/free-courses');
+    
     return { success: true, message: "Free course updated successfully." };
   } catch (error: any) {
     console.error("Error updating free course:", error);
@@ -205,7 +209,10 @@ export async function deleteFreeCourse(id: string) {
     try {
         const docRef = doc(db, "freeCourses", id);
         await deleteDoc(docRef);
+        
+        const { revalidatePath } = await import('next/cache');
         revalidatePath('/free-courses');
+        
         return { success: true, message: "Free course deleted successfully." };
     } catch (error: any) {
         console.error("Error deleting free course:", error);

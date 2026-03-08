@@ -61,80 +61,6 @@ const targetYears = ["2026", "2027", "2028"];
 const streams = ["Science", "Commerce", "Arts/Humanities", "Other"];
 const universities = ["University of Delhi", "Banaras Hindu University", "Jawaharlal Nehru University", "Jamia Millia Islamia", "Aligarh Hindu University", "Other"];
 
-const timelineData = [
-    {
-        number: "01",
-        title: "Conducting Authority",
-        items: [
-            { icon: <Building className="w-3.5 h-3.5" />, text: "Conducted by: NTA" },
-            { icon: <Globe className="w-3.5 h-3.5" />, text: "National-level test" },
-            { icon: <GraduationCap className="w-3.5 h-3.5" />, text: "UG admissions" }
-        ],
-        accentColor: "group-hover:border-blue-600",
-        numColor: "group-hover:text-blue-600/10"
-    },
-    {
-        number: "02",
-        title: "Frequency",
-        items: [
-            { icon: <Repeat className="w-3.5 h-3.5" />, text: "Once Every Year" },
-            { icon: <CheckCircle2 className="w-3.5 h-3.5" />, text: "Annual intake" }
-        ],
-        accentColor: "group-hover:border-indigo-600",
-        numColor: "group-hover:text-indigo-600/10"
-    },
-    {
-        number: "03",
-        title: "Exam Month",
-        items: [
-            { icon: <Calendar className="w-3.5 h-3.5" />, text: "May – June" },
-            { icon: <Info className="w-3.5 h-3.5" />, text: "Extended if needed" }
-        ],
-        accentColor: "group-hover:border-violet-600",
-        numColor: "group-hover:text-violet-600/10"
-    },
-    {
-        number: "04",
-        title: "Timeline",
-        items: [
-            { icon: <Edit className="w-3.5 h-3.5" />, text: "Release: Feb – Mar" },
-            { icon: <Clock className="w-3.5 h-3.5" />, text: "Last Date: Apr" }
-        ],
-        accentColor: "group-hover:border-red-600",
-        numColor: "group-hover:text-red-600/10"
-    },
-    {
-        number: "05",
-        title: "Admit Card",
-        items: [
-            { icon: <Ticket className="w-3.5 h-3.5" />, text: "3–7 days before" },
-            { icon: <Globe className="w-3.5 h-3.5" />, text: "Download online" }
-        ],
-        accentColor: "group-hover:border-rose-600",
-        numColor: "group-hover:text-rose-600/10"
-    },
-    {
-        number: "06",
-        title: "Mode & Duration",
-        items: [
-            { icon: <Monitor className="w-3.5 h-3.5" />, text: "Mode: CBT" },
-            { icon: <MapPin className="w-3.5 h-3.5" />, text: "Multi-city shifts" }
-        ],
-        accentColor: "group-hover:border-orange-600",
-        numColor: "group-hover:text-orange-600/10"
-    },
-    {
-        number: "07",
-        title: "Declaration",
-        items: [
-            { icon: <BarChart3 className="w-3.5 h-3.5" />, text: "Results: July" },
-            { icon: <Send className="w-3.5 h-3.5" />, text: "Counselling follows" }
-        ],
-        accentColor: "group-hover:border-amber-600",
-        numColor: "group-hover:text-amber-600/10"
-    }
-];
-
 export default function UnderstandingCuetPage() {
   const { toast } = useToast();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -174,7 +100,7 @@ export default function UnderstandingCuetPage() {
   return (
     <div className="min-h-screen w-full bg-white relative overflow-hidden">
       
-      {/* Decorative Floating Blobs */}
+      {/* Decorative Floating Blobs - Adjusted for atmospheric depth */}
       <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
       <div className="absolute bottom-[10%] right-[10%] w-96 h-96 bg-blue-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />
 

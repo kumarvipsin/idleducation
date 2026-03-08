@@ -1,11 +1,9 @@
-
 'use server';
 
 import { db } from "@/lib/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, where, getDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
-import { revalidatePath } from 'next/cache';
 
 const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -58,7 +56,10 @@ export async function addBlogPost(formData: FormData) {
     }
     
     await addDoc(collection(db, "blogPosts"), postData);
+    
+    const { revalidatePath } = await import('next/cache');
     revalidatePath('/blog');
+    
     return { success: true, message: "Blog post added successfully." };
   } catch (error: any) {
     console.error("Error adding blog post:", error);
@@ -89,7 +90,9 @@ export async function editBlogPost(id: string, formData: FormData) {
     const docRef = doc(db, "blogPosts", id);
     await updateDoc(docRef, postData);
 
+    const { revalidatePath } = await import('next/cache');
     revalidatePath('/blog');
+    
     return { success: true, message: "Blog post updated successfully." };
   } catch (error: any) {
     console.error("Error updating blog post:", error);
@@ -101,7 +104,10 @@ export async function deleteBlogPost(id: string) {
     try {
         const docRef = doc(db, "blogPosts", id);
         await deleteDoc(docRef);
+        
+        const { revalidatePath } = await import('next/cache');
         revalidatePath('/blog');
+        
         return { success: true, message: "Blog post deleted successfully." };
     } catch (error: any) {
         console.error("Error deleting blog post:", error);
