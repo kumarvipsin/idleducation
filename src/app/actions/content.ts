@@ -1,4 +1,3 @@
-
 // src/app/actions/content.ts
 'use server';
 import { db } from "@/lib/firebase";

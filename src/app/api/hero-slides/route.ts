@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getCollection } from '@/app/actions/data';
+import { getSignedUrlForPdf } from '@/app/actions/content';
 
 /**
  * API route to fetch all hero slides.
@@ -8,6 +9,18 @@ import { getCollection } from '@/app/actions/data';
 export async function GET() {
   try {
     const result = await getCollection('heroSlides');
+    
+    if (result.success && Array.isArray(result.data)) {
+        const signedData = await Promise.all(result.data.map(async (slide: any) => {
+            if (slide.imageUrl) {
+                const signed = await getSignedUrlForPdf(slide.imageUrl);
+                return { ...slide, imageUrl: signed.success ? signed.url : slide.imageUrl };
+            }
+            return slide;
+        }));
+        return NextResponse.json({ ...result, data: signedData });
+    }
+
     return NextResponse.json(result);
   } catch (error) {
     console.error('API Error (hero-slides):', error);
