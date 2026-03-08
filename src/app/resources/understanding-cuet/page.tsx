@@ -172,7 +172,7 @@ export default function UnderstandingCuetPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#FFF5F5] relative overflow-hidden">
+    <div className="min-h-screen w-full bg-white relative overflow-hidden">
       
       {/* Decorative Floating Blobs */}
       <div className="absolute top-[10%] left-[5%] w-64 h-64 bg-red-500/5 rounded-full blur-3xl animate-pulse pointer-events-none" />

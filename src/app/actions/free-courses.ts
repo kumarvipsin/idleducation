@@ -1,5 +1,8 @@
-// src/app/actions/free-courses.ts
 'use server';
+/**
+ * @fileOverview Server actions for managing free courses.
+ * Changed to 'use server' to allow use of server-only functions like revalidatePath.
+ */
 import { db } from "@/lib/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, getDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
