@@ -82,8 +82,22 @@
   * {
     @apply border-border;
   }
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
   body {
     @apply bg-background text-foreground font-sans;
+    letter-spacing: -0.011em;
+    font-weight: 400;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold tracking-tight text-foreground;
+  }
+  p {
+    @apply leading-relaxed;
   }
 }
 

@@ -1,13 +1,14 @@
 
 import type { Metadata, Viewport } from 'next';
-import { Poppins } from 'next/font/google';
+import { Montserrat } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const poppins = Poppins({
+const montserrat = Montserrat({
   subsets: ['latin'],
   variable: '--font-sans',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -23,7 +24,7 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
-}
+};
 
 export default function RootLayout({
   children,
@@ -31,8 +32,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+    <html lang="en" suppressHydrationWarning className={montserrat.variable}>
+      <body className={`${montserrat.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
         <Providers>
           {children}
         </Providers>
@@ -40,3 +41,4 @@ export default function RootLayout({
     </html>
   );
 }
+
