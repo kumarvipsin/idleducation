@@ -12,8 +12,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', ...fontFamily.sans],
-        montserrat: ['var(--font-sans)', ...fontFamily.sans],
+        sans: ['var(--font-sans)', 'Montserrat', ...fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--background))',

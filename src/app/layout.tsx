@@ -33,7 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={montserrat.variable}>
-      <body className={`${montserrat.variable} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+      <body className={`${montserrat.className} font-sans antialiased flex flex-col min-h-screen bg-background`}>
         <Providers>
           {children}
         </Providers>
@@ -41,4 +41,3 @@ export default function RootLayout({
     </html>
   );
 }
-
