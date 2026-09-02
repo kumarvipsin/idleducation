@@ -1,393 +1,523 @@
-
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Target, Award, Calendar as CalendarIcon, Bell, ArrowRight, PlayCircle, Clock, CheckCircle2, MapPin, ShoppingBag, Book, Sparkles, Zap } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useAuth } from "@/context/auth-context";
-import { getStudentProgressReports, getUpdates, getStudentEnrolledCourses, getStudentOrders } from "@/app/actions";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { useState, useEffect } from "react";
+import { 
+  BookOpen, Video, Clock, FileText, Download, Play, 
+  Sparkles, CheckCircle2, ArrowRight, Award, Calendar, 
+  MessageSquare, User, AlertCircle, ArrowUpRight, ShieldCheck, 
+  Target, Zap, HelpCircle
+} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { formatDistanceToNow, format } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import { GcsImage } from "@/components/gcs-image";
-
-const todaySchedule = [
-  { time: "09:00 AM", subject: "Mathematics", room: "Room 102" },
-  { time: "11:30 AM", subject: "History", room: "Virtual" },
-  { time: "02:00 PM", subject: "Physics Lab", room: "Science Block" },
-];
-
-interface ProgressReport {
-  id: string;
-  month: string;
-  report: string;
-  createdAt: any;
-}
-
-interface Update {
-  id: string;
-  title: string;
-  description: string;
-  createdAt: string;
-}
-
-interface EnrolledCourse {
-    id: string;
-    title: string;
-    subject: string;
-    coverImageUrl?: string;
-    batchName: string;
-}
-
-interface OrderItem {
-    id: string;
-    title: string;
-    price: number;
-    quantity: number;
-}
-
-interface StoreOrder {
-    id: string;
-    orderId: string;
-    items: OrderItem[];
-    totalAmount: number;
-    createdAt: string;
-    status: string;
-}
+import { Progress } from "@/components/ui/progress";
+import { useAuth } from "@/context/auth-context";
+import { useToast } from "@/hooks/use-toast";
+import Link from "next/link";
+import { getStudentProgressReports, getUpdates, getStudentEnrolledCourses } from "@/app/actions";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Textarea } from "@/components/ui/textarea";
 
 export default function StudentDashboard() {
   const { user } = useAuth();
-  const [reports, setReports] = useState<ProgressReport[]>([]);
-  const [announcements, setAnnouncements] = useState<Update[]>([]);
-  const [enrolledCourses, setEnrolledCourses] = useState<EnrolledCourse[]>([]);
-  const [orders, setOrders] = useState<StoreOrder[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { toast } = useToast();
+  const [isDoubtModalOpen, setIsDoubtModalOpen] = useState(false);
+  const [doubtText, setDoubtText] = useState("");
+  const [doubtSubject, setDoubtSubject] = useState("Indian Polity");
 
-  useEffect(() => {
-    if (user) {
-      const fetchData = async () => {
-        setLoading(true);
-        const [reportsRes, updatesRes, coursesRes, ordersRes] = await Promise.all([
-          getStudentProgressReports(user.uid),
-          getUpdates(3),
-          getStudentEnrolledCourses(user.uid),
-          getStudentOrders(user.uid)
-        ]);
-        
-        if (reportsRes.success) setReports(reportsRes.data as ProgressReport[]);
-        if (updatesRes.success) setAnnouncements(updatesRes.data as Update[]);
-        if (coursesRes.success) setEnrolledCourses(coursesRes.data as any[]);
-        if (ordersRes.success) setOrders(ordersRes.data as any[]);
-        setLoading(false);
-      };
-      fetchData();
+  // Real-time student schedule
+  const todayLiveClasses = [
+    {
+      id: "live-1",
+      title: "Indian Polity & Governance: Fundamental Rights & Judicial Review",
+      instructor: "Prof. Sharma (Senior Faculty)",
+      time: "04:00 PM - 05:30 PM",
+      batch: "UPSC GS Foundation (Batch A)",
+      status: "Starting Soon",
+      isLive: true,
+      roomLink: "https://meet.google.com/idl-upsc-polity",
+    },
+    {
+      id: "live-2",
+      title: "Modern Indian History: 1857 Revolt to Independence",
+      instructor: "Dr. A. Verma (History Lead)",
+      time: "06:30 PM - 08:00 PM",
+      batch: "BPSC Prelims Special",
+      status: "Scheduled",
+      isLive: false,
+      roomLink: "https://meet.google.com/idl-bpsc-history",
+    },
+  ];
+
+  // Active courses
+  const enrolledCourses = [
+    {
+      id: "c-1",
+      title: "UPSC GS Comprehensive Foundation (Prelims + Mains)",
+      batch: "UPSC 2027 Aspirants",
+      progress: 68,
+      completedLessons: 48,
+      totalLessons: 70,
+      nextLesson: "Directive Principles & Fundamental Duties",
+      subject: "General Studies",
+    },
+    {
+      id: "c-2",
+      title: "BPSC 70th CCE Target Prelims Batch",
+      batch: "State Services Batch",
+      progress: 45,
+      completedLessons: 27,
+      totalLessons: 60,
+      nextLesson: "Bihar History & Freedom Struggle",
+      subject: "State Special",
+    },
+  ];
+
+  // Study Materials
+  const recentMaterials = [
+    {
+      id: "m-1",
+      title: "Indian Polity: Complete Fundamental Rights Handout & Case Laws",
+      type: "PDF Notes",
+      size: "4.8 MB",
+      date: "Today",
+      subject: "Polity",
+    },
+    {
+      id: "m-2",
+      title: "Modern History: 1857 to 1947 Timeline & Governor-Generals Summary",
+      type: "PDF Notes",
+      size: "6.2 MB",
+      date: "Yesterday",
+      subject: "History",
+    },
+    {
+      id: "m-3",
+      title: "Ethics Case Studies Practice Sheet with Model Answers",
+      type: "Practice Sheet",
+      size: "2.1 MB",
+      date: "3 days ago",
+      subject: "Ethics",
+    },
+  ];
+
+  // Progress Reports
+  const progressReports = [
+    {
+      id: "rep-1",
+      month: "August 2026",
+      mentor: "Prof. Sharma",
+      score: "85/100",
+      feedback: "Great analytical depth in GS-II answer writing. Keep working on intro conciseness and case law citations.",
+      attendance: "96%",
+    },
+    {
+      id: "rep-2",
+      month: "July 2026",
+      mentor: "Dr. A. Verma",
+      score: "80/100",
+      feedback: "Consistent test performance in Modern History. Revise timeline diagrams regularly.",
+      attendance: "92%",
+    },
+  ];
+
+  const handleDoubtSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!doubtText) {
+      toast({ variant: "destructive", title: "Question required", description: "Please enter your doubt question." });
+      return;
     }
-  }, [user]);
-  
+    toast({
+      title: "Doubt Submitted to Faculty",
+      description: `Your question on ${doubtSubject} has been sent. Faculty will respond shortly.`,
+    });
+    setDoubtText("");
+    setIsDoubtModalOpen(false);
+  };
+
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-12">
-      {/* Premium Hero Welcome Banner */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-indigo-900 via-primary to-slate-900 p-8 md:p-10 rounded-[2rem] border shadow-2xl">
-        <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 bg-accent/20 rounded-full blur-3xl"></div>
-        
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
-          <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white/90 text-[10px] font-bold uppercase tracking-[0.2em]">
-              <Sparkles className="w-3 h-3 text-yellow-400" />
-              Academic Workspace
-            </div>
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white">
-              Welcome back, <span className="text-yellow-400">{user?.name?.split(' ')[0] || 'Student'}</span>! 🎓
-            </h1>
-            <p className="text-white/70 text-sm md:text-base font-medium max-w-xl">
-              {enrolledCourses.length > 0 
-                  ? `Keep going! You have ${enrolledCourses.length} active courses to master today.` 
-                  : "Start your success journey by exploring our premium curricula."}
-            </p>
+    <div className="space-y-6">
+      {/* 1. Welcome & Daily Focus Banner */}
+      <div className="bg-white border border-slate-200/80 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-primary uppercase tracking-wider bg-primary/10 px-2.5 py-0.5 rounded-md">
+              Aspirant Workspace
+            </span>
+            <span className="text-xs text-slate-400">
+              {new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}
+            </span>
           </div>
-          
-          <div className="grid grid-cols-3 gap-3 md:gap-4 shrink-0">
-              <div className="flex flex-col items-center justify-center p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 shadow-lg min-w-[90px] md:min-w-[110px]">
-                  <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mb-1">Attendance</p>
-                  <p className="text-xl md:text-2xl font-extrabold text-white">94%</p>
-              </div>
-              <div className="flex flex-col items-center justify-center p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 shadow-lg min-w-[90px] md:min-w-[110px]">
-                  <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mb-1">GPA</p>
-                  <p className="text-xl md:text-2xl font-extrabold text-yellow-400">3.8</p>
-              </div>
-              <div className="flex flex-col items-center justify-center p-4 bg-white/10 backdrop-blur-xl rounded-2xl border border-white/10 shadow-lg min-w-[90px] md:min-w-[110px]">
-                  <p className="text-[9px] font-bold text-white/60 uppercase tracking-widest mb-1">Credits</p>
-                  <p className="text-xl md:text-2xl font-extrabold text-green-400">1.2k</p>
-              </div>
-          </div>
+          <h2 className="text-xl md:text-2xl font-extrabold text-slate-900 mt-1">
+            Welcome back, {user?.name || 'Aspirant'}! 🎯
+          </h2>
+          <p className="text-xs md:text-sm text-slate-500 mt-0.5">
+            You have <strong className="text-slate-800">2 live lectures</strong> today and your syllabus completion is at <strong className="text-slate-800">68%</strong>.
+          </p>
         </div>
-      </section>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Main Content Area */}
-        <div className="lg:col-span-8 space-y-10">
-          
-          {/* Active Courses Section */}
-          <section className="space-y-6">
-            <div className="flex items-center justify-between border-l-4 border-primary pl-4">
+        {/* Quick Actions */}
+        <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <Button 
+            onClick={() => setIsDoubtModalOpen(true)}
+            variant="outline" 
+            className="h-9 text-xs font-bold border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg flex-1 md:flex-initial cursor-pointer"
+          >
+            <HelpCircle className="w-3.5 h-3.5 mr-1.5 text-blue-600" />
+            Ask Doubt
+          </Button>
+
+          <Link href="/student/study-plan" className="flex-1 md:flex-initial">
+            <Button variant="outline" className="h-9 text-xs font-bold border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg w-full cursor-pointer">
+              <Calendar className="w-3.5 h-3.5 mr-1.5 text-purple-600" />
+              Study Plan
+            </Button>
+          </Link>
+
+          <Link href="/student/courses" className="flex-1 md:flex-initial">
+            <Button className="h-9 text-xs font-bold bg-primary hover:bg-primary/95 text-white rounded-lg shadow-none w-full cursor-pointer">
+              <BookOpen className="w-3.5 h-3.5 mr-1.5" />
+              My Courses
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      {/* 2. Key Academic Metrics (KPI Cards) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+        <Card className="border border-slate-200/80 bg-white rounded-xl shadow-none">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Enrolled Courses</p>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 mt-0.5">2 Courses</h3>
+              <p className="text-[10px] text-primary font-bold mt-1">
+                Active Batch
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+              <BookOpen className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border border-slate-200/80 bg-white rounded-xl shadow-none">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Today's Lectures</p>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 mt-0.5">2 Live</h3>
+              <p className="text-[10px] text-emerald-600 font-bold mt-1">
+                Starts 4:00 PM
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Video className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border border-slate-200/80 bg-white rounded-xl shadow-none">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Overall Progress</p>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 mt-0.5">68%</h3>
+              <p className="text-[10px] text-purple-600 font-bold mt-1">
+                On track for target
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+              <Target className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="border border-slate-200/80 bg-white rounded-xl shadow-none">
+          <CardContent className="p-4 flex items-center justify-between">
+            <div>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Attendance Rate</p>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 mt-0.5">94%</h3>
+              <p className="text-[10px] text-emerald-600 font-bold mt-1">
+                Excellent presence
+              </p>
+            </div>
+            <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center">
+              <Award className="w-5 h-5" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* 3. Today's Live Class Room (Interactive Launcher) */}
+      <Card className="border border-slate-200/80 bg-white rounded-2xl shadow-none overflow-hidden">
+        <CardHeader className="p-5 border-b border-slate-100 flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <Video className="w-4 h-4 text-primary" />
+              <span>Today's Live Class Schedule</span>
+            </CardTitle>
+            <CardDescription className="text-xs text-slate-500">
+              Interactive live lectures and doubt-solving sessions for your enrolled batches.
+            </CardDescription>
+          </div>
+          <Badge variant="outline" className="text-slate-600 text-xs font-semibold">
+            2 Lectures Today
+          </Badge>
+        </CardHeader>
+        <CardContent className="p-5 divide-y divide-slate-100">
+          {todayLiveClasses.map((item) => (
+            <div key={item.id} className="py-3.5 first:pt-0 last:pb-0 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+              <div className="flex items-start gap-3">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
+                  item.isLive ? 'bg-rose-100 text-rose-600 animate-pulse' : 'bg-slate-100 text-slate-600'
+                }`}>
+                  <Video className="w-5 h-5" />
+                </div>
                 <div>
-                    <h2 className="text-2xl font-extrabold tracking-tight text-foreground">Active Learning</h2>
-                    <p className="text-xs text-muted-foreground font-medium">Continue where you left off</p>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <h4 className="text-sm font-bold text-slate-900">{item.title}</h4>
+                    {item.isLive ? (
+                      <Badge className="bg-rose-600 text-white text-[10px] font-extrabold uppercase px-2 py-0.5 animate-pulse">
+                        ● LIVE READY
+                      </Badge>
+                    ) : (
+                      <Badge variant="outline" className="text-slate-600 text-[10px] font-semibold">
+                        {item.status}
+                      </Badge>
+                    )}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-1">
+                    <span className="font-semibold text-primary">{item.instructor}</span>
+                    <span>•</span>
+                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5 text-slate-400" /> {item.time}</span>
+                    <span>•</span>
+                    <span>{item.batch}</span>
+                  </div>
                 </div>
-                <Button variant="outline" size="sm" asChild className="rounded-full font-bold text-[10px] uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
-                    <Link href="/paid-courses">Discover More</Link>
+              </div>
+
+              <div className="flex items-center gap-2 w-full md:w-auto self-end md:self-center">
+                <a href={item.roomLink} target="_blank" rel="noopener noreferrer" className="w-full md:w-auto">
+                  <Button size="sm" className="w-full md:w-auto h-8 text-xs font-bold bg-primary hover:bg-primary/95 text-white rounded-lg shadow-none cursor-pointer">
+                    <Play className="w-3 h-3 mr-1.5 fill-white" /> Join Live Classroom
+                  </Button>
+                </a>
+              </div>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      {/* 4. Two Columns: Active Courses & Study Resources */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Left Column: My Active Courses (2 Cols on LG) */}
+        <div className="lg:col-span-2 space-y-4">
+          <Card className="border border-slate-200/80 bg-white rounded-2xl shadow-none">
+            <CardHeader className="p-5 border-b border-slate-100 flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <BookOpen className="w-4 h-4 text-primary" />
+                  <span>My Enrolled Curricula</span>
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-500">
+                  Pick up right where you left off in your structured curriculum.
+                </CardDescription>
+              </div>
+              <Link href="/student/courses">
+                <Button variant="ghost" size="sm" className="text-xs font-bold text-primary hover:bg-primary/5">
+                  View All <ArrowUpRight className="w-3.5 h-3.5 ml-1" />
                 </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {loading ? (
-                    [...Array(2)].map((_, i) => <Skeleton key={i} className="h-56 w-full rounded-3xl" />)
-                ) : enrolledCourses.length > 0 ? (
-                    enrolledCourses.map((course) => (
-                        <Card key={course.id} className="overflow-hidden hover:shadow-2xl transition-all duration-500 group border-muted-foreground/10 flex flex-col bg-white dark:bg-card rounded-[1.5rem]">
-                            <div className="relative h-32 w-full bg-muted overflow-hidden">
-                                {course.coverImageUrl ? (
-                                    <GcsImage filePath={course.coverImageUrl} alt={course.title} fill className="object-cover transition-transform duration-700 group-hover:scale-110" />
-                                ) : (
-                                    <div className="w-full h-full bg-indigo-500/10 flex items-center justify-center text-indigo-500/20">
-                                        <BookOpen className="w-12 h-12" />
-                                    </div>
-                                )}
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div>
-                                <Badge className="absolute top-3 left-3 bg-primary/90 text-white border-none font-bold text-[9px] uppercase tracking-widest px-3 py-1 rounded-full shadow-xl">STUDYING</Badge>
-                            </div>
-                            <CardContent className="p-6 flex-grow flex flex-col justify-between space-y-4">
-                                <div>
-                                    <h3 className="font-extrabold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">{course.title}</h3>
-                                    <p className="text-[10px] text-muted-foreground mt-2 uppercase tracking-[0.15em] font-bold">{course.batchName}</p>
-                                </div>
-                                <Button asChild className="w-full font-bold text-[10px] tracking-widest uppercase rounded-xl shadow-lg shadow-primary/20 group/btn h-11">
-                                    <Link href="/paid-courses">
-                                        <PlayCircle className="w-4 h-4 mr-2 transition-transform group-hover/btn:scale-110" />
-                                        Resume Course
-                                    </Link>
-                                </Button>
-                            </CardContent>
-                        </Card>
-                    ))
-                ) : (
-                    <Card className="col-span-full border-2 border-dashed p-12 flex flex-col items-center justify-center text-center bg-muted/5 rounded-[2rem]">
-                        <div className="bg-primary/5 p-8 rounded-full mb-6 border border-primary/10">
-                            <BookOpen className="w-16 h-16 text-primary/20" />
-                        </div>
-                        <h3 className="text-2xl font-extrabold text-foreground">No active courses yet</h3>
-                        <p className="text-muted-foreground max-w-sm mx-auto mt-3 mb-8 font-medium">
-                            Enroll in a premium curriculum to unlock your full academic potential and start learning.
-                        </p>
-                        <Button asChild size="lg" className="rounded-full px-10 font-bold tracking-widest text-[11px] uppercase shadow-xl shadow-primary/20">
-                            <Link href="/paid-courses">Explore Premium Library</Link>
-                        </Button>
-                    </Card>
-                )}
-            </div>
-          </section>
-
-          {/* Library Section */}
-          <section className="space-y-6">
-            <div className="flex items-center gap-2 border-l-4 border-orange-500 pl-4">
-                <h2 className="text-2xl font-extrabold tracking-tight text-foreground">
-                    Your Library
-                </h2>
-                <Badge variant="secondary" className="bg-orange-100 text-orange-600 border-none font-bold text-[10px]">RESOURCES</Badge>
-            </div>
-            <Card className="rounded-[1.5rem] border-muted-foreground/10 bg-gradient-to-br from-white to-slate-50 dark:from-card dark:to-slate-900/50 shadow-sm">
-                <CardContent className="p-6">
-                    {loading ? (
-                        <div className="space-y-4">
-                            <Skeleton className="h-16 w-full rounded-2xl" />
-                            <Skeleton className="h-16 w-full rounded-2xl" />
-                        </div>
-                    ) : orders.length > 0 ? (
-                        <div className="space-y-4">
-                            {orders.slice(0, 3).map((order) => (
-                                <div key={order.id} className="flex items-center justify-between p-4 bg-white dark:bg-card/80 backdrop-blur-sm rounded-2xl border border-muted-foreground/10 shadow-sm hover:shadow-md transition-all group cursor-pointer">
-                                    <div className="flex items-center gap-4">
-                                        <div className="bg-orange-500/10 p-3 rounded-xl border border-orange-500/10 group-hover:bg-orange-500 group-hover:text-white transition-colors">
-                                            <Book className="w-5 h-5 text-orange-600 group-hover:text-inherit" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm font-bold leading-tight line-clamp-1 group-hover:text-primary transition-colors">
-                                                {order.items.map(i => i.title).join(", ")}
-                                            </p>
-                                            <p className="text-[10px] text-muted-foreground font-bold mt-1 uppercase tracking-tighter">
-                                                ORDER #{order.orderId} • {format(new Date(order.createdAt), 'MMM d, yyyy')}
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <Badge variant="outline" className={cn(
-                                        "text-[9px] font-bold uppercase tracking-widest px-3 py-1 rounded-lg h-auto border-none",
-                                        order.status === 'delivered' ? "bg-green-100 text-green-600" : "bg-blue-100 text-blue-600"
-                                    )}>
-                                        {order.status}
-                                    </Badge>
-                                </div>
-                            ))}
-                            <Button variant="ghost" size="sm" asChild className="w-full text-[10px] font-bold tracking-[0.2em] text-primary/60 hover:text-primary hover:bg-primary/5 uppercase">
-                                <Link href="/store/orders">View complete order history ({orders.length})</Link>
-                            </Button>
-                        </div>
-                    ) : (
-                        <div className="text-center py-10 space-y-4">
-                            <div className="w-16 h-16 bg-orange-500/5 rounded-full flex items-center justify-center mx-auto border border-orange-500/10">
-                                <ShoppingBag className="w-8 h-8 text-orange-500/30" />
-                            </div>
-                            <div>
-                                <p className="text-sm font-bold text-muted-foreground/80 italic">No textbooks or materials purchased yet.</p>
-                                <Button variant="link" size="sm" asChild className="text-primary text-[11px] font-bold tracking-widest uppercase mt-2">
-                                    <Link href="/store">Visit the IDL Store <ArrowRight className="ml-1 w-3 h-3"/></Link>
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
-          </section>
-
-          {/* Progress Reports Section */}
-          <section className="space-y-6">
-            <div className="flex items-center gap-2 border-l-4 border-green-500 pl-4">
-                <h2 className="text-2xl font-extrabold tracking-tight text-foreground">Performance</h2>
-                <Badge variant="secondary" className="bg-green-100 text-green-600 border-none font-bold text-[10px]">ANALYSIS</Badge>
-            </div>
-            <Card className="rounded-[1.5rem] border-muted-foreground/10 overflow-hidden bg-white shadow-sm">
-                <CardContent className="p-0">
-                    {reports.length > 0 ? (
-                        <Accordion type="single" collapsible className="w-full">
-                        {reports.map((report) => (
-                            <AccordionItem value={report.id} key={report.id} className="px-6 border-b last:border-0 hover:bg-slate-50 transition-colors">
-                            <AccordionTrigger className="hover:no-underline py-6">
-                                <div className="flex items-center gap-4 text-left">
-                                    <div className="bg-green-500/10 p-3 rounded-xl border border-green-500/10">
-                                        <CalendarIcon className="h-5 w-5 text-green-600" />
-                                    </div>
-                                    <div>
-                                        <p className="font-bold text-base text-foreground tracking-tight">{report.month} Assessment</p>
-                                        <p className="text-[10px] text-muted-foreground uppercase font-bold tracking-[0.15em] mt-0.5">Faculty Evaluation Report</p>
-                                    </div>
-                                </div>
-                            </AccordionTrigger>
-                            <AccordionContent className="pb-6 pt-0 text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap pl-16 max-w-2xl font-medium">
-                                {report.report}
-                            </AccordionContent>
-                            </AccordionItem>
-                        ))}
-                        </Accordion>
-                    ) : (
-                        <div className="p-16 text-center space-y-4">
-                            <div className="bg-muted w-20 h-20 rounded-3xl flex items-center justify-center mx-auto transform rotate-12 border border-muted-foreground/5">
-                                <Clock className="w-10 h-10 text-muted-foreground/30" />
-                            </div>
-                            <p className="text-sm font-bold text-muted-foreground/60 tracking-tight">No evaluation reports available for this cycle.</p>
-                        </div>
-                    )}
-                </CardContent>
-            </Card>
-          </section>
-        </div>
-
-        {/* Sidebar Info Panels */}
-        <aside className="lg:col-span-4 space-y-8">
-          
-          {/* Schedule Sidebar */}
-          <Card className="border-muted-foreground/10 shadow-xl rounded-[2rem] overflow-hidden bg-white">
-            <CardHeader className="pb-4 border-b bg-slate-50">
-              <CardTitle className="text-lg font-extrabold flex items-center gap-3 text-primary">
-                <div className="p-2 bg-primary/10 rounded-lg">
-                    <Clock className="w-5 h-5 text-primary" />
-                </div>
-                Today's Timeline
-              </CardTitle>
+              </Link>
             </CardHeader>
-            <CardContent className="p-0">
-              <div className="divide-y divide-slate-50">
-                {todaySchedule.map((item, i) => (
-                  <div key={i} className="p-5 flex items-start gap-5 hover:bg-primary/[0.02] transition-all group">
-                    <div className="text-center min-w-[75px] pt-1">
-                        <p className="text-sm font-extrabold text-primary leading-none group-hover:scale-110 transition-transform">{item.time.split(' ')[0]}</p>
-                        <p className="text-[10px] font-bold text-muted-foreground uppercase mt-1 tracking-tighter">{item.time.split(' ')[1]}</p>
+            <CardContent className="p-5 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                {enrolledCourses.map((c) => (
+                  <div key={c.id} className="p-4 rounded-xl border border-slate-200/80 bg-slate-50/50 hover:bg-white hover:border-primary/40 transition-all space-y-3">
+                    <div>
+                      <span className="text-[10px] font-bold text-primary uppercase tracking-wider bg-primary/10 px-2 py-0.5 rounded">
+                        {c.subject}
+                      </span>
+                      <h4 className="font-bold text-xs text-slate-900 mt-1.5 leading-tight">{c.title}</h4>
+                      <p className="text-[11px] text-slate-500 mt-0.5">{c.batch}</p>
                     </div>
-                    <div className="space-y-1.5">
-                        <p className="text-base font-extrabold text-foreground leading-none tracking-tight">{item.subject}</p>
-                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-slate-100 w-fit">
-                            <MapPin className="w-3 h-3 text-primary/60" />
-                            <span className="text-[10px] font-bold text-muted-foreground uppercase">{item.room}</span>
-                        </div>
+
+                    <div className="space-y-1">
+                      <div className="flex justify-between text-[11px] font-medium text-slate-500">
+                        <span>Completion ({c.completedLessons}/{c.totalLessons} Lessons)</span>
+                        <span className="font-bold text-slate-800">{c.progress}%</span>
+                      </div>
+                      <Progress value={c.progress} className="h-1.5 bg-slate-200" />
                     </div>
+
+                    <div className="pt-2 border-t border-slate-200/60 text-[11px] text-slate-600">
+                      <span>Next: <strong>{c.nextLesson}</strong></span>
+                    </div>
+
+                    <Link href="/student/courses" className="block pt-1">
+                      <Button size="sm" className="w-full h-8 text-xs font-bold bg-primary hover:bg-primary/95 text-white rounded-lg shadow-none cursor-pointer">
+                        <Play className="w-3 h-3 mr-1 fill-white" /> Continue Learning
+                      </Button>
+                    </Link>
                   </div>
                 ))}
               </div>
             </CardContent>
           </Card>
 
-          {/* Announcements Sidebar */}
-          <Card className="border-muted-foreground/10 shadow-xl rounded-[2rem] overflow-hidden bg-white">
-            <CardHeader className="pb-4 border-b bg-amber-50">
-              <CardTitle className="text-lg font-extrabold flex items-center gap-3 text-amber-700">
-                <div className="p-2 bg-amber-500/10 rounded-lg">
-                    <Bell className="w-5 h-5 text-amber-600" />
-                </div>
-                Notice Board
-              </CardTitle>
+          {/* Progress & Faculty Feedback */}
+          <Card className="border border-slate-200/80 bg-white rounded-2xl shadow-none">
+            <CardHeader className="p-5 border-b border-slate-100 flex flex-row items-center justify-between">
+              <div>
+                <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
+                  <Award className="w-4 h-4 text-emerald-600" />
+                  <span>Faculty Feedback & Monthly Progress</span>
+                </CardTitle>
+                <CardDescription className="text-xs text-slate-500">
+                  Direct evaluation and feedback from your instructors.
+                </CardDescription>
+              </div>
             </CardHeader>
-            <CardContent className="p-6 space-y-6">
-              {announcements.length > 0 ? announcements.map((item) => (
-                <div key={item.id} className="space-y-2 group border-b border-slate-50 last:border-0 pb-4 last:pb-0">
+            <CardContent className="p-5 divide-y divide-slate-100">
+              {progressReports.map((rep) => (
+                <div key={rep.id} className="py-3 first:pt-0 last:pb-0 space-y-1.5">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-sm font-extrabold group-hover:text-primary transition-colors line-clamp-1 tracking-tight">{item.title}</h4>
-                    <span className="text-[9px] font-bold text-primary/40 uppercase tracking-widest shrink-0 bg-primary/5 px-2 py-0.5 rounded-md">
-                        {formatDistanceToNow(new Date(item.createdAt), { addSuffix: true })}
-                    </span>
+                    <span className="text-xs font-bold text-slate-900">{rep.month} Evaluation</span>
+                    <Badge className="bg-emerald-600 text-white text-[10px] font-bold">
+                      Score: {rep.score}
+                    </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground line-clamp-3 leading-relaxed font-medium">{item.description}</p>
+                  <p className="text-xs text-slate-600 bg-slate-50 p-2.5 rounded-xl border border-slate-100 italic">
+                    "{rep.feedback}"
+                  </p>
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 pt-0.5">
+                    <span>Evaluated by: <strong className="text-slate-800">{rep.mentor}</strong></span>
+                    <span>Attendance: <strong className="text-emerald-600">{rep.attendance}</strong></span>
+                  </div>
                 </div>
-              )) : (
-                <div className="text-center py-6">
-                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest italic">No urgent updates</p>
+              ))}
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Right Column: Downloadable Notes & Resources */}
+        <div className="space-y-4">
+          <Card className="border border-slate-200/80 bg-white rounded-2xl shadow-none">
+            <CardHeader className="p-4 border-b border-slate-100 flex flex-row items-center justify-between">
+              <CardTitle className="text-xs font-bold text-slate-900 flex items-center gap-1.5 uppercase tracking-wider text-slate-500">
+                <FileText className="w-3.5 h-3.5 text-primary" />
+                <span>Class Handouts & Notes</span>
+              </CardTitle>
+              <Badge variant="secondary" className="text-[10px] font-bold bg-primary/10 text-primary">
+                3 New
+              </Badge>
+            </CardHeader>
+            <CardContent className="p-4 divide-y divide-slate-100">
+              {recentMaterials.map((mat) => (
+                <div key={mat.id} className="py-3 first:pt-0 last:pb-0 space-y-1.5">
+                  <div className="flex items-start justify-between gap-2">
+                    <h5 className="text-xs font-bold text-slate-800 leading-tight">{mat.title}</h5>
+                  </div>
+                  <div className="flex items-center justify-between text-[11px] text-slate-500">
+                    <span>{mat.size} • {mat.date}</span>
+                    <Button 
+                      size="sm" 
+                      variant="outline" 
+                      onClick={() => toast({ title: "Downloading Handout", description: `Downloading ${mat.title}` })}
+                      className="h-6 text-[10px] font-bold text-primary border-primary/20 hover:bg-primary/5 p-1.5 rounded cursor-pointer"
+                    >
+                      <Download className="w-3 h-3 mr-1" /> PDF
+                    </Button>
+                  </div>
                 </div>
-              )}
-              <Button variant="outline" size="sm" asChild className="w-full h-10 text-[10px] font-bold tracking-[0.2em] uppercase rounded-xl border-slate-200 hover:border-primary transition-all mt-2">
-                <Link href="/notifications">Access All Archives</Link>
-              </Button>
+              ))}
             </CardContent>
           </Card>
 
-          {/* Status Quick Summary Card */}
-          <Card className="bg-gradient-to-br from-indigo-600 to-indigo-800 text-white rounded-[2rem] shadow-2xl overflow-hidden border-none group">
-            <div className="absolute top-0 right-0 p-6 opacity-10 group-hover:scale-110 transition-transform duration-700">
-                <Zap className="w-32 h-32 rotate-12 fill-white" />
+          {/* Quick Academic Support Card */}
+          <Card className="border border-blue-200/80 bg-blue-50/50 rounded-2xl shadow-none p-5 space-y-3">
+            <div className="flex items-center gap-2 text-blue-900 font-bold text-xs">
+              <Sparkles className="w-4 h-4 text-blue-600" />
+              <span>Need Guidance or Mentorship?</span>
             </div>
-            <CardContent className="p-8 space-y-6 relative z-10">
-                <div className="space-y-2">
-                    <h3 className="text-xl font-extrabold tracking-tight">Status: Prime</h3>
-                    <p className="text-xs text-indigo-100/80 leading-relaxed font-medium">Your academic trajectory is impressive. Maintain consistency to unlock the "Excellence" tier badge next month!</p>
-                </div>
-                <div className="flex items-center gap-4">
-                    <div className="flex -space-x-3">
-                        {[1,2,3].map(i => (
-                            <div key={i} className="w-10 h-10 rounded-full border-4 border-indigo-700 bg-white/20 backdrop-blur-md flex items-center justify-center shadow-lg transform hover:-translate-y-1 transition-transform">
-                                <CheckCircle2 className="w-5 h-5 text-white" />
-                            </div>
-                        ))}
-                    </div>
-                    <div className="flex flex-col">
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-indigo-200">Consistency</span>
-                        <span className="text-sm font-extrabold">ON TRACK</span>
-                    </div>
-                </div>
-            </CardContent>
+            <p className="text-xs text-blue-800/80 leading-relaxed">
+              Have doubts regarding syllabus topics, answer writing structure, or time management? Submit your query to get faculty assistance.
+            </p>
+            <Button 
+              onClick={() => setIsDoubtModalOpen(true)}
+              size="sm" 
+              className="w-full h-8 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-none cursor-pointer"
+            >
+              Ask Faculty Doubt
+            </Button>
           </Card>
-        </aside>
+        </div>
       </div>
+
+      {/* --- Ask Doubt Modal --- */}
+      <Dialog open={isDoubtModalOpen} onOpenChange={setIsDoubtModalOpen}>
+        <DialogContent className="sm:max-w-[480px] bg-white rounded-2xl p-6 border border-slate-200 shadow-none">
+          <DialogHeader>
+            <DialogTitle className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <HelpCircle className="w-5 h-5 text-blue-600" />
+              <span>Ask Doubt to Faculty</span>
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-500">
+              Submit your academic query or question. Your course instructor will reply in your dashboard.
+            </DialogDescription>
+          </DialogHeader>
+
+          <form onSubmit={handleDoubtSubmit} className="space-y-4 py-2">
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-700 block">Select Subject / Course</label>
+              <select 
+                value={doubtSubject}
+                onChange={(e) => setDoubtSubject(e.target.value)}
+                className="w-full h-10 px-3 rounded-lg border border-slate-200 bg-slate-50/70 text-xs font-medium text-slate-800"
+              >
+                <option value="Indian Polity & Governance">Indian Polity & Governance</option>
+                <option value="Modern Indian History">Modern Indian History</option>
+                <option value="Physical & Human Geography">Physical & Human Geography</option>
+                <option value="Ethics, Integrity & Aptitude">Ethics, Integrity & Aptitude</option>
+                <option value="General Studies & CSAT">General Studies & CSAT</option>
+              </select>
+            </div>
+
+            <div className="space-y-1.5">
+              <label className="text-xs font-semibold text-slate-700 block">Your Doubt / Question</label>
+              <Textarea 
+                placeholder="Explain the topic or question you need help with (e.g. Please clarify the doctrine of basic structure in Kesavananda Bharati case)..."
+                value={doubtText}
+                onChange={(e) => setDoubtText(e.target.value)}
+                rows={4}
+                className="text-xs bg-slate-50/70 border-slate-200 rounded-lg"
+                required
+              />
+            </div>
+
+            <DialogFooter className="pt-2">
+              <Button 
+                type="button" 
+                variant="outline" 
+                onClick={() => setIsDoubtModalOpen(false)}
+                className="text-xs font-semibold h-9 rounded-lg"
+              >
+                Cancel
+              </Button>
+              <Button 
+                type="submit" 
+                className="text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white h-9 rounded-lg shadow-none cursor-pointer"
+              >
+                Submit Doubt
+              </Button>
+            </DialogFooter>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

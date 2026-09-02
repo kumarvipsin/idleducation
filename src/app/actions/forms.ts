@@ -331,27 +331,45 @@ export async function getNextStudentId() {
 }
 
 // Payment
-export async function createRazorpayOrder(options: { amount: number; currency: string }) {
-    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-        console.error("Razorpay keys are not set in environment variables.");
-        return { success: false, message: "Payment service is not configured." };
+export async function createRazorpayOrder(options: { amount: number; currency?: string } | number, receiptId?: string) {
+    const key_id = process.env.RAZORPAY_KEY_ID || process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_RKEYtYbYMDeMpw';
+    const key_secret = process.env.RAZORPAY_KEY_SECRET || 'DkkvSEi6m4L5o9WrxklyrlVE';
+
+    let amount = typeof options === 'number' ? options : Number(options?.amount);
+    let currency = (typeof options === 'object' && options?.currency) ? options.currency : 'INR';
+
+    if (!amount || isNaN(amount) || amount <= 0) {
+        console.error("Invalid amount provided to createRazorpayOrder:", options);
+        return { success: false, message: "Invalid payment amount." };
     }
-    const razorpay = new Razorpay({
-        key_id: process.env.RAZORPAY_KEY_ID,
-        key_secret: process.env.RAZORPAY_KEY_SECRET,
-    });
 
     try {
-        const order = await razorpay.orders.create({
-            amount: options.amount, // amount in the smallest currency unit
-            currency: options.currency,
-            receipt: `receipt_order_${new Date().getTime()}`,
+        const razorpay = new Razorpay({
+            key_id: key_id,
+            key_secret: key_secret,
         });
-        // Ensure the returned object is plain and serializable
-        return { success: true, order: JSON.parse(JSON.stringify(order)) };
-    } catch (error) {
+
+        const order = await razorpay.orders.create({
+            amount: Math.round(amount), // amount in the smallest currency unit (paise)
+            currency: currency,
+            receipt: receiptId || `receipt_${Date.now()}`,
+        });
+
+        const orderData = JSON.parse(JSON.stringify(order));
+        return { 
+            success: true, 
+            order: orderData,
+            orderId: orderData.id,
+            amount: orderData.amount,
+            currency: orderData.currency,
+            message: "Order created successfully"
+        };
+    } catch (error: any) {
         console.error("Error creating Razorpay order:", error);
-        return { success: false, message: "Failed to create Razorpay order." };
+        return { 
+            success: false, 
+            message: error?.error?.description || error?.message || "Failed to create Razorpay order." 
+        };
     }
 }
 

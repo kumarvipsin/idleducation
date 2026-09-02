@@ -37,6 +37,8 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui
 import { Separator } from "./ui/separator";
 import { Skeleton } from "./ui/skeleton";
 import { formatDistanceToNow } from 'date-fns';
+import { AuthModal } from "./auth-modal";
+import { AdmissionModal } from "./admission-modal";
 
 const megaMenuBg = "bg-white shadow-2xl";
 
@@ -189,6 +191,9 @@ export function Header() {
     const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const [isContactOpen, setIsContactOpen] = useState(false);
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
+    const [authDefaultMode, setAuthDefaultMode] = useState<'login' | 'signup'>('login');
+    const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
 
     const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
     const [donationCategory, setDonationCategory] = useState<string>("");
@@ -333,7 +338,7 @@ export function Header() {
     ];
 
     const applyForLinks = [
-        { href: "/admission", label: "Admission Form", icon: <FileType className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today." },
+        { href: "#", label: "Admission Form", icon: <FileType className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today.", onClick: () => setIsAdmissionOpen(true) },
         { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style." },
         { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve." },
         { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry." },
@@ -381,10 +386,14 @@ export function Header() {
         }
 
         return (
-            <Link href="/login" className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center">
+            <button 
+                type="button"
+                onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
+                className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center cursor-pointer"
+            >
                 <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
                 <span className="relative z-10 text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
-            </Link>
+            </button>
         );
     };
 
@@ -479,17 +488,25 @@ export function Header() {
                                         )}>
                                             <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-2 flex flex-col gap-1">
                                                 {applyForLinks.map(l => (
-                                                    <Link
+                                                    <button
                                                         key={l.label}
-                                                        href={l.href}
-                                                        onClick={() => setActiveMenu(null)}
-                                                        className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border"
+                                                        type="button"
+                                                        onClick={(e) => {
+                                                            e.preventDefault();
+                                                            setActiveMenu(null);
+                                                            if (l.onClick) {
+                                                                l.onClick();
+                                                            } else if (l.href && l.href !== '#') {
+                                                                router.push(l.href);
+                                                            }
+                                                        }}
+                                                        className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border w-full"
                                                     >
                                                         <div className="text-left flex-1">
                                                             <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{l.label}</p>
                                                         </div>
                                                         <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                                                    </Link>
+                                                    </button>
                                                 ))}
                                             </div>
                                         </div>
@@ -569,22 +586,17 @@ export function Header() {
                                 <Button variant="ghost" size="icon" className="md:hidden text-foreground h-10 w-10"><Menu className="h-5 w-5" /><span className="sr-only">Toggle menu</span></Button>
                             </SheetTrigger>
                             <SheetContent side="left" className="p-0 w-80">
-                                <SheetHeader className="p-4 border-b bg-muted/10 text-left">
+                                <SheetHeader className="px-4 py-1.5 border-b bg-muted/10 text-left flex flex-row items-center justify-start">
                                     <SheetTitle asChild>
-                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-row items-center justify-start gap-3 group text-left">
-                                            <div className="relative w-16 h-16 shrink-0">
-                                                <Image src="/idllogo.png" alt="IDL Education Logo" fill className="object-contain" />
-                                            </div>
-                                            <div className="flex flex-col leading-tight text-left">
-                                                <div className="flex items-center gap-2.5">
-                                                    <span className="text-3xl font-extrabold text-primary tracking-tight uppercase">IDL</span>
-                                                    <div className="flex flex-col text-[8px] font-bold text-muted-foreground tracking-tight leading-[1.1]">
-                                                        <span>Institute Of</span>
-                                                        <span>Distance Learning Pvt. Ltd.</span>
-                                                    </div>
-                                                </div>
-                                                <span className="text-3xl font-extrabold text-primary tracking-tight -mt-1">Education</span>
-                                            </div>
+                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-start group">
+                                            <Image 
+                                              src="/idllogoh.png" 
+                                              alt="IDL Education Logo" 
+                                              width={240} 
+                                              height={72} 
+                                              className="h-[56px] w-auto object-contain object-left" 
+                                              priority 
+                                            />
                                         </Link>
                                     </SheetTitle>
                                 </SheetHeader>
@@ -642,12 +654,25 @@ export function Header() {
                                                         </button>
                                                     </CollapsibleTrigger>
                                                     <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                        {applyForLinks.map(({ href, label, icon, description, colorClasses }) => (
-                                                            <Link key={label} href={href} onClick={() => setIsMobileMenuOpen(false)} className="group flex items-start gap-3 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98] text-left">
+                                                        {applyForLinks.map(({ href, label, icon, description, colorClasses, onClick: linkOnClick }) => (
+                                                            <button
+                                                                key={label}
+                                                                type="button"
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    setIsMobileMenuOpen(false);
+                                                                    if (linkOnClick) {
+                                                                        linkOnClick();
+                                                                    } else if (href && href !== '#') {
+                                                                        router.push(href);
+                                                                    }
+                                                                }}
+                                                                className="group flex items-start gap-3 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98] text-left w-full"
+                                                            >
                                                                 <div className="text-left">
                                                                     <p className="font-medium text-[13px] text-foreground leading-tight">{label}</p>
                                                                 </div>
-                                                            </Link>
+                                                            </button>
                                                         ))}
                                                     </CollapsibleContent>
                                                 </Collapsible>
@@ -716,12 +741,27 @@ export function Header() {
                                                 </Link>
                                             ) : (
                                                 <div className="grid grid-cols-2 gap-3">
-                                                    <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                                                        <Button variant="outline" className="w-full font-extrabold uppercase tracking-wide h-11 rounded-xl">LOGIN</Button>
-                                                    </Link>
-                                                    <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                                                        <Button className="w-full font-extrabold uppercase tracking-wide h-11 rounded-xl">SIGNUP</Button>
-                                                    </Link>
+                                                    <Button 
+                                                        variant="outline" 
+                                                        onClick={() => { 
+                                                            setIsMobileMenuOpen(false); 
+                                                            setAuthDefaultMode('login'); 
+                                                            setIsAuthOpen(true); 
+                                                        }}
+                                                        className="w-full font-extrabold uppercase tracking-wide h-11 rounded-xl cursor-pointer"
+                                                    >
+                                                        LOGIN
+                                                    </Button>
+                                                    <Button 
+                                                        onClick={() => { 
+                                                            setIsMobileMenuOpen(false); 
+                                                            setAuthDefaultMode('signup'); 
+                                                            setIsAuthOpen(true); 
+                                                        }}
+                                                        className="w-full font-extrabold uppercase tracking-wide h-11 rounded-xl cursor-pointer"
+                                                    >
+                                                        SIGNUP
+                                                    </Button>
                                                 </div>
                                             )}
                                         </div>
@@ -733,7 +773,16 @@ export function Header() {
                 </div>
             </header>
 
+            <AuthModal 
+                isOpen={isAuthOpen} 
+                onOpenChange={setIsAuthOpen} 
+                defaultMode={authDefaultMode} 
+            />
 
+            <AdmissionModal
+                isOpen={isAdmissionOpen}
+                onOpenChange={setIsAdmissionOpen}
+            />
 
             <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
                 <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-0 overflow-hidden">

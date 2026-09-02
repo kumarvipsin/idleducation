@@ -1,14 +1,15 @@
 
 
 import type { Metadata, Viewport } from 'next';
-import { Montserrat } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import Script from 'next/script';
 import './globals.css';
 import { Providers } from '@/components/providers';
 
-const montserrat = Montserrat({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
-  weight: ['300', '400', '500', '600', '700', '800', '900'],
+  weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
 });
 
@@ -33,8 +34,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={montserrat.variable}>
-      <body className={`${montserrat.className} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+    <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
+      <body className={`${plusJakartaSans.className} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+        <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         <Providers>
           {children}
         </Providers>

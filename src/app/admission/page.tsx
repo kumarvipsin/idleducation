@@ -6,9 +6,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { 
   User, Mail, Phone, GraduationCap, Building, Info, 
-  FileText, Edit, Download, Camera, ArrowRight,
-  CheckCircle2, Lock, ShieldCheck, Globe, Trash2, Check
+  FileText, Edit, Download, Camera, ArrowRight, ArrowLeft,
+  CheckCircle2, Lock, ShieldCheck, Globe, Trash2, Check,
+  Calendar, MapPin, Briefcase, Send, Heart
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -78,8 +81,17 @@ const months = [ "January", "February", "March", "April", "May", "June", "July",
 const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
+const STEPS = [
+  { id: 1, title: 'Center', subtitle: 'Branch & Photo', icon: Building },
+  { id: 2, title: 'Student', subtitle: 'Student Identity', icon: User },
+  { id: 3, title: 'Parents', subtitle: 'Guardian Information', icon: Briefcase },
+  { id: 4, title: 'Contact', subtitle: 'Address & Phone', icon: Phone },
+  { id: 5, title: 'Academic', subtitle: 'Program & Review', icon: GraduationCap },
+];
+
 export default function AdmissionPage() {
   const { toast } = useToast();
+  const [currentStep, setCurrentStep] = useState<number>(1);
   const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [isThankYouOpen, setIsThankYouOpen] = useState(false);
@@ -195,6 +207,57 @@ export default function AdmissionPage() {
   };
 
 
+  const validateStep = async (step: number): Promise<boolean> => {
+    let fieldsToValidate: (keyof AdmissionFormValues)[] = [];
+    if (step === 1) {
+      fieldsToValidate = ['branch'];
+    } else if (step === 2) {
+      fieldsToValidate = ['studentName', 'dob', 'gender'];
+    } else if (step === 3) {
+      fieldsToValidate = ['fatherName', 'motherName'];
+    } else if (step === 4) {
+      fieldsToValidate = ['email', 'fatherPhone', 'motherPhone', 'state', 'pincode', 'address'];
+    } else if (step === 5) {
+      fieldsToValidate = ['classApplied'];
+    }
+
+    const isValid = await form.trigger(fieldsToValidate);
+    if (!isValid) {
+      toast({
+        variant: 'destructive',
+        title: 'Required Fields Missing',
+        description: 'Please complete all required fields in this step marked with (*).',
+      });
+      return false;
+    }
+    return true;
+  };
+
+  const handleNext = async () => {
+    const isValid = await validateStep(currentStep);
+    if (isValid && currentStep < 5) {
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const handleStepClick = async (targetStep: number) => {
+    if (targetStep < currentStep) {
+      setCurrentStep(targetStep);
+    } else if (targetStep > currentStep) {
+      for (let s = currentStep; s < targetStep; s++) {
+        const valid = await validateStep(s);
+        if (!valid) return;
+      }
+      setCurrentStep(targetStep);
+    }
+  };
+
   const handlePreview = async () => {
     const result = await form.trigger([
         "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "state", "pincode", "classApplied", "branch", "gender"
@@ -304,559 +367,810 @@ export default function AdmissionPage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-50/70 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-200">
+    <div className="min-h-[90vh] w-full flex items-center justify-center p-4 py-8 bg-slate-50/70 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-200">
       <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
       
-      <div className="container mx-auto py-6 sm:py-8 px-4 max-w-4xl">
-        
-        {/* Main Form Card (Shadow Free, Crisp & Premium) */}
-        <div className="border border-border/80 rounded-2xl bg-white dark:bg-slate-900 overflow-hidden shadow-none">
-          
-          {/* Form Content Area */}
-          <div className="p-6 sm:p-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.35, ease: 'easeOut' }}
+        className="w-full max-w-[560px]"
+      >
+        {/* Top Brand Logo */}
+        <div className="text-center mb-5 animate-fade-in-up">
+          <img 
+            src="/idllogo.png" 
+            alt="IDL Education Logo" 
+            className="h-10 w-auto object-contain mx-auto" 
+          />
+        </div>
+
+        {/* 5-Step Card (Contact-Us Card UI Style) */}
+        <Card className="shadow-none rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+          <CardContent className="p-0">
             <Form {...form}>
-              <form onSubmit={(e) => e.preventDefault()} className="space-y-8">
+              <form onSubmit={(e) => e.preventDefault()} className="flex flex-col overflow-hidden">
 
-                {/* Section 1: Registration ID, Branch & Student Photo */}
-                <div className="p-5 rounded-xl bg-slate-50/80 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800">
-                  <div className="grid grid-cols-1 sm:grid-cols-12 gap-5 items-center">
-                    
-                    <div className="sm:col-span-8 space-y-4 text-left">
-                      <div className="flex items-center gap-2 border-b pb-2 border-slate-200 dark:border-slate-700">
-                        <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-[11px] font-bold inline-flex items-center justify-center">1</span>
-                        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                          Registration & Preferred Center
-                        </h2>
-                      </div>
+                {/* Mind Map / 5-Step Progress Stepper */}
+                <div className="px-5 pt-6 pb-4 bg-slate-50/60 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center justify-between relative">
+                    {/* Background Progress Bar Line */}
+                    <div className="absolute left-6 right-6 top-4 h-0.5 bg-slate-200 dark:bg-slate-700 -translate-y-1/2 z-0" />
+                    <div 
+                      className="absolute left-6 top-4 h-0.5 bg-primary -translate-y-1/2 z-0 transition-all duration-300"
+                      style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
+                    />
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {STEPS.map((s) => {
+                      const isCompleted = currentStep > s.id;
+                      const isActive = currentStep === s.id;
+
+                      return (
+                        <button
+                          key={s.id}
+                          type="button"
+                          onClick={() => handleStepClick(s.id)}
+                          className="relative z-10 flex flex-col items-center group cursor-pointer focus:outline-none"
+                        >
+                          <div
+                            className={cn(
+                              "w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition-all duration-300",
+                              isCompleted 
+                                ? "bg-primary text-white scale-100 shadow-sm" 
+                                : isActive 
+                                  ? "bg-primary text-white ring-4 ring-primary/20 scale-110" 
+                                  : "bg-white dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-700 text-slate-400 group-hover:border-primary/50"
+                            )}
+                          >
+                            {isCompleted ? (
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                            ) : (
+                              <span>{s.id}</span>
+                            )}
+                          </div>
+                          <span
+                            className={cn(
+                              "text-[10px] font-bold uppercase tracking-wider mt-1.5 transition-colors hidden sm:block",
+                              isActive ? "text-primary font-black" : isCompleted ? "text-slate-700 dark:text-slate-300" : "text-slate-400"
+                            )}
+                          >
+                            {s.title}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Current Step Sub-Header */}
+                <div className="px-6 py-3 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">
+                      Step {currentStep} of 5
+                    </span>
+                    <h3 className="text-xs font-black text-slate-800 dark:text-slate-200 uppercase tracking-wider">
+                      {STEPS[currentStep - 1].subtitle}
+                    </h3>
+                  </div>
+                  <span className="text-[11px] font-black text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">
+                    {Math.round((currentStep / 5) * 100)}%
+                  </span>
+                </div>
+
+                {/* Step Form Body (Divided Input Cells) */}
+                <div className="flex flex-col min-h-[300px] justify-center">
+                  <AnimatePresence mode="wait">
+                    {currentStep === 1 && (
+                      <motion.div
+                        key="step-1"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
+                      >
+                        {/* Provisional Student ID */}
                         <FormField
                           control={form.control}
                           name="studentId"
                           render={({ field }) => (
-                            <FormItem className="space-y-1">
-                              <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Provisional Student ID
-                              </FormLabel>
+                            <FormItem className="space-y-0">
                               <FormControl>
-                                <Input 
-                                  {...field} 
-                                  readOnly 
-                                  className="h-10 rounded-lg font-bold bg-white dark:bg-slate-900 border-slate-200 text-primary text-xs tracking-wide" 
-                                />
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <FileText className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    {...field} 
+                                    readOnly 
+                                    placeholder="Provisional Student ID"
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 cursor-default" 
+                                  />
+                                  <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-wider text-slate-400 pointer-events-none">
+                                    Auto ID
+                                  </span>
+                                </div>
                               </FormControl>
                             </FormItem>
                           )}
                         />
 
+                        {/* Preferred Branch */}
                         <FormField
                           control={form.control}
                           name="branch"
                           render={({ field }) => (
-                            <FormItem className="space-y-1">
-                              <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Nearest Branch Node <span className="text-rose-500">*</span>
-                              </FormLabel>
-                              <Select onValueChange={field.onChange} value={field.value}>
-                                <FormControl>
-                                  <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-slate-200 text-xs">
-                                    <SelectValue placeholder="Select Preferred Branch" />
-                                  </SelectTrigger>
-                                </FormControl>
-                                <SelectContent>
-                                  {branches.map(b => (
-                                    <SelectItem key={b} value={b} className="text-xs">{b}</SelectItem>
-                                  ))}
-                                </SelectContent>
-                              </Select>
-                              <FormMessage className="text-[11px]" />
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Building className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                      <SelectValue placeholder="Select Preferred Branch Node *" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                      {branches.map(b => (
+                                        <SelectItem key={b} value={b} className="text-xs font-medium">{b}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
                             </FormItem>
                           )}
                         />
-                      </div>
-                    </div>
 
-                    {/* Passport Photo Upload Card */}
-                    <div className="sm:col-span-4 flex flex-col items-center justify-center">
-                      <FormField
-                        control={form.control}
-                        name="studentPhoto"
-                        render={({ field: { onChange, value, ...rest } }) => (
-                          <FormItem className="space-y-1.5 text-center">
-                            <FormLabel htmlFor="photo-upload" className="cursor-pointer block">
-                              <div className="w-24 h-28 rounded-lg bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 hover:border-primary transition-all flex flex-col items-center justify-center overflow-hidden relative group">
-                                {photoPreview ? (
-                                  <>
-                                    <img src={photoPreview} alt="Student" className="object-cover h-full w-full" />
-                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-bold">
-                                      Change
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="p-2 text-center text-muted-foreground space-y-1">
-                                    <Camera className="w-4 h-4 mx-auto text-slate-400" />
-                                    <p className="text-[10px] font-semibold text-slate-700 dark:text-slate-300">Photo</p>
-                                    <span className="text-[9px] text-muted-foreground">Upload</span>
+                        {/* Photo Upload Cell */}
+                        <div className="p-4 px-6 flex items-center justify-between gap-4 bg-white dark:bg-slate-900">
+                          <div className="flex items-center gap-3.5">
+                            <div 
+                              onClick={() => fileInputRef.current?.click()}
+                              className="w-14 h-16 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-primary transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer"
+                            >
+                              {photoPreview ? (
+                                <>
+                                  <img src={photoPreview} alt="Student" className="object-cover h-full w-full" />
+                                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[8px] font-bold uppercase">
+                                    Change
                                   </div>
-                                )}
-                              </div>
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                id="photo-upload"
-                                ref={fileInputRef}
-                                type="file"
-                                accept="image/png, image/jpeg"
-                                className="hidden"
-                                onChange={(e) => {
-                                  const file = e.target.files?.[0];
-                                  onChange(file);
-                                  if (file) {
-                                    const reader = new FileReader();
-                                    reader.onloadend = () => setPhotoPreview(reader.result as string);
-                                    reader.readAsDataURL(file);
-                                  } else {
-                                    setPhotoPreview(null);
-                                  }
-                                }}
-                                {...rest}
-                              />
-                            </FormControl>
-                            <p className="text-[9.5px] text-muted-foreground">Passport size photo</p>
-                            <FormMessage className="text-[10px]" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Section 2: Student Identity */}
-                <div className="space-y-4 text-left">
-                  <div className="flex items-center gap-2 border-b pb-2 border-border">
-                    <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-[11px] font-bold inline-flex items-center justify-center">2</span>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                      Student Identity & Personal Information
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="studentName"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Student Full Name <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="e.g. Rahul Sharma" 
-                              {...field} 
-                              className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"
-                              onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
-                            />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="dob"
-                      render={() => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Date of Birth <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <div className="grid grid-cols-3 gap-1.5">
-                            <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Day" /></SelectTrigger>
-                              <SelectContent>{availableDays.map(day => <SelectItem key={day} value={String(day)} className="text-xs">{day}</SelectItem>)}</SelectContent>
-                            </Select>
-                            <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Month" /></SelectTrigger>
-                              <SelectContent>{months.map(m => <SelectItem key={m} value={m} className="text-xs">{m}</SelectItem>)}</SelectContent>
-                            </Select>
-                            <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Year" /></SelectTrigger>
-                              <SelectContent>{years.map(y => <SelectItem key={y} value={String(y)} className="text-xs">{y}</SelectItem>)}</SelectContent>
-                            </Select>
+                                </>
+                              ) : (
+                                <Camera className="w-5 h-5 text-slate-400 group-hover:text-primary transition-colors" />
+                              )}
+                            </div>
+                            <div className="text-left">
+                              <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Passport Size Photograph</p>
+                              <p className="text-[11px] text-muted-foreground font-medium">Recent color photo for ID card (JPG/PNG max 2MB)</p>
+                            </div>
                           </div>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="gender"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Gender <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Select Gender" /></SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="male" className="text-xs">Male</SelectItem>
-                              <SelectItem value="female" className="text-xs">Female</SelectItem>
-                              <SelectItem value="other" className="text-xs">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="bloodGroup"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Blood Group</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Select Blood Group" /></SelectTrigger>
-                            </FormControl>
-                            <SelectContent>{bloodGroups.map(bg => <SelectItem key={bg} value={bg} className="text-xs">{bg}</SelectItem>)}</SelectContent>
-                          </Select>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="aadharNumber"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Aadhar UID (12 Digits)</FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="12-digit Aadhar number" 
-                              {...field} 
-                              maxLength={12}
-                              className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"
-                              onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
+                          <div>
+                            <Button 
+                              type="button" 
+                              variant="outline" 
+                              size="sm" 
+                              onClick={() => fileInputRef.current?.click()}
+                              className="rounded-xl h-10 px-4 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                            >
+                              <Camera className="w-3.5 h-3.5 mr-1.5 text-primary" />
+                              {photoPreview ? 'Change' : 'Upload'}
+                            </Button>
+                            <Input
+                              id="photo-upload"
+                              ref={fileInputRef}
+                              type="file"
+                              accept="image/png, image/jpeg"
+                              className="hidden"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  form.setValue('studentPhoto', file);
+                                  const reader = new FileReader();
+                                  reader.onloadend = () => setPhotoPreview(reader.result as string);
+                                  reader.readAsDataURL(file);
+                                } else {
+                                  setPhotoPreview(null);
+                                }
+                              }}
                             />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
 
-                    <FormField
-                      control={form.control}
-                      name="apaarId"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">APAAR / ABC ID (Optional)</FormLabel>
-                          <FormControl>
-                            <Input placeholder="One Nation One Student ID" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+                    {currentStep === 2 && (
+                      <motion.div
+                        key="step-2"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
+                      >
+                        {/* Student Name */}
+                        <FormField
+                          control={form.control}
+                          name="studentName"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Student Full Name *" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Date of Birth 3-Part Selector */}
+                        <FormField
+                          control={form.control}
+                          name="dob"
+                          render={() => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Calendar className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <div className="pl-12 h-14 flex items-center divide-x divide-slate-100 dark:divide-slate-800">
+                                    <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
+                                      <SelectTrigger className="h-full border-0 rounded-none font-bold text-[13px] focus:ring-0 focus-visible:ring-0 shadow-none"><SelectValue placeholder="Day *" /></SelectTrigger>
+                                      <SelectContent className="max-h-56">{availableDays.map(day => <SelectItem key={day} value={String(day)} className="text-xs">{day}</SelectItem>)}</SelectContent>
+                                    </Select>
+                                    <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
+                                      <SelectTrigger className="h-full border-0 rounded-none font-bold text-[13px] focus:ring-0 focus-visible:ring-0 shadow-none"><SelectValue placeholder="Month *" /></SelectTrigger>
+                                      <SelectContent className="max-h-56">{months.map(m => <SelectItem key={m} value={m} className="text-xs">{m}</SelectItem>)}</SelectContent>
+                                    </Select>
+                                    <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
+                                      <SelectTrigger className="h-full border-0 rounded-none font-bold text-[13px] focus:ring-0 focus-visible:ring-0 shadow-none"><SelectValue placeholder="Year *" /></SelectTrigger>
+                                      <SelectContent className="max-h-56">{years.map(y => <SelectItem key={y} value={String(y)} className="text-xs">{y}</SelectItem>)}</SelectContent>
+                                    </Select>
+                                  </div>
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Gender & Blood Group in 2-column cell */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
+                            name="gender"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                        <SelectValue placeholder="Select Gender *" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        <SelectItem value="male" className="text-xs">Male</SelectItem>
+                                        <SelectItem value="female" className="text-xs">Female</SelectItem>
+                                        <SelectItem value="other" className="text-xs">Other</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="bloodGroup"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Heart className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                        <SelectValue placeholder="Blood Group (Optional)" />
+                                      </SelectTrigger>
+                                      <SelectContent>
+                                        {bloodGroups.map(bg => <SelectItem key={bg} value={bg} className="text-xs">{bg}</SelectItem>)}
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Aadhar & APAAR ID */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
+                            name="aadharNumber"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <ShieldCheck className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      placeholder="Aadhar UID (12 Digits - Optional)" 
+                                      {...field} 
+                                      maxLength={12}
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
+                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="apaarId"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <FileText className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      placeholder="APAAR / ABC ID (Optional)" 
+                                      {...field} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    />
+                                  </div>
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+
+                    {currentStep === 3 && (
+                      <motion.div
+                        key="step-3"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
+                      >
+                        {/* Father's Name */}
+                        <FormField
+                          control={form.control}
+                          name="fatherName"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Father's Full Name *" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Father's Occupation */}
+                        <FormField
+                          control={form.control}
+                          name="fatherOccupation"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Briefcase className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Father's Occupation (e.g. Business, Service)" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Mother's Name */}
+                        <FormField
+                          control={form.control}
+                          name="motherName"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Mother's Full Name *" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Mother's Occupation */}
+                        <FormField
+                          control={form.control}
+                          name="motherOccupation"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Briefcase className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Mother's Occupation (e.g. Homemaker, Teacher)" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
+
+                    {currentStep === 4 && (
+                      <motion.div
+                        key="step-4"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
+                      >
+                        {/* Email Address */}
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    type="email" 
+                                    placeholder="Email Address *" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Father's Mobile & Mother's Mobile */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
+                            name="fatherPhone"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      type="tel" 
+                                      placeholder="Father's Mobile (10-Digit) *" 
+                                      {...field} 
+                                      maxLength={10} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="motherPhone"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      type="tel" 
+                                      placeholder="Mother's Mobile (10-Digit) *" 
+                                      {...field} 
+                                      maxLength={10} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* State & Pincode */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
+                            name="state"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Globe className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                        <SelectValue placeholder="Select State / UT *" />
+                                      </SelectTrigger>
+                                      <SelectContent className="max-h-56">
+                                        {indianStates.map(st => <SelectItem key={st} value={st} className="text-xs font-medium">{st}</SelectItem>)}
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="pincode"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      placeholder="Pincode (6 Digits) *" 
+                                      {...field} 
+                                      maxLength={6} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Full Residential Address */}
+                        <FormField
+                          control={form.control}
+                          name="address"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-5 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Building className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Textarea 
+                                    placeholder="Full Residential Address (House/Flat, Street, Area) *" 
+                                    {...field} 
+                                    className="min-h-[85px] pl-12 pt-4 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+                      </motion.div>
+                    )}
+
+                    {currentStep === 5 && (
+                      <motion.div
+                        key="step-5"
+                        initial={{ opacity: 0, x: 10 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: -10 }}
+                        transition={{ duration: 0.2 }}
+                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
+                      >
+                        {/* Course / Program Applied */}
+                        <FormField
+                          control={form.control}
+                          name="classApplied"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                      <SelectValue placeholder="Class / Program Applying For *" />
+                                    </SelectTrigger>
+                                    <SelectContent className="max-h-56">
+                                      {classes.map((c, i) => <SelectItem key={`${c}-${i}`} value={c} className="text-xs font-medium">{c}</SelectItem>)}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Previous School */}
+                        <FormField
+                          control={form.control}
+                          name="previousSchool"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <Building className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Previous School / College Name (Optional)" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Special Remarks */}
+                        <FormField
+                          control={form.control}
+                          name="additionalInfo"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 border-t border-slate-100 dark:border-slate-800">
+                              <FormControl>
+                                <div className="relative group h-full">
+                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                    <FileText className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                                  </div>
+                                  <Input 
+                                    placeholder="Special Notes / Learning Requirements (Optional)" 
+                                    {...field} 
+                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Review Summary Box */}
+                        <div className="p-4 px-6 bg-slate-50/70 dark:bg-slate-800/40 text-left">
+                          <p className="text-[10px] font-black uppercase tracking-wider text-slate-400 mb-2">Application Snapshot</p>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div><span className="text-slate-400">Student: </span><strong className="text-slate-800 dark:text-slate-200">{form.watch('studentName') || '—'}</strong></div>
+                            <div><span className="text-slate-400">Center: </span><strong className="text-slate-800 dark:text-slate-200">{form.watch('branch')?.split(',')[0] || '—'}</strong></div>
+                            <div><span className="text-slate-400">Mobile: </span><strong className="text-slate-800 dark:text-slate-200">{form.watch('fatherPhone') || '—'}</strong></div>
+                            <div><span className="text-slate-400">Program: </span><strong className="text-slate-800 dark:text-slate-200">{form.watch('classApplied') || '—'}</strong></div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
 
-                {/* Section 3: Parents / Guardian Information */}
-                <div className="space-y-4 text-left">
-                  <div className="flex items-center gap-2 border-b pb-2 border-border">
-                    <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-[11px] font-bold inline-flex items-center justify-center">3</span>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                      Parents / Guardian Information
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="fatherName"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Father's Name <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="Father's full name" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="fatherOccupation"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Father's Occupation</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. Business, Service, Teacher" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="motherName"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Mother's Name <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="Mother's full name" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="motherOccupation"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Mother's Occupation</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. Homemaker, Professional" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                {/* Section 4: Contact & Residential Address */}
-                <div className="space-y-4 text-left">
-                  <div className="flex items-center gap-2 border-b pb-2 border-border">
-                    <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-[11px] font-bold inline-flex items-center justify-center">4</span>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                      Contact & Residential Address
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Email Address <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input type="email" placeholder="student@example.com" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(e.target.value.toLowerCase())} />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="studentPhone"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Student Phone (Optional)</FormLabel>
-                          <FormControl>
-                            <Input type="tel" placeholder="10-digit mobile number" {...field} maxLength={10} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="fatherPhone"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Father's Mobile <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input type="tel" placeholder="10-digit mobile number" {...field} maxLength={10} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="motherPhone"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Mother's Mobile <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input type="tel" placeholder="10-digit mobile number" {...field} maxLength={10} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="sm:col-span-2">
-                      <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                          <FormItem className="space-y-1">
-                            <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                              Residential Address <span className="text-rose-500">*</span>
-                            </FormLabel>
-                            <FormControl>
-                              <Textarea placeholder="House / Flat No., Street, Landmark, Area" {...field} className="min-h-[65px] rounded-lg bg-white dark:bg-slate-900 border-border text-xs resize-none" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                            </FormControl>
-                            <FormMessage className="text-[11px]" />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-
-                    <FormField
-                      control={form.control}
-                      name="state"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            State / UT <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Select State" /></SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="max-h-56">{indianStates.map(st => <SelectItem key={st} value={st} className="text-xs">{st}</SelectItem>)}</SelectContent>
-                          </Select>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="pincode"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Pincode (6 Digits) <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. 110009" {...field} maxLength={6} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} />
-                          </FormControl>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-
-                {/* Section 5: Academic Program & Previous School */}
-                <div className="space-y-4 text-left">
-                  <div className="flex items-center gap-2 border-b pb-2 border-border">
-                    <span className="w-5 h-5 rounded-md bg-primary/10 text-primary text-[11px] font-bold inline-flex items-center justify-center">5</span>
-                    <h2 className="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200">
-                      Academic Program & Previous School
-                    </h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="classApplied"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            Class / Program Applying For <span className="text-rose-500">*</span>
-                          </FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs"><SelectValue placeholder="Select Program / Class" /></SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="max-h-56">{classes.map((c, i) => <SelectItem key={`${c}-${i}`} value={c} className="text-xs">{c}</SelectItem>)}</SelectContent>
-                          </Select>
-                          <FormMessage className="text-[11px]" />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="previousSchool"
-                      render={({ field }) => (
-                        <FormItem className="space-y-1">
-                          <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Previous School / College Name</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Previous Institution Name" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="sm:col-span-2">
-                      <FormField
-                        control={form.control}
-                        name="additionalInfo"
-                        render={({ field }) => (
-                          <FormItem className="space-y-1">
-                            <FormLabel className="text-xs font-semibold text-slate-700 dark:text-slate-300">Special Notes / Medical Remarks (Optional)</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Any additional remarks or learning requirements" {...field} className="h-10 rounded-lg bg-white dark:bg-slate-900 border-border text-xs" onChange={(e) => field.onChange(capitalizeWords(e.target.value))} />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Form Action Footer */}
-                <div className="pt-4 border-t border-border flex flex-col sm:flex-row items-center justify-between gap-4">
-                  <div className="flex items-center gap-1.5 text-[11px] font-medium text-muted-foreground">
-
-
-                  </div>
-
-                  <div className="flex items-center gap-2.5 w-full sm:w-auto">
-                    <Button 
-                      type="button" 
-                      variant="outline" 
-                      className="w-full sm:w-auto h-10 px-5 rounded-lg font-bold text-xs border-border hover:bg-slate-50 transition-colors" 
-                      onClick={handlePreview}
+                {/* Footer Controls: Back & Next / Submit Actions */}
+                <div className="p-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+                  {currentStep > 1 ? (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={handleBack}
+                      className="h-12 px-5 rounded-xl font-black text-[11px] uppercase border-slate-200 bg-white hover:bg-slate-100 text-slate-700 shadow-none cursor-pointer"
                     >
-                      <FileText className="mr-1.5 h-3.5 w-3.5 text-primary" /> 
-                      Preview Application
+                      <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Back
                     </Button>
-                    
-                    <Button 
-                      type="button" 
-                      className="w-full sm:w-auto h-10 px-6 rounded-lg font-bold text-xs bg-primary hover:bg-primary/90 text-white transition-all active:scale-[0.98]" 
-                      onClick={() => {
-                        form.trigger().then(isValid => {
-                          if (isValid) setIsPaymentDialogOpen(true);
-                          else toast({ variant: "destructive", title: "Incomplete Form", description: "Please fill all required fields before proceeding." });
-                        });
-                      }}
+                  ) : (
+                    <div />
+                  )}
+
+                  {currentStep < 5 ? (
+                    <Button
+                      type="button"
+                      onClick={handleNext}
+                      className="h-12 px-7 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-none transition-all active:scale-[0.98] group uppercase cursor-pointer"
                     >
-                      <span>Proceed to Submit (₹10)</span>
-                      <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                      <span>Next Step</span>
+                      <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
                     </Button>
-                  </div>
+                  ) : (
+                    <div className="flex items-center gap-2.5">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handlePreview}
+                        className="h-12 px-5 rounded-xl font-black text-[11px] uppercase border-slate-200 bg-white hover:bg-slate-100 text-slate-700 hover:text-primary shadow-none transition-all cursor-pointer"
+                      >
+                        <FileText className="mr-1.5 h-3.5 w-3.5 text-primary" /> Preview A4
+                      </Button>
+                      <Button
+                        type="button"
+                        onClick={() => {
+                          form.trigger().then(isValid => {
+                            if (isValid) setIsPaymentDialogOpen(true);
+                            else toast({ variant: "destructive", title: "Incomplete Form", description: "Please fill all required fields before proceeding." });
+                          });
+                        }}
+                        className="h-12 px-7 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-none transition-all active:scale-[0.98] group uppercase cursor-pointer"
+                      >
+                        <span>Submit (₹10)</span>
+                        <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                      </Button>
+                    </div>
+                  )}
                 </div>
 
               </form>
             </Form>
-          </div>
-        </div>
-      </div>
+          </CardContent>
+        </Card>
+      </motion.div>
 
       {/* 1-Page A4 PDF Review Dialog */}
       <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
