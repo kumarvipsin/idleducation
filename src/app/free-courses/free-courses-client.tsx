@@ -15,6 +15,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useSearchParams } from "next/navigation";
 
 const VideoItem = ({
     video,
@@ -149,12 +150,22 @@ const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
 };
 
 export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
+  const searchParams = useSearchParams();
+  const classParam = searchParams.get('class');
   const [mounted, setMounted] = useState(false);
-  const [selectedClass, setSelectedClass] = useState("all");
+  const [selectedClass, setSelectedClass] = useState(classParam || "all");
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (classParam) {
+      setSelectedClass(classParam);
+    }
+  }, [classParam]);
 
   const availableClasses = useMemo(() => {
     const unique = Array.from(new Set(courses.map(c => c.class))).filter(Boolean).sort();
@@ -168,7 +179,9 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
 
   const filteredCourses = useMemo(() => {
     return courses.filter(course => {
-      const matchesClass = selectedClass === "all" || course.class === selectedClass;
+      const matchesClass = selectedClass === "all" || 
+        course.class?.toLowerCase().trim() === selectedClass.toLowerCase().trim() ||
+        course.class === selectedClass;
       const matchesSubject = selectedSubject === "all" || course.subject === selectedSubject;
       const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                             course.description?.toLowerCase().includes(searchTerm.toLowerCase());

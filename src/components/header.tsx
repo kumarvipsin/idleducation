@@ -42,40 +42,75 @@ const megaMenuBg = "bg-white shadow-2xl";
 
 const allCoursesCategories = [
     {
+        id: "free-courses",
         name: "FREE COURSES",
-        description: "High-quality free video lessons.",
         href: "/free-courses",
-        colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white"
+        subItems: [
+            { label: "Class 8", href: "/free-courses?class=Class 8" },
+            { label: "Class 9", href: "/free-courses?class=Class 9" },
+            { label: "Class 10", href: "/free-courses?class=Class 10" },
+            { label: "Class 11", href: "/free-courses?class=Class 11" },
+            { label: "Class 12", href: "/free-courses?class=Class 12" },
+            { label: "All Free Courses", href: "/free-courses" },
+        ],
     },
     {
+        id: "paid-courses",
         name: "PAID COURSES",
-        description: "Premium structured learning.",
         href: "/paid-courses",
-        colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white"
+        subItems: [
+            { label: "Class 9", href: "/paid-courses?class=Class 9" },
+            { label: "Class 10", href: "/paid-courses?class=Class 10" },
+            { label: "Class 11", href: "/paid-courses?class=Class 11" },
+            { label: "Class 12", href: "/paid-courses?class=Class 12" },
+            { label: "All Paid Courses", href: "/paid-courses" },
+        ],
     },
     {
+        id: "school-board",
         name: "SCHOOL BOARD",
-        description: "Prep for Class 5 to 12.",
         href: "/school",
-        colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white"
+        subItems: [
+            { label: "Class 5 to 7", href: "/school?class=Class 5" },
+            { label: "Class 8", href: "/school?class=Class 8" },
+            { label: "Class 9", href: "/school?class=Class 9" },
+            { label: "Class 10", href: "/school?class=Class 10" },
+            { label: "Class 11", href: "/school?class=Class 11" },
+            { label: "Class 12", href: "/school?class=Class 12" },
+        ],
     },
     {
+        id: "cuet-exam",
         name: "CUET EXAM",
-        description: "University entrance tests.",
         href: "/category/cuet",
-        colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white"
+        subItems: [
+            { label: "Domain Subjects", href: "/category/cuet" },
+            { label: "General Test (GT)", href: "/category/cuet" },
+            { label: "Language Section", href: "/category/cuet" },
+            { label: "All About CUET", href: "/resources/all-about-cuet" },
+        ],
     },
     {
+        id: "govt-exams",
         name: "GOVT. EXAMS",
-        description: "SSC, Banking, & Railway.",
         href: "/examcat",
-        colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white"
+        subItems: [
+            { label: "SSC Exams", href: "/examcat" },
+            { label: "Banking Exams", href: "/examcat" },
+            { label: "Railway Exams", href: "/examcat" },
+            { label: "Delhi Police", href: "/category/delhi-police" },
+        ],
     },
     {
+        id: "test-series",
         name: "TEST SERIES",
-        description: "Rigorous preparation tests.",
         href: "/resources/test-series",
-        colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white"
+        subItems: [
+            { label: "Class 10 Test Series", href: "/resources/test-series" },
+            { label: "Class 12 Test Series", href: "/resources/test-series" },
+            { label: "CUET Mock Tests", href: "/resources/test-series" },
+            { label: "Chapter Practice Tests", href: "/resources/test-series" },
+        ],
     },
 ];
 
@@ -150,6 +185,7 @@ export function Header() {
     const [lastScrollY, setLastScrollY] = useState(0);
 
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
+    const [hoveredCourseCategory, setHoveredCourseCategory] = useState<string>("free-courses");
     const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const [isContactOpen, setIsContactOpen] = useState(false);
@@ -370,23 +406,68 @@ export function Header() {
                                     <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}>ALL COURSES</Button>
                                         <div className={cn(
-                                            "absolute top-full left-0 transition-all duration-300 ease-in-out w-72 z-50 pt-2",
-                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
+                                            "absolute top-full left-0 transition-all duration-300 ease-in-out z-50 pt-2",
+                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible pointer-events-none"
                                         )}>
-                                            <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-2 flex flex-col gap-1">
-                                                {allCoursesCategories.map(c => (
-                                                    <Link
-                                                        key={c.name}
-                                                        href={c.href}
-                                                        onClick={() => setActiveMenu(null)}
-                                                        className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border"
-                                                    >
-                                                        <div className="text-left flex-1">
-                                                            <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{c.name.toUpperCase()}</p>
+                                            <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-2 flex flex-row divide-x divide-border">
+                                                {/* Left Column: Categories */}
+                                                <div className="w-56 flex flex-col gap-1 pr-2">
+                                                    {allCoursesCategories.map(c => (
+                                                        <div
+                                                            key={c.id}
+                                                            onMouseEnter={() => setHoveredCourseCategory(c.id)}
+                                                            className="w-full"
+                                                        >
+                                                            <Link
+                                                                href={c.href}
+                                                                onClick={() => setActiveMenu(null)}
+                                                                className={cn(
+                                                                    "group relative flex items-center gap-3 p-3 rounded-xl transition-all duration-200 text-left border border-transparent",
+                                                                    hoveredCourseCategory === c.id
+                                                                        ? "bg-muted/70 hover:border-border text-primary font-medium"
+                                                                        : "hover:bg-muted/50 hover:border-border text-foreground"
+                                                                )}
+                                                            >
+                                                                <div className="text-left flex-1">
+                                                                    <p className={cn(
+                                                                        "font-medium text-[13px] leading-tight transition-colors",
+                                                                        hoveredCourseCategory === c.id ? "text-primary font-medium" : "text-foreground group-hover:text-primary"
+                                                                    )}>
+                                                                        {c.name}
+                                                                    </p>
+                                                                </div>
+                                                                <ChevronRight className={cn(
+                                                                    "w-4 h-4 transition-all",
+                                                                    hoveredCourseCategory === c.id
+                                                                        ? "text-primary translate-x-0.5 opacity-100"
+                                                                        : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5"
+                                                                )} />
+                                                            </Link>
                                                         </div>
-                                                        <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                                                    </Link>
-                                                ))}
+                                                    ))}
+                                                </div>
+
+                                                {/* Right Column: Classes / Sub-courses */}
+                                                <div className="w-60 pl-2 flex flex-col gap-1">
+                                                    {(() => {
+                                                        const activeCategory = allCoursesCategories.find(c => c.id === hoveredCourseCategory) || allCoursesCategories[0];
+                                                        return activeCategory.subItems.map((sub, idx) => (
+                                                            <Link
+                                                                key={idx}
+                                                                href={sub.href}
+                                                                onClick={() => setActiveMenu(null)}
+                                                                className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border"
+                                                            >
+                                                                <div className="text-left flex-1">
+                                                                    <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">
+                                                                        {sub.label}
+                                                                    </p>
+                                                                </div>
+                                                                <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                                                            </Link>
+                                                        ));
+                                                    })()}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -521,19 +602,31 @@ export function Header() {
                                                             <ChevronDown className="h-4 w-4 transition-transform group-data-[state=open]/trigger:rotate-180 opacity-40" />
                                                         </button>
                                                     </CollapsibleTrigger>
-                                                    <CollapsibleContent className="px-1 py-3 bg-white space-y-1 animate-in fade-in slide-in-from-top-2 duration-300">
-                                                        {allCoursesCategories.map(({ href, name: label, icon, description, colorClasses }) => (
-                                                            <Link
-                                                                key={label}
-                                                                href={href}
-                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                                className="group flex items-start gap-4 p-3 rounded-xl hover:bg-muted transition-all active:scale-[0.98] text-left"
-                                                            >
-
-                                                                <div className="text-left">
-                                                                    <p className="font-medium text-[13px] text-foreground leading-tight">{label}</p>
+                                                    <CollapsibleContent className="px-1 py-3 bg-white space-y-3 animate-in fade-in slide-in-from-top-2 duration-300">
+                                                        {allCoursesCategories.map((cat) => (
+                                                            <div key={cat.id} className="space-y-1">
+                                                                <Link
+                                                                    href={cat.href}
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className="flex items-center justify-between px-3 py-1 text-[11px] font-semibold text-primary uppercase tracking-wider text-left border-l-4 border-primary pl-2"
+                                                                >
+                                                                    <span>{cat.name}</span>
+                                                                    <ChevronRight className="w-3.5 h-3.5 text-primary/50" />
+                                                                </Link>
+                                                                <div className="space-y-1 pl-2">
+                                                                    {cat.subItems.map((sub, sIdx) => (
+                                                                        <Link
+                                                                            key={sIdx}
+                                                                            href={sub.href}
+                                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                                            className="group flex items-center justify-between p-2.5 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border"
+                                                                        >
+                                                                            <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{sub.label}</p>
+                                                                            <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary transition-all" />
+                                                                        </Link>
+                                                                    ))}
                                                                 </div>
-                                                            </Link>
+                                                            </div>
                                                         ))}
                                                     </CollapsibleContent>
                                                 </Collapsible>

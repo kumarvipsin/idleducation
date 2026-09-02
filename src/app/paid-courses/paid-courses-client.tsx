@@ -15,7 +15,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { useAuth } from "@/context/auth-context";
 import { getUserPurchasedCourses, recordCoursePurchase, createRazorpayOrder } from "@/app/actions";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -154,6 +154,8 @@ const CoursePlayerDialog = ({ course }: { course: TPaidCourse }) => {
 };
 
 export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
+  const searchParams = useSearchParams();
+  const classParam = searchParams.get('class');
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
   const { toast } = useToast();
@@ -162,7 +164,7 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
   const [isProcessing, setIsSubmitting] = useState(false);
 
   // Filtration states
-  const [selectedClass, setSelectedClass] = useState("all");
+  const [selectedClass, setSelectedClass] = useState(classParam || "all");
   const [selectedSubject, setSelectedSubject] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -176,6 +178,12 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
         });
     }
   }, [user]);
+
+  useEffect(() => {
+    if (classParam) {
+      setSelectedClass(classParam);
+    }
+  }, [classParam]);
 
   const handlePurchase = async (course: TPaidCourse) => {
     if (!user) {
@@ -245,7 +253,9 @@ export function PaidCoursesClient({ courses }: { courses: TPaidCourse[] }) {
 
   const filteredCourses = useMemo(() => {
     return courses.filter(course => {
-      const matchesClass = selectedClass === "all" || course.class === selectedClass;
+      const matchesClass = selectedClass === "all" || 
+        course.class?.toLowerCase().trim() === selectedClass.toLowerCase().trim() ||
+        course.class === selectedClass;
       const matchesSubject = selectedSubject === "all" || course.subject === selectedSubject;
       const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
                             course.description?.toLowerCase().includes(searchTerm.toLowerCase());
