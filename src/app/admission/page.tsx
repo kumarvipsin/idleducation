@@ -163,25 +163,37 @@ export default function AdmissionPage() {
 
     try {
         const canvas = await html2canvas(contentToCapture, {
-            scale: 2,
+            scale: 3,
             useCORS: true,
+            allowTaint: true,
             logging: false,
             windowWidth: 794,
             backgroundColor: "#ffffff",
+            imageTimeout: 15000,
+            removeContainer: true,
         });
 
-        const imgData = canvas.toDataURL('image/jpeg', 0.98);
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210;
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4',
+            compress: false,
+        });
+
+        const pdfWidth = 210;
+        const pdfHeight = 297;
+        const imgWidth = pdfWidth;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-        pdf.addImage(imgData, 'JPEG', 0, 0, imgWidth, Math.min(imgHeight, 297));
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, Math.min(imgHeight, pdfHeight), '', 'FAST');
         pdf.save(`${form.getValues('studentName') || 'Student'}_Admission_Form.pdf`);
     } catch (error) {
         console.error("PDF generation failed:", error);
         toast({ variant: "destructive", title: "PDF Generation Failed", description: "Please try again." });
     }
   };
+
 
   const handlePreview = async () => {
     const result = await form.trigger([
@@ -874,16 +886,14 @@ export default function AdmissionPage() {
               {/* Institutional Header */}
               <div className="border-b-2 border-[#002B49] pb-3 mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-4 text-left">
-                  <h2 className="text-lg font-extrabold tracking-tight text-[#002B49] uppercase font-sans">
-                    IDL EDUCATION
-                  </h2>
+                  <img src="/idllogo.png" alt="IDL Education" className="h-10 w-auto object-contain" />
                   <div className="border-l border-slate-300 pl-3.5 space-y-0.5">
-                    <div className="flex items-center gap-2.5 text-[10px] text-slate-700 font-semibold">
-                      <span className="flex items-center gap-1"><Phone className="w-3 h-3 text-slate-500" /> 011 45035713</span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1"><Mail className="w-3 h-3 text-slate-500" /> info@idleducation.in</span>
-                      <span>•</span>
-                      <span className="flex items-center gap-1"><Globe className="w-3 h-3 text-slate-500" /> www.idleducation.in</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '10px', color: '#334155', fontWeight: 600 }}>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><img src="/icon-phone.svg" alt="" width="11" height="11" /> 011 45035713</span>
+                      <span style={{ color: '#94a3b8' }}>|</span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><img src="/icon-mail.svg" alt="" width="11" height="11" /> info@idleducation.in</span>
+                      <span style={{ color: '#94a3b8' }}>|</span>
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><img src="/icon-globe.svg" alt="" width="11" height="11" /> www.idleducation.in</span>
                     </div>
 
                   </div>

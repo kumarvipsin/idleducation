@@ -396,7 +396,7 @@ export function Header() {
             )}>
                 <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                     <Link href="/" className="flex items-center justify-center -ml-2">
-                        <Image src="/logo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                        <Image src="/idllogo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                     </Link>
 
                     <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
@@ -573,7 +573,7 @@ export function Header() {
                                     <SheetTitle asChild>
                                         <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex flex-row items-center justify-start gap-3 group text-left">
                                             <div className="relative w-16 h-16 shrink-0">
-                                                <Image src="/logo.png" alt="IDL Education Logo" fill className="object-contain" />
+                                                <Image src="/idllogo.png" alt="IDL Education Logo" fill className="object-contain" />
                                             </div>
                                             <div className="flex flex-col leading-tight text-left">
                                                 <div className="flex items-center gap-2.5">
