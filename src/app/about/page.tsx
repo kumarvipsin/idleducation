@@ -37,7 +37,7 @@ export default function AboutPage() {
       {
         year: "2021",
         icon: Sparkles,
-        image: "/idlbranch.png",
+        image: "/baground.jpg",
         imageAlt: "IDL Foundation in 2021",
         points: [
           "Amod Sharma & Vijay Verma laid the foundation of IDL Education with a visionary mission to democratize quality education across Bharat.",
@@ -47,7 +47,7 @@ export default function AboutPage() {
       {
         year: "2022",
         icon: Building2,
-        image: "/idlbranch.png",
+        image: "/baground.jpg",
         imageAlt: "IDL Learning Centers in 2022",
         points: [
           "Inaugurated dedicated offline learning centers to provide direct classroom mentorship and structured guidance.",
@@ -57,7 +57,7 @@ export default function AboutPage() {
       {
         year: "2023",
         icon: Smartphone,
-        image: "/idlbranch.png",
+        image: "/baground.jpg",
         imageAlt: "IDL Digital App Launch in 2023",
         points: [
           "Launched the proprietary IDL Learning App, bringing interactive live classes, smart practice tests, and 24/7 doubt resolution directly to students' smartphones.",
@@ -67,7 +67,7 @@ export default function AboutPage() {
       {
         year: "2024",
         icon: Trophy,
-        image: "/idlbranch.png",
+        image: "/baground.jpg",
         imageAlt: "IDL Academic Results in 2024",
         points: [
           "Delivered historic academic results with students securing top ranks and 99+ percentiles in competitive examinations.",
@@ -77,7 +77,7 @@ export default function AboutPage() {
       {
         year: "2025",
         icon: Users,
-        image: "/idlbranch.png",
+        image: "/baground.jpg",
         imageAlt: "Pan-Bharat Student Community in 2025",
         points: [
           "Crossed 25,000+ empowered learners across digital cohorts and physical learning hubs nationwide.",
@@ -87,7 +87,7 @@ export default function AboutPage() {
       {
         year: "2026",
         icon: Rocket,
-        image: "/idlbranch.png",
+        image: "/baground.jpg",
         imageAlt: "IDL Nationwide Platform Launch in 2026",
         points: [
           "Scaling the educational footprint nationwide with advanced smart classrooms, holistic pedagogy, and community learning hubs.",
@@ -271,33 +271,34 @@ export default function AboutPage() {
             </div>
         </section>
 
-        {/* OUR JOURNEY TIMELINE SECTION (2021 - 2026) - REFERENCE STYLE */}
-        <section className="w-full py-16 sm:py-20 md:py-24 bg-white dark:bg-background relative overflow-hidden border-t border-border/40">
+        {/* OUR JOURNEY TIMELINE SECTION (2021 - 2026) - CLEAN PREMIUM LIGHT BG */}
+        <section className="w-full py-16 sm:py-20 md:py-24 bg-[#f8f9fc] dark:bg-slate-900/40 relative overflow-hidden border-t border-border/30">
+
             {/* Giant Background Watermark Year */}
             <div 
-                className="absolute top-14 left-1/2 -translate-x-1/2 select-none pointer-events-none font-black text-[8rem] sm:text-[12rem] md:text-[15rem] text-slate-100/90 dark:text-slate-800/20 tracking-tighter leading-none z-0 transition-all duration-500"
+                className="absolute top-14 left-1/2 -translate-x-1/2 select-none pointer-events-none font-black text-[8rem] sm:text-[12rem] md:text-[15rem] text-slate-200/80 dark:text-slate-800/30 tracking-tighter leading-none z-0 transition-all duration-500"
                 aria-hidden="true"
             >
                 {currentMilestone.year}
             </div>
 
             <div className="container mx-auto px-4 md:px-6 relative z-10">
-                {/* Section Header - Matching Meet Our Team typography & boldness */}
+                {/* Section Header - Pure Black Typography */}
                 <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-                    <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-purple-500 via-indigo-500 to-blue-500 bg-clip-text text-transparent pb-1">
-                        Our Journey
+                    <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white pb-1">
+                        The Journey of IDL
                     </h2>
-                    <p className="text-sm sm:text-base text-foreground/80 font-bold mt-2.5 leading-relaxed">
+                    <p className="text-sm sm:text-base text-foreground/85 font-extrabold mt-2.5 leading-relaxed">
                         From foundational beginnings to empowering millions across Bharat
                     </p>
                 </div>
 
-                {/* Horizontal Stepper / Timeline Tracker */}
-                <div className="relative max-w-4xl mx-auto mb-10 sm:mb-14 px-4">
+                {/* Horizontal Stepper / Timeline Tracker - Completely unclipped on all screen sizes */}
+                <div className="relative max-w-4xl mx-auto mb-10 sm:mb-14 px-2 sm:px-4">
                     {/* Connecting Dashed Line */}
-                    <div className="absolute top-[3.2rem] left-10 right-10 h-[2px] border-t-2 border-dashed border-slate-300 dark:border-slate-700 -translate-y-1/2 z-0 hidden sm:block" />
+                    <div className="absolute top-[2.75rem] sm:top-[3.25rem] left-8 right-8 h-[2px] border-t-2 border-dashed border-slate-300 dark:border-slate-700 -translate-y-1/2 z-0 hidden sm:block" />
 
-                    <div className="flex items-center justify-between relative z-10 overflow-x-auto pb-4 sm:pb-0 gap-4 sm:gap-0 [scrollbar-width:none]">
+                    <div className="flex items-center justify-between relative z-10 py-2 gap-1 sm:gap-2">
                         {journeyMilestones.map((milestone, idx) => {
                             const IconComponent = milestone.icon;
                             const isActive = idx === activeYearIndex;
@@ -306,21 +307,21 @@ export default function AboutPage() {
                                     key={milestone.year}
                                     type="button"
                                     onClick={() => setActiveYearIndex(idx)}
-                                    className="flex flex-col items-center group cursor-pointer focus:outline-none transition-all duration-300 shrink-0"
+                                    className="flex flex-col items-center group cursor-pointer outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 active:outline-none select-none transition-all duration-300 flex-1 min-w-0"
                                 >
                                     <span className={cn(
-                                        "text-xs sm:text-sm font-bold mb-2.5 transition-all duration-300",
-                                        isActive ? "text-primary font-black scale-110" : "text-muted-foreground group-hover:text-foreground"
+                                        "text-[11px] sm:text-sm font-bold mb-2 transition-all duration-300",
+                                        isActive ? "text-primary font-black scale-105" : "text-muted-foreground group-hover:text-foreground"
                                     )}>
                                         {milestone.year}
                                     </span>
                                     <div className={cn(
-                                        "w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-300",
+                                        "w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-300",
                                         isActive 
-                                            ? "bg-primary text-white shadow-xl ring-4 ring-primary/20 scale-110" 
-                                            : "bg-white dark:bg-card text-slate-400 dark:text-slate-500 border-2 border-dashed border-slate-300 dark:border-slate-700 group-hover:border-primary/50 group-hover:text-foreground"
+                                            ? "bg-primary text-white shadow-md ring-2 sm:ring-4 ring-primary/25 scale-105" 
+                                            : "bg-white dark:bg-card text-slate-400 dark:text-slate-500 border border-dashed border-slate-300 dark:border-slate-700 group-hover:border-primary/50 group-hover:text-foreground"
                                     )}>
-                                        <IconComponent className="w-5 h-5 sm:w-6 sm:h-6" />
+                                        <IconComponent className="w-4 h-4 sm:w-6 sm:h-6" />
                                     </div>
                                 </button>
                             );
@@ -328,11 +329,11 @@ export default function AboutPage() {
                     </div>
                 </div>
 
-                {/* Milestone Detail Card - Highlighted Outline & Responsive Fit */}
-                <div className="relative max-w-5xl mx-auto rounded-2xl sm:rounded-3xl border border-slate-300/90 dark:border-slate-700 bg-white dark:bg-card p-4 sm:p-7 md:p-9 transition-all duration-300">
+                {/* Milestone Detail Card - Light Outline, Zero Shadow, Perfectly Fitted 3:2 Image */}
+                <div className="relative max-w-5xl mx-auto rounded-2xl sm:rounded-3xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-card p-4 sm:p-7 md:p-9 shadow-none transition-all duration-300">
                     <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-7 lg:gap-9 items-center">
-                        {/* Left: Image Container - Perfectly fitted on mobile (3:2) & prominent on desktop */}
-                        <div className="md:col-span-7 relative w-full aspect-[3/2] sm:aspect-[4/3] md:aspect-[16/11] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
+                        {/* Left: Image Container - Strictly 3:2 aspect ratio matching idlbranch.png native size (1536x1024) so no portion is cut off */}
+                        <div className="md:col-span-7 relative w-full aspect-[3/2] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
                             <Image
                                 src={currentMilestone.image}
                                 alt={currentMilestone.imageAlt}
@@ -349,7 +350,7 @@ export default function AboutPage() {
                                 <span className="text-xs font-bold uppercase tracking-widest text-primary">
                                     Milestone
                                 </span>
-                                <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-foreground tracking-tight mt-1">
+                                <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight mt-1">
                                     In <span className="text-primary">{currentMilestone.year}</span>
                                 </h3>
                             </div>
@@ -369,42 +370,6 @@ export default function AboutPage() {
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        {/* STUDENT COMMUNITY MOTIVATIONAL BANNER SECTION - FULL WIDTH LEFT-TO-RIGHT WITH LIGHT OVERLAY */}
-        <section className="relative w-full overflow-hidden min-h-[440px] sm:min-h-[500px] md:min-h-[560px] flex items-center justify-center border-t border-border/40">
-            {/* Background Image - Edge to Edge Panoramic Student Group */}
-            <Image
-                src="/students-banner.jpg"
-                alt="IDL Education Student Community"
-                fill
-                priority
-                className="object-cover object-center"
-            />
-
-            {/* Light Color Frosted Overlay for pristine readability while keeping students visible */}
-            <div className="absolute inset-0 bg-white/75 dark:bg-slate-950/80 backdrop-blur-[1.5px]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-white/40 via-transparent to-white/40 dark:from-slate-950/40 dark:via-transparent dark:to-slate-950/40 pointer-events-none" />
-
-            {/* Content Container */}
-            <div className="container relative z-10 mx-auto px-4 md:px-6 py-16 sm:py-20 text-center max-w-4xl">
-                {/* Decorative Quote Icon Badge */}
-                <div className="inline-flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary/10 text-primary border border-primary/20 mb-6 shadow-sm">
-                    <svg className="w-6 h-6 sm:w-7 sm:h-7 fill-current" viewBox="0 0 24 24">
-                        <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                    </svg>
-                </div>
-
-                {/* Motivational Quote */}
-                <blockquote className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-snug sm:leading-tight mb-5">
-                    &ldquo;Every student carries the potential to transform tomorrow. With the right guidance and passion, no dream is out of reach.&rdquo;
-                </blockquote>
-
-                {/* Tagline */}
-                <p className="text-xs sm:text-sm font-bold uppercase tracking-[0.2em] text-primary">
-                    Empowering the next generation across Bharat
-                </p>
             </div>
         </section>
     </div>
