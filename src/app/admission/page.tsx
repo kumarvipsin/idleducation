@@ -386,7 +386,7 @@ export default function AdmissionPage() {
         </div>
 
         {/* 5-Step Card (Contact-Us Card UI Style) */}
-        <Card className="shadow-none rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden">
+        <Card className="shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 overflow-hidden">
           <CardContent className="p-0">
             <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="flex flex-col overflow-hidden">
@@ -1122,7 +1122,7 @@ export default function AdmissionPage() {
                       type="button"
                       variant="outline"
                       onClick={handleBack}
-                      className="h-12 px-5 rounded-xl font-black text-[11px] uppercase border-slate-200 bg-white hover:bg-slate-100 text-slate-700 shadow-none cursor-pointer"
+                      className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700 cursor-pointer"
                     >
                       <ArrowLeft className="w-3.5 h-3.5 mr-1.5" /> Back
                     </Button>
@@ -1134,7 +1134,7 @@ export default function AdmissionPage() {
                     <Button
                       type="button"
                       onClick={handleNext}
-                      className="h-12 px-7 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-none transition-all active:scale-[0.98] group uppercase cursor-pointer"
+                      className="h-10 sm:h-11 px-6 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
                     >
                       <span>Next Step</span>
                       <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
@@ -1145,7 +1145,7 @@ export default function AdmissionPage() {
                         type="button"
                         variant="outline"
                         onClick={handlePreview}
-                        className="h-12 px-5 rounded-xl font-black text-[11px] uppercase border-slate-200 bg-white hover:bg-slate-100 text-slate-700 hover:text-primary shadow-none transition-all cursor-pointer"
+                        className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700 cursor-pointer"
                       >
                         <FileText className="mr-1.5 h-3.5 w-3.5 text-primary" /> Preview A4
                       </Button>
@@ -1157,7 +1157,7 @@ export default function AdmissionPage() {
                             else toast({ variant: "destructive", title: "Incomplete Form", description: "Please fill all required fields before proceeding." });
                           });
                         }}
-                        className="h-12 px-7 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-none transition-all active:scale-[0.98] group uppercase cursor-pointer"
+                        className="h-10 sm:h-11 px-5 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
                       >
                         <span>Submit (₹10)</span>
                         <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />

@@ -1,11 +1,13 @@
 'use client';
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Award, Trophy } from "lucide-react";
-import Link from 'next/link';
 import Image from "next/image";
+import { ScholarshipModal } from "@/components/scholarship-modal";
 
 export function ScholarshipSection() {
+    const [isScholarshipOpen, setIsScholarshipOpen] = useState(false);
     return (
         <section className="w-full py-2 md:py-4 bg-muted/20 dark:bg-gray-900">
             <div className="container mx-auto px-4 md:px-6">
@@ -24,9 +26,10 @@ export function ScholarshipSection() {
                                 </div>
                             </div>
                             <div className="text-left">
-                                <Button asChild className="h-11 px-5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg shadow-orange-500/20 hover:shadow-xl transition-all border-none">
-                                    <Link href="/scholarship">Register For FREE</Link>
+                                <Button onClick={() => setIsScholarshipOpen(true)} className="h-11 px-5 rounded-lg bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg shadow-orange-500/20 hover:shadow-xl transition-all border-none">
+                                    Register For FREE
                                 </Button>
+                                <ScholarshipModal isOpen={isScholarshipOpen} onOpenChange={setIsScholarshipOpen} />
                             </div>
                         </div>
                         <div className="h-48 md:h-64 flex items-center justify-center">

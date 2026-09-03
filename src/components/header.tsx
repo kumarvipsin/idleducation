@@ -39,6 +39,10 @@ import { Skeleton } from "./ui/skeleton";
 import { formatDistanceToNow } from 'date-fns';
 import { AuthModal } from "./auth-modal";
 import { AdmissionModal } from "./admission-modal";
+import { BookDemoModal } from "./book-demo-modal";
+import { FeedbackModal } from "./feedback-modal";
+import { StudentEnquiryModal } from "./student-enquiry-modal";
+import { ScholarshipModal } from "./scholarship-modal";
 
 const megaMenuBg = "bg-white shadow-2xl";
 
@@ -194,6 +198,10 @@ export function Header() {
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authDefaultMode, setAuthDefaultMode] = useState<'login' | 'signup'>('login');
     const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
+    const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
+    const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
+    const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+    const [isScholarshipOpen, setIsScholarshipOpen] = useState(false);
 
     const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
     const [donationCategory, setDonationCategory] = useState<string>("");
@@ -339,10 +347,10 @@ export function Header() {
 
     const applyForLinks = [
         { href: "#", label: "Admission Form", icon: <FileType className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today.", onClick: () => setIsAdmissionOpen(true) },
-        { href: "/book-demo", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style." },
-        { href: "/feedback", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve." },
-        { href: "/student-enquiry", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry." },
-        { href: "/scholarship", label: "Scholarship", icon: <Award className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship." },
+        { href: "#", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style.", onClick: () => setIsBookDemoOpen(true) },
+        { href: "#", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve.", onClick: () => setIsFeedbackOpen(true) },
+        { href: "#", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry.", onClick: () => setIsEnquiryOpen(true) },
+        { href: "#", label: "Scholarship", icon: <Award className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship.", onClick: () => setIsScholarshipOpen(true) },
     ];
 
     const navItemClass = "relative h-full flex items-center py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -784,8 +792,28 @@ export function Header() {
                 onOpenChange={setIsAdmissionOpen}
             />
 
+            <BookDemoModal
+                isOpen={isBookDemoOpen}
+                onOpenChange={setIsBookDemoOpen}
+            />
+
+            <FeedbackModal
+                isOpen={isFeedbackOpen}
+                onOpenChange={setIsFeedbackOpen}
+            />
+
+            <StudentEnquiryModal
+                isOpen={isEnquiryOpen}
+                onOpenChange={setIsEnquiryOpen}
+            />
+
+            <ScholarshipModal
+                isOpen={isScholarshipOpen}
+                onOpenChange={setIsScholarshipOpen}
+            />
+
             <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-0 overflow-hidden">
+                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 p-0 overflow-hidden">
                     <DialogHeader className="text-center p-8 pb-0">
                         <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter">Contact Us</DialogTitle>
                         <DialogDescription className="text-muted-foreground text-[13px] font-extrabold">Have a query? Drop us a line below.</DialogDescription>

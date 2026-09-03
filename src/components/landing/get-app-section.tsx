@@ -132,7 +132,7 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-0 overflow-hidden"
+                className="sm:max-w-md shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 p-0 overflow-hidden"
             >
                 <DialogHeader className="text-center p-8 pb-0">
                     <DialogTitle className="text-2xl font-extrabold text-primary">Raise a Support Ticket</DialogTitle>
@@ -219,7 +219,7 @@ export function GetAppSection() {
                         <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
                             <Button 
                                 type="submit" 
-                                className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" 
+                                className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl uppercase active:scale-[0.98] group cursor-pointer" 
                                 disabled={supportForm.formState.isSubmitting}
                             >
                                 {supportForm.formState.isSubmitting ? 'SUBMITTING...' : 'RAISE SUPPORT TICKET'}
@@ -248,7 +248,7 @@ export function GetAppSection() {
             </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
-                className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-0 overflow-hidden"
+                className="sm:max-w-md shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 p-0 overflow-hidden"
             >
                 <DialogHeader className="text-center p-8 pb-0">
                     <DialogTitle className="text-2xl font-extrabold text-primary">Request a Call Back</DialogTitle>
@@ -359,7 +359,7 @@ export function GetAppSection() {
                         <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
                             <Button 
                                 type="submit" 
-                                className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" 
+                                className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl uppercase active:scale-[0.98] group cursor-pointer" 
                                 disabled={callBackForm.formState.isSubmitting}
                             >
                                 {callBackForm.formState.isSubmitting ? 'REQUESTING...' : 'GET A CALL BACK'}

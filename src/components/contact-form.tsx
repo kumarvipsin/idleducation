@@ -138,7 +138,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
         <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
           <Button 
             type="submit" 
-            className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" 
+            className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl uppercase active:scale-[0.98] group cursor-pointer" 
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? 'SENDING...' : 'SEND MESSAGE'}

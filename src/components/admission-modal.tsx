@@ -464,22 +464,20 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent 
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="w-[95vw] max-w-[540px] p-0 overflow-hidden bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-none focus:outline-hidden max-h-[92vh] flex flex-col"
+          className="w-[95vw] max-w-[540px] p-0 overflow-hidden bg-white dark:bg-slate-900 border-2 border-primary/10 rounded-2xl shadow-none focus:outline-hidden h-[82vh] max-h-[660px] top-[calc(50%+1.5rem)] flex flex-col"
         >
-          <DialogTitle className="sr-only">Admission Application Form</DialogTitle>
-          <DialogDescription className="sr-only">5-Step official admission enrollment form</DialogDescription>
+          {/* Modal Top Header (Left-aligned, Same Text Size & Style as Contact Us) */}
+          <DialogHeader className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 shrink-0 space-y-0.5">
+            <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter text-left">
+              Student Admission Form
+            </DialogTitle>
+            <DialogDescription className="text-[13px] font-extrabold text-muted-foreground text-left">
+              Academic Session 2026–27
+            </DialogDescription>
+          </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col h-full overflow-hidden">
-
-              {/* Modal Top Header with Logo */}
-              <div className="pt-5 pb-3 text-center border-b border-slate-100 dark:border-slate-800 relative shrink-0">
-                <img 
-                  src="/idllogo.png" 
-                  alt="IDL Education Logo" 
-                  className="h-8 w-auto object-contain mx-auto" 
-                />
-              </div>
+            <form onSubmit={(e) => e.preventDefault()} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
 
               {/* Mind Map / 5-Step Progress Stepper */}
               <div className="px-5 pt-5 pb-3 bg-slate-50/60 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800 shrink-0">
@@ -548,7 +546,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
               </div>
 
               {/* Scrollable Form Body */}
-              <div className="overflow-y-auto flex-1 min-h-[280px]">
+              <div className="overflow-y-auto flex-1 min-h-0 overscroll-contain">
                 <AnimatePresence mode="wait">
                   {currentStep === 1 && (
                     <motion.div
@@ -1206,13 +1204,13 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
               </div>
 
               {/* Fixed Footer Controls */}
-              <div className="p-4 sm:p-5 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0">
+              <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20">
                 {currentStep > 1 ? (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={handleBack}
-                    className="h-11 px-4 rounded-xl font-black text-[11px] uppercase border-slate-200 bg-white hover:bg-slate-100 text-slate-700 shadow-none cursor-pointer"
+                    className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700 cursor-pointer"
                   >
                     <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Back
                   </Button>
@@ -1224,10 +1222,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                   <Button
                     type="button"
                     onClick={handleNext}
-                    className="h-11 px-6 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-none transition-all active:scale-[0.98] group uppercase cursor-pointer"
+                    className="h-10 sm:h-11 px-6 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
                   >
                     <span>Next Step</span>
-                    <ArrowRight className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Button>
                 ) : (
                   <div className="flex items-center gap-2">
@@ -1235,7 +1233,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       type="button"
                       variant="outline"
                       onClick={handlePreview}
-                      className="h-11 px-4 rounded-xl font-black text-[11px] uppercase border-slate-200 bg-white hover:bg-slate-100 text-slate-700 hover:text-primary shadow-none transition-all cursor-pointer"
+                      className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700 cursor-pointer"
                     >
                       <FileText className="mr-1 h-3.5 w-3.5 text-primary" /> Preview A4
                     </Button>
@@ -1256,7 +1254,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           });
                         }
                       }}
-                      className="h-11 px-5 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-none transition-all active:scale-[0.98] group uppercase cursor-pointer"
+                      className="h-10 sm:h-11 px-5 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
                     >
                       <span>Submit (₹10)</span>
                       <Send className="ml-1.5 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />

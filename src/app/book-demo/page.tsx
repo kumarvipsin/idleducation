@@ -19,12 +19,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { motion, AnimatePresence } from "framer-motion";
 
 const formSchema = z.object({
-  sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  state: z.string().min(1, { message: "Please select a state." }),
+  state: z.string().optional(),
+  nearestBranch: z.string().min(1, { message: "Please select your nearest branch." }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -38,6 +38,8 @@ const indianStates = [
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
 
+const nearestBranches = indianStates;
+
 export default function BookDemoPage() {
   const { toast } = useToast();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -50,14 +52,13 @@ export default function BookDemoPage() {
       mobile: '',
       email: '',
       state: '',
-      // @ts-ignore
-      sessionMode: undefined,
+      nearestBranch: '',
     },
   });
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      const result = await bookFreeSession({ ...data });
+      const result = await bookFreeSession({ ...data, state: data.nearestBranch });
       if (result.success) {
         setIsSuccessOpen(true);
         form.reset();
@@ -118,66 +119,23 @@ export default function BookDemoPage() {
             </div>
           </div>
 
-          {/* Premium Table-Style Booking Form Card */}
-          <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          {/* Premium Form Card */}
+          <Card className="shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 space-y-0.5">
+              <h2 className="text-2xl font-extrabold text-primary tracking-tighter text-left">
+                Book Free Demo
+              </h2>
+              <p className="text-[13px] font-extrabold text-muted-foreground text-left">
+                Experience our premier teaching methodology &amp; faculty
+              </p>
+            </div>
             <CardContent className="p-0">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
                   
                   <div className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800">
                     
-                    {/* Row 1: Session Mode (Special Layout) */}
-                    <div className="p-4 md:p-5 bg-slate-50/30 dark:bg-slate-800/30">
-                        <FormField
-                            control={form.control}
-                            name="sessionMode"
-                            render={({ field }) => (
-                            <FormItem className="space-y-3">
-                                <div className="flex flex-col items-center gap-4">
-                                    <FormControl>
-                                        <RadioGroup
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            className="grid grid-cols-2 gap-3 w-full"
-                                        >
-                                            <FormItem className="space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="online" className="sr-only" />
-                                                </FormControl>
-                                                <FormLabel className={cn(
-                                                    "flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all duration-300 cursor-pointer h-full",
-                                                    field.value === 'online' 
-                                                        ? "bg-primary text-white border-primary shadow-lg" 
-                                                        : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/20"
-                                                )}>
-                                                    <Monitor className={cn("h-4 w-4 transition-transform", field.value === 'online' && "scale-110")} />
-                                                    <span className="text-[9px] font-black uppercase tracking-tight">Online Session</span>
-                                                </FormLabel>
-                                            </FormItem>
-                                            <FormItem className="space-y-0">
-                                                <FormControl>
-                                                    <RadioGroupItem value="offline" className="sr-only" />
-                                                </FormControl>
-                                                <FormLabel className={cn(
-                                                    "flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 transition-all duration-300 cursor-pointer h-full",
-                                                    field.value === 'offline' 
-                                                        ? "bg-primary text-white border-primary shadow-lg" 
-                                                        : "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-400 hover:border-primary/20"
-                                                )}>
-                                                    <MapPin className={cn("h-4 w-4 transition-transform", field.value === 'offline' && "scale-110")} />
-                                                    <span className="text-[9px] font-black uppercase tracking-tight">Offline Centre</span>
-                                                </FormLabel>
-                                            </FormItem>
-                                        </RadioGroup>
-                                    </FormControl>
-                                </div>
-                                <FormMessage className="text-[10px] text-center" />
-                            </FormItem>
-                            )}
-                        />
-                    </div>
-
-                    {/* Row 2: Student Name & Mobile */}
+                    {/* Row 1: Student Name & Mobile */}
                     <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                         <FormField
                             control={form.control}
@@ -215,7 +173,7 @@ export default function BookDemoPage() {
                         />
                     </div>
 
-                    {/* Row 3: Class & Email */}
+                    {/* Row 2: Class & Email */}
                     <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                         <FormField
                             control={form.control}
@@ -260,10 +218,10 @@ export default function BookDemoPage() {
                         />
                     </div>
 
-                    {/* Row 4: State Selection */}
+                    {/* Row 3: Nearest Branch */}
                     <FormField
                         control={form.control}
-                        name="state"
+                        name="nearestBranch"
                         render={({ field }) => (
                         <FormItem className="space-y-0">
                             <div className="relative group h-full">
@@ -273,11 +231,11 @@ export default function BookDemoPage() {
                             <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                 <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select State *" />
+                                    <SelectValue placeholder="Select Nearest Branch *" />
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                {indianStates.map(s => <SelectItem key={s} value={s} className="text-xs font-bold">{s}</SelectItem>)}
+                                {nearestBranches.map(s => <SelectItem key={s} value={s} className="text-xs font-bold">{s}</SelectItem>)}
                                 </SelectContent>
                             </Select>
                             </div>
@@ -289,7 +247,7 @@ export default function BookDemoPage() {
 
                   {/* Footer / Submit Button */}
                   <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
-                    <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl uppercase active:scale-[0.98] group cursor-pointer" disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? 'PROCESSING...' : 'BOOK FREE DEMO'}
                       <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                     </Button>

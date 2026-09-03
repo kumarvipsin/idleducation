@@ -159,8 +159,8 @@ export function Footer() {
         </div>
 
         <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-2xl rounded-2xl border-2 border-primary/10 bg-white p-8">
-                <DialogHeader className="text-center mb-6">
+            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 p-0 overflow-hidden">
+                <DialogHeader className="text-center p-8 pb-0">
                     <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter">Contact Us</DialogTitle>
                     <DialogDescription className="text-muted-foreground text-[13px] font-extrabold">Have a query? Drop us a line below.</DialogDescription>
                 </DialogHeader>

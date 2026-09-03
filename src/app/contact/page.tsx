@@ -15,7 +15,7 @@ export default function ContactPage() {
         </p>
       </div>
       <div className="w-full max-w-lg mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>
-        <Card className="shadow-2xl rounded-2xl border-2 border-primary/10 bg-white overflow-hidden">
+        <Card className="shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 overflow-hidden">
           <CardContent className="p-0">
             <ContactForm />
           </CardContent>

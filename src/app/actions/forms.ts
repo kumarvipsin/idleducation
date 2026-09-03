@@ -9,12 +9,12 @@ import Razorpay from 'razorpay';
 import { uploadFileToGCS } from '@/lib/gcs';
 
 const freeSessionSchema = z.object({
-  sessionMode: z.enum(["online", "offline"], { required_error: "Please select a session mode." }),
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  state: z.string().min(1, { message: "Please select a state." }),
+  state: z.string().optional(),
+  nearestBranch: z.string().min(1, { message: "Please select your nearest branch." }),
 });
 type FreeSessionValues = z.infer<typeof freeSessionSchema>;
 
@@ -127,11 +127,10 @@ export async function submitSupportTicket(data: SupportTicketValues) {
 }
 
 const feedbackSchema = z.object({
-  name: z.string().optional(),
-  email: z.string().email().optional().or(z.literal('')),
-  category: z.string().min(1, { message: "Please select a category." }),
-  rating: z.number().min(1, { message: "Please provide a rating." }),
-  feedback: z.string().min(10, { message: "Feedback must be at least 10 characters." }),
+  name: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
+  feedback: z.string().min(5, { message: "Feedback message must be at least 5 characters." }),
+  rating: z.number().min(1, { message: "Please select a rating (1-10)." }).max(10),
 });
 type FeedbackFormValues = z.infer<typeof feedbackSchema>;
 

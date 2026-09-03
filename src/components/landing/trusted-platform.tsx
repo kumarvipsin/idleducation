@@ -1,13 +1,17 @@
 
 'use client';
 
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import Link from "next/link";
+import { BookDemoModal } from "@/components/book-demo-modal";
 
 export function TrustedPlatform() {
+  const [isDemoOpen, setIsDemoOpen] = useState(false);
+
   return (
-    <section className="w-full py-6 md:py-10 bg-white dark:bg-gray-900">
+    <>
+      <section className="w-full py-6 md:py-10 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-4 text-left">
@@ -17,9 +21,11 @@ export function TrustedPlatform() {
             <p className="text-muted-foreground text-sm md:text-base font-bold">
               Unlock your potential by signing up with IDL Education - The most affordable learning solution
             </p>
-            <Button asChild className="h-11 px-6 rounded-lg font-bold bg-orange-500 hover:bg-orange-600 text-white border-none shadow-lg shadow-orange-500/20 transition-all active:scale-95">
-              <Link href="/book-demo">Book a Demo</Link>
+            <Button onClick={() => setIsDemoOpen(true)} className="h-11 px-6 rounded-lg font-bold bg-orange-500 hover:bg-orange-600 text-white border-none shadow-lg shadow-orange-500/20 transition-all active:scale-95 cursor-pointer">
+              Book a Demo
             </Button>
+            {/* Book Demo Modal */}
+            <BookDemoModal isOpen={isDemoOpen} onOpenChange={setIsDemoOpen} />
           </div>
           <div className="relative h-[240px] md:h-[280px] flex items-center justify-center">
             <div className="absolute inset-0 bg-dot-pattern opacity-30"></div>
@@ -66,5 +72,6 @@ export function TrustedPlatform() {
         </div>
       </div>
     </section>
+    </>
   );
 }

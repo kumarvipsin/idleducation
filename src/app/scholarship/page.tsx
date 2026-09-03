@@ -171,8 +171,16 @@ export default function ScholarshipPage() {
               </Card>
           </div>
 
-          {/* Premium Table-Style Form Card */}
-          <Card className="shadow-2xl rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          {/* Premium Form Card */}
+          <Card className="shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <div className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 space-y-0.5">
+              <h2 className="text-2xl font-extrabold text-primary tracking-tighter text-left">
+                Scholarship Registration
+              </h2>
+              <p className="text-[13px] font-extrabold text-muted-foreground text-left">
+                IDL National Talent Reward Exam • Up to 100% Scholarship
+              </p>
+            </div>
             <CardContent className="p-0">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col">
@@ -317,7 +325,7 @@ export default function ScholarshipPage() {
 
                   {/* Footer / Submit Button */}
                   <div className="p-6 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800">
-                    <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group uppercase" disabled={form.formState.isSubmitting}>
+                    <Button type="submit" className="w-full h-12 text-[11px] font-black bg-primary hover:bg-primary/90 text-white rounded-xl uppercase active:scale-[0.98] group cursor-pointer" disabled={form.formState.isSubmitting}>
                       {form.formState.isSubmitting ? 'PROCESSING...' : 'SUBMIT REGISTRATION'}
                       <Send className="ml-2 h-3.5 w-3.5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
                     </Button>
