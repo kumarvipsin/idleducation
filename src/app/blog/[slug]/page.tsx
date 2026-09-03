@@ -2,8 +2,8 @@
 
 import { useEffect, useState, use } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { UserCircle, Calendar, ArrowLeft, BookOpen, ArrowRight } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { User, Calendar, ArrowLeft, ArrowRight, BookOpen } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { getBlogPostBySlug, getBlogPosts } from "@/app/actions/blog";
@@ -11,8 +11,38 @@ import type { TBlogPost } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
-import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
+
+function BlogCardImage({ src, alt }: { src?: string; alt: string }) {
+  if (!src) {
+    return (
+      <div className="w-full h-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+        <Image src="/idllogo.png" alt={alt} width={80} height={80} className="opacity-30 object-contain" />
+      </div>
+    );
+  }
+
+  if ((src.startsWith('/') || src.startsWith('http')) && !src.includes('storage.googleapis.com')) {
+    return (
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        className="object-cover transition-transform duration-500 group-hover:scale-105"
+        unoptimized={src.startsWith('http')}
+      />
+    );
+  }
+
+  return (
+    <GcsImage
+      filePath={src}
+      alt={alt}
+      fill
+      className="object-cover transition-transform duration-500 group-hover:scale-105"
+    />
+  );
+}
 
 export default function BlogPostPage(props: { params: Promise<{ slug: string }> }) {
   const params = use(props.params);
@@ -37,11 +67,9 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
 
     // 3. Disable Print/Screenshot Shortcuts
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Disable Ctrl+C / Cmd+C
       if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'C')) {
         e.preventDefault();
       }
-      // Disable Ctrl+P / Cmd+P
       if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
         e.preventDefault();
         toast({
@@ -50,7 +78,6 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
           description: "This document cannot be printed.",
         });
       }
-      // Notify on PrintScreen (limited effectiveness but good deterrent)
       if (e.key === 'PrintScreen') {
         toast({
           variant: "destructive",
@@ -96,11 +123,11 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
 
   if (loading) {
     return (
-      <div className="container mx-auto py-12 px-4 md:px-6 space-y-8">
-        <Skeleton className="h-10 w-32" />
-        <Skeleton className="h-96 w-full rounded-2xl" />
+      <div className="container mx-auto py-12 px-4 md:px-6 space-y-8 max-w-4xl">
+        <Skeleton className="h-10 w-36 rounded-full" />
+        <Skeleton className="h-80 w-full rounded-2xl" />
         <div className="space-y-4">
-            <Skeleton className="h-10 w-3/4" />
+            <Skeleton className="h-8 w-3/4" />
             <Skeleton className="h-4 w-1/4" />
             <Skeleton className="h-6 w-full" />
         </div>
@@ -111,137 +138,141 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
   if (!post) {
     return (
         <div className="container mx-auto py-24 text-center">
-            <h1 className="text-2xl font-bold">Post not found.</h1>
-            <Button asChild className="mt-4" variant="outline">
-                <Link href="/blog">Back to Blog</Link>
+            <h1 className="text-2xl font-bold text-foreground">Article Not Found</h1>
+            <p className="text-sm text-muted-foreground mt-2">The requested blog post could not be located.</p>
+            <Button asChild className="mt-6 rounded-full text-xs font-bold" variant="outline">
+                <Link href="/blog"><ArrowLeft className="mr-2 h-4 w-4" /> Back to All Articles</Link>
             </Button>
         </div>
     );
   }
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6 select-none print:hidden">
-      <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 print-hidden">
-          <Button asChild variant="ghost" className="text-primary hover:bg-primary/5 font-bold uppercase tracking-widest text-[10px]">
-              <Link href="/blog"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Discover</Link>
+    <div className="bg-white dark:bg-background min-h-screen py-10 px-4 md:px-6 select-none print:hidden">
+      
+      {/* Top Breadcrumb Nav */}
+      <div className="container mx-auto max-w-4xl mb-6">
+          <Button asChild variant="ghost" className="text-slate-600 hover:text-primary font-bold text-xs hover:bg-transparent p-0">
+              <Link href="/blog" className="inline-flex items-center">
+                <ArrowLeft className="mr-2 h-4 w-4" /> Back to All Articles
+              </Link>
           </Button>
       </div>
-      
-      <article className="max-w-4xl mx-auto p-6 md:p-12 border border-border/80 rounded-xl bg-white dark:bg-card/50 shadow-sm relative overflow-hidden" id="blog-printable-content">
-        <header className="mb-12 space-y-8">
-          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden shadow-none border-none bg-muted">
-              {post.imageUrl ? (
-                  <GcsImage 
-                      filePath={post.imageUrl}
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                  />
-              ) : (
-                  <Image 
-                      src="https://picsum.photos/seed/article/1200/600"
-                      alt={post.title}
-                      fill
-                      className="object-cover"
-                  />
-              )}
+
+      {/* Article Body Container */}
+      <article className="max-w-4xl mx-auto p-6 md:p-10 border border-slate-200/80 dark:border-slate-800 rounded-2xl bg-white dark:bg-slate-900 shadow-sm relative overflow-hidden" id="blog-printable-content">
+        <header className="mb-10 space-y-6">
+          
+          {/* Cover Image Header */}
+          <div className="relative w-full aspect-video md:aspect-[21/9] rounded-2xl overflow-hidden bg-slate-100 dark:bg-slate-800 border border-slate-200/60 dark:border-slate-800">
+              <BlogCardImage src={post.imageUrl} alt={post.title} />
           </div>
 
-          <div className="space-y-4">
-              <div className="inline-block px-3 py-1 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em]">
-                  {post.category}
-              </div>
-              <h1 className="text-2xl md:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight text-foreground">
+          <div className="space-y-3">
+              {post.category && (
+                <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-wider">
+                    {post.category}
+                </div>
+              )}
+              <h1 className="text-2xl md:text-4xl font-extrabold tracking-tight leading-snug text-foreground">
                 {post.title}
               </h1>
           </div>
 
-           <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[10px] font-bold text-muted-foreground py-2">
-            <div className="flex items-center gap-2">
-              <UserCircle className="h-3.5 w-3.5 text-primary" />
-              <span>Written by <span className="text-foreground font-bold">{post.author}</span></span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-3.5 w-3.5 text-primary" />
-              <span>Published on <span className="text-foreground font-bold">{post.date}</span></span>
-            </div>
+          <div className="flex flex-wrap items-center gap-6 text-xs font-medium text-muted-foreground border-y border-border/50 py-3">
+            {post.author && (
+              <div className="flex items-center gap-2">
+                <User className="h-4 w-4 text-primary" />
+                <span>By <span className="text-foreground font-bold">{post.author}</span></span>
+              </div>
+            )}
+            {post.date && (
+              <div className="flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-muted-foreground/70" />
+                <span>Published on <span className="text-foreground font-bold">{post.date}</span></span>
+              </div>
+            )}
           </div>
         </header>
         
-        <div className="prose dark:prose-invert max-w-none">
+        {/* Article Body Content */}
+        <div className="prose dark:prose-invert max-w-none text-slate-700 dark:text-slate-300 leading-relaxed">
           <BlogContentRenderer content={post.content} />
         </div>
 
-        <div className="mt-16 mb-12 text-center animate-fade-in-up">
-            <p className="text-[9px] font-bold uppercase tracking-[0.5em] text-muted-foreground/30 border-t border-muted-foreground/5 pt-8 inline-block px-12">
-                Thank You
-            </p>
-        </div>
       </article>
 
+      {/* Related Articles Section (Reconstructed for Consistency) */}
       {otherPosts.length > 0 && (
-          <div className="mt-16 space-y-10 max-w-4xl mx-auto print-hidden">
-              <div className="group relative flex flex-col md:flex-row md:items-center justify-between gap-6 p-6 md:p-8 bg-muted/30 dark:bg-primary/5 rounded-xl border border-primary/10 overflow-hidden transition-all duration-500 hover:shadow-xl hover:bg-muted/40">
-                  {/* Decorative element */}
-                  <div className="absolute top-0 right-0 p-4 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
-                      <BookOpen className="w-32 h-32 -rotate-12" />
-                  </div>
-                  
-                  <div className="flex items-center gap-5 relative z-10">
-                      <div className="p-4 rounded-full bg-white dark:bg-gray-900 text-primary shadow-xl border border-primary/10 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
-                          <BookOpen className="w-6 h-6" />
-                      </div>
-                      <div className="space-y-1">
-                          <h3 className="text-lg md:text-xl font-bold tracking-tight text-foreground leading-tight">
-                              Explore More
-                          </h3>
-                          <p className="text-xs md:text-sm text-muted-foreground font-medium leading-tight opacity-80">
-                              Discover more insights from our experts
-                          </p>
-                      </div>
-                  </div>
-                  
-                  <Button asChild className="relative z-10 w-full md:w-auto h-12 px-8 rounded-xl font-semibold text-xs shadow-lg shadow-primary/20 hover:shadow-xl transition-all active:scale-95 group/btn">
-                      <Link href="/blog" className="flex items-center justify-center gap-2">
-                          View All Articles 
-                          <ArrowRight className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
-                      </Link>
-                  </Button>
-              </div>
+          <div className="mt-16 max-w-4xl mx-auto pt-8 border-t border-slate-200/80 dark:border-slate-800 print-hidden">
               
-              <div className="relative">
-                  <div className="flex overflow-x-auto pb-4 gap-4 md:grid md:grid-cols-3 md:gap-8 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                      {otherPosts.map((other) => (
-                          <Link key={other.id} href={`/blog/${other.slug}`} className="group block flex-shrink-0 w-52 md:w-auto h-full">
-                              <Card className="overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-500 h-full bg-white dark:bg-card rounded-2xl flex flex-col">
-                                  <div className="relative aspect-[16/10] overflow-hidden">
-                                      <GcsImage 
-                                          filePath={other.imageUrl} 
-                                          alt={other.title} 
-                                          fill 
-                                          className="object-cover group-hover:scale-110 transition-transform duration-700" 
-                                      />
-                                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                                  </div>
-                                  <div className="p-3 md:p-5 space-y-2 md:space-y-3 flex-grow flex flex-col">
-                                      <div className="flex items-center gap-2">
-                                          <Badge variant="secondary" className="text-[7px] md:text-[8px] font-black uppercase tracking-widest bg-primary/5 text-primary border-none">{other.category}</Badge>
+              {/* Header row */}
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+                  <div className="text-left">
+                      <h3 className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground">
+                        Related{' '}
+                        <span className="relative inline-block">
+                          <span className="relative z-10 text-blue-600">Articles</span>
+                          <div className="absolute -bottom-1 left-0 w-full h-2 z-0">
+                            <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                              <path d="M0,15 Q50,5 100,15" />
+                            </svg>
+                          </div>
+                        </span>
+                      </h3>
+                      <p className="text-xs md:text-sm text-muted-foreground font-medium mt-1">
+                        Explore more insights and guides from our academic team.
+                      </p>
+                  </div>
+
+                  <Link href="/blog" className="relative inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground transition-colors pb-1 group shrink-0">
+                      View All <ArrowRight className="h-3.5 w-3.5" />
+                      <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary rounded-full scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                  </Link>
+              </div>
+
+              {/* Cards Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                  {otherPosts.map((other) => (
+                      <Link key={other.id || other.slug} href={`/blog/${other.slug}`} className="group block h-full">
+                          <Card className="h-full rounded-2xl bg-card border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 overflow-hidden flex flex-col group-hover:-translate-y-1">
+                              
+                              {/* Image */}
+                              <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
+                                  <BlogCardImage src={other.imageUrl} alt={other.title} />
+                                  {other.category && (
+                                    <div className="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-primary text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md border border-primary/20 shadow-sm">
+                                      {other.category}
+                                    </div>
+                                  )}
+                              </div>
+
+                              {/* Body */}
+                              <div className="p-5 flex flex-col flex-grow justify-between space-y-3">
+                                  <div className="space-y-2">
+                                      <div className="flex items-center gap-2 text-[11px] font-medium text-muted-foreground">
+                                          {other.date && (
+                                            <span className="flex items-center gap-1">
+                                              <Calendar className="w-3.5 h-3.5 text-muted-foreground/60" />
+                                              {other.date}
+                                            </span>
+                                          )}
                                       </div>
-                                      <h4 className="font-bold text-xs md:text-base leading-tight line-clamp-2 group-hover:text-primary transition-colors flex-grow">
+                                      <h4 className="text-sm font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
                                           {other.title}
                                       </h4>
-                                      <div className="flex items-center justify-between pt-2 border-t border-muted-foreground/5 mt-auto">
-                                          <div className="flex items-center gap-1.5 text-[8px] md:text-[9px] font-bold text-muted-foreground uppercase tracking-tighter">
-                                              <Calendar className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary/40" />
-                                              {other.date}
-                                          </div>
-                                          <ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-primary/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                                      </div>
                                   </div>
-                              </Card>
-                          </Link>
-                      ))}
-                  </div>
+
+                                  <div className="pt-2 flex items-center justify-between border-t border-border/50 text-xs font-bold text-primary">
+                                      <span className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                                          Read Article
+                                      </span>
+                                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                                  </div>
+                              </div>
+                          </Card>
+                      </Link>
+                  ))}
               </div>
           </div>
       )}

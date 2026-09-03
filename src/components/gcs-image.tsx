@@ -45,11 +45,39 @@ export function GcsImage({ filePath, alt, className, width, height, fill }: GcsI
 
   if (imageUrl) {
     if (fill) {
-        return <Image src={imageUrl} alt={alt} fill className={className} unoptimized />;
+        return (
+          <Image 
+            src={imageUrl} 
+            alt={alt} 
+            fill 
+            className={className} 
+            unoptimized 
+          />
+        );
     }
-    return <Image src={imageUrl} alt={alt} width={width} height={height} className={className} unoptimized />;
+    return (
+      <Image 
+        src={imageUrl} 
+        alt={alt} 
+        width={width} 
+        height={height} 
+        className={className} 
+        unoptimized 
+      />
+    );
   }
   
-  // Render a placeholder or nothing if there's no image URL
-  return <Skeleton className={cn('h-full w-full bg-destructive/20', className)} />;
+  // Render placeholder if image is missing or failed
+  if (fill) {
+    return (
+      <div className={cn('h-full w-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400', className)}>
+        <Image src="/idllogo.png" alt={alt} width={80} height={80} className="opacity-30 object-contain" />
+      </div>
+    );
+  }
+  return (
+    <div className={cn('bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-400', className)} style={{ width: width || 400, height: height || 250 }}>
+      <Image src="/idllogo.png" alt={alt} width={80} height={80} className="opacity-30 object-contain" />
+    </div>
+  );
 }

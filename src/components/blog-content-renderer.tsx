@@ -16,18 +16,18 @@ export function BlogContentRenderer({ content }: { content: string }) {
   const lines = content.split('\n');
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3 md:space-y-4">
       {lines.map((line, index) => {
         const trimmed = line.trim();
-        if (trimmed === '') return <div key={index} className="h-2" />;
+        if (trimmed === '') return <div key={index} className="h-1" />;
 
         // 1. Centered Heading with Underline Curve (# Title)
         if (trimmed.startsWith('# ')) {
           return (
-            <div key={index} className="py-8 text-center animate-fade-in-up">
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground relative inline-block">
+            <div key={index} className="py-4 text-center animate-fade-in-up">
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground relative inline-block">
                 <span className="relative z-10">{processText(trimmed.substring(2))}</span>
-                <div className="absolute -bottom-2 left-0 w-full h-3 z-0">
+                <div className="absolute -bottom-1.5 left-0 w-full h-2.5 z-0">
                   <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
                     <path d="M0,15 Q50,5 100,15" />
                   </svg>
@@ -41,9 +41,9 @@ export function BlogContentRenderer({ content }: { content: string }) {
         const headingMatch = trimmed.match(/^(\d+)\.\s+(.*)/);
         if (headingMatch) {
           return (
-            <div key={index} className="mt-8 mb-4 group">
-              <h2 className="text-base md:text-lg font-black text-foreground flex items-baseline gap-2">
-                <span className="text-primary font-black shrink-0">
+            <div key={index} className="mt-5 mb-2 group">
+              <h2 className="text-base md:text-lg font-bold text-foreground flex items-baseline gap-2">
+                <span className="text-primary font-bold shrink-0">
                   {headingMatch[1]}.
                 </span>
                 <span className="flex-1 tracking-tight">
@@ -56,10 +56,10 @@ export function BlogContentRenderer({ content }: { content: string }) {
 
         // Section Headings (standard markdown style)
         if (trimmed.startsWith('### ')) {
-            return <h3 key={index} className="text-lg md:text-xl font-black text-foreground mt-8 mb-3 border-l-4 border-primary pl-4">{processText(trimmed.substring(4))}</h3>;
+            return <h3 key={index} className="text-base md:text-lg font-bold text-foreground mt-5 mb-2 border-l-3 border-primary pl-3">{processText(trimmed.substring(4))}</h3>;
         }
         if (trimmed.startsWith('## ')) {
-            return <h2 key={index} className="text-xl md:text-2xl font-black text-primary mt-10 mb-4">{processText(trimmed.substring(3))}</h2>;
+            return <h2 key={index} className="text-lg md:text-xl font-bold text-primary mt-6 mb-2">{processText(trimmed.substring(3))}</h2>;
         }
 
         // Minimalist CTA Paving (Also Check :, Check :)
@@ -85,17 +85,17 @@ export function BlogContentRenderer({ content }: { content: string }) {
               href={href}
               target={isExternal ? "_blank" : undefined}
               rel={isExternal ? "noopener noreferrer" : undefined}
-              className="py-1.5 px-4 my-3 flex items-center gap-2 transition-all hover:bg-primary/[0.05] active:bg-primary/10 group cursor-pointer rounded-full w-fit max-w-full no-underline"
+              className="py-1.5 px-3.5 my-2 flex items-center gap-2 transition-all bg-primary/5 hover:bg-primary/10 active:bg-primary/15 group cursor-pointer rounded-lg w-fit max-w-full no-underline border border-primary/10"
             >
-              <div className="text-primary shrink-0 opacity-60">
-                <Link2 className="w-3 h-3" />
+              <div className="text-primary shrink-0 opacity-80">
+                <Link2 className="w-3.5 h-3.5" />
               </div>
               <div className="flex-1">
-                <span className="text-[10px] md:text-xs font-semibold text-primary leading-none">
+                <span className="text-xs font-semibold text-primary leading-none">
                     {processText(trimmed, true)}
                 </span>
               </div>
-              <ChevronRight className="w-3 h-3 text-primary/30 group-hover:translate-x-0.5 transition-all" />
+              <ChevronRight className="w-3.5 h-3.5 text-primary/40 group-hover:translate-x-0.5 transition-all" />
             </a>
           );
         }
@@ -103,9 +103,9 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // 3. Sub-topic Arrow Indicator (-> Item)
         if (trimmed.startsWith('-> ')) {
           return (
-            <div key={index} className="flex items-start gap-3 py-1 group animate-fade-in-up">
-              <ArrowRight className="w-3 h-3 text-primary/60 shrink-0 mt-1.5 group-hover:translate-x-0.5 transition-transform" />
-              <span className="text-muted-foreground font-bold text-sm md:text-base leading-relaxed text-left flex-1 tracking-tight">
+            <div key={index} className="flex items-start gap-2.5 py-0.5 group animate-fade-in-up">
+              <ArrowRight className="w-4 h-4 text-primary shrink-0 mt-1 group-hover:translate-x-0.5 transition-transform" />
+              <span className="text-foreground/90 font-semibold text-sm md:text-base leading-relaxed text-left flex-1">
                 {processText(trimmed.substring(3))}
               </span>
             </div>
@@ -115,11 +115,11 @@ export function BlogContentRenderer({ content }: { content: string }) {
         // Stylized Bullet Points (- Item)
         if (trimmed.startsWith('- ')) {
           return (
-            <div key={index} className="flex items-start gap-3 py-1.5 group">
+            <div key={index} className="flex items-start gap-2.5 py-0.5 group">
               <div className="bg-primary/10 p-1 rounded-full mt-1.5 shrink-0 group-hover:bg-primary transition-colors">
                 <div className="w-1.5 h-1.5 bg-primary rounded-full group-hover:bg-white transition-colors" />
               </div>
-              <span className="text-foreground/90 font-medium text-base md:text-lg leading-relaxed text-left flex-1 tracking-tight">
+              <span className="text-foreground/90 font-semibold text-sm md:text-base leading-relaxed text-left flex-1">
                 {processText(trimmed.substring(2))}
               </span>
             </div>
@@ -128,7 +128,7 @@ export function BlogContentRenderer({ content }: { content: string }) {
 
         // Normal Paragraph
         return (
-          <p key={index} className="leading-relaxed text-foreground/90 font-medium text-base md:text-lg text-left tracking-tight px-1">
+          <p key={index} className="text-sm md:text-base text-foreground/90 font-semibold leading-relaxed text-left">
             {processText(line)}
           </p>
         );

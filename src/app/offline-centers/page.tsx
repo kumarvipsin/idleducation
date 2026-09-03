@@ -11,29 +11,29 @@ const centers = [
     {
       name: "Mukherjee Nagar",
       address: "Mukherjee Nagar, Delhi-110009",
-      imageUrl: "https://picsum.photos/seed/center1/800/600",
-      imageHint: "classroom students",
+      imageUrl: "/idlbranch.png",
+      imageHint: "IDL Education branch building",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Mangol Puri",
       address: "Mangol Puri, Delhi-110083",
-      imageUrl: "https://picsum.photos/seed/center2/800/600",
-      imageHint: "modern classroom",
+      imageUrl: "/idlbranch.png",
+      imageHint: "IDL Education branch building",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Budh Vihar",
       address: "Budh Vihar, Delhi-110086",
-      imageUrl: "https://picsum.photos/seed/center3/800/600",
-      imageHint: "students learning",
+      imageUrl: "/idlbranch.png",
+      imageHint: "IDL Education branch building",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     },
     {
       name: "Krishan Vihar",
       address: "Krishan Vihar, Delhi-110086",
-      imageUrl: "https://picsum.photos/seed/center4/800/600",
-      imageHint: "library books",
+      imageUrl: "/idlbranch.png",
+      imageHint: "IDL Education branch building",
       mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
     }
 ];
@@ -42,38 +42,35 @@ export default function OfflineCentersPage() {
     return (
         <div className="relative bg-white dark:bg-background pb-20">
             {/* Single Banner Image */}
-            <div className="container mx-auto px-4 md:px-6 py-2">
-                 <div className="relative rounded-2xl overflow-hidden shadow-sm border aspect-video md:aspect-[21/7]">
+            <div className="container mx-auto px-4 md:px-6 pt-4 pb-2">
+                 <div className="relative rounded-2xl overflow-hidden shadow-sm border bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
                     <Image
-                        src="https://picsum.photos/seed/offline-center-banner/1920/640"
-                        alt="IDL Offline Center"
-                        data-ai-hint="modern classroom"
-                        fill
-                        className="object-cover"
+                        src="/idlbranch1.png"
+                        alt="IDL Offline Centres Map - 4 Centres. One Commitment."
+                        width={1920}
+                        height={1080}
+                        className="w-full h-auto object-contain rounded-2xl"
                         priority
                     />
                 </div>
             </div>
 
             {/* Heading Section */}
-            <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
-                <div className="text-center mb-16 animate-fade-in-up">
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary text-[10px] font-bold uppercase tracking-widest mb-4">
-                        OFFLINE LEARNING
-                    </div>
-                    <h2 className="text-3xl md:text-5xl font-extrabold tracking-tight text-foreground">
-                        IDL Learning Centres Now in{' '}
+            <div className="container mx-auto px-4 md:px-6 pt-8 pb-10">
+                <div className="text-left mb-10 animate-fade-in-up">
+                    <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-foreground">
+                        Our Learning Centres in{' '}
                         <span className="relative inline-block">
                             <span className="relative z-10 text-blue-600">Delhi</span>
-                            <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                            <div className="absolute -bottom-1 left-0 w-full h-2.5 z-0">
                                 <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
                                     <path d="M0,15 Q50,5 100,15" />
                                 </svg>
                             </div>
                         </span>
                     </h2>
-                    <p className="text-sm md:text-base text-muted-foreground mt-6 max-w-2xl mx-auto font-bold leading-relaxed">
-                        Experience premium education in person at our state-of-the-art facilities across the capital. Our centres provide a focused environment for student growth, personalized mentorship, and academic excellence.
+                    <p className="text-sm md:text-base text-muted-foreground mt-3 max-w-2xl font-medium leading-relaxed">
+                        Focused classrooms, dedicated mentors, and a learning environment designed to help students achieve their goals.
                     </p>
                 </div>
 
