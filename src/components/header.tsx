@@ -319,12 +319,11 @@ export function Header() {
 
     const moreMenuGroups = [
         {
-            title: "Learning & Updates",
+            title: "Explore",
             links: [
                 { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Visit our learning centers." },
-                { href: "/workshop", label: "Workshops", icon: <Users className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Join our hands-on workshops." },
                 { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Read articles and updates." },
-                { href: "/updates", label: "Recent Updates", icon: <Bell className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Stay updated with latest news." },
+                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Explore moments from our journey." },
             ]
         },
         {
@@ -332,17 +331,9 @@ export function Header() {
             links: [
                 { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
                 { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Explore moments from our journey." },
+                { href: "/updates", label: "Recent Updates", icon: <Bell className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Stay updated with latest news." },
             ]
         },
-        {
-            title: "Foundation",
-            links: [
-                { href: "/idl-foundation", label: "IDL Foundation", icon: <Heart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-red-400 to-red-600 text-white", target: "_blank", description: "Support our cause." },
-                { href: "/volunteer", label: "Volunteer", icon: <HandHeart className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-pink-400 to-pink-600 text-white", description: "Contribute to our mission." },
-                { href: "#", label: "Register Now", icon: <UserPlus className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Unlock full website access.", disabled: true },
-            ]
-        }
     ];
 
     const applyForLinks = [

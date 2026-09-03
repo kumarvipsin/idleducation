@@ -27,16 +27,22 @@ const programLinks = [
   { href: "/offline-centers", label: "Offline Centers" },
 ];
 
+const foundationLinks = [
+  { href: "/idl-foundation", label: "IDL Foundation", target: "_blank" },
+  { href: "/volunteer", label: "Volunteer" },
+  { href: "/workshop", label: "Workshops" },
+];
+
 export function Footer() {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
     <footer className="bg-[#f8fafc] border-t border-slate-200 text-slate-700">
         <div className="container mx-auto px-4 md:px-6 py-12">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
 
                 {/* Column 1: Brand and Socials */}
-                <div className="flex flex-col items-start gap-4">
+                <div className="flex flex-col items-start gap-4 lg:col-span-3">
                     <div className="flex flex-col items-start -mt-5">
                         <Link href="/" className="flex items-center justify-start">
                             <Image 
@@ -74,74 +80,132 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* Column 2: Quick Links */}
-                <div>
-                    <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
-                      Quick Links
-                    </h3>
-                    <ul className="space-y-2.5 text-xs font-medium">
-                        {quickLinks.map(link => (
-                            <li key={link.href}>
-                                {link.label === "Contact Us" ? (
-                                    <button
-                                        onClick={() => setIsContactOpen(true)}
-                                        className="text-slate-600 flex items-center gap-2 text-left w-full cursor-pointer"
+                {/* 4 Link Sections (Shifted Right with Reduced Gap) */}
+                <div className="lg:col-span-8 lg:col-start-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+                    {/* Column 2: Quick Links */}
+                    <div>
+                        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
+                          Quick Links
+                        </h3>
+                        <ul className="space-y-2.5 text-xs font-medium pl-3.5">
+                            {quickLinks.map(link => (
+                                <li key={link.href}>
+                                    {link.label === "Contact Us" ? (
+                                        <button
+                                            onClick={() => setIsContactOpen(true)}
+                                            className="text-slate-600 hover:text-blue-600 text-left w-full cursor-pointer transition-colors"
+                                        >
+                                            {link.label}
+                                        </button>
+                                    ) : (
+                                        <Link href={link.href} className="text-slate-600 hover:text-blue-600 transition-colors block">
+                                            {link.label}
+                                        </Link>
+                                    )}
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    {/* Column 3: Resources */}
+                    <div>
+                        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
+                          Resources
+                        </h3>
+                        <ul className="space-y-2.5 text-xs font-medium pl-3.5">
+                            {resourceLinks.map(link => (
+                                <li key={link.href}>
+                                    <Link 
+                                      href={link.href} 
+                                      target={link.target} 
+                                      rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
+                                      className="text-slate-600 hover:text-blue-600 transition-colors block"
                                     >
-                                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                                        {link.label}
-                                    </button>
-                                ) : (
-                                    <Link href={link.href} className="text-slate-600 flex items-center gap-2">
-                                        <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
                                         {link.label}
                                     </Link>
-                                )}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                {/* Column 3: Resources */}
-                <div>
-                    <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
-                      Resources
-                    </h3>
-                    <ul className="space-y-2.5 text-xs font-medium">
-                        {resourceLinks.map(link => (
-                            <li key={link.href}>
-                                <Link 
-                                  href={link.href} 
-                                  target={link.target} 
-                                  rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                                  className="text-slate-600 flex items-center gap-2"
-                                >
-                                    <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+                    {/* Column 4: Apply For */}
+                    <div>
+                        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
+                          Apply For
+                        </h3>
+                        <ul className="space-y-2.5 text-xs font-medium pl-3.5">
+                            {programLinks.map(link => (
+                                <li key={link.href}>
+                                    <Link 
+                                      href={link.href} 
+                                      className="text-slate-600 hover:text-blue-600 transition-colors block"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
 
-                {/* Column 4: Programs & Admissions */}
-                <div>
-                    <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
-                      Programs & Admissions
-                    </h3>
-                    <ul className="space-y-2.5 text-xs font-medium">
-                        {programLinks.map(link => (
-                            <li key={link.href}>
-                                <Link 
-                                  href={link.href} 
-                                  className="text-slate-600 flex items-center gap-2"
-                                >
-                                    <span className="h-1.5 w-1.5 rounded-full bg-slate-400" />
-                                    {link.label}
-                                </Link>
-                            </li>
-                        ))}
-                    </ul>
+                    {/* Column 5: Foundation */}
+                    <div>
+                        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
+                          Foundation
+                        </h3>
+                        <ul className="space-y-2.5 text-xs font-medium pl-3.5">
+                            {foundationLinks.map(link => (
+                                <li key={link.href}>
+                                    <Link 
+                                      href={link.href} 
+                                      target={link.target}
+                                      rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
+                                      className="text-slate-600 hover:text-blue-600 transition-colors block"
+                                    >
+                                        {link.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
+            </div>
+
+            {/* Know About IDL Education - Full Width */}
+            <div className="mt-4 pt-4 text-left">
+              <h3 className="text-sm font-bold text-slate-900 mb-3">Know About IDL Education</h3>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed">
+                IDL Education is a modern learning and coaching platform committed to helping students learn better, perform better, and achieve more. We provide classroom and online programs, expert guidance, regular assessments, doubt support, and comprehensive preparation for school and competitive examinations.
+              </p>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
+                Our focus is simple — strong fundamentals, consistent practice, personalized guidance, and measurable results. With dedicated educators and a student-first approach, we strive to make quality education accessible, structured, and outcome-oriented.
+              </p>
+
+              <h3 className="text-sm font-bold text-slate-900 mb-3 mt-6">We Stand Out Because</h3>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed">
+                At IDL Education, we bring together experienced educators, personalized mentorship, structured courses, and focused preparation to create a learning experience built around every student&apos;s growth.
+              </p>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
+                From school academics to JEE, NEET &amp; CUET, we make quality education more accessible through comprehensive study resources, regular assessments, doubt support, and technology-enabled learning.
+              </p>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
+                We believe every student deserves the right guidance, the right environment, and the opportunity to achieve their full potential.
+              </p>
+
+              <h3 className="text-sm font-bold text-slate-900 mb-3 mt-6">Our Key Focus Areas</h3>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed">
+                From strong academic foundations to competitive examination preparation, IDL Education brings together quality teaching, structured resources, regular assessments, and personalized mentorship — creating a complete learning ecosystem designed around student success.
+              </p>
+
+              <h3 className="text-sm font-bold text-slate-900 mb-3 mt-6">What Makes Us Different</h3>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed">
+                At IDL Education, we go beyond traditional classroom learning by combining expert faculty, personal attention, structured learning, and continuous performance assessment. Our approach is designed to make concepts clear, learning consistent, and preparation focused.
+              </p>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
+                From Classes 6–12 to JEE, NEET &amp; CUET, students receive comprehensive academic support through quality study material, regular tests, doubt-solving, mentorship, and technology-enabled learning.
+              </p>
+              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
+                We focus on helping every student understand better, improve consistently, and achieve their true potential.
+              </p>
             </div>
         </div>
 
