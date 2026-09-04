@@ -65,14 +65,15 @@ export function ScholarshipSection() {
                         </div>
 
                         {/* RIGHT COLUMN: Relevant Scholarship/Student Visual */}
-                        <div className="md:col-span-5 w-full flex items-center justify-center">
-                            <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-slate-200/70 dark:border-border/60 shadow-sm bg-slate-50 dark:bg-muted">
+                        <div className="md:col-span-5 w-full flex items-end justify-center self-end -mb-5 sm:-mb-7 md:-mb-8 pt-2">
+                            <div className="relative w-full h-[280px] sm:h-[320px] md:h-[340px] lg:h-[380px] flex items-end justify-center">
                                 <Image
-                                    src="/idl_scholarship_students.jpg"
+                                    src="/idlsch.png"
                                     alt="IDL Scholarship and Admission Test merit students"
                                     fill
-                                    className="object-cover"
+                                    className="object-contain object-bottom"
                                     sizes="(max-width: 768px) 100vw, 40vw"
+                                    priority
                                 />
                             </div>
                         </div>

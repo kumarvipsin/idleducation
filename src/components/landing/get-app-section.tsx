@@ -4,6 +4,7 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, User, Mail, Phone, Edit, Headset, Copy, CheckCircle2, MapPin, Send, GraduationCap, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Dialog,
   DialogContent,
@@ -112,24 +113,29 @@ export function GetAppSection() {
     
   return (
     <>
-    <section className="w-full pt-2 pb-8 md:pb-12 bg-white dark:bg-gray-900">
+    <section className="w-full pt-1 pb-6 md:pb-8 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 max-w-3xl mx-auto">
-          <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
-            <DialogTrigger asChild>
-                <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-lg border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
-                    <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
-                        <Headset className="w-20 h-20 -rotate-12" />
-                    </div>
-                    <div className="bg-blue-500/10 p-3 rounded-full group-hover:bg-blue-500 group-hover:text-white transition-colors duration-300 shrink-0">
-                        <Headset className="w-5 h-5 text-blue-600 group-hover:text-inherit" />
-                    </div>
-                    <div className="space-y-0.5">
-                        <p className="text-[9px] font-bold uppercase tracking-tight text-blue-600/60">System Help</p>
-                        <p className="text-[13px] font-extrabold text-foreground">Technical Support</p>
-                    </div>
+        {/* Support Area: Need Help? We're Here. */}
+        <div className="max-w-3xl mx-auto mb-5 sm:mb-6">
+          <div className="text-center mb-2.5">
+            <h3 className="text-xs sm:text-sm font-extrabold text-[#0B1F4B] dark:text-slate-200 uppercase tracking-wider">
+              Need Help? We&apos;re Here.
+            </h3>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-2 sm:p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+            {/* Action 1: Technical Support */}
+            <Dialog open={isSupportDialogOpen} onOpenChange={setIsSupportDialogOpen}>
+              <DialogTrigger asChild>
+                <button className="relative flex items-center gap-3.5 p-3.5 sm:p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-[#1F4FA3]/50 dark:hover:border-blue-500/50 hover:shadow-xs transition-all duration-200 group overflow-hidden text-left cursor-pointer active:scale-[0.99]">
+                  <div className="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/50 flex items-center justify-center shrink-0 group-hover:bg-[#1F4FA3] transition-colors duration-200">
+                    <Headset className="w-5 h-5 text-[#1F4FA3] dark:text-blue-400 group-hover:text-white transition-colors duration-200" />
+                  </div>
+                  <div className="space-y-0.5 min-w-0">
+                    <p className="text-[14px] sm:text-[15px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight">Technical Support</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Get help with your IDL experience.</p>
+                  </div>
                 </button>
-            </DialogTrigger>
+              </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
                 onCloseAutoFocus={(e) => e.preventDefault()}
@@ -269,21 +275,19 @@ export function GetAppSection() {
             </DialogContent>
           </Dialog>
 
-          <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
-            <DialogTrigger asChild>
-              <button className="relative flex items-center gap-4 p-5 bg-white dark:bg-slate-900 rounded-lg border border-muted-foreground/10 hover:border-primary/30 transition-all group overflow-hidden text-left shadow-sm active:scale-[0.98]">
-                <div className="absolute -top-2 -right-2 p-2 opacity-[0.03] group-hover:opacity-[0.08] transition-all duration-500 group-hover:scale-110">
-                    <MessageCircle className="w-20 h-20 -rotate-12" />
-                </div>
-                <div className="bg-green-500/10 p-3 rounded-full group-hover:bg-green-500 group-hover:text-white transition-colors duration-300 shrink-0">
-                  <MessageCircle className="w-5 h-5 text-green-600 group-hover:text-inherit" />
-                </div>
-                <div className="space-y-0.5">
-                    <p className="text-[9px] font-bold uppercase tracking-tight text-green-600/60">Direct Line</p>
-                    <p className="text-[13px] font-extrabold text-foreground">Talk to our expert</p>
-                </div>
-              </button>
-            </DialogTrigger>
+            {/* Action 2: Talk to an Expert */}
+            <Dialog open={isCallbackDialogOpen} onOpenChange={setIsCallbackDialogOpen}>
+              <DialogTrigger asChild>
+                <button className="relative flex items-center gap-3.5 p-3.5 sm:p-4 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-emerald-600/50 dark:hover:border-emerald-500/50 hover:shadow-xs transition-all duration-200 group overflow-hidden text-left cursor-pointer active:scale-[0.99]">
+                  <div className="w-11 h-11 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-100 dark:border-emerald-900/50 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 transition-colors duration-200">
+                    <MessageCircle className="w-5 h-5 text-emerald-600 dark:text-emerald-400 group-hover:text-white transition-colors duration-200" />
+                  </div>
+                  <div className="space-y-0.5 min-w-0">
+                    <p className="text-[14px] sm:text-[15px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight">Talk to an Expert</p>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Have a question? Let’s help.</p>
+                  </div>
+                </button>
+              </DialogTrigger>
             <DialogContent 
                 onOpenAutoFocus={(e) => e.preventDefault()}
                 onCloseAutoFocus={(e) => e.preventDefault()}
@@ -451,116 +455,124 @@ export function GetAppSection() {
                 </Form>
             </DialogContent>
           </Dialog>
+          </div>
         </div>
         
-        <div className="relative p-[1.5px] rounded-2xl bg-white overflow-hidden shadow-sm">
-          <div className="rounded-[calc(1rem-1.5px)] bg-white p-6 md:p-8 relative overflow-hidden border border-white">
-            {/* Background Texture and India Map Silhouette */}
-            <div className="absolute inset-0 bg-dot-pattern opacity-40 pointer-events-none" />
-            <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
-              <Image 
-                  src="https://upload.wikimedia.org/wikipedia/commons/e/e0/India_map_silhouette.svg" 
-                  alt="India Map silhouette" 
-                  fill 
-                  className="object-contain"
-              />
+        {/* Learning App Section */}
+        <div className="relative rounded-[22px] bg-white dark:bg-card p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-border/60 shadow-sm md:shadow-md overflow-hidden">
+          {/* Background Texture & Map Silhouette */}
+          <div className="absolute inset-0 bg-dot-pattern opacity-30 pointer-events-none" />
+          <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
+            <Image 
+              src="https://upload.wikimedia.org/wikipedia/commons/e/e0/India_map_silhouette.svg" 
+              alt="India Map silhouette" 
+              fill 
+              className="object-contain"
+            />
+          </div>
+
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+            {/* LEFT (Desktop) / TOP (Mobile): Prominent Smartphone Illustration (+30-40% visual size) */}
+            <div className="lg:col-span-6 relative w-full h-60 sm:h-72 md:h-80 lg:h-[350px] flex items-center justify-center">
+              <div className="relative w-full h-full">
+                <div className="absolute inset-4 bg-primary/5 rounded-[2rem] blur-2xl pointer-events-none" />
+                <Image
+                  src="/idlapp.png"
+                  alt="IDL Education App Features"
+                  data-ai-hint="education app mobile"
+                  fill
+                  className="object-contain drop-shadow-xl"
+                  priority
+                />
+              </div>
             </div>
 
-            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              <div className="lg:col-span-3 relative h-48 md:h-52 flex items-center justify-center">
-                  <div className="relative w-full h-full">
-                      <div className="absolute inset-4 bg-primary/5 rounded-[2rem] blur-2xl" />
+            {/* RIGHT (Desktop) / BELOW (Mobile): Content, Bullets & Download/QR */}
+            <div className="lg:col-span-6 flex flex-col items-start text-left space-y-4">
+              <div className="space-y-1.5">
+                <h2 className="text-2xl sm:text-3xl lg:text-[34px] font-black tracking-tight text-[#0B1F4B] dark:text-white">
+                  IDL Learning App
+                </h2>
+                <p className="text-sm sm:text-base font-semibold text-slate-600 dark:text-slate-400">
+                  Learn. Practice. Improve. Anywhere.
+                </p>
+              </div>
+
+              <ul className="space-y-2 w-full">
+                {[
+                  "Access free high-quality video lessons",
+                  "Interactive doubt clearing sessions",
+                  "Premium study materials and mock tests"
+                ].map((item, idx) => (
+                  <li key={idx} className="flex items-center justify-start gap-2.5">
+                    <div className="bg-primary/10 p-1 rounded-full text-primary shrink-0">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                    </div>
+                    <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Download / QR Quick Scan Area */}
+              <div className="w-full pt-1">
+                <div className="flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-900/40 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs max-w-md">
+                  {/* Store Badges */}
+                  <div className="flex flex-col gap-2 shrink-0">
+                    {/* Google Play */}
+                    <div className="bg-white dark:bg-slate-800 p-2 rounded-xl shadow-xs border border-border/50 flex items-center gap-2">
                       <Image
-                          src="/mobileApp.webp"
-                          alt="IDL Education App Features"
-                          data-ai-hint="education app mobile"
-                          fill
-                          className="object-contain drop-shadow-xl"
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
+                        alt="Google Play"
+                        data-ai-hint="google play"
+                        width={20}
+                        height={20}
+                        className="object-contain shrink-0"
                       />
+                      <div className="flex flex-col -space-y-1">
+                        <span className="text-[7px] font-bold text-slate-500 uppercase tracking-tight">GET IT ON</span>
+                        <span className="text-[11px] font-extrabold text-foreground tracking-tight">Google Play</span>
+                      </div>
+                    </div>
+                    
+                    {/* App Store */}
+                    <div className="bg-white dark:bg-slate-800 p-2 rounded-xl shadow-xs border border-border/50 flex items-center gap-2">
+                      <Image
+                        src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/apple-app-store-icon.png"
+                        alt="App Store"
+                        data-ai-hint="app store"
+                        width={20}
+                        height={20}
+                        className="object-contain shrink-0"
+                      />
+                      <div className="flex flex-col -space-y-1">
+                        <span className="text-[7px] font-bold text-slate-500 uppercase tracking-tight">Download on</span>
+                        <span className="text-[11px] font-extrabold text-foreground tracking-tight">App Store</span>
+                      </div>
+                    </div>
                   </div>
-              </div>
-              
-              <div className="lg:col-span-5 space-y-3 text-left">
-                <div className="space-y-1.5">
-                  <h2 className="text-xl md:text-2xl font-extrabold tracking-tight text-foreground">
-                      <span className="text-primary">IDL Learning App</span>-Learn from anywhere
-                  </h2>
-                </div>
-                
-                <ul className="space-y-1.5">
-                  {[
-                      "Access free high-quality video lessons",
-                      "Interactive doubt clearing sessions",
-                      "Premium study materials and mock tests"
-                  ].map((item, idx) => (
-                      <li key={idx} className="flex items-center justify-start gap-2.5 group">
-                          <div className="bg-primary/10 p-1 rounded-full transition-colors group-hover:bg-primary group-hover:text-white">
-                              <CheckCircle2 className="w-3 h-3 text-primary group-hover:text-white transition-colors" />
-                          </div>
-                          <span className="text-[11px] font-bold text-muted-foreground group-hover:text-foreground transition-colors">{item}</span>
-                      </li>
-                  ))}
-                </ul>
-              </div>
 
-              <div className="lg:col-span-4 flex flex-col items-center justify-center gap-4">
-                  <div className="flex items-center gap-3 sm:gap-4 p-3.5 sm:p-4 bg-primary/5 dark:bg-slate-900/10 backdrop-blur-xl rounded-2xl border border-primary/10 w-full sm:w-auto lg:w-[350px] shadow-sm">
-                      {/* Store Badges Section */}
-                      <div className="flex flex-col gap-2 shrink-0">
-                          {/* Google Play */}
-                          <div className="bg-white p-2 rounded-xl shadow-sm border border-border/50 flex items-center gap-2">
-                              <Image
-                                  src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-play-store-icon.png"
-                                  alt="Google Play"
-                                  data-ai-hint="google play"
-                                  width={20}
-                                  height={20}
-                                  className="object-contain"
-                              />
-                              <div className="flex flex-col -space-y-1">
-                                  <span className="text-[7px] font-bold text-black uppercase tracking-tight opacity-60">GET IT ON</span>
-                                  <span className="text-[11px] font-extrabold text-black tracking-tight">Google Play</span>
-                              </div>
-                          </div>
-                          
-                          {/* App Store */}
-                          <div className="bg-white p-2 rounded-xl shadow-sm border border-border/50 flex items-center gap-2">
-                              <Image
-                                  src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/apple-app-store-icon.png"
-                                  alt="App Store"
-                                  data-ai-hint="app store"
-                                  width={20}
-                                  height={20}
-                                  className="object-contain"
-                              />
-                              <div className="flex flex-col -space-y-1">
-                                  <span className="text-[7px] font-bold text-black uppercase tracking-tight opacity-60">Download on the</span>
-                                  <span className="text-[11px] font-extrabold text-black tracking-tight">App Store</span>
-                              </div>
-                          </div>
-                      </div>
+                  {/* Text */}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[10px] font-bold uppercase tracking-wide text-primary mb-0.5">Quick Scan</p>
+                    <p className="text-xs sm:text-sm font-extrabold leading-tight text-foreground">Get IDL Learning App</p>
+                  </div>
 
-                      {/* Text */}
-                      <div className="flex-1 min-w-0">
-                          <p className="text-[10px] font-bold uppercase tracking-wide text-primary mb-0.5">Quick Scan</p>
-                          <p className="text-xs sm:text-sm font-extrabold leading-tight text-foreground truncate">Get IDL Learning App</p>
-                      </div>
-
-                      {/* QR Code */}
-                      <div className="bg-white p-1.5 rounded-xl shadow-sm border border-border/50 shrink-0">
-                          <Image
-                              src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
-                              alt="QR Code"
-                              data-ai-hint="qr code"
-                              width={48}
-                              height={48}
-                              className="opacity-90"
-                          />
-                      </div>
+                  {/* QR Code */}
+                  <div className="bg-white p-1.5 rounded-xl shadow-xs border border-border/50 shrink-0">
+                    <Image
+                      src="https://upload.wikimedia.org/wikipedia/commons/d/d0/QR_code_for_mobile_English_Wikipedia.svg"
+                      alt="QR Code"
+                      data-ai-hint="qr code"
+                      width={48}
+                      height={48}
+                      className="opacity-90"
+                    />
                   </div>
                 </div>
+              </div>
             </div>
           </div>
+
         </div>
       </div>
     </section>

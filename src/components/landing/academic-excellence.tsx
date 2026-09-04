@@ -53,19 +53,19 @@ export function AcademicExcellence() {
   return (
     <section className="w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-6 sm:mb-8">
-          <div className="text-center space-y-2.5 sm:space-y-3">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <div className="text-center space-y-3 sm:space-y-4">
+              <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                   Academic{' '}
                   <span className="relative inline-block">
                       <span className="relative z-10">Results</span>
-                      <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] h-2 z-0 pointer-events-none">
-                          <svg viewBox="0 0 100 12" preserveAspectRatio="none" className="w-full h-full text-[#102A68] dark:text-blue-400 fill-none stroke-current stroke-[6] opacity-75">
-                              <path d="M2,10 Q50,2 98,10" />
+                      <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                          <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                              <path d="M0,15 Q50,5 100,15" />
                           </svg>
                       </div>
                   </span>
               </h2>
-              <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-normal max-w-[700px] mx-auto text-center px-4 leading-relaxed">
+              <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
                   Celebrating the hard work and exceptional milestones that turn academic dreams into reality.
               </p>
           </div>

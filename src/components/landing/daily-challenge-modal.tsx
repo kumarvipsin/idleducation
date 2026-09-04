@@ -192,13 +192,13 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
     }
     if (score === 3) {
       return {
-        title: "Good effort! You can beat this tomorrow.",
+        title: "Good effort! You can beat this tomorrow. 💪",
         sub: "Consistent daily practice turns good scores into top ranks."
       };
     }
     return {
-      title: "Keep practicing. Tomorrow is another chance!",
-      sub: "Review the explanations below to turn mistakes into strengths."
+      title: "Good start! Keep practicing. 🔥",
+      sub: "Every challenge makes you sharper. Review the explanations below to grow!"
     };
   };
 
@@ -212,7 +212,8 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent 
         onOpenAutoFocus={(e) => e.preventDefault()}
-        className="w-[95vw] sm:w-full sm:max-w-[560px] p-0 rounded-2xl md:rounded-3xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl overflow-hidden max-h-[92vh] flex flex-col"
+        onCloseAutoFocus={(e) => e.preventDefault()}
+        className="w-[95vw] sm:w-full sm:max-w-[560px] p-0 rounded-2xl md:rounded-3xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 shadow-2xl overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col z-[70]"
       >
         {/* Accessible Dialog Title & Description for Screen Readers */}
         <DialogHeader className="sr-only">
@@ -405,25 +406,72 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                 </button>
               </div>
 
-              {/* Score Display Card */}
+              {/* Score Hero Card with Circular Progress Ring */}
               {challengeState.lastScore && (
-                <div className="bg-gradient-to-br from-blue-50/70 via-slate-50 to-white dark:from-slate-900 dark:to-slate-950 p-5 rounded-2xl border border-blue-100 dark:border-slate-800 space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Your Score</p>
-                      <div className="flex items-baseline gap-2 mt-1">
-                        <span className="text-3xl sm:text-4xl font-black text-[#0B1F4B] dark:text-white">
-                          {challengeState.lastScore.score}
-                        </span>
-                        <span className="text-lg font-bold text-slate-400">/ 5</span>
+                <div className="bg-gradient-to-br from-blue-50/50 via-slate-50/70 to-white dark:from-slate-900/80 dark:to-slate-950 p-5 sm:p-6 rounded-2xl border border-blue-100/80 dark:border-slate-800 space-y-4 shadow-xs">
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+                    {/* Left: Hero Score with Circular Progress Ring */}
+                    <div className="flex items-center gap-4">
+                      <div className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 flex items-center justify-center">
+                        <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                          {/* Background track circle */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="40"
+                            className="stroke-slate-200 dark:stroke-slate-800"
+                            strokeWidth="8"
+                            fill="transparent"
+                          />
+                          {/* Active progress circle */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="40"
+                            className={cn(
+                              "transition-all duration-700 ease-out",
+                              challengeState.lastScore.score >= 4 
+                                ? "stroke-[#1F4FA3]" 
+                                : challengeState.lastScore.score >= 3 
+                                ? "stroke-[#1F4FA3]" 
+                                : "stroke-blue-500"
+                            )}
+                            strokeWidth="8"
+                            strokeDasharray={251.2}
+                            strokeDashoffset={251.2 - (251.2 * (challengeState.lastScore.score / 5))}
+                            strokeLinecap="round"
+                            fill="transparent"
+                          />
+                        </svg>
+                        
+                        {/* Centered Score */}
+                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                          <span className="text-2xl sm:text-3xl font-black text-[#0B1F4B] dark:text-white leading-none tracking-tight">
+                            {challengeState.lastScore.score}
+                          </span>
+                          <span className="text-xs sm:text-sm font-extrabold text-slate-400 ml-1">
+                            / 5
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="space-y-1 text-left">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500">Today&apos;s Score</p>
+                        <h3 className="text-lg sm:text-xl font-extrabold text-[#0B1F4B] dark:text-white leading-tight">
+                          {challengeState.lastScore.score} of 5 Correct
+                        </h3>
+                        <p className="text-xs text-slate-500 font-medium">
+                          {Math.round((challengeState.lastScore.score / 5) * 100)}% Accuracy today
+                        </p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    {/* Right: Quick Breakdown Pills */}
+                    <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
                       <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 shadow-xs">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                         <div className="text-left">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase">Correct</p>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Correct</p>
                           <p className="text-xs font-extrabold text-emerald-600">{challengeState.lastScore.score}</p>
                         </div>
                       </div>
@@ -431,7 +479,7 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                       <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200/80 shadow-xs">
                         <XCircle className="w-4 h-4 text-rose-500" />
                         <div className="text-left">
-                          <p className="text-[10px] font-bold text-slate-400 uppercase">Wrong</p>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">Wrong</p>
                           <p className="text-xs font-extrabold text-rose-500">
                             {5 - challengeState.lastScore.score}
                           </p>
@@ -444,11 +492,11 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                   {(() => {
                     const feedback = getMotivationalMessage(challengeState.lastScore.score);
                     return (
-                      <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800">
+                      <div className="pt-2.5 border-t border-slate-200/70 dark:border-slate-800 text-left">
                         <p className="text-sm font-extrabold text-[#0B1F4B] dark:text-white">
                           {feedback.title}
                         </p>
-                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                        <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5 leading-relaxed">
                           {feedback.sub}
                         </p>
                       </div>
@@ -458,46 +506,48 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
               )}
 
               {/* Streak Banner */}
-              <div className="flex items-center justify-between p-4 rounded-xl bg-gradient-to-r from-orange-50/90 to-amber-50/60 dark:from-orange-950/30 dark:to-slate-900 border border-orange-200/70 dark:border-orange-900/40">
+              <div className="flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-gradient-to-r from-orange-50/90 to-amber-50/60 dark:from-orange-950/30 dark:to-slate-900 border border-orange-200/70 dark:border-orange-900/40">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center font-bold text-lg">
+                  <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center font-bold text-lg shrink-0">
                     🔥
                   </div>
-                  <div>
-                    <p className="text-xs sm:text-sm font-extrabold text-orange-950 dark:text-orange-300">
-                      {challengeState.currentStreak} DAY STREAK
+                  <div className="text-left">
+                    <p className="text-sm sm:text-base font-black text-orange-950 dark:text-orange-300 tracking-tight">
+                      {challengeState.currentStreak} {challengeState.currentStreak === 1 ? 'DAY' : 'DAYS'} STREAK
                     </p>
-                    <p className="text-[11px] text-orange-700 dark:text-orange-400 font-medium">
-                      Come back tomorrow to keep your streak!
+                    <p className="text-[11px] sm:text-xs text-orange-800/80 dark:text-orange-400 font-medium">
+                      Come back tomorrow to keep your streak alive!
                     </p>
                   </div>
                 </div>
 
-                <div className="text-right">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Best Streak</p>
-                  <p className="text-sm font-black text-slate-800 dark:text-white">{challengeState.bestStreak} Days</p>
+                <div className="text-right shrink-0">
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-tight">Best Streak</p>
+                  <p className="text-xs sm:text-sm font-black text-slate-800 dark:text-white">
+                    {challengeState.bestStreak} {challengeState.bestStreak === 1 ? 'Day' : 'Days'}
+                  </p>
                 </div>
               </div>
 
               {/* Cumulative Progress Summary */}
-              <div className="grid grid-cols-3 gap-2.5 text-center">
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Challenges</p>
-                  <p className="text-base font-extrabold text-slate-800 dark:text-white mt-0.5">
+              <div className="grid grid-cols-3 gap-2 sm:gap-2.5 text-center">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-tight">Challenges</p>
+                  <p className="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5">
                     {challengeState.challengesCompleted}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Total Solved</p>
-                  <p className="text-base font-extrabold text-slate-800 dark:text-white mt-0.5">
-                    {challengeState.totalCorrect}
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-tight">Questions Attempted</p>
+                  <p className="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5">
+                    {challengeState.totalAttempted || 5}
                   </p>
                 </div>
 
-                <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
-                  <p className="text-[10px] font-bold text-slate-400 uppercase">Accuracy</p>
-                  <p className="text-base font-extrabold text-slate-800 dark:text-white mt-0.5">
+                <div className="p-2.5 sm:p-3 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800">
+                  <p className="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-tight">Accuracy</p>
+                  <p className="text-sm sm:text-base font-extrabold text-slate-800 dark:text-white mt-0.5">
                     {challengeState.totalAttempted > 0 
                       ? `${Math.round((challengeState.totalCorrect / challengeState.totalAttempted) * 100)}%` 
                       : '100%'}
@@ -509,7 +559,7 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
               <div className="pt-1">
                 <button
                   onClick={() => setShowReview(!showReview)}
-                  className="w-full flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 hover:bg-slate-100/70 transition-colors text-xs font-bold text-slate-700 dark:text-slate-300"
+                  className="w-full flex items-center justify-between p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/70 hover:bg-slate-100/70 transition-colors text-xs font-bold text-slate-700 dark:text-slate-300 cursor-pointer"
                 >
                   <span className="flex items-center gap-2">
                     <BookOpen className="w-4 h-4 text-[#1F4FA3]" />
@@ -528,10 +578,10 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                         <div 
                           key={q.id || idx}
                           className={cn(
-                            "p-3.5 rounded-xl border text-xs space-y-2",
+                            "p-3.5 rounded-xl border text-xs space-y-2 text-left",
                             isCorrect 
-                              ? "border-emerald-200 bg-emerald-50/40 dark:bg-emerald-950/20" 
-                              : "border-slate-200 bg-white dark:bg-slate-900"
+                              ? "border-emerald-200/80 bg-emerald-50/40 dark:bg-emerald-950/20" 
+                              : "border-rose-200/60 bg-rose-50/25 dark:bg-rose-950/20"
                           )}
                         >
                           <div className="flex items-start justify-between gap-2">
@@ -540,11 +590,11 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                             </span>
                             {isCorrect ? (
                               <span className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-emerald-100 text-emerald-700 flex items-center gap-1">
-                                <Check className="w-3 h-3" /> Correct
+                                <Check className="w-3 h-3 stroke-[3]" /> Correct
                               </span>
                             ) : (
                               <span className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-extrabold bg-rose-100 text-rose-700">
-                                {userChoice === -1 ? 'Skipped' : 'Wrong'}
+                                {userChoice === -1 ? 'Skipped' : 'Incorrect'}
                               </span>
                             )}
                           </div>
@@ -554,12 +604,12 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                               <strong className="text-slate-700 dark:text-slate-300">Correct Answer:</strong> {String.fromCharCode(65 + q.correctIndex)}. {q.options[q.correctIndex]}
                             </p>
                             {userChoice !== q.correctIndex && userChoice !== -1 && (
-                              <p className="text-rose-600">
-                                <strong>Your Choice:</strong> {String.fromCharCode(65 + userChoice)}. {q.options[userChoice]}
+                              <p className="text-rose-600 dark:text-rose-400">
+                                <strong>Your Answer:</strong> {String.fromCharCode(65 + userChoice)}. {q.options[userChoice]}
                               </p>
                             )}
-                            <p className="text-slate-500 italic mt-1">
-                              <strong>Why:</strong> {q.explanation}
+                            <p className="text-slate-500 italic mt-1 bg-white/60 dark:bg-slate-900/60 p-2 rounded-lg border border-slate-100 dark:border-slate-800">
+                              <strong className="not-italic text-slate-600 dark:text-slate-300">Explanation:</strong> {q.explanation}
                             </p>
                           </div>
                         </div>
@@ -569,11 +619,12 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                 )}
               </div>
 
-              {/* Finish / Return Button */}
-              <div className="pt-3">
+              {/* Finish / Return Button (Secondary action) */}
+              <div className="pt-2">
                 <Button
+                  variant="outline"
                   onClick={() => onOpenChange(false)}
-                  className="w-full h-11 rounded-xl bg-[#1F4FA3] hover:bg-[#163b7d] text-white font-bold text-sm shadow-sm transition-all border-none"
+                  className="w-full h-10 sm:h-11 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold text-xs sm:text-sm transition-all cursor-pointer"
                 >
                   Return to Homepage
                 </Button>

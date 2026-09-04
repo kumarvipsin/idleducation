@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Youtube, Headset } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Phone, Mail, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
@@ -38,23 +38,23 @@ export function Footer() {
 
   return (
     <footer className="bg-[#f8fafc] border-t border-slate-200 text-slate-700">
-        <div className="container mx-auto px-4 md:px-6 py-12">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6">
+        <div className="container mx-auto px-4 md:px-6 pt-8 pb-5 sm:pt-9 sm:pb-6">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-6">
 
                 {/* Column 1: Brand and Socials */}
-                <div className="flex flex-col items-start gap-4 lg:col-span-3">
-                    <div className="flex flex-col items-start gap-3">
+                <div className="flex flex-col items-start gap-3 md:col-span-4 lg:col-span-3">
+                    <div className="flex flex-col items-start gap-1 -mt-1.5 sm:-mt-2">
                         <Link href="/" className="flex items-center justify-start">
                             <Image 
                               src="/idllogo.png" 
                               alt="IDL Education Logo" 
                               width={105} 
                               height={105} 
-                              className="h-[105px] w-auto object-contain object-left" 
+                              className="h-[92px] sm:h-[96px] w-auto object-contain object-left" 
                               priority
                             />
                         </Link>
-                        <p className="text-xs text-slate-500 font-medium leading-relaxed text-left max-w-xs">
+                        <p className="text-xs text-slate-500 font-medium leading-[1.48] text-left max-w-xs">
                           We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
                         </p>
                     </div>
@@ -71,7 +71,7 @@ export function Footer() {
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-white text-slate-600 p-2 rounded-full border border-slate-200"
+                            className="bg-white text-slate-600 p-2 rounded-full border border-slate-200 hover:border-blue-600 hover:text-blue-600 transition-colors"
                             aria-label={social.label}
                           >
                             {social.icon}
@@ -81,7 +81,7 @@ export function Footer() {
                 </div>
 
                 {/* 4 Link Sections (2-column on mobile for compact height, 4-column on desktop) */}
-                <div className="lg:col-span-8 lg:col-start-5 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 lg:gap-5">
+                <div className="md:col-span-8 lg:col-span-6 grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-6 lg:gap-4">
                     {/* Column 2: Quick Links */}
                     <div>
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
@@ -168,10 +168,52 @@ export function Footer() {
                         </ul>
                     </div>
                 </div>
+
+                {/* Column 6: Get in Touch (Right-Side Space Utilization) */}
+                <div className="md:col-span-12 lg:col-span-3 flex flex-col items-start">
+                    <div className="w-full">
+                        <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
+                          Get in Touch
+                        </h3>
+                        <div className="space-y-3 text-xs pl-3.5 text-left">
+                            <div className="space-y-0.5">
+                                <p className="text-slate-500 font-medium">Have questions?</p>
+                                <p className="text-slate-900 font-bold">Talk to our team</p>
+                            </div>
+
+                            <div className="space-y-2 pt-0.5">
+                                <a 
+                                  href="tel:8860040010" 
+                                  className="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-semibold transition-colors"
+                                >
+                                  <Phone className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                  <span>8860040010</span>
+                                </a>
+                                <a 
+                                  href="mailto:info@idleducation.in" 
+                                  className="flex items-center gap-2 text-slate-600 hover:text-blue-600 font-semibold transition-colors break-all"
+                                >
+                                  <Mail className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                                  <span>info@idleducation.in</span>
+                                </a>
+                            </div>
+
+                            <div className="pt-1">
+                                <button
+                                  onClick={() => setIsContactOpen(true)}
+                                  className="inline-flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-800 transition-colors cursor-pointer group"
+                                >
+                                  <span>Contact Us</span>
+                                  <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             {/* Know About IDL Education - Full Width Left to Right on Desktop */}
-            <div className="w-full mt-10 pt-8 border-t border-slate-200/80 text-left space-y-5">
+            <div className="w-full mt-6 pt-5 sm:mt-7 sm:pt-6 border-t border-slate-200/70 text-left space-y-4">
               <div>
                 <h3 className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Know About IDL Education</h3>
                 <div className="space-y-2 text-xs font-normal text-slate-500 leading-relaxed">
@@ -229,7 +271,7 @@ export function Footer() {
         <div className="bg-white border-t border-slate-200/80 py-3.5">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs font-medium text-slate-500">
-                    <p className="text-center sm:text-left" suppressHydrationWarning>&copy; {new Date().getFullYear()} IDL Education. All Rights Reserved.</p>
+                    <p className="text-center sm:text-left" suppressHydrationWarning>&copy; 2026 IDL Education. All Rights Reserved.</p>
                     <nav className="flex gap-6">
                         <Link href="/terms" className="text-slate-500 hover:text-blue-600 transition-colors">Terms</Link>
                         <Link href="/privacy" className="text-slate-500 hover:text-blue-600 transition-colors">Privacy</Link>

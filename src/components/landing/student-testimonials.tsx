@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useEffect, useState, useCallback } from "react";
@@ -10,15 +9,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "../gcs-image";
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
-import { PlayCircle, Star } from "lucide-react";
+import { PlayCircle, Quote } from "lucide-react";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const [isReadMoreOpen, setIsReadMoreOpen] = useState(false);
+
+  const isLongTestimonial = testimonial.testimonial && testimonial.testimonial.length > 120;
+
   return (
-    <Dialog>
+    <>
       <Card
-        className="h-full flex flex-col shadow-sm hover:shadow-md transition-all duration-200 bg-white dark:bg-card text-foreground rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-border/60 group/card"
+        className="h-full flex flex-col shadow-xs hover:shadow-md transition-all duration-200 bg-white dark:bg-card text-foreground rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-border/60 group/card"
       >
           <CardContent className="p-3.5 sm:p-4 flex flex-col text-left items-start h-full">
+              {/* Photo & Video Area */}
               <div className="relative w-full aspect-square mb-3 rounded-xl overflow-hidden bg-slate-100 dark:bg-muted flex items-center justify-center border border-slate-100 dark:border-border/30">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
@@ -27,43 +32,109 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                       className="object-cover transition-transform duration-500 group-hover/card:scale-105"
                   />
                   {testimonial.videoId && (
-                    <DialogTrigger asChild>
-                       <button className="absolute bottom-2.5 right-2.5 transition-all duration-200 active:scale-95 group-hover/card:scale-110 z-10 p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-xs text-white">
-                          <PlayCircle className="w-8 h-8 sm:w-9 sm:h-9" />
-                      </button>
-                    </DialogTrigger>
+                    <button 
+                      type="button"
+                      onClick={() => setIsVideoOpen(true)}
+                      className="absolute bottom-2.5 right-2.5 transition-all duration-200 active:scale-95 group-hover/card:scale-110 z-10 p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-xs text-white cursor-pointer"
+                      aria-label={`Watch ${testimonial.name}'s video story`}
+                    >
+                      <PlayCircle className="w-8 h-8 sm:w-9 sm:h-9" />
+                    </button>
                   )}
               </div>
-              <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white tracking-tight mb-1">{testimonial.name}</h3>
+
+              {/* Student Name */}
+              <h3 className="font-bold text-[15px] sm:text-[17px] text-slate-900 dark:text-white tracking-tight mb-1 line-clamp-1">
+                {testimonial.name}
+              </h3>
+
+              {/* Score / Achievement Badge */}
               <div className="inline-block px-2 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[10px] font-bold uppercase tracking-wider mb-2.5 border border-blue-100/80 dark:border-primary/20">
                   {testimonial.achievement}
               </div>
-              <div className="relative w-full flex-grow">
-                  <blockquote className="text-xs text-slate-600 dark:text-slate-400 font-normal leading-relaxed text-left line-clamp-4">
-                      “{testimonial.testimonial}”
-                  </blockquote>
+
+              {/* Testimonial Text & Read More */}
+              <div className="relative w-full flex-grow flex flex-col justify-between">
+                  <div className="flex items-start gap-1.5 mb-1.5">
+                      <Quote className="w-3.5 h-3.5 text-[#1F4FA3] dark:text-blue-400 fill-[#1F4FA3]/20 shrink-0 mt-0.5" />
+                      <blockquote className="text-[13.5px] sm:text-sm text-slate-600 dark:text-slate-400 font-normal leading-[1.55] text-left line-clamp-4 sm:line-clamp-5">
+                          {testimonial.testimonial}
+                      </blockquote>
+                  </div>
+                  
+                  {isLongTestimonial && (
+                    <button
+                      type="button"
+                      onClick={() => setIsReadMoreOpen(true)}
+                      className="text-xs font-bold text-[#1F4FA3] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1 mt-1 transition-colors cursor-pointer self-start"
+                    >
+                      <span>Read More</span>
+                      <span>→</span>
+                    </button>
+                  )}
               </div>
           </CardContent>
       </Card>
+
+      {/* Video Modal */}
       {testimonial.videoId && (
-        <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none">
-            <DialogHeader className="sr-only">
-                <DialogTitle>{testimonial.name} - Success Story</DialogTitle>
-                <DialogDescription>Video success story from a student.</DialogDescription>
-            </DialogHeader>
-            <div className="aspect-video bg-black">
-            <iframe
-                className="w-full h-full"
-                src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
-                title={`YouTube video player for ${testimonial.name}'s testimonial`}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-            ></iframe>
-            </div>
-        </DialogContent>
+        <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
+          <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none">
+              <DialogHeader className="sr-only">
+                  <DialogTitle>{testimonial.name} - Success Story</DialogTitle>
+                  <DialogDescription>Video success story from a student.</DialogDescription>
+              </DialogHeader>
+              <div className="aspect-video bg-black">
+                <iframe
+                    className="w-full h-full"
+                    src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
+                    title={`YouTube video player for ${testimonial.name}'s testimonial`}
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                ></iframe>
+              </div>
+          </DialogContent>
+        </Dialog>
       )}
-    </Dialog>
+
+      {/* Read More Modal */}
+      <Dialog open={isReadMoreOpen} onOpenChange={setIsReadMoreOpen}>
+        <DialogContent className="w-[92vw] sm:max-w-lg p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 shadow-xl">
+          <DialogHeader className="text-left pb-2">
+            <div className="flex items-center gap-3.5">
+              <div className="relative w-12 h-12 rounded-xl overflow-hidden shrink-0 border border-slate-200/80 dark:border-slate-800 bg-slate-100">
+                <GcsImage
+                  filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
+                  alt={testimonial.name}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="space-y-0.5">
+                <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                  {testimonial.name}
+                </DialogTitle>
+                <div className="inline-block px-2 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[10px] font-bold uppercase tracking-wider border border-blue-100/80 dark:border-primary/20">
+                  {testimonial.achievement}
+                </div>
+              </div>
+            </div>
+            <DialogDescription className="sr-only">
+              Full testimonial from {testimonial.name}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
+            <div className="flex items-start gap-2 pt-1">
+              <Quote className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 fill-[#1F4FA3]/20 shrink-0 mt-0.5" />
+              <blockquote className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed text-left">
+                {testimonial.testimonial}
+              </blockquote>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 
@@ -97,23 +168,23 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   }, [testimonials]);
 
   return (
-    <section id="testimonials" className="w-full pt-8 sm:pt-10 md:pt-14 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background">
+    <section id="testimonials" className="w-full pt-8 sm:pt-10 md:pt-14 pb-8 sm:pb-9 md:pb-10 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col">
-              <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-8">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+              <div className="text-center space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+                  <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                       IDL{' '}
                       <span className="relative inline-block">
                           <span className="relative z-10">Stars</span>
-                          <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[85%] h-2 z-0 pointer-events-none">
-                              <svg viewBox="0 0 100 12" preserveAspectRatio="none" className="w-full h-full text-[#102A68] dark:text-blue-400 fill-none stroke-current stroke-[6] opacity-75">
-                                  <path d="M2,10 Q50,2 98,10" />
+                          <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
+                              <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
+                                  <path d="M0,15 Q50,5 100,15" />
                               </svg>
                           </div>
                       </span>
                   </h2>
-                  <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-normal max-w-[700px] mx-auto text-center px-4 leading-relaxed">
-                     Discover how our personalized approach is transforming academic journeys and building confidence through excellence.
+                  <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
+                      Real Students. Real Progress. Real Stories.
                   </p>
               </div>
 
@@ -122,13 +193,12 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                     {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-[20px]" />)}
                  </div>
               ) : testimonials && testimonials.length > 0 ? (
-                <div className="relative">
+                <div className="relative w-full max-w-6xl mx-auto overflow-hidden">
                   <Carousel
                       setApi={setApi}
                       opts={{
                           align: "start",
                           loop: true,
-                          dragFree: true,
                       }}
                       plugins={[
                           Autoplay({
@@ -138,10 +208,10 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       ]}
                       className="w-full"
                   >
-                      <CarouselContent className="-ml-3 sm:-ml-4">
+                      <CarouselContent className="-ml-4 sm:-ml-5 md:-ml-6">
                           {testimonials.map((testimonial, index) => (
-                              <CarouselItem key={index} className="pl-3 sm:pl-4 basis-[78%] xs:basis-[75%] sm:basis-[48%] md:basis-[33%] lg:basis-[31%]">
-                                  <div className="p-0.5 h-full">
+                              <CarouselItem key={index} className="pl-4 sm:pl-5 md:pl-6 basis-[84%] sm:basis-[48%] lg:basis-1/3">
+                                  <div className="h-full">
                                       <TestimonialCard testimonial={testimonial} />
                                   </div>
                               </CarouselItem>
@@ -149,13 +219,13 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       </CarouselContent>
                   </Carousel>
                   
-                  <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8">
+                  <div className="flex justify-center gap-1.5 sm:gap-2 mt-5 sm:mt-6">
                       {testimonials.map((_, i) => (
                           <button
                               key={i}
                               onClick={() => scrollTo(i)}
                               className={cn(
-                                  "h-1.5 rounded-full transition-all duration-300 shadow-sm",
+                                  "h-1.5 rounded-full transition-all duration-300 shadow-xs cursor-pointer",
                                   current === i ? "w-6 sm:w-8 bg-[#0A225C] dark:bg-primary" : "w-1.5 sm:w-2 bg-slate-200 dark:bg-muted-foreground/30 hover:bg-slate-300"
                               )}
                               aria-label={`Go to slide ${i + 1}`}
