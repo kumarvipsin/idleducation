@@ -1,14 +1,14 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { User, Users, GraduationCap, Phone, Globe, MapPin, Send, CheckCircle2, Award, Trophy, Calendar } from "lucide-react";
+import { User, Users, GraduationCap, Phone, MapPin, Send, CheckCircle2, Trophy, ShieldCheck, Award } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { registerForScholarship } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -50,6 +50,10 @@ interface ScholarshipModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const toTitleCase = (str: string) => {
+  return str.replace(/\b([a-z])/g, (char) => char.toUpperCase());
+};
+
 export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps) {
   const { toast } = useToast();
   const [isSuccessOpen, setIsSuccessOpen] = useState(false);
@@ -67,6 +71,20 @@ export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps
     },
   });
 
+  useEffect(() => {
+    if (isOpen) {
+      if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      const timer = setTimeout(() => {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
   const onSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
     setIsSubmitting(true);
     try {
@@ -81,7 +99,7 @@ export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps
           description: result.message || "Failed to submit scholarship registration.",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         variant: "destructive",
         title: "Error",
@@ -97,159 +115,96 @@ export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="w-[95vw] max-w-[500px] p-0 overflow-hidden bg-white dark:bg-slate-900 border-2 border-primary/10 rounded-2xl shadow-none focus:outline-hidden h-[82vh] max-h-[660px] top-[calc(50%+1.5rem)] flex flex-col gap-0"
+          onCloseAutoFocus={(e) => e.preventDefault()}
+          className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
         >
-          {/* Header matching Contact Us & Admission modal style */}
-          <DialogHeader className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 shrink-0 space-y-0.5">
-            <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter text-left">
+          {/* Modal Header: Clean, subtle and calm */}
+          <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
+            <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
               Scholarship Registration
             </DialogTitle>
-            <DialogDescription className="text-[13px] font-extrabold text-muted-foreground text-left">
-              IDL National Talent Reward Exam • Up to 100% Scholarship
+            <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
+              Appear for IDL Talent Hunt 2026–27 and earn up to 100% academic scholarship &amp; fee rewards.
             </DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
-              {/* Scrollable Form Body */}
-              <div className="overflow-y-auto flex-1 min-h-0 divide-y divide-slate-100 dark:divide-slate-800">
-                {/* Scholarship Badge Banner */}
-                <div className="p-3.5 px-6 bg-amber-500/10 dark:bg-amber-500/5 border-b border-amber-500/20 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <Trophy className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0" />
-                    <div>
-                      <p className="text-xs font-black text-amber-900 dark:text-amber-300 leading-tight">
-                        IDL Talent Hunt 2026-27
-                      </p>
-                      <p className="text-[10.5px] text-amber-700 dark:text-amber-400/80 font-bold">
-                        Online / Offline Mode • Zero Registration Fee
-                      </p>
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-wider bg-amber-500 text-white px-2 py-0.5 rounded-full">
-                    FREE EXAM
-                  </span>
-                </div>
-
-                {/* Student Name */}
+            <form onSubmit={form.handleSubmit(onSubmit)} className="px-5 sm:px-7 py-4 sm:py-5 space-y-4 sm:space-y-4.5 text-left overflow-y-auto flex-1 min-h-0 overscroll-contain" autoComplete="off">
+              {/* Row 1: Student Name & Guardian Name */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <FormField
                   control={form.control}
                   name="studentName"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <User className="h-4 w-4 text-[#102A68]" />
+                        Student Full Name <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Input
+                            placeholder="e.g. Rahul Sharma"
                             {...field}
-                            placeholder="Student Full Name *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
+                            autoFocus={false}
+                            value={field.value}
+                            onChange={(e) => field.onChange(toTitleCase(e.target.value))}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 capitalize"
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
 
-                {/* Guardian Name */}
                 <FormField
                   control={form.control}
                   name="guardianName"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <Users className="h-4 w-4 text-[#102A68]" />
+                        Parent / Guardian <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <Users className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Input
+                            placeholder="e.g. Rajesh Sharma"
                             {...field}
-                            placeholder="Father / Guardian Name *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
+                            autoFocus={false}
+                            value={field.value}
+                            onChange={(e) => field.onChange(toTitleCase(e.target.value))}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 capitalize"
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
+              </div>
 
-                {/* Class Selection */}
+              {/* Row 2: Target Class & Mobile Number */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <FormField
                   control={form.control}
                   name="class"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <GraduationCap className="h-4 w-4 text-[#102A68]" />
+                        Target Class / Exam <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                              <SelectValue placeholder="Select Present Class *" />
+                            <SelectTrigger className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3.5">
+                              <SelectValue placeholder="Select Class" />
                             </SelectTrigger>
                             <SelectContent className="max-h-56">
-                              {scholarshipClasses.map((cls) => (
-                                <SelectItem key={cls} value={cls} className="text-xs font-medium">
-                                  {cls}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Mobile Number */}
-                <FormField
-                  control={form.control}
-                  name="mobile"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Input
-                            {...field}
-                            type="tel"
-                            maxLength={10}
-                            placeholder="WhatsApp / Mobile Number (10 digits) *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Country Selection */}
-                <FormField
-                  control={form.control}
-                  name="country"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <Globe className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                              <SelectValue placeholder="Select Country *" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {countries.map((c) => (
-                                <SelectItem key={c} value={c} className="text-xs font-medium">
+                              {scholarshipClasses.map((c) => (
+                                <SelectItem key={c} value={c} className="text-[14px] font-medium text-[#18233A]">
                                   {c}
                                 </SelectItem>
                               ))}
@@ -257,60 +212,84 @@ export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps
                           </Select>
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
 
-                {/* State Selection */}
                 <FormField
                   control={form.control}
-                  name="state"
+                  name="mobile"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <Phone className="h-4 w-4 text-[#102A68]" />
+                        Mobile Number <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                              <SelectValue placeholder="Select State *" />
-                            </SelectTrigger>
-                            <SelectContent className="max-h-56">
-                              {indianStates.map((s) => (
-                                <SelectItem key={s} value={s} className="text-xs font-medium">
-                                  {s}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                          <Input
+                            type="tel"
+                            maxLength={10}
+                            placeholder="e.g. 9876543210"
+                            {...field}
+                            autoFocus={false}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5"
+                          />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
               </div>
 
-              {/* Fixed Footer */}
-              <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => onOpenChange(false)}
-                  className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700"
-                >
-                  Cancel
-                </Button>
+              {/* Row 3: State / Location */}
+              <FormField
+                control={form.control}
+                name="state"
+                render={({ field }) => (
+                  <FormItem className="space-y-0">
+                    <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                      <MapPin className="h-4 w-4 text-[#102A68]" />
+                      State / Location <span className="text-[#E11D48]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <SelectTrigger className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3.5">
+                            <SelectValue placeholder="Select State / Location" />
+                          </SelectTrigger>
+                          <SelectContent className="max-h-56">
+                            {indianStates.map((s) => (
+                              <SelectItem key={s} value={s} className="text-[14px] font-medium text-[#18233A]">
+                                {s}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Submit & Trust Note */}
+              <div className="pt-2 space-y-2.5">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="h-10 sm:h-11 px-6 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
+                  className="w-full h-11 px-6 rounded-[10px] text-[15px] sm:text-[16px] font-semibold bg-[#102A68] hover:bg-[#0D2254] text-white shadow-sm hover:shadow active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isSubmitting ? 'Registering...' : 'Register for Scholarship'}</span>
-                  <Award className="ml-2 h-4 w-4 transition-transform group-hover:scale-110" />
+                  <span>{isSubmitting ? 'Registering...' : 'Register For Scholarship (100% Free)'}</span>
+                  <Send className="h-4 w-4" />
                 </Button>
+
+                <div className="flex items-center justify-center gap-1.5 text-[12px] text-[#52627A] text-center font-medium">
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
+                  <span>Zero registration fee. Merit-based scholarship test.</span>
+                </div>
               </div>
             </form>
           </Form>
@@ -319,14 +298,14 @@ export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps
 
       {/* Success Dialog */}
       <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
-        <DialogContent className="rounded-2xl max-w-sm border border-border p-6 bg-white dark:bg-slate-900 text-center">
+        <DialogContent className="rounded-2xl max-w-sm border border-[#D5DDEA] p-6 bg-white dark:bg-slate-900 text-center shadow-lg">
           <DialogHeader className="space-y-2">
             <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <DialogTitle className="text-xl font-bold text-slate-900 dark:text-slate-100">Registered Successfully!</DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground leading-relaxed">
-              Your registration for the IDL Scholarship Exam is confirmed. Examination syllabus, sample paper and hall ticket details will be sent to your mobile.
+            <DialogTitle className="text-xl font-bold text-[#18233A] dark:text-slate-100">Registered Successfully!</DialogTitle>
+            <DialogDescription className="text-sm font-normal text-[#52627A] dark:text-slate-400 leading-relaxed">
+              Your scholarship test registration is confirmed. Our examination coordinator will contact you with test schedule and syllabus.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4">
@@ -335,7 +314,7 @@ export function ScholarshipModal({ isOpen, onOpenChange }: ScholarshipModalProps
                 setIsSuccessOpen(false);
                 onOpenChange(false);
               }}
-              className="w-full h-10 rounded-xl font-bold text-xs bg-primary text-white cursor-pointer"
+              className="w-full h-11 rounded-[10px] font-semibold text-[15px] bg-[#102A68] hover:bg-[#0D2254] text-white cursor-pointer shadow-sm"
             >
               Done
             </Button>

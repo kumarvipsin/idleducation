@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import { Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Facebook, Twitter, Instagram, Youtube, Headset } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
@@ -80,8 +80,8 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* 4 Link Sections (Shifted Right with Reduced Gap) */}
-                <div className="lg:col-span-8 lg:col-start-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+                {/* 4 Link Sections (2-column on mobile for compact height, 4-column on desktop) */}
+                <div className="lg:col-span-8 lg:col-start-5 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-6 lg:gap-5">
                     {/* Column 2: Quick Links */}
                     <div>
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
@@ -170,42 +170,58 @@ export function Footer() {
                 </div>
             </div>
 
-            {/* Know About IDL Education - Full Width */}
-            <div className="mt-4 pt-4 text-left">
-              <h3 className="text-sm font-bold text-slate-900 mb-3">Know About IDL Education</h3>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed">
-                IDL Education is a modern learning and coaching platform committed to helping students learn better, perform better, and achieve more. We provide classroom and online programs, expert guidance, regular assessments, doubt support, and comprehensive preparation for school and competitive examinations.
-              </p>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
-                Our focus is simple — strong fundamentals, consistent practice, personalized guidance, and measurable results. With dedicated educators and a student-first approach, we strive to make quality education accessible, structured, and outcome-oriented.
-              </p>
+            {/* Know About IDL Education - Full Width Left to Right on Desktop */}
+            <div className="w-full mt-10 pt-8 border-t border-slate-200/80 text-left space-y-5">
+              <div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Know About IDL Education</h3>
+                <div className="space-y-2 text-xs font-normal text-slate-500 leading-relaxed">
+                  <p>
+                    IDL Education is a modern learning and coaching platform committed to helping students learn better, perform better, and achieve more. We provide classroom and online programs, expert guidance, regular assessments, doubt support, and comprehensive preparation for school and competitive examinations.
+                  </p>
+                  <p>
+                    Our focus is simple — strong fundamentals, consistent practice, personalized guidance, and measurable results. With dedicated educators and a student-first approach, we strive to make quality education accessible, structured, and outcome-oriented.
+                  </p>
+                </div>
+              </div>
 
-              <h3 className="text-sm font-bold text-slate-900 mb-3 mt-6">We Stand Out Because</h3>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed">
-                At IDL Education, we bring together experienced educators, personalized mentorship, structured courses, and focused preparation to create a learning experience built around every student&apos;s growth.
-              </p>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
-                From school academics to JEE, NEET &amp; CUET, we make quality education more accessible through comprehensive study resources, regular assessments, doubt support, and technology-enabled learning.
-              </p>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
-                We believe every student deserves the right guidance, the right environment, and the opportunity to achieve their full potential.
-              </p>
+              <div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">We Stand Out Because</h3>
+                <div className="space-y-2 text-xs font-normal text-slate-500 leading-relaxed">
+                  <p>
+                    At IDL Education, we bring together experienced educators, personalized mentorship, structured courses, and focused preparation to create a learning experience built around every student&apos;s growth.
+                  </p>
+                  <p>
+                    From school academics to JEE, NEET &amp; CUET, we make quality education more accessible through comprehensive study resources, regular assessments, doubt support, and technology-enabled learning.
+                  </p>
+                  <p>
+                    We believe every student deserves the right guidance, the right environment, and the opportunity to achieve their full potential.
+                  </p>
+                </div>
+              </div>
 
-              <h3 className="text-sm font-bold text-slate-900 mb-3 mt-6">Our Key Focus Areas</h3>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed">
-                From strong academic foundations to competitive examination preparation, IDL Education brings together quality teaching, structured resources, regular assessments, and personalized mentorship — creating a complete learning ecosystem designed around student success.
-              </p>
+              <div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Our Key Focus Areas</h3>
+                <div className="space-y-2 text-xs font-normal text-slate-500 leading-relaxed">
+                  <p>
+                    From strong academic foundations to competitive examination preparation, IDL Education brings together quality teaching, structured resources, regular assessments, and personalized mentorship — creating a complete learning ecosystem designed around student success.
+                  </p>
+                </div>
+              </div>
 
-              <h3 className="text-sm font-bold text-slate-900 mb-3 mt-6">What Makes Us Different</h3>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed">
-                At IDL Education, we go beyond traditional classroom learning by combining expert faculty, personal attention, structured learning, and continuous performance assessment. Our approach is designed to make concepts clear, learning consistent, and preparation focused.
-              </p>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
-                From Classes 6–12 to JEE, NEET &amp; CUET, students receive comprehensive academic support through quality study material, regular tests, doubt-solving, mentorship, and technology-enabled learning.
-              </p>
-              <p className="text-xs font-normal text-slate-500 leading-relaxed mt-2">
-                We focus on helping every student understand better, improve consistently, and achieve their true potential.
-              </p>
+              <div>
+                <h3 className="text-xs sm:text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">What Makes Us Different</h3>
+                <div className="space-y-2 text-xs font-normal text-slate-500 leading-relaxed">
+                  <p>
+                    At IDL Education, we go beyond traditional classroom learning by combining expert faculty, personal attention, structured learning, and continuous performance assessment. Our approach is designed to make concepts clear, learning consistent, and preparation focused.
+                  </p>
+                  <p>
+                    From Classes 6–12 to JEE, NEET &amp; CUET, students receive comprehensive academic support through quality study material, regular tests, doubt-solving, mentorship, and technology-enabled learning.
+                  </p>
+                  <p>
+                    We focus on helping every student understand better, improve consistently, and achieve their true potential.
+                  </p>
+                </div>
+              </div>
             </div>
         </div>
 
@@ -215,19 +231,28 @@ export function Footer() {
                 <div className="flex flex-col sm:flex-row justify-between items-center gap-3 text-xs font-medium text-slate-500">
                     <p className="text-center sm:text-left" suppressHydrationWarning>&copy; {new Date().getFullYear()} IDL Education. All Rights Reserved.</p>
                     <nav className="flex gap-6">
-                        <Link href="/terms" className="text-slate-500">Terms</Link>
-                        <Link href="/privacy" className="text-slate-500">Privacy</Link>
+                        <Link href="/terms" className="text-slate-500 hover:text-blue-600 transition-colors">Terms</Link>
+                        <Link href="/privacy" className="text-slate-500 hover:text-blue-600 transition-colors">Privacy</Link>
                     </nav>
                 </div>
             </div>
         </div>
 
         <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-            <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 p-0 overflow-hidden">
-                <DialogHeader className="text-center p-8 pb-0">
-                    <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter">Contact Us</DialogTitle>
-                    <DialogDescription className="text-muted-foreground text-[13px] font-extrabold">Have a query? Drop us a line below.</DialogDescription>
+            <DialogContent 
+                onOpenAutoFocus={(e) => e.preventDefault()} 
+                onCloseAutoFocus={(e) => e.preventDefault()}
+                className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
+            >
+                <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
+                    <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
+                        Get in Touch With Us
+                    </DialogTitle>
+                    <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
+                        For admissions, partnerships, centres, and other enquiries, connect with our team.
+                    </DialogDescription>
                 </DialogHeader>
+
                 <ContactForm onSuccess={() => setIsContactOpen(false)} />
             </DialogContent>
         </Dialog>

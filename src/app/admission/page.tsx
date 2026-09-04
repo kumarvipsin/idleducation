@@ -902,7 +902,7 @@ export default function AdmissionPage() {
                                     </div>
                                     <Input 
                                       type="tel" 
-                                      placeholder="Father's Mobile (10-Digit) *" 
+                                      placeholder="Father's Mobile *" 
                                       {...field} 
                                       maxLength={10} 
                                       className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
@@ -927,7 +927,7 @@ export default function AdmissionPage() {
                                     </div>
                                     <Input 
                                       type="tel" 
-                                      placeholder="Mother's Mobile (10-Digit) *" 
+                                      placeholder="Mother's Mobile *" 
                                       {...field} 
                                       maxLength={10} 
                                       className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
@@ -1203,18 +1203,17 @@ export default function AdmissionPage() {
                   <img src="/idllogo.png" alt="IDL Education" className="h-10 w-auto object-contain" />
                   <div className="border-l border-slate-300 pl-3.5 space-y-0.5">
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '10px', color: '#334155', fontWeight: 600 }}>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><img src="/icon-phone.svg" alt="" width="11" height="11" /> 011 45035713</span>
+                      <span>Telephone: 011 45035713</span>
                       <span style={{ color: '#94a3b8' }}>|</span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><img src="/icon-mail.svg" alt="" width="11" height="11" /> info@idleducation.in</span>
+                      <span>Email: info@idleducation.in</span>
                       <span style={{ color: '#94a3b8' }}>|</span>
-                      <span style={{ display: 'flex', alignItems: 'center', gap: '3px' }}><img src="/icon-globe.svg" alt="" width="11" height="11" /> www.idleducation.in</span>
+                      <span>Website: www.idleducation.in</span>
                     </div>
 
                   </div>
                 </div>
-                <div className="text-right">
-                  <span className="bg-[#002B49] text-white text-[10px] font-bold px-2.5 py-1 rounded inline-block uppercase">ADMISSION FORM</span>
-                  <p className="text-[10px] font-semibold text-slate-600 mt-1">Session 2026–2027</p>
+                <div className="text-right flex items-center">
+                  <span className="bg-[#002B49] text-white text-[10px] font-bold px-3 py-1.5 rounded inline-block uppercase text-center">ADMISSION FORM 2026-27</span>
                 </div>
               </div>
 

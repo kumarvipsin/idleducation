@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export function DiscoverAdvantage() {
   return (
-    <section className="w-full py-2 md:py-4 bg-muted/20 dark:bg-gray-900">
+    <section className="w-full py-2 md:py-4 bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 md:px-6">
         <div className="rounded-2xl bg-white dark:bg-card border p-3 md:p-5 shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">

@@ -1,15 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { Star, Send, Phone, User, CheckCircle2 } from "lucide-react";
+import { Star, Send, Phone, User, CheckCircle2, MessageSquare, ShieldCheck, HeartHandshake } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { submitFeedback } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
@@ -18,7 +18,7 @@ const feedbackSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   feedback: z.string().min(5, { message: "Please share a few words about your experience (min 5 characters)." }),
-  rating: z.number().min(1, { message: "Please tap a star to give your rating (1-10)." }).max(10),
+  rating: z.number().min(1, { message: "Please select a rating (1-10)." }).max(10),
 });
 
 type FeedbackFormValues = z.infer<typeof feedbackSchema>;
@@ -44,6 +44,14 @@ interface FeedbackModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const toTitleCase = (str: string) => {
+  return str.replace(/\b([a-z])/g, (char) => char.toUpperCase());
+};
+
+const toSentenceCase = (str: string) => {
+  return str.replace(/(^\s*|[.!?]\s+)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase());
+};
+
 export function FeedbackModal({ isOpen, onOpenChange }: FeedbackModalProps) {
   const { toast } = useToast();
   const [hoverRating, setHoverRating] = useState(0);
@@ -57,7 +65,20 @@ export function FeedbackModal({ isOpen, onOpenChange }: FeedbackModalProps) {
 
   const currentRating = hoverRating || form.watch('rating') || 0;
   const ratingDetails = getRatingDetails(currentRating);
-  const feedbackMessage = form.watch('feedback') || '';
+
+  useEffect(() => {
+    if (isOpen) {
+      if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      const timer = setTimeout(() => {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   const onSubmit: SubmitHandler<FeedbackFormValues> = async (data) => {
     setIsSubmitting(true);
@@ -82,203 +103,187 @@ export function FeedbackModal({ isOpen, onOpenChange }: FeedbackModalProps) {
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="w-[95vw] max-w-[480px] p-0 overflow-hidden bg-white dark:bg-slate-900 border-2 border-primary/10 rounded-2xl shadow-none focus:outline-hidden h-[82vh] max-h-[660px] top-[calc(50%+1.5rem)] flex flex-col gap-0"
+          onCloseAutoFocus={(e) => e.preventDefault()}
+          className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
         >
-          <DialogHeader className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 shrink-0 space-y-0.5">
-            <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter text-left">
+          {/* Modal Header: Clean, subtle and calm */}
+          <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
+            <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
               Share Your Feedback
             </DialogTitle>
-            <DialogDescription className="text-[13px] font-extrabold text-muted-foreground text-left">
-              Rate your experience and help us elevate our teaching and facilities
+            <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
+              Rate your experience and help us continuously improve our academic delivery and facilities.
             </DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
-              <div className="overflow-y-auto flex-1 min-h-0 divide-y divide-slate-100 dark:divide-slate-800">
-
-                {/* Name */}
+            <form onSubmit={form.handleSubmit(onSubmit)} className="px-5 sm:px-7 py-4 sm:py-5 space-y-4 sm:space-y-4.5 text-left overflow-y-auto flex-1 min-h-0 overscroll-contain" autoComplete="off">
+              {/* Row 1: Name & Mobile Number */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <FormField
                   control={form.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <User className="h-4 w-4 text-[#102A68]" />
+                        Full Name <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none group-focus-within:scale-110 transition-transform">
-                            <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Input
+                            placeholder="e.g. Rahul Sharma"
                             {...field}
-                            placeholder="Your Full Name *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
+                            autoFocus={false}
+                            value={field.value}
+                            onChange={(e) => field.onChange(toTitleCase(e.target.value))}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 capitalize"
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
 
-                {/* Mobile */}
                 <FormField
                   control={form.control}
                   name="mobile"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <Phone className="h-4 w-4 text-[#102A68]" />
+                        Mobile Number <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none group-focus-within:scale-110 transition-transform">
-                            <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Input
-                            {...field}
                             type="tel"
                             maxLength={10}
-                            placeholder="Mobile Number (10 digits) *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
+                            placeholder="e.g. 9876543210"
+                            {...field}
+                            autoFocus={false}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5"
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
-
-                {/* Message (before rating) */}
-                <div className="p-4">
-                  <FormField
-                    control={form.control}
-                    name="feedback"
-                    render={({ field }) => (
-                      <FormItem className="space-y-1.5">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                            Your Message *
-                          </span>
-                          <span className="text-[10.5px] font-bold text-slate-400">
-                            {feedbackMessage.length} chars
-                          </span>
-                        </div>
-                        <FormControl>
-                          <Textarea
-                            {...field}
-                            rows={4}
-                            placeholder="Tell us what you liked, your experience with classes or faculties, or suggestions for improvement..."
-                            className="p-3.5 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-xl font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none min-h-[110px]"
-                          />
-                        </FormControl>
-                        <FormMessage className="text-[10px] text-rose-500 font-bold" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                {/* 10-Star Rating — last */}
-                <div className="p-4 bg-gradient-to-b from-slate-50/80 to-white dark:from-slate-800/40 dark:to-slate-900 space-y-2.5">
-                  <FormField
-                    control={form.control}
-                    name="rating"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                            Your Rating *
-                          </span>
-                          <span className="text-xs font-black font-mono text-primary bg-primary/10 px-2 py-0.5 rounded-md">
-                            {currentRating > 0 ? `${currentRating} / 10` : 'Tap to rate'}
-                          </span>
-                        </div>
-
-                        <div className="flex items-center justify-between gap-0.5 p-2 bg-white dark:bg-slate-950 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-inner">
-                          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => {
-                            const isFilled = currentRating >= star;
-                            return (
-                              <button
-                                key={star}
-                                type="button"
-                                onClick={() => field.onChange(star)}
-                                onMouseEnter={() => setHoverRating(star)}
-                                onMouseLeave={() => setHoverRating(0)}
-                                className={cn(
-                                  "flex-1 flex flex-col items-center justify-center p-1 rounded-lg cursor-pointer transition-all duration-150 focus:outline-none",
-                                  isFilled ? "scale-105" : "hover:scale-110 opacity-40 hover:opacity-100"
-                                )}
-                              >
-                                <Star
-                                  className={cn(
-                                    "w-5 h-5 transition-colors duration-150",
-                                    isFilled
-                                      ? "fill-amber-400 text-amber-400 drop-shadow-[0_2px_8px_rgba(251,191,36,0.4)]"
-                                      : "text-slate-300 dark:text-slate-600"
-                                  )}
-                                />
-                                <span className={cn(
-                                  "text-[8px] font-black mt-0.5 font-mono",
-                                  isFilled ? "text-amber-600 dark:text-amber-400" : "text-slate-400"
-                                )}>
-                                  {star}
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-
-                        <div className={cn(
-                          "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-all duration-200",
-                          ratingDetails.color
-                        )}>
-                          <span>{ratingDetails.emoji}</span>
-                          <span>{ratingDetails.label}</span>
-                        </div>
-
-                        <FormMessage className="text-[10px] text-rose-500 font-bold" />
-                      </FormItem>
-                    )}
-                  />
-                </div>
               </div>
 
-              {/* Fixed Footer */}
-              <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 sticky bottom-0 z-20">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => onOpenChange(false)}
-                  className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700"
-                >
-                  Cancel
-                </Button>
+              {/* Row 2: Star Rating (1 - 10) */}
+              <FormField
+                control={form.control}
+                name="rating"
+                render={({ field }) => (
+                  <FormItem className="space-y-0">
+                    <div className="flex items-center justify-between mb-2">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2">
+                        <Star className="h-4 w-4 text-amber-500 fill-amber-500" />
+                        Rate Your Experience <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
+                      {currentRating > 0 && (
+                        <span className="text-[12px] font-bold text-[#102A68]">
+                          {ratingDetails.emoji} {currentRating}/10: {ratingDetails.label}
+                        </span>
+                      )}
+                    </div>
+                    <FormControl>
+                      <div className="p-3.5 rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs flex items-center justify-between gap-1 overflow-x-auto">
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((star) => (
+                          <button
+                            key={star}
+                            type="button"
+                            onClick={() => field.onChange(star)}
+                            onMouseEnter={() => setHoverRating(star)}
+                            onMouseLeave={() => setHoverRating(0)}
+                            className="p-1 hover:scale-110 transition-transform cursor-pointer focus:outline-none"
+                          >
+                            <Star
+                              className={cn(
+                                "w-5 h-5 sm:w-5.5 sm:h-5.5 transition-colors",
+                                star <= currentRating
+                                  ? "text-amber-500 fill-amber-500"
+                                  : "text-slate-300 dark:text-slate-700"
+                              )}
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Row 3: Feedback Message */}
+              <FormField
+                control={form.control}
+                name="feedback"
+                render={({ field }) => (
+                  <FormItem className="space-y-0">
+                    <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                      <MessageSquare className="h-4 w-4 text-[#102A68]" />
+                      Your Feedback &amp; Suggestions <span className="text-[#E11D48]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                        <Textarea
+                          placeholder="Tell us what you liked and how we can improve..."
+                          className="min-h-[90px] border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none p-3.5 resize-none leading-relaxed"
+                          {...field}
+                          autoFocus={false}
+                          onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                  </FormItem>
+                )}
+              />
+
+              {/* Submit & Trust Note */}
+              <div className="pt-2 space-y-2.5">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="h-10 sm:h-11 px-6 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
+                  className="w-full h-11 px-6 rounded-[10px] text-[15px] sm:text-[16px] font-semibold bg-[#102A68] hover:bg-[#0D2254] text-white shadow-sm hover:shadow active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isSubmitting ? 'Submitting...' : 'Send Feedback'}</span>
-                  <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <span>{isSubmitting ? 'Submitting Feedback...' : 'Submit Feedback'}</span>
+                  <Send className="h-4 w-4" />
                 </Button>
+
+                <div className="flex items-center justify-center gap-1.5 text-[12px] text-[#52627A] text-center font-medium">
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
+                  <span>We value your genuine response to build better education.</span>
+                </div>
               </div>
             </form>
           </Form>
         </DialogContent>
       </Dialog>
 
-      {/* Success Dialog */}
+      {/* Thank You Dialog */}
       <Dialog open={isThankYouOpen} onOpenChange={setIsThankYouOpen}>
-        <DialogContent className="rounded-2xl max-w-sm border border-border p-6 bg-white dark:bg-slate-900 text-center">
+        <DialogContent className="rounded-2xl max-w-sm border border-[#D5DDEA] p-6 bg-white dark:bg-slate-900 text-center shadow-lg">
           <DialogHeader className="space-y-2">
             <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <DialogTitle className="text-xl font-bold text-slate-900 dark:text-slate-100">Thank You!</DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground leading-relaxed">
-              We deeply appreciate your feedback. Your insights help us continuously elevate the student academic experience.
+            <DialogTitle className="text-xl font-bold text-[#18233A] dark:text-slate-100">Thank You!</DialogTitle>
+            <DialogDescription className="text-sm font-normal text-[#52627A] dark:text-slate-400 leading-relaxed">
+              Your feedback has been submitted successfully. Our team deeply appreciates your time and suggestions.
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="mt-4">
             <Button
-              onClick={() => { setIsThankYouOpen(false); onOpenChange(false); }}
-              className="w-full h-10 rounded-xl font-bold text-xs bg-primary text-white cursor-pointer"
+              onClick={() => {
+                setIsThankYouOpen(false);
+                onOpenChange(false);
+              }}
+              className="w-full h-11 rounded-[10px] font-semibold text-[15px] bg-[#102A68] hover:bg-[#0D2254] text-white cursor-pointer shadow-sm"
             >
               Done
             </Button>

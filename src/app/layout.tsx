@@ -35,7 +35,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
-      <body className={`${plusJakartaSans.className} font-sans antialiased flex flex-col min-h-screen bg-background`}>
+      <body className={`${plusJakartaSans.className} font-sans antialiased flex flex-col min-h-screen bg-white dark:bg-background`}>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         <Providers>
           {children}

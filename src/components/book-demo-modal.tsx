@@ -1,19 +1,17 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { User, GraduationCap, Phone, Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import { User, GraduationCap, Phone, Mail, MapPin, Send, CheckCircle2, Sparkles, ShieldCheck } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
 import { bookFreeSession } from "@/app/actions";
-import { DISCOVER_COURSES } from "@/lib/courses";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
 
 const indianStates = [
   "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
@@ -24,7 +22,6 @@ const indianStates = [
   "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
 ];
 
-// For demo purposes, nearest branches are the Indian states.
 const nearestBranches = indianStates;
 
 const courseOptions = [
@@ -42,8 +39,7 @@ const formSchema = z.object({
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   email: z.string().email({ message: "Please enter a valid email address." }),
-  state: z.string().optional(),
-  nearestBranch: z.string().min(1, { message: "Please select your nearest branch." }),
+  nearestBranch: z.string().min(1, { message: "Please select a branch or state." }),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -53,10 +49,14 @@ interface BookDemoModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
+const toTitleCase = (str: string) => {
+  return str.replace(/\b([a-z])/g, (char) => char.toUpperCase());
+};
+
 export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
-  const { toast } = useToast();
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -65,26 +65,46 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
       classCourse: '',
       mobile: '',
       email: '',
-      state: '',
       nearestBranch: '',
     },
   });
 
+  useEffect(() => {
+    if (isOpen) {
+      if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      const timer = setTimeout(() => {
+        if (document.activeElement instanceof HTMLElement) {
+          document.activeElement.blur();
+        }
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     setIsSubmitting(true);
     try {
-      const result = await bookFreeSession({ ...data, state: data.nearestBranch });
+      const result = await bookFreeSession({
+        studentName: data.studentName,
+        classCourse: data.classCourse,
+        mobile: data.mobile,
+        email: data.email,
+        nearestBranch: data.nearestBranch,
+      });
+
       if (result.success) {
         setIsSuccessOpen(true);
         form.reset();
       } else {
         toast({
           variant: "destructive",
-          title: "Booking Failed",
-          description: result.message || "Something went wrong. Please try again.",
+          title: "Submission Failed",
+          description: result.message || "Failed to book session. Please try again.",
         });
       }
-    } catch (error) {
+    } catch {
       toast({
         variant: "destructive",
         title: "Error",
@@ -100,65 +120,68 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
         <DialogContent
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="w-[95vw] max-w-[500px] p-0 overflow-hidden bg-white dark:bg-slate-900 border-2 border-primary/10 rounded-2xl shadow-none focus:outline-hidden h-[82vh] max-h-[660px] top-[calc(50%+1.5rem)] flex flex-col gap-0"
+          onCloseAutoFocus={(e) => e.preventDefault()}
+          className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
         >
-          {/* Header matching Contact Us & Admission modal style */}
-          <DialogHeader className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 shrink-0 space-y-0.5">
-            <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter text-left">
-              Book Free Demo
+          {/* Modal Header: Clean, subtle and calm */}
+          <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
+            <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
+              Book a Free Demo
             </DialogTitle>
-            <DialogDescription className="text-[13px] font-extrabold text-muted-foreground text-left">
-              Experience our premier teaching methodology &amp; faculty
+            <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
+              Experience our premier teaching methodology &amp; faculty guidance firsthand.
             </DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
-              {/* Scrollable Form Body */}
-              <div className="overflow-y-auto flex-1 min-h-0 divide-y divide-slate-100 dark:divide-slate-800">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="px-5 sm:px-7 py-4 sm:py-5 space-y-4 sm:space-y-4.5 text-left overflow-y-auto flex-1 min-h-0 overscroll-contain" autoComplete="off">
+              {/* Row 1: Student Name */}
+              <FormField
+                control={form.control}
+                name="studentName"
+                render={({ field }) => (
+                  <FormItem className="space-y-0">
+                    <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                      <User className="h-4 w-4 text-[#102A68]" />
+                      Student Full Name <span className="text-[#E11D48]">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                        <Input
+                          placeholder="e.g. Rahul Sharma"
+                          {...field}
+                          autoFocus={false}
+                          value={field.value}
+                          onChange={(e) => field.onChange(toTitleCase(e.target.value))}
+                          className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 capitalize"
+                        />
+                      </div>
+                    </FormControl>
+                    <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                  </FormItem>
+                )}
+              />
 
-
-                {/* Student Name */}
-                <FormField
-                  control={form.control}
-                  name="studentName"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <User className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Input
-                            {...field}
-                            placeholder="Student Full Name *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Class / Course */}
+              {/* Row 2: Target Course & Nearest Branch */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                 <FormField
                   control={form.control}
                   name="classCourse"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <GraduationCap className="h-4 w-4 text-[#102A68]" />
+                        Target Class/Course <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                              <SelectValue placeholder="Select Target Class or Course *" />
+                            <SelectTrigger className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3.5">
+                              <SelectValue placeholder="Select Course" />
                             </SelectTrigger>
                             <SelectContent className="max-h-56">
                               {courseOptions.map((c) => (
-                                <SelectItem key={c} value={c} className="text-xs font-medium">
+                                <SelectItem key={c} value={c} className="text-[14px] font-medium text-[#18233A]">
                                   {c}
                                 </SelectItem>
                               ))}
@@ -166,78 +189,29 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
                           </Select>
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
 
-                {/* Mobile Number */}
-                <FormField
-                  control={form.control}
-                  name="mobile"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Input
-                            {...field}
-                            type="tel"
-                            maxLength={10}
-                            placeholder="Mobile Number (10 digits) *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Email */}
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem className="space-y-0">
-                      <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <Mail className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
-                          <Input
-                            {...field}
-                            type="email"
-                            placeholder="Email Address *"
-                            className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] text-slate-800 dark:text-slate-200 focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Nearest Branch */}
                 <FormField
                   control={form.control}
                   name="nearestBranch"
                   render={({ field }) => (
                     <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <MapPin className="h-4 w-4 text-[#102A68]" />
+                        Branch / State <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <div className="relative group">
-                          <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                            <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                          </div>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
                           <Select onValueChange={field.onChange} value={field.value}>
-                            <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                              <SelectValue placeholder="Select Nearest Branch *" />
+                            <SelectTrigger className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3.5">
+                              <SelectValue placeholder="Select Branch" />
                             </SelectTrigger>
                             <SelectContent className="max-h-56">
                               {nearestBranches.map((b) => (
-                                <SelectItem key={b} value={b} className="text-xs font-medium">
+                                <SelectItem key={b} value={b} className="text-[14px] font-medium text-[#18233A]">
                                   {b}
                                 </SelectItem>
                               ))}
@@ -245,30 +219,81 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
                           </Select>
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-bold" />
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
               </div>
 
-              {/* Fixed Footer */}
-              <div className="p-3.5 sm:p-4 bg-slate-50 dark:bg-slate-800/50 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20">
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => onOpenChange(false)}
-                  className="h-10 sm:h-11 px-4 rounded-xl font-bold text-xs uppercase border-primary bg-white hover:bg-primary/10 text-slate-700"
-                >
-                  Cancel
-                </Button>
+              {/* Row 3: Mobile & Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                <FormField
+                  control={form.control}
+                  name="mobile"
+                  render={({ field }) => (
+                    <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <Phone className="h-4 w-4 text-[#102A68]" />
+                        Mobile Number <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                          <Input
+                            type="tel"
+                            maxLength={10}
+                            placeholder="e.g. 9876543210"
+                            {...field}
+                            autoFocus={false}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem className="space-y-0">
+                      <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
+                        <Mail className="h-4 w-4 text-[#102A68]" />
+                        Email Address <span className="text-[#E11D48]">*</span>
+                      </FormLabel>
+                      <FormControl>
+                        <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                          <Input
+                            type="email"
+                            placeholder="e.g. rahul@example.com"
+                            {...field}
+                            autoFocus={false}
+                            className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5"
+                          />
+                        </div>
+                      </FormControl>
+                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              {/* Submit & Trust Note */}
+              <div className="pt-2 space-y-2.5">
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="h-10 sm:h-11 px-6 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
+                  className="w-full h-11 px-6 rounded-[10px] text-[15px] sm:text-[16px] font-semibold bg-[#102A68] hover:bg-[#0D2254] text-white shadow-sm hover:shadow active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <span>{isSubmitting ? 'Booking...' : 'Book Free Session'}</span>
-                  <Send className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <span>{isSubmitting ? 'Booking Free Session...' : 'Book Free Demo Session'}</span>
+                  <Send className="h-4 w-4" />
                 </Button>
+
+                <div className="flex items-center justify-center gap-1.5 text-[12px] text-[#52627A] text-center font-medium">
+                  <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
+                  <span>100% free session. Zero commitment required.</span>
+                </div>
               </div>
             </form>
           </Form>
@@ -277,13 +302,13 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
 
       {/* Success Dialog */}
       <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
-        <DialogContent className="rounded-2xl max-w-sm border border-border p-6 bg-white dark:bg-slate-900 text-center">
+        <DialogContent className="rounded-2xl max-w-sm border border-[#D5DDEA] p-6 bg-white dark:bg-slate-900 text-center shadow-lg">
           <DialogHeader className="space-y-2">
             <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <DialogTitle className="text-xl font-bold text-slate-900 dark:text-slate-100">Free Session Booked!</DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground leading-relaxed">
+            <DialogTitle className="text-xl font-bold text-[#18233A] dark:text-slate-100">Free Session Booked!</DialogTitle>
+            <DialogDescription className="text-sm font-normal text-[#52627A] dark:text-slate-400 leading-relaxed">
               Your free demo session has been scheduled. Our academic counselor will call you shortly with details.
             </DialogDescription>
           </DialogHeader>
@@ -293,7 +318,7 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
                 setIsSuccessOpen(false);
                 onOpenChange(false);
               }}
-              className="w-full h-10 rounded-xl font-bold text-xs bg-primary text-white cursor-pointer"
+              className="w-full h-11 rounded-[10px] font-semibold text-[15px] bg-[#102A68] hover:bg-[#0D2254] text-white cursor-pointer shadow-sm"
             >
               Done
             </Button>

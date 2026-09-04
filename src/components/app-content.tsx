@@ -50,7 +50,7 @@ export function AppContent({
        return (
         <>
           <Header />
-          <main className="flex-grow">
+          <main className="flex-grow bg-white dark:bg-background">
             {children}
           </main>
           <Footer />
@@ -65,7 +65,7 @@ export function AppContent({
   if (noHeaderFooterPages.some(path => pathname.startsWith(path)) || isIdlFoundationPage) {
     return (
         <>
-            <main className="flex-grow">
+            <main className="flex-grow bg-white dark:bg-background">
                 {children}
             </main>
 
@@ -78,7 +78,7 @@ export function AppContent({
   return (
     <>
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow bg-white dark:bg-background">
         {children}
       </main>
       <Footer />

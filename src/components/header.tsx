@@ -400,7 +400,7 @@ export function Header() {
     return (
         <>
             <header className={cn(
-                "sticky top-0 z-50 border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
+                "sticky top-0 z-[60] border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
                 show ? "translate-y-0" : "-translate-y-full"
             )}>
                 <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
@@ -608,7 +608,7 @@ export function Header() {
                                         {/* 1. ALL COURSES FOLDER */}
                                         <Collapsible 
                                             open={openMobileAccordion === 'all-courses'} 
-                                            onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}
+                                            onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}
                                         >
                                             <CollapsibleTrigger asChild>
                                                 <button 
@@ -856,11 +856,20 @@ export function Header() {
             />
 
             <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="sm:max-w-md shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 p-0 overflow-hidden">
-                    <DialogHeader className="text-center p-8 pb-0">
-                        <DialogTitle className="text-2xl font-extrabold text-primary tracking-tighter">Contact Us</DialogTitle>
-                        <DialogDescription className="text-muted-foreground text-[13px] font-extrabold">Have a query? Drop us a line below.</DialogDescription>
+                <DialogContent 
+                    onOpenAutoFocus={(e) => e.preventDefault()} 
+                    onCloseAutoFocus={(e) => e.preventDefault()}
+                    className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
+                >
+                    <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
+                        <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
+                            Get in Touch With Us
+                        </DialogTitle>
+                        <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
+                            For admissions, partnerships, centres, and other enquiries, connect with our team.
+                        </DialogDescription>
                     </DialogHeader>
+
                     <ContactForm onSuccess={() => setIsContactOpen(false)} />
                 </DialogContent>
             </Dialog>
