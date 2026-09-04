@@ -43,18 +43,18 @@ export function Footer() {
 
                 {/* Column 1: Brand and Socials */}
                 <div className="flex flex-col items-start gap-4 lg:col-span-3">
-                    <div className="flex flex-col items-start -mt-5">
+                    <div className="flex flex-col items-start gap-3">
                         <Link href="/" className="flex items-center justify-start">
                             <Image 
-                              src="/idllogoh.png" 
+                              src="/idllogo.png" 
                               alt="IDL Education Logo" 
-                              width={300} 
-                              height={85} 
-                              className="h-20 w-auto object-contain object-left" 
+                              width={105} 
+                              height={105} 
+                              className="h-[105px] w-auto object-contain object-left" 
                               priority
                             />
                         </Link>
-                        <p className="text-xs text-slate-500 font-medium leading-relaxed text-left max-w-xs pl-0.5 -mt-3">
+                        <p className="text-xs text-slate-500 font-medium leading-relaxed text-left max-w-xs">
                           We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
                         </p>
                     </div>
