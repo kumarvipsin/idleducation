@@ -9,7 +9,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { submitContactForm } from "@/app/actions";
+import { submitContactForm } from "@/app/actions/forms";
 import { Input } from "@/components/ui/input";
 
 const contactFormSchema = z.object({
@@ -74,20 +74,20 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="px-5 sm:px-7 py-4 sm:py-5 space-y-4 sm:space-y-4.5 text-left overflow-y-auto flex-1 min-h-0 overscroll-contain" autoComplete="off">
-        {/* Row 1: Full Name & Phone Number (2 Columns) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="px-6 sm:px-8 py-3 sm:py-4 space-y-3 sm:space-y-3.5 text-left overflow-y-auto flex-1 min-h-0 overscroll-contain" autoComplete="off">
+        {/* Row 1: Full Name & Phone Number (2 Columns on desktop) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem className="space-y-0">
-                <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
-                  <User className="h-4 w-4 text-[#102A68]" />
-                  Full Name <span className="text-[#E11D48]">*</span>
+                <FormLabel className="text-[16px] sm:text-[18px] md:text-[19px] font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 mb-1.5">
+                  <User className="h-4 w-4 text-[#102A68] dark:text-blue-400 shrink-0" />
+                  <span>Full Name</span> <span className="text-[#E11D48]">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                  <div className="relative rounded-xl border-[1.25px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all duration-200 shadow-xs">
                     <Input 
                       placeholder="e.g. Rahul Sharma" 
                       {...field}
@@ -96,11 +96,11 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
                       onChange={(e) => {
                         field.onChange(toTitleCase(e.target.value));
                       }}
-                      className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 capitalize" 
+                      className="h-10 sm:h-11 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 capitalize" 
                     />
                   </div>
                 </FormControl>
-                <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
               </FormItem>
             )}
           />
@@ -110,69 +110,69 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             name="phone"
             render={({ field }) => (
               <FormItem className="space-y-0">
-                <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
-                  <Phone className="h-4 w-4 text-[#102A68]" />
-                  Phone Number <span className="text-[#E11D48]">*</span>
+                <FormLabel className="text-[16px] sm:text-[18px] md:text-[19px] font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 mb-1.5">
+                  <Phone className="h-4 w-4 text-[#102A68] dark:text-blue-400 shrink-0" />
+                  <span>Phone Number</span> <span className="text-[#E11D48]">*</span>
                 </FormLabel>
                 <FormControl>
-                  <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                  <div className="relative rounded-xl border-[1.25px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all duration-200 shadow-xs">
                     <Input 
                       type="tel" 
                       maxLength={10}
                       placeholder="e.g. 9876543210" 
                       {...field} 
                       autoFocus={false}
-                      className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5" 
+                      className="h-10 sm:h-11 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5" 
                     />
                   </div>
                 </FormControl>
-                <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+                <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
               </FormItem>
             )}
           />
         </div>
 
-        {/* Row 2: Email Address */}
+        {/* Row 2: Email Address (Full width) */}
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem className="space-y-0">
-              <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
-                <Mail className="h-4 w-4 text-[#102A68]" />
-                Email Address
+              <FormLabel className="text-[16px] sm:text-[18px] md:text-[19px] font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 mb-1.5">
+                <Mail className="h-4 w-4 text-[#102A68] dark:text-blue-400 shrink-0" />
+                <span>Email Address</span>
               </FormLabel>
               <FormControl>
-                <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                <div className="relative rounded-xl border-[1.25px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all duration-200 shadow-xs">
                   <Input 
                     type="email" 
                     placeholder="e.g. rahul@example.com" 
                     {...field} 
                     autoFocus={false}
-                    className="h-12 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5" 
+                    className="h-10 sm:h-11 border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5" 
                   />
                 </div>
               </FormControl>
-              <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
             </FormItem>
           )}
         />
 
-        {/* Row 3: Your Message / Query */}
+        {/* Row 3: Your Message / Query (Full width) */}
         <FormField
           control={form.control}
           name="message"
           render={({ field }) => (
             <FormItem className="space-y-0">
-              <FormLabel className="text-[15px] sm:text-[16px] font-semibold text-[#18233A] flex items-center gap-2 mb-2">
-                <MessageSquare className="h-4 w-4 text-[#102A68]" />
-                Your Message / Query <span className="text-[#E11D48]">*</span>
+              <FormLabel className="text-[16px] sm:text-[18px] md:text-[19px] font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 mb-1.5">
+                <MessageSquare className="h-4 w-4 text-[#102A68] dark:text-blue-400 shrink-0" />
+                <span>Your Message / Query</span> <span className="text-[#E11D48]">*</span>
               </FormLabel>
               <FormControl>
-                <div className="relative rounded-[11px] border-[1.5px] border-[#D5DDEA] bg-white shadow-xs">
+                <div className="relative rounded-xl border-[1.25px] border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all duration-200 shadow-xs">
                   <Textarea 
                     placeholder="Tell us about your enquiry or requirement..." 
-                    className="min-h-[90px] border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-[#18233A] placeholder:text-[#94A3BA] focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none p-3.5 resize-none leading-relaxed" 
+                    className="min-h-[76px] sm:min-h-[82px] max-h-[130px] border-0 bg-transparent text-[16px] sm:text-[17px] font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none p-3 sm:p-3.5 resize-none leading-relaxed" 
                     {...field}
                     autoFocus={false}
                     value={field.value}
@@ -182,30 +182,27 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
                   />
                 </div>
               </FormControl>
-              <FormMessage className="text-[12px] font-medium text-rose-500 pt-1" />
+              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
             </FormItem>
           )}
         />
 
         {/* Footer: Submit Button & Security Note */}
-        <div className="pt-2 space-y-2.5">
+        <div className="pt-1.5 sm:pt-2 space-y-2">
           <Button 
             type="submit" 
-            className="w-full h-11 px-6 rounded-[10px] text-[15px] sm:text-[16px] font-semibold bg-[#102A68] hover:bg-[#0D2254] text-white shadow-sm hover:shadow active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer" 
+            className="w-full h-11 sm:h-[46px] px-6 rounded-xl text-[15px] sm:text-[16px] font-bold bg-[#102A68] hover:bg-[#0D2254] text-white shadow-sm hover:shadow active:scale-[0.99] transition-all flex items-center justify-center gap-1.5 cursor-pointer group" 
             disabled={form.formState.isSubmitting}
           >
             {form.formState.isSubmitting ? (
-              <span>Sending Your Message...</span>
+              <span>Sending Enquiry...</span>
             ) : (
-              <>
-                <span>Send Message</span>
-                <Send className="h-4 w-4" />
-              </>
+              <span>Send Enquiry →</span>
             )}
           </Button>
 
-          <div className="flex items-center justify-center gap-1.5 text-[12px] text-[#52627A] text-center font-medium">
-            <ShieldCheck className="h-4 w-4 text-emerald-600 shrink-0" />
+          <div className="flex items-center justify-center gap-1.5 text-[12px] sm:text-[12.5px] text-slate-500 dark:text-slate-400 text-center font-normal pt-0.5">
+            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600 shrink-0" />
             <span>100% confidential. No spam guaranteed.</span>
           </div>
         </div>

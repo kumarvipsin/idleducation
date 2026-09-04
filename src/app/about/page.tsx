@@ -2,10 +2,18 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { Sparkles, Building2, Smartphone, Trophy, Users, Rocket } from "lucide-react";
+import { 
+  ArrowRight, Compass, 
+  BookOpen, TrendingUp, MessageSquare, Phone,
+  Cpu, Palette, Sparkles
+} from "lucide-react";
+import { ContactModal } from "@/components/contact-modal";
 
 export default function AboutPage() {
+    const [isContactOpen, setIsContactOpen] = useState(false);
+
     const team = [
       {
         name: "Manish Kumar",
@@ -14,6 +22,11 @@ export default function AboutPage() {
         imageUrl: "/manish.png",
         imageAlt: "Manish Kumar",
         imageClass: "scale-[1.55] origin-[center_18%]",
+        icon: Cpu,
+        dotColor: "bg-[#1F4FA3]",
+        accentLine: "bg-[#1F4FA3]",
+        iconColor: "text-slate-400 group-hover:text-[#1F4FA3]",
+        hoverBorder: "hover:border-blue-400/60",
       },
       {
         name: "Chandra Prakash",
@@ -22,6 +35,11 @@ export default function AboutPage() {
         imageUrl: "/chandu.png",
         imageAlt: "Chandra Prakash",
         imageClass: "scale-[1.82] origin-[center_12%] -translate-y-3",
+        icon: Palette,
+        dotColor: "bg-[#FF6B00]",
+        accentLine: "bg-[#FF6B00]",
+        iconColor: "text-slate-400 group-hover:text-[#FF6B00]",
+        hoverBorder: "hover:border-amber-400/60",
       },
       {
         name: "Vidhi Sharma",
@@ -30,348 +48,354 @@ export default function AboutPage() {
         imageUrl: "/vidhi.png",
         imageAlt: "Vidhi Sharma",
         imageClass: "scale-[1.5] origin-[center_18%]",
-      },
-    ];
-
-    const journeyMilestones = [
-      {
-        year: "2021",
         icon: Sparkles,
-        image: "/baground.jpg",
-        imageAlt: "IDL Foundation in 2021",
-        points: [
-          "Amod Sharma & Vijay Verma laid the foundation of IDL Education with a visionary mission to democratize quality education across Bharat.",
-          "Pioneered the personalized two-teacher hybrid learning pedagogy.",
-        ],
-      },
-      {
-        year: "2022",
-        icon: Building2,
-        image: "/baground.jpg",
-        imageAlt: "IDL Learning Centers in 2022",
-        points: [
-          "Inaugurated dedicated offline learning centers to provide direct classroom mentorship and structured guidance.",
-          "Crossed 5,000+ active students preparing for competitive and foundational examinations.",
-        ],
-      },
-      {
-        year: "2023",
-        icon: Smartphone,
-        image: "/baground.jpg",
-        imageAlt: "IDL Digital App Launch in 2023",
-        points: [
-          "Launched the proprietary IDL Learning App, bringing interactive live classes, smart practice tests, and 24/7 doubt resolution directly to students' smartphones.",
-          "Expanded comprehensive curriculums for national entrance exams including CUET and Olympiads.",
-        ],
-      },
-      {
-        year: "2024",
-        icon: Trophy,
-        image: "/baground.jpg",
-        imageAlt: "IDL Academic Results in 2024",
-        points: [
-          "Delivered historic academic results with students securing top ranks and 99+ percentiles in competitive examinations.",
-          "Instituted merit-based scholarships to empower underprivileged and deserving talent.",
-        ],
-      },
-      {
-        year: "2025",
-        icon: Users,
-        image: "/baground.jpg",
-        imageAlt: "Pan-Bharat Student Community in 2025",
-        points: [
-          "Crossed 25,000+ empowered learners across digital cohorts and physical learning hubs nationwide.",
-          "Introduced AI-assisted diagnostic learning pathways and specialized educator training programs.",
-        ],
-      },
-      {
-        year: "2026",
-        icon: Rocket,
-        image: "/baground.jpg",
-        imageAlt: "IDL Nationwide Platform Launch in 2026",
-        points: [
-          "Scaling the educational footprint nationwide with advanced smart classrooms, holistic pedagogy, and community learning hubs.",
-          "Empowering the next generation of students across Bharat to dream bigger, learn better, and build a brighter future.",
-        ],
+        dotColor: "bg-emerald-600",
+        accentLine: "bg-emerald-600",
+        iconColor: "text-slate-400 group-hover:text-emerald-600",
+        hoverBorder: "hover:border-emerald-400/60",
       },
     ];
-
-    const [activeYearIndex, setActiveYearIndex] = useState(0);
-    const currentMilestone = journeyMilestones[activeYearIndex];
 
   return (
     <div className="bg-white dark:bg-background">
-        {/* MEET OUR FOUNDERS SECTION - FULL BLACK BG LEFT-TO-RIGHT WITH MINIMAL TOP/BOTTOM SPACING */}
-        <section className="w-full bg-[#050507] relative overflow-hidden pt-8 pb-10 sm:pt-10 sm:pb-12 md:pt-12 md:pb-14 border-b border-white/10">
-            {/* Ambient Lighting Glows */}
-            <div className="absolute -left-28 top-1/2 -translate-y-1/2 w-96 h-96 bg-amber-500/15 rounded-full blur-[140px] pointer-events-none" />
-            <div className="absolute -right-28 top-1/2 -translate-y-1/2 w-96 h-96 bg-sky-500/15 rounded-full blur-[140px] pointer-events-none" />
-            <div className="absolute left-1/2 top-4 -translate-x-1/2 w-80 h-80 bg-purple-600/15 rounded-full blur-[110px] pointer-events-none" />
+      {/* 1. WHO WE ARE SECTION — CLEAN EDITORIAL BRAND INTRODUCTION */}
+      <section className="py-14 sm:py-16 lg:py-20 bg-[#FAFBFD] dark:bg-background border-b border-border/40 relative overflow-hidden">
+        {/* Subtle Ambient Backing Accents */}
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-amber-500/[0.04] rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500/[0.04] rounded-full blur-[100px] pointer-events-none" />
 
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                {/* Header Title - Elegant & Premium Typography */}
-                <div className="text-center mb-6 sm:mb-8">
-                    <h2 className="text-lg sm:text-xl md:text-2xl font-medium text-white/85 tracking-normal mb-0.5">
-                        Meet Our
-                    </h2>
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight bg-gradient-to-r from-purple-300 via-indigo-200 to-blue-300 bg-clip-text text-transparent pb-1">
-                        Founders
-                    </h1>
+        <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            {/* LEFT / MAIN CONTENT (7 cols) */}
+            <div className="lg:col-span-7 flex flex-col justify-center">
+              {/* Eyebrow */}
+              <div className="inline-flex items-center gap-2 mb-3.5 sm:mb-4">
+                <span className="w-2 h-2 rounded-full bg-[#FF6B00]" />
+                <span className="text-xs sm:text-[13px] font-extrabold uppercase tracking-[0.2em] text-[#FF6B00]">
+                  Who We Are
+                </span>
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-black text-slate-950 dark:text-white tracking-tight leading-[1.14] max-w-[640px]">
+                Transforming Student Potential
+              </h1>
+
+              {/* Supporting Paragraph */}
+              <p className="mt-4 sm:mt-5 text-base sm:text-lg md:text-[19px] text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-[600px]">
+                IDL Education helps students build strong concepts, stay consistent, and move forward with the right guidance.
+              </p>
+
+              {/* One Compact Value Points Line */}
+              <div className="mt-8 sm:mt-10 pt-6 sm:pt-7 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center text-xs sm:text-[13px] font-bold tracking-wider uppercase text-slate-800 dark:text-slate-200">
+                <span>Strong Concepts</span>
+                <span className="mx-2.5 sm:mx-3 text-[#FF6B00] font-black select-none">·</span>
+                <span>Right Guidance</span>
+                <span className="mx-2.5 sm:mx-3 text-[#1F4FA3] dark:text-blue-400 font-black select-none">·</span>
+                <span>Real Progress</span>
+              </div>
+            </div>
+
+            {/* RIGHT / WHO WE ARE VISUAL (5 cols) */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end w-full">
+              <div className="relative w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[540px] aspect-[3/2] flex items-center justify-center">
+                <Image
+                  src="/about.png"
+                  alt="Who We Are - IDL Education"
+                  fill
+                  priority
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 540px"
+                  className="object-contain object-center drop-shadow-sm select-none"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 2. MEET OUR FOUNDERS SECTION — ORIGINAL BOLD CONTRAST (PREMIUM POLISHED) */}
+      <section className="w-full bg-[#080C14] relative overflow-hidden py-10 sm:py-12 md:py-12 lg:py-14 border-b border-white/10">
+        {/* Subtle Ambient Lighting Glows */}
+        <div className="absolute -left-20 top-1/3 w-96 h-96 bg-amber-500/[0.08] rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute -right-20 top-1/3 w-96 h-96 bg-sky-500/[0.08] rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
+
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          {/* Header Title */}
+          <div className="text-center mb-6 sm:mb-8 md:mb-9 max-w-2xl mx-auto space-y-1.5">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white">
+              Meet Our Founders
+            </h2>
+            <p className="text-sm sm:text-base text-slate-300 font-medium">
+              The vision behind IDL Education.
+            </p>
+          </div>
+
+          {/* 2 Founder Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto items-stretch">
+            {/* FOUNDER 1: AMOD SHARMA (WARM GOLDEN YELLOW) */}
+            <div className="group relative overflow-hidden rounded-[2rem] pt-7 px-6 sm:px-7 pb-6 sm:pb-7 flex flex-col justify-between min-h-[520px] sm:min-h-[550px] md:min-h-[570px] bg-gradient-to-b from-[#F5A623] via-[#EFA11E] to-[#E59411] border border-amber-300/40 shadow-[0_20px_50px_-15px_rgba(245,166,35,0.3)] transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(245,166,35,0.4)] hover:-translate-y-1">
+              {/* Subtle top highlight rim */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
+
+              {/* Subtle Decorative Name Watermark (readable from left side) */}
+              <div className="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
+                <svg className="w-12 sm:w-14 md:w-16 h-72 sm:h-80 md:h-96 overflow-visible" viewBox="0 0 60 360">
+                  <text
+                    x="30"
+                    y="180"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform="rotate(90, 30, 180)"
+                    className="font-black text-4xl sm:text-5xl md:text-[52px] uppercase tracking-wider fill-amber-900/[0.12] select-none"
+                  >
+                    AMOD SHARMA
+                  </text>
+                </svg>
+              </div>
+
+              {/* Name & Role (Top) */}
+              <div className="relative z-10 space-y-1">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-slate-950">
+                  AMOD SHARMA
+                </h3>
+                <p className="text-xs sm:text-sm font-extrabold tracking-wide text-slate-900/85">
+                  Founder & CEO
+                </p>
+              </div>
+
+              {/* Portrait Container (Middle) */}
+              <div className="absolute inset-x-0 bottom-28 sm:bottom-32 top-20 sm:top-24 md:top-26 flex items-end justify-center pointer-events-none z-10">
+                <div className="relative w-80 sm:w-96 md:w-[430px] h-[96%] sm:h-[98%] scale-105 sm:scale-110 origin-bottom transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.12]">
+                  <Image
+                    src="/director.png"
+                    alt="Amod Sharma"
+                    fill
+                    priority
+                    className="object-contain object-bottom drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)]"
+                  />
                 </div>
+              </div>
 
-                {/* 2 Founder Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-7 lg:gap-9 max-w-5xl lg:max-w-6xl mx-auto items-stretch">
-                    {/* FOUNDER 1: AMOD SHARMA (YELLOW / GOLD CARD) */}
-                    <div className="group relative overflow-hidden rounded-[2rem] pt-8 px-7 pb-7 flex flex-col justify-between min-h-[540px] sm:min-h-[570px] md:min-h-[590px] lg:min-h-[610px] bg-gradient-to-br from-[#FAB714] via-[#F8B513] to-[#EE9E02] shadow-[0_25px_60px_-15px_rgba(245,183,19,0.35)] transition-shadow duration-500 hover:shadow-[0_30px_70px_-15px_rgba(245,183,19,0.5)]">
-                        {/* Header Info */}
-                        <div className="relative z-10">
-                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase tracking-tight text-slate-950">
-                                Amod Sharma
-                            </h3>
-                            <p className="text-xs sm:text-sm font-medium tracking-wide text-slate-900/80 mt-1">
-                                Founder & CEO
-                            </p>
-                        </div>
+              {/* White Quote Panel (Bottom) */}
+              <div className="relative z-20 bg-white dark:bg-white rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-100/90 mt-auto">
+                <svg className="w-5 h-5 text-amber-500 mb-2 fill-current" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+                <p className="text-sm sm:text-[15px] md:text-base font-bold text-slate-900 leading-snug tracking-tight">
+                  &ldquo;My vision is to make quality education more accessible, meaningful, and transformative—empowering every student to dream bigger, learn better, and build a brighter future.&rdquo;
+                </p>
+              </div>
+            </div>
 
-                        {/* Single-line Vertical Watermark Text on Right */}
-                        <div 
-                            className="absolute right-2 sm:right-3 top-0 bottom-0 flex items-center justify-center select-none pointer-events-none z-0 overflow-hidden"
-                            aria-hidden="true"
-                        >
-                            <span className="font-extrabold text-4xl sm:text-5xl md:text-6xl text-black/[0.08] tracking-widest uppercase [writing-mode:vertical-rl] whitespace-nowrap leading-none">
-                                AMOD SHARMA
-                            </span>
-                        </div>
+            {/* FOUNDER 2: VIJAY VERMA (REFINED BLUE) */}
+            <div className="group relative overflow-hidden rounded-[2rem] pt-7 px-6 sm:px-7 pb-6 sm:pb-7 flex flex-col justify-between min-h-[520px] sm:min-h-[550px] md:min-h-[570px] bg-gradient-to-b from-[#0EA5E9] via-[#0284C7] to-[#0369A1] border border-sky-300/40 shadow-[0_20px_50px_-15px_rgba(2,132,199,0.35)] transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(2,132,199,0.45)] hover:-translate-y-1">
+              {/* Subtle top highlight rim */}
+              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
-                        {/* Cutout Image of Founder - Lowered 25% with smooth hover floating motion */}
-                        <div className="absolute inset-x-0 bottom-28 sm:bottom-32 top-20 sm:top-24 md:top-28 flex items-end justify-center pointer-events-none z-10">
-                            <div className="relative w-80 sm:w-96 md:w-[420px] h-[95%] sm:h-[98%] scale-105 sm:scale-110 origin-bottom transition-transform duration-500 ease-out group-hover:-translate-y-3 group-hover:scale-[1.12]">
-                                <Image
-                                    src="/director.png"
-                                    alt="Amod Sharma"
-                                    fill
-                                    priority
-                                    className="object-contain object-bottom drop-shadow-2xl"
-                                />
-                            </div>
-                        </div>
+              {/* Subtle Decorative Name Watermark (readable from left side) */}
+              <div className="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
+                <svg className="w-12 sm:w-14 md:w-16 h-72 sm:h-80 md:h-96 overflow-visible" viewBox="0 0 60 360">
+                  <text
+                    x="30"
+                    y="180"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform="rotate(90, 30, 180)"
+                    className="font-black text-4xl sm:text-5xl md:text-[52px] uppercase tracking-wider fill-white/[0.14] select-none"
+                  >
+                    VIJAY VERMA
+                  </text>
+                </svg>
+              </div>
 
-                        {/* White Quote Box - 25% Larger & Extra Bold Typography */}
-                        <div className="relative z-20 bg-white rounded-2xl p-5 sm:p-6 shadow-xl mt-auto">
-                            <svg className="w-6 h-6 text-slate-400 mb-2.5 fill-current" viewBox="0 0 24 24">
-                                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
-                            <p className="text-[15px] sm:text-[17px] md:text-lg font-bold sm:font-extrabold text-slate-900 leading-snug tracking-tight">
-                                &ldquo;My vision is to make quality education more accessible, meaningful, and transformative—empowering every student to dream bigger, learn better, and build a brighter future.&rdquo;
-                            </p>
-                        </div>
+              {/* Name & Role (Top) */}
+              <div className="relative z-10 space-y-1">
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-white">
+                  VIJAY VERMA
+                </h3>
+                <p className="text-xs sm:text-sm font-extrabold tracking-wide text-sky-100">
+                  Co-Founder
+                </p>
+              </div>
+
+              {/* Portrait Container (Middle) */}
+              <div className="absolute inset-x-0 bottom-28 sm:bottom-32 top-20 sm:top-24 md:top-26 flex items-end justify-center pointer-events-none z-10">
+                <div className="relative w-80 sm:w-96 md:w-[430px] h-[96%] sm:h-[98%] scale-105 sm:scale-110 origin-bottom transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.12]">
+                  <Image
+                    src="/vijay.png"
+                    alt="Vijay Verma"
+                    fill
+                    priority
+                    className="object-contain object-bottom drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)]"
+                  />
+                </div>
+              </div>
+
+              {/* White Quote Panel (Bottom) */}
+              <div className="relative z-20 bg-white dark:bg-white rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-100/90 mt-auto">
+                <svg className="w-5 h-5 text-sky-500 mb-2 fill-current" viewBox="0 0 24 24">
+                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                </svg>
+                <p className="text-sm sm:text-[15px] md:text-base font-bold text-slate-900 leading-snug tracking-tight">
+                  &ldquo;We are committed to putting students first and leveraging technology to make learning more accessible and impactful—empowering and inspiring the next generation across Bharat.&rdquo;
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. MEET OUR TEAM SECTION — PREMIUM EDITORIAL DESIGN */}
+      <section className="w-full py-12 sm:py-14 md:py-16 bg-[#FAFBFE] dark:bg-background relative overflow-hidden border-b border-border/40">
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-2">
+            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-slate-950 dark:text-white">
+              Meet Our Team
+            </h2>
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed">
+              The people working behind the learning experience at IDL Education.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
+            {team.map((member) => {
+              const IconComponent = member.icon;
+              return (
+                <div 
+                  key={member.name}
+                  className={cn(
+                    "group rounded-2xl sm:rounded-[1.75rem] bg-white dark:bg-card border border-slate-200/80 dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] hover:shadow-[0_16px_36px_-10px_rgba(0,0,0,0.08)] transition-all duration-300 ease-out hover:-translate-y-1.5 flex flex-col overflow-hidden relative",
+                    member.hoverBorder
+                  )}
+                >
+                  {/* Photo Area */}
+                  <div className="relative w-full h-72 sm:h-80 overflow-hidden bg-gradient-to-b from-slate-100 via-slate-100/90 to-slate-200/60 dark:from-slate-800/80 dark:via-slate-800/40 dark:to-slate-900/60 flex items-center justify-center">
+                    <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
+                      <Image
+                        src={member.imageUrl}
+                        alt={member.imageAlt}
+                        fill
+                        className={cn(
+                          "object-contain drop-shadow-md grayscale contrast-[1.12] transition-all duration-500 group-hover:contrast-[1.18] group-hover:scale-[1.02]",
+                          member.imageClass
+                        )}
+                      />
+                    </div>
+                    {/* Subtle bottom fade into profile card content */}
+                    <div className="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-card dark:via-card/80 pointer-events-none z-10" />
+                  </div>
+
+                  {/* Profile Info Area */}
+                  <div className="p-6 flex flex-col justify-between flex-1 bg-white dark:bg-card relative z-10 text-center">
+                    {/* Faint Oversized IDL Watermark in lower profile area */}
+                    <div className="absolute inset-x-0 bottom-1 flex justify-center items-center select-none pointer-events-none font-black text-6xl text-slate-900/[0.03] dark:text-white/[0.03] tracking-tighter leading-none z-0">
+                      IDL
                     </div>
 
-                    {/* FOUNDER 2: VIJAY VERMA (SKY BLUE CARD) */}
-                    <div className="group relative overflow-hidden rounded-[2rem] pt-8 px-7 pb-7 flex flex-col justify-between min-h-[540px] sm:min-h-[570px] md:min-h-[590px] lg:min-h-[610px] bg-gradient-to-br from-[#4EA8F9] via-[#439DF5] to-[#2587E8] shadow-[0_25px_60px_-15px_rgba(67,157,245,0.4)] transition-shadow duration-500 hover:shadow-[0_30px_70px_-15px_rgba(67,157,245,0.55)]">
-                        {/* Header Info */}
-                        <div className="relative z-10">
-                            <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold uppercase tracking-tight text-[#07192f]">
-                                Vijay Verma
-                            </h3>
-                            <p className="text-xs sm:text-sm font-medium tracking-wide text-[#0c2a50]/80 mt-1">
-                                Co-Founder
-                            </p>
-                        </div>
+                    <div className="relative z-10 flex flex-col items-center">
+                      {/* Top Role Label */}
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-[0.14em] bg-slate-50 dark:bg-slate-800/60 text-slate-600 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700/80 mb-2.5">
+                        <span className={cn("w-1.5 h-1.5 rounded-full", member.dotColor)} />
+                        <span>{member.title}</span>
+                      </div>
 
-                        {/* Single-line Vertical Watermark Text on Right */}
-                        <div 
-                            className="absolute right-2 sm:right-3 top-0 bottom-0 flex items-center justify-center select-none pointer-events-none z-0 overflow-hidden"
-                            aria-hidden="true"
-                        >
-                            <span className="font-extrabold text-4xl sm:text-5xl md:text-6xl text-white/[0.18] tracking-widest uppercase [writing-mode:vertical-rl] whitespace-nowrap leading-none">
-                                VIJAY VERMA
-                            </span>
-                        </div>
+                      {/* Name */}
+                      <h3 className="text-xl sm:text-2xl font-black text-slate-950 dark:text-white tracking-tight">
+                        {member.name}
+                      </h3>
 
-                        {/* Cutout Image of Co-Founder - Lowered 25% with smooth hover floating motion */}
-                        <div className="absolute inset-x-0 bottom-28 sm:bottom-32 top-20 sm:top-24 md:top-28 flex items-end justify-center pointer-events-none z-10">
-                            <div className="relative w-80 sm:w-96 md:w-[420px] h-[95%] sm:h-[98%] scale-105 sm:scale-110 origin-bottom transition-transform duration-500 ease-out group-hover:-translate-y-3 group-hover:scale-[1.12]">
-                                <Image
-                                    src="/vijay.png"
-                                    alt="Vijay Verma"
-                                    fill
-                                    priority
-                                    className="object-contain object-bottom drop-shadow-2xl"
-                                />
-                            </div>
-                        </div>
+                      {/* Subtle Divider with Accent Line */}
+                      <div className="flex items-center justify-center gap-1.5 my-3 w-full max-w-[120px]">
+                        <div className="h-[1px] flex-1 bg-slate-200/80 dark:bg-slate-700/80" />
+                        <div className={cn("h-[2px] w-4 rounded-full transition-all duration-300 group-hover:w-7", member.accentLine)} />
+                        <div className="h-[1px] flex-1 bg-slate-200/80 dark:bg-slate-700/80" />
+                      </div>
 
-                        {/* White Quote Box - Matching Card 1 */}
-                        <div className="relative z-20 bg-white rounded-2xl p-5 sm:p-6 shadow-xl mt-auto">
-                            <svg className="w-6 h-6 text-slate-400 mb-2.5 fill-current" viewBox="0 0 24 24">
-                                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                            </svg>
-                            <p className="text-[15px] sm:text-[17px] md:text-lg font-bold sm:font-extrabold text-slate-900 leading-snug tracking-tight">
-                                &ldquo;We are committed to putting students first and leveraging technology to make learning more accessible and impactful—empowering and inspiring the next generation across Bharat.&rdquo;
-                            </p>
-                        </div>
+                      {/* Department with Icon */}
+                      <p className="text-xs sm:text-[13px] font-semibold text-slate-500 dark:text-slate-400 tracking-wide flex items-center justify-center gap-1.5">
+                        <IconComponent className={cn("w-3.5 h-3.5 shrink-0 transition-colors duration-300", member.iconColor)} />
+                        <span>{member.department}</span>
+                      </p>
                     </div>
+                  </div>
                 </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+
+
+      {/* 4. JOURNEY TEASER (COMPACT CTA LINKING TO /journey) */}
+      <section className="py-12 sm:py-14 bg-white dark:bg-background border-b border-border/40">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          <div className="rounded-3xl bg-gradient-to-r from-[#0B1F4B] via-[#0E2864] to-[#143B8E] text-white p-6 sm:p-8 md:p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+            {/* Background subtle watermark / timeline path */}
+            <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 pointer-events-none select-none flex items-center justify-end font-black text-[9rem] tracking-tighter">
+              2021-26
             </div>
-        </section>
 
-        {/* MEET OUR TEAM SECTION - SOLID, REFINED CORPORATE ARCHITECTURE */}
-        <section className="w-full py-14 sm:py-16 md:py-20 bg-white dark:bg-background relative overflow-hidden border-t border-border/40">
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                {/* Section Header - Bolder, Prominent & High-Contrast Typography */}
-                <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-12">
-                    <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
-                        Meet Our Team
-                    </h2>
-                    <p className="text-sm sm:text-base text-foreground/80 font-bold mt-2.5 leading-relaxed">
-                        The strategic leaders driving academic excellence, product innovation, and creative media at IDL Education.
-                    </p>
-                </div>
-                
-                {/* 3 Executive Cards Grid - Black & White Portrait with Ultra-Premium Layout */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto items-stretch">
-                    {team.map((member) => (
-                        <div 
-                            key={member.name}
-                            className="rounded-2xl bg-white dark:bg-card border border-border/80 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col overflow-hidden"
-                        >
-                            {/* Top Half: Zoomed Black & White Portrait starting from hands */}
-                            <div className="relative w-full h-72 sm:h-80 overflow-hidden bg-gradient-to-b from-slate-100 via-slate-100/90 to-slate-200/50 dark:from-slate-800/80 dark:via-slate-800/40 dark:to-slate-900/60 flex items-center justify-center">
-                                <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-                                    <Image
-                                        src={member.imageUrl}
-                                        alt={member.imageAlt}
-                                        fill
-                                        className={cn("object-contain drop-shadow-md grayscale contrast-[1.08]", member.imageClass)}
-                                    />
-                                </div>
-                                <div className="absolute inset-x-0 bottom-0 h-6 bg-gradient-to-t from-black/[0.06] to-transparent pointer-events-none" />
-                            </div>
-
-                            {/* Bottom Half: Ultra-Premium Editorial Typography Block */}
-                            <div className="p-6 flex flex-col justify-between flex-1 bg-white dark:bg-card border-t border-border/40 text-center">
-                                <div>
-                                    <span className="inline-block px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.14em] bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 border border-slate-200/80 dark:border-slate-700 mb-2.5">
-                                        {member.title}
-                                    </span>
-                                    <h3 className="text-xl font-extrabold text-foreground tracking-tight">
-                                        {member.name}
-                                    </h3>
-                                </div>
-                                <div className="pt-3 mt-3 border-t border-border/50">
-                                    <p className="text-xs font-semibold text-muted-foreground tracking-wide">
-                                        {member.department}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
+            <div className="space-y-2 text-center md:text-left relative z-10 max-w-xl">
+              <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
+                Milestones & Evolution
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                Discover the Journey of IDL
+              </h3>
+              <p className="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed">
+                Explore the milestones, people and moments that shaped IDL Education from its foundational start in 2021 to a nationwide platform.
+              </p>
             </div>
-        </section>
 
-        {/* OUR JOURNEY TIMELINE SECTION (2021 - 2026) - CLEAN PREMIUM LIGHT BG */}
-        <section className="w-full py-16 sm:py-20 md:py-24 bg-[#f8f9fc] dark:bg-slate-900/40 relative overflow-hidden border-t border-border/30">
+            <div className="shrink-0 relative z-10">
+              <Link
+                href="/journey"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#FF6B00] hover:bg-[#E56000] text-white text-sm font-bold transition-transform active:scale-95 shadow-md"
+              >
+                <span>Explore Our Journey</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            {/* Giant Background Watermark Year */}
-            <div 
-                className="absolute top-14 left-1/2 -translate-x-1/2 select-none pointer-events-none font-black text-[8rem] sm:text-[12rem] md:text-[15rem] text-slate-200/80 dark:text-slate-800/30 tracking-tighter leading-none z-0 transition-all duration-500"
-                aria-hidden="true"
+      {/* 5. CONTACT / CLOSING CTA */}
+      <section className="py-14 sm:py-16 md:py-20 bg-[#FAFBFD] dark:bg-slate-900/30">
+        <div className="container mx-auto px-4 md:px-6 text-center max-w-3xl">
+          <span className="text-xs font-extrabold uppercase tracking-widest text-[#1F4FA3] dark:text-blue-400">
+            Partner In Your Success
+          </span>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-slate-950 dark:text-white tracking-tight mt-2">
+            Let’s Build Better Learning Together.
+          </h2>
+          <p className="mt-3 text-sm sm:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-xl mx-auto">
+            Have questions about our programs, teaching approach, or admissions? Reach out to our academic team today.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3.5">
+            <button
+              type="button"
+              onClick={() => setIsContactOpen(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B1F4B] hover:bg-[#142B63] text-white text-sm font-bold transition-colors shadow-sm cursor-pointer"
             >
-                {currentMilestone.year}
-            </div>
+              <MessageSquare className="w-4 h-4" />
+              <span>Contact Academic Counselor</span>
+            </button>
+            <a
+              href="tel:8860040010"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900 text-sm font-bold transition-colors cursor-pointer"
+            >
+              <Phone className="w-4 h-4" />
+              <span>Call 8860040010</span>
+            </a>
+          </div>
+        </div>
+      </section>
 
-            <div className="container mx-auto px-4 md:px-6 relative z-10">
-                {/* Section Header - Pure Black Typography */}
-                <div className="text-center max-w-2xl mx-auto mb-12 sm:mb-16">
-                    <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-black dark:text-white pb-1">
-                        The Journey of IDL
-                    </h2>
-                    <p className="text-sm sm:text-base text-foreground/85 font-extrabold mt-2.5 leading-relaxed">
-                        From foundational beginnings to empowering millions across Bharat
-                    </p>
-                </div>
-
-                {/* Horizontal Stepper / Timeline Tracker - Completely unclipped on all screen sizes */}
-                <div className="relative max-w-4xl mx-auto mb-10 sm:mb-14 px-2 sm:px-4">
-                    {/* Connecting Dashed Line */}
-                    <div className="absolute top-[2.75rem] sm:top-[3.25rem] left-8 right-8 h-[2px] border-t-2 border-dashed border-slate-300 dark:border-slate-700 -translate-y-1/2 z-0 hidden sm:block" />
-
-                    <div className="flex items-center justify-between relative z-10 py-2 gap-1 sm:gap-2">
-                        {journeyMilestones.map((milestone, idx) => {
-                            const IconComponent = milestone.icon;
-                            const isActive = idx === activeYearIndex;
-                            return (
-                                <button
-                                    key={milestone.year}
-                                    type="button"
-                                    onClick={() => setActiveYearIndex(idx)}
-                                    className="flex flex-col items-center group cursor-pointer outline-none focus:outline-none focus-visible:outline-none focus:ring-0 focus-visible:ring-0 active:outline-none select-none transition-all duration-300 flex-1 min-w-0"
-                                >
-                                    <span className={cn(
-                                        "text-[11px] sm:text-sm font-bold mb-2 transition-all duration-300",
-                                        isActive ? "text-primary font-black scale-105" : "text-muted-foreground group-hover:text-foreground"
-                                    )}>
-                                        {milestone.year}
-                                    </span>
-                                    <div className={cn(
-                                        "w-11 h-11 sm:w-14 sm:h-14 rounded-full flex items-center justify-center transition-all duration-300",
-                                        isActive 
-                                            ? "bg-primary text-white shadow-md ring-2 sm:ring-4 ring-primary/25 scale-105" 
-                                            : "bg-white dark:bg-card text-slate-400 dark:text-slate-500 border border-dashed border-slate-300 dark:border-slate-700 group-hover:border-primary/50 group-hover:text-foreground"
-                                    )}>
-                                        <IconComponent className="w-4 h-4 sm:w-6 sm:h-6" />
-                                    </div>
-                                </button>
-                            );
-                        })}
-                    </div>
-                </div>
-
-                {/* Milestone Detail Card - Light Outline, Zero Shadow, Perfectly Fitted 3:2 Image */}
-                <div className="relative max-w-5xl mx-auto rounded-2xl sm:rounded-3xl border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-card p-4 sm:p-7 md:p-9 shadow-none transition-all duration-300">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-7 lg:gap-9 items-center">
-                        {/* Left: Image Container - Strictly 3:2 aspect ratio matching idlbranch.png native size (1536x1024) so no portion is cut off */}
-                        <div className="md:col-span-7 relative w-full aspect-[3/2] rounded-xl sm:rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
-                            <Image
-                                src={currentMilestone.image}
-                                alt={currentMilestone.imageAlt}
-                                fill
-                                priority
-                                sizes="(max-width: 768px) 100vw, 58vw"
-                                className="object-cover object-center transition-all duration-500"
-                            />
-                        </div>
-
-                        {/* Right: Milestone Content (5 Cols) */}
-                        <div className="md:col-span-5 space-y-4 sm:space-y-5">
-                            <div>
-                                <span className="text-xs font-bold uppercase tracking-widest text-primary">
-                                    Milestone
-                                </span>
-                                <h3 className="text-3xl sm:text-4xl md:text-5xl font-black text-black dark:text-white tracking-tight mt-1">
-                                    In <span className="text-primary">{currentMilestone.year}</span>
-                                </h3>
-                            </div>
-
-                            <div className="space-y-3 sm:space-y-3.5">
-                                {currentMilestone.points.map((point, pIdx) => (
-                                    <div key={pIdx} className="flex items-start gap-3">
-                                        <span className="text-amber-500 text-lg sm:text-xl shrink-0 leading-none mt-0.5 select-none">
-                                            ★
-                                        </span>
-                                        <p className="text-sm sm:text-base text-foreground/90 font-medium leading-relaxed">
-                                            {point}
-                                        </p>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+      {/* Contact Form Modal */}
+      <ContactModal isOpen={isContactOpen} onOpenChange={setIsContactOpen} />
     </div>
   );
 }

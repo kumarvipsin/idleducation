@@ -7,7 +7,7 @@ import {
     FileType, UserPlus, IndianRupee, Landmark, ClipboardList,
     UserCircle, Building, Users, HandHeart, Banknote,
     Edit, Headset, CheckCircle2, MapPin, Search,
-    Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell
+    Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -43,6 +43,7 @@ import { BookDemoModal } from "./book-demo-modal";
 import { FeedbackModal } from "./feedback-modal";
 import { StudentEnquiryModal } from "./student-enquiry-modal";
 import { ScholarshipModal } from "./scholarship-modal";
+import { ContactModal } from "./contact-modal";
 
 const megaMenuBg = "bg-white shadow-2xl";
 
@@ -332,6 +333,7 @@ export function Header() {
             links: [
                 { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
                 { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+                { href: "/journey", label: "The Journey", icon: <Rocket className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Milestones and evolution of IDL." },
                 { href: "/updates", label: "Recent Updates", icon: <Bell className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Stay updated with latest news." },
             ]
         },
@@ -348,40 +350,25 @@ export function Header() {
     const navItemClass = "relative h-full flex items-center py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
 
     const renderAuthSection = () => {
-        if (loading) return <Skeleton className="h-10 w-10 rounded-full" />;
+        if (loading) return <Skeleton className="h-9 w-20 rounded-md" />;
 
         if (user) {
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                            <Avatar className="h-10 w-10">
-                                <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
-                                <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : <User />}</AvatarFallback>
-                            </Avatar>
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent className="w-56" align="end" forceMount>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild>
-                            <Link href={getDashboardPath(user)}>
-                                <LayoutDashboard className="mr-2 h-4 w-4" />
-                                <span>Dashboard</span>
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                            <Link href={getProfilePath(user)}>
-                                <User className="mr-2 h-4 w-4" />
-                                <span>Profile</span>
-                            </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={handleLogout}>
-                            <LogOut className="mr-2 h-4 w-4" />
-                            <span>Logout</span>
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Link
+                        href={getDashboardPath(user)}
+                        className="px-2.5 sm:px-3 py-1.5 rounded-md border border-primary text-primary hover:bg-primary hover:text-white font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
+                    >
+                        ADMIN
+                    </Link>
+                    <button
+                        type="button"
+                        onClick={handleLogout}
+                        className="px-2.5 sm:px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-red-500 hover:text-white hover:border-red-500 font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
+                    >
+                        LOGOUT
+                    </button>
+                </div>
             );
         }
 
@@ -389,20 +376,25 @@ export function Header() {
             <button 
                 type="button"
                 onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
-                className="group relative px-5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-9 flex items-center cursor-pointer"
+                className="group relative px-2.5 sm:px-3.5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-8 sm:h-9 flex items-center cursor-pointer whitespace-nowrap"
             >
                 <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
-                <span className="relative z-10 text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">Login</span>
+                <span className="relative z-10 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">
+                    LOGIN / REGISTER
+                </span>
             </button>
         );
     };
 
     return (
         <>
-            <header className={cn(
-                "sticky top-0 z-[60] border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
-                show ? "translate-y-0" : "-translate-y-full"
-            )}>
+            <header 
+                data-mobile-menu-open={isMobileMenuOpen ? "true" : "false"}
+                className={cn(
+                    "sticky top-0 z-[60] border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
+                    show ? "translate-y-0" : "-translate-y-full"
+                )}
+            >
                 <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
                     <Link href="/" className="flex items-center justify-center -ml-2">
                         <Image src="/idllogo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
@@ -569,254 +561,257 @@ export function Header() {
                             )}
                         </nav>
                     </div>
-                    <div className="flex items-center gap-1">
-                        <div className="hidden md:flex items-center gap-2">
-                            <a href="tel:8860040010" className="flex items-center gap-2 p-1.5 rounded-xl transition-all">
-                                <div className="bg-blue-100 dark:bg-blue-900/50 p-2 rounded-full">
-                                    <Phone className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                                </div>
-                                <div><p className="text-[8px] font-extrabold text-muted-foreground tracking-tight leading-tight uppercase">CALL NOW</p><p className="text-xs font-extrabold text-foreground leading-tight">8860040010</p></div>
-                            </a>
-                        </div>
-                        <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2 sm:gap-3 lg:gap-3.5">
+                        {/* Call Action: Visible on Desktop only. On Mobile, Call Now is inside the full-screen drawer */}
+                        <a 
+                            href="tel:8860040010" 
+                            aria-label="Call IDL Education at 8860040010"
+                            className="hidden md:flex items-center gap-2.5 py-1 px-1.5 rounded-xl transition-all hover:bg-muted/40 shrink-0"
+                        >
+                            <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center shrink-0">
+                                <Phone className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                            </div>
+                            <div className="flex flex-col text-left justify-center">
+                                <p className="text-[8.5px] font-extrabold text-muted-foreground tracking-wider leading-none uppercase">CALL NOW</p>
+                                <p className="text-xs font-black text-foreground leading-tight tracking-tight mt-0.5">8860040010</p>
+                            </div>
+                        </a>
+
+                        <div className="flex items-center">
                             {isClient && renderAuthSection()}
                         </div>
+
                         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                             <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon" className="md:hidden text-foreground h-10 w-10"><Menu className="h-5 w-5" /><span className="sr-only">Toggle menu</span></Button>
+                                <Button variant="ghost" size="icon" className="md:hidden text-foreground h-9 w-9 -mr-1">
+                                    <Menu className="h-5 w-5" />
+                                    <span className="sr-only">Toggle menu</span>
+                                </Button>
                             </SheetTrigger>
-                            <SheetContent side="left" className="p-0 w-80 sm:w-[340px] flex flex-col h-full bg-white dark:bg-slate-950 border-r border-border">
-                                {/* Top Header Bar with Premium Brand Tint & Maximized Logo Size (without increasing section height) */}
-                                <SheetHeader className="px-4 py-1 border-b border-border/60 bg-[#f0f4fa] dark:bg-slate-900 text-left flex flex-row items-center justify-between h-16 min-h-[64px] max-h-[64px] pr-12">
+                            <SheetContent 
+                                side="left" 
+                                data-mobile-drawer="true"
+                                className="fixed inset-y-0 left-0 z-[9999] p-0 w-full max-w-full flex flex-col h-full bg-gradient-to-b from-white via-[#fafcff] to-[#f4f7fc] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-none rounded-none overflow-hidden [&>button.absolute]:hidden"
+                            >
+                                {/* Extremely subtle soft light-blue ambient highlight */}
+                                <div className="absolute bottom-20 right-0 w-80 h-80 bg-blue-100/25 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none -z-0" />
+
+                                {/* Full-Screen Drawer Top Header: Logo + Small Elegant Close X */}
+                                <SheetHeader className="px-5 border-b border-slate-150 dark:border-slate-800/80 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[68px] min-h-[68px] max-h-[68px] space-y-0 shrink-0 relative z-10">
                                     <SheetTitle asChild>
-                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center justify-start group h-full">
+                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center group">
                                             <Image 
                                               src="/idllogo.png" 
                                               alt="IDL Education Logo" 
-                                              width={72} 
-                                              height={72} 
-                                              className="h-[56px] w-auto object-contain object-left" 
+                                              width={80} 
+                                              height={80} 
+                                              className="h-[52px] sm:h-[54px] w-auto object-contain object-left" 
                                               priority 
                                             />
                                         </Link>
                                     </SheetTitle>
+                                    <button 
+                                        type="button" 
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                        className="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0 cursor-pointer"
+                                        aria-label="Close menu"
+                                    >
+                                        <X className="w-5 h-5" />
+                                    </button>
                                 </SheetHeader>
 
-                                {/* Body - 3 Sections Matching Desktop Mode (ALL COURSES, APPLY FOR, MORE) with Vertical Branch Lines */}
-                                <div className="flex-1 overflow-y-auto">
-                                    <nav className="divide-y divide-slate-200 dark:divide-slate-800 text-left">
-                                        {/* 1. ALL COURSES FOLDER */}
-                                        <Collapsible 
-                                            open={openMobileAccordion === 'all-courses'} 
-                                            onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}
-                                        >
-                                            <CollapsibleTrigger asChild>
-                                                <button 
-                                                    type="button"
-                                                    className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900/60 transition-colors text-left"
-                                                >
-                                                    <span className="uppercase tracking-tight">ALL COURSES</span>
-                                                    <ChevronDown className={cn(
-                                                        "w-4 h-4 text-slate-700 dark:text-slate-300 transition-transform duration-200 shrink-0",
-                                                        openMobileAccordion === 'all-courses' && "rotate-180"
-                                                    )} />
-                                                </button>
-                                            </CollapsibleTrigger>
-                                            <CollapsibleContent className="pb-3 pt-1">
-                                                {/* Vertical branch line for level 1 categories */}
-                                                <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-3.5 py-1">
-                                                    {allCoursesCategories.map((cat) => {
-                                                        const isSubOpen = openMobileSubAccordion === cat.id;
-                                                        return (
-                                                            <div key={cat.id} className="space-y-1">
-                                                                <button
-                                                                    type="button"
-                                                                    onClick={() => setOpenMobileSubAccordion(isSubOpen ? null : cat.id)}
-                                                                    className="w-full text-left font-semibold text-[14.5px] text-slate-850 dark:text-slate-200 hover:text-primary transition-colors flex items-center justify-between py-1"
-                                                                >
-                                                                    <span>{cat.name}</span>
-                                                                    <ChevronDown className={cn(
-                                                                        "w-3.5 h-3.5 text-slate-500 transition-transform duration-200 shrink-0 mr-2",
-                                                                        isSubOpen && "rotate-180 text-primary"
-                                                                    )} />
-                                                                </button>
-                                                                {/* Level 2 sub-items with nested vertical branch line */}
-                                                                {isSubOpen && (
-                                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-700/80 ml-2 pl-3.5 py-1.5 space-y-2">
-                                                                        {cat.subItems.map((sub, sIdx) => (
-                                                                            <Link
-                                                                                key={sIdx}
-                                                                                href={sub.href}
-                                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                                                className="block text-[13.5px] text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-0.5"
-                                                                            >
-                                                                                {sub.label}
-                                                                            </Link>
-                                                                        ))}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                            </CollapsibleContent>
-                                        </Collapsible>
-
-                                        {/* 2. APPLY FOR FOLDER */}
-                                        <Collapsible 
-                                            open={openMobileAccordion === 'apply'} 
-                                            onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}
-                                        >
-                                            <CollapsibleTrigger asChild>
-                                                <button 
-                                                    type="button"
-                                                    className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900/60 transition-colors text-left"
-                                                >
-                                                    <span className="uppercase tracking-tight">APPLY FOR</span>
-                                                    <ChevronDown className={cn(
-                                                        "w-4 h-4 text-slate-700 dark:text-slate-300 transition-transform duration-200 shrink-0",
-                                                        openMobileAccordion === 'apply' && "rotate-180"
-                                                    )} />
-                                                </button>
-                                            </CollapsibleTrigger>
-                                            <CollapsibleContent className="pb-3 pt-1">
-                                                {/* Vertical branch line */}
-                                                <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-2.5 py-1">
-                                                    {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
-                                                        <button
-                                                            key={label}
-                                                            type="button"
-                                                            onClick={(e) => {
-                                                                e.preventDefault();
-                                                                setIsMobileMenuOpen(false);
-                                                                if (linkOnClick) {
-                                                                    linkOnClick();
-                                                                } else if (href && href !== '#') {
-                                                                    router.push(href);
-                                                                }
-                                                            }}
-                                                            className="block w-full text-left text-[14px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-1"
-                                                        >
-                                                            {label}
-                                                        </button>
-                                                    ))}
-                                                </div>
-                                            </CollapsibleContent>
-                                        </Collapsible>
-
-                                        {/* 3. MORE FOLDER */}
-                                        <Collapsible 
-                                            open={openMobileAccordion === 'more'} 
-                                            onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}
-                                        >
-                                            <CollapsibleTrigger asChild>
-                                                <button 
-                                                    type="button"
-                                                    className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-900/60 transition-colors text-left"
-                                                >
-                                                    <span className="uppercase tracking-tight">MORE</span>
-                                                    <ChevronDown className={cn(
-                                                        "w-4 h-4 text-slate-700 dark:text-slate-300 transition-transform duration-200 shrink-0",
-                                                        openMobileAccordion === 'more' && "rotate-180"
-                                                    )} />
-                                                </button>
-                                            </CollapsibleTrigger>
-                                            <CollapsibleContent className="pb-3 pt-1">
-                                                {/* Vertical branch line */}
-                                                <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-4 py-1">
-                                                    {moreMenuGroups.map((group) => (
-                                                        <div key={group.title} className="space-y-2">
-                                                            <span className="text-[11px] font-bold text-primary uppercase tracking-wider block">
-                                                                {group.title}
-                                                            </span>
-                                                            <div className="border-l-[1.5px] border-slate-200 dark:border-slate-700/80 ml-1.5 pl-3.5 space-y-2">
-                                                                {group.links.map((link) => {
-                                                                    const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
-                                                                    const handleClick = (e: React.MouseEvent) => {
-                                                                        if (link.onClick) {
-                                                                            e.preventDefault();
-                                                                            link.onClick();
-                                                                        }
-                                                                        if (!isDisabled) {
-                                                                            setIsMobileMenuOpen(false);
-                                                                        }
-                                                                    };
-
-                                                                    return (
-                                                                        <Link
-                                                                            key={link.label}
-                                                                            href={isDisabled ? '#' : link.href}
-                                                                            onClick={handleClick}
-                                                                            className={cn(
-                                                                                "block text-[13.5px] text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-0.5",
-                                                                                isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                            )}
-                                                                        >
-                                                                            {link.label}
-                                                                        </Link>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        </div>
-                                                    ))}
-
-                                                    {/* Store link inside More folder */}
-                                                    <div className="pt-1">
-                                                        <Link
-                                                            href="/store"
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            onClick={() => setIsMobileMenuOpen(false)}
-                                                            className="flex items-center gap-2 text-[14px] font-semibold text-slate-800 dark:text-slate-200 hover:text-primary transition-colors"
-                                                        >
-                                                            <ShoppingCart className="h-4 w-4 text-primary" />
-                                                            <span>Store</span>
-                                                        </Link>
+                                {/* Body - Navigation + Subtle Support Area + Flexible Space + Call Now */}
+                                <div className="flex-1 overflow-y-auto overscroll-contain flex flex-col justify-between relative z-10">
+                                    <div>
+                                        <nav className="divide-y divide-slate-100 dark:divide-slate-800/60 text-left">
+                                            {/* 1. ALL COURSES FOLDER */}
+                                            <Collapsible 
+                                                open={openMobileAccordion === 'all-courses'} 
+                                                onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}
+                                            >
+                                                <CollapsibleTrigger asChild>
+                                                    <button 
+                                                        type="button"
+                                                        className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors text-left cursor-pointer"
+                                                    >
+                                                        <span className="uppercase tracking-tight">ALL COURSES</span>
+                                                        <ChevronDown className={cn(
+                                                            "w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0",
+                                                            openMobileAccordion === 'all-courses' && "rotate-180 text-primary"
+                                                        )} />
+                                                    </button>
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pb-3 pt-1">
+                                                    {/* Vertical branch line for level 1 categories */}
+                                                    <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-3.5 py-1">
+                                                        {allCoursesCategories.map((cat) => {
+                                                            const isSubOpen = openMobileSubAccordion === cat.id;
+                                                            return (
+                                                                <div key={cat.id} className="space-y-1">
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={() => setOpenMobileSubAccordion(isSubOpen ? null : cat.id)}
+                                                                        className="w-full text-left font-semibold text-[14.5px] text-slate-850 dark:text-slate-200 hover:text-primary transition-colors flex items-center justify-between py-1 cursor-pointer"
+                                                                    >
+                                                                        <span>{cat.name}</span>
+                                                                        <ChevronDown className={cn(
+                                                                            "w-3.5 h-3.5 text-slate-500 transition-transform duration-200 shrink-0 mr-2",
+                                                                            isSubOpen && "rotate-180 text-primary"
+                                                                        )} />
+                                                                    </button>
+                                                                    {/* Level 2 sub-items with nested vertical branch line */}
+                                                                    {isSubOpen && (
+                                                                        <div className="border-l-[1.5px] border-slate-200 dark:border-slate-700/80 ml-2 pl-3.5 py-1.5 space-y-2">
+                                                                            {cat.subItems.map((sub, sIdx) => (
+                                                                                <Link
+                                                                                    key={sIdx}
+                                                                                    href={sub.href}
+                                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                                    className="block text-[13.5px] text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-0.5"
+                                                                                >
+                                                                                    {sub.label}
+                                                                                </Link>
+                                                                            ))}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
-                                                </div>
-                                            </CollapsibleContent>
-                                        </Collapsible>
-                                    </nav>
-                                </div>
+                                                </CollapsibleContent>
+                                            </Collapsible>
 
-                                {/* Bottom Auth Footer */}
-                                <div className="p-4 border-t border-border/60 bg-slate-50 dark:bg-slate-900/60 mt-auto">
-                                    {user ? (
-                                        <Link href={getProfilePath(user)} className="flex items-center gap-3" onClick={() => setIsMobileMenuOpen(false)}>
-                                            <Avatar className="h-10 w-10">
-                                                <GcsImage filePath={user.photoURL ?? ''} alt={user.name ?? ''} fill className="rounded-full object-cover" />
-                                                <AvatarFallback>{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</AvatarFallback>
-                                            </Avatar>
-                                            <div className="flex flex-col text-left">
-                                                <span className="text-sm font-extrabold truncate max-w-[120px]">{user.name}</span>
-                                                <span className="text-[10px] text-muted-foreground uppercase font-extrabold">{user.role}</span>
+                                            {/* 2. APPLY FOR FOLDER */}
+                                            <Collapsible 
+                                                open={openMobileAccordion === 'apply'} 
+                                                onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}
+                                            >
+                                                <CollapsibleTrigger asChild>
+                                                    <button 
+                                                        type="button"
+                                                        className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors text-left cursor-pointer"
+                                                    >
+                                                        <span className="uppercase tracking-tight">APPLY FOR</span>
+                                                        <ChevronDown className={cn(
+                                                            "w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0",
+                                                            openMobileAccordion === 'apply' && "rotate-180 text-primary"
+                                                        )} />
+                                                    </button>
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pb-3 pt-1">
+                                                    {/* Vertical branch line */}
+                                                    <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-2.5 py-1">
+                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
+                                                            <button
+                                                                key={label}
+                                                                type="button"
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    setIsMobileMenuOpen(false);
+                                                                    if (linkOnClick) {
+                                                                      linkOnClick();
+                                                                    } else if (href && href !== '#') {
+                                                                        router.push(href);
+                                                                    }
+                                                                }}
+                                                                className="block w-full text-left text-[14px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-1 cursor-pointer"
+                                                            >
+                                                                {label}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </CollapsibleContent>
+                                            </Collapsible>
+
+                                            {/* 3. MORE FOLDER */}
+                                            <Collapsible 
+                                                open={openMobileAccordion === 'more'} 
+                                                onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}
+                                            >
+                                                <CollapsibleTrigger asChild>
+                                                    <button 
+                                                        type="button"
+                                                        className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors text-left cursor-pointer"
+                                                    >
+                                                        <span className="uppercase tracking-tight">MORE</span>
+                                                        <ChevronDown className={cn(
+                                                            "w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0",
+                                                            openMobileAccordion === 'more' && "rotate-180 text-primary"
+                                                        )} />
+                                                    </button>
+                                                </CollapsibleTrigger>
+                                                <CollapsibleContent className="pb-3 pt-1">
+                                                    {/* Vertical branch line */}
+                                                    <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-4 py-1">
+                                                        {moreMenuGroups.map((group) => (
+                                                            <div key={group.title} className="space-y-2">
+                                                                <span className="text-[11px] font-bold text-primary uppercase tracking-wider block">
+                                                                    {group.title}
+                                                                </span>
+                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-700/80 ml-1.5 pl-3.5 space-y-2">
+                                                                    {group.links.map((link) => {
+                                                                        const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
+                                                                        const handleClick = (e: React.MouseEvent) => {
+                                                                            if (link.onClick) {
+                                                                                e.preventDefault();
+                                                                                link.onClick();
+                                                                            }
+                                                                            if (!isDisabled) {
+                                                                                setIsMobileMenuOpen(false);
+                                                                            }
+                                                                        };
+
+                                                                        return (
+                                                                            <Link
+                                                                                key={link.label}
+                                                                                href={isDisabled ? '#' : link.href}
+                                                                                onClick={handleClick}
+                                                                                className={cn(
+                                                                                    "block text-[13.5px] text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-0.5",
+                                                                                    isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                                )}
+                                                                            >
+                                                                                {link.label}
+                                                                            </Link>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+
+                                                        {/* Store link inside More folder */}
+                                                        <div className="pt-1">
+                                                            <Link
+                                                                href="/store"
+                                                                target="_blank"
+                                                                rel="noopener noreferrer"
+                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                className="flex items-center gap-2 text-[14px] font-semibold text-slate-800 dark:text-slate-200 hover:text-primary transition-colors"
+                                                            >
+                                                                <ShoppingCart className="h-4 w-4 text-primary" />
+                                                                <span>Store</span>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </CollapsibleContent>
+                                            </Collapsible>
+                                        </nav>
+
+                                    </div>
+
+                                    {/* Bottom Call Action inside full-screen drawer */}
+                                    <div className="p-4 pb-6 sm:pb-7 border-t border-slate-150 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0 mt-auto relative z-10">
+                                        <a 
+                                            href="tel:8860040010" 
+                                            className="w-full flex items-center justify-center gap-2.5 h-12 rounded-xl bg-[#0B1F4B] hover:bg-[#142B63] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-200 shadow-sm active:scale-[0.99] cursor-pointer"
+                                        >
+                                            <Phone className="w-4 h-4 text-white shrink-0" />
+                                            <div className="flex items-center gap-2 text-white">
+                                                <span className="text-[11px] font-bold uppercase tracking-wider text-blue-200 dark:text-white/80">CALL NOW</span>
+                                                <span className="text-sm font-extrabold text-white tracking-tight">8860040010</span>
                                             </div>
-                                        </Link>
-                                    ) : (
-                                        <div className="grid grid-cols-2 gap-3">
-                                            <Button 
-                                                variant="outline" 
-                                                onClick={() => { 
-                                                    setIsMobileMenuOpen(false); 
-                                                    setAuthDefaultMode('login'); 
-                                                    setIsAuthOpen(true); 
-                                                }}
-                                                className="w-full font-extrabold uppercase tracking-wide h-10 rounded-lg cursor-pointer"
-                                            >
-                                                LOGIN
-                                            </Button>
-                                            <Button 
-                                                onClick={() => { 
-                                                    setIsMobileMenuOpen(false); 
-                                                    setAuthDefaultMode('signup'); 
-                                                    setIsAuthOpen(true); 
-                                                }}
-                                                className="w-full font-extrabold uppercase tracking-wide h-10 rounded-lg cursor-pointer"
-                                            >
-                                                SIGNUP
-                                            </Button>
-                                        </div>
-                                    )}
+                                        </a>
+                                    </div>
                                 </div>
                             </SheetContent>
                         </Sheet>
@@ -855,24 +850,10 @@ export function Header() {
                 onOpenChange={setIsScholarshipOpen}
             />
 
-            <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-                <DialogContent 
-                    onOpenAutoFocus={(e) => e.preventDefault()} 
-                    onCloseAutoFocus={(e) => e.preventDefault()}
-                    className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
-                >
-                    <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
-                        <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
-                            Get in Touch With Us
-                        </DialogTitle>
-                        <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
-                            For admissions, partnerships, centres, and other enquiries, connect with our team.
-                        </DialogDescription>
-                    </DialogHeader>
-
-                    <ContactForm onSuccess={() => setIsContactOpen(false)} />
-                </DialogContent>
-            </Dialog>
+            <ContactModal
+                isOpen={isContactOpen}
+                onOpenChange={setIsContactOpen}
+            />
         </>
     );
 }

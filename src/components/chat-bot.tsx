@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 export function ChatBot() {
   return (
     <Button
+      id="whatsapp-floating-btn"
       asChild
       className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 rounded-full h-12 w-12 sm:h-14 sm:w-14 shadow-lg bg-green-500 hover:bg-green-600 p-2.5 sm:p-3 z-40 transition-transform active:scale-95"
       aria-label="Chat on WhatsApp"

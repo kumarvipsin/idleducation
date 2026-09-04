@@ -3,11 +3,11 @@ import Link from "next/link";
 import { Facebook, Twitter, Instagram, Youtube, Phone, Mail, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "./ui/dialog";
-import { ContactForm } from "./contact-form";
+import { ContactModal } from "./contact-modal";
 
 const quickLinks = [
   { href: "/about", label: "About Us" },
+  { href: "/journey", label: "The Journey" },
   { href: "/contact", label: "Contact Us" },
   { href: "/gallery", label: "Gallery" },
   { href: "/blog", label: "IDL Blog" },
@@ -87,21 +87,19 @@ export function Footer() {
                         <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider mb-4 border-l-3 border-blue-600 pl-2.5">
                           Quick Links
                         </h3>
-                        <ul className="space-y-2.5 text-xs font-medium pl-3.5">
+                        <ul className="space-y-2.5 text-xs font-medium pl-3.5" suppressHydrationWarning>
                             {quickLinks.map(link => (
-                                <li key={link.href}>
-                                    {link.label === "Contact Us" ? (
-                                        <button
-                                            onClick={() => setIsContactOpen(true)}
-                                            className="text-slate-600 hover:text-blue-600 text-left w-full cursor-pointer transition-colors"
-                                        >
-                                            {link.label}
-                                        </button>
-                                    ) : (
-                                        <Link href={link.href} className="text-slate-600 hover:text-blue-600 transition-colors block">
-                                            {link.label}
-                                        </Link>
-                                    )}
+                                <li key={link.label}>
+                                    <Link 
+                                        href={link.href}
+                                        onClick={link.label === "Contact Us" ? (e) => {
+                                            e.preventDefault();
+                                            setIsContactOpen(true);
+                                        } : undefined}
+                                        className="text-slate-600 hover:text-blue-600 transition-colors block"
+                                    >
+                                        {link.label}
+                                    </Link>
                                 </li>
                             ))}
                         </ul>
@@ -280,24 +278,10 @@ export function Footer() {
             </div>
         </div>
 
-        <Dialog open={isContactOpen} onOpenChange={setIsContactOpen}>
-            <DialogContent 
-                onOpenAutoFocus={(e) => e.preventDefault()} 
-                onCloseAutoFocus={(e) => e.preventDefault()}
-                className="w-[95vw] sm:w-full sm:max-w-[495px] shadow-lg rounded-2xl border border-[#D5DDEA] dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden top-[calc(4rem+1rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 max-h-[calc(100dvh-7.5rem)] sm:max-h-[calc(100dvh-8rem)] flex flex-col data-[state=open]:slide-in-from-top-6 data-[state=open]:duration-300 data-[state=closed]:slide-out-to-top-6 data-[state=closed]:duration-200 ease-out"
-            >
-                <DialogHeader className="px-5 sm:px-7 pt-5 pb-2 text-left shrink-0">
-                    <DialogTitle className="text-left text-2xl sm:text-[26px] font-bold text-[#18233A] tracking-tight leading-snug">
-                        Get in Touch With Us
-                    </DialogTitle>
-                    <DialogDescription className="text-left text-[14px] sm:text-[15px] font-normal text-[#52627A] mt-1 leading-relaxed">
-                        For admissions, partnerships, centres, and other enquiries, connect with our team.
-                    </DialogDescription>
-                </DialogHeader>
-
-                <ContactForm onSuccess={() => setIsContactOpen(false)} />
-            </DialogContent>
-        </Dialog>
+        <ContactModal 
+            isOpen={isContactOpen} 
+            onOpenChange={setIsContactOpen} 
+        />
     </footer>
   );
 }

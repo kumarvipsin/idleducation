@@ -278,7 +278,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
                       }
                     }}
                     className="pl-[72px] h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 tracking-wider"
-                    autoFocus
+                    autoFocus={false}
                   />
                 </div>
               ) : (
@@ -310,7 +310,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                         className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400"
-                        autoFocus
+                        autoFocus={false}
                         required
                       />
                     </div>
@@ -333,7 +333,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
                         }
                       }}
                       className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] tracking-[0.4em] text-center transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 placeholder:tracking-normal"
-                      autoFocus={!isNewUser}
+                      autoFocus={false}
                     />
                   </div>
                 </>
