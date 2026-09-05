@@ -37,7 +37,7 @@ export function ScholarshipSection() {
                                     <div className="w-8 h-8 rounded-lg bg-orange-50 dark:bg-orange-950/30 border border-orange-200/60 dark:border-orange-900/40 flex items-center justify-center shrink-0">
                                         <Trophy className="h-4 w-4 text-[#FF6B16] stroke-[2]" />
                                     </div>
-                                    <p className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">
+                                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold leading-snug">
                                         Get Upto 70% Scholarship on IDL Admissions Test
                                     </p>
                                 </div>
@@ -46,7 +46,7 @@ export function ScholarshipSection() {
                                     <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-900/40 flex items-center justify-center shrink-0">
                                         <Medal className="h-4 w-4 text-[#1F4FA3] stroke-[2]" />
                                     </div>
-                                    <p className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-200 leading-snug">
+                                    <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold leading-snug">
                                         Get 2X Scholarship by taking the Test at Our Centre
                                     </p>
                                 </div>
@@ -56,7 +56,7 @@ export function ScholarshipSection() {
                             <div className="pt-1">
                                 <Button 
                                     onClick={() => setIsScholarshipOpen(true)} 
-                                    className="h-11 px-6 rounded-[12px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 border-none"
+                                    className="h-11 px-6 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 border-none"
                                 >
                                     Register For FREE
                                 </Button>

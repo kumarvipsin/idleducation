@@ -294,7 +294,7 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="h-10 sm:h-11 px-6 sm:px-7 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2"
+                  className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2"
                 >
                   <span>{isSubmitting ? 'Booking Session...' : 'Book Free Demo Session'}</span>
                   <ArrowRight className="w-4 h-4" />
@@ -323,7 +323,7 @@ export function BookDemoModal({ isOpen, onOpenChange }: BookDemoModalProps) {
                 setIsSuccessOpen(false);
                 onOpenChange(false);
               }}
-              className="w-full h-10 sm:h-11 rounded-xl font-semibold text-[13px] sm:text-[14px] bg-[#102A68] hover:bg-[#0C1E4A] text-white cursor-pointer shadow-sm"
+              className="w-full h-10 sm:h-11 rounded-[8px] font-semibold text-[13px] sm:text-[14px] bg-[#102A68] hover:bg-[#0C1E4A] text-white cursor-pointer shadow-sm"
             >
               Done
             </Button>

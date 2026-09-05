@@ -1557,7 +1557,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     type="button"
                     variant="outline"
                     onClick={handleBack}
-                    className="h-10 sm:h-11 px-4 sm:px-5 rounded-xl text-[13px] sm:text-[14px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5"
+                    className="h-10 sm:h-11 px-4 sm:px-5 rounded-[8px] text-[13px] sm:text-[14px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5"
                   >
                     <ArrowLeft className="w-4 h-4" /> Back
                   </Button>
@@ -1569,7 +1569,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                   <Button
                     type="button"
                     onClick={handleNext}
-                    className="h-10 sm:h-11 px-6 sm:px-7 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer ml-auto w-full sm:w-auto justify-center"
+                    className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer ml-auto w-full sm:w-auto justify-center"
                   >
                     <span>Next Step</span>
                     <ArrowRight className="w-4 h-4" />
@@ -1580,7 +1580,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       type="button"
                       variant="outline"
                       onClick={handlePreview}
-                      className="h-10 sm:h-11 px-4 sm:px-5 rounded-xl text-[13px] sm:text-[14px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5"
+                      className="h-10 sm:h-11 px-4 sm:px-5 rounded-[8px] text-[13px] sm:text-[14px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5"
                     >
                       <FileText className="h-4 w-4 text-[#102A68] dark:text-blue-400" /> Preview A4
                     </Button>
@@ -1601,7 +1601,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           });
                         }
                       }}
-                      className="h-10 sm:h-11 px-5 sm:px-6 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer justify-center"
+                      className="h-10 sm:h-11 px-5 sm:px-6 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer justify-center"
                     >
                       <span>Submit (₹10)</span>
                       <Send className="h-3.5 w-3.5" />
@@ -1628,15 +1628,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
               <DialogDescription className="text-xs text-[#64748B]">Single-page printable institutional enrollment copy</DialogDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Button variant="outline" size="sm" className="rounded-lg font-semibold h-8 text-xs cursor-pointer px-3 border-[#D7DFEA] text-[#17213A] hover:bg-slate-100" onClick={() => setIsPreviewOpen(false)}>
+              <Button variant="outline" size="sm" className="rounded-[8px] font-semibold h-8 text-xs cursor-pointer px-3 border-[#D7DFEA] text-[#17213A] hover:bg-slate-100" onClick={() => setIsPreviewOpen(false)}>
                 <Edit className="w-3.5 h-3.5 mr-1 text-[#0B2A6F]" /> Edit
               </Button>
-              <Button size="sm" className="rounded-lg font-semibold h-8 text-xs bg-[#0B2A6F] text-white hover:bg-[#081F52] cursor-pointer px-3.5 shadow-xs" onClick={generatePdf}>
+              <Button size="sm" className="rounded-[8px] font-semibold h-8 text-xs bg-[#0B2A6F] text-white hover:bg-[#081F52] cursor-pointer px-3.5 shadow-xs" onClick={generatePdf}>
                 <Download className="w-3.5 h-3.5 mr-1" /> Save PDF
               </Button>
               <Button 
                 size="sm" 
-                className="rounded-lg font-semibold h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer px-3.5 shadow-xs" 
+                className="rounded-[8px] font-semibold h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer px-3.5 shadow-xs" 
                 onClick={() => {
                   setIsPreviewOpen(false);
                   setIsPaymentDialogOpen(true);
@@ -1856,10 +1856,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
           </div>
 
           <DialogFooter className="flex flex-col sm:flex-row gap-2">
-            <Button variant="outline" onClick={() => setIsPaymentDialogOpen(false)} className="w-full sm:w-auto text-xs font-bold rounded-[5px] border-slate-300 dark:border-slate-700 cursor-pointer">
+            <Button variant="outline" onClick={() => setIsPaymentDialogOpen(false)} className="w-full sm:w-auto text-xs font-bold rounded-[8px] border-slate-300 dark:border-slate-700 cursor-pointer">
               Cancel
             </Button>
-            <Button onClick={handlePayment} disabled={isSubmitting} className="w-full sm:w-auto text-xs font-extrabold bg-gradient-to-r from-primary to-blue-700 hover:from-primary/95 hover:to-blue-700/95 text-white rounded-[5px] tracking-wide shadow-md shadow-primary/25 cursor-pointer">
+            <Button onClick={handlePayment} disabled={isSubmitting} className="w-full sm:w-auto text-xs font-extrabold bg-gradient-to-r from-primary to-blue-700 hover:from-primary/95 hover:to-blue-700/95 text-white rounded-[8px] tracking-wide shadow-md shadow-primary/25 cursor-pointer">
               {isSubmitting ? 'Connecting...' : 'Pay ₹10 via Razorpay'}
             </Button>
           </DialogFooter>
@@ -1897,7 +1897,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                 setIsThankYouOpen(false);
                 setIsIdCardOpen(true);
               }}
-              className="w-full h-11 rounded-xl font-black text-xs bg-primary text-white cursor-pointer flex items-center justify-center gap-2"
+              className="w-full h-11 rounded-[8px] font-black text-xs bg-primary text-white cursor-pointer flex items-center justify-center gap-2"
             >
               <CreditCard className="w-4 h-4" />
               View &amp; Download ID Card
@@ -1909,7 +1909,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                 onOpenChange(false);
                 setPhotoPreview(null);
               }}
-              className="w-full h-10 rounded-xl font-bold text-xs cursor-pointer border-slate-200"
+              className="w-full h-10 rounded-[8px] font-bold text-xs cursor-pointer border-slate-200"
             >
               Close
             </Button>
@@ -1962,7 +1962,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     setIsDownloadingCard(false);
                   }
                 }}
-                className="h-8 text-xs font-bold rounded-lg cursor-pointer border-[#D7DFEA] text-slate-700 hover:bg-slate-50"
+                className="h-8 text-xs font-bold rounded-[8px] cursor-pointer border-[#D7DFEA] text-slate-700 hover:bg-slate-50"
               >
                 <Download className="w-3.5 h-3.5 mr-1" /> PNG
               </Button>

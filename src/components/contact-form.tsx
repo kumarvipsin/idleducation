@@ -201,7 +201,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           <Button 
             type="submit" 
             disabled={form.formState.isSubmitting}
-            className="h-10 sm:h-11 px-6 sm:px-7 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
+            className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
           >
             {form.formState.isSubmitting ? (
               <>

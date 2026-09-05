@@ -397,7 +397,7 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                 onClick={handleNextQuestion}
                 disabled={selectedOption === null}
                 className={cn(
-                  "h-10 sm:h-10.5 px-5 sm:px-6 rounded-xl font-bold text-xs sm:text-sm transition-all border-none flex items-center gap-1.5 cursor-pointer shadow-xs",
+                  "h-10 sm:h-10.5 px-5 sm:px-6 rounded-[8px] font-bold text-xs sm:text-sm transition-all border-none flex items-center gap-1.5 cursor-pointer shadow-xs",
                   selectedOption !== null
                     ? "bg-[#1F4FA3] hover:bg-[#163b7d] text-white hover:shadow-md active:scale-[0.99]"
                     : "bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed opacity-70"
@@ -654,7 +654,7 @@ export function DailyChallengeModal({ isOpen, onOpenChange }: DailyChallengeModa
                   type="button"
                   variant="outline"
                   onClick={() => onOpenChange(false)}
-                  className="w-full h-10 sm:h-11 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold text-xs sm:text-sm transition-all cursor-pointer"
+                  className="w-full h-10 sm:h-11 rounded-[8px] border border-slate-200 dark:border-slate-800 bg-slate-50 hover:bg-slate-100 dark:bg-slate-900/60 dark:hover:bg-slate-900 text-slate-700 dark:text-slate-300 font-bold text-xs sm:text-sm transition-all cursor-pointer"
                 >
                   Return to Homepage
                 </Button>

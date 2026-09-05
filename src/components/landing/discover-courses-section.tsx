@@ -149,63 +149,63 @@ interface CourseItem {
 
 const courses: CourseItem[] = [
     {
-        id: 'jee-neet',
+        id: 'cbse',
         number: '01',
+        title: 'CBSE',
+        subtitle: 'Classes 6–12',
+        href: '/free-courses',
+        bgColor: 'bg-[#FEF1D4] hover:bg-[#FDE8BE] dark:bg-amber-950/50',
+        borderColor: 'border-[#FBD99B] dark:border-amber-800/60',
+        icon: VideoPlayIcon,
+    },
+    {
+        id: 'jee-neet',
+        number: '02',
         title: 'JEE & NEET',
         subtitle: 'Classes 11–12',
         href: '#',
-        bgColor: 'bg-[#EDF2FE] hover:bg-[#E2ECFD] dark:bg-indigo-950/30',
-        borderColor: 'border-[#D6E3FC] dark:border-indigo-900/40',
+        bgColor: 'bg-[#E1ECFE] hover:bg-[#D4E3FD] dark:bg-indigo-950/50',
+        borderColor: 'border-[#BED5FC] dark:border-indigo-800/60',
         icon: AlarmClockIcon,
-    },
-    {
-        id: 'cbse',
-        number: '02',
-        title: 'CBSE Board',
-        subtitle: 'Classes 6–12',
-        href: '/free-courses',
-        bgColor: 'bg-[#FEF7E6] hover:bg-[#FDF0D2] dark:bg-amber-950/30',
-        borderColor: 'border-[#FCEAC2] dark:border-amber-900/40',
-        icon: VideoPlayIcon,
     },
     {
         id: 'cuet',
         number: '03',
-        title: 'CUET (UG)',
+        title: 'CUET EXAM',
         subtitle: 'Classes 11–12',
         href: '#',
-        bgColor: 'bg-[#E7F8F0] hover:bg-[#D9F4E6] dark:bg-emerald-950/30',
-        borderColor: 'border-[#C9F0DC] dark:border-emerald-900/40',
+        bgColor: 'bg-[#D5F5E5] hover:bg-[#C2EED7] dark:bg-emerald-950/50',
+        borderColor: 'border-[#A8E6C8] dark:border-emerald-800/60',
         icon: DiplomaIcon,
     },
     {
         id: 'govt-exams',
         number: '04',
-        title: 'Govt Exams',
+        title: 'GOVT EXAMS',
         subtitle: 'SSC · Banking',
         href: '#',
-        bgColor: 'bg-[#FEECEF] hover:bg-[#FDE0E5] dark:bg-rose-950/30',
-        borderColor: 'border-[#FCD3DB] dark:border-rose-900/40',
+        bgColor: 'bg-[#FDE0E6] hover:bg-[#FCCED7] dark:bg-rose-950/50',
+        borderColor: 'border-[#FBB6C4] dark:border-rose-800/60',
         icon: NotebookPencilIcon,
     },
     {
         id: 'free-courses',
         number: '05',
-        title: 'Free Courses',
+        title: 'FREE COURSES',
         subtitle: 'Classes 9–10',
         href: '/free-courses',
-        bgColor: 'bg-[#FEF0E6] hover:bg-[#FDE4D4] dark:bg-orange-950/30',
-        borderColor: 'border-[#FCDAC3] dark:border-orange-900/40',
+        bgColor: 'bg-[#FEE6D4] hover:bg-[#FED8BE] dark:bg-orange-950/50',
+        borderColor: 'border-[#FDC49F] dark:border-orange-800/60',
         icon: TabletQuestionIcon,
     },
     {
         id: 'test-series',
         number: '06',
-        title: 'Test Series',
+        title: 'TEST SERIES',
         subtitle: 'Practice & Mock',
         href: '#',
-        bgColor: 'bg-[#E8F3FE] hover:bg-[#D9EBFC] dark:bg-blue-950/30',
-        borderColor: 'border-[#CDE3FC] dark:border-blue-900/40',
+        bgColor: 'bg-[#DCEBFE] hover:bg-[#CBE0FD] dark:bg-blue-950/50',
+        borderColor: 'border-[#B5D5FC] dark:border-blue-800/60',
         icon: LaptopClassIcon,
     },
 ];
@@ -219,8 +219,8 @@ export function DiscoverCoursesSection() {
                 aria-hidden="true" 
                 className="pointer-events-none absolute inset-0 opacity-[0.035] dark:opacity-[0.05]"
                 style={{
-                    backgroundImage: `radial-gradient(#102A68 0.75px, transparent 0.75px)`,
-                    backgroundSize: '16px 16px'
+                  backgroundImage: `radial-gradient(#102A68 0.75px, transparent 0.75px)`,
+                  backgroundSize: '16px 16px'
                 }}
             />
 
@@ -239,18 +239,18 @@ export function DiscoverCoursesSection() {
             <div className="container mx-auto px-2.5 min-[360px]:px-3.5 sm:px-6 md:px-8 lg:px-8 xl:px-10 max-w-[1240px] relative z-10">
                 
                 {/* Floating Pure White Course Shelf (Visual Separation from #F7F9FD Background) */}
-                <div className="relative bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl sm:rounded-3xl px-2.5 py-2.5 min-[360px]:px-3 min-[360px]:py-3 sm:px-4 sm:py-3.5 shadow-[0_12px_36px_-6px_rgba(16,42,104,0.07),0_4px_16px_-2px_rgba(16,42,104,0.03)] overflow-hidden">
+                <div className="relative bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3 min-[360px]:p-3.5 sm:p-4 shadow-[0_12px_36px_-6px_rgba(16,42,104,0.07),0_4px_16px_-2px_rgba(16,42,104,0.03)] overflow-hidden">
                     
                     {/* Compact Label: Small orange dot + Courses We Offer */}
-                    <div className="relative z-10 flex justify-center mb-2 min-[360px]:mb-2.5 sm:mb-3">
+                    <div className="relative z-10 flex justify-center mb-2.5 min-[360px]:mb-3 sm:mb-3.5">
                         <span className="inline-flex items-center gap-1.5 px-3 py-0.5 min-[360px]:px-3.5 rounded-full bg-white/95 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/70 shadow-[0_1px_3px_rgba(16,42,104,0.04)] text-[#102A68] dark:text-blue-200 font-semibold text-[10.5px] min-[360px]:text-[11px] sm:text-[11.5px] tracking-tight">
                             <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
                             Courses We Offer
                         </span>
                     </div>
 
-                    {/* Mobile: 2x3 (grid-cols-2) | Tablet: 3x2 (md:grid-cols-3) | Desktop: 1 Row of 6 (lg:grid-cols-6) */}
-                    <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 min-[360px]:gap-2.5 lg:gap-2 xl:gap-2.5">
+                    {/* Mobile: 2x3 (grid-cols-2) | Tablet: 3x2 (md:grid-cols-3) | Desktop: 1 Row of 6 (lg:grid-cols-6) with distinct gap */}
+                    <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 min-[360px]:gap-3 sm:gap-3.5 lg:gap-2.5 xl:gap-3">
                         {courses.map((course) => {
                             const Icon = course.icon;
                             return (
@@ -258,44 +258,44 @@ export function DiscoverCoursesSection() {
                                     key={course.id}
                                     href={course.href}
                                     className={cn(
-                                        "group relative flex flex-col justify-between rounded-xl sm:rounded-2xl border",
-                                        // Mobile: compact 126-136px height; Desktop: approved 88-94px height
-                                        "h-[126px] min-[360px]:h-[130px] min-[390px]:h-[134px] sm:h-[138px] lg:h-[88px] xl:h-[94px]",
-                                        // Mobile: 12px vertical / 12-14px horizontal; Desktop: compact 10-12px
-                                        "p-2.5 min-[360px]:p-3 sm:p-3.5 lg:p-2.5 xl:p-3",
-                                        "shadow-[0_1px_3px_rgba(16,42,104,0.04)] hover:shadow-[0_4px_12px_-2px_rgba(16,42,104,0.08)] transition-all duration-180 ease-out hover:-translate-y-0.5",
+                                        "group relative flex flex-col justify-between rounded-xl border-[1.5px]",
+                                        // Refined height: 130-138px on mobile; 100-106px on desktop (unchanged)
+                                        "h-[130px] min-[360px]:h-[134px] min-[390px]:h-[138px] sm:h-[142px] lg:h-[100px] xl:h-[106px]",
+                                        // Balanced internal text-safe padding: gives comfortable breathing room from all boundaries
+                                        "p-3 min-[360px]:p-3.5 sm:p-4 lg:p-3 xl:p-3.5",
+                                        "shadow-[0_2px_8px_-2px_rgba(16,42,104,0.06)] hover:shadow-[0_6px_16px_-3px_rgba(16,42,104,0.12)] transition-all duration-180 ease-out hover:-translate-y-0.5",
                                         course.bgColor,
                                         course.borderColor
                                     )}
                                 >
                                     {/* 
                                       Top Row:
-                                      - Mobile: Number on upper-left (order-1), Small Icon on upper-right (order-2)
+                                      - Mobile: Number on upper-left (order-1), Enriched larger Icon on upper-right (order-2)
                                       - Desktop: Icon on left (lg:order-1), Number on right (lg:order-2)
                                     */}
                                     <div className="flex items-start justify-between">
-                                        <span className="order-1 lg:order-2 text-[10px] min-[360px]:text-[10.5px] lg:text-[9px] xl:text-[9.5px] font-mono font-bold text-slate-400/90 dark:text-slate-500 pt-0.5 select-none">
+                                        <span className="order-1 lg:order-2 text-[10px] min-[360px]:text-[10.5px] lg:text-[9px] xl:text-[9.5px] font-mono font-bold text-slate-500 dark:text-slate-400 leading-none select-none">
                                             {course.number}
                                         </span>
                                         <div className="order-2 lg:order-1 shrink-0">
-                                            <Icon className="w-8 h-8 min-[360px]:w-8.5 min-[360px]:h-8.5 sm:w-9 sm:h-9 lg:w-5.5 lg:h-5.5 xl:w-6 xl:h-6 transition-transform duration-180 ease-out group-hover:scale-105" />
+                                            <Icon className="w-12 h-12 min-[360px]:w-[50px] min-[360px]:h-[50px] sm:w-[52px] sm:h-[52px] lg:w-[34px] lg:h-[34px] xl:w-[38px] xl:h-[38px] transition-transform duration-180 ease-out group-hover:scale-105" />
                                         </div>
                                     </div>
 
                                     {/* 
                                       Bottom Row:
-                                      - Course Title: Strong IDL Navy (#0B2154) with high contrast against pastel surface
-                                      - Supporting Class Info + Arrow cleanly aligned underneath
+                                      - Course Title: Strong IDL Navy (#0B2154), controlled line-height, comfortable safe-insets
+                                      - Supporting Class Info + Arrow: small controlled gap, comfortable spacing from tile boundaries
                                     */}
-                                    <div className="mt-auto pt-1 lg:pt-0">
-                                        <h4 className="text-[13.5px] min-[360px]:text-[14.5px] min-[390px]:text-[15px] sm:text-[15.5px] lg:text-[11.5px] xl:text-[12px] font-extrabold text-[#0B2154] dark:text-white tracking-tight leading-snug group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors truncate">
+                                    <div className="mt-auto w-full">
+                                        <h4 className="text-[12.5px] min-[360px]:text-[13.5px] min-[390px]:text-[14px] sm:text-[14.5px] lg:text-[11px] xl:text-[11.5px] font-extrabold text-[#0B2154] dark:text-white tracking-tight leading-[1.25] group-hover:text-blue-700 dark:group-hover:text-blue-400 transition-colors truncate">
                                             {course.title}
                                         </h4>
-                                        <div className="flex items-center justify-between gap-1 mt-0.5 min-[360px]:mt-1 lg:mt-0.5">
-                                            <p className="text-[11px] min-[360px]:text-[11.5px] min-[390px]:text-[12px] lg:text-[9px] xl:text-[9.5px] font-semibold text-slate-600 dark:text-slate-300 leading-none truncate">
+                                        <div className="flex items-center justify-between gap-1.5 mt-1 min-[360px]:mt-1.5 lg:mt-1">
+                                            <p className="text-[10px] min-[360px]:text-[10.5px] min-[390px]:text-[11px] lg:text-[8.5px] xl:text-[9px] font-semibold text-slate-600 dark:text-slate-300 leading-none truncate">
                                                 {course.subtitle}
                                             </p>
-                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-3 lg:h-3 text-slate-400 group-hover:text-slate-700 dark:text-slate-500 dark:group-hover:text-slate-200 shrink-0 transition-transform duration-180 ease-out group-hover:translate-x-1" />
+                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-3 lg:h-3 text-slate-500 group-hover:text-slate-800 dark:text-slate-400 dark:group-hover:text-slate-100 shrink-0 transition-transform duration-180 ease-out group-hover:translate-x-0.5" />
                                         </div>
                                     </div>
                                 </Link>

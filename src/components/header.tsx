@@ -7,7 +7,8 @@ import {
     FileType, UserPlus, IndianRupee, Landmark, ClipboardList,
     UserCircle, Building, Users, HandHeart, Banknote,
     Edit, Headset, CheckCircle2, MapPin, Search,
-    Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket
+    Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket,
+    Atom, Stethoscope
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -51,18 +52,115 @@ const megaMenuBg = "bg-white shadow-2xl";
 
 const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
     {
-        id: "cat_free_courses",
-        name: "FREE COURSES",
-        slug: "free-courses",
-        href: "/free-courses",
+        id: "cat_cbse",
+        name: "CBSE",
+        slug: "cbse",
+        href: "/school",
         order: 1,
         status: "active",
         subItems: [
-            { id: "sub_class_9", label: "Class 9", classNumber: 9, slug: "class-9", href: "/free-courses?class=Class 9", order: 1, status: "active" },
-            { id: "sub_class_10", label: "Class 10", classNumber: 10, slug: "class-10", href: "/free-courses?class=Class 10", order: 2, status: "active" },
+            {
+                id: "sub_cbse_syllabus",
+                label: "CBSE Syllabus",
+                slug: "cbse-syllabus",
+                href: "/school",
+                order: 1,
+                status: "active",
+                items: [
+                    { id: "cbse_syl_9", label: "Class 9", classNumber: 9, slug: "class-9", href: "/school?class=Class 9", order: 1, status: "active" },
+                    { id: "cbse_syl_10", label: "Class 10", classNumber: 10, slug: "class-10", href: "/school?class=Class 10", order: 2, status: "active" },
+                    { id: "cbse_syl_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/school?class=Class 11", order: 3, status: "active" },
+                    { id: "cbse_syl_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/school?class=Class 12", order: 4, status: "active" },
+                ],
+            },
+            {
+                id: "sub_cbse_exam",
+                label: "CBSE Exam",
+                slug: "cbse-exam",
+                href: "/school",
+                order: 2,
+                status: "active",
+                items: [
+                    { id: "cbse_exam_10", label: "Class 10", classNumber: 10, slug: "class-10", href: "/school?class=Class 10", order: 1, status: "active" },
+                    { id: "cbse_exam_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/school?class=Class 12", order: 2, status: "active" },
+                ],
+            },
+        ],
+    },
+    {
+        id: "cat_jee",
+        name: "JEE",
+        slug: "jee",
+        href: "/category/iit-jee",
+        order: 2,
+        status: "active",
+        subItems: [
+            {
+                id: "sub_jee_main",
+                label: "JEE Main",
+                slug: "jee-main",
+                href: "/category/iit-jee",
+                order: 1,
+                status: "active",
+                items: [
+                    { id: "jee_main_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/category/iit-jee?target=class-11", order: 1, status: "active" },
+                    { id: "jee_main_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/category/iit-jee?target=class-12", order: 2, status: "active" },
+                    { id: "jee_main_dropper", label: "Dropper / Repeater", slug: "dropper", href: "/category/iit-jee?target=dropper", order: 3, status: "active" },
+                ],
+            },
+            {
+                id: "sub_jee_adv",
+                label: "JEE Advanced",
+                slug: "jee-advanced",
+                href: "/category/iit-jee",
+                order: 2,
+                status: "active",
+                items: [
+                    { id: "jee_adv_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/category/iit-jee?target=class-11", order: 1, status: "active" },
+                    { id: "jee_adv_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/category/iit-jee?target=class-12", order: 2, status: "active" },
+                    { id: "jee_adv_dropper", label: "Dropper / Repeater", slug: "dropper", href: "/category/iit-jee?target=dropper", order: 3, status: "active" },
+                ],
+            },
+        ],
+    },
+    {
+        id: "cat_neet",
+        name: "NEET",
+        slug: "neet",
+        href: "/category/neet",
+        order: 3,
+        status: "active",
+        subItems: [
+            {
+                id: "sub_neet_ug",
+                label: "NEET UG",
+                slug: "neet-ug",
+                href: "/category/neet",
+                order: 1,
+                status: "active",
+                items: [
+                    { id: "neet_ug_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/category/neet?target=class-11", order: 1, status: "active" },
+                    { id: "neet_ug_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/category/neet?target=class-12", order: 2, status: "active" },
+                    { id: "neet_ug_dropper", label: "Dropper / Repeater", slug: "dropper", href: "/category/neet?target=dropper", order: 3, status: "active" },
+                ],
+            },
         ],
     },
 ];
+
+const getCategoryIcon = (id: string, name: string) => {
+    const key = (name || id).toLowerCase();
+    if (key.includes('cbse') || key.includes('school') || key.includes('free')) {
+        return <GraduationCap className="w-5 h-5 shrink-0" />;
+    }
+    if (key.includes('jee') || key.includes('iit')) {
+        return <Atom className="w-5 h-5 shrink-0" />;
+    }
+    if (key.includes('neet') || key.includes('medical')) {
+        return <Stethoscope className="w-5 h-5 shrink-0" />;
+    }
+    return <BookOpen className="w-5 h-5 shrink-0" />;
+};
 
 const donationCategories = [
     { title: "Skill Trainings", description: "Empower individuals with valuable skills.", goal: 100000, raised: 1500 },
@@ -136,16 +234,14 @@ export function Header() {
 
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [courseCategories, setCourseCategories] = useState<CourseCategory[]>(DEFAULT_COURSE_CATEGORIES);
-    const [hoveredCourseCategory, setHoveredCourseCategory] = useState<string>("cat_free_courses");
+    const [hoveredCourseCategory, setHoveredCourseCategory] = useState<string | null>(null);
+    const [hoveredSubItem, setHoveredSubItem] = useState<string | null>(null);
 
     useEffect(() => {
         let isMounted = true;
         getAllCoursesCategories().then((res) => {
             if (isMounted && res.success && res.data && res.data.length > 0) {
                 setCourseCategories(res.data);
-                if (!res.data.some(c => c.id === hoveredCourseCategory)) {
-                    setHoveredCourseCategory(res.data[0].id);
-                }
             }
         });
         return () => { isMounted = false; };
@@ -153,6 +249,7 @@ export function Header() {
     const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const [openMobileSubAccordion, setOpenMobileSubAccordion] = useState<string | null>(null);
+    const [openMobileThirdAccordion, setOpenMobileThirdAccordion] = useState<string | null>(null);
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authDefaultMode, setAuthDefaultMode] = useState<'login' | 'signup'>('login');
@@ -223,12 +320,18 @@ export function Header() {
         if (menuTimeoutRef.current) {
             clearTimeout(menuTimeoutRef.current);
         }
+        if (menu === 'explore') {
+            setHoveredCourseCategory(null);
+            setHoveredSubItem(null);
+        }
         setActiveMenu(menu);
     };
 
     const handleMouseLeave = () => {
         menuTimeoutRef.current = setTimeout(() => {
             setActiveMenu(null);
+            setHoveredCourseCategory(null);
+            setHoveredSubItem(null);
         }, 200);
     };
 
@@ -314,7 +417,7 @@ export function Header() {
         { href: "#", label: "Scholarship", icon: <Award className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship.", onClick: () => setIsScholarshipOpen(true) },
     ];
 
-    const navItemClass = "relative h-full flex items-center py-2 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
+    const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
 
     const renderAuthSection = () => {
         if (loading) return <Skeleton className="h-9 w-20 rounded-md" />;
@@ -324,14 +427,14 @@ export function Header() {
                 <div className="flex items-center gap-1.5 sm:gap-2">
                     <Link
                         href={getDashboardPath(user)}
-                        className="px-2.5 sm:px-3 py-1.5 rounded-md border border-primary text-primary hover:bg-primary hover:text-white font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
+                        className="px-2.5 sm:px-3 py-1.5 rounded-[8px] border border-primary text-primary hover:bg-primary hover:text-white font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
                     >
                         ADMIN
                     </Link>
                     <button
                         type="button"
                         onClick={handleLogout}
-                        className="px-2.5 sm:px-3 py-1.5 rounded-md border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-red-500 hover:text-white hover:border-red-500 font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
+                        className="px-2.5 sm:px-3 py-1.5 rounded-[8px] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-red-500 hover:text-white hover:border-red-500 font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
                     >
                         LOGOUT
                     </button>
@@ -341,9 +444,9 @@ export function Header() {
 
         return (
             <button 
-                type="button"
+                type="button" 
                 onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
-                className="group relative px-2.5 sm:px-3.5 py-1.5 rounded-md border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-8 sm:h-9 flex items-center cursor-pointer whitespace-nowrap"
+                className="group relative px-2.5 sm:px-3.5 py-1.5 rounded-[8px] border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-8 sm:h-9 flex items-center cursor-pointer whitespace-nowrap"
             >
                 <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
                 <span className="relative z-10 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">
@@ -356,6 +459,7 @@ export function Header() {
     return (
         <>
             <header 
+                suppressHydrationWarning
                 data-mobile-menu-open={isMobileMenuOpen ? "true" : "false"}
                 className={cn(
                     "sticky top-0 z-[60] border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
@@ -367,89 +471,157 @@ export function Header() {
                         <Image src="/idllogo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
                     </Link>
 
-                    <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex">
-                        <nav className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                    <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex h-full">
+                        <nav suppressHydrationWarning className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                             {!pathname.startsWith('/idl-foundation') ? (
                                 <>
                                     <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}>ALL COURSES</Button>
                                         <div className={cn(
-                                            "absolute top-full left-0 transition-all duration-300 ease-in-out z-50 pt-2",
-                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible pointer-events-none"
+                                            "absolute top-full left-0 transition-all duration-200 ease-in-out z-50",
+                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
-                                            <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-2 flex flex-row divide-x divide-border">
-                                                {/* Left Column: Categories */}
-                                                <div className="w-56 flex flex-col gap-1 pr-2">
-                                                    {courseCategories.map(c => (
-                                                        <div
-                                                            key={c.id}
-                                                            onMouseEnter={() => setHoveredCourseCategory(c.id)}
-                                                            className="w-full"
-                                                        >
-                                                            <Link
-                                                                href={c.href}
-                                                                onClick={() => setActiveMenu(null)}
-                                                                className={cn(
-                                                                    "group relative flex items-center gap-3 p-3 rounded-xl transition-all duration-200 text-left border border-transparent",
-                                                                    hoveredCourseCategory === c.id
-                                                                        ? "bg-muted/70 hover:border-border text-primary font-medium"
-                                                                        : "hover:bg-muted/50 hover:border-border text-foreground"
-                                                                )}
+                                            <div className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl flex flex-row divide-x divide-border">
+                                                {/* Left Column: Main Section (Bigger - w-64, with icons & bold text) */}
+                                                <div className="w-64 flex flex-col gap-1 p-2">
+                                                    {courseCategories.map(c => {
+                                                        const isCatActive = hoveredCourseCategory === c.id;
+                                                        return (
+                                                            <div
+                                                                key={c.id}
+                                                                onMouseEnter={() => {
+                                                                    setHoveredCourseCategory(c.id);
+                                                                    setHoveredSubItem(null);
+                                                                }}
+                                                                className="w-full"
                                                             >
-                                                                <div className="text-left flex-1">
-                                                                    <p className={cn(
-                                                                        "font-medium text-[13px] leading-tight transition-colors",
-                                                                        hoveredCourseCategory === c.id ? "text-primary font-medium" : "text-foreground group-hover:text-primary"
+                                                                <Link
+                                                                    href={c.href}
+                                                                    onClick={() => setActiveMenu(null)}
+                                                                    className={cn(
+                                                                        "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2",
+                                                                        isCatActive
+                                                                            ? "bg-muted/80 border-primary text-primary"
+                                                                            : "border-transparent hover:bg-muted/50 hover:border-border text-foreground"
+                                                                    )}
+                                                                >
+                                                                    <div className={cn(
+                                                                        "shrink-0 transition-colors",
+                                                                        isCatActive ? "text-primary" : "text-slate-500 group-hover:text-primary"
                                                                     )}>
-                                                                        {c.name}
-                                                                    </p>
-                                                                </div>
-                                                                <ChevronRight className={cn(
-                                                                    "w-4 h-4 transition-all",
-                                                                    hoveredCourseCategory === c.id
-                                                                        ? "text-primary translate-x-0.5 opacity-100"
-                                                                        : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5"
-                                                                )} />
-                                                            </Link>
-                                                        </div>
-                                                    ))}
+                                                                        {getCategoryIcon(c.id, c.name)}
+                                                                    </div>
+                                                                    <div className="text-left flex-1">
+                                                                        <p className={cn(
+                                                                            "font-bold text-[14px] leading-tight transition-colors",
+                                                                            isCatActive ? "text-primary font-extrabold" : "text-foreground group-hover:text-primary"
+                                                                        )}>
+                                                                            {c.name}
+                                                                        </p>
+                                                                    </div>
+                                                                    <ChevronRight className={cn(
+                                                                        "w-4 h-4 transition-all shrink-0",
+                                                                        isCatActive
+                                                                            ? "text-primary translate-x-0.5 opacity-100"
+                                                                            : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5"
+                                                                    )} />
+                                                                </Link>
+                                                            </div>
+                                                        );
+                                                    })}
                                                 </div>
 
-                                                {/* Right Column: Classes / Sub-courses */}
-                                                <div className="w-60 pl-2 flex flex-col gap-1">
-                                                    {(() => {
-                                                        const activeCategory = courseCategories.find(c => c.id === hoveredCourseCategory) || courseCategories[0];
-                                                        return activeCategory?.subItems?.map((sub) => (
-                                                            <Link
-                                                                key={sub.id}
-                                                                href={sub.href}
-                                                                onClick={() => setActiveMenu(null)}
-                                                                className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border"
-                                                            >
-                                                                <div className="text-left flex-1">
-                                                                    <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">
-                                                                        {sub.label}
-                                                                    </p>
+                                                {/* Middle Column: Sub-section 1 (Equal size - w-56) */}
+                                                {(() => {
+                                                    if (!hoveredCourseCategory) return null;
+                                                    const activeCategory = courseCategories.find(c => c.id === hoveredCourseCategory);
+                                                    if (!activeCategory || !activeCategory.subItems?.length) return null;
+
+                                                    const activeSubItem = hoveredSubItem ? activeCategory.subItems.find(s => s.id === hoveredSubItem) : null;
+                                                    const hasLeafItems = Boolean(activeSubItem && activeSubItem.items && activeSubItem.items.length > 0);
+
+                                                    return (
+                                                        <>
+                                                            <div className="w-56 p-2 flex flex-col gap-1 animate-in fade-in duration-150">
+                                                                {activeCategory.subItems.map((sub) => {
+                                                                    const isSubActive = hoveredSubItem === sub.id;
+                                                                    return (
+                                                                        <div
+                                                                            key={sub.id}
+                                                                            onMouseEnter={() => setHoveredSubItem(sub.id)}
+                                                                            className="w-full"
+                                                                        >
+                                                                            <Link
+                                                                                href={sub.href}
+                                                                                onClick={() => setActiveMenu(null)}
+                                                                                className={cn(
+                                                                                    "group relative flex items-center gap-3 px-3.5 py-3 rounded-none transition-all duration-150 text-left border-l-2",
+                                                                                    isSubActive
+                                                                                        ? "bg-muted/80 border-primary text-primary"
+                                                                                        : "border-transparent hover:bg-muted/50 hover:border-border text-foreground"
+                                                                                )}
+                                                                            >
+                                                                                <div className="text-left flex-1">
+                                                                                    <p className={cn(
+                                                                                        "font-medium text-[13px] leading-tight transition-colors",
+                                                                                        isSubActive ? "text-primary font-semibold" : "text-foreground group-hover:text-primary"
+                                                                                    )}>
+                                                                                        {sub.label}
+                                                                                    </p>
+                                                                                </div>
+                                                                                <ChevronRight className={cn(
+                                                                                    "w-4 h-4 transition-all shrink-0",
+                                                                                    isSubActive
+                                                                                        ? "text-primary translate-x-0.5 opacity-100"
+                                                                                        : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5"
+                                                                                )} />
+                                                                            </Link>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+
+                                                            {/* Right Column: Sub-section 2 / Classes (Equal size - w-56) */}
+                                                            {hasLeafItems && (
+                                                                <div className="w-56 p-2 flex flex-col gap-1">
+                                                                    <div className="px-3.5 pt-1.5 pb-2 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                                        Select Class
+                                                                    </div>
+                                                                    {activeSubItem?.items?.map((item) => (
+                                                                        <Link
+                                                                            key={item.id}
+                                                                            href={item.href}
+                                                                            onClick={() => setActiveMenu(null)}
+                                                                            className="group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-none hover:bg-muted/50 transition-all duration-150 text-left border-l-2 border-transparent hover:border-primary/40"
+                                                                        >
+                                                                            <div className="text-left flex-1">
+                                                                                <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">
+                                                                                    {item.label}
+                                                                                </p>
+                                                                            </div>
+                                                                            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                                                                        </Link>
+                                                                    ))}
                                                                 </div>
-                                                                <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                                                            </Link>
-                                                        ));
-                                                    })()}
-                                                </div>
+                                                            )}
+                                                        </>
+                                                    );
+                                                })()}
                                             </div>
                                         </div>
                                     </div>
                                     <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}>APPLY FOR</Button>
                                         <div className={cn(
-                                            "absolute top-full left-0 transition-all duration-300 ease-in-out w-72 z-50 pt-2",
-                                            activeMenu === 'apply' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
+                                            "absolute top-full left-0 transition-all duration-200 ease-in-out w-64 z-50",
+                                            activeMenu === 'apply' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
-                                            <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-2 flex flex-col gap-1">
+                                            <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl p-2 flex flex-col gap-1">
                                                 {applyForLinks.map(l => (
                                                     <button
                                                         key={l.label}
                                                         type="button"
+                                                        suppressHydrationWarning
                                                         onClick={(e) => {
                                                             e.preventDefault();
                                                             setActiveMenu(null);
@@ -459,12 +631,17 @@ export function Header() {
                                                                 router.push(l.href);
                                                             }
                                                         }}
-                                                        className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border w-full"
+                                                        className="group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary w-full cursor-pointer"
                                                     >
-                                                        <div className="text-left flex-1">
-                                                            <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{l.label}</p>
+                                                        <div className="shrink-0 text-slate-500 group-hover:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                            {l.icon}
                                                         </div>
-                                                        <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
+                                                        <div className="text-left flex-1">
+                                                            <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary transition-colors">
+                                                                {l.label}
+                                                            </p>
+                                                        </div>
+                                                        <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100" />
                                                     </button>
                                                 ))}
                                             </div>
@@ -480,39 +657,71 @@ export function Header() {
                                     <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
                                         <div className={cn(
-                                            "absolute top-full right-0 md:left-0 transition-all duration-300 ease-in-out w-80 z-50 pt-2",
-                                            activeMenu === 'more' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-2 invisible"
+                                            "absolute top-full left-0 transition-all duration-200 ease-in-out w-64 z-50",
+                                            activeMenu === 'more' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
-                                            <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-4 flex flex-col gap-4">
-                                                {moreMenuGroups.map(group => (
-                                                    <div key={group.title} className="space-y-3">
-                                                        <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3 text-left">{group.title}</h4>
-                                                        <div className="flex flex-col gap-1">
-                                                            {group.links.map(link => {
-                                                                const isDisabled = (link as any).disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
+                                            <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl p-2 flex flex-col gap-1">
+                                                {moreMenuGroups.map((group, groupIdx) => (
+                                                    <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
+                                                        {groupIdx > 0 && <div className="my-1 border-t border-border" />}
+                                                        <div className="px-4 pt-2 pb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                            {group.title}
+                                                        </div>
+                                                        {group.links.map(link => {
+                                                            const isDisabled = (link as any).disabled || link.label === "Register Now";
+                                                            const isAction = Boolean(link.onClick);
+
+                                                            if (isAction) {
                                                                 return (
-                                                                    <Link
+                                                                    <button
                                                                         key={link.label}
-                                                                        href={isDisabled ? '#' : link.href}
-                                                                        target={(link as any).target}
-                                                                        rel={(link as any).target === '_blank' ? 'noopener noreferrer' : undefined}
-                                                                        onClick={(e) => {
-                                                                            if (link.onClick) { e.preventDefault(); link.onClick(); }
-                                                                            if (!isDisabled) setActiveMenu(null);
+                                                                        type="button"
+                                                                        suppressHydrationWarning
+                                                                        onClick={() => {
+                                                                            setActiveMenu(null);
+                                                                            if (link.onClick) link.onClick();
                                                                         }}
                                                                         className={cn(
-                                                                            "group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border",
+                                                                            "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary w-full cursor-pointer",
                                                                             isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                         )}
                                                                     >
-                                                                        <div className="text-left flex-1">
-                                                                            <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">{link.label}</p>
+                                                                        <div className="shrink-0 text-slate-500 group-hover:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                            {link.icon}
                                                                         </div>
-                                                                        <ChevronRight className="w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all" />
-                                                                    </Link>
+                                                                        <div className="text-left flex-1">
+                                                                            <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary transition-colors">
+                                                                                {link.label}
+                                                                            </p>
+                                                                        </div>
+                                                                        <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100" />
+                                                                    </button>
                                                                 );
-                                                            })}
-                                                        </div>
+                                                            }
+
+                                                            return (
+                                                                <Link
+                                                                    key={link.label}
+                                                                    href={isDisabled ? '#' : link.href}
+                                                                    suppressHydrationWarning
+                                                                    onClick={() => setActiveMenu(null)}
+                                                                    className={cn(
+                                                                        "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary",
+                                                                        isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                    )}
+                                                                >
+                                                                    <div className="shrink-0 text-slate-500 group-hover:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                        {link.icon}
+                                                                    </div>
+                                                                    <div className="text-left flex-1">
+                                                                        <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary transition-colors">
+                                                                            {link.label}
+                                                                        </p>
+                                                                    </div>
+                                                                    <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100" />
+                                                                </Link>
+                                                            );
+                                                        })}
                                                     </div>
                                                 ))}
                                             </div>
@@ -631,9 +840,12 @@ export function Header() {
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => setOpenMobileSubAccordion(isSubOpen ? null : cat.id)}
-                                                                        className="w-full text-left font-semibold text-[15px] text-slate-800 dark:text-slate-200 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors flex items-center justify-between py-1 cursor-pointer"
+                                                                        className="w-full text-left font-bold text-[15px] text-slate-800 dark:text-slate-200 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors flex items-center justify-between py-1 cursor-pointer"
                                                                     >
-                                                                        <span>{cat.name}</span>
+                                                                        <div className="flex items-center gap-2.5">
+                                                                            <span className="text-primary">{getCategoryIcon(cat.id, cat.name)}</span>
+                                                                            <span>{cat.name}</span>
+                                                                        </div>
                                                                         <ChevronDown className={cn(
                                                                             "w-3.5 h-3.5 text-slate-400 transition-transform duration-180 ease-out shrink-0 mr-1",
                                                                             isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
@@ -642,16 +854,54 @@ export function Header() {
                                                                     {/* Level 2 sub-items with nested vertical branch line */}
                                                                     {isSubOpen && (
                                                                         <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-3.5 py-1.5 space-y-2">
-                                                                            {cat.subItems.map((sub) => (
-                                                                                <Link
-                                                                                    key={sub.id}
-                                                                                    href={sub.href}
-                                                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                                                    className="block text-[14px] text-slate-600 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5"
-                                                                                >
-                                                                                    {sub.label}
-                                                                                </Link>
-                                                                            ))}
+                                                                            {cat.subItems.map((sub) => {
+                                                                                const hasLeafs = sub.items && sub.items.length > 0;
+                                                                                const isThirdOpen = openMobileThirdAccordion === sub.id;
+
+                                                                                if (hasLeafs) {
+                                                                                    return (
+                                                                                        <div key={sub.id} className="space-y-1">
+                                                                                            <button
+                                                                                                type="button"
+                                                                                                onClick={() => setOpenMobileThirdAccordion(isThirdOpen ? null : sub.id)}
+                                                                                                className="w-full text-left font-medium text-[14px] text-slate-700 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors flex items-center justify-between py-0.5 cursor-pointer"
+                                                                                            >
+                                                                                                <span>{sub.label}</span>
+                                                                                                <ChevronDown className={cn(
+                                                                                                    "w-3 h-3 text-slate-400 transition-transform duration-180 ease-out shrink-0 mr-1",
+                                                                                                    isThirdOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                                                                )} />
+                                                                                            </button>
+                                                                                            {/* Level 3: Classes */}
+                                                                                            {isThirdOpen && (
+                                                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-3 py-1 space-y-1.5">
+                                                                                                    {sub.items!.map((item) => (
+                                                                                                        <Link
+                                                                                                            key={item.id}
+                                                                                                            href={item.href}
+                                                                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                            className="block text-[13px] font-medium text-slate-600 dark:text-slate-400 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5"
+                                                                                                        >
+                                                                                                            {item.label}
+                                                                                                        </Link>
+                                                                                                    ))}
+                                                                                                </div>
+                                                                                            )}
+                                                                                        </div>
+                                                                                    );
+                                                                                }
+
+                                                                                return (
+                                                                                    <Link
+                                                                                        key={sub.id}
+                                                                                        href={sub.href}
+                                                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                                                        className="block text-[14px] text-slate-600 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5"
+                                                                                    >
+                                                                                        {sub.label}
+                                                                                    </Link>
+                                                                                );
+                                                                            })}
                                                                         </div>
                                                                     )}
                                                                 </div>
@@ -668,7 +918,7 @@ export function Header() {
                                             >
                                                 <CollapsibleTrigger asChild>
                                                     <button 
-                                                        type="button"
+                                                        type="button" 
                                                         className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
                                                     >
                                                         <span className="uppercase">APPLY FOR</span>
@@ -678,103 +928,140 @@ export function Header() {
                                                         )} />
                                                     </button>
                                                 </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-4 pt-1 px-6 sm:px-7 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
-                                                    {/* Vertical branch line */}
-                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-4 space-y-2.5 py-1">
-                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
-                                                            <button
-                                                                key={label}
-                                                                type="button"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    setIsMobileMenuOpen(false);
-                                                                    if (linkOnClick) {
-                                                                      linkOnClick();
-                                                                    } else if (href && href !== '#') {
-                                                                        router.push(href);
-                                                                    }
-                                                                }}
-                                                                className="block w-full text-left text-[14.5px] font-medium text-slate-700 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-1 cursor-pointer"
-                                                            >
-                                                                {label}
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </CollapsibleContent>
-                                            </Collapsible>
+                                                <CollapsibleContent className="pb-4 pt-1 px-5 sm:px-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
+                                                    <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
+                                                         {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
+                                                             <button
+                                                                 key={label}
+                                                                 type="button"
+                                                                 suppressHydrationWarning
+                                                                 onClick={(e) => {
+                                                                     e.preventDefault();
+                                                                     setIsMobileMenuOpen(false);
+                                                                     if (linkOnClick) {
+                                                                       linkOnClick();
+                                                                     } else if (href && href !== '#') {
+                                                                         router.push(href);
+                                                                     }
+                                                                 }}
+                                                                 className="group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary w-full cursor-pointer"
+                                                             >
+                                                                 <div className="shrink-0 text-slate-500 group-hover:text-primary group-active:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                     {icon}
+                                                                 </div>
+                                                                 <div className="text-left flex-1">
+                                                                     <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary group-active:text-primary transition-colors">
+                                                                         {label}
+                                                                     </p>
+                                                                 </div>
+                                                                 <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-active:text-primary group-hover:translate-x-0.5" />
+                                                             </button>
+                                                         ))}
+                                                     </div>
+                                                 </CollapsibleContent>
+                                             </Collapsible>
 
-                                            {/* 3. MORE ROW */}
-                                            <Collapsible 
-                                                open={openMobileAccordion === 'more'} 
-                                                onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'more' : null)}
-                                            >
-                                                <CollapsibleTrigger asChild>
-                                                    <button 
-                                                        type="button"
-                                                        className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
-                                                    >
-                                                        <span className="uppercase">MORE</span>
-                                                        <ChevronDown className={cn(
-                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
-                                                            openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                        )} />
-                                                    </button>
-                                                </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-4 pt-1 px-6 sm:px-7 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
-                                                    {/* Vertical branch line */}
-                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-4 space-y-4 py-1">
-                                                        {moreMenuGroups.map((group) => (
-                                                            <div key={group.title} className="space-y-2">
-                                                                <span className="text-[11px] font-bold text-[#102A68] dark:text-blue-400 uppercase tracking-wider block">
-                                                                    {group.title}
-                                                                </span>
-                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-1.5 pl-3.5 space-y-2">
-                                                                    {group.links.map((link) => {
-                                                                        const isDisabled = (link as any).disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
-                                                                        const handleClick = (e: React.MouseEvent) => {
-                                                                            if (link.onClick) {
-                                                                                e.preventDefault();
-                                                                                link.onClick();
-                                                                            }
-                                                                            if (!isDisabled) {
-                                                                                setIsMobileMenuOpen(false);
-                                                                            }
-                                                                        };
+                                             {/* STORE ROW */}
+                                             <div className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center">
+                                                 <Link
+                                                     href="/store"
+                                                     target="_blank"
+                                                     rel="noopener noreferrer"
+                                                     onClick={() => setIsMobileMenuOpen(false)}
+                                                     className="flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:text-primary transition-colors cursor-pointer"
+                                                 >
+                                                     <span className="flex items-center gap-2.5 uppercase">
+                                                         <span>STORE</span>
+                                                     </span>
+                                                     <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
+                                                 </Link>
+                                             </div>
 
-                                                                        return (
-                                                                            <Link
-                                                                                key={link.label}
-                                                                                href={isDisabled ? '#' : link.href}
-                                                                                onClick={handleClick}
-                                                                                className={cn(
-                                                                                    "block text-[14px] text-slate-600 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5",
-                                                                                    isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                                )}
-                                                                            >
-                                                                                {link.label}
-                                                                            </Link>
-                                                                        );
-                                                                    })}
-                                                                </div>
-                                                            </div>
-                                                        ))}
+                                             {/* 3. MORE ROW */}
+                                             <Collapsible 
+                                                 open={openMobileAccordion === 'more'} 
+                                                 onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'more' : null)}
+                                             >
+                                                 <CollapsibleTrigger asChild>
+                                                     <button 
+                                                         type="button" 
+                                                         className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
+                                                     >
+                                                         <span className="uppercase">MORE</span>
+                                                         <ChevronDown className={cn(
+                                                             "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
+                                                             openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                         )} />
+                                                     </button>
+                                                 </CollapsibleTrigger>
+                                                 <CollapsibleContent className="pb-4 pt-1 px-5 sm:px-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
+                                                     <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
+                                                         {moreMenuGroups.map((group, groupIdx) => (
+                                                             <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
+                                                                 {groupIdx > 0 && <div className="my-1 border-t border-border" />}
+                                                                 <div className="px-4 pt-2 pb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                                     {group.title}
+                                                                 </div>
+                                                                 {group.links.map((link) => {
+                                                                     const isDisabled = (link as any).disabled || link.label === "Register Now";
+                                                                     const isAction = Boolean(link.onClick);
 
-                                                        {/* Store link inside More folder */}
-                                                        <div className="pt-1">
-                                                            <Link
-                                                                href="/store"
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                                className="flex items-center gap-2 text-[14.5px] font-semibold text-slate-800 dark:text-slate-200 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-1"
-                                                            >
-                                                                <ShoppingCart className="h-4 w-4 text-[#102A68] dark:text-blue-400" />
-                                                                <span>Store</span>
-                                                            </Link>
-                                                        </div>
-                                                    </div>
-                                                </CollapsibleContent>
-                                            </Collapsible>
+                                                                     if (isAction) {
+                                                                         return (
+                                                                             <button
+                                                                                 key={link.label}
+                                                                                 type="button"
+                                                                                 suppressHydrationWarning
+                                                                                 onClick={() => {
+                                                                                     setIsMobileMenuOpen(false);
+                                                                                     if (link.onClick) link.onClick();
+                                                                                 }}
+                                                                                 className={cn(
+                                                                                     "group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary w-full cursor-pointer",
+                                                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                                 )}
+                                                                             >
+                                                                                 <div className="shrink-0 text-slate-500 group-hover:text-primary group-active:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                                     {link.icon}
+                                                                                 </div>
+                                                                                 <div className="text-left flex-1">
+                                                                                     <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary group-active:text-primary transition-colors">
+                                                                                         {link.label}
+                                                                                     </p>
+                                                                                 </div>
+                                                                                 <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-active:text-primary group-hover:translate-x-0.5" />
+                                                                             </button>
+                                                                         );
+                                                                     }
+
+                                                                     return (
+                                                                         <Link
+                                                                             key={link.label}
+                                                                             href={isDisabled ? '#' : link.href}
+                                                                             suppressHydrationWarning
+                                                                             onClick={() => setIsMobileMenuOpen(false)}
+                                                                             className={cn(
+                                                                                 "group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary",
+                                                                                 isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                             )}
+                                                                         >
+                                                                             <div className="shrink-0 text-slate-500 group-hover:text-primary group-active:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                                 {link.icon}
+                                                                             </div>
+                                                                             <div className="text-left flex-1">
+                                                                                 <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary group-active:text-primary transition-colors">
+                                                                                     {link.label}
+                                                                                 </p>
+                                                                             </div>
+                                                                             <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-active:text-primary group-hover:translate-x-0.5" />
+                                                                         </Link>
+                                                                     );
+                                                                 })}
+                                                             </div>
+                                                         ))}
+                                                     </div>
+                                                 </CollapsibleContent>
+                                             </Collapsible>
                                         </nav>
                                     </div>
 
@@ -782,7 +1069,7 @@ export function Header() {
                                     <div className="px-5 sm:px-6 py-4 border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-sm shrink-0 mt-auto relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
                                         <a 
                                             href="tel:8860040010" 
-                                            className="w-full flex items-center justify-center gap-3 h-12 sm:h-12.5 rounded-xl bg-[#0B1F4B] hover:bg-[#071536] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-180 shadow-xs active:scale-[0.99] cursor-pointer"
+                                            className="w-full flex items-center justify-center gap-3 h-12 sm:h-12.5 rounded-[8px] bg-[#0B1F4B] hover:bg-[#071536] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-180 shadow-xs active:scale-[0.99] cursor-pointer"
                                         >
                                             <div className="w-7.5 h-7.5 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
                                                 <Phone className="w-3.5 h-3.5 text-white stroke-[2.2]" />

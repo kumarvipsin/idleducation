@@ -4,6 +4,16 @@ import { db } from "@/lib/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { serializeFirestoreData } from "./utils";
 
+export interface CourseLeafItem {
+    id: string;
+    label: string;
+    classNumber?: number;
+    slug?: string;
+    href: string;
+    order: number;
+    status?: 'active' | 'inactive';
+}
+
 export interface CourseSubItem {
     id: string;
     label: string;
@@ -12,6 +22,7 @@ export interface CourseSubItem {
     href: string;
     order: number;
     status: 'active' | 'inactive';
+    items?: CourseLeafItem[];
 }
 
 export interface CourseCategory {
@@ -39,9 +50,23 @@ export async function getAllCoursesCategories(): Promise<{ success: boolean; dat
         snapshot.forEach(docSnap => {
             const data = serializeFirestoreData(docSnap.data());
             const subItems: CourseSubItem[] = Array.isArray(data.subItems)
-                ? (data.subItems as CourseSubItem[])
+                ? (data.subItems as any[])
                     .filter(sub => sub.status === 'active')
                     .sort((a, b) => (a.order || 0) - (b.order || 0))
+                    .map(sub => ({
+                        id: sub.id,
+                        label: sub.label,
+                        classNumber: sub.classNumber,
+                        slug: sub.slug,
+                        href: sub.href,
+                        order: sub.order,
+                        status: sub.status,
+                        items: Array.isArray(sub.items)
+                            ? sub.items
+                                .filter((item: any) => item.status === 'active' || !item.status)
+                                .sort((a: any, b: any) => (a.order || 0) - (b.order || 0))
+                            : undefined
+                    }))
                 : [];
 
             categories.push({

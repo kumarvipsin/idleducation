@@ -241,7 +241,7 @@ export function StudyResources() {
                             </h3>
                             
                             {/* Description with balanced spacing */}
-                            <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 font-medium leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4 flex-1">
+                            <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 font-semibold leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4 flex-1">
                               {resource.description}
                             </p>
 

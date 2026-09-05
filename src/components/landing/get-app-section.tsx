@@ -133,7 +133,7 @@ export function GetAppSection() {
                   </div>
                   <div className="space-y-0.5 min-w-0 flex-1">
                     <p className="text-[14px] sm:text-[15px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight">Technical Support</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Get help with your IDL experience.</p>
+                    <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 font-semibold">Get help with your IDL experience.</p>
                   </div>
                 </button>
               </DialogTrigger>
@@ -145,7 +145,7 @@ export function GetAppSection() {
                     <DialogTitle className="text-left text-xl sm:text-2xl font-bold text-[#102A68] dark:text-white tracking-tight leading-snug">
                         Raise a Support Ticket
                     </DialogTitle>
-                    <DialogDescription className="text-left text-[13px] sm:text-[14px] font-normal text-slate-500 dark:text-slate-400 mt-0.5 leading-normal">
+                    <DialogDescription className="text-left text-[13px] sm:text-[14px] font-semibold text-slate-600 dark:text-slate-400 mt-0.5 leading-normal">
                         Experiencing an issue with portal, study app or account? Submit your details below.
                     </DialogDescription>
                 </DialogHeader>
@@ -266,7 +266,7 @@ export function GetAppSection() {
                             <Button 
                                 type="submit" 
                                 disabled={supportForm.formState.isSubmitting}
-                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
+                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
                             >
                                 <span>{supportForm.formState.isSubmitting ? 'Submitting Ticket...' : 'Raise Support Ticket'}</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -286,7 +286,7 @@ export function GetAppSection() {
                   </div>
                   <div className="space-y-0.5 min-w-0 flex-1">
                     <p className="text-[14px] sm:text-[15px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight">Talk to an Expert</p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Have a question? Let’s help.</p>
+                    <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 font-semibold">Have a question? Let’s help.</p>
                   </div>
                 </button>
               </DialogTrigger>
@@ -298,7 +298,7 @@ export function GetAppSection() {
                     <DialogTitle className="text-left text-xl sm:text-2xl font-bold text-[#102A68] dark:text-white tracking-tight leading-snug">
                         Talk to Our Expert
                     </DialogTitle>
-                    <DialogDescription className="text-left text-[13px] sm:text-[14px] font-normal text-slate-500 dark:text-slate-400 mt-0.5 leading-normal">
+                    <DialogDescription className="text-left text-[13px] sm:text-[14px] font-semibold text-slate-600 dark:text-slate-400 mt-0.5 leading-normal">
                         Have questions on courses, batches, or career roadmap? Request an expert call back.
                     </DialogDescription>
                 </DialogHeader>
@@ -448,7 +448,7 @@ export function GetAppSection() {
                             <Button 
                                 type="submit" 
                                 disabled={callBackForm.formState.isSubmitting}
-                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
+                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
                             >
                                 <span>{callBackForm.formState.isSubmitting ? 'Requesting Call Back...' : 'Get a Call Back'}</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -601,8 +601,8 @@ export function GetAppSection() {
             <Copy className="w-4 h-4 text-slate-400" />
           </div>
 
-          <Button onClick={() => setSubmittedTicketId(null)} className="w-full h-10 sm:h-11 rounded-xl text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all cursor-pointer">
-            Close &amp; Return
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full h-10 sm:h-11 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all cursor-pointer">
+            Submit Another Ticket
           </Button>
         </div>
       </FormModalDialogContent>

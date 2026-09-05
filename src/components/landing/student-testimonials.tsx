@@ -56,9 +56,9 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
               {/* Testimonial Text & Read More */}
               <div className="relative w-full flex-grow flex flex-col justify-between">
-                  <div className="flex items-start gap-2 mb-2">
-                      <Quote className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1F4FA3]/75 dark:text-blue-400/80 fill-[#1F4FA3]/15 shrink-0 mt-1" />
-                      <blockquote className="text-[15.5px] sm:text-[17px] text-slate-600 dark:text-slate-300 font-normal leading-[1.6] tracking-normal text-left line-clamp-4">
+                  <div className="flex items-start gap-2 mb-1.5">
+                      <Quote className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1F4FA3]/75 dark:text-blue-400/80 fill-[#1F4FA3]/15 shrink-0 mt-0.5" />
+                      <blockquote className="text-[14.5px] sm:text-[15.5px] text-slate-600 dark:text-slate-300 font-medium leading-[1.45] tracking-tight text-left line-clamp-4 antialiased">
                           {testimonial.testimonial}
                       </blockquote>
                   </div>
@@ -67,7 +67,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     <button
                       type="button"
                       onClick={() => setIsReadMoreOpen(true)}
-                      className="text-[13.5px] sm:text-[14.5px] font-semibold text-[#1F4FA3] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1.5 mt-1.5 transition-colors cursor-pointer self-start"
+                      className="text-[13px] sm:text-[14px] font-semibold text-[#1F4FA3] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1.5 mt-1 transition-colors cursor-pointer self-start"
                     >
                       <span>Read More</span>
                       <span className="transition-transform group-hover/card:translate-x-0.5">→</span>
@@ -127,7 +127,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
             <div className="flex items-start gap-2 pt-1">
               <Quote className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 fill-[#1F4FA3]/20 shrink-0 mt-0.5" />
-              <blockquote className="text-[15px] sm:text-[16.5px] text-slate-700 dark:text-slate-300 leading-relaxed text-left">
+              <blockquote className="text-[14.5px] sm:text-[15.5px] text-slate-700 dark:text-slate-300 font-medium leading-[1.5] tracking-tight antialiased text-left">
                 {testimonial.testimonial}
               </blockquote>
             </div>

@@ -289,7 +289,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
                   onClick={() => handleSendOtp()}
                   disabled={isSubmittingPhone || phone.length !== 10}
                   className={cn(
-                    "w-full h-12 text-[12px] font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 uppercase tracking-wide cursor-pointer",
+                    "w-full h-12 text-[12px] font-bold rounded-[8px] transition-all duration-200 flex items-center justify-center gap-1.5 uppercase tracking-wide cursor-pointer",
                     phone.length === 10 && !isSubmittingPhone
                       ? "bg-[#102A68] hover:bg-[#0c2255] text-white shadow-sm shadow-[#102A68]/20 active:scale-[0.99]"
                       : "bg-[#102A68]/50 hover:bg-[#102A68]/50 text-white/85 cursor-not-allowed"
@@ -361,7 +361,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
                   onClick={() => handleVerifyOtp()}
                   disabled={isSubmittingPhone || otp.length < 4}
                   className={cn(
-                    "w-full h-12 text-[12px] font-bold rounded-xl transition-all duration-200 flex items-center justify-center gap-1.5 uppercase tracking-wide cursor-pointer",
+                    "w-full h-12 text-[12px] font-bold rounded-[8px] transition-all duration-200 flex items-center justify-center gap-1.5 uppercase tracking-wide cursor-pointer",
                     otp.length >= 4 && !isSubmittingPhone
                       ? "bg-[#102A68] hover:bg-[#0c2255] text-white shadow-sm shadow-[#102A68]/20 active:scale-[0.99]"
                       : "bg-[#102A68]/50 hover:bg-[#102A68]/50 text-white/85 cursor-not-allowed"
@@ -433,7 +433,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
                   if (emailMode === 'login') loginForm.handleSubmit(handleEmailLogin)();
                   else signupForm.handleSubmit(handleEmailSignup)();
                 }}
-                className="w-full h-12 text-[12px] font-bold bg-[#102A68] hover:bg-[#0c2255] text-white rounded-xl shadow-sm shadow-[#102A68]/20 transition-all active:scale-[0.98] uppercase tracking-wide cursor-pointer flex items-center justify-center gap-1.5" 
+                className="w-full h-12 text-[12px] font-bold bg-[#102A68] hover:bg-[#0c2255] text-white rounded-[8px] shadow-sm shadow-[#102A68]/20 transition-all active:scale-[0.98] uppercase tracking-wide cursor-pointer flex items-center justify-center gap-1.5" 
               >
                 {emailMode === 'login' ? 'SIGN IN WITH EMAIL' : 'CREATE ACCOUNT'}
                 <ArrowRight className="h-4 w-4 ml-0.5" />
