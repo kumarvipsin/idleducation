@@ -21,22 +21,25 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   return (
     <>
       <Card
-        className="h-full flex flex-col shadow-xs hover:shadow-md transition-all duration-200 bg-white dark:bg-card text-foreground rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-border/60 group/card"
+        className="h-full w-full flex flex-col shadow-[0_2px_10px_-2px_rgba(11,31,75,0.04)] hover:shadow-[0_8px_24px_-4px_rgba(11,31,75,0.08)] hover:-translate-y-0.5 transition-all duration-180 ease-out bg-white dark:bg-card text-foreground rounded-[18px] sm:rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-border/60 group/card"
       >
-          <CardContent className="p-3.5 sm:p-4 flex flex-col text-left items-start h-full">
+          <CardContent className="p-3.5 sm:p-4 flex flex-col text-left items-start h-full justify-between flex-1 w-full">
               {/* Photo & Video Area */}
-              <div className="relative w-full aspect-square mb-3.5 rounded-xl overflow-hidden bg-slate-100 dark:bg-muted flex items-center justify-center border border-slate-100 dark:border-border/30">
+              <div className="relative w-full aspect-square mb-3 rounded-xl overflow-hidden bg-slate-100 dark:bg-muted flex items-center justify-center border border-slate-100 dark:border-border/30 shrink-0">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
                       fill
-                      className="object-cover transition-transform duration-500 group-hover/card:scale-105"
+                      className="object-cover contrast-[1.03] transition-transform duration-180 ease-out group-hover/card:scale-[1.01]"
                   />
+                  {/* Extremely soft subtle bottom gradient inside image for premium depth */}
+                  <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/20 to-transparent pointer-events-none" />
+
                   {testimonial.videoId && (
                     <button 
                       type="button"
                       onClick={() => setIsVideoOpen(true)}
-                      className="absolute bottom-2.5 right-2.5 transition-all duration-200 active:scale-95 group-hover/card:scale-110 z-10 p-1.5 rounded-full bg-black/40 hover:bg-black/60 backdrop-blur-xs text-white cursor-pointer"
+                      className="absolute bottom-2.5 right-2.5 transition-all duration-180 active:scale-95 group-hover/card:scale-105 z-10 p-1.5 rounded-full bg-black/45 hover:bg-black/65 backdrop-blur-sm text-white cursor-pointer shadow-md ring-1 ring-white/20 border border-white/10"
                       aria-label={`Watch ${testimonial.name}'s video story`}
                     >
                       <PlayCircle className="w-8 h-8 sm:w-9 sm:h-9" />
@@ -45,34 +48,40 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </div>
 
               {/* Student Name */}
-              <h3 className="font-bold text-[18px] sm:text-[20px] text-[#0B1F4B] dark:text-white tracking-tight leading-snug mb-1 line-clamp-1">
+              <h3 className="font-bold text-[17px] sm:text-[18px] text-[#0B1F4B] dark:text-white tracking-tight leading-snug mb-1.5 truncate w-full shrink-0">
                 {testimonial.name}
               </h3>
 
-              {/* Score / Achievement Badge */}
-              <div className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[11px] sm:text-[12px] font-bold uppercase tracking-wider mb-2.5 border border-blue-100/80 dark:border-primary/20">
+              {/* Score / Achievement Badge: Slimmer & Lighter */}
+              <div className="inline-flex items-center h-[22px] px-2 rounded-[4px] bg-blue-50/65 dark:bg-blue-950/25 text-[#1D4ED8] dark:text-blue-300 text-[10px] sm:text-[10.5px] font-semibold tracking-[0.03em] uppercase leading-none mb-3 sm:mb-3.5 border border-blue-100/50 dark:border-blue-900/25 shrink-0">
                   {testimonial.achievement}
               </div>
 
-              {/* Testimonial Text & Read More */}
-              <div className="relative w-full flex-grow flex flex-col justify-between">
-                  <div className="flex items-start gap-2 mb-1.5">
-                      <Quote className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1F4FA3]/75 dark:text-blue-400/80 fill-[#1F4FA3]/15 shrink-0 mt-0.5" />
-                      <blockquote className="text-[14.5px] sm:text-[15.5px] text-slate-600 dark:text-slate-300 font-medium leading-[1.45] tracking-tight text-left line-clamp-4 antialiased">
+              {/* Testimonial Text & Read More: Fixed Height Area & Exact Same Baseline */}
+              <div className="relative w-full flex-1 flex flex-col justify-between mt-auto">
+                  {/* Fixed-height testimonial quote box: holds exactly 4 lines comfortably at 15px/1.5 leading */}
+                  <div className="flex items-start gap-2 w-full h-[90px] sm:h-[94px] overflow-hidden">
+                      <Quote className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-[#1D4ED8] dark:text-blue-400 shrink-0 mt-1 stroke-[1.75]" />
+                      <blockquote className="text-[14px] sm:text-[15px] lg:text-[15.5px] text-slate-600 dark:text-slate-300 font-normal leading-[1.5] tracking-[-0.01em] text-left line-clamp-4 antialiased flex-1">
                           {testimonial.testimonial}
                       </blockquote>
                   </div>
                   
-                  {isLongTestimonial && (
-                    <button
-                      type="button"
-                      onClick={() => setIsReadMoreOpen(true)}
-                      className="text-[13px] sm:text-[14px] font-semibold text-[#1F4FA3] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1.5 mt-1 transition-colors cursor-pointer self-start"
-                    >
-                      <span>Read More</span>
-                      <span className="transition-transform group-hover/card:translate-x-0.5">→</span>
-                    </button>
-                  )}
+                  {/* Fixed Read More Row at exact same baseline with 14-16px top gap */}
+                  <div className="h-6 sm:h-7 mt-3.5 sm:mt-4 flex items-center shrink-0">
+                    {isLongTestimonial ? (
+                      <button
+                        type="button"
+                        onClick={() => setIsReadMoreOpen(true)}
+                        className="text-[13px] sm:text-[13.5px] font-semibold text-[#1D4ED8] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1.5 transition-colors duration-150 cursor-pointer group/link"
+                      >
+                        <span>Read More</span>
+                        <span className="transition-transform duration-150 ease-out group-hover/link:translate-x-1">→</span>
+                      </button>
+                    ) : (
+                      <div className="invisible text-[13px] sm:text-[13.5px]">Placeholder</div>
+                    )}
+                  </div>
               </div>
           </CardContent>
       </Card>
@@ -126,7 +135,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           </DialogHeader>
           <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
             <div className="flex items-start gap-2 pt-1">
-              <Quote className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 fill-[#1F4FA3]/20 shrink-0 mt-0.5" />
+              <Quote className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1D4ED8] dark:text-blue-400 stroke-[1.75] shrink-0 mt-1" />
               <blockquote className="text-[14.5px] sm:text-[15.5px] text-slate-700 dark:text-slate-300 font-medium leading-[1.5] tracking-tight antialiased text-left">
                 {testimonial.testimonial}
               </blockquote>
@@ -223,7 +232,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
           // safe fallback
         }
       }
-    }, 2000);
+    }, 1200);
   }, [api, canAutoplay]);
 
   const scrollTo = useCallback(
@@ -240,7 +249,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   }, [testimonials]);
 
   return (
-    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 bg-[#F8FAFC]/80 dark:bg-background overflow-hidden">
+    <section id="testimonials" className="relative w-full pt-12 sm:pt-14 md:pt-16 pb-10 sm:pb-12 md:pb-14 bg-gradient-to-b from-[#FCFBF8]/40 via-[#F6F8FC] to-[#F6F8FC] dark:bg-background overflow-hidden">
       {/* Subtle ambient depth glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[960px] h-[340px] sm:h-[420px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/4 right-[10%] w-[320px] sm:w-[480px] h-[260px] bg-amber-500/[0.015] rounded-full blur-3xl pointer-events-none" />
@@ -275,6 +284,8 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                   onMouseLeave={handleMouseLeave}
                   onTouchStart={handleTouchStart}
                   onTouchEnd={handleTouchEnd}
+                  onFocusCapture={handleMouseEnter}
+                  onBlurCapture={handleMouseLeave}
                 >
                   <Carousel
                       setApi={setApi}
@@ -292,10 +303,10 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       ]}
                       className="w-full"
                   >
-                      <CarouselContent className="-ml-4 sm:-ml-5 md:-ml-6">
+                      <CarouselContent className="-ml-4 sm:-ml-5 md:-ml-6 items-stretch">
                           {testimonials.map((testimonial, index) => (
-                              <CarouselItem key={index} className="pl-4 sm:pl-5 md:pl-6 basis-[84%] sm:basis-[48%] lg:basis-1/3">
-                                  <div className="h-full">
+                              <CarouselItem key={index} className="pl-4 sm:pl-5 md:pl-6 basis-[84%] sm:basis-[48%] lg:basis-1/3 flex flex-col">
+                                  <div className="h-full flex flex-col flex-1">
                                       <TestimonialCard testimonial={testimonial} />
                                   </div>
                               </CarouselItem>

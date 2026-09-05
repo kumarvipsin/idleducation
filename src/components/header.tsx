@@ -8,7 +8,7 @@ import {
     UserCircle, Building, Users, HandHeart, Banknote,
     Edit, Headset, CheckCircle2, MapPin, Search,
     Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket,
-    Atom, Stethoscope
+    Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -151,15 +151,15 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
 const getCategoryIcon = (id: string, name: string) => {
     const key = (name || id).toLowerCase();
     if (key.includes('cbse') || key.includes('school') || key.includes('free')) {
-        return <GraduationCap className="w-5 h-5 shrink-0" />;
+        return <GraduationCap className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
     }
     if (key.includes('jee') || key.includes('iit')) {
-        return <Atom className="w-5 h-5 shrink-0" />;
+        return <Atom className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
     }
     if (key.includes('neet') || key.includes('medical')) {
-        return <Stethoscope className="w-5 h-5 shrink-0" />;
+        return <Stethoscope className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
     }
-    return <BookOpen className="w-5 h-5 shrink-0" />;
+    return <BookOpen className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
 };
 
 const donationCategories = [
@@ -392,29 +392,29 @@ export function Header() {
 
     const moreMenuGroups = [
         {
-            title: "Explore",
+            title: "EXPLORE",
             links: [
-                { href: "/offline-centers", label: "Offline Centers", icon: <Building className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Visit our learning centers." },
-                { href: "/blog", label: "IDL Blog", icon: <FileText className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Read articles and updates." },
-                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Explore moments from our journey." },
+                { href: "/offline-centers", label: "Offline Centers", icon: <Building className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Visit our learning centers." },
+                { href: "/blog", label: "IDL Blog", icon: <FileText className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Read articles and updates." },
+                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Explore moments from our journey." },
             ]
         },
         {
-            title: "Company",
+            title: "COMPANY",
             links: [
-                { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
-                { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-                { href: "/journey", label: "The Journey", icon: <Rocket className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Milestones and evolution of IDL." },
+                { href: "/about", label: "About Us", icon: <Info className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
+                { href: "#", label: "Contact Us", icon: <MessageSquare className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
+                { href: "/journey", label: "The Journey", icon: <Rocket className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Milestones and evolution of IDL." },
             ]
         },
     ];
 
     const applyForLinks = [
-        { href: "#", label: "Admission Form", icon: <FileType className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today.", onClick: () => setIsAdmissionOpen(true) },
-        { href: "#", label: "Book Free Demo", icon: <GraduationCap className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style.", onClick: () => setIsBookDemoOpen(true) },
-        { href: "#", label: "Feedback", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve.", onClick: () => setIsFeedbackOpen(true) },
-        { href: "#", label: "Student Enquiry", icon: <HelpCircle className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry.", onClick: () => setIsEnquiryOpen(true) },
-        { href: "#", label: "Scholarship", icon: <Award className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship.", onClick: () => setIsScholarshipOpen(true) },
+        { href: "#", label: "Admission Form", icon: <FileText className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today.", onClick: () => setIsAdmissionOpen(true) },
+        { href: "#", label: "Book Free Demo", icon: <Presentation className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style.", onClick: () => setIsBookDemoOpen(true) },
+        { href: "#", label: "Feedback", icon: <MessageSquareText className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve.", onClick: () => setIsFeedbackOpen(true) },
+        { href: "#", label: "Student Enquiry", icon: <CircleHelp className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry.", onClick: () => setIsEnquiryOpen(true) },
+        { href: "#", label: "Scholarship", icon: <Award className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship.", onClick: () => setIsScholarshipOpen(true) },
     ];
 
     const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -499,22 +499,24 @@ export function Header() {
                                                                     href={c.href}
                                                                     onClick={() => setActiveMenu(null)}
                                                                     className={cn(
-                                                                        "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2",
+                                                                        "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 cursor-pointer w-full",
                                                                         isCatActive
                                                                             ? "bg-muted/80 border-primary text-primary"
-                                                                            : "border-transparent hover:bg-muted/50 hover:border-border text-foreground"
+                                                                            : "border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary"
                                                                     )}
                                                                 >
                                                                     <div className={cn(
-                                                                        "shrink-0 transition-colors",
-                                                                        isCatActive ? "text-primary" : "text-slate-500 group-hover:text-primary"
+                                                                        "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
+                                                                        isCatActive
+                                                                            ? "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5"
+                                                                            : "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400"
                                                                     )}>
                                                                         {getCategoryIcon(c.id, c.name)}
                                                                     </div>
                                                                     <div className="text-left flex-1">
                                                                         <p className={cn(
                                                                             "font-bold text-[14px] leading-tight transition-colors",
-                                                                            isCatActive ? "text-primary font-extrabold" : "text-foreground group-hover:text-primary"
+                                                                            isCatActive ? "text-primary" : "text-foreground group-hover:text-primary"
                                                                         )}>
                                                                             {c.name}
                                                                         </p>
@@ -523,7 +525,7 @@ export function Header() {
                                                                         "w-4 h-4 transition-all shrink-0",
                                                                         isCatActive
                                                                             ? "text-primary translate-x-0.5 opacity-100"
-                                                                            : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5"
+                                                                            : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100"
                                                                     )} />
                                                                 </Link>
                                                             </div>
@@ -633,7 +635,7 @@ export function Header() {
                                                         }}
                                                         className="group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary w-full cursor-pointer"
                                                     >
-                                                        <div className="shrink-0 text-slate-500 group-hover:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                        <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5">
                                                             {l.icon}
                                                         </div>
                                                         <div className="text-left flex-1">
@@ -663,8 +665,8 @@ export function Header() {
                                             <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl p-2 flex flex-col gap-1">
                                                 {moreMenuGroups.map((group, groupIdx) => (
                                                     <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
-                                                        {groupIdx > 0 && <div className="my-1 border-t border-border" />}
-                                                        <div className="px-4 pt-2 pb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                        {groupIdx > 0 && <div className="my-1 border-t border-slate-100 dark:border-slate-800" />}
+                                                        <div className="px-4 pt-2 pb-1 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                                                             {group.title}
                                                         </div>
                                                         {group.links.map(link => {
@@ -686,7 +688,7 @@ export function Header() {
                                                                             isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                         )}
                                                                     >
-                                                                        <div className="shrink-0 text-slate-500 group-hover:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                        <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5">
                                                                             {link.icon}
                                                                         </div>
                                                                         <div className="text-left flex-1">
@@ -710,7 +712,7 @@ export function Header() {
                                                                         isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                     )}
                                                                 >
-                                                                    <div className="shrink-0 text-slate-500 group-hover:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                    <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5">
                                                                         {link.icon}
                                                                     </div>
                                                                     <div className="text-left flex-1">
@@ -830,30 +832,46 @@ export function Header() {
                                                         )} />
                                                     </button>
                                                 </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-4 pt-1 px-6 sm:px-7 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
-                                                    {/* Vertical branch line for level 1 categories */}
-                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-4 space-y-3.5 py-1">
+                                                <CollapsibleContent className="pb-4 pt-1 px-5 sm:px-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
+                                                    <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
                                                         {courseCategories.map((cat) => {
                                                             const isSubOpen = openMobileSubAccordion === cat.id;
                                                             return (
-                                                                <div key={cat.id} className="space-y-1">
+                                                                <div key={cat.id} className="flex flex-col">
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => setOpenMobileSubAccordion(isSubOpen ? null : cat.id)}
-                                                                        className="w-full text-left font-bold text-[15px] text-slate-800 dark:text-slate-200 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors flex items-center justify-between py-1 cursor-pointer"
+                                                                        className={cn(
+                                                                            "group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 w-full cursor-pointer",
+                                                                            isSubOpen
+                                                                                ? "bg-muted/80 border-primary text-primary"
+                                                                                : "border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary"
+                                                                        )}
                                                                     >
-                                                                        <div className="flex items-center gap-2.5">
-                                                                            <span className="text-primary">{getCategoryIcon(cat.id, cat.name)}</span>
-                                                                            <span>{cat.name}</span>
+                                                                        <div className={cn(
+                                                                            "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5",
+                                                                            isSubOpen
+                                                                                ? "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5"
+                                                                                : "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400"
+                                                                        )}>
+                                                                            {getCategoryIcon(cat.id, cat.name)}
+                                                                        </div>
+                                                                        <div className="text-left flex-1">
+                                                                            <p className={cn(
+                                                                                "font-bold text-[14px] leading-tight transition-colors",
+                                                                                isSubOpen ? "text-primary font-extrabold" : "text-foreground group-hover:text-primary group-active:text-primary"
+                                                                            )}>
+                                                                                {cat.name}
+                                                                            </p>
                                                                         </div>
                                                                         <ChevronDown className={cn(
-                                                                            "w-3.5 h-3.5 text-slate-400 transition-transform duration-180 ease-out shrink-0 mr-1",
-                                                                            isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                                            "w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-active:text-primary transition-transform duration-180 ease-out shrink-0",
+                                                                            isSubOpen && "rotate-180 text-primary"
                                                                         )} />
                                                                     </button>
                                                                     {/* Level 2 sub-items with nested vertical branch line */}
                                                                     {isSubOpen && (
-                                                                        <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-3.5 py-1.5 space-y-2">
+                                                                        <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3.5 py-2 my-1 space-y-2">
                                                                             {cat.subItems.map((sub) => {
                                                                                 const hasLeafs = sub.items && sub.items.length > 0;
                                                                                 const isThirdOpen = openMobileThirdAccordion === sub.id;
@@ -946,7 +964,7 @@ export function Header() {
                                                                  }}
                                                                  className="group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary w-full cursor-pointer"
                                                              >
-                                                                 <div className="shrink-0 text-slate-500 group-hover:text-primary group-active:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                 <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5">
                                                                      {icon}
                                                                  </div>
                                                                  <div className="text-left flex-1">
@@ -998,8 +1016,8 @@ export function Header() {
                                                      <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
                                                          {moreMenuGroups.map((group, groupIdx) => (
                                                              <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
-                                                                 {groupIdx > 0 && <div className="my-1 border-t border-border" />}
-                                                                 <div className="px-4 pt-2 pb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                                 {groupIdx > 0 && <div className="my-1 border-t border-slate-100 dark:border-slate-800" />}
+                                                                 <div className="px-4 pt-2 pb-1 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
                                                                      {group.title}
                                                                  </div>
                                                                  {group.links.map((link) => {
@@ -1021,7 +1039,7 @@ export function Header() {
                                                                                      isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                  )}
                                                                              >
-                                                                                 <div className="shrink-0 text-slate-500 group-hover:text-primary group-active:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                                 <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5">
                                                                                      {link.icon}
                                                                                  </div>
                                                                                  <div className="text-left flex-1">
@@ -1045,7 +1063,7 @@ export function Header() {
                                                                                  isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                              )}
                                                                          >
-                                                                             <div className="shrink-0 text-slate-500 group-hover:text-primary group-active:text-primary transition-colors [&>svg]:w-5 [&>svg]:h-5">
+                                                                             <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5">
                                                                                  {link.icon}
                                                                              </div>
                                                                              <div className="text-left flex-1">
@@ -1065,23 +1083,16 @@ export function Header() {
                                         </nav>
                                     </div>
 
-                                    {/* Bottom Call Area: Integrated footer background, grounded, respecting safe areas */}
+                                    {/* Bottom Call Area: Grounded, respecting safe areas, Icon + Number only */}
                                     <div className="px-5 sm:px-6 py-4 border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-sm shrink-0 mt-auto relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
                                         <a 
                                             href="tel:8860040010" 
-                                            className="w-full flex items-center justify-center gap-3 h-12 sm:h-12.5 rounded-[8px] bg-[#0B1F4B] hover:bg-[#071536] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-180 shadow-xs active:scale-[0.99] cursor-pointer"
+                                            className="w-full flex items-center justify-center gap-2.5 h-12 sm:h-12.5 rounded-[10px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-150 ease-out shadow-sm active:scale-[0.99] cursor-pointer"
                                         >
-                                            <div className="w-7.5 h-7.5 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
-                                                <Phone className="w-3.5 h-3.5 text-white stroke-[2.2]" />
-                                            </div>
-                                            <div className="flex items-baseline gap-2.5">
-                                                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-blue-200/90 dark:text-blue-200/80">
-                                                    CALL NOW
-                                                </span>
-                                                <span className="text-[16px] font-bold text-white tracking-tight">
-                                                    8860040010
-                                                </span>
-                                            </div>
+                                            <Phone className="w-5 h-5 text-white stroke-[2.2] shrink-0" />
+                                            <span className="text-[18px] sm:text-[19px] font-bold text-white tracking-tight leading-none">
+                                                8860040010
+                                            </span>
                                         </a>
                                     </div>
                                 </div>

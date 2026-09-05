@@ -114,10 +114,11 @@ export function GetAppSection() {
     
   return (
     <>
-    <section className="w-full pt-1 pb-6 md:pb-8 bg-white dark:bg-gray-900">
+    {/* Utility / Need Help Section: Clean White Pause */}
+    <section className="w-full pt-4 pb-6 sm:pb-7 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         {/* Support Area: Need Help? We're Here. */}
-        <div className="max-w-3xl mx-auto mb-5 sm:mb-6">
+        <div className="max-w-3xl mx-auto">
           <div className="text-center mb-2.5">
             <h3 className="text-xs sm:text-sm font-extrabold text-[#0B1F4B] dark:text-slate-200 uppercase tracking-wider">
               Need Help? We&apos;re Here.
@@ -460,8 +461,12 @@ export function GetAppSection() {
           </Dialog>
           </div>
         </div>
-        
-        {/* Learning App Section */}
+      </div>
+    </section>
+
+    {/* Learning App Section: Soft Cool-Blue-White surface with elevated white inner panel */}
+    <section className="w-full pt-6 sm:pt-8 pb-8 sm:pb-10 md:pb-12 bg-[#F7F9FC] dark:bg-background border-t border-slate-200/50 dark:border-slate-800/50">
+      <div className="container mx-auto px-4 md:px-6">
         <div className="relative rounded-[22px] bg-white dark:bg-card p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-border/60 shadow-sm md:shadow-md overflow-hidden">
           {/* Background Texture & Map Silhouette */}
           <div className="absolute inset-0 bg-dot-pattern opacity-30 pointer-events-none" />

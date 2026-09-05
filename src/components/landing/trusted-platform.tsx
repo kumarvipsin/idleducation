@@ -10,8 +10,10 @@ export function TrustedPlatform() {
 
   return (
     <>
-      <section suppressHydrationWarning className="w-full py-6 sm:py-8 lg:py-14 bg-white dark:bg-background relative overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6">
+      <section suppressHydrationWarning className="w-full py-6 sm:py-8 lg:py-14 bg-[#F7F9FC] dark:bg-background relative overflow-hidden">
+        {/* Extremely low-opacity ambient blue glow behind right visual area */}
+        <div className="absolute top-1/2 right-[12%] -translate-y-1/2 w-[420px] h-[340px] bg-blue-500/[0.025] rounded-full blur-3xl pointer-events-none" />
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-[46%_54%] xl:grid-cols-[47%_53%] lg:gap-8 xl:gap-10 items-center">
             
             {/* ============================================================ */}

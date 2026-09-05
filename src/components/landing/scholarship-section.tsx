@@ -10,7 +10,7 @@ export function ScholarshipSection() {
     const [isScholarshipOpen, setIsScholarshipOpen] = useState(false);
 
     return (
-        <section className="w-full pt-4 sm:pt-6 pb-2 sm:pb-3 bg-white dark:bg-background">
+        <section className="w-full pt-4 sm:pt-6 pb-2 sm:pb-3 bg-[#FCFBF8] dark:bg-background">
             <div className="container mx-auto px-4 md:px-6">
                 <div className="relative rounded-[22px] bg-white dark:bg-card p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-border/60 shadow-sm md:shadow-md overflow-hidden">
                     {/* Subtle branded top accent line */}
