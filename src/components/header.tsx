@@ -44,79 +44,22 @@ import { FeedbackModal } from "./feedback-modal";
 import { StudentEnquiryModal } from "./student-enquiry-modal";
 import { ScholarshipModal } from "./scholarship-modal";
 import { ContactModal } from "./contact-modal";
+import { RecentUpdatesModal } from "./recent-updates-modal";
+import { getAllCoursesCategories, type CourseCategory } from "@/app/actions/course-categories";
 
 const megaMenuBg = "bg-white shadow-2xl";
 
-const allCoursesCategories = [
+const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
     {
-        id: "free-courses",
+        id: "cat_free_courses",
         name: "FREE COURSES",
+        slug: "free-courses",
         href: "/free-courses",
+        order: 1,
+        status: "active",
         subItems: [
-            { label: "Class 8", href: "/free-courses?class=Class 8" },
-            { label: "Class 9", href: "/free-courses?class=Class 9" },
-            { label: "Class 10", href: "/free-courses?class=Class 10" },
-            { label: "Class 11", href: "/free-courses?class=Class 11" },
-            { label: "Class 12", href: "/free-courses?class=Class 12" },
-            { label: "All Free Courses", href: "/free-courses" },
-        ],
-    },
-    {
-        id: "paid-courses",
-        name: "PAID COURSES",
-        href: "/paid-courses",
-        subItems: [
-            { label: "Class 9", href: "/paid-courses?class=Class 9" },
-            { label: "Class 10", href: "/paid-courses?class=Class 10" },
-            { label: "Class 11", href: "/paid-courses?class=Class 11" },
-            { label: "Class 12", href: "/paid-courses?class=Class 12" },
-            { label: "All Paid Courses", href: "/paid-courses" },
-        ],
-    },
-    {
-        id: "school-board",
-        name: "SCHOOL BOARD",
-        href: "/school",
-        subItems: [
-            { label: "Class 5 to 7", href: "/school?class=Class 5" },
-            { label: "Class 8", href: "/school?class=Class 8" },
-            { label: "Class 9", href: "/school?class=Class 9" },
-            { label: "Class 10", href: "/school?class=Class 10" },
-            { label: "Class 11", href: "/school?class=Class 11" },
-            { label: "Class 12", href: "/school?class=Class 12" },
-        ],
-    },
-    {
-        id: "cuet-exam",
-        name: "CUET EXAM",
-        href: "/category/cuet",
-        subItems: [
-            { label: "Domain Subjects", href: "/category/cuet" },
-            { label: "General Test (GT)", href: "/category/cuet" },
-            { label: "Language Section", href: "/category/cuet" },
-            { label: "All About CUET", href: "/resources/all-about-cuet" },
-        ],
-    },
-    {
-        id: "govt-exams",
-        name: "GOVT. EXAMS",
-        href: "/examcat",
-        subItems: [
-            { label: "SSC Exams", href: "/examcat" },
-            { label: "Banking Exams", href: "/examcat" },
-            { label: "Railway Exams", href: "/examcat" },
-            { label: "Delhi Police", href: "/category/delhi-police" },
-        ],
-    },
-    {
-        id: "test-series",
-        name: "TEST SERIES",
-        href: "/resources/test-series",
-        subItems: [
-            { label: "Class 10 Test Series", href: "/resources/test-series" },
-            { label: "Class 12 Test Series", href: "/resources/test-series" },
-            { label: "CUET Mock Tests", href: "/resources/test-series" },
-            { label: "Chapter Practice Tests", href: "/resources/test-series" },
+            { id: "sub_class_9", label: "Class 9", classNumber: 9, slug: "class-9", href: "/free-courses?class=Class 9", order: 1, status: "active" },
+            { id: "sub_class_10", label: "Class 10", classNumber: 10, slug: "class-10", href: "/free-courses?class=Class 10", order: 2, status: "active" },
         ],
     },
 ];
@@ -192,7 +135,21 @@ export function Header() {
     const [lastScrollY, setLastScrollY] = useState(0);
 
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
-    const [hoveredCourseCategory, setHoveredCourseCategory] = useState<string>("free-courses");
+    const [courseCategories, setCourseCategories] = useState<CourseCategory[]>(DEFAULT_COURSE_CATEGORIES);
+    const [hoveredCourseCategory, setHoveredCourseCategory] = useState<string>("cat_free_courses");
+
+    useEffect(() => {
+        let isMounted = true;
+        getAllCoursesCategories().then((res) => {
+            if (isMounted && res.success && res.data && res.data.length > 0) {
+                setCourseCategories(res.data);
+                if (!res.data.some(c => c.id === hoveredCourseCategory)) {
+                    setHoveredCourseCategory(res.data[0].id);
+                }
+            }
+        });
+        return () => { isMounted = false; };
+    }, []);
     const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const [openMobileSubAccordion, setOpenMobileSubAccordion] = useState<string | null>(null);
@@ -204,6 +161,17 @@ export function Header() {
     const [isFeedbackOpen, setIsFeedbackOpen] = useState(false);
     const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
     const [isScholarshipOpen, setIsScholarshipOpen] = useState(false);
+    const [isUpdatesOpen, setIsUpdatesOpen] = useState(false);
+
+    // Auto-open updates modal if redirected from /updates or ?updates=open
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('updates') === 'open') {
+                setIsUpdatesOpen(true);
+            }
+        }
+    }, [pathname]);
 
     const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
     const [donationCategory, setDonationCategory] = useState<string>("");
@@ -211,7 +179,7 @@ export function Header() {
     const [donorDetails, setDonorDetails] = useState({ name: '', contact: '', email: '', place: '' });
     const [donationAmount, setDonationAmount] = useState('');
 
-    const [updates, setUpdates] = useState<Update[]>([]);
+    const [updates, setUpdates] = useState<any[]>([]);
     const [hasNewUpdates, setHasNewUpdates] = useState(false);
 
     useEffect(() => {
@@ -334,7 +302,6 @@ export function Header() {
                 { href: "/about", label: "About Us", icon: <Info className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
                 { href: "#", label: "Contact Us", icon: <MessageSquare className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
                 { href: "/journey", label: "The Journey", icon: <Rocket className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Milestones and evolution of IDL." },
-                { href: "/updates", label: "Recent Updates", icon: <Bell className="h-4 w-4" />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Stay updated with latest news." },
             ]
         },
     ];
@@ -413,7 +380,7 @@ export function Header() {
                                             <div className="bg-white dark:bg-slate-950 border rounded-xl shadow-lg p-2 flex flex-row divide-x divide-border">
                                                 {/* Left Column: Categories */}
                                                 <div className="w-56 flex flex-col gap-1 pr-2">
-                                                    {allCoursesCategories.map(c => (
+                                                    {courseCategories.map(c => (
                                                         <div
                                                             key={c.id}
                                                             onMouseEnter={() => setHoveredCourseCategory(c.id)}
@@ -451,10 +418,10 @@ export function Header() {
                                                 {/* Right Column: Classes / Sub-courses */}
                                                 <div className="w-60 pl-2 flex flex-col gap-1">
                                                     {(() => {
-                                                        const activeCategory = allCoursesCategories.find(c => c.id === hoveredCourseCategory) || allCoursesCategories[0];
-                                                        return activeCategory.subItems.map((sub, idx) => (
+                                                        const activeCategory = courseCategories.find(c => c.id === hoveredCourseCategory) || courseCategories[0];
+                                                        return activeCategory?.subItems?.map((sub) => (
                                                             <Link
-                                                                key={idx}
+                                                                key={sub.id}
                                                                 href={sub.href}
                                                                 onClick={() => setActiveMenu(null)}
                                                                 className="group relative flex items-center gap-3 p-3 rounded-xl hover:bg-muted/50 transition-all duration-200 text-left border border-transparent hover:border-border"
@@ -522,13 +489,13 @@ export function Header() {
                                                         <h4 className="text-[11px] font-semibold text-primary uppercase tracking-widest border-l-4 border-primary pl-3 text-left">{group.title}</h4>
                                                         <div className="flex flex-col gap-1">
                                                             {group.links.map(link => {
-                                                                const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
+                                                                const isDisabled = (link as any).disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
                                                                 return (
                                                                     <Link
                                                                         key={link.label}
                                                                         href={isDisabled ? '#' : link.href}
-                                                                        target={link.target}
-                                                                        rel={link.target === '_blank' ? 'noopener noreferrer' : undefined}
+                                                                        target={(link as any).target}
+                                                                        rel={(link as any).target === '_blank' ? 'noopener noreferrer' : undefined}
                                                                         onClick={(e) => {
                                                                             if (link.onClick) { e.preventDefault(); link.onClick(); }
                                                                             if (!isDisabled) setActiveMenu(null);
@@ -562,20 +529,31 @@ export function Header() {
                         </nav>
                     </div>
                     <div className="flex items-center gap-2 sm:gap-3 lg:gap-3.5">
-                        {/* Call Action: Visible on Desktop only. On Mobile, Call Now is inside the full-screen drawer */}
+                        {/* Call Action: Visible on Desktop only. On Mobile, call action is inside the mobile drawer */}
                         <a 
                             href="tel:8860040010" 
                             aria-label="Call IDL Education at 8860040010"
-                            className="hidden md:flex items-center gap-2.5 py-1 px-1.5 rounded-xl transition-all hover:bg-muted/40 shrink-0"
+                            className="group hidden md:flex items-center gap-2 lg:gap-2.5 py-1 pl-1 pr-2 rounded-full transition-all duration-200 shrink-0 hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
                         >
-                            <div className="w-8 h-8 bg-blue-100 dark:bg-blue-900/50 rounded-full flex items-center justify-center shrink-0">
-                                <Phone className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60 flex items-center justify-center shrink-0 transition-all duration-200 group-hover:bg-[#E2EDFF] dark:group-hover:bg-blue-900/80 group-hover:border-blue-300 dark:group-hover:border-blue-800">
+                                <Phone className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#1F4FA3] dark:text-blue-400 transition-transform duration-200 group-hover:scale-105" />
                             </div>
-                            <div className="flex flex-col text-left justify-center">
-                                <p className="text-[8.5px] font-extrabold text-muted-foreground tracking-wider leading-none uppercase">CALL NOW</p>
-                                <p className="text-xs font-black text-foreground leading-tight tracking-tight mt-0.5">8860040010</p>
-                            </div>
+                            <span className="text-[15px] lg:text-[17.5px] font-bold text-[#0B1F4B] dark:text-slate-100 tracking-tight leading-none group-hover:text-[#1F4FA3] dark:group-hover:text-blue-400 transition-colors duration-200">
+                                8860040010
+                            </span>
                         </a>
+
+                        {/* Recent Updates Notification Bell Trigger */}
+                        <button 
+                            type="button"
+                            onClick={() => setIsUpdatesOpen(true)}
+                            aria-label="Recent Updates"
+                            title="Recent Updates"
+                            className="group relative w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60 flex items-center justify-center shrink-0 transition-all duration-200 hover:bg-[#E2EDFF] dark:hover:bg-blue-900/80 hover:border-blue-300 dark:hover:border-blue-800 cursor-pointer"
+                        >
+                            <Bell className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#1F4FA3] dark:text-blue-400 transition-transform duration-200 group-hover:scale-105" />
+                            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#FF6B00] ring-2 ring-white dark:ring-slate-900" />
+                        </button>
 
                         <div className="flex items-center">
                             {isClient && renderAuthSection()}
@@ -591,21 +569,23 @@ export function Header() {
                             <SheetContent 
                                 side="left" 
                                 data-mobile-drawer="true"
-                                className="fixed inset-y-0 left-0 z-[9999] p-0 w-full max-w-full flex flex-col h-full bg-gradient-to-b from-white via-[#fafcff] to-[#f4f7fc] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-none rounded-none overflow-hidden [&>button.absolute]:hidden"
+                                className="fixed inset-y-0 left-0 z-[9999] p-0 gap-0 w-full max-w-full flex flex-col h-full bg-gradient-to-b from-white via-[#FAFBFD] to-[#F3F7FC] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-none rounded-none overflow-hidden [&>button.absolute]:hidden"
                             >
-                                {/* Extremely subtle soft light-blue ambient highlight */}
-                                <div className="absolute bottom-20 right-0 w-80 h-80 bg-blue-100/25 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none -z-0" />
+                                {/* Ultra-subtle IDL ambient depth: Faint dotted pattern & soft blue glow */}
+                                <div className="absolute inset-0 bg-[radial-gradient(#102A68_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.02] dark:opacity-[0.03] pointer-events-none" />
+                                <div className="absolute bottom-32 right-[-10%] w-[320px] h-[320px] bg-blue-500/[0.025] dark:bg-blue-400/[0.015] rounded-full blur-3xl pointer-events-none" />
+                                <div className="absolute top-1/3 left-[-10%] w-[240px] h-[240px] bg-[#102A68]/[0.015] rounded-full blur-3xl pointer-events-none" />
 
-                                {/* Full-Screen Drawer Top Header: Logo + Small Elegant Close X */}
-                                <SheetHeader className="px-5 border-b border-slate-150 dark:border-slate-800/80 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[68px] min-h-[68px] max-h-[68px] space-y-0 shrink-0 relative z-10">
+                                {/* Full-Screen Top Header: Tightened 68-72px height, balanced padding, real logo, clean X */}
+                                <SheetHeader className="px-5 sm:px-6 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm text-left flex flex-row items-center justify-between h-[68px] sm:h-[72px] min-h-[68px] sm:min-h-[72px] max-h-[68px] sm:max-h-[72px] space-y-0 shrink-0 relative z-10">
                                     <SheetTitle asChild>
                                         <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center group">
                                             <Image 
                                               src="/idllogo.png" 
                                               alt="IDL Education Logo" 
-                                              width={80} 
-                                              height={80} 
-                                              className="h-[52px] sm:h-[54px] w-auto object-contain object-left" 
+                                              width={100} 
+                                              height={100} 
+                                              className="h-[48px] sm:h-[52px] w-auto object-contain object-left" 
                                               priority 
                                             />
                                         </Link>
@@ -613,18 +593,18 @@ export function Header() {
                                     <button 
                                         type="button" 
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="p-2 rounded-lg text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0 cursor-pointer"
+                                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
                                         aria-label="Close menu"
                                     >
-                                        <X className="w-5 h-5" />
+                                        <X className="w-5 h-5 stroke-[2]" />
                                     </button>
                                 </SheetHeader>
 
-                                {/* Body - Navigation + Subtle Support Area + Flexible Space + Call Now */}
+                                {/* Body - Navigation & Controlled Spacing */}
                                 <div className="flex-1 overflow-y-auto overscroll-contain flex flex-col justify-between relative z-10">
-                                    <div>
-                                        <nav className="divide-y divide-slate-100 dark:divide-slate-800/60 text-left">
-                                            {/* 1. ALL COURSES FOLDER */}
+                                    <div className="pt-2 sm:pt-2.5 pb-6">
+                                        <nav className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
+                                            {/* 1. ALL COURSES ROW */}
                                             <Collapsible 
                                                 open={openMobileAccordion === 'all-courses'} 
                                                 onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}
@@ -632,42 +612,42 @@ export function Header() {
                                                 <CollapsibleTrigger asChild>
                                                     <button 
                                                         type="button"
-                                                        className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors text-left cursor-pointer"
+                                                        className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
                                                     >
-                                                        <span className="uppercase tracking-tight">ALL COURSES</span>
+                                                        <span className="uppercase">ALL COURSES</span>
                                                         <ChevronDown className={cn(
-                                                            "w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0",
-                                                            openMobileAccordion === 'all-courses' && "rotate-180 text-primary"
+                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
+                                                            openMobileAccordion === 'all-courses' && "rotate-180 text-[#102A68] dark:text-blue-400"
                                                         )} />
                                                     </button>
                                                 </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-3 pt-1">
+                                                <CollapsibleContent className="pb-4 pt-1 px-6 sm:px-7 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
                                                     {/* Vertical branch line for level 1 categories */}
-                                                    <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-3.5 py-1">
-                                                        {allCoursesCategories.map((cat) => {
+                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-4 space-y-3.5 py-1">
+                                                        {courseCategories.map((cat) => {
                                                             const isSubOpen = openMobileSubAccordion === cat.id;
                                                             return (
                                                                 <div key={cat.id} className="space-y-1">
                                                                     <button
                                                                         type="button"
                                                                         onClick={() => setOpenMobileSubAccordion(isSubOpen ? null : cat.id)}
-                                                                        className="w-full text-left font-semibold text-[14.5px] text-slate-850 dark:text-slate-200 hover:text-primary transition-colors flex items-center justify-between py-1 cursor-pointer"
+                                                                        className="w-full text-left font-semibold text-[15px] text-slate-800 dark:text-slate-200 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors flex items-center justify-between py-1 cursor-pointer"
                                                                     >
                                                                         <span>{cat.name}</span>
                                                                         <ChevronDown className={cn(
-                                                                            "w-3.5 h-3.5 text-slate-500 transition-transform duration-200 shrink-0 mr-2",
-                                                                            isSubOpen && "rotate-180 text-primary"
+                                                                            "w-3.5 h-3.5 text-slate-400 transition-transform duration-180 ease-out shrink-0 mr-1",
+                                                                            isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
                                                                         )} />
                                                                     </button>
                                                                     {/* Level 2 sub-items with nested vertical branch line */}
                                                                     {isSubOpen && (
-                                                                        <div className="border-l-[1.5px] border-slate-200 dark:border-slate-700/80 ml-2 pl-3.5 py-1.5 space-y-2">
-                                                                            {cat.subItems.map((sub, sIdx) => (
+                                                                        <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-3.5 py-1.5 space-y-2">
+                                                                            {cat.subItems.map((sub) => (
                                                                                 <Link
-                                                                                    key={sIdx}
+                                                                                    key={sub.id}
                                                                                     href={sub.href}
                                                                                     onClick={() => setIsMobileMenuOpen(false)}
-                                                                                    className="block text-[13.5px] text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-0.5"
+                                                                                    className="block text-[14px] text-slate-600 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5"
                                                                                 >
                                                                                     {sub.label}
                                                                                 </Link>
@@ -681,26 +661,26 @@ export function Header() {
                                                 </CollapsibleContent>
                                             </Collapsible>
 
-                                            {/* 2. APPLY FOR FOLDER */}
+                                            {/* 2. APPLY FOR ROW */}
                                             <Collapsible 
                                                 open={openMobileAccordion === 'apply'} 
-                                                onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'apply' : null)}
+                                                onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'apply' : null)}
                                             >
                                                 <CollapsibleTrigger asChild>
                                                     <button 
                                                         type="button"
-                                                        className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors text-left cursor-pointer"
+                                                        className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
                                                     >
-                                                        <span className="uppercase tracking-tight">APPLY FOR</span>
+                                                        <span className="uppercase">APPLY FOR</span>
                                                         <ChevronDown className={cn(
-                                                            "w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0",
-                                                            openMobileAccordion === 'apply' && "rotate-180 text-primary"
+                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
+                                                            openMobileAccordion === 'apply' && "rotate-180 text-[#102A68] dark:text-blue-400"
                                                         )} />
                                                     </button>
                                                 </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-3 pt-1">
+                                                <CollapsibleContent className="pb-4 pt-1 px-6 sm:px-7 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
                                                     {/* Vertical branch line */}
-                                                    <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-2.5 py-1">
+                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-4 space-y-2.5 py-1">
                                                         {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
                                                             <button
                                                                 key={label}
@@ -714,7 +694,7 @@ export function Header() {
                                                                         router.push(href);
                                                                     }
                                                                 }}
-                                                                className="block w-full text-left text-[14px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-1 cursor-pointer"
+                                                                className="block w-full text-left text-[14.5px] font-medium text-slate-700 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-1 cursor-pointer"
                                                             >
                                                                 {label}
                                                             </button>
@@ -723,34 +703,34 @@ export function Header() {
                                                 </CollapsibleContent>
                                             </Collapsible>
 
-                                            {/* 3. MORE FOLDER */}
+                                            {/* 3. MORE ROW */}
                                             <Collapsible 
                                                 open={openMobileAccordion === 'more'} 
-                                                onOpenChange={(isOpen) => setOpenMobileAccordion(isOpen ? 'more' : null)}
+                                                onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'more' : null)}
                                             >
                                                 <CollapsibleTrigger asChild>
                                                     <button 
                                                         type="button"
-                                                        className="px-5 py-4 flex items-center justify-between w-full font-bold text-[16px] text-slate-900 dark:text-slate-100 hover:bg-slate-50/80 dark:hover:bg-slate-900/50 transition-colors text-left cursor-pointer"
+                                                        className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
                                                     >
-                                                        <span className="uppercase tracking-tight">MORE</span>
+                                                        <span className="uppercase">MORE</span>
                                                         <ChevronDown className={cn(
-                                                            "w-4 h-4 text-slate-500 dark:text-slate-400 transition-transform duration-200 shrink-0",
-                                                            openMobileAccordion === 'more' && "rotate-180 text-primary"
+                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
+                                                            openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
                                                         )} />
                                                     </button>
                                                 </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-3 pt-1">
+                                                <CollapsibleContent className="pb-4 pt-1 px-6 sm:px-7 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
                                                     {/* Vertical branch line */}
-                                                    <div className="border-l-[1.5px] border-slate-300 dark:border-slate-700 ml-6 pl-4 space-y-4 py-1">
+                                                    <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-4 space-y-4 py-1">
                                                         {moreMenuGroups.map((group) => (
                                                             <div key={group.title} className="space-y-2">
-                                                                <span className="text-[11px] font-bold text-primary uppercase tracking-wider block">
+                                                                <span className="text-[11px] font-bold text-[#102A68] dark:text-blue-400 uppercase tracking-wider block">
                                                                     {group.title}
                                                                 </span>
-                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-700/80 ml-1.5 pl-3.5 space-y-2">
+                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-1.5 pl-3.5 space-y-2">
                                                                     {group.links.map((link) => {
-                                                                        const isDisabled = link.disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
+                                                                        const isDisabled = (link as any).disabled || link.label === "Register Now" || (link.href === "#" && !link.onClick);
                                                                         const handleClick = (e: React.MouseEvent) => {
                                                                             if (link.onClick) {
                                                                                 e.preventDefault();
@@ -767,7 +747,7 @@ export function Header() {
                                                                                 href={isDisabled ? '#' : link.href}
                                                                                 onClick={handleClick}
                                                                                 className={cn(
-                                                                                    "block text-[13.5px] text-slate-700 dark:text-slate-300 hover:text-primary transition-colors py-0.5",
+                                                                                    "block text-[14px] text-slate-600 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5",
                                                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                 )}
                                                                             >
@@ -786,9 +766,9 @@ export function Header() {
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                                className="flex items-center gap-2 text-[14px] font-semibold text-slate-800 dark:text-slate-200 hover:text-primary transition-colors"
+                                                                className="flex items-center gap-2 text-[14.5px] font-semibold text-slate-800 dark:text-slate-200 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-1"
                                                             >
-                                                                <ShoppingCart className="h-4 w-4 text-primary" />
+                                                                <ShoppingCart className="h-4 w-4 text-[#102A68] dark:text-blue-400" />
                                                                 <span>Store</span>
                                                             </Link>
                                                         </div>
@@ -796,19 +776,24 @@ export function Header() {
                                                 </CollapsibleContent>
                                             </Collapsible>
                                         </nav>
-
                                     </div>
 
-                                    {/* Bottom Call Action inside full-screen drawer */}
-                                    <div className="p-4 pb-6 sm:pb-7 border-t border-slate-150 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0 mt-auto relative z-10">
+                                    {/* Bottom Call Area: Integrated footer background, grounded, respecting safe areas */}
+                                    <div className="px-5 sm:px-6 py-4 border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-sm shrink-0 mt-auto relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
                                         <a 
                                             href="tel:8860040010" 
-                                            className="w-full flex items-center justify-center gap-2.5 h-12 rounded-xl bg-[#0B1F4B] hover:bg-[#142B63] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-200 shadow-sm active:scale-[0.99] cursor-pointer"
+                                            className="w-full flex items-center justify-center gap-3 h-12 sm:h-12.5 rounded-xl bg-[#0B1F4B] hover:bg-[#071536] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-180 shadow-xs active:scale-[0.99] cursor-pointer"
                                         >
-                                            <Phone className="w-4 h-4 text-white shrink-0" />
-                                            <div className="flex items-center gap-2 text-white">
-                                                <span className="text-[11px] font-bold uppercase tracking-wider text-blue-200 dark:text-white/80">CALL NOW</span>
-                                                <span className="text-sm font-extrabold text-white tracking-tight">8860040010</span>
+                                            <div className="w-7.5 h-7.5 rounded-lg bg-white/10 flex items-center justify-center shrink-0">
+                                                <Phone className="w-3.5 h-3.5 text-white stroke-[2.2]" />
+                                            </div>
+                                            <div className="flex items-baseline gap-2.5">
+                                                <span className="text-[10.5px] font-semibold uppercase tracking-wider text-blue-200/90 dark:text-blue-200/80">
+                                                    CALL NOW
+                                                </span>
+                                                <span className="text-[16px] font-bold text-white tracking-tight">
+                                                    8860040010
+                                                </span>
                                             </div>
                                         </a>
                                     </div>
@@ -853,6 +838,11 @@ export function Header() {
             <ContactModal
                 isOpen={isContactOpen}
                 onOpenChange={setIsContactOpen}
+            />
+
+            <RecentUpdatesModal
+                isOpen={isUpdatesOpen}
+                onOpenChange={setIsUpdatesOpen}
             />
         </>
     );

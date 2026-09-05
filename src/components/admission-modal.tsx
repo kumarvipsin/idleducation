@@ -22,6 +22,7 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions/forms";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { FormModalDialogContent } from "@/components/ui/form-modal-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { format, getDaysInMonth } from "date-fns";
 import Script from "next/script";
@@ -649,10 +650,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
 
       {/* Main Admission Popup Modal */}
       <Dialog open={isOpen} onOpenChange={onOpenChange}>
-        <DialogContent 
+        <FormModalDialogContent 
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
-          className="w-[calc(100vw-1.25rem)] sm:w-[92vw] md:w-[88vw] max-w-[800px] max-h-[88vh] sm:max-h-[84vh] shadow-2xl shadow-slate-950/20 rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden flex flex-col fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 duration-200 ease-out z-50"
         >
           {/* Modal Header: Trustworthy, clean and concise */}
           <DialogHeader className="px-5 sm:px-7 pt-5 pb-3 text-left shrink-0 border-b border-slate-100 dark:border-slate-800/80">
@@ -1612,7 +1612,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
 
             </form>
           </Form>
-        </DialogContent>
+        </FormModalDialogContent>
       </Dialog>
 
       {/* 1-Page A4 PDF Review Dialog */}

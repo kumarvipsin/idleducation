@@ -151,7 +151,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (
-    <section className="w-full py-2 sm:py-3 bg-white dark:bg-background">
+    <section suppressHydrationWarning className="w-full py-2 sm:py-3 bg-white dark:bg-background">
       <div className="container mx-auto px-3 sm:px-4 md:px-6">
         <div className="relative rounded-2xl overflow-hidden shadow-sm border border-border/50 bg-[#06122E]">
           <Carousel 

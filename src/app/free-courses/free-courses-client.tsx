@@ -235,6 +235,37 @@ export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
     });
   }, [groupedCourses]);
 
+  if (courses.length === 0) {
+    const displayClass = selectedClass !== "all" ? selectedClass : null;
+    return (
+      <div className="container mx-auto py-16 md:py-24 px-4 md:px-6 max-w-4xl relative z-10">
+        <div className="text-center py-16 px-6 sm:px-12 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-sm">
+          <div className="w-16 h-16 rounded-2xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center mx-auto mb-6">
+            <GraduationCap className="w-8 h-8 text-primary" />
+          </div>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-wider mb-4">
+            <span>Free Courses</span>
+            {displayClass && (
+              <>
+                <span>•</span>
+                <span>{displayClass}</span>
+              </>
+            )}
+          </div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-3">
+            Courses coming soon.
+          </h1>
+          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+            {displayClass 
+              ? `We are currently preparing curriculum and materials for ${displayClass}. Please check back shortly.`
+              : `We are currently preparing curriculum and materials for Class 9 and Class 10. Please check back shortly.`
+            }
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   if (!mounted) return null;
 
   return (

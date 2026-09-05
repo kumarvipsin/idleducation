@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { 
   ArrowRight, Compass, 
@@ -58,57 +59,128 @@ export default function AboutPage() {
 
   return (
     <div className="bg-white dark:bg-background">
-      {/* 1. WHO WE ARE SECTION — CLEAN EDITORIAL BRAND INTRODUCTION */}
-      <section className="py-14 sm:py-16 lg:py-20 bg-[#FAFBFD] dark:bg-background border-b border-border/40 relative overflow-hidden">
-        {/* Subtle Ambient Backing Accents */}
-        <div className="absolute -top-24 -left-24 w-96 h-96 bg-amber-500/[0.04] rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500/[0.04] rounded-full blur-[100px] pointer-events-none" />
+      {/* 1. WHO WE ARE SECTION — PREMIUM ART-DIRECTION EDITORIAL OPENING */}
+      <section className="relative overflow-hidden py-10 sm:py-12 lg:py-14 bg-[#FAFBFD] dark:bg-[#070C18] border-b border-border/40 min-h-[480px] lg:min-h-[510px] flex items-center">
+        {/* Subtle Atmospheric Editorial Background */}
+        <div className="absolute inset-0 bg-[radial-gradient(#102a6809_1px,transparent_1px)] dark:bg-[radial-gradient(#ffffff0a_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none opacity-80" />
+        <div className="absolute -top-32 -left-20 w-[480px] h-[480px] bg-gradient-to-br from-amber-500/[0.04] to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 right-0 w-[560px] h-[560px] bg-gradient-to-bl from-blue-600/[0.05] via-indigo-500/[0.03] to-transparent rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute -bottom-24 left-1/3 w-[400px] h-[400px] bg-sky-400/[0.03] rounded-full blur-[100px] pointer-events-none" />
+
+        {/* Subtle Signature Academic Learning Path (Decorative Faint Motif - Refined & Raised) */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.9, delay: 0.2 }}
+          className="hidden lg:block absolute left-[37%] bottom-[24%] w-[38%] h-[110px] pointer-events-none z-0 overflow-visible"
+        >
+          <svg className="w-full h-full overflow-visible" viewBox="0 0 460 110" fill="none">
+            <path
+              d="M 10 80 C 120 80, 160 25, 280 35 C 360 42, 400 20, 450 10"
+              stroke="url(#academicPathGrad)"
+              strokeWidth="1.25"
+              strokeDasharray="4 5"
+            />
+            <defs>
+              <linearGradient id="academicPathGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#1F4FA3" stopOpacity="0.08" />
+                <stop offset="65%" stopColor="#1F4FA3" stopOpacity="0.22" />
+                <stop offset="100%" stopColor="#FF6B00" stopOpacity="0.32" />
+              </linearGradient>
+            </defs>
+            <circle cx="10" cy="80" r="2" fill="#1F4FA3" fillOpacity="0.25" />
+            <circle cx="210" cy="38" r="2.5" fill="#1F4FA3" fillOpacity="0.35" />
+            <circle cx="450" cy="10" r="3" fill="#FF6B00" fillOpacity="0.6" />
+          </svg>
+        </motion.div>
 
         <div className="container mx-auto px-4 md:px-6 max-w-6xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
-            {/* LEFT / MAIN CONTENT (7 cols) */}
-            <div className="lg:col-span-7 flex flex-col justify-center">
-              {/* Eyebrow */}
-              <div className="inline-flex items-center gap-2 mb-3.5 sm:mb-4">
-                <span className="w-2 h-2 rounded-full bg-[#FF6B00]" />
-                <span className="text-xs sm:text-[13px] font-extrabold uppercase tracking-[0.2em] text-[#FF6B00]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 xl:gap-12 items-center">
+            {/* LEFT COLUMN: Editorial Text (7 cols on lg) */}
+            <div className="lg:col-span-7 flex flex-col justify-center text-left">
+              {/* Eyebrow Label */}
+              <motion.div 
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="inline-flex items-center gap-2 mb-3 sm:mb-3.5"
+              >
+                <span className="w-2.5 h-0.5 rounded-full bg-[#FF6B00] shrink-0" />
+                <span className="text-[11px] sm:text-xs font-bold uppercase tracking-[0.22em] text-[#FF6B00]">
                   Who We Are
                 </span>
-              </div>
+              </motion.div>
 
-              {/* Main Heading */}
-              <h1 className="text-3xl sm:text-4xl lg:text-[42px] xl:text-[46px] font-black text-slate-950 dark:text-white tracking-tight leading-[1.14] max-w-[640px]">
-                Transforming Student Potential
-              </h1>
+              {/* Large Editorial Headline */}
+              <motion.h1 
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.08, ease: "easeOut" }}
+                className="text-[38px] sm:text-[48px] md:text-[56px] lg:text-[62px] xl:text-[68px] 2xl:text-[72px] font-black tracking-tight leading-[1.06] text-[#0B1F4B] dark:text-white"
+              >
+                <span>Transforming</span>
+                <br />
+                <span className="text-[#0B1F4B] dark:text-white">Student </span>
+                <span className="text-[#1F4FA3] dark:text-blue-400">Potential</span>
+              </motion.h1>
 
-              {/* Supporting Paragraph */}
-              <p className="mt-4 sm:mt-5 text-base sm:text-lg md:text-[19px] text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-[600px]">
+              {/* Supporting Statement */}
+              <motion.p 
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.16, ease: "easeOut" }}
+                className="mt-3.5 sm:mt-4 lg:mt-5 text-[17px] sm:text-[19px] lg:text-[21px] text-slate-600 dark:text-slate-300 font-normal leading-relaxed sm:leading-[1.6] max-w-[620px]"
+              >
                 IDL Education helps students build strong concepts, stay consistent, and move forward with the right guidance.
-              </p>
+              </motion.p>
 
-              {/* One Compact Value Points Line */}
-              <div className="mt-8 sm:mt-10 pt-6 sm:pt-7 border-t border-slate-200/80 dark:border-slate-800 flex flex-wrap items-center text-xs sm:text-[13px] font-bold tracking-wider uppercase text-slate-800 dark:text-slate-200">
-                <span>Strong Concepts</span>
-                <span className="mx-2.5 sm:mx-3 text-[#FF6B00] font-black select-none">·</span>
-                <span>Right Guidance</span>
-                <span className="mx-2.5 sm:mx-3 text-[#1F4FA3] dark:text-blue-400 font-black select-none">·</span>
-                <span>Real Progress</span>
-              </div>
+              {/* Refined Brand Signature Value Line (Brought closer upward) */}
+              <motion.div 
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.24, ease: "easeOut" }}
+                className="mt-5 sm:mt-6 pt-4 sm:pt-5 border-t border-slate-200/70 dark:border-slate-800/80 flex flex-wrap items-center gap-y-2 gap-x-2.5 sm:gap-x-3.5 text-xs sm:text-[13px] lg:text-[13.5px] font-bold tracking-[0.14em] uppercase text-[#0B1F4B] dark:text-slate-200"
+              >
+                <span className="transition-colors hover:text-[#1F4FA3]">Strong Concepts</span>
+                <span className="w-1 h-1 rounded-full bg-[#FF6B00] shrink-0" aria-hidden="true" />
+                <span className="transition-colors hover:text-[#1F4FA3]">Right Guidance</span>
+                <span className="w-1 h-1 rounded-full bg-[#1F4FA3] dark:bg-blue-400 shrink-0" aria-hidden="true" />
+                <span className="transition-colors hover:text-[#1F4FA3]">Real Progress</span>
+              </motion.div>
             </div>
 
-            {/* RIGHT / WHO WE ARE VISUAL (5 cols) */}
-            <div className="lg:col-span-5 flex justify-center lg:justify-end w-full">
-              <div className="relative w-full max-w-[460px] sm:max-w-[500px] lg:max-w-[540px] aspect-[3/2] flex items-center justify-center">
+            {/* RIGHT COLUMN: Premium Educational Illustration (5 cols on lg ~ 44–46% width) */}
+            <motion.div 
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, delay: 0.15, ease: "easeOut" }}
+              className="lg:col-span-5 flex justify-center lg:justify-end w-full relative"
+            >
+              {/* Ambient Circular Halo & Subtle Orbit Elements */}
+              <div className="absolute -inset-4 sm:-inset-6 rounded-full bg-gradient-to-tr from-blue-500/[0.06] via-indigo-400/[0.03] to-amber-500/[0.04] blur-2xl pointer-events-none" />
+              <div className="absolute -inset-2 sm:-inset-3 rounded-full border border-blue-500/[0.06] pointer-events-none" />
+              <div className="absolute -inset-5 sm:-inset-7 rounded-full border border-dashed border-slate-300/[0.2] dark:border-slate-700/[0.2] pointer-events-none hidden sm:block" />
+
+              {/* Tiny Abstract Academic Marks */}
+              <div className="absolute -top-2 left-6 w-1.5 h-1.5 rounded-full bg-blue-500/30 pointer-events-none hidden sm:block" />
+              <div className="absolute -bottom-1 right-8 w-2 h-2 rounded-full bg-[#FF6B00]/30 pointer-events-none hidden sm:block" />
+
+              {/* Calm, Subtle Floating Container (2–4px idle movement) */}
+              <motion.div 
+                animate={{ y: [0, -3.5, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full max-w-[440px] sm:max-w-[480px] lg:max-w-[520px] aspect-[4/3] sm:aspect-[3/2] flex items-center justify-center"
+              >
                 <Image
                   src="/about.png"
-                  alt="Who We Are - IDL Education"
+                  alt="Transforming Student Potential - IDL Education"
                   fill
                   priority
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 540px"
-                  className="object-contain object-center drop-shadow-sm select-none"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 46vw, 520px"
+                  className="object-contain object-center drop-shadow-[0_16px_32px_rgba(11,31,75,0.08)] select-none"
                 />
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -139,15 +211,35 @@ export default function AboutPage() {
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
               {/* Subtle Decorative Name Watermark (readable from left side) */}
-              <div className="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
-                <svg className="w-12 sm:w-14 md:w-16 h-72 sm:h-80 md:h-96 overflow-visible" viewBox="0 0 60 360">
+              {/* Mobile / Tablet Watermark (< md): subtle, decorative, secondary (+25% increase) */}
+              <div className="md:hidden absolute right-2.5 min-[360px]:right-3 min-[390px]:right-3.5 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
+                <svg 
+                  className="w-[55px] min-[360px]:w-[60px] min-[390px]:w-[62px] min-[430px]:w-[68px] sm:w-[70px] h-[325px] min-[360px]:h-[350px] min-[390px]:h-[375px] sm:h-[410px] overflow-visible" 
+                  viewBox="0 0 60 360"
+                >
                   <text
                     x="30"
                     y="180"
                     textAnchor="middle"
                     dominantBaseline="central"
                     transform="rotate(90, 30, 180)"
-                    className="font-black text-4xl sm:text-5xl md:text-[52px] uppercase tracking-wider fill-amber-900/[0.12] select-none"
+                    className="font-black text-[50px] min-[360px]:text-[54px] min-[390px]:text-[58px] sm:text-[61px] uppercase tracking-wider fill-amber-950/[0.08] select-none"
+                  >
+                    AMOD SHARMA
+                  </text>
+                </svg>
+              </div>
+
+              {/* Desktop Decorative Name Watermark (>= md): exact approved desktop styling preserved */}
+              <div className="hidden md:block absolute md:right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
+                <svg className="md:w-16 md:h-96 overflow-visible" viewBox="0 0 60 360">
+                  <text
+                    x="30"
+                    y="180"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform="rotate(90, 30, 180)"
+                    className="font-black md:text-[52px] uppercase tracking-wider fill-amber-900/[0.12] select-none"
                   >
                     AMOD SHARMA
                   </text>
@@ -194,15 +286,35 @@ export default function AboutPage() {
               <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
 
               {/* Subtle Decorative Name Watermark (readable from left side) */}
-              <div className="absolute right-2 sm:right-3 md:right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
-                <svg className="w-12 sm:w-14 md:w-16 h-72 sm:h-80 md:h-96 overflow-visible" viewBox="0 0 60 360">
+              {/* Mobile / Tablet Watermark (< md): subtle, decorative, secondary (+25% increase) */}
+              <div className="md:hidden absolute right-2.5 min-[360px]:right-3 min-[390px]:right-3.5 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
+                <svg 
+                  className="w-[55px] min-[360px]:w-[60px] min-[390px]:w-[62px] min-[430px]:w-[68px] sm:w-[70px] h-[325px] min-[360px]:h-[350px] min-[390px]:h-[375px] sm:h-[410px] overflow-visible" 
+                  viewBox="0 0 60 360"
+                >
                   <text
                     x="30"
                     y="180"
                     textAnchor="middle"
                     dominantBaseline="central"
                     transform="rotate(90, 30, 180)"
-                    className="font-black text-4xl sm:text-5xl md:text-[52px] uppercase tracking-wider fill-white/[0.14] select-none"
+                    className="font-black text-[50px] min-[360px]:text-[54px] min-[390px]:text-[58px] sm:text-[61px] uppercase tracking-wider fill-white/[0.09] select-none"
+                  >
+                    VIJAY VERMA
+                  </text>
+                </svg>
+              </div>
+
+              {/* Desktop Decorative Name Watermark (>= md): exact approved desktop styling preserved */}
+              <div className="hidden md:block absolute md:right-4 top-1/2 -translate-y-1/2 select-none pointer-events-none z-0">
+                <svg className="md:w-16 md:h-96 overflow-visible" viewBox="0 0 60 360">
+                  <text
+                    x="30"
+                    y="180"
+                    textAnchor="middle"
+                    dominantBaseline="central"
+                    transform="rotate(90, 30, 180)"
+                    className="font-black md:text-[52px] uppercase tracking-wider fill-white/[0.14] select-none"
                   >
                     VIJAY VERMA
                   </text>
@@ -378,17 +490,18 @@ export default function AboutPage() {
             <button
               type="button"
               onClick={() => setIsContactOpen(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0B1F4B] hover:bg-[#142B63] text-white text-sm font-bold transition-colors shadow-sm cursor-pointer"
+              className="h-11 sm:h-12 min-w-[150px] sm:min-w-[160px] px-6 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-sm font-bold transition-all shadow-xs hover:shadow-sm cursor-pointer"
             >
-              <MessageSquare className="w-4 h-4" />
-              <span>Contact Academic Counselor</span>
+              <MessageSquare className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400" />
+              <span>Contact Us</span>
             </button>
+
             <a
               href="tel:8860040010"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900 text-sm font-bold transition-colors cursor-pointer"
+              className="h-11 sm:h-12 min-w-[150px] sm:min-w-[160px] px-6 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-[#0B1F4B] dark:text-white inline-flex items-center justify-center gap-2 text-sm font-bold transition-all shadow-xs hover:shadow-sm cursor-pointer"
             >
-              <Phone className="w-4 h-4" />
-              <span>Call 8860040010</span>
+              <Phone className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400" />
+              <span>Call Now</span>
             </a>
           </div>
         </div>

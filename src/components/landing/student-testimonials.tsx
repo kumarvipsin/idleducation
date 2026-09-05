@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
@@ -8,7 +8,8 @@ import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "../gcs-image";
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
+import { VideoModalDialogContent } from "@/components/ui/video-modal-dialog";
 import { PlayCircle, Quote } from "lucide-react";
 
 const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
@@ -24,7 +25,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       >
           <CardContent className="p-3.5 sm:p-4 flex flex-col text-left items-start h-full">
               {/* Photo & Video Area */}
-              <div className="relative w-full aspect-square mb-3 rounded-xl overflow-hidden bg-slate-100 dark:bg-muted flex items-center justify-center border border-slate-100 dark:border-border/30">
+              <div className="relative w-full aspect-square mb-3.5 rounded-xl overflow-hidden bg-slate-100 dark:bg-muted flex items-center justify-center border border-slate-100 dark:border-border/30">
                   <GcsImage
                       filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/400"}
                       alt={testimonial.name}
@@ -44,20 +45,20 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </div>
 
               {/* Student Name */}
-              <h3 className="font-bold text-[15px] sm:text-[17px] text-slate-900 dark:text-white tracking-tight mb-1 line-clamp-1">
+              <h3 className="font-bold text-[18px] sm:text-[20px] text-[#0B1F4B] dark:text-white tracking-tight leading-snug mb-1 line-clamp-1">
                 {testimonial.name}
               </h3>
 
               {/* Score / Achievement Badge */}
-              <div className="inline-block px-2 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[10px] font-bold uppercase tracking-wider mb-2.5 border border-blue-100/80 dark:border-primary/20">
+              <div className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[11px] sm:text-[12px] font-bold uppercase tracking-wider mb-2.5 border border-blue-100/80 dark:border-primary/20">
                   {testimonial.achievement}
               </div>
 
               {/* Testimonial Text & Read More */}
               <div className="relative w-full flex-grow flex flex-col justify-between">
-                  <div className="flex items-start gap-1.5 mb-1.5">
-                      <Quote className="w-3.5 h-3.5 text-[#1F4FA3] dark:text-blue-400 fill-[#1F4FA3]/20 shrink-0 mt-0.5" />
-                      <blockquote className="text-[13.5px] sm:text-sm text-slate-600 dark:text-slate-400 font-normal leading-[1.55] text-left line-clamp-4 sm:line-clamp-5">
+                  <div className="flex items-start gap-2 mb-2">
+                      <Quote className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1F4FA3]/75 dark:text-blue-400/80 fill-[#1F4FA3]/15 shrink-0 mt-1" />
+                      <blockquote className="text-[15.5px] sm:text-[17px] text-slate-600 dark:text-slate-300 font-normal leading-[1.6] tracking-normal text-left line-clamp-4">
                           {testimonial.testimonial}
                       </blockquote>
                   </div>
@@ -66,10 +67,10 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                     <button
                       type="button"
                       onClick={() => setIsReadMoreOpen(true)}
-                      className="text-xs font-bold text-[#1F4FA3] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1 mt-1 transition-colors cursor-pointer self-start"
+                      className="text-[13.5px] sm:text-[14.5px] font-semibold text-[#1F4FA3] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 inline-flex items-center gap-1.5 mt-1.5 transition-colors cursor-pointer self-start"
                     >
                       <span>Read More</span>
-                      <span>→</span>
+                      <span className="transition-transform group-hover/card:translate-x-0.5">→</span>
                     </button>
                   )}
               </div>
@@ -79,22 +80,21 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       {/* Video Modal */}
       {testimonial.videoId && (
         <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
-          <DialogContent className="max-w-3xl p-0 overflow-hidden rounded-2xl border-none">
+          <VideoModalDialogContent className="w-[min(calc(100vw-2.5rem),calc((84dvh)*9/16),420px)] aspect-[9/16] h-auto">
               <DialogHeader className="sr-only">
                   <DialogTitle>{testimonial.name} - Success Story</DialogTitle>
                   <DialogDescription>Video success story from a student.</DialogDescription>
               </DialogHeader>
-              <div className="aspect-video bg-black">
+              <div className="relative w-full h-full overflow-hidden">
                 <iframe
-                    className="w-full h-full"
-                    src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0`}
+                    className="block w-full h-full border-0"
+                    src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0&modestbranding=1`}
                     title={`YouTube video player for ${testimonial.name}'s testimonial`}
-                    frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
                 ></iframe>
               </div>
-          </DialogContent>
+          </VideoModalDialogContent>
         </Dialog>
       )}
 
@@ -112,10 +112,10 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                 />
               </div>
               <div className="space-y-0.5">
-                <DialogTitle className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                <DialogTitle className="text-base sm:text-lg font-bold text-[#0B1F4B] dark:text-white">
                   {testimonial.name}
                 </DialogTitle>
-                <div className="inline-block px-2 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[10px] font-bold uppercase tracking-wider border border-blue-100/80 dark:border-primary/20">
+                <div className="inline-block px-2.5 py-0.5 rounded-md bg-blue-50 dark:bg-primary/10 text-[#1F4FA3] dark:text-blue-300 text-[11px] sm:text-[12px] font-bold uppercase tracking-wider border border-blue-100/80 dark:border-primary/20">
                   {testimonial.achievement}
                 </div>
               </div>
@@ -127,7 +127,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/80">
             <div className="flex items-start gap-2 pt-1">
               <Quote className="w-4 h-4 text-[#1F4FA3] dark:text-blue-400 fill-[#1F4FA3]/20 shrink-0 mt-0.5" />
-              <blockquote className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed text-left">
+              <blockquote className="text-[15px] sm:text-[16.5px] text-slate-700 dark:text-slate-300 leading-relaxed text-left">
                 {testimonial.testimonial}
               </blockquote>
             </div>
@@ -142,17 +142,89 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   const [loading, setLoading] = useState(!testimonials);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
- 
+
+  const isHoveredRef = useRef(false);
+  const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
   useEffect(() => {
     if (!api) {
       return;
     }
- 
+
     setCurrent(api.selectedScrollSnap());
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
     });
   }, [api]);
+
+  // Reduced motion preference check
+  useEffect(() => {
+    if (!api || typeof window === "undefined") return;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches) {
+      api.plugins()?.autoplay?.stop();
+    }
+  }, [api]);
+
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    };
+  }, []);
+
+  // Check if carousel actually has multiple slides to scroll
+  const canAutoplay = useCallback(() => {
+    if (!api) return false;
+    const snaps = api.scrollSnapList();
+    return Boolean(snaps && snaps.length > 1);
+  }, [api]);
+
+  // Hover pause handlers
+  const handleMouseEnter = useCallback(() => {
+    isHoveredRef.current = true;
+    if (!canAutoplay()) return;
+    try {
+      api?.plugins()?.autoplay?.stop();
+    } catch {
+      // safe fallback
+    }
+  }, [api, canAutoplay]);
+
+  const handleMouseLeave = useCallback(() => {
+    isHoveredRef.current = false;
+    if (!canAutoplay()) return;
+    try {
+      api?.plugins()?.autoplay?.play();
+    } catch {
+      // safe fallback
+    }
+  }, [api, canAutoplay]);
+
+  // Touch handlers for mobile
+  const handleTouchStart = useCallback(() => {
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    if (!canAutoplay()) return;
+    try {
+      api?.plugins()?.autoplay?.stop();
+    } catch {
+      // safe fallback
+    }
+  }, [api, canAutoplay]);
+
+  const handleTouchEnd = useCallback(() => {
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    if (!canAutoplay()) return;
+    touchTimeoutRef.current = setTimeout(() => {
+      if (!isHoveredRef.current && canAutoplay()) {
+        try {
+          api?.plugins()?.autoplay?.play();
+        } catch {
+          // safe fallback
+        }
+      }
+    }, 2000);
+  }, [api, canAutoplay]);
 
   const scrollTo = useCallback(
     (index: number) => {
@@ -168,10 +240,14 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   }, [testimonials]);
 
   return (
-    <section id="testimonials" className="w-full pt-8 sm:pt-10 md:pt-14 pb-8 sm:pb-9 md:pb-10 bg-white dark:bg-background overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6">
+    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 bg-[#F8FAFC]/80 dark:bg-background overflow-hidden">
+      {/* Subtle ambient depth glows */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[960px] h-[340px] sm:h-[420px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-1/4 right-[10%] w-[320px] sm:w-[480px] h-[260px] bg-amber-500/[0.015] rounded-full blur-3xl pointer-events-none" />
+
+      <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex flex-col">
-              <div className="text-center space-y-3 sm:space-y-4 mb-6 sm:mb-8">
+              <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-7 md:mb-8">
                   <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                       IDL{' '}
                       <span className="relative inline-block">
@@ -193,17 +269,25 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                     {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-[20px]" />)}
                  </div>
               ) : testimonials && testimonials.length > 0 ? (
-                <div className="relative w-full max-w-6xl mx-auto overflow-hidden">
+                <div 
+                  className="relative w-full max-w-6xl mx-auto overflow-hidden"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                  onTouchStart={handleTouchStart}
+                  onTouchEnd={handleTouchEnd}
+                >
                   <Carousel
                       setApi={setApi}
                       opts={{
                           align: "start",
                           loop: true,
+                          duration: 35,
                       }}
                       plugins={[
                           Autoplay({
-                              delay: 3500,
+                              delay: 4500,
                               stopOnInteraction: false,
+                              stopOnMouseEnter: true,
                           }),
                       ]}
                       className="w-full"
@@ -219,7 +303,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       </CarouselContent>
                   </Carousel>
                   
-                  <div className="flex justify-center gap-1.5 sm:gap-2 mt-5 sm:mt-6">
+                  <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-7">
                       {testimonials.map((_, i) => (
                           <button
                               key={i}

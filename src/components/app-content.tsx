@@ -78,7 +78,7 @@ export function AppContent({
   return (
     <>
       <Header />
-      <main className="flex-grow bg-white dark:bg-background">
+      <main suppressHydrationWarning className="flex-grow bg-white dark:bg-background">
         {children}
       </main>
       <Footer />

@@ -4,7 +4,8 @@
 import * as React from "react";
 import Image from "next/image";
 import type { TTopperTestimonial } from "@/app/actions/types";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { VideoModalDialogContent } from "@/components/ui/video-modal-dialog";
 import { PlayCircle } from "lucide-react";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import { cn } from "@/lib/utils";
@@ -43,22 +44,21 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTopperTestimonial}) =>
             </div>
         </button>
         </DialogTrigger>
-        <DialogContent className="max-w-[285px] p-0 overflow-hidden rounded-2xl border-none shadow-none bg-black">
+        <VideoModalDialogContent className="w-[min(calc(100vw-2.5rem),calc((84dvh)*9/16),420px)] aspect-[9/16] h-auto">
             <DialogHeader className="sr-only">
                 <DialogTitle>{testimonial.studentName} Testimonial</DialogTitle>
                 <DialogDescription>Video testimonial from a top performing student.</DialogDescription>
             </DialogHeader>
-            <div className="aspect-[9/16] w-full bg-black">
+            <div className="relative w-full h-full overflow-hidden">
               <iframe
-                  className="w-full h-full"
+                  className="block w-full h-full border-0"
                   src={`https://www.youtube.com/embed/${testimonial.videoId}?autoplay=1&rel=0&modestbranding=1`}
                   title={`YouTube video player for ${testimonial.studentName}'s testimonial`}
-                  frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                   allowFullScreen
               ></iframe>
             </div>
-        </DialogContent>
+        </VideoModalDialogContent>
     </Dialog>
   );
 };
@@ -90,10 +90,14 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
   
   return (
-    <section className="w-full pt-6 md:pt-10 pb-12 md:pb-20 bg-white dark:bg-background">
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="flex flex-col gap-12">
-                <div className="text-center space-y-4">
+    <section className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 bg-[#F8FAFC]/80 dark:bg-background overflow-hidden">
+        {/* Subtle ambient depth glows */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[960px] h-[340px] sm:h-[420px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-1/4 right-[10%] w-[320px] sm:w-[480px] h-[260px] bg-amber-500/[0.015] rounded-full blur-3xl pointer-events-none" />
+
+        <div className="container relative z-10 mx-auto px-4 md:px-6">
+            <div className="flex flex-col">
+                <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-7 md:mb-8">
                     <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
                         Topper's{' '}
                         <span className="relative inline-block">
@@ -137,14 +141,14 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                         </CarouselContent>
                     </Carousel>
                     
-                    <div className="flex justify-center gap-2 mt-8">
+                    <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-7">
                         {testimonials.map((_, i) => (
                             <button
                                 key={i}
                                 onClick={() => scrollTo(i)}
                                 className={cn(
-                                    "h-1.5 rounded-full transition-all duration-300",
-                                    current === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
+                                    "h-1.5 rounded-full transition-all duration-300 cursor-pointer shadow-xs",
+                                    current === i ? "w-8 bg-[#0A225C] dark:bg-primary" : "w-1.5 sm:w-2 bg-slate-200 dark:bg-muted-foreground/30 hover:bg-slate-300"
                                 )}
                                 aria-label={`Go to slide ${i + 1}`}
                             />

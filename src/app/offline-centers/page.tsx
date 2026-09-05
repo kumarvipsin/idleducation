@@ -1,120 +1,165 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Building, MapPin, Phone, ArrowRight } from "lucide-react";
+import { MapPin, Phone, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from 'next/link';
 import React from 'react';
 
 const centers = [
-    {
-      name: "Mukherjee Nagar",
-      address: "Mukherjee Nagar, Delhi-110009",
-      imageUrl: "/idlbranch.png",
-      imageHint: "IDL Education branch building",
-      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
-    },
-    {
-      name: "Mangol Puri",
-      address: "Mangol Puri, Delhi-110083",
-      imageUrl: "/idlbranch.png",
-      imageHint: "IDL Education branch building",
-      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
-    },
-    {
-      name: "Budh Vihar",
-      address: "Budh Vihar, Delhi-110086",
-      imageUrl: "/idlbranch.png",
-      imageHint: "IDL Education branch building",
-      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
-    },
-    {
-      name: "Krishan Vihar",
-      address: "Krishan Vihar, Delhi-110086",
-      imageUrl: "/idlbranch.png",
-      imageHint: "IDL Education branch building",
-      mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
-    }
+  {
+    name: "Mukherjee Nagar",
+    address: "Mukherjee Nagar, Delhi-110009",
+    imageUrl: "/idlbranch.png",
+    imageHint: "IDL Education branch building",
+    mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+  },
+  {
+    name: "Mangol Puri",
+    address: "Mangol Puri, Delhi-110083",
+    imageUrl: "/idlbranch.png",
+    imageHint: "IDL Education branch building",
+    mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+  },
+  {
+    name: "Budh Vihar",
+    address: "Budh Vihar, Delhi-110086",
+    imageUrl: "/idlbranch.png",
+    imageHint: "IDL Education branch building",
+    mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+  },
+  {
+    name: "Krishan Vihar",
+    address: "Krishan Vihar, Delhi-110086",
+    imageUrl: "/idlbranch.png",
+    imageHint: "IDL Education branch building",
+    mapLink: "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"
+  }
 ];
 
 export default function OfflineCentersPage() {
-    return (
-        <div className="relative bg-white dark:bg-background pb-20">
-            {/* Single Banner Image */}
-            <div className="container mx-auto px-4 md:px-6 pt-4 pb-2">
-                 <div className="relative rounded-2xl overflow-hidden shadow-sm border bg-slate-50 dark:bg-slate-900 flex items-center justify-center">
-                    <Image
-                        src="/idlbranch1.png"
-                        alt="IDL Offline Centres Map - 4 Centres. One Commitment."
-                        width={1920}
-                        height={1080}
-                        className="w-full h-auto object-contain rounded-2xl"
-                        priority
-                    />
-                </div>
+  return (
+    <div className="min-h-screen w-full bg-white dark:bg-background relative selection:bg-[#102A68]/10 selection:text-[#102A68]">
+
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-2 sm:pt-4 pb-14 sm:pb-16 relative z-10">
+        
+        {/* TOP MAP HERO: Balanced Editorial Copy & 3D Map Artwork */}
+        <div className="relative rounded-[20px] sm:rounded-[24px] bg-white dark:bg-slate-900 pt-2 sm:pt-4 pb-3 sm:pb-5 px-2 sm:px-4">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-10 items-center">
+            {/* Left Copy: Strong Navy, Orange Accent, Clean Hierarchy */}
+            <div className="lg:col-span-5 text-left space-y-2 sm:space-y-3 pl-2 sm:pl-4">
+              <div className="inline-flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
+                <span className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-[#102A68]/80 dark:text-blue-300">
+                  Delhi Network
+                </span>
+              </div>
+
+              <h1 className="text-[30px] sm:text-[40px] lg:text-[46px] font-black text-[#102A68] dark:text-white tracking-tight leading-[1.08]">
+                4 CENTRES.
+                <br />
+                <span className="text-[#102A68] dark:text-white">ONE COMMITMENT.</span>
+              </h1>
+
+              <p className="text-[15px] sm:text-[18px] lg:text-[19px] font-bold text-slate-700 dark:text-slate-300 pt-0.5">
+                Quality Education Across{' '}
+                <span className="text-[#FF6B00]">Delhi</span>
+              </p>
             </div>
 
-            {/* Heading Section */}
-            <div className="container mx-auto px-4 md:px-6 pt-8 pb-10">
-                <div className="text-left mb-10 animate-fade-in-up">
-                    <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-foreground">
-                        Our Learning Centres in{' '}
-                        <span className="relative inline-block">
-                            <span className="relative z-10 text-blue-600">Delhi</span>
-                            <div className="absolute -bottom-1 left-0 w-full h-2.5 z-0">
-                                <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                    <path d="M0,15 Q50,5 100,15" />
-                                </svg>
-                            </div>
-                        </span>
-                    </h2>
-                    <p className="text-sm md:text-base text-muted-foreground mt-3 max-w-2xl font-medium leading-relaxed">
-                        Focused classrooms, dedicated mentors, and a learning environment designed to help students achieve their goals.
-                    </p>
-                </div>
-
-                {/* Centers Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {centers.map((center, index) => (
-                        <Card key={center.name} className="overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 flex flex-col bg-card border-muted-foreground/10 animate-fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                            <div className="relative h-56 w-full overflow-hidden">
-                                <Image
-                                    src={center.imageUrl}
-                                    alt={center.name}
-                                    data-ai-hint={center.imageHint}
-                                    fill
-                                    className="object-cover transition-transform duration-700 hover:scale-110"
-                                />
-                            </div>
-                            <CardContent className="p-6 flex-grow flex flex-col">
-                                <div className="flex items-center gap-2 mb-2">
-                                    <div className="h-2 w-2 rounded-full bg-blue-600 animate-pulse" />
-                                    <h3 className="text-xl font-bold text-foreground tracking-tight">{center.name}</h3>
-                                </div>
-                                <div className="flex items-start gap-2 text-muted-foreground mb-8 flex-grow">
-                                    <MapPin className="w-4 h-4 mt-1 shrink-0 text-primary" />
-                                    <p className="text-[13px] font-bold leading-relaxed">{center.address}</p>
-                                </div>
-                                <div className="flex flex-col gap-3">
-                                    <Button asChild variant="outline" className="w-full h-12 rounded-xl font-bold border-primary/20 text-primary hover:bg-primary/5 transition-all shadow-none">
-                                        <a href="tel:8860040010">
-                                            <Phone className="w-4 h-4 mr-2" />
-                                            Call Us
-                                        </a>
-                                    </Button>
-                                    <Button asChild className="w-full h-12 rounded-xl font-bold shadow-lg shadow-primary/10 transition-all active:scale-95 group/btn">
-                                        <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
-                                            Visit Centre
-                                            <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover/btn:translate-x-1" />
-                                        </Link>
-                                    </Button>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ))}
-                </div>
+            {/* Right Map Visual: Dominant 3D Delhi Artwork */}
+            <div className="lg:col-span-7 flex items-center justify-center">
+              <div className="relative w-full max-w-[680px] flex items-center justify-center">
+                <Image
+                  src="/branchmap1.png"
+                  alt="IDL Offline Centres Map - 4 Centres across Delhi"
+                  width={1536}
+                  height={1024}
+                  className="w-full h-auto object-contain max-h-[460px]"
+                  priority
+                />
+              </div>
             </div>
+          </div>
         </div>
-    );
+
+        {/* CENTRES SECTION INTRO: Centered, Compact Highlighted Tag with Short Bold Description */}
+        <div className="mt-4 sm:mt-6 mb-6 sm:mb-8 flex flex-col items-center justify-center text-center">
+          <h2 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50/90 dark:bg-blue-950/50 border border-blue-200/70 dark:border-blue-800/60 text-[14px] sm:text-[15.5px] font-bold text-[#102A68] dark:text-white tracking-tight shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] shrink-0" />
+            <span>Our Learning Centres in</span>
+            <span className="text-[#2563EB] dark:text-blue-400 font-extrabold">Delhi</span>
+          </h2>
+          <p className="text-[12px] sm:text-[13px] font-bold text-slate-500 dark:text-slate-400 mt-2 tracking-wide">
+            Purpose-built spaces for focused learning.
+          </p>
+        </div>
+
+        {/* CENTRE CARDS GRID: 4 equal-height cards on desktop, 2x2 on tablet, single column on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 xl:gap-6">
+          {centers.map((center) => (
+            <div
+              key={center.name}
+              className="group bg-white dark:bg-slate-900 rounded-[20px] border border-slate-200/80 dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(16,42,104,0.05)] hover:shadow-[0_12px_28px_-6px_rgba(16,42,104,0.09)] hover:border-blue-200 dark:hover:border-blue-800 hover:-translate-y-1 transition-all duration-200 ease-out flex flex-col h-full overflow-hidden"
+            >
+              {/* Card Image Area: Consistent dimensions & rounded top */}
+              <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
+                <Image
+                  src={center.imageUrl}
+                  alt={center.name}
+                  data-ai-hint={center.imageHint}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                />
+              </div>
+
+              {/* Card Content: Fixed hierarchy with strictly equal height layout */}
+              <div className="p-5 sm:p-5.5 flex-1 flex flex-col">
+                {/* Centre Name */}
+                <h3 className="text-[20px] sm:text-[21px] font-bold text-[#102A68] dark:text-white tracking-tight leading-snug">
+                  {center.name}
+                </h3>
+
+                {/* Location Metadata */}
+                <div className="flex items-start gap-2 text-slate-500 dark:text-slate-400 mt-2 min-h-[42px]">
+                  <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#2563EB]/80" />
+                  <p className="text-[14px] leading-snug font-normal">
+                    {center.address}
+                  </p>
+                </div>
+
+                {/* Card Actions: Primary + Secondary CTAs with clear hierarchy */}
+                <div className="mt-auto pt-4.5 flex flex-col gap-2.5">
+                  {/* Primary CTA: Visit Centre */}
+                  <Button
+                    asChild
+                    className="w-full h-10 rounded-xl font-semibold text-[13.5px] bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-none transition-colors duration-200 flex items-center justify-center gap-1.5 group/btn"
+                  >
+                    <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
+                      Visit Centre
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                    </Link>
+                  </Button>
+
+                  {/* Secondary CTA: Call Us */}
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="w-full h-[38px] rounded-xl font-medium text-[13px] bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-[#102A68]/20 dark:border-slate-700 hover:border-[#102A68]/45 shadow-none transition-colors duration-200 flex items-center justify-center gap-1.5"
+                  >
+                    <a href="tel:8860040010">
+                      <Phone className="w-3.5 h-3.5 opacity-70" />
+                      Call Us
+                    </a>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
+

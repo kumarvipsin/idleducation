@@ -357,7 +357,7 @@
   transform: translateY(0);
 }
 
-/* Mobile Navigation Drawer: hide floating widgets when drawer is open */
+/* Floating widgets: hide when mobile drawer or any modal dialog is open */
 body:has([data-mobile-drawer][data-state="open"]) #whatsapp-floating-btn,
 body:has([data-mobile-drawer][data-state="open"]) a[href*="wa.me"],
 body:has([data-mobile-drawer][data-state="open"]) [data-nextjs-toast-wrapper],
@@ -368,7 +368,17 @@ body:has([data-mobile-drawer][data-state="open"]) nextjs-portal,
 body:has(header[data-mobile-menu-open="true"]) #whatsapp-floating-btn,
 body:has(header[data-mobile-menu-open="true"]) a[href*="wa.me"],
 body:has(header[data-mobile-menu-open="true"]) [data-nextjs-dev-tools-button],
-body:has(header[data-mobile-menu-open="true"]) nextjs-portal {
+body:has(header[data-mobile-menu-open="true"]) nextjs-portal,
+body:has([role="dialog"][data-state="open"]) #whatsapp-floating-btn,
+body:has([role="dialog"][data-state="open"]) a[href*="wa.me"],
+body:has([role="dialog"][data-state="open"]) [data-next-badge],
+body:has([role="dialog"][data-state="open"]) #__next-build-watcher,
+body:has([role="dialog"][data-state="open"]) [data-nextjs-dev-tools-button],
+body:has([role="dialog"][data-state="open"]) nextjs-portal,
+body:has([data-radix-dialog-content]) #whatsapp-floating-btn,
+body:has([data-radix-dialog-content]) a[href*="wa.me"],
+body:has([data-radix-dialog-content]) [data-next-badge],
+body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;

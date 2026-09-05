@@ -10,6 +10,7 @@ import { DiscoverAdvantage } from '@/components/landing/discover-advantage';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
 import { DailyChallengeSection } from '@/components/landing/daily-challenge-section';
+import { DiscoverCoursesSection } from '@/components/landing/discover-courses-section';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,8 +25,9 @@ export default async function Home() {
   const heroSlides = heroSlidesResult.success ? (heroSlidesResult.data as THeroSlide[]) : [];
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
+    <div suppressHydrationWarning className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
       <BuildSkillsSection slides={heroSlides} />
+      <DiscoverCoursesSection />
       <TrustedPlatform />
       <DailyChallengeSection />
       <AcademicExcellence />
