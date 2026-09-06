@@ -138,6 +138,7 @@ export interface TExpertTeacher {
   avatarUrl?: string;
   photo?: string;
   photoUrl?: string;
+  originalPhotoUrl?: string;
   photoPosition?: string;   // CSS object-position e.g. 'top', 'center', '50% 20%'
   videoId?: string;
   videoUrl?: string;

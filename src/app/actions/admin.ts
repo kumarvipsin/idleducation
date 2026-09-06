@@ -694,12 +694,15 @@ export async function addExpertTeacher(formData: FormData) {
     videoId,
     profileUrl: (rawData.profileUrl as string) || '/about',
     order: parseInt(rawData.order as string, 10) || 99,
-    isActive: rawData.isActive === 'true' || rawData.isActive === 'on' || rawData.isActive === true,
+    isActive: rawData.isActive === 'true' || rawData.isActive === 'on',
     photoPosition: (rawData.photoPosition as string) || 'top',
   };
 
   try {
     let avatarUrl = (rawData.avatarUrl as string) || (rawData.photoUrl as string) || '';
+    if (avatarUrl && typeof avatarUrl === 'string') {
+      avatarUrl = avatarUrl.split('?')[0];
+    }
     if (photoFile && photoFile.size > 0) {
       const destination = `expert-teachers/${Date.now()}-${photoFile.name}`;
       avatarUrl = await uploadFileToGCS(photoFile, destination);
@@ -739,7 +742,7 @@ export async function editExpertTeacher(id: string, formData: FormData) {
     videoId,
     profileUrl: (rawData.profileUrl as string) || '/about',
     order: parseInt(rawData.order as string, 10) || 99,
-    isActive: rawData.isActive === 'true' || rawData.isActive === 'on' || rawData.isActive === true,
+    isActive: rawData.isActive === 'true' || rawData.isActive === 'on',
     photoPosition: (rawData.photoPosition as string) || 'top',
   };
 
@@ -755,12 +758,14 @@ export async function editExpertTeacher(id: string, formData: FormData) {
       teacherData.avatarUrl = uploadedUrl;
       teacherData.photoUrl = uploadedUrl;
     } else if (rawData.photoUrl) {
-      // URL typed in the URL field
-      teacherData.avatarUrl = rawData.photoUrl as string;
-      teacherData.photoUrl = rawData.photoUrl as string;
+      // URL typed in the URL field (strip any signed URL query params)
+      const cleanUrl = (rawData.photoUrl as string).split('?')[0];
+      teacherData.avatarUrl = cleanUrl;
+      teacherData.photoUrl = cleanUrl;
     } else if (rawData.avatarUrl) {
-      teacherData.avatarUrl = rawData.avatarUrl as string;
-      teacherData.photoUrl = rawData.avatarUrl as string;
+      const cleanUrl = (rawData.avatarUrl as string).split('?')[0];
+      teacherData.avatarUrl = cleanUrl;
+      teacherData.photoUrl = cleanUrl;
     }
 
     const docRef = doc(db, "expertTeachers", id);

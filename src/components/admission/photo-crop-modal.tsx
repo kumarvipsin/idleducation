@@ -22,20 +22,27 @@ export interface PhotoCropModalProps {
   imageSrc: string | null;
   onClose: () => void;
   onApplyCrop: (croppedDataUrl: string, fileBlob: File) => void;
+  frameWidth?: number;
+  frameHeight?: number;
+  canvasExportWidth?: number;
+  canvasExportHeight?: number;
+  title?: string;
+  subtitle?: string;
+  fileName?: string;
 }
-
-// Passport aspect ratio 3.5 : 4.5
-const FRAME_WIDTH = 210;
-const FRAME_HEIGHT = 270;
-// 300 DPI standard digital passport resolution
-const CANVAS_EXPORT_WIDTH = 420;
-const CANVAS_EXPORT_HEIGHT = 540;
 
 export function PhotoCropModal({
   isOpen,
   imageSrc,
   onClose,
   onApplyCrop,
+  frameWidth = 210,
+  frameHeight = 270,
+  canvasExportWidth = 420,
+  canvasExportHeight = 540,
+  title = "Adjust Photo",
+  subtitle = "Standard 3.5 × 4.5 cm passport frame",
+  fileName = "student-passport-photo.jpg",
 }: PhotoCropModalProps) {
   const [scale, setScale] = useState(1.0);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
@@ -97,18 +104,18 @@ export function PhotoCropModal({
     }
   }, [isOpen]);
 
-  // Calculate Base Rendered Dimensions so the image strictly covers the 210x270 crop frame
+  // Calculate Base Rendered Dimensions so the image strictly covers the crop frame
   const { baseW, baseH, maxOffsetX, maxOffsetY } = useMemo(() => {
     if (!naturalSize || naturalSize.w <= 0 || naturalSize.h <= 0) {
-      return { baseW: FRAME_WIDTH, baseH: FRAME_HEIGHT, maxOffsetX: 0, maxOffsetY: 0 };
+      return { baseW: frameWidth, baseH: frameHeight, maxOffsetX: 0, maxOffsetY: 0 };
     }
 
     const isRotated90 = rotation % 180 !== 0;
     const effW = isRotated90 ? naturalSize.h : naturalSize.w;
     const effH = isRotated90 ? naturalSize.w : naturalSize.h;
 
-    // Minimum scale required so that effective width >= 210 and effective height >= 270
-    const coverScale = Math.max(FRAME_WIDTH / effW, FRAME_HEIGHT / effH);
+    // Minimum scale required so that effective width >= frameWidth and effective height >= frameHeight
+    const coverScale = Math.max(frameWidth / effW, frameHeight / effH);
     const bW = naturalSize.w * coverScale;
     const bH = naturalSize.h * coverScale;
 
@@ -116,8 +123,8 @@ export function PhotoCropModal({
     const curW = (isRotated90 ? bH : bW) * scale;
     const curH = (isRotated90 ? bW : bH) * scale;
 
-    const mX = Math.max(0, (curW - FRAME_WIDTH) / 2);
-    const mY = Math.max(0, (curH - FRAME_HEIGHT) / 2);
+    const mX = Math.max(0, (curW - frameWidth) / 2);
+    const mY = Math.max(0, (curH - frameHeight) / 2);
 
     return {
       baseW: bW,
@@ -125,7 +132,7 @@ export function PhotoCropModal({
       maxOffsetX: mX,
       maxOffsetY: mY,
     };
-  }, [naturalSize, rotation, scale]);
+  }, [naturalSize, rotation, scale, frameWidth, frameHeight]);
 
   // Ensure current offset never reveals blank space outside the crop frame
   const clampedOffset = useMemo(() => {
@@ -236,8 +243,8 @@ export function PhotoCropModal({
 
     try {
       const canvas = document.createElement("canvas");
-      canvas.width = CANVAS_EXPORT_WIDTH;
-      canvas.height = CANVAS_EXPORT_HEIGHT;
+      canvas.width = canvasExportWidth;
+      canvas.height = canvasExportHeight;
       const ctx = canvas.getContext("2d", { willReadFrequently: false });
       if (!ctx) {
         throw new Error("Could not initialize 2D canvas context");
@@ -245,14 +252,14 @@ export function PhotoCropModal({
 
       // Crisp solid background
       ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, CANVAS_EXPORT_WIDTH, CANVAS_EXPORT_HEIGHT);
+      ctx.fillRect(0, 0, canvasExportWidth, canvasExportHeight);
 
       ctx.save();
       // Move context to exact canvas center
-      ctx.translate(CANVAS_EXPORT_WIDTH / 2, CANVAS_EXPORT_HEIGHT / 2);
+      ctx.translate(canvasExportWidth / 2, canvasExportHeight / 2);
 
-      // Multiplier from visual frame to high-res canvas (420 / 210 = 2)
-      const multiplier = CANVAS_EXPORT_WIDTH / FRAME_WIDTH;
+      // Multiplier from visual frame to high-res canvas
+      const multiplier = canvasExportWidth / frameWidth;
       ctx.translate(clampedOffset.x * multiplier, clampedOffset.y * multiplier);
       ctx.rotate((rotation * Math.PI) / 180);
       ctx.scale(scale, scale);
@@ -272,7 +279,7 @@ export function PhotoCropModal({
         throw new Error("Failed to generate cropped image blob");
       }
 
-      const file = new File([blob], "student-passport-photo.jpg", {
+      const file = new File([blob], fileName, {
         type: "image/jpeg",
         lastModified: Date.now(),
       });
@@ -310,7 +317,7 @@ export function PhotoCropModal({
               e.preventDefault();
               onClose();
             }}
-            className="pointer-events-auto relative w-full max-w-[460px] bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-150"
+            className="pointer-events-auto relative w-full max-w-[480px] bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-150"
           >
             {/* HEADER */}
             <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-slate-900/80">
@@ -320,10 +327,10 @@ export function PhotoCropModal({
                 </div>
                 <div>
                   <DialogPrimitive.Title className="text-[15px] sm:text-[16px] font-bold text-[#18233A] dark:text-white leading-none">
-                    Adjust Photo
+                    {title}
                   </DialogPrimitive.Title>
                   <DialogPrimitive.Description className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
-                    Standard 3.5 × 4.5 cm passport frame
+                    {subtitle}
                   </DialogPrimitive.Description>
                 </div>
               </div>
@@ -339,14 +346,14 @@ export function PhotoCropModal({
 
             {/* MAIN CROP CANVAS AREA */}
             <div className="p-4 sm:p-5 flex flex-col items-center justify-center bg-slate-100/80 dark:bg-slate-950/70">
-              {/* Passport-size crop frame (210px x 270px -> strictly 3.5 : 4.5 ratio) */}
+              {/* Crop frame */}
               <div
                 onPointerDown={handlePointerDown}
                 onPointerMove={handlePointerMove}
                 onPointerUp={handlePointerUp}
                 onPointerCancel={handlePointerUp}
                 onWheel={handleWheel}
-                style={{ width: `${FRAME_WIDTH}px`, height: `${FRAME_HEIGHT}px`, touchAction: "none" }}
+                style={{ width: `${frameWidth}px`, height: `${frameHeight}px`, touchAction: "none" }}
                 className={cn(
                   "relative overflow-hidden rounded-xl border-2 border-[#102A68] dark:border-blue-400 bg-slate-950 shadow-xl select-none",
                   isDragging ? "cursor-grabbing" : "cursor-grab"
@@ -379,14 +386,29 @@ export function PhotoCropModal({
                       }}
                     />
 
-                    {/* Passport Guidelines Overlay */}
+                    {/* Guidelines Overlay */}
                     <div className="absolute inset-0 pointer-events-none border border-white/20 rounded-lg">
                       {/* Face placement oval */}
-                      <div className="absolute top-[14%] left-[20%] w-[60%] h-[62%] border border-dashed border-white/85 rounded-[50%] shadow-[0_0_8px_rgba(0,0,0,0.6)]" />
+                      <div
+                        className="absolute border border-dashed border-white/85 rounded-[50%] shadow-[0_0_8px_rgba(0,0,0,0.6)]"
+                        style={
+                          frameWidth > frameHeight
+                            ? { top: "8%", left: "26%", width: "48%", height: "78%" }
+                            : { top: "14%", left: "20%", width: "60%", height: "62%" }
+                        }
+                      />
                       {/* Eye level line */}
-                      <div className="absolute top-[38%] left-[22%] right-[22%] border-b border-white/40" />
-                      {/* Chin line */}
-                      <div className="absolute bottom-[20%] left-[30%] right-[30%] border-b border-white/40" />
+                      <div
+                        className="absolute border-b border-white/40"
+                        style={
+                          frameWidth > frameHeight
+                            ? { top: "34%", left: "30%", right: "30%" }
+                            : { top: "38%", left: "22%", right: "22%" }
+                        }
+                      />
+                      {frameWidth <= frameHeight && (
+                        <div className="absolute bottom-[20%] left-[30%] right-[30%] border-b border-white/40" />
+                      )}
                     </div>
 
                     {/* Helper Floating Badge */}

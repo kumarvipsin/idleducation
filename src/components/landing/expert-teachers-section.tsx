@@ -6,31 +6,52 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import type { TExpertTeacher } from "@/app/actions/types";
+import { getSignedUrlForPdf } from "@/app/actions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { VideoModalDialogContent } from "@/components/ui/video-modal-dialog";
-import { GraduationCap, BookOpen, PlayCircle } from "lucide-react";
+import { GraduationCap, BookOpen, Briefcase, Sparkles, UserCheck } from "lucide-react";
 
 /**
- * Universal Image Renderer supporting local assets (/image.png), GCS paths, and external URLs
+ * Universal Image Renderer supporting local assets (/image.png), GCS paths, and external URLs.
+ * Handles GCS signed URLs, custom photoPosition crop, and graceful fallback.
  */
 function TeacherAvatarImage({ src, alt, photoPosition }: { src?: string; alt: string; photoPosition?: string }) {
-  const imageSrc = src || "/director.png";
+  const [imgSrc, setImgSrc] = useState<string>(src || "/director.png");
+
+  useEffect(() => {
+    let active = true;
+    const raw = src || "/director.png";
+    if (raw.includes('storage.googleapis.com') && !raw.includes('GoogleAccessId=')) {
+      getSignedUrlForPdf(raw).then((res) => {
+        if (active && res.success && res.url) {
+          setImgSrc(res.url);
+        }
+      });
+    } else {
+      setImgSrc(raw);
+    }
+    return () => {
+      active = false;
+    };
+  }, [src]);
+
   const posStyle = photoPosition ? { objectPosition: photoPosition } : undefined;
+  const isGcs = imgSrc.includes('storage.googleapis.com') || imgSrc.includes('GoogleAccessId=');
 
   return (
     <div className="relative w-full h-full">
       <Image
-        src={imageSrc}
+        src={imgSrc}
         alt={alt}
         fill
         sizes="(max-width: 640px) 84vw, (max-width: 1024px) 48vw, 33vw"
         className="object-cover contrast-[1.03] transition-transform duration-200 ease-out group-hover/card:scale-[1.012]"
         style={posStyle ?? { objectPosition: 'top' }}
-        onError={(e) => {
-          const target = e.target as HTMLImageElement;
-          target.src = "/director.png";
+        unoptimized={isGcs}
+        onError={() => {
+          setImgSrc("/director.png");
         }}
       />
     </div>
@@ -209,17 +230,18 @@ function ExpertTeacherCard({ teacher }: { teacher: TExpertTeacher }) {
 
       {/* View Profile Modal Dialog */}
       <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
-        <DialogContent className="w-[92vw] sm:max-w-md p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 shadow-xl">
-          <DialogHeader className="text-left pb-3 border-b border-slate-100 dark:border-slate-800">
+        <DialogContent className="w-[92vw] sm:max-w-md p-5 sm:p-6 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 shadow-2xl max-h-[90vh] overflow-y-auto">
+          {/* Header section with soft blue-tinted background treatment */}
+          <DialogHeader className="text-left p-3.5 sm:p-4 rounded-xl bg-gradient-to-br from-blue-50/70 via-slate-50/60 to-blue-50/30 dark:from-slate-900/90 dark:to-slate-900/50 border border-blue-100/70 dark:border-slate-800">
             <div className="flex items-center gap-3.5">
-              <div className="relative w-14 h-14 rounded-xl overflow-hidden shrink-0 border border-slate-200/80 dark:border-slate-800 bg-slate-100">
+              <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden shrink-0 border-2 border-white dark:border-slate-800 bg-slate-100 shadow-md ring-2 ring-blue-500/15 dark:ring-blue-400/20">
                 <TeacherAvatarImage src={photoUrl} alt={teacher.name} photoPosition={teacher.photoPosition} />
               </div>
-              <div className="space-y-0.5 min-w-0">
-                <DialogTitle className="text-lg sm:text-xl font-bold text-[#0B1F4B] dark:text-white truncate">
+              <div className="space-y-0.5 min-w-0 flex-1">
+                <DialogTitle className="text-lg sm:text-xl font-bold text-[#0B1F4B] dark:text-blue-50 truncate leading-snug">
                   {teacher.name}
                 </DialogTitle>
-                <p className="text-xs text-slate-500 dark:text-slate-400 font-medium truncate">
+                <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 font-medium truncate">
                   {teacher.designation || teacher.subject}
                 </p>
               </div>
@@ -229,54 +251,68 @@ function ExpertTeacherCard({ teacher }: { teacher: TExpertTeacher }) {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-3 pt-3 text-left">
+          {/* Modal Body */}
+          <div className="space-y-4 pt-3 text-left">
+            {/* Subject / Specialization Badge */}
             {specializationBadge && (
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/40 text-primary dark:text-blue-300 text-xs font-semibold border border-blue-100 dark:border-blue-900/40">
-                <BookOpen className="w-3.5 h-3.5 shrink-0" />
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50/80 dark:bg-blue-950/50 text-[#0B1F4B] dark:text-blue-200 text-xs font-semibold border border-blue-200/70 dark:border-blue-800/50 shadow-2xs">
+                <BookOpen className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
                 <span>{specializationBadge}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" title="Faculty Focus" />
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-2 text-xs">
-              {teacher.experience && (
-                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Experience</span>
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">{teacher.experience}</span>
-                </div>
-              )}
-              {teacher.qualification && (
-                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 block mb-0.5">Qualification</span>
-                  <span className="font-semibold text-slate-800 dark:text-slate-200">{teacher.qualification}</span>
-                </div>
-              )}
-            </div>
+            {/* Experience & Qualification Stat Cards */}
+            {(teacher.experience || teacher.qualification) && (
+              <div className="grid grid-cols-2 gap-2.5 text-xs">
+                {teacher.experience && (
+                  <div className="p-3 rounded-xl bg-[#F8FAFC] dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/80 border-l-2 border-l-blue-600 dark:border-l-blue-500 shadow-2xs">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 block mb-1 flex items-center gap-1">
+                      <Briefcase className="w-3 h-3 text-blue-600 dark:text-blue-400 shrink-0" />
+                      Experience
+                    </span>
+                    <span className="font-bold text-sm text-[#0B1F4B] dark:text-slate-100 block">
+                      {teacher.experience}
+                    </span>
+                  </div>
+                )}
+                {teacher.qualification && (
+                  <div className="p-3 rounded-xl bg-[#F8FAFC] dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/80 border-l-2 border-l-blue-600 dark:border-l-blue-500 shadow-2xs">
+                    <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 block mb-1 flex items-center gap-1">
+                      <GraduationCap className="w-3 h-3 text-blue-600 dark:text-blue-400 shrink-0" />
+                      Qualification
+                    </span>
+                    <span className="font-bold text-sm text-[#0B1F4B] dark:text-slate-100 block truncate" title={teacher.qualification}>
+                      {teacher.qualification}
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
 
+            {/* Teaching Approach */}
             {teacher.teachingFocus && (
-              <div className="text-xs text-slate-600 dark:text-slate-300 pt-1">
-                <span className="font-bold text-[#0B1F4B] dark:text-white block mb-0.5">Teaching Approach</span>
-                <p>{teacher.teachingFocus}</p>
+              <div className="border-l-2 border-l-blue-600 dark:border-l-blue-500 pl-3 py-0.5 space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0B1F4B] dark:text-blue-200 flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
+                  Teaching Approach
+                </span>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {teacher.teachingFocus}
+                </p>
               </div>
             )}
 
-            <div className="text-xs text-slate-600 dark:text-slate-300 pt-1">
-              <span className="font-bold text-[#0B1F4B] dark:text-white block mb-0.5">About Educator</span>
-              <p className="leading-relaxed">{bioText}</p>
-            </div>
-
-            {videoId && (
-              <div className="pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsProfileOpen(false);
-                    setIsVideoOpen(true);
-                  }}
-                  className="w-full inline-flex items-center justify-center gap-1.5 px-2.5 py-[5px] rounded-[6px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold transition-colors duration-150 cursor-pointer shrink-0"
-                >
-                  <PlayCircle className="w-4 h-4" />
-                  <span>Watch Introduction Video</span>
-                </button>
+            {/* About Educator */}
+            {bioText && (
+              <div className="border-l-2 border-l-blue-600 dark:border-l-blue-500 pl-3 py-0.5 space-y-1">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#0B1F4B] dark:text-blue-200 flex items-center gap-1.5">
+                  <UserCheck className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" />
+                  About Educator
+                </span>
+                <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                  {bioText}
+                </p>
               </div>
             )}
           </div>
@@ -380,11 +416,8 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
   return (
     <section
       id="expert-teachers"
-      className="relative w-full pt-12 sm:pt-14 md:pt-16 pb-10 sm:pb-12 md:pb-14 bg-gradient-to-b from-[#F4F7FC] via-[#F9FAFD] to-white dark:bg-background overflow-hidden"
+      className="relative w-full pt-12 sm:pt-14 md:pt-16 pb-10 sm:pb-12 md:pb-14 bg-[#F8FAFD] dark:bg-slate-950 overflow-hidden"
     >
-      {/* Subtle ambient glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[960px] h-[340px] sm:h-[420px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/4 left-[8%] w-[320px] sm:w-[480px] h-[260px] bg-[#102A68]/[0.02] rounded-full blur-3xl pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">
         <div className="flex flex-col">

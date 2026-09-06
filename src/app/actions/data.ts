@@ -4,6 +4,7 @@
 import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, orderBy, getCountFromServer, limit, doc, getDoc, Timestamp } from "firebase/firestore";
 import { serializeFirestoreData } from './utils';
+import { getSignedUrlForPdf } from './content';
 
 // Data Fetching
 export async function getSessionBookings() {
@@ -376,6 +377,28 @@ const DEFAULT_EXPERT_TEACHERS = [
   }
 ];
 
+async function signTeacherPhoto(teacher: any) {
+    const photo = teacher.photoUrl || teacher.avatarUrl || teacher.photo;
+    if (photo && typeof photo === 'string' && photo.includes('storage.googleapis.com')) {
+        try {
+            const cleanUrl = photo.split('?')[0];
+            const signed = await getSignedUrlForPdf(cleanUrl);
+            if (signed.success && signed.url) {
+                return {
+                    ...teacher,
+                    originalPhotoUrl: cleanUrl,
+                    photoUrl: signed.url,
+                    avatarUrl: signed.url,
+                    photo: signed.url,
+                };
+            }
+        } catch (err) {
+            console.error("Error signing teacher photo:", err);
+        }
+    }
+    return teacher;
+}
+
 export async function getExpertTeachers() {
     try {
         const teachersQuery = query(collection(db, "expertTeachers"), orderBy("order", "asc"));
@@ -384,7 +407,8 @@ export async function getExpertTeachers() {
             const teachers = querySnapshot.docs
                 .map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }))
                 .filter((t: any) => t.isActive !== false);
-            return { success: true, data: teachers.length > 0 ? teachers : DEFAULT_EXPERT_TEACHERS };
+            const signedTeachers = await Promise.all(teachers.map(signTeacherPhoto));
+            return { success: true, data: signedTeachers.length > 0 ? signedTeachers : DEFAULT_EXPERT_TEACHERS };
         }
         // Fallback to initial structured faculty if collection not yet seeded in Firestore
         return { success: true, data: DEFAULT_EXPERT_TEACHERS };
@@ -400,7 +424,8 @@ export async function getAllExpertTeachers() {
         const querySnapshot = await getDocs(teachersQuery);
         if (!querySnapshot.empty) {
             const teachers = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-            return { success: true, data: teachers };
+            const signedTeachers = await Promise.all(teachers.map(signTeacherPhoto));
+            return { success: true, data: signedTeachers };
         }
         return { success: true, data: DEFAULT_EXPERT_TEACHERS };
     } catch (error) {

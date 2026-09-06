@@ -35,7 +35,7 @@ export default async function Home() {
       <AcademicExcellence />
       <ExpertTeachersSection teachers={expertTeachers} />
       <ScholarshipSection />
-      <StudentTestimonials testimonials={studentTestimonials} />
+      <StudentTestimonials testimonials={studentTestimonials.slice(0, 5)} />
       <DailyChallengeSection />
       <StudyResources />
       <ToppersTestimonials testimonials={testimonials} />

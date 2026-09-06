@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { getAllExpertTeachers, addExpertTeacher, editExpertTeacher, deleteExpertTeacher } from '@/app/actions';
+import { getAllExpertTeachers, addExpertTeacher, editExpertTeacher, deleteExpertTeacher, getSignedUrlForPdf } from '@/app/actions';
 import type { TExpertTeacher } from '@/app/actions/types';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Trash2, Video, GraduationCap, Upload, X, Camera, Link2, PlayCircle } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Video, GraduationCap, Upload, X, Camera, Link2, Crop } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -18,6 +18,40 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Switch } from '@/components/ui/switch';
+import { PhotoCropModal } from '@/components/admission/photo-crop-modal';
+
+function TeacherTableAvatar({ src, name, photoPosition }: { src?: string; name: string; photoPosition?: string }) {
+  const [avatarSrc, setAvatarSrc] = useState<string>(src || '/director.png');
+
+  useEffect(() => {
+    let active = true;
+    const raw = src || '/director.png';
+    if (raw.includes('storage.googleapis.com') && !raw.includes('GoogleAccessId=')) {
+      getSignedUrlForPdf(raw).then((res) => {
+        if (active && res.success && res.url) {
+          setAvatarSrc(res.url);
+        }
+      });
+    } else {
+      setAvatarSrc(raw);
+    }
+    return () => {
+      active = false;
+    };
+  }, [src]);
+
+  return (
+    <Avatar className="h-10 w-10 border border-slate-200 overflow-hidden shadow-sm">
+      <AvatarImage
+        src={avatarSrc}
+        alt={name}
+        className="object-cover"
+        style={photoPosition ? { objectPosition: photoPosition } : undefined}
+      />
+      <AvatarFallback><GraduationCap className="h-4 w-4 text-slate-400" /></AvatarFallback>
+    </Avatar>
+  );
+}
 
 function parseYouTubeInput(val: string): { videoId: string | null; isValid: boolean; normalizedUrl: string } {
   const trimmed = val.trim();
@@ -50,17 +84,38 @@ const ExpertTeacherForm = ({
   const [videoUrl, setVideoUrl] = useState<string>(
     teacher?.videoUrl || (teacher?.videoId ? `https://www.youtube.com/watch?v=${teacher.videoId}` : '') || ''
   );
-  const [photoPosition, setPhotoPosition] = useState<string>(teacher?.photoPosition || 'top');
   const photoInputRef = useRef<HTMLInputElement>(null);
 
+  // Photo Crop Modal states
+  const [isCropOpen, setIsCropOpen] = useState(false);
+  const [activeCropImage, setActiveCropImage] = useState<string | null>(null);
+  const [croppedFile, setCroppedFile] = useState<File | null>(null);
+
   useEffect(() => {
-    const url = teacher?.photoUrl || teacher?.avatarUrl || '';
+    const rawPhoto = teacher?.originalPhotoUrl || teacher?.photoUrl || teacher?.avatarUrl || '';
     setVideoUrl(teacher?.videoUrl || (teacher?.videoId ? `https://www.youtube.com/watch?v=${teacher.videoId}` : '') || '');
-    setPhotoPreview(url || null);
-    setCurrentPhotoUrl(url);
+    setCurrentPhotoUrl(rawPhoto.split('?')[0]);
     setRemovePhoto(false);
     setIsActive(teacher ? teacher.isActive !== false : true);
-    setPhotoPosition(teacher?.photoPosition || 'top');
+    setCroppedFile(null);
+    setIsCropOpen(false);
+    setActiveCropImage(null);
+
+    if (rawPhoto) {
+      if (rawPhoto.includes('storage.googleapis.com') && !rawPhoto.includes('GoogleAccessId=')) {
+        getSignedUrlForPdf(rawPhoto).then((res) => {
+          if (res.success && res.url) {
+            setPhotoPreview(res.url);
+          } else {
+            setPhotoPreview(rawPhoto);
+          }
+        });
+      } else {
+        setPhotoPreview(rawPhoto);
+      }
+    } else {
+      setPhotoPreview(null);
+    }
   }, [teacher]);
 
   const { videoId: previewVideoId, isValid: isVideoValid, normalizedUrl } = parseYouTubeInput(videoUrl);
@@ -82,11 +137,15 @@ const ExpertTeacherForm = ({
     const formData = new FormData(event.currentTarget);
     formData.set('isActive', String(isActive));
     formData.set('videoUrl', normalizedUrl);
-    formData.set('photoPosition', photoPosition);
-    // Always explicitly send current photo URL so backend knows to keep it
-    if (!removePhoto && currentPhotoUrl && !photoInputRef.current?.files?.[0]) {
-      formData.set('photoUrl', currentPhotoUrl);
+
+    // If photo was interactively cropped, send the cropped file
+    if (croppedFile) {
+      formData.set('photo', croppedFile);
+    } else if (!removePhoto && currentPhotoUrl && !photoInputRef.current?.files?.[0]) {
+      // Send current photo URL (clean permanent path) so backend knows to preserve it
+      formData.set('photoUrl', currentPhotoUrl.split('?')[0]);
     }
+
     if (removePhoto) {
       formData.set('removePhoto', 'true');
     }
@@ -107,28 +166,53 @@ const ExpertTeacherForm = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setPhotoPreview(URL.createObjectURL(file));
-      setRemovePhoto(false);
+      const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+      if (!validTypes.includes(file.type)) {
+        toast({
+          variant: "destructive",
+          title: "Unsupported format",
+          description: "Please upload a valid JPG, JPEG, PNG, or WebP image.",
+        });
+        e.target.value = "";
+        return;
+      }
+      if (file.size > 10 * 1024 * 1024) {
+        toast({
+          variant: "destructive",
+          title: "Image too large",
+          description: "Photo file size should be less than 10MB.",
+        });
+        e.target.value = "";
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const dataUrl = reader.result as string;
+        setActiveCropImage(dataUrl);
+        setIsCropOpen(true);
+        setRemovePhoto(false);
+      };
+      reader.readAsDataURL(file);
+    }
+    e.target.value = "";
+  };
+
+  const handleOpenCrop = () => {
+    if (photoPreview) {
+      setActiveCropImage(photoPreview);
+      setIsCropOpen(true);
     }
   };
 
   const handleRemovePhoto = () => {
     setPhotoPreview(null);
     setCurrentPhotoUrl('');
+    setCroppedFile(null);
+    setActiveCropImage(null);
     setRemovePhoto(true);
     if (photoInputRef.current) photoInputRef.current.value = '';
   };
-
-  // Position label map
-  const POSITIONS = [
-    { value: 'top',    label: 'Top',    title: 'Show top of photo (face)' },
-    { value: 'center', label: 'Center', title: 'Show center of photo' },
-    { value: 'bottom', label: 'Bottom', title: 'Show bottom of photo' },
-    { value: '50% 20%', label: 'Upper',  title: 'Show upper-center (portraits)' },
-  ];
-
-  const positionStyle = { objectPosition: photoPosition };
-
 
   return (
     <form onSubmit={handleSubmit}>
@@ -228,19 +312,19 @@ const ExpertTeacherForm = ({
                 </div>
               )}
               <p className="text-[11px] text-muted-foreground">
-                Paste YouTube watch, share, or short link. Leave blank to remove. Shows as &quot;Watch Intro&quot; on teacher card.
+                Paste YouTube watch, share, or short link. Leave blank to remove.
               </p>
             </div>
           </div>
 
-          {/* ── Teacher Photo Upload ── */}
+          {/* ── Teacher Photo Upload & Adjust (Admission Form Style) ── */}
           <div className="grid grid-cols-4 items-start gap-4">
             <Label className="text-right pt-2 font-medium">Teacher Photo</Label>
-            <div className="col-span-3 space-y-2">
+            <div className="col-span-3 space-y-3">
 
-              {/* Photo preview area */}
+              {/* Photo Card Preview Frame (5:4 Aspect Ratio matching teacher cards) */}
               <div
-                className="relative w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800"
+                className="relative w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-900 border-2 border-slate-200 dark:border-slate-800 group shadow-sm"
                 style={{ aspectRatio: '5/4', maxHeight: 220 }}
               >
                 {photoPreview ? (
@@ -248,30 +332,43 @@ const ExpertTeacherForm = ({
                     <img
                       src={photoPreview}
                       alt="Teacher photo preview"
-                      className="w-full h-full object-cover transition-all duration-300"
-                      style={positionStyle}
+                      className="w-full h-full object-cover transition-all duration-150"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = '/director.png';
+                      }}
                     />
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/0 hover:bg-black/25 transition-colors duration-200 flex items-center justify-center gap-2 opacity-0 hover:opacity-100">
-                      <button
+                    {/* Hover Action Overlay */}
+                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center gap-2">
+                      <Button
                         type="button"
+                        size="sm"
+                        onClick={handleOpenCrop}
+                        className="h-8 text-xs gap-1.5 bg-white text-slate-900 hover:bg-slate-100 font-semibold shadow cursor-pointer"
+                      >
+                        <Crop className="w-3.5 h-3.5" />
+                        Adjust
+                      </Button>
+                      <Button
+                        type="button"
+                        size="sm"
                         onClick={() => photoInputRef.current?.click()}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/90 text-slate-900 text-xs font-semibold shadow hover:bg-white transition-colors"
+                        className="h-8 text-xs gap-1.5 bg-white/90 text-slate-900 hover:bg-white font-semibold shadow cursor-pointer"
                       >
                         <Camera className="w-3.5 h-3.5" />
                         Change
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
+                        size="sm"
                         onClick={handleRemovePhoto}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-red-500/90 text-white text-xs font-semibold shadow hover:bg-red-600 transition-colors"
+                        className="h-8 text-xs gap-1.5 bg-red-600 text-white hover:bg-red-700 font-semibold shadow cursor-pointer"
                       >
                         <X className="w-3.5 h-3.5" />
                         Remove
-                      </button>
+                      </Button>
                     </div>
-                    {/* Corner badge */}
-                    <div className="absolute top-2 right-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow">
+                    {/* Status Badge */}
+                    <div className="absolute top-2.5 right-2.5 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shadow pointer-events-none">
                       ✓ Photo Set
                     </div>
                   </>
@@ -279,38 +376,52 @@ const ExpertTeacherForm = ({
                   <button
                     type="button"
                     onClick={() => photoInputRef.current?.click()}
-                    className="w-full h-full flex flex-col items-center justify-center gap-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                    className="w-full h-full flex flex-col items-center justify-center gap-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors cursor-pointer"
                   >
-                    <div className="w-14 h-14 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                      <Upload className="w-6 h-6" />
+                    <div className="w-12 h-12 rounded-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+                      <Upload className="w-5 h-5" />
                     </div>
-                    <p className="text-sm font-medium">Click to upload photo</p>
-                    <p className="text-xs text-slate-400">JPG, PNG, WebP · Max 5 MB</p>
+                    <div className="text-center">
+                      <p className="text-xs font-bold text-slate-700 dark:text-slate-200">Click to upload photo</p>
+                      <p className="text-[11px] text-slate-400">Card Aspect Ratio (5 : 4) · Max 10 MB</p>
+                    </div>
                   </button>
                 )}
               </div>
 
-              {/* Hidden file input */}
+              {/* Hidden File Input */}
               <input
                 ref={photoInputRef}
                 id="photo"
                 name="photo"
                 type="file"
-                accept="image/*"
+                accept="image/png, image/jpeg, image/jpg, image/webp"
                 onChange={handleFileChange}
                 className="hidden"
               />
 
-              {/* Photo action buttons */}
-              <div className="flex items-center gap-2">
+              {/* Photo Action Buttons */}
+              <div className="flex items-center gap-2 flex-wrap">
+                {photoPreview && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={handleOpenCrop}
+                    className="h-8 text-xs gap-1.5 font-medium border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
+                  >
+                    <Crop className="w-3.5 h-3.5 text-primary" />
+                    Adjust Photo Position
+                  </Button>
+                )}
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={() => photoInputRef.current?.click()}
-                  className="h-8 text-xs gap-1.5"
+                  className="h-8 text-xs gap-1.5 font-medium border-slate-300 dark:border-slate-700 cursor-pointer"
                 >
-                  <Camera className="w-3.5 h-3.5" />
+                  <Camera className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
                   {photoPreview ? 'Change Photo' : 'Upload Photo'}
                 </Button>
                 {photoPreview && (
@@ -319,7 +430,7 @@ const ExpertTeacherForm = ({
                     variant="outline"
                     size="sm"
                     onClick={handleRemovePhoto}
-                    className="h-8 text-xs gap-1.5 text-destructive border-destructive/40 hover:bg-destructive/10"
+                    className="h-8 text-xs gap-1.5 text-destructive border-destructive/40 hover:bg-destructive/10 cursor-pointer"
                   >
                     <X className="w-3.5 h-3.5" />
                     Remove
@@ -328,7 +439,7 @@ const ExpertTeacherForm = ({
               </div>
 
               {/* Photo URL text input */}
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 pt-1">
                 <Link2 className="w-3.5 h-3.5 text-muted-foreground shrink-0" />
                 <Input
                   id="photoUrl"
@@ -337,9 +448,17 @@ const ExpertTeacherForm = ({
                   className="h-8 text-xs"
                   placeholder="Or paste photo URL: /director.png or https://..."
                   onChange={(e) => {
-                    setCurrentPhotoUrl(e.target.value);
-                    if (e.target.value.trim()) {
-                      setPhotoPreview(e.target.value.trim());
+                    const val = e.target.value;
+                    setCurrentPhotoUrl(val);
+                    if (val.trim()) {
+                      if (val.includes('storage.googleapis.com') && !val.includes('GoogleAccessId=')) {
+                        getSignedUrlForPdf(val.trim()).then((res) => {
+                          if (res.success && res.url) setPhotoPreview(res.url);
+                          else setPhotoPreview(val.trim());
+                        });
+                      } else {
+                        setPhotoPreview(val.trim());
+                      }
                       setRemovePhoto(false);
                     } else {
                       setPhotoPreview(null);
@@ -348,67 +467,9 @@ const ExpertTeacherForm = ({
                 />
               </div>
 
-              {/* Photo Position Adjustment */}
-              {photoPreview && (
-                <div className="rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/60 p-2.5 space-y-2">
-                  <div className="flex items-center justify-between">
-                    <p className="text-[11px] font-semibold text-slate-700 dark:text-slate-300">
-                      📐 Photo Focus / Crop Position
-                    </p>
-                    <span className="text-[10px] font-mono text-muted-foreground">Currently: {photoPosition}</span>
-                  </div>
-                  {/* Preset position buttons */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {POSITIONS.map((pos) => (
-                      <button
-                        key={pos.value}
-                        type="button"
-                        title={pos.title}
-                        onClick={() => setPhotoPosition(pos.value)}
-                        className={`px-2.5 py-1 rounded-md text-[11px] font-semibold border transition-all duration-150 ${
-                          photoPosition === pos.value
-                            ? 'bg-[#0B1F4B] text-white border-[#0B1F4B]'
-                            : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-slate-400'
-                        }`}
-                      >
-                        {pos.label}
-                      </button>
-                    ))}
-                  </div>
-                  {/* Custom Y% input */}
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] text-muted-foreground whitespace-nowrap">Custom (Y%):</span>
-                    <input
-                      type="range"
-                      min="0"
-                      max="100"
-                      step="5"
-                      value={(() => {
-                        const match = photoPosition.match(/^(\d+)%/);
-                        if (match) return parseInt(match[1]);
-                        if (photoPosition === 'top') return 0;
-                        if (photoPosition === 'center') return 50;
-                        if (photoPosition === 'bottom') return 100;
-                        return 20;
-                      })()}
-                      onChange={(e) => setPhotoPosition(`50% ${e.target.value}%`)}
-                      className="flex-1 h-1.5 accent-[#1D4ED8]"
-                    />
-                    <span className="text-[11px] font-mono text-muted-foreground w-8">
-                      {(() => {
-                        const match = photoPosition.match(/(\d+)%$/);
-                        return match ? match[1] + '%' : '';
-                      })()}
-                    </span>
-                  </div>
-                  <p className="text-[10px] text-muted-foreground">Use Top for portraits showing face. Use Center or custom for full-body shots.</p>
-                </div>
-              )}
-
-              {/* Hidden input to send position to backend */}
-              <input type="hidden" name="photoPosition" value={photoPosition} />
-
-              <p className="text-[11px] text-muted-foreground">Upload a portrait photo or paste a URL. Photo will appear on the teacher card.</p>
+              <p className="text-[11px] text-muted-foreground">
+                Upload a teacher photo and click <strong>&quot;Adjust Photo Position&quot;</strong> to drag, zoom, and fit perfectly into the card frame.
+              </p>
             </div>
           </div>
 
@@ -436,6 +497,31 @@ const ExpertTeacherForm = ({
           {isSubmitting ? 'Saving...' : teacher ? 'Update Teacher' : 'Add Teacher'}
         </Button>
       </DialogFooter>
+
+      {/* Interactive Photo Crop & Position Adjustment Modal (Admission Form Style) */}
+      <PhotoCropModal
+        isOpen={isCropOpen}
+        imageSrc={activeCropImage}
+        onClose={() => setIsCropOpen(false)}
+        frameWidth={275}
+        frameHeight={220}
+        canvasExportWidth={550}
+        canvasExportHeight={440}
+        title="Adjust Teacher Photo"
+        subtitle="Card frame (5 : 4 ratio) • Drag to center face & zoom"
+        fileName="teacher-cropped-photo.jpg"
+        onApplyCrop={(croppedDataUrl, fileBlob) => {
+          setPhotoPreview(croppedDataUrl);
+          setActiveCropImage(croppedDataUrl);
+          setCroppedFile(fileBlob);
+          setRemovePhoto(false);
+          setIsCropOpen(false);
+          toast({
+            title: "Photo adjusted & set",
+            description: "Teacher photograph position saved.",
+          });
+        }}
+      />
     </form>
   );
 };
@@ -527,10 +613,11 @@ export default function AdminExpertTeachersPage() {
                       <TableRow key={teacher.id || index}>
                         <TableCell className="font-mono text-xs">{teacher.order ?? index + 1}</TableCell>
                         <TableCell>
-                          <Avatar className="h-10 w-10 border border-slate-200">
-                            <AvatarImage src={photoSrc} alt={teacher.name} className="object-cover" />
-                            <AvatarFallback><GraduationCap className="h-4 w-4" /></AvatarFallback>
-                          </Avatar>
+                          <TeacherTableAvatar
+                            src={photoSrc}
+                            name={teacher.name}
+                            photoPosition={teacher.photoPosition}
+                          />
                         </TableCell>
                         <TableCell className="font-semibold text-slate-900 dark:text-white">
                           <div>{teacher.name}</div>
