@@ -4,6 +4,7 @@ import type { Metadata, Viewport } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
+import { IdlAiAssistant } from '@/components/ai/idl-ai-assistant';
 import { Providers } from '@/components/providers';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -40,6 +41,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
+        <IdlAiAssistant />
       </body>
     </html>
   );
