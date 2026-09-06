@@ -142,15 +142,26 @@ export function StudyResources() {
           // safe fallback
         }
       }
-    }, 2000);
+    }, 1200);
   }, [api, canAutoplay]);
 
   const scrollTo = useCallback(
     (index: number) => {
-      api?.scrollTo(index);
+      if (!api) return;
+      const currentSnap = api.selectedScrollSnap();
+      const currentCycle = Math.floor(currentSnap / resources.length);
+      const targetIndex = index + currentCycle * resources.length;
+      api.scrollTo(targetIndex);
     },
     [api]
   );
+
+  // Cloned sets (3 sets of 3 = 9 items) to ensure smooth infinite rail without empty areas
+  const displayResources = [
+    ...resources.map((r, i) => ({ ...r, uniqueKey: `res-1-${i}` })),
+    ...resources.map((r, i) => ({ ...r, uniqueKey: `res-2-${i}` })),
+    ...resources.map((r, i) => ({ ...r, uniqueKey: `res-3-${i}` })),
+  ];
 
   return (
     <section className="w-full pt-10 md:pt-12 pb-12 md:pb-16 bg-[#F8FAFC] dark:bg-[#080D1A] border-y border-slate-200/60 dark:border-slate-800/60">
@@ -199,8 +210,8 @@ export function StudyResources() {
               className="w-full"
             >
               <CarouselContent className="-ml-4">
-                {resources.map((resource, index) => (
-                  <CarouselItem key={index} className="pl-4 basis-[calc(100%-14px)] sm:basis-[80%] md:basis-1/2 lg:basis-1/3">
+                {displayResources.map((resource) => (
+                  <CarouselItem key={resource.uniqueKey} className="pl-4 basis-[85%] sm:basis-[46.5%] md:basis-[46.5%] lg:basis-1/3">
                     <div className="p-1 h-full">
                       <Link href={resource.href} className="block h-full group">
                         <Card className={cn(
@@ -274,7 +285,7 @@ export function StudyResources() {
                 onClick={() => scrollTo(i)}
                 className={cn(
                   "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
-                  current === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
+                  (current % resources.length) === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
                 )}
                 aria-label={`Go to slide ${i + 1}`}
               />

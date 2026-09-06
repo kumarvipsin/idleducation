@@ -8,7 +8,7 @@ import {
     UserCircle, Building, Users, HandHeart, Banknote,
     Edit, Headset, CheckCircle2, MapPin, Search,
     Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket,
-    Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp
+    Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp, Target
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -159,6 +159,9 @@ const getCategoryIcon = (id: string, name: string) => {
     if (key.includes('neet') || key.includes('medical')) {
         return <Stethoscope className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
     }
+    if (key.includes('cuet') || key.includes('entrance') || key.includes('target')) {
+        return <Target className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+    }
     return <BookOpen className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
 };
 
@@ -221,6 +224,121 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
         </div>
     </div>
 );
+
+// ============================================================================
+// SHARED DESKTOP NAVIGATION TOKENS & COMPONENTS (SOURCE OF TRUTH: ALL COURSES)
+// ============================================================================
+const DESKTOP_MENU_TOKENS = {
+    panelBg: "bg-white dark:bg-slate-950",
+    panelBorder: "border border-border",
+    panelRadius: "rounded-none",
+    panelShadow: "shadow-xl",
+    dropdownAnimation: "absolute top-full left-0 transition-all duration-200 ease-in-out z-50",
+    rowPadding: "px-4 py-3.5",
+    iconContainer: "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
+    iconColorDefault: "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400",
+    iconColorActive: "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5",
+    rowGap: "gap-3.5",
+    rowBase: "group relative flex items-center rounded-none transition-all duration-150 text-left border-l-2 cursor-pointer w-full",
+    rowHover: "border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary",
+    rowActive: "bg-muted/80 border-primary text-primary",
+    textTypography: "font-bold text-[14px] leading-tight transition-colors",
+    arrowClass: "w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100",
+    arrowActive: "w-4 h-4 transition-all shrink-0 text-primary translate-x-0.5 opacity-100",
+    groupHeading: "px-4 pt-2 pb-1 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider",
+    divider: "my-1 border-t border-border",
+};
+
+interface DesktopMenuRowProps {
+    label: string;
+    icon?: React.ReactNode;
+    href?: string;
+    onClick?: () => void;
+    isActive?: boolean;
+    disabled?: boolean;
+    onMouseEnter?: () => void;
+    onSelect?: () => void;
+}
+
+function DesktopMenuRow({
+    label,
+    icon,
+    href,
+    onClick,
+    isActive = false,
+    disabled = false,
+    onMouseEnter,
+    onSelect,
+}: DesktopMenuRowProps) {
+    const isAction = Boolean(onClick || !href || href === '#');
+
+    const innerContent = (
+        <>
+            {icon && (
+                <div
+                    className={cn(
+                        DESKTOP_MENU_TOKENS.iconContainer,
+                        isActive ? DESKTOP_MENU_TOKENS.iconColorActive : DESKTOP_MENU_TOKENS.iconColorDefault
+                    )}
+                >
+                    {icon}
+                </div>
+            )}
+            <div className="text-left flex-1 min-w-0">
+                <p
+                    className={cn(
+                        DESKTOP_MENU_TOKENS.textTypography,
+                        isActive ? "text-primary" : "text-foreground group-hover:text-primary"
+                    )}
+                >
+                    {label}
+                </p>
+            </div>
+            <ChevronRight
+                className={isActive ? DESKTOP_MENU_TOKENS.arrowActive : DESKTOP_MENU_TOKENS.arrowClass}
+            />
+        </>
+    );
+
+    const rowClassName = cn(
+        DESKTOP_MENU_TOKENS.rowBase,
+        DESKTOP_MENU_TOKENS.rowPadding,
+        DESKTOP_MENU_TOKENS.rowGap,
+        isActive ? DESKTOP_MENU_TOKENS.rowActive : DESKTOP_MENU_TOKENS.rowHover,
+        disabled && "opacity-50 grayscale pointer-events-none"
+    );
+
+    if (isAction) {
+        return (
+            <div className="w-full" onMouseEnter={onMouseEnter}>
+                <button
+                    type="button"
+                    onClick={(e) => {
+                        e.preventDefault();
+                        onSelect?.();
+                        onClick?.();
+                    }}
+                    disabled={disabled}
+                    className={rowClassName}
+                >
+                    {innerContent}
+                </button>
+            </div>
+        );
+    }
+
+    return (
+        <div className="w-full" onMouseEnter={onMouseEnter}>
+            <Link
+                href={disabled ? '#' : href!}
+                onClick={() => onSelect?.()}
+                className={rowClassName}
+            >
+                {innerContent}
+            </Link>
+        </div>
+    );
+}
 
 export function Header() {
     const { user, loading, logout } = useAuth();
@@ -297,7 +415,16 @@ export function Header() {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             window.addEventListener('scroll', controlNavbar);
-            return () => window.removeEventListener('scroll', controlNavbar);
+            const handleKeyDown = (e: KeyboardEvent) => {
+                if (e.key === 'Escape') {
+                    setActiveMenu(null);
+                }
+            };
+            window.addEventListener('keydown', handleKeyDown);
+            return () => {
+                window.removeEventListener('scroll', controlNavbar);
+                window.removeEventListener('keydown', handleKeyDown);
+            };
         }
     }, [controlNavbar]);
 
@@ -394,33 +521,33 @@ export function Header() {
         {
             title: "EXPLORE",
             links: [
-                { href: "/offline-centers", label: "Offline Centers", icon: <Building className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Visit our learning centers." },
-                { href: "/blog", label: "IDL Blog", icon: <FileText className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Read articles and updates." },
-                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Explore moments from our journey." },
+                { href: "/offline-centers", label: "Offline Centers", icon: <Building className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
+                { href: "/blog", label: "IDL Blog", icon: <FileText className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
+                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
             ]
         },
         {
             title: "COMPANY",
             links: [
-                { href: "/about", label: "About Us", icon: <Info className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-indigo-400 to-indigo-600 text-white", description: "Learn more about our mission." },
-                { href: "#", label: "Contact Us", icon: <MessageSquare className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-rose-400 to-rose-600 text-white", description: "Get in touch with us.", onClick: () => setIsContactOpen(true) },
-                { href: "/journey", label: "The Journey", icon: <Rocket className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Milestones and evolution of IDL." },
+                { href: "/about", label: "About Us", icon: <Info className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
+                { href: "#", label: "Contact Us", icon: <MessageSquare className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsContactOpen(true) },
+                { href: "/journey", label: "The Journey", icon: <Rocket className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
             ]
         },
     ];
 
     const applyForLinks = [
-        { href: "#", label: "Admission Form", icon: <FileText className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-blue-400 to-blue-600 text-white", description: "Start your journey today.", onClick: () => setIsAdmissionOpen(true) },
-        { href: "#", label: "Book Free Demo", icon: <Presentation className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-orange-400 to-orange-600 text-white", description: "Experience our teaching style.", onClick: () => setIsBookDemoOpen(true) },
-        { href: "#", label: "Feedback", icon: <MessageSquareText className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-emerald-400 to-emerald-600 text-white", description: "Help us improve.", onClick: () => setIsFeedbackOpen(true) },
-        { href: "#", label: "Student Enquiry", icon: <CircleHelp className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-purple-400 to-purple-600 text-white", description: "Have questions? Send us an enquiry.", onClick: () => setIsEnquiryOpen(true) },
-        { href: "#", label: "Scholarship", icon: <Award className="w-5 h-5" strokeWidth={2.2} />, colorClasses: "bg-gradient-to-br from-amber-400 to-amber-600 text-white", description: "Apply for our talent scholarship.", onClick: () => setIsScholarshipOpen(true) },
+        { href: "#", label: "Admission Form", icon: <FileText className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsAdmissionOpen(true) },
+        { href: "#", label: "Book Free Demo", icon: <Presentation className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsBookDemoOpen(true) },
+        { href: "#", label: "Feedback", icon: <MessageSquareText className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsFeedbackOpen(true) },
+        { href: "#", label: "Student Enquiry", icon: <CircleHelp className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsEnquiryOpen(true) },
+        { href: "#", label: "Scholarship", icon: <Award className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsScholarshipOpen(true) },
     ];
 
     const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
 
     const renderAuthSection = () => {
-        if (loading) return <Skeleton className="h-9 w-20 rounded-md" />;
+        if (loading) return <Skeleton className="h-[41px] md:h-9 w-20 rounded-[8px]" />;
 
         if (user) {
             return (
@@ -446,10 +573,10 @@ export function Header() {
             <button 
                 type="button" 
                 onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
-                className="group relative px-2.5 sm:px-3.5 py-1.5 rounded-[8px] border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-8 sm:h-9 flex items-center cursor-pointer whitespace-nowrap"
+                className="group relative px-2.5 min-[360px]:px-3.5 md:px-3.5 py-1.5 rounded-[8px] border border-primary transition-all duration-300 active:scale-95 overflow-hidden h-[41px] md:h-9 flex items-center justify-center cursor-pointer whitespace-nowrap"
             >
                 <div className="absolute inset-0 translate-y-full bg-primary transition-transform duration-300 group-hover:translate-y-0" />
-                <span className="relative z-10 text-[9px] sm:text-[10px] font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors">
+                <span className="relative z-10 text-[12px] min-[360px]:text-[13px] md:text-[10px] font-semibold md:font-extrabold uppercase tracking-wide text-primary group-hover:text-white transition-colors leading-none">
                     LOGIN / REGISTER
                 </span>
             </button>
@@ -478,59 +605,26 @@ export function Header() {
                                     <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}>ALL COURSES</Button>
                                         <div className={cn(
-                                            "absolute top-full left-0 transition-all duration-200 ease-in-out z-50",
-                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                                            DESKTOP_MENU_TOKENS.dropdownAnimation,
+                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
-                                            <div className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl flex flex-row divide-x divide-border">
-                                                {/* Left Column: Main Section (Bigger - w-64, with icons & bold text) */}
+                                            <div className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "flex flex-row divide-x divide-border")}>
+                                                {/* Left Column: Main Section (w-64, with shared DesktopMenuRow) */}
                                                 <div className="w-64 flex flex-col gap-1 p-2">
-                                                    {courseCategories.map(c => {
-                                                        const isCatActive = hoveredCourseCategory === c.id;
-                                                        return (
-                                                            <div
-                                                                key={c.id}
-                                                                onMouseEnter={() => {
-                                                                    setHoveredCourseCategory(c.id);
-                                                                    setHoveredSubItem(null);
-                                                                }}
-                                                                className="w-full"
-                                                            >
-                                                                <Link
-                                                                    href={c.href}
-                                                                    onClick={() => setActiveMenu(null)}
-                                                                    className={cn(
-                                                                        "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 cursor-pointer w-full",
-                                                                        isCatActive
-                                                                            ? "bg-muted/80 border-primary text-primary"
-                                                                            : "border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary"
-                                                                    )}
-                                                                >
-                                                                    <div className={cn(
-                                                                        "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
-                                                                        isCatActive
-                                                                            ? "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5"
-                                                                            : "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400"
-                                                                    )}>
-                                                                        {getCategoryIcon(c.id, c.name)}
-                                                                    </div>
-                                                                    <div className="text-left flex-1">
-                                                                        <p className={cn(
-                                                                            "font-bold text-[14px] leading-tight transition-colors",
-                                                                            isCatActive ? "text-primary" : "text-foreground group-hover:text-primary"
-                                                                        )}>
-                                                                            {c.name}
-                                                                        </p>
-                                                                    </div>
-                                                                    <ChevronRight className={cn(
-                                                                        "w-4 h-4 transition-all shrink-0",
-                                                                        isCatActive
-                                                                            ? "text-primary translate-x-0.5 opacity-100"
-                                                                            : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100"
-                                                                    )} />
-                                                                </Link>
-                                                            </div>
-                                                        );
-                                                    })}
+                                                    {courseCategories.map(c => (
+                                                        <DesktopMenuRow
+                                                            key={c.id}
+                                                            label={c.name}
+                                                            icon={getCategoryIcon(c.id, c.name)}
+                                                            href={c.href}
+                                                            isActive={hoveredCourseCategory === c.id}
+                                                            onMouseEnter={() => {
+                                                                setHoveredCourseCategory(c.id);
+                                                                setHoveredSubItem(null);
+                                                            }}
+                                                            onSelect={() => setActiveMenu(null)}
+                                                        />
+                                                    ))}
                                                 </div>
 
                                                 {/* Middle Column: Sub-section 1 (Equal size - w-56) */}
@@ -615,36 +709,20 @@ export function Header() {
                                     <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}>APPLY FOR</Button>
                                         <div className={cn(
-                                            "absolute top-full left-0 transition-all duration-200 ease-in-out w-64 z-50",
-                                            activeMenu === 'apply' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                                            DESKTOP_MENU_TOKENS.dropdownAnimation,
+                                            "w-64",
+                                            activeMenu === 'apply' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
-                                            <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl p-2 flex flex-col gap-1">
+                                            <div suppressHydrationWarning className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "p-2 flex flex-col gap-1")}>
                                                 {applyForLinks.map(l => (
-                                                    <button
+                                                    <DesktopMenuRow
                                                         key={l.label}
-                                                        type="button"
-                                                        suppressHydrationWarning
-                                                        onClick={(e) => {
-                                                            e.preventDefault();
-                                                            setActiveMenu(null);
-                                                            if (l.onClick) {
-                                                                l.onClick();
-                                                            } else if (l.href && l.href !== '#') {
-                                                                router.push(l.href);
-                                                            }
-                                                        }}
-                                                        className="group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary w-full cursor-pointer"
-                                                    >
-                                                        <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5">
-                                                            {l.icon}
-                                                        </div>
-                                                        <div className="text-left flex-1">
-                                                            <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary transition-colors">
-                                                                {l.label}
-                                                            </p>
-                                                        </div>
-                                                        <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100" />
-                                                    </button>
+                                                        label={l.label}
+                                                        icon={l.icon}
+                                                        href={l.href}
+                                                        onClick={l.onClick}
+                                                        onSelect={() => setActiveMenu(null)}
+                                                    />
                                                 ))}
                                             </div>
                                         </div>
@@ -659,71 +737,28 @@ export function Header() {
                                     <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
                                         <div className={cn(
-                                            "absolute top-full left-0 transition-all duration-200 ease-in-out w-64 z-50",
-                                            activeMenu === 'more' ? "opacity-100 translate-y-0 visible" : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                                            DESKTOP_MENU_TOKENS.dropdownAnimation,
+                                            "w-64",
+                                            activeMenu === 'more' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
-                                            <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-xl p-2 flex flex-col gap-1">
+                                            <div suppressHydrationWarning className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "p-2 flex flex-col gap-1")}>
                                                 {moreMenuGroups.map((group, groupIdx) => (
                                                     <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
-                                                        {groupIdx > 0 && <div className="my-1 border-t border-slate-100 dark:border-slate-800" />}
-                                                        <div className="px-4 pt-2 pb-1 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                        {groupIdx > 0 && <div className={DESKTOP_MENU_TOKENS.divider} />}
+                                                        <div className={DESKTOP_MENU_TOKENS.groupHeading}>
                                                             {group.title}
                                                         </div>
-                                                        {group.links.map(link => {
-                                                            const isDisabled = (link as any).disabled || link.label === "Register Now";
-                                                            const isAction = Boolean(link.onClick);
-
-                                                            if (isAction) {
-                                                                return (
-                                                                    <button
-                                                                        key={link.label}
-                                                                        type="button"
-                                                                        suppressHydrationWarning
-                                                                        onClick={() => {
-                                                                            setActiveMenu(null);
-                                                                            if (link.onClick) link.onClick();
-                                                                        }}
-                                                                        className={cn(
-                                                                            "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary w-full cursor-pointer",
-                                                                            isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                        )}
-                                                                    >
-                                                                        <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5">
-                                                                            {link.icon}
-                                                                        </div>
-                                                                        <div className="text-left flex-1">
-                                                                            <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary transition-colors">
-                                                                                {link.label}
-                                                                            </p>
-                                                                        </div>
-                                                                        <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100" />
-                                                                    </button>
-                                                                );
-                                                            }
-
-                                                            return (
-                                                                <Link
-                                                                    key={link.label}
-                                                                    href={isDisabled ? '#' : link.href}
-                                                                    suppressHydrationWarning
-                                                                    onClick={() => setActiveMenu(null)}
-                                                                    className={cn(
-                                                                        "group relative flex items-center gap-3.5 px-4 py-3.5 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary",
-                                                                        isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                    )}
-                                                                >
-                                                                    <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5">
-                                                                        {link.icon}
-                                                                    </div>
-                                                                    <div className="text-left flex-1">
-                                                                        <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary transition-colors">
-                                                                            {link.label}
-                                                                        </p>
-                                                                    </div>
-                                                                    <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100" />
-                                                                </Link>
-                                                            );
-                                                        })}
+                                                        {group.links.map(link => (
+                                                            <DesktopMenuRow
+                                                                key={link.label}
+                                                                label={link.label}
+                                                                icon={link.icon}
+                                                                href={link.href}
+                                                                onClick={link.onClick}
+                                                                disabled={(link as any).disabled || link.label === "Register Now"}
+                                                                onSelect={() => setActiveMenu(null)}
+                                                            />
+                                                        ))}
                                                     </div>
                                                 ))}
                                             </div>
@@ -766,13 +801,13 @@ export function Header() {
                             <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#FF6B00] ring-2 ring-white dark:ring-slate-900" />
                         </button>
 
-                        <div className="flex items-center">
+                        <div className="flex items-center ml-0.5 sm:ml-0 md:ml-0">
                             {isClient && renderAuthSection()}
                         </div>
 
                         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                             <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon" className="md:hidden text-foreground h-9 w-9 -mr-1">
+                                <Button variant="ghost" size="icon" className="md:hidden text-foreground h-9 w-9 -mr-1 ml-2">
                                     <Menu className="h-5 w-5" />
                                     <span className="sr-only">Toggle menu</span>
                                 </Button>
@@ -780,7 +815,7 @@ export function Header() {
                             <SheetContent 
                                 side="left" 
                                 data-mobile-drawer="true"
-                                className="fixed inset-y-0 left-0 z-[9999] p-0 gap-0 w-full max-w-full flex flex-col h-full bg-gradient-to-b from-white via-[#FAFBFD] to-[#F3F7FC] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-none rounded-none overflow-hidden [&>button.absolute]:hidden"
+                                className="fixed inset-y-0 left-0 z-[9999] p-0 gap-0 w-full max-w-full flex flex-col h-[100dvh] max-h-[100dvh] bg-gradient-to-b from-white via-[#FAFBFD] to-[#F3F7FC] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-none rounded-none overflow-hidden [&>button.absolute]:hidden"
                             >
                                 {/* Ultra-subtle IDL ambient depth: Faint dotted pattern & soft blue glow */}
                                 <div className="absolute inset-0 bg-[radial-gradient(#102A68_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.02] dark:opacity-[0.03] pointer-events-none" />
@@ -811,290 +846,369 @@ export function Header() {
                                     </button>
                                 </SheetHeader>
 
-                                {/* Body - Navigation & Controlled Spacing */}
-                                <div className="flex-1 overflow-y-auto overscroll-contain flex flex-col justify-between relative z-10">
-                                    <div className="pt-2 sm:pt-2.5 pb-6">
+                                {/* Body - Scrollable Navigation Content */}
+                                <div className="flex-1 overflow-y-auto overscroll-contain relative z-10">
+                                    <div className="pt-2 sm:pt-2.5 pb-8">
                                         <nav className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
                                             {/* 1. ALL COURSES ROW */}
-                                            <Collapsible 
-                                                open={openMobileAccordion === 'all-courses'} 
-                                                onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'all-courses' : null)}
-                                            >
-                                                <CollapsibleTrigger asChild>
-                                                    <button 
-                                                        type="button"
-                                                        className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
-                                                    >
-                                                        <span className="uppercase">ALL COURSES</span>
-                                                        <ChevronDown className={cn(
-                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
-                                                            openMobileAccordion === 'all-courses' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                        )} />
-                                                    </button>
-                                                </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-4 pt-1 px-5 sm:px-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
-                                                    <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
-                                                        {courseCategories.map((cat) => {
-                                                            const isSubOpen = openMobileSubAccordion === cat.id;
-                                                            return (
-                                                                <div key={cat.id} className="flex flex-col">
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={() => setOpenMobileSubAccordion(isSubOpen ? null : cat.id)}
-                                                                        className={cn(
-                                                                            "group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 w-full cursor-pointer",
-                                                                            isSubOpen
-                                                                                ? "bg-muted/80 border-primary text-primary"
-                                                                                : "border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary"
-                                                                        )}
-                                                                    >
-                                                                        <div className={cn(
-                                                                            "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5",
-                                                                            isSubOpen
-                                                                                ? "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5"
-                                                                                : "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400"
-                                                                        )}>
-                                                                            {getCategoryIcon(cat.id, cat.name)}
-                                                                        </div>
-                                                                        <div className="text-left flex-1">
-                                                                            <p className={cn(
-                                                                                "font-bold text-[14px] leading-tight transition-colors",
-                                                                                isSubOpen ? "text-primary font-extrabold" : "text-foreground group-hover:text-primary group-active:text-primary"
-                                                                            )}>
-                                                                                {cat.name}
-                                                                            </p>
-                                                                        </div>
-                                                                        <ChevronDown className={cn(
-                                                                            "w-4 h-4 text-muted-foreground/30 group-hover:text-primary group-active:text-primary transition-transform duration-180 ease-out shrink-0",
-                                                                            isSubOpen && "rotate-180 text-primary"
-                                                                        )} />
-                                                                    </button>
-                                                                    {/* Level 2 sub-items with nested vertical branch line */}
-                                                                    {isSubOpen && (
-                                                                        <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3.5 py-2 my-1 space-y-2">
-                                                                            {cat.subItems.map((sub) => {
-                                                                                const hasLeafs = sub.items && sub.items.length > 0;
-                                                                                const isThirdOpen = openMobileThirdAccordion === sub.id;
-
-                                                                                if (hasLeafs) {
-                                                                                    return (
-                                                                                        <div key={sub.id} className="space-y-1">
-                                                                                            <button
-                                                                                                type="button"
-                                                                                                onClick={() => setOpenMobileThirdAccordion(isThirdOpen ? null : sub.id)}
-                                                                                                className="w-full text-left font-medium text-[14px] text-slate-700 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors flex items-center justify-between py-0.5 cursor-pointer"
-                                                                                            >
-                                                                                                <span>{sub.label}</span>
-                                                                                                <ChevronDown className={cn(
-                                                                                                    "w-3 h-3 text-slate-400 transition-transform duration-180 ease-out shrink-0 mr-1",
-                                                                                                    isThirdOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                                                                )} />
-                                                                                            </button>
-                                                                                            {/* Level 3: Classes */}
-                                                                                            {isThirdOpen && (
-                                                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-2 pl-3 py-1 space-y-1.5">
-                                                                                                    {sub.items!.map((item) => (
-                                                                                                        <Link
-                                                                                                            key={item.id}
-                                                                                                            href={item.href}
-                                                                                                            onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                            className="block text-[13px] font-medium text-slate-600 dark:text-slate-400 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5"
-                                                                                                        >
-                                                                                                            {item.label}
-                                                                                                        </Link>
-                                                                                                    ))}
-                                                                                                </div>
-                                                                                            )}
-                                                                                        </div>
-                                                                                    );
+                                            <div className="flex flex-col">
+                                                <button 
+                                                    type="button"
+                                                    onClick={() => {
+                                                        const isCurrentlyOpen = openMobileAccordion === 'all-courses';
+                                                        setOpenMobileAccordion(isCurrentlyOpen ? null : 'all-courses');
+                                                        if (isCurrentlyOpen) {
+                                                            setOpenMobileSubAccordion(null);
+                                                            setOpenMobileThirdAccordion(null);
+                                                        }
+                                                    }}
+                                                    aria-expanded={openMobileAccordion === 'all-courses'}
+                                                    aria-controls="mobile-accordion-all-courses"
+                                                    className="touch-manipulation px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                >
+                                                    <span className="uppercase">ALL COURSES</span>
+                                                    <ChevronDown className={cn(
+                                                        "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                        openMobileAccordion === 'all-courses' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                    )} />
+                                                </button>
+                                                <div
+                                                    id="mobile-accordion-all-courses"
+                                                    role="region"
+                                                    aria-hidden={openMobileAccordion !== 'all-courses'}
+                                                    data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
+                                                    className="mobile-accordion-grid"
+                                                >
+                                                    <div className="overflow-hidden min-h-0 pb-3 pt-0.5 px-4 sm:px-6">
+                                                        <div suppressHydrationWarning className="flex flex-col gap-1">
+                                                            {courseCategories.map((cat) => {
+                                                                const isSubOpen = openMobileSubAccordion === cat.id;
+                                                                return (
+                                                                    <div key={cat.id} className="flex flex-col">
+                                                                        {/* Level 1: Category Row (52-58px) */}
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={(e) => {
+                                                                                const next = isSubOpen ? null : cat.id;
+                                                                                setOpenMobileSubAccordion(next);
+                                                                                setOpenMobileThirdAccordion(null);
+                                                                                if (next) {
+                                                                                    const target = e.currentTarget;
+                                                                                    requestAnimationFrame(() => {
+                                                                                        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                                                                    });
                                                                                 }
+                                                                            }}
+                                                                            aria-expanded={isSubOpen}
+                                                                            aria-controls={`mobile-sub-${cat.id}`}
+                                                                            className={cn(
+                                                                                "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[54px] rounded-lg transition-colors duration-100 text-left border-l-[3px] w-full cursor-pointer select-none",
+                                                                                isSubOpen
+                                                                                    ? "bg-blue-50/80 dark:bg-blue-950/40 border-primary text-primary"
+                                                                                    : "border-transparent text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900/60"
+                                                                            )}
+                                                                        >
+                                                                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                                <div className={cn(
+                                                                                    "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-100",
+                                                                                    isSubOpen
+                                                                                        ? "text-primary dark:text-blue-400"
+                                                                                        : "text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary"
+                                                                                )}>
+                                                                                    {getCategoryIcon(cat.id, cat.name)}
+                                                                                </div>
+                                                                                <span className={cn(
+                                                                                    "text-[14.5px] sm:text-[15px] leading-tight truncate transition-colors duration-100",
+                                                                                    isSubOpen ? "font-bold text-primary dark:text-blue-400" : "font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary"
+                                                                                )}>
+                                                                                    {cat.name}
+                                                                                </span>
+                                                                            </div>
+                                                                            <ChevronDown className={cn(
+                                                                                "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
+                                                                                isSubOpen && "rotate-180 text-primary dark:text-blue-400"
+                                                                            )} />
+                                                                        </button>
 
-                                                                                return (
-                                                                                    <Link
-                                                                                        key={sub.id}
-                                                                                        href={sub.href}
-                                                                                        onClick={() => setIsMobileMenuOpen(false)}
-                                                                                        className="block text-[14px] text-slate-600 dark:text-slate-300 hover:text-[#102A68] dark:hover:text-blue-400 transition-colors py-0.5"
-                                                                                    >
-                                                                                        {sub.label}
-                                                                                    </Link>
-                                                                                );
-                                                                            })}
+                                                                        {/* Level 2: Nested Sub-items (CBSE Syllabus, CBSE Exam) */}
+                                                                        <div
+                                                                            id={`mobile-sub-${cat.id}`}
+                                                                            role="region"
+                                                                            aria-hidden={!isSubOpen}
+                                                                            data-open={isSubOpen ? 'true' : 'false'}
+                                                                            className="mobile-accordion-grid"
+                                                                        >
+                                                                            <div className="overflow-hidden min-h-0">
+                                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3 py-1 my-0.5 space-y-1">
+                                                                                    {cat.subItems.map((sub) => {
+                                                                                        const hasLeafs = sub.items && sub.items.length > 0;
+                                                                                        const isThirdOpen = openMobileThirdAccordion === sub.id;
+
+                                                                                        if (hasLeafs) {
+                                                                                            return (
+                                                                                                <div key={sub.id} className="flex flex-col">
+                                                                                                    {/* Level 2 Row (44-50px) - Text + Chevron ONLY */}
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        onClick={(e) => {
+                                                                                                            const next = isThirdOpen ? null : sub.id;
+                                                                                                            setOpenMobileThirdAccordion(next);
+                                                                                                            if (next) {
+                                                                                                                const target = e.currentTarget;
+                                                                                                                requestAnimationFrame(() => {
+                                                                                                                    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                                                                                                });
+                                                                                                            }
+                                                                                                        }}
+                                                                                                        aria-expanded={isThirdOpen}
+                                                                                                        aria-controls={`mobile-third-${sub.id}`}
+                                                                                                        className={cn(
+                                                                                                            "touch-manipulation w-full text-left font-semibold text-[13.5px] sm:text-[14px] min-h-[44px] px-3 py-2 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none",
+                                                                                                            isThirdOpen
+                                                                                                                ? "text-primary bg-blue-50/60 dark:bg-blue-950/30 font-bold"
+                                                                                                                : "text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-900/50"
+                                                                                                        )}
+                                                                                                    >
+                                                                                                        <span className="truncate">{sub.label}</span>
+                                                                                                        <ChevronDown className={cn(
+                                                                                                            "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
+                                                                                                            isThirdOpen && "rotate-180 text-primary"
+                                                                                                        )} />
+                                                                                                    </button>
+
+                                                                                                    {/* Level 3: Classes (38-44px) */}
+                                                                                                    <div
+                                                                                                        id={`mobile-third-${sub.id}`}
+                                                                                                        role="region"
+                                                                                                        aria-hidden={!isThirdOpen}
+                                                                                                        data-open={isThirdOpen ? 'true' : 'false'}
+                                                                                                        className="mobile-accordion-grid"
+                                                                                                    >
+                                                                                                        <div className="overflow-hidden min-h-0">
+                                                                                                            <div className="border-l-[1.5px] border-slate-200/80 dark:border-slate-800/80 ml-3 pl-2.5 py-0.5 my-0.5 space-y-0.5">
+                                                                                                                {sub.items!.map((item) => (
+                                                                                                                    <Link
+                                                                                                                        key={item.id}
+                                                                                                                        href={item.href}
+                                                                                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                                        className="group flex items-center justify-between min-h-[38px] px-2.5 py-1.5 rounded-md text-[13px] font-medium text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
+                                                                                                                    >
+                                                                                                                        <span className="truncate">{item.label}</span>
+                                                                                                                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                                                                    </Link>
+                                                                                                                ))}
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            );
+                                                                                        }
+
+                                                                                        return (
+                                                                                            <Link
+                                                                                                key={sub.id}
+                                                                                                href={sub.href}
+                                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                className="w-full text-left font-medium text-[13.5px] sm:text-[14px] min-h-[44px] px-3 py-2 rounded-md text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors duration-100 flex items-center justify-between cursor-pointer"
+                                                                                            >
+                                                                                                <span className="truncate">{sub.label}</span>
+                                                                                                <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                                            </Link>
+                                                                                        );
+                                                                                    })}
+                                                                                </div>
+                                                                            </div>
                                                                         </div>
-                                                                    )}
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
                                                     </div>
-                                                </CollapsibleContent>
-                                            </Collapsible>
+                                                </div>
+                                            </div>
 
                                             {/* 2. APPLY FOR ROW */}
-                                            <Collapsible 
-                                                open={openMobileAccordion === 'apply'} 
-                                                onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'apply' : null)}
-                                            >
-                                                <CollapsibleTrigger asChild>
-                                                    <button 
-                                                        type="button" 
-                                                        className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
-                                                    >
-                                                        <span className="uppercase">APPLY FOR</span>
-                                                        <ChevronDown className={cn(
-                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
-                                                            openMobileAccordion === 'apply' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                        )} />
-                                                    </button>
-                                                </CollapsibleTrigger>
-                                                <CollapsibleContent className="pb-4 pt-1 px-5 sm:px-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
-                                                    <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
-                                                         {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
-                                                             <button
-                                                                 key={label}
-                                                                 type="button"
-                                                                 suppressHydrationWarning
-                                                                 onClick={(e) => {
-                                                                     e.preventDefault();
-                                                                     setIsMobileMenuOpen(false);
-                                                                     if (linkOnClick) {
-                                                                       linkOnClick();
-                                                                     } else if (href && href !== '#') {
-                                                                         router.push(href);
-                                                                     }
-                                                                 }}
-                                                                 className="group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary w-full cursor-pointer"
-                                                             >
-                                                                 <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5">
-                                                                     {icon}
-                                                                 </div>
-                                                                 <div className="text-left flex-1">
-                                                                     <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary group-active:text-primary transition-colors">
-                                                                         {label}
-                                                                     </p>
-                                                                 </div>
-                                                                 <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-active:text-primary group-hover:translate-x-0.5" />
-                                                             </button>
-                                                         ))}
-                                                     </div>
-                                                 </CollapsibleContent>
-                                             </Collapsible>
+                                            <div className="flex flex-col">
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => {
+                                                        const isCurrentlyOpen = openMobileAccordion === 'apply';
+                                                        setOpenMobileAccordion(isCurrentlyOpen ? null : 'apply');
+                                                    }}
+                                                    aria-expanded={openMobileAccordion === 'apply'}
+                                                    aria-controls="mobile-accordion-apply"
+                                                    className="touch-manipulation px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                >
+                                                    <span className="uppercase">APPLY FOR</span>
+                                                    <ChevronDown className={cn(
+                                                        "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                        openMobileAccordion === 'apply' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                    )} />
+                                                </button>
+                                                <div
+                                                    id="mobile-accordion-apply"
+                                                    role="region"
+                                                    aria-hidden={openMobileAccordion !== 'apply'}
+                                                    data-open={openMobileAccordion === 'apply' ? 'true' : 'false'}
+                                                    className="mobile-accordion-grid"
+                                                >
+                                                    <div className="overflow-hidden min-h-0 pb-3 pt-0.5 px-4 sm:px-6">
+                                                        <div suppressHydrationWarning className="flex flex-col gap-1">
+                                                            {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
+                                                                <button
+                                                                    key={label}
+                                                                    type="button"
+                                                                    suppressHydrationWarning
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        setIsMobileMenuOpen(false);
+                                                                        if (linkOnClick) {
+                                                                          linkOnClick();
+                                                                        } else if (href && href !== '#') {
+                                                                            router.push(href);
+                                                                        }
+                                                                    }}
+                                                                    className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[52px] rounded-lg transition-all duration-100 text-left border-l-[3px] border-transparent hover:border-primary active:border-primary hover:bg-slate-50 active:bg-blue-50/80 text-slate-800 dark:text-slate-200 hover:text-primary active:text-primary w-full cursor-pointer"
+                                                                >
+                                                                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                        <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary group-active:text-primary transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
+                                                                            {icon}
+                                                                        </div>
+                                                                        <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate transition-colors text-slate-800 dark:text-slate-200 group-hover:text-primary group-active:text-primary">
+                                                                            {label}
+                                                                        </span>
+                                                                    </div>
+                                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                </button>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                             {/* STORE ROW */}
-                                             <div className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center">
-                                                 <Link
-                                                     href="/store"
-                                                     target="_blank"
-                                                     rel="noopener noreferrer"
-                                                     onClick={() => setIsMobileMenuOpen(false)}
-                                                     className="flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:text-primary transition-colors cursor-pointer"
-                                                 >
-                                                     <span className="flex items-center gap-2.5 uppercase">
-                                                         <span>STORE</span>
-                                                     </span>
-                                                     <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
-                                                 </Link>
-                                             </div>
+                                            {/* STORE ROW */}
+                                            <div className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center">
+                                                <Link
+                                                    href="/store"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                    className="touch-manipulation flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:text-primary transition-colors cursor-pointer select-none"
+                                                >
+                                                    <span className="flex items-center gap-2.5 uppercase">
+                                                        <span>STORE</span>
+                                                    </span>
+                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
+                                                </Link>
+                                            </div>
 
-                                             {/* 3. MORE ROW */}
-                                             <Collapsible 
-                                                 open={openMobileAccordion === 'more'} 
-                                                 onOpenChange={(isOpen: boolean) => setOpenMobileAccordion(isOpen ? 'more' : null)}
-                                             >
-                                                 <CollapsibleTrigger asChild>
-                                                     <button 
-                                                         type="button" 
-                                                         className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-160 text-left cursor-pointer"
-                                                     >
-                                                         <span className="uppercase">MORE</span>
-                                                         <ChevronDown className={cn(
-                                                             "w-4 h-4 text-slate-400 dark:text-slate-500 transition-transform duration-180 ease-out shrink-0",
-                                                             openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                         )} />
-                                                     </button>
-                                                 </CollapsibleTrigger>
-                                                 <CollapsibleContent className="pb-4 pt-1 px-5 sm:px-6 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 duration-200">
-                                                     <div suppressHydrationWarning className="bg-white dark:bg-slate-950 border border-border rounded-none shadow-sm p-1.5 flex flex-col gap-1">
-                                                         {moreMenuGroups.map((group, groupIdx) => (
-                                                             <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
-                                                                 {groupIdx > 0 && <div className="my-1 border-t border-slate-100 dark:border-slate-800" />}
-                                                                 <div className="px-4 pt-2 pb-1 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                                                     {group.title}
-                                                                 </div>
-                                                                 {group.links.map((link) => {
-                                                                     const isDisabled = (link as any).disabled || link.label === "Register Now";
-                                                                     const isAction = Boolean(link.onClick);
+                                            {/* 3. MORE ROW */}
+                                            <div className="flex flex-col">
+                                                <button 
+                                                    type="button" 
+                                                    onClick={() => {
+                                                        const isCurrentlyOpen = openMobileAccordion === 'more';
+                                                        setOpenMobileAccordion(isCurrentlyOpen ? null : 'more');
+                                                    }}
+                                                    aria-expanded={openMobileAccordion === 'more'}
+                                                    aria-controls="mobile-accordion-more"
+                                                    className="touch-manipulation px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                >
+                                                    <span className="uppercase">MORE</span>
+                                                    <ChevronDown className={cn(
+                                                        "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                        openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                    )} />
+                                                </button>
+                                                <div
+                                                    id="mobile-accordion-more"
+                                                    role="region"
+                                                    aria-hidden={openMobileAccordion !== 'more'}
+                                                    data-open={openMobileAccordion === 'more' ? 'true' : 'false'}
+                                                    className="mobile-accordion-grid"
+                                                >
+                                                    <div className="overflow-hidden min-h-0 pb-3 pt-0.5 px-4 sm:px-6">
+                                                        <div suppressHydrationWarning className="flex flex-col gap-1">
+                                                            {moreMenuGroups.map((group, groupIdx) => (
+                                                                <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
+                                                                    {groupIdx > 0 && <div className="my-1.5 border-t border-slate-200/70 dark:border-slate-800/80" />}
+                                                                    <div className="px-3.5 pt-2 pb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                                                        {group.title}
+                                                                    </div>
+                                                                    {group.links.map((link) => {
+                                                                        const isDisabled = (link as any).disabled || link.label === "Register Now";
+                                                                        const isAction = Boolean(link.onClick);
 
-                                                                     if (isAction) {
-                                                                         return (
-                                                                             <button
-                                                                                 key={link.label}
-                                                                                 type="button"
-                                                                                 suppressHydrationWarning
-                                                                                 onClick={() => {
-                                                                                     setIsMobileMenuOpen(false);
-                                                                                     if (link.onClick) link.onClick();
-                                                                                 }}
-                                                                                 className={cn(
-                                                                                     "group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary w-full cursor-pointer",
-                                                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                                 )}
-                                                                             >
-                                                                                 <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5">
-                                                                                     {link.icon}
-                                                                                 </div>
-                                                                                 <div className="text-left flex-1">
-                                                                                     <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary group-active:text-primary transition-colors">
-                                                                                         {link.label}
-                                                                                     </p>
-                                                                                 </div>
-                                                                                 <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-active:text-primary group-hover:translate-x-0.5" />
-                                                                             </button>
-                                                                         );
-                                                                     }
+                                                                        const rowContent = (
+                                                                            <>
+                                                                                <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                                    <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary group-active:text-primary transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
+                                                                                        {link.icon}
+                                                                                    </div>
+                                                                                    <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate transition-colors text-slate-800 dark:text-slate-200 group-hover:text-primary group-active:text-primary">
+                                                                                        {link.label}
+                                                                                    </span>
+                                                                                </div>
+                                                                                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                            </>
+                                                                        );
 
-                                                                     return (
-                                                                         <Link
-                                                                             key={link.label}
-                                                                             href={isDisabled ? '#' : link.href}
-                                                                             suppressHydrationWarning
-                                                                             onClick={() => setIsMobileMenuOpen(false)}
-                                                                             className={cn(
-                                                                                 "group relative flex items-center gap-3.5 px-4 py-3 rounded-none transition-all duration-150 text-left border-l-2 border-transparent hover:bg-muted/80 active:bg-muted/80 hover:border-primary active:border-primary text-foreground hover:text-primary active:text-primary",
-                                                                                 isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                             )}
-                                                                         >
-                                                                             <div className="shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] group-active:text-[#1D4ED8] dark:group-hover:text-blue-400 dark:group-active:text-blue-400 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5 group-active:[&>svg]:translate-x-0.5">
-                                                                                 {link.icon}
-                                                                             </div>
-                                                                             <div className="text-left flex-1">
-                                                                                 <p className="font-bold text-[14px] leading-tight text-foreground group-hover:text-primary group-active:text-primary transition-colors">
-                                                                                     {link.label}
-                                                                                 </p>
-                                                                             </div>
-                                                                             <ChevronRight className="w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-active:text-primary group-hover:translate-x-0.5" />
-                                                                         </Link>
-                                                                     );
-                                                                 })}
-                                                             </div>
-                                                         ))}
-                                                     </div>
-                                                 </CollapsibleContent>
-                                             </Collapsible>
-                                        </nav>
+                                                                        if (isAction) {
+                                                                            return (
+                                                                                <button
+                                                                                    key={link.label}
+                                                                                    type="button"
+                                                                                    suppressHydrationWarning
+                                                                                    onClick={() => {
+                                                                                        setIsMobileMenuOpen(false);
+                                                                                        if (link.onClick) link.onClick();
+                                                                                    }}
+                                                                                    className={cn(
+                                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[52px] rounded-lg transition-all duration-100 text-left border-l-[3px] border-transparent hover:border-primary active:border-primary hover:bg-slate-50 active:bg-blue-50/80 text-slate-800 dark:text-slate-200 hover:text-primary active:text-primary w-full cursor-pointer",
+                                                                                        isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                                    )}
+                                                                                >
+                                                                                    {rowContent}
+                                                                                </button>
+                                                                            );
+                                                                        }
+
+                                                                        return (
+                                                                            <Link
+                                                                                key={link.label}
+                                                                                href={isDisabled ? '#' : link.href}
+                                                                                suppressHydrationWarning
+                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                className={cn(
+                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[52px] rounded-lg transition-all duration-100 text-left border-l-[3px] border-transparent hover:border-primary active:border-primary hover:bg-slate-50 active:bg-blue-50/80 text-slate-800 dark:text-slate-200 hover:text-primary active:text-primary cursor-pointer",
+                                                                                    isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                                )}
+                                                                            >
+                                                                                {rowContent}
+                                                                            </Link>
+                                                                        );
+                                                                    })}
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                         </nav>
                                     </div>
+                                </div>
 
-                                    {/* Bottom Call Area: Grounded, respecting safe areas, Icon + Number only */}
-                                    <div className="px-5 sm:px-6 py-4 border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/90 dark:bg-slate-900/90 backdrop-blur-sm shrink-0 mt-auto relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
-                                        <a 
-                                            href="tel:8860040010" 
-                                            className="w-full flex items-center justify-center gap-2.5 h-12 sm:h-12.5 rounded-[10px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-150 ease-out shadow-sm active:scale-[0.99] cursor-pointer"
-                                        >
-                                            <Phone className="w-5 h-5 text-white stroke-[2.2] shrink-0" />
-                                            <span className="text-[18px] sm:text-[19px] font-bold text-white tracking-tight leading-none">
-                                                8860040010
-                                            </span>
-                                        </a>
-                                    </div>
+                                {/* Bottom Call Area: Fixed at bottom, grounded, respecting safe areas */}
+                                <div className="px-5 sm:px-6 py-4 border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+                                    <a 
+                                        href="tel:8860040010" 
+                                        className="w-full flex items-center justify-center gap-2.5 h-12 sm:h-12.5 rounded-[10px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-150 ease-out shadow-sm active:scale-[0.99] cursor-pointer"
+                                    >
+                                        <Phone className="w-5 h-5 text-white stroke-[2.2] shrink-0" />
+                                        <span className="text-[18px] sm:text-[19px] font-bold text-white tracking-tight leading-none">
+                                            8860040010
+                                        </span>
+                                    </a>
                                 </div>
                             </SheetContent>
                         </Sheet>

@@ -23,6 +23,7 @@ import html2canvas from 'html2canvas';
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions/forms";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FormModalDialogContent } from "@/components/ui/form-modal-dialog";
+import { PhotoCropModal } from "@/components/admission/photo-crop-modal";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { format, getDaysInMonth } from "date-fns";
 import Script from "next/script";
@@ -42,12 +43,10 @@ const indianStates = [
 ];
 
 const branches = [
-  "Head Office - Patna Main Campus",
-  "Boring Road Branch, Patna",
-  "Kankarbagh Branch, Patna",
-  "Bailey Road Learning Center, Patna",
-  "Delhi NCR Regional Center",
-  "Online / Distance Coaching Mode"
+  "Mukherjee Nagar, Delhi-110009",
+  "Mangol Puri, Delhi-110083",
+  "Krishan Vihar, Delhi-110086",
+  "Budh Vihar, Delhi-110086"
 ];
 
 const classes = [
@@ -150,109 +149,8 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
   }, [currentStep]);
 
   // Passport Photo Crop & Position Adjustment States
-  const [rawPhotoUrl, setRawPhotoUrl] = useState<string | null>(null);
+  const [activeCropImage, setActiveCropImage] = useState<string | null>(null);
   const [isCropOpen, setIsCropOpen] = useState(false);
-  const [cropScale, setCropScale] = useState(1);
-  const [cropX, setCropX] = useState(0);
-  const [cropY, setCropY] = useState(0);
-  const [cropRotate, setCropRotate] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const dragStartRef = useRef({ x: 0, y: 0, initialCropX: 0, initialCropY: 0 });
-
-  const handleCropMouseDown = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setIsDragging(true);
-    dragStartRef.current = {
-      x: e.clientX,
-      y: e.clientY,
-      initialCropX: cropX,
-      initialCropY: cropY,
-    };
-  };
-
-  const handleCropMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging) return;
-    const dx = e.clientX - dragStartRef.current.x;
-    const dy = e.clientY - dragStartRef.current.y;
-    setCropX(dragStartRef.current.initialCropX + dx);
-    setCropY(dragStartRef.current.initialCropY + dy);
-  };
-
-  const handleCropMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleCropTouchStart = (e: React.TouchEvent) => {
-    if (e.touches.length === 1) {
-      setIsDragging(true);
-      dragStartRef.current = {
-        x: e.touches[0].clientX,
-        y: e.touches[0].clientY,
-        initialCropX: cropX,
-        initialCropY: cropY,
-      };
-    }
-  };
-
-  const handleCropTouchMove = (e: React.TouchEvent) => {
-    if (!isDragging || e.touches.length !== 1) return;
-    const dx = e.touches[0].clientX - dragStartRef.current.x;
-    const dy = e.touches[0].clientY - dragStartRef.current.y;
-    setCropX(dragStartRef.current.initialCropX + dx);
-    setCropY(dragStartRef.current.initialCropY + dy);
-  };
-
-  const handleCropTouchEnd = () => {
-    setIsDragging(false);
-  };
-
-  const handleApplyCrop = () => {
-    if (!rawPhotoUrl) return;
-    const canvas = document.createElement('canvas');
-    // High-res standard Indian passport aspect ratio (350px x 450px -> 3.5cm x 4.5cm)
-    canvas.width = 350;
-    canvas.height = 450;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    const img = new Image();
-    img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      ctx.fillStyle = '#FFFFFF';
-      ctx.fillRect(0, 0, 350, 450);
-
-      ctx.save();
-      // Center of canvas
-      ctx.translate(175, 225);
-      // Viewport is 175px x 225px, canvas is 350px x 450px -> factor of 2
-      ctx.translate(cropX * 2, cropY * 2);
-      ctx.rotate((cropRotate * Math.PI) / 180);
-      ctx.scale(cropScale, cropScale);
-
-      const aspect = img.width / img.height;
-      let drawW = 350;
-      let drawH = 350 / aspect;
-      if (drawH < 450) {
-        drawH = 450;
-        drawW = 450 * aspect;
-      }
-      ctx.drawImage(img, -drawW / 2, -drawH / 2, drawW, drawH);
-      ctx.restore();
-
-      const croppedDataUrl = canvas.toDataURL('image/jpeg', 0.92);
-      setPhotoPreview(croppedDataUrl);
-
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const file = new File([blob], 'student-passport-photo.jpg', { type: 'image/jpeg' });
-          form.setValue('studentPhoto', file);
-        }
-      }, 'image/jpeg', 0.92);
-
-      setIsCropOpen(false);
-    };
-    img.src = rawPhotoUrl;
-  };
 
   const [dob, setDob] = useState({ day: '', month: '', year: '' });
   
@@ -784,9 +682,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                     <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
                                       <SelectValue placeholder="Select Preferred Branch" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56">
+                                    <SelectContent className="max-h-56 z-[200]">
                                       {branches.map(b => (
-                                        <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px] font-medium text-[#18233A]">{b}</SelectItem>
+                                        <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100">{b}</SelectItem>
                                       ))}
                                     </SelectContent>
                                   </Select>
@@ -809,7 +707,8 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             {/* Rigid Passport Box (w: 58px, h: 74px -> ~3.5:4.5 passport ratio) */}
                             <div 
                               onClick={() => {
-                                if (rawPhotoUrl || photoPreview) {
+                                if (photoPreview) {
+                                  setActiveCropImage(photoPreview);
                                   setIsCropOpen(true);
                                 } else {
                                   fileInputRef.current?.click();
@@ -855,7 +754,12 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                   type="button" 
                                   variant="outline" 
                                   size="sm" 
-                                  onClick={() => setIsCropOpen(true)}
+                                  onClick={() => {
+                                    if (photoPreview) {
+                                      setActiveCropImage(photoPreview);
+                                      setIsCropOpen(true);
+                                    }
+                                  }}
                                   className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-slate-200 dark:border-slate-700 text-[#102A68] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
                                 >
                                   <Crop className="w-3 h-3" />
@@ -887,28 +791,41 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                               id="photo-upload-modal"
                               ref={fileInputRef}
                               type="file"
-                              accept="image/png, image/jpeg, image/webp"
+                              accept="image/png, image/jpeg, image/jpg, image/webp"
                               className="hidden"
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
-                                  form.setValue('studentPhoto', file);
+                                  const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+                                  if (!validTypes.includes(file.type)) {
+                                    toast({
+                                      variant: "destructive",
+                                      title: "Unsupported format",
+                                      description: "Please upload a valid JPG, JPEG, or PNG image.",
+                                    });
+                                    e.target.value = "";
+                                    return;
+                                  }
+                                  if (file.size > 10 * 1024 * 1024) {
+                                    toast({
+                                      variant: "destructive",
+                                      title: "Image too large",
+                                      description: "Photo file size should be less than 10MB.",
+                                    });
+                                    e.target.value = "";
+                                    return;
+                                  }
+
                                   const reader = new FileReader();
                                   reader.onloadend = () => {
                                     const dataUrl = reader.result as string;
-                                    setRawPhotoUrl(dataUrl);
-                                    setPhotoPreview(dataUrl);
-                                    setCropScale(1);
-                                    setCropX(0);
-                                    setCropY(0);
-                                    setCropRotate(0);
+                                    setActiveCropImage(dataUrl);
+                                    // Open crop editor without directly finalizing
                                     setIsCropOpen(true);
                                   };
                                   reader.readAsDataURL(file);
-                                } else {
-                                  setPhotoPreview(null);
-                                  setRawPhotoUrl(null);
                                 }
+                                e.target.value = "";
                               }}
                             />
                           </div>
@@ -1703,7 +1620,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     </div>
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-[#64748B] font-semibold block">Admission Center / Branch</span>
-                      <span className="font-bold text-[12px] text-[#17213A]">{form.getValues('branch')?.split(',')[0] || 'Patna Center'}</span>
+                      <span className="font-bold text-[12px] text-[#17213A]">{form.getValues('branch')?.split(',')[0] || 'Mukherjee Nagar'}</span>
                     </div>
                     <div>
                       <span className="text-[9px] uppercase tracking-wider text-[#64748B] font-semibold block">Date of Application</span>
@@ -2235,154 +2152,22 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
         </DialogContent>
       </Dialog>
 
-      {/* Passport Photo Crop & Position Adjustment Dialog */}
-      <Dialog open={isCropOpen} onOpenChange={setIsCropOpen}>
-        <DialogContent className="sm:max-w-[440px] p-0 overflow-hidden bg-white border border-[#D5DDEA] rounded-2xl shadow-2xl z-50">
-          <DialogHeader className="p-5 border-b border-[#D5DDEA] bg-slate-50/70 text-left">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-[#102A68]/10 text-[#102A68] flex items-center justify-center shrink-0">
-                <Crop className="w-5 h-5" />
-              </div>
-              <div>
-                <DialogTitle className="text-[17px] font-bold text-[#18233A]">Passport Photo Adjustment</DialogTitle>
-                <DialogDescription className="text-[12px] text-[#52627A]">
-                  Drag to move photo • Zoom & rotate to fit standard 35×45mm frame
-                </DialogDescription>
-              </div>
-            </div>
-          </DialogHeader>
-
-          <div className="p-6 flex flex-col items-center justify-center bg-slate-100/70">
-            {/* Viewport Frame (35:45 ratio -> 175px x 225px) */}
-            <div 
-              className="w-[175px] h-[225px] relative overflow-hidden rounded-[10px] border-2 border-[#102A68] bg-black shadow-lg select-none cursor-grab active:cursor-grabbing touch-none"
-              onMouseDown={handleCropMouseDown}
-              onMouseMove={handleCropMouseMove}
-              onMouseUp={handleCropMouseUp}
-              onMouseLeave={handleCropMouseUp}
-              onTouchStart={handleCropTouchStart}
-              onTouchMove={handleCropTouchMove}
-              onTouchEnd={handleCropTouchEnd}
-            >
-              {rawPhotoUrl && (
-                <img 
-                  src={rawPhotoUrl} 
-                  alt="Crop preview" 
-                  draggable={false}
-                  className="absolute top-1/2 left-1/2 origin-center max-w-none pointer-events-none select-none"
-                  style={{
-                    width: '175px',
-                    height: '225px',
-                    objectFit: 'cover',
-                    transform: `translate(-50%, -50%) translate(${cropX}px, ${cropY}px) rotate(${cropRotate}deg) scale(${cropScale})`,
-                  }}
-                />
-              )}
-
-              {/* Passport guidelines overlay: Oval for face placement & crosshair */}
-              <div className="absolute inset-0 pointer-events-none border border-white/20">
-                {/* Oval guide */}
-                <div className="absolute top-[16%] left-[20%] w-[60%] h-[60%] border border-dashed border-white/70 rounded-[50%] shadow-xs" />
-                {/* Eye level line */}
-                <div className="absolute top-[38%] left-[22%] right-[22%] border-b border-white/40" />
-                {/* Chin line */}
-                <div className="absolute bottom-[22%] left-[30%] right-[30%] border-b border-white/40" />
-              </div>
-
-              <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 bg-black/60 backdrop-blur-xs text-white text-[9px] font-medium px-2 py-0.5 rounded-full pointer-events-none tracking-wide">
-                Drag to Move
-              </div>
-            </div>
-
-            {/* Controls Bar */}
-            <div className="w-full mt-5 space-y-3 bg-white p-3.5 rounded-xl border border-[#D5DDEA] shadow-xs">
-              {/* Zoom slider */}
-              <div className="flex items-center gap-3">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setCropScale(s => Math.max(0.7, +(s - 0.1).toFixed(2)))}
-                  className="h-7 w-7 p-0 text-[#52627A] hover:text-[#102A68] hover:bg-slate-100 rounded-md"
-                  title="Zoom Out"
-                >
-                  <ZoomOut className="w-4 h-4" />
-                </Button>
-                <input
-                  type="range"
-                  min="0.7"
-                  max="2.8"
-                  step="0.05"
-                  value={cropScale}
-                  onChange={(e) => setCropScale(parseFloat(e.target.value))}
-                  className="flex-1 accent-[#102A68] h-1.5 bg-slate-200 rounded-lg cursor-pointer"
-                />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setCropScale(s => Math.min(2.8, +(s + 0.1).toFixed(2)))}
-                  className="h-7 w-7 p-0 text-[#52627A] hover:text-[#102A68] hover:bg-slate-100 rounded-md"
-                  title="Zoom In"
-                >
-                  <ZoomIn className="w-4 h-4" />
-                </Button>
-                <span className="text-[12px] font-semibold text-[#18233A] w-10 text-right font-mono">
-                  {Math.round(cropScale * 100)}%
-                </span>
-              </div>
-
-              {/* Action Buttons: Rotate & Reset */}
-              <div className="flex items-center justify-between pt-2 border-t border-slate-100">
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => setCropRotate(r => (r + 90) % 360)}
-                  className="h-8 px-2.5 text-[12px] font-medium text-[#52627A] hover:text-[#102A68] hover:bg-slate-100 rounded-lg flex items-center gap-1.5"
-                >
-                  <RotateCw className="w-3.5 h-3.5" />
-                  Rotate 90°
-                </Button>
-
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    setCropScale(1);
-                    setCropX(0);
-                    setCropY(0);
-                    setCropRotate(0);
-                  }}
-                  className="h-8 px-2.5 text-[12px] font-medium text-[#52627A] hover:text-rose-600 hover:bg-rose-50 rounded-lg"
-                >
-                  Reset Position
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <DialogFooter className="p-4 border-t border-[#D5DDEA] bg-white flex items-center justify-between sm:justify-between gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setIsCropOpen(false)}
-              className="rounded-xl h-10 px-4 text-[13px] font-semibold border-[#D5DDEA] text-[#52627A] hover:bg-slate-50"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              onClick={handleApplyCrop}
-              className="rounded-xl h-10 px-5 text-[13px] font-bold bg-[#102A68] hover:bg-[#102A68]/90 text-white shadow-md flex items-center gap-1.5"
-            >
-              <Check className="w-4 h-4" />
-              Apply & Save Photo
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Passport Photo Crop & Position Adjustment Modal */}
+      <PhotoCropModal
+        isOpen={isCropOpen}
+        imageSrc={activeCropImage}
+        onClose={() => setIsCropOpen(false)}
+        onApplyCrop={(croppedDataUrl, fileBlob) => {
+          setPhotoPreview(croppedDataUrl);
+          setActiveCropImage(croppedDataUrl);
+          form.setValue('studentPhoto', fileBlob);
+          setIsCropOpen(false);
+          toast({
+            title: "Photo adjusted & confirmed",
+            description: "Passport photograph is ready for admission.",
+          });
+        }}
+      />
     </>
   );
 }

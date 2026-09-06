@@ -47,21 +47,23 @@ export default function OfflineCentersPage() {
         <div className="relative rounded-[20px] sm:rounded-[24px] bg-white dark:bg-slate-900 pt-2 sm:pt-4 pb-3 sm:pb-5 px-2 sm:px-4">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 lg:gap-10 items-center">
             {/* Left Copy: Strong Navy, Orange Accent, Clean Hierarchy */}
-            <div className="lg:col-span-5 text-left space-y-2 sm:space-y-3 pl-2 sm:pl-4">
+            <div className="lg:col-span-5 text-left space-y-2.5 sm:space-y-3.5 pl-1 sm:pl-3 lg:pl-4">
+              {/* Eyebrow */}
               <div className="inline-flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00]" />
-                <span className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.18em] text-[#102A68]/80 dark:text-blue-300">
-                  Delhi Network
+                <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B00] shrink-0" />
+                <span className="text-[12px] sm:text-[13px] font-semibold uppercase tracking-[0.16em] text-[#102A68] dark:text-blue-200">
+                  DELHI NETWORK
                 </span>
               </div>
 
+              {/* Main Headline: Dominant, Two Balanced Lines, Cohesive Navy Weight */}
               <h1 className="text-[30px] sm:text-[40px] lg:text-[46px] font-black text-[#102A68] dark:text-white tracking-tight leading-[1.08]">
-                4 CENTRES.
-                <br />
-                <span className="text-[#102A68] dark:text-white">ONE COMMITMENT.</span>
+                <span className="block">4 CENTRES.</span>
+                <span className="block">ONE COMMITMENT.</span>
               </h1>
 
-              <p className="text-[15px] sm:text-[18px] lg:text-[19px] font-bold text-slate-700 dark:text-slate-300 pt-0.5">
+              {/* Supporting Subheading: Clean Medium/Semibold Weight, Restrained Orange Accent */}
+              <p className="text-[15px] sm:text-[18px] lg:text-[19px] font-medium sm:font-semibold text-slate-600 dark:text-slate-300 pt-0.5 leading-snug">
                 Quality Education Across{' '}
                 <span className="text-[#FF6B00]">Delhi</span>
               </p>
@@ -134,7 +136,7 @@ export default function OfflineCentersPage() {
                   {/* Primary CTA: Visit Centre */}
                   <Button
                     asChild
-                    className="w-full h-10 rounded-xl font-semibold text-[13.5px] bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-none transition-colors duration-200 flex items-center justify-center gap-1.5 group/btn"
+                    className="w-full h-11 rounded-[8px] font-semibold text-[13.5px] bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 group/btn cursor-pointer"
                   >
                     <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
                       Visit Centre
@@ -146,7 +148,7 @@ export default function OfflineCentersPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full h-[38px] rounded-xl font-medium text-[13px] bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-[#102A68]/20 dark:border-slate-700 hover:border-[#102A68]/45 shadow-none transition-colors duration-200 flex items-center justify-center gap-1.5"
+                    className="w-full h-11 rounded-[8px] font-medium text-[13px] bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-[#102A68]/20 dark:border-slate-700 hover:border-[#102A68]/45 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <a href="tel:8860040010">
                       <Phone className="w-3.5 h-3.5 opacity-70" />

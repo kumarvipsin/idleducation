@@ -23,6 +23,7 @@ import html2canvas from 'html2canvas';
 import { getNextStudentId, submitAdmissionForm, createRazorpayOrder } from "@/app/actions";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { PhotoCropModal } from "@/components/admission/photo-crop-modal";
 import { format, getDaysInMonth } from "date-fns";
 import Script from "next/script";
 import { cn } from "@/lib/utils";
@@ -96,6 +97,8 @@ export default function AdmissionPage() {
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [isThankYouOpen, setIsThankYouOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [activeCropImage, setActiveCropImage] = useState<string | null>(null);
+  const [isCropOpen, setIsCropOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
@@ -348,10 +351,10 @@ export default function AdmissionPage() {
   ];
   
   const branches = [
-    "Mukherjee Nagar Center, Delhi-110009",
-    "Mangol Puri Center, Delhi-110083",
-    "Budh Vihar Center, Delhi-110086",
-    "Burari Center, Delhi-110084"
+    "Mukherjee Nagar, Delhi-110009",
+    "Mangol Puri, Delhi-110083",
+    "Krishan Vihar, Delhi-110086",
+    "Budh Vihar, Delhi-110086"
   ];
   
   const capitalizeWords = (str: string) => {
@@ -508,7 +511,7 @@ export default function AdmissionPage() {
                                   </div>
                                   <Select onValueChange={field.onChange} value={field.value}>
                                     <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                      <SelectValue placeholder="Select Preferred Branch Node *" />
+                                      <SelectValue placeholder="Select Preferred Branch *" />
                                     </SelectTrigger>
                                     <SelectContent>
                                       {branches.map(b => (
@@ -527,14 +530,22 @@ export default function AdmissionPage() {
                         <div className="p-4 px-6 flex items-center justify-between gap-4 bg-white dark:bg-slate-900">
                           <div className="flex items-center gap-3.5">
                             <div 
-                              onClick={() => fileInputRef.current?.click()}
+                              onClick={() => {
+                                if (photoPreview) {
+                                  setActiveCropImage(photoPreview);
+                                  setIsCropOpen(true);
+                                } else {
+                                  fileInputRef.current?.click();
+                                }
+                              }}
                               className="w-14 h-16 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-primary transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer"
+                              title={photoPreview ? "Click to crop & adjust" : "Click to upload"}
                             >
                               {photoPreview ? (
                                 <>
                                   <img src={photoPreview} alt="Student" className="object-cover h-full w-full" />
                                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[8px] font-bold uppercase">
-                                    Change
+                                    Adjust
                                   </div>
                                 </>
                               ) : (
@@ -542,37 +553,89 @@ export default function AdmissionPage() {
                               )}
                             </div>
                             <div className="text-left">
-                              <p className="text-xs font-bold text-slate-800 dark:text-slate-200">Passport Size Photograph</p>
-                              <p className="text-[11px] text-muted-foreground font-medium">Recent color photo for ID card (JPG/PNG max 2MB)</p>
+                              <p className="text-xs font-bold text-slate-800 dark:text-slate-200">
+                                {photoPreview ? "Photo Uploaded" : "Passport Size Photograph"}
+                              </p>
+                              <p className="text-[11px] text-muted-foreground font-medium">3.5 × 4.5 cm • JPG or PNG</p>
                             </div>
                           </div>
                           <div>
-                            <Button 
-                              type="button" 
-                              variant="outline" 
-                              size="sm" 
-                              onClick={() => fileInputRef.current?.click()}
-                              className="rounded-xl h-10 px-4 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
-                            >
-                              <Camera className="w-3.5 h-3.5 mr-1.5 text-primary" />
-                              {photoPreview ? 'Change' : 'Upload'}
-                            </Button>
+                            {photoPreview ? (
+                              <div className="flex items-center gap-2">
+                                <Button 
+                                  type="button" 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => {
+                                    if (photoPreview) {
+                                      setActiveCropImage(photoPreview);
+                                      setIsCropOpen(true);
+                                    }
+                                  }}
+                                  className="rounded-xl h-10 px-3 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                                >
+                                  Adjust
+                                </Button>
+                                <Button 
+                                  type="button" 
+                                  variant="outline" 
+                                  size="sm" 
+                                  onClick={() => fileInputRef.current?.click()}
+                                  className="rounded-xl h-10 px-3 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                                >
+                                  Change
+                                </Button>
+                              </div>
+                            ) : (
+                              <Button 
+                                type="button" 
+                                variant="outline" 
+                                size="sm" 
+                                onClick={() => fileInputRef.current?.click()}
+                                className="rounded-xl h-10 px-4 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                              >
+                                <Camera className="w-3.5 h-3.5 mr-1.5 text-primary" />
+                                Upload
+                              </Button>
+                            )}
                             <Input
                               id="photo-upload"
                               ref={fileInputRef}
                               type="file"
-                              accept="image/png, image/jpeg"
+                              accept="image/png, image/jpeg, image/jpg, image/webp"
                               className="hidden"
                               onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
-                                  form.setValue('studentPhoto', file);
+                                  const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+                                  if (!validTypes.includes(file.type)) {
+                                    toast({
+                                      variant: "destructive",
+                                      title: "Unsupported format",
+                                      description: "Please upload a valid JPG, JPEG, or PNG image.",
+                                    });
+                                    e.target.value = "";
+                                    return;
+                                  }
+                                  if (file.size > 10 * 1024 * 1024) {
+                                    toast({
+                                      variant: "destructive",
+                                      title: "Image too large",
+                                      description: "Photo file size should be less than 10MB.",
+                                    });
+                                    e.target.value = "";
+                                    return;
+                                  }
+
                                   const reader = new FileReader();
-                                  reader.onloadend = () => setPhotoPreview(reader.result as string);
+                                  reader.onloadend = () => {
+                                    const dataUrl = reader.result as string;
+                                    setActiveCropImage(dataUrl);
+                                    setIsCropOpen(true);
+                                  };
                                   reader.readAsDataURL(file);
-                                } else {
-                                  setPhotoPreview(null);
                                 }
+                                e.target.value = "";
                               }}
                             />
                           </div>
@@ -1429,6 +1492,23 @@ export default function AdmissionPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Passport Photo Crop & Position Adjustment Modal */}
+      <PhotoCropModal
+        isOpen={isCropOpen}
+        imageSrc={activeCropImage}
+        onClose={() => setIsCropOpen(false)}
+        onApplyCrop={(croppedDataUrl, fileBlob) => {
+          setPhotoPreview(croppedDataUrl);
+          setActiveCropImage(croppedDataUrl);
+          form.setValue('studentPhoto', fileBlob);
+          setIsCropOpen(false);
+          toast({
+            title: "Photo adjusted & confirmed",
+            description: "Passport photograph is ready for admission.",
+          });
+        }}
+      />
 
     </div>
   );

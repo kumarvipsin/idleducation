@@ -469,7 +469,7 @@ export function GetAppSection() {
       <div className="container mx-auto px-4 md:px-6">
         <div className="relative rounded-[22px] bg-white dark:bg-card p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-border/60 shadow-sm md:shadow-md overflow-hidden">
           {/* Background Texture & Map Silhouette */}
-          <div className="absolute inset-0 bg-dot-pattern opacity-30 pointer-events-none" />
+          <div className="absolute inset-0 bg-dot-pattern opacity-[0.12] dark:opacity-[0.06] pointer-events-none" />
           <div className="absolute right-0 bottom-0 opacity-[0.03] pointer-events-none translate-x-1/4 translate-y-1/4 w-full h-full max-w-2xl">
             <Image 
               src="https://upload.wikimedia.org/wikipedia/commons/e/e0/India_map_silhouette.svg" 
@@ -496,11 +496,11 @@ export function GetAppSection() {
             </div>
 
             {/* RIGHT (Desktop) / BELOW (Mobile): Content, Bullets & Download/QR */}
-            <div className="lg:col-span-6 flex flex-col items-start text-left space-y-4">
-              <div className="space-y-1.5">
-                <h2 className="text-2xl sm:text-[28px] lg:text-[30px] font-extrabold tracking-tight text-slate-900 dark:text-white">
-                  <span>IDL </span>
-                  <span className="text-[0.86em] font-bold text-slate-500 dark:text-slate-400 tracking-normal">
+            <div className="lg:col-span-6 flex flex-col items-start text-left space-y-3.5 sm:space-y-4">
+              <div>
+                <h2 className="text-[21px] sm:text-[25px] lg:text-[27px] font-bold tracking-tight leading-tight antialiased">
+                  <span className="font-bold text-[#0B1F4B] dark:text-white">IDL </span>
+                  <span className="font-semibold text-[#1A3673] dark:text-blue-200">
                     Learning App
                   </span>
                 </h2>
@@ -513,17 +513,17 @@ export function GetAppSection() {
                   "Premium study materials and mock tests"
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-center justify-start gap-2.5">
-                    <div className="bg-primary/10 p-1 rounded-full text-primary shrink-0">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
+                    <div className="bg-blue-50/80 dark:bg-blue-950/50 p-1 rounded-full text-[#1F4FA3] dark:text-blue-400 shrink-0 border border-blue-100/70 dark:border-blue-900/40">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-[#1F4FA3] dark:text-blue-400 stroke-[2.2]" />
                     </div>
-                    <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">{item}</span>
+                    <span className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-300 leading-snug">{item}</span>
                   </li>
                 ))}
               </ul>
 
               {/* Download / QR Quick Scan Area */}
-              <div className="w-full pt-1">
-                <div className="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3.5 p-3 sm:p-3.5 bg-slate-50 dark:bg-slate-900/40 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs w-full sm:w-fit">
+              <div className="w-full pt-1 sm:pt-1.5">
+                <div className="flex items-center justify-between sm:justify-start gap-2.5 sm:gap-3.5 p-3 sm:p-3.5 bg-slate-50/90 dark:bg-slate-900/40 rounded-2xl border border-slate-200/70 dark:border-slate-800/80 shadow-xs w-full sm:w-fit">
                   {/* Store Badges */}
                   <div className="flex flex-col gap-1.5 shrink-0">
                     {/* Google Play */}
