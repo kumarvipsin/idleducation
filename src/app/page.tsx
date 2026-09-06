@@ -1,9 +1,10 @@
 import { ToppersTestimonials } from '@/components/landing/toppers-testimonials';
 import { StudentTestimonials } from '@/components/landing/student-testimonials';
+import { ExpertTeachersSection } from '@/components/landing/expert-teachers-section';
 import { StudyResources } from '@/components/landing/study-resources';
 import { AcademicExcellence } from '@/components/landing/academic-excellence';
-import { getTopperTestimonials, getCollection, getTestimonials } from '@/app/actions';
-import type { TTopperTestimonial, THeroSlide, TTestimonial } from '@/app/actions/types';
+import { getTopperTestimonials, getCollection, getTestimonials, getExpertTeachers } from '@/app/actions';
+import type { TTopperTestimonial, THeroSlide, TTestimonial, TExpertTeacher } from '@/app/actions/types';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 import { TrustedPlatform } from '@/components/landing/trusted-platform';
 import { GetAppSection } from '@/components/landing/get-app-section';
@@ -19,16 +20,20 @@ export default async function Home() {
 
   const studentTestimonialsResult = await getTestimonials();
   const studentTestimonials = studentTestimonialsResult.success ? (studentTestimonialsResult.data as TTestimonial[]) : [];
+
+  const expertTeachersResult = await getExpertTeachers();
+  const expertTeachers = expertTeachersResult.success ? (expertTeachersResult.data as TExpertTeacher[]) : [];
   
   const heroSlidesResult = await getCollection('heroSlides');
   const heroSlides = heroSlidesResult.success ? (heroSlidesResult.data as THeroSlide[]) : [];
 
   return (
-    <div suppressHydrationWarning className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
+    <div className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
       <BuildSkillsSection slides={heroSlides} />
       <DiscoverCoursesSection />
       <TrustedPlatform />
       <AcademicExcellence />
+      <ExpertTeachersSection teachers={expertTeachers} />
       <ScholarshipSection />
       <StudentTestimonials testimonials={studentTestimonials} />
       <DailyChallengeSection />

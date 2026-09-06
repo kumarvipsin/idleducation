@@ -259,6 +259,156 @@ export async function getTeamMembers() {
     }
 }
 
+const DEFAULT_EXPERT_TEACHERS = [
+  {
+    id: "teacher-amod",
+    name: "Amod Sharma",
+    designation: "Head Academic Faculty & Director",
+    subject: "Biology & Chemistry",
+    examFocus: "NEET & CBSE",
+    specialization: "BIOLOGY & CHEMISTRY · NEET & CBSE",
+    experience: "10+ Years Experience",
+    qualification: "M.Sc. Chemistry",
+    teachingFocus: "Concept Clarity & Diagnostic Approach",
+    shortBio: "Breaks down complex biology and chemistry concepts through clear explanations and structured problem solving.",
+    avatarUrl: "/director.png",
+    photoUrl: "/director.png",
+    videoUrl: "https://www.youtube.com/watch?v=bOmsL6Z5z1M",
+    videoId: "bOmsL6Z5z1M",
+    profileUrl: "/about",
+    order: 1,
+    isActive: true
+  },
+  {
+    id: "teacher-manish",
+    name: "Manish Sharma",
+    designation: "Senior Faculty & Tech Director",
+    subject: "Physics & Mathematics",
+    examFocus: "JEE & BOARDS",
+    specialization: "PHYSICS & MATHS · JEE & BOARDS",
+    experience: "8+ Years Experience",
+    qualification: "B.Tech & M.Sc.",
+    teachingFocus: "Analytical Reasoning & Numerical Speed",
+    shortBio: "Simplifies advanced mechanics and calculus through intuitive frameworks and exam-oriented problem solving.",
+    avatarUrl: "/manish.png",
+    photoUrl: "/manish.png",
+    videoUrl: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    videoId: "jNQXAC9IVRw",
+    profileUrl: "/about",
+    order: 2,
+    isActive: true
+  },
+  {
+    id: "teacher-chandra",
+    name: "Chandra Prakash",
+    designation: "Senior Mathematics Faculty",
+    subject: "Mathematics",
+    examFocus: "JEE ADVANCED",
+    specialization: "MATHEMATICS · JEE ADVANCED",
+    experience: "7+ Years Experience",
+    qualification: "M.Sc. Mathematics",
+    teachingFocus: "Visual Geometry & Shortcut Strategies",
+    shortBio: "Builds deep mathematical intuition with visual problem solving, structured shortcuts, and conceptual clarity.",
+    avatarUrl: "/chandu.png",
+    photoUrl: "/chandu.png",
+    videoUrl: "https://www.youtube.com/watch?v=bOmsL6Z5z1M",
+    videoId: "bOmsL6Z5z1M",
+    profileUrl: "/about",
+    order: 3,
+    isActive: true
+  },
+  {
+    id: "teacher-vidhi",
+    name: "Vidhi Sharma",
+    designation: "Editorial & Humanities Lead",
+    subject: "Social Sciences",
+    examFocus: "CBSE 9–12",
+    specialization: "SOCIAL STUDIES · CBSE 9–12",
+    experience: "6+ Years Experience",
+    qualification: "M.A. & B.Ed.",
+    teachingFocus: "Critical Analysis & Answer Writing",
+    shortBio: "Brings humanities and social sciences to life through structured concepts, visual mapping, and precise answer writing.",
+    avatarUrl: "/vidhi.png",
+    photoUrl: "/vidhi.png",
+    videoUrl: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    videoId: "jNQXAC9IVRw",
+    profileUrl: "/about",
+    order: 4,
+    isActive: true
+  },
+  {
+    id: "teacher-vijay",
+    name: "Vijay Verma",
+    designation: "Senior Economics Faculty",
+    subject: "Economics",
+    examFocus: "CUET & CLASS 11–12",
+    specialization: "ECONOMICS · CUET & CLASS 11–12",
+    experience: "8+ Years Experience",
+    qualification: "M.Com & UGC NET",
+    teachingFocus: "Practical Case Studies & Macro Insights",
+    shortBio: "Connects micro and macro economics with real-world examples, intuitive graphs, and exam-focused problem solving.",
+    avatarUrl: "/vijay.png",
+    photoUrl: "/vijay.png",
+    videoUrl: "https://www.youtube.com/watch?v=bOmsL6Z5z1M",
+    videoId: "bOmsL6Z5z1M",
+    profileUrl: "/about",
+    order: 5,
+    isActive: true
+  },
+  {
+    id: "teacher-vikas",
+    name: "Vikas Kumar",
+    designation: "Senior Commerce & Math Faculty",
+    subject: "Mathematics & Accounts",
+    examFocus: "FOUNDATION",
+    specialization: "ACCOUNTS & MATHS · FOUNDATION",
+    experience: "15+ Years Experience",
+    qualification: "M.Com & B.Ed.",
+    teachingFocus: "Fundamental Principles & Precision",
+    shortBio: "15+ years of teaching experience focused on strong fundamentals, structured practice, and confident board preparation.",
+    avatarUrl: "/teacher.png",
+    photoUrl: "/teacher.png",
+    videoUrl: "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+    videoId: "jNQXAC9IVRw",
+    profileUrl: "/about",
+    order: 6,
+    isActive: true
+  }
+];
+
+export async function getExpertTeachers() {
+    try {
+        const teachersQuery = query(collection(db, "expertTeachers"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(teachersQuery);
+        if (!querySnapshot.empty) {
+            const teachers = querySnapshot.docs
+                .map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }))
+                .filter((t: any) => t.isActive !== false);
+            return { success: true, data: teachers.length > 0 ? teachers : DEFAULT_EXPERT_TEACHERS };
+        }
+        // Fallback to initial structured faculty if collection not yet seeded in Firestore
+        return { success: true, data: DEFAULT_EXPERT_TEACHERS };
+    } catch (error) {
+        console.warn("Firestore expertTeachers collection read note (using fallback):", error);
+        return { success: true, data: DEFAULT_EXPERT_TEACHERS };
+    }
+}
+
+export async function getAllExpertTeachers() {
+    try {
+        const teachersQuery = query(collection(db, "expertTeachers"), orderBy("order", "asc"));
+        const querySnapshot = await getDocs(teachersQuery);
+        if (!querySnapshot.empty) {
+            const teachers = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
+            return { success: true, data: teachers };
+        }
+        return { success: true, data: DEFAULT_EXPERT_TEACHERS };
+    } catch (error) {
+        console.warn("Firestore expertTeachers read all fallback:", error);
+        return { success: true, data: DEFAULT_EXPERT_TEACHERS };
+    }
+}
+
 // Count Functions
 async function getCount(q: any) {
     try {

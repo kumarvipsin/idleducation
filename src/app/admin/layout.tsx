@@ -212,6 +212,12 @@ function AdminLayout({
                                 <span>Our Students Say</span>
                             </Link>
                         </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/expert-teachers')}>
+                            <Link href="/admin/expert-teachers">
+                                <GraduationCap />
+                                <span>Expert Teachers</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/topper-testimonials')}>
                             <Link href="/admin/topper-testimonials">
                                 <Video />

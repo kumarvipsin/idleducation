@@ -649,4 +649,138 @@ export async function deleteHeroSlide(id: string) {
         return { success: false, message: "Failed to delete hero slide." };
     }
 }
+
+function extractAndNormalizeYouTube(urlOrId?: string): { videoUrl: string; videoId: string } {
+  if (!urlOrId) return { videoUrl: '', videoId: '' };
+  const trimmed = urlOrId.trim();
+  if (!trimmed) return { videoUrl: '', videoId: '' };
+
+  if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) {
+    return {
+      videoId: trimmed,
+      videoUrl: `https://www.youtube.com/watch?v=${trimmed}`
+    };
+  }
+
+  const match = trimmed.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match && match[1]) {
+    return {
+      videoId: match[1],
+      videoUrl: `https://www.youtube.com/watch?v=${match[1]}`
+    };
+  }
+
+  return { videoUrl: '', videoId: '' };
+}
+
+// Expert Teacher Management
+export async function addExpertTeacher(formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  const rawVideo = (rawData.videoUrl as string || rawData.videoId as string || '').trim();
+  const { videoUrl, videoId } = extractAndNormalizeYouTube(rawVideo);
+  
+  const teacherData: any = {
+    name: (rawData.name as string) || '',
+    designation: (rawData.designation as string) || '',
+    subject: (rawData.subject as string) || '',
+    examFocus: (rawData.examFocus as string) || '',
+    specialization: (rawData.specialization as string) || '',
+    experience: (rawData.experience as string) || '',
+    qualification: (rawData.qualification as string) || '',
+    teachingFocus: (rawData.teachingFocus as string) || '',
+    shortBio: (rawData.shortBio as string) || '',
+    videoUrl,
+    videoId,
+    profileUrl: (rawData.profileUrl as string) || '/about',
+    order: parseInt(rawData.order as string, 10) || 99,
+    isActive: rawData.isActive === 'true' || rawData.isActive === 'on' || rawData.isActive === true,
+    photoPosition: (rawData.photoPosition as string) || 'top',
+  };
+
+  try {
+    let avatarUrl = (rawData.avatarUrl as string) || (rawData.photoUrl as string) || '';
+    if (photoFile && photoFile.size > 0) {
+      const destination = `expert-teachers/${Date.now()}-${photoFile.name}`;
+      avatarUrl = await uploadFileToGCS(photoFile, destination);
+    }
+    
+    await addDoc(collection(db, "expertTeachers"), {
+      ...teacherData,
+      avatarUrl: avatarUrl || '/director.png',
+      photoUrl: avatarUrl || '/director.png',
+      createdAt: serverTimestamp(),
+    });
+    
+    return { success: true, message: "Expert teacher added successfully." };
+  } catch (error) {
+    console.error("Error adding expert teacher:", error);
+    return { success: false, message: "Failed to add expert teacher." };
+  }
+}
+
+export async function editExpertTeacher(id: string, formData: FormData) {
+  const rawData = Object.fromEntries(formData.entries());
+  const photoFile = rawData.photo as File | null;
+  const rawVideo = (rawData.videoUrl as string || rawData.videoId as string || '').trim();
+  const { videoUrl, videoId } = extractAndNormalizeYouTube(rawVideo);
+
+  const teacherData: any = {
+    name: (rawData.name as string) || '',
+    designation: (rawData.designation as string) || '',
+    subject: (rawData.subject as string) || '',
+    examFocus: (rawData.examFocus as string) || '',
+    specialization: (rawData.specialization as string) || '',
+    experience: (rawData.experience as string) || '',
+    qualification: (rawData.qualification as string) || '',
+    teachingFocus: (rawData.teachingFocus as string) || '',
+    shortBio: (rawData.shortBio as string) || '',
+    videoUrl,
+    videoId,
+    profileUrl: (rawData.profileUrl as string) || '/about',
+    order: parseInt(rawData.order as string, 10) || 99,
+    isActive: rawData.isActive === 'true' || rawData.isActive === 'on' || rawData.isActive === true,
+    photoPosition: (rawData.photoPosition as string) || 'top',
+  };
+
+  try {
+    if (rawData.removePhoto === 'true') {
+      // Admin explicitly removed the photo — clear it
+      teacherData.avatarUrl = '/director.png';
+      teacherData.photoUrl = '/director.png';
+    } else if (photoFile && photoFile.size > 0) {
+      // New file uploaded
+      const destination = `expert-teachers/${Date.now()}-${photoFile.name}`;
+      const uploadedUrl = await uploadFileToGCS(photoFile, destination);
+      teacherData.avatarUrl = uploadedUrl;
+      teacherData.photoUrl = uploadedUrl;
+    } else if (rawData.photoUrl) {
+      // URL typed in the URL field
+      teacherData.avatarUrl = rawData.photoUrl as string;
+      teacherData.photoUrl = rawData.photoUrl as string;
+    } else if (rawData.avatarUrl) {
+      teacherData.avatarUrl = rawData.avatarUrl as string;
+      teacherData.photoUrl = rawData.avatarUrl as string;
+    }
+
+    const docRef = doc(db, "expertTeachers", id);
+    await updateDoc(docRef, teacherData);
+    
+    return { success: true, message: "Expert teacher updated successfully." };
+  } catch (error) {
+    console.error("Error updating expert teacher:", error);
+    return { success: false, message: "Failed to update expert teacher." };
+  }
+}
+
+export async function deleteExpertTeacher(id: string) {
+  try {
+    const docRef = doc(db, "expertTeachers", id);
+    await deleteDoc(docRef);
+    return { success: true, message: "Expert teacher deleted successfully." };
+  } catch (error) {
+    console.error("Error deleting expert teacher:", error);
+    return { success: false, message: "Failed to delete expert teacher." };
+  }
+}
     

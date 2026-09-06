@@ -124,6 +124,30 @@ export interface TTeamMember {
   };
 }
 
+export interface TExpertTeacher {
+  id: string;
+  name: string;
+  designation?: string;
+  subject: string;
+  examFocus?: string;
+  specialization?: string;
+  experience?: string;
+  qualification?: string;
+  teachingFocus?: string;
+  shortBio?: string;
+  avatarUrl?: string;
+  photo?: string;
+  photoUrl?: string;
+  photoPosition?: string;   // CSS object-position e.g. 'top', 'center', '50% 20%'
+  videoId?: string;
+  videoUrl?: string;
+  introVideo?: string;
+  profileUrl?: string;
+  order?: number;
+  isActive?: boolean;
+  createdAt?: string;
+}
+
 export interface Paper {
   title: string;
   pdfUrl?: string;
