@@ -37,7 +37,7 @@ export function TrustedPlatform() {
               <div className="mt-6 lg:mt-7">
                 <Button 
                   onClick={() => setIsDemoOpen(true)} 
-                  className="inline-flex items-center px-5 py-2.5 rounded-xl bg-[#FF6B16] hover:bg-[#e65a0c] text-white text-xs sm:text-sm font-bold transition-all duration-180 shadow-2xs hover:shadow-xs cursor-pointer shrink-0 h-auto"
+                  className="inline-flex items-center justify-center h-11 px-6 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 border-none cursor-pointer shrink-0"
                 >
                   Book a Demo
                 </Button>

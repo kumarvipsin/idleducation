@@ -136,7 +136,7 @@ export default function OfflineCentersPage() {
                   {/* Primary CTA: Visit Centre */}
                   <Button
                     asChild
-                    className="w-full h-11 rounded-[8px] font-semibold text-[13.5px] bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 group/btn cursor-pointer"
+                    className="w-full h-11 px-6 rounded-[8px] font-bold text-sm bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 group/btn cursor-pointer"
                   >
                     <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
                       Visit Centre
@@ -148,7 +148,7 @@ export default function OfflineCentersPage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full h-11 rounded-[8px] font-medium text-[13px] bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-[#102A68]/20 dark:border-slate-700 hover:border-[#102A68]/45 shadow-xs hover:shadow-sm hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="w-full h-11 px-6 rounded-[8px] font-bold text-sm bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-[#102A68]/20 dark:border-slate-700 hover:border-[#102A68]/45 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
                   >
                     <a href="tel:8860040010">
                       <Phone className="w-3.5 h-3.5 opacity-70" />

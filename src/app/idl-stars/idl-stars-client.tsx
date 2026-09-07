@@ -332,18 +332,18 @@ export function IdlStarsClient({ initialTestimonials }: IdlStarsClientProps) {
               Join IDL Education today for diagnostic learning, expert faculty guidance, and structured academic success.
             </p>
           </div>
-          <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 shrink-0">
             <button
               type="button"
               onClick={() => setIsAdmissionOpen(true)}
-              className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs sm:text-sm h-9 sm:h-10 px-4 sm:px-5 rounded-xl cursor-pointer shadow transition-all active:scale-95"
+              className="inline-flex items-center justify-center h-11 px-6 rounded-[8px] bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-95 shrink-0"
             >
               Apply for Admission →
             </button>
             <button
               type="button"
               onClick={() => setIsContactOpen(true)}
-              className="bg-white/15 hover:bg-white/25 text-white border border-white/40 font-bold text-xs sm:text-sm h-9 sm:h-10 px-3.5 sm:px-4 rounded-xl cursor-pointer transition-all active:scale-95 shadow-xs"
+              className="inline-flex items-center justify-center h-11 px-6 rounded-[8px] bg-white/15 hover:bg-white/25 text-white border border-white/40 font-bold text-sm cursor-pointer shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 active:scale-95 shrink-0"
             >
               Contact Faculty
             </button>

@@ -367,7 +367,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                   <div className="mt-7 sm:mt-8 flex justify-center">
                     <Link
                       href="/idl-stars"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-50/80 hover:bg-blue-100/90 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-[#1D4ED8] dark:text-blue-300 text-xs sm:text-sm font-bold border border-blue-200/70 dark:border-blue-800/50 shadow-2xs hover:shadow-xs transition-all duration-180 group cursor-pointer"
+                      className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-[8px] bg-blue-50/80 hover:bg-blue-100/90 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-[#1D4ED8] dark:text-blue-300 font-bold text-sm border border-blue-200/70 dark:border-blue-800/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group cursor-pointer"
                     >
                       <span>View More Student Stories</span>
                       <span className="transition-transform duration-180 ease-out group-hover:translate-x-1">→</span>
