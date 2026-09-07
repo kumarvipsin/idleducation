@@ -13,6 +13,7 @@ import type { TBlogPost } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 
+
 const defaultPosts: TBlogPost[] = [
   {
     id: "1",
@@ -102,7 +103,10 @@ export default function BlogPage() {
       setLoading(true);
       const result = await getBlogPosts();
       if (result.success && result.data && (result.data as TBlogPost[]).length > 0) {
-        setPosts(result.data as TBlogPost[]);
+        // Only show approved posts (or legacy posts without status field)
+        const allPosts = result.data as TBlogPost[];
+        const approvedPosts = allPosts.filter(p => !p.status || p.status === 'approved');
+        setPosts(approvedPosts.length > 0 ? approvedPosts : defaultPosts);
       } else {
         setPosts(defaultPosts);
       }
@@ -210,10 +214,10 @@ export default function BlogPage() {
       {/* Grid Content Section */}
       <div className="container mx-auto px-4 md:px-6">
         {loading ? renderSkeleton() : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 md:gap-8">
             {filteredPosts.map((post) => (
               <Link key={post.id || post.slug} href={`/blog/${post.slug}`} className="block group h-full">
-                <Card className="h-full rounded-2xl bg-card border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 overflow-hidden flex flex-col group-hover:-translate-y-1">
+                <Card className="h-full rounded-xl sm:rounded-2xl bg-card border border-slate-200/80 dark:border-slate-800 shadow-sm hover:shadow-md hover:border-primary/30 transition-all duration-300 overflow-hidden flex flex-col group-hover:-translate-y-1">
                   
                   {/* Image Thumbnail */}
                   <div className="relative w-full aspect-[16/10] overflow-hidden bg-slate-100 dark:bg-slate-800">
@@ -221,44 +225,44 @@ export default function BlogPage() {
                     
                     {/* Category Badge */}
                     {post.category && (
-                      <div className="absolute top-3 left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-primary text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-1 rounded-md border border-primary/20 shadow-sm">
+                      <div className="absolute top-2 left-2 sm:top-3 sm:left-3 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md text-primary text-[8px] sm:text-[10px] font-extrabold uppercase tracking-wider px-1.5 sm:px-2.5 py-0.5 sm:py-1 rounded sm:rounded-md border border-primary/20 shadow-sm">
                         {post.category}
                       </div>
                     )}
                   </div>
 
                   {/* Body Content */}
-                  <div className="p-5 flex flex-col flex-grow justify-between space-y-3">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-3 text-[11px] font-medium text-muted-foreground">
-                        {post.author && (
-                          <span className="flex items-center gap-1">
-                            <User className="w-3.5 h-3.5 text-primary" />
-                            {post.author}
-                          </span>
-                        )}
-                        {post.date && (
-                          <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5 text-muted-foreground/60" />
-                            {post.date}
-                          </span>
-                        )}
-                      </div>
-
-                      <h2 className="text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug">
-                        {post.title}
-                      </h2>
-
-                      <p className="text-xs text-muted-foreground font-normal line-clamp-2 leading-relaxed">
-                        {post.excerpt}
-                      </p>
+                  <div className="p-2.5 sm:p-5 flex flex-col flex-1">
+                    {/* Metadata Row — Author left, Date right */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-0.5 sm:gap-2 text-[9.5px] sm:text-[11.5px] text-slate-600 dark:text-slate-400">
+                      <span className="inline-flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-800 dark:text-slate-200 truncate">
+                        <User className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary shrink-0" />
+                        {post.author}
+                      </span>
+                      <span className="inline-flex items-center gap-1 sm:gap-1.5 font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap shrink-0">
+                        <Calendar className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-primary/60 shrink-0" />
+                        {post.date}
+                      </span>
                     </div>
 
-                    <div className="pt-2 flex items-center justify-between border-t border-border/50 text-xs font-bold text-primary">
-                      <span className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                        Read Full Article
-                      </span>
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                    {/* Title */}
+                    <h2 className="mt-1.5 sm:mt-3 text-[12px] sm:text-base font-bold text-foreground group-hover:text-primary transition-colors line-clamp-2 leading-snug tracking-tight">
+                      {post.title}
+                    </h2>
+
+                    {/* Description — hidden on small mobile, visible on sm+ */}
+                    <p className="hidden sm:block mt-1.5 text-[13px] text-muted-foreground line-clamp-2 leading-relaxed">
+                      {post.excerpt}
+                    </p>
+
+                    {/* Spacer + CTA anchored to bottom */}
+                    <div className="mt-auto pt-2 sm:pt-4">
+                      <div className="border-t border-border/30 pt-1.5 sm:pt-3 flex items-center justify-between text-[10px] sm:text-xs font-bold text-primary">
+                        <span className="inline-flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                          Read Full Article
+                        </span>
+                        <ArrowRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 transition-transform duration-300 group-hover:translate-x-1" />
+                      </div>
                     </div>
                   </div>
                 </Card>

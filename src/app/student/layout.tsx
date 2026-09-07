@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/sidebar';
 import { 
   BookOpen, LayoutDashboard, User, LogOut, ClipboardList, 
-  Video, FileText, Bell, Sparkles, ShoppingBag, Award 
+  Video, FileText, Bell, Sparkles, ShoppingBag, Award, Newspaper 
 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
@@ -43,6 +43,7 @@ function StudentLayout({
     { href: '/student/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/student/courses', label: 'My Courses', icon: BookOpen },
     { href: '/student/study-plan', label: 'Study Plan', icon: ClipboardList },
+    { href: '/student/blog', label: 'IDL Blogs', icon: Newspaper },
     { href: '/student/profile', label: 'My Profile', icon: User },
   ];
 
@@ -50,6 +51,7 @@ function StudentLayout({
     { href: '/student/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
     { href: '/student/courses', label: 'Courses', icon: <BookOpen className="w-5 h-5" /> },
     { href: '/student/study-plan', label: 'Study Plan', icon: <ClipboardList className="w-5 h-5" /> },
+    { href: '/student/blog', label: 'Blogs', icon: <Newspaper className="w-5 h-5" /> },
     { href: '/student/profile', label: 'Profile', icon: <User className="w-5 h-5" /> },
   ];
 

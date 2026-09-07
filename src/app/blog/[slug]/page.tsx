@@ -12,6 +12,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { GcsImage } from "@/components/gcs-image";
 import { BlogContentRenderer } from "@/components/blog-content-renderer";
 import { useToast } from "@/hooks/use-toast";
+import { AuthorRoleBadge } from "@/components/blog-manager";
 
 function BlogCardImage({ src, alt }: { src?: string; alt: string }) {
   if (!src) {
@@ -184,6 +185,7 @@ export default function BlogPostPage(props: { params: Promise<{ slug: string }> 
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-primary" />
                 <span>By <span className="text-foreground font-bold">{post.author}</span></span>
+                <AuthorRoleBadge role={post.authorRole} />
               </div>
             )}
             {post.date && (

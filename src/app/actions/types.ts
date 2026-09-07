@@ -101,11 +101,14 @@ export interface TBlogPost {
   slug: string;
   category: string;
   excerpt: string;
-  content: string;
+  content?: string;
   author: string;
+  authorRole?: 'admin' | 'teacher' | 'student';
+  authorId?: string;
+  status?: 'pending' | 'approved';
   date: string;
   imageUrl: string;
-  createdAt: string;
+  createdAt?: string;
 }
 
 export interface TTeamMember {

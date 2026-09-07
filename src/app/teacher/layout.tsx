@@ -15,7 +15,7 @@ import {
 import { 
   BookOpen, LayoutDashboard, User, LogOut, Users, Upload, 
   FileText, Bell, Video, PlusCircle, Sparkles, ChevronRight,
-  HelpCircle, ShieldCheck
+  HelpCircle, ShieldCheck, Newspaper
 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
@@ -43,6 +43,7 @@ function TeacherLayout({
     { href: '/teacher/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="w-5 h-5" /> },
     { href: '/teacher/students', label: 'Students', icon: <Users className="w-5 h-5" /> },
     { href: '/teacher/classes', label: 'Classes', icon: <BookOpen className="w-5 h-5" /> },
+    { href: '/teacher/blog', label: 'Blogs', icon: <Newspaper className="w-5 h-5" /> },
     { href: '/teacher/reports', label: 'Reports', icon: <FileText className="w-5 h-5" /> },
     { href: '/teacher/profile', label: 'Profile', icon: <User className="w-5 h-5" /> },
   ];
@@ -51,6 +52,7 @@ function TeacherLayout({
     { href: '/teacher/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/teacher/students', label: 'My Students', icon: Users },
     { href: '/teacher/classes', label: 'Class Schedules', icon: BookOpen },
+    { href: '/teacher/blog', label: 'Faculty Blogs', icon: Newspaper },
     { href: '/teacher/reports', label: 'Progress & Tests', icon: FileText },
     { href: '/teacher/materials', label: 'Notes & Materials', icon: Upload },
     { href: '/teacher/profile', label: 'Faculty Profile', icon: User },

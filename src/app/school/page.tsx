@@ -31,56 +31,133 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { cn } from "@/lib/utils";
 import { ContactModal } from "@/components/contact-modal";
 
-// ── SUBJECT CONFIGURATIONS WITH VECTOR MOTIFS ──
+// ── ILLUSTRATED COLORFUL SUBJECT ICONS (Matching Courses We Offer Style) ──
+function ScienceIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#ECFDF5" />
+            <path d="M16 11V15.5L10.8 24.2C10.1 25.4 11 27 12.4 27H27.6C29 27 29.9 25.4 29.2 24.2L24 15.5V11" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
+            <path d="M15 11H25" stroke="#047857" strokeWidth="2" strokeLinecap="round" />
+            <path d="M12.5 22H27.5L26.5 25H13.5L12.5 22Z" fill="#10B981" />
+            <circle cx="16" cy="24" r="1.5" fill="#34D399" />
+            <circle cx="21" cy="21" r="2" fill="#6EE7B7" />
+            <circle cx="23" cy="24" r="1" fill="#A7F3D0" />
+            <path d="M28 10L29 7L32 6L29 5L28 2L27 5L24 6L27 7L28 10Z" fill="#F59E0B" />
+        </svg>
+    );
+}
+
+function MathsIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#EFF6FF" />
+            <rect x="10" y="10" width="20" height="20" rx="4" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5" />
+            <rect x="13" y="13" width="14" height="6" rx="2" fill="#DBEAFE" />
+            <path d="M15 22H17M23 22H25M15 26H17M23 26H25" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+            <path d="M20 22V26" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="31" cy="11" r="2" fill="#F59E0B" />
+        </svg>
+    );
+}
+
+function EnglishIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#EEF2FF" />
+            <path d="M9 13C9 11.8954 9.89543 11 11 11H20V28H11C9.89543 28 9 27.1046 9 26V13Z" fill="#6366F1" />
+            <path d="M31 13C31 11.8954 30.1046 11 29 11H20V28H29C30.1046 28 31 27.1046 31 26V13Z" fill="#818CF8" />
+            <path d="M20 11V28" stroke="#4338CA" strokeWidth="1.5" />
+            <path d="M12 15H17M12 19H17M12 23H15" stroke="#E0E7FF" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M23 15H28M23 19H28M23 23H26" stroke="#EEF2FF" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M27 9L28.5 6L31.5 5L28.5 4L27 1L25.5 4L22.5 5L25.5 6L27 9Z" fill="#EC4899" />
+        </svg>
+    );
+}
+
+function SocialIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#FFFBEB" />
+            <circle cx="20" cy="19" r="9.5" fill="#F59E0B" stroke="#D97706" strokeWidth="1.5" />
+            <path d="M11 19C11 19 14 16 18 18C22 20 25 17 28.5 18.5" stroke="#FDE68A" strokeWidth="1.5" strokeLinecap="round" />
+            <ellipse cx="20" cy="19" rx="9.5" ry="4" stroke="#D97706" strokeWidth="1.2" fill="none" opacity="0.6" />
+            <path d="M20 9.5V28.5" stroke="#D97706" strokeWidth="1.2" opacity="0.6" />
+            <path d="M14 29H26" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+            <path d="M20 28.5V31" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+    );
+}
+
+function PoliticalIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#EEF2FF" />
+            <path d="M20 8V28" stroke="#4338CA" strokeWidth="2" strokeLinecap="round" />
+            <path d="M11 13H29" stroke="#4338CA" strokeWidth="2" strokeLinecap="round" />
+            <path d="M11 13L8 21H14L11 13Z" fill="#818CF8" />
+            <path d="M29 13L26 21H32L29 13Z" fill="#818CF8" />
+            <path d="M16 29H24" stroke="#312E81" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="20" cy="8" r="2" fill="#F59E0B" />
+        </svg>
+    );
+}
+
+function HistoryIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#FFFBEB" />
+            <rect x="11" y="9" width="18" height="3" rx="1" fill="#D97706" />
+            <rect x="11" y="27" width="18" height="3" rx="1" fill="#D97706" />
+            <path d="M14 12V27M20 12V27M26 12V27" stroke="#F59E0B" strokeWidth="2.2" strokeLinecap="round" />
+            <path d="M9 31H31" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+            <path d="M9 7H31" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+    );
+}
+
+function EconomicsIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#ECFDF5" />
+            <rect x="10" y="22" width="4" height="7" rx="1" fill="#A7F3D0" stroke="#059669" strokeWidth="1" />
+            <rect x="16" y="17" width="4" height="12" rx="1" fill="#34D399" stroke="#059669" strokeWidth="1" />
+            <rect x="22" y="12" width="4" height="17" rx="1" fill="#10B981" stroke="#047857" strokeWidth="1" />
+            <rect x="28" y="8" width="4" height="21" rx="1" fill="#047857" stroke="#065F46" strokeWidth="1" />
+            <path d="M10 20L17 14L23 16L30 7" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M26 7H30V11" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    );
+}
+
+// ── SUBJECT CONFIGURATIONS WITH ILLUSTRATED ICONS ──
 const schoolSubjects = [
     { 
         name: "Science", 
         key: "science", 
-        icon: <TestTube2 className="w-5 h-5" />, 
+        icon: <ScienceIllustIcon />, 
         color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-900/40",
         badgeBg: "bg-emerald-100/70 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
-        // Subtle flask/atom motif SVG
-        motif: (
-            <svg className="w-24 h-24 text-emerald-500/10 dark:text-emerald-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M19 22H5a1 1 0 0 1-1-1v-1a4 4 0 0 1 2.34-3.66l2.66-1.33V10h-1a1 1 0 0 1 0-2h8a1 1 0 0 1 0 2h-1v5.01l2.66 1.33A4 4 0 0 1 20 20v1a1 1 0 0 1-1 1zM8.5 13l-3.32 1.66A2 2 0 0 0 4 16.5V17h16v-.5a2 2 0 0 0-1.18-1.84L15.5 13V10h-7v3z"/>
-            </svg>
-        )
     },
     { 
         name: "Mathematics", 
         key: "maths", 
-        icon: <Sigma className="w-5 h-5" />, 
+        icon: <MathsIllustIcon />, 
         color: "bg-blue-50 text-[#1D4ED8] dark:bg-blue-950/40 dark:text-blue-400 border-blue-200/60 dark:border-blue-900/40",
         badgeBg: "bg-blue-100/70 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300",
-        motif: (
-            <svg className="w-24 h-24 text-blue-500/10 dark:text-blue-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M18 6H6.83l5.58 6-5.58 6H18a1 1 0 0 1 0 2H4a1 1 0 0 1-.74-1.67L9.58 12 3.26 5.67A1 1 0 0 1 4 4h14a1 1 0 0 1 0 2z"/>
-            </svg>
-        )
     },
     { 
         name: "English", 
         key: "english", 
-        icon: <BookText className="w-5 h-5" />, 
+        icon: <EnglishIllustIcon />, 
         color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 border-indigo-200/60 dark:border-indigo-900/40",
         badgeBg: "bg-indigo-100/70 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
-        motif: (
-            <svg className="w-24 h-24 text-indigo-500/10 dark:text-indigo-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5zm2 0a.5.5 0 0 0 .5.5H18V4H6.5a.5.5 0 0 0-.5.5v15zM8 7h8v2H8V7zm0 4h8v2H8v-2z"/>
-            </svg>
-        )
     },
     { 
         name: "Social Studies", 
         key: "social", 
-        icon: <Landmark className="w-5 h-5" />, 
+        icon: <SocialIllustIcon />, 
         color: "bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border-amber-200/60 dark:border-amber-900/40",
         badgeBg: "bg-amber-100/70 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
-        motif: (
-            <svg className="w-24 h-24 text-amber-500/10 dark:text-amber-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 17.93V18a1 1 0 0 0-1-1h-1a1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1H7a1 1 0 0 1-1-1v-2.07A8 8 0 0 1 12 4a7.92 7.92 0 0 1 5.66 2.34L16 8a1 1 0 0 0 0 1.41l2 2a1 1 0 0 0 1.41 0l.52-.52A8 8 0 0 1 13 19.93z"/>
-            </svg>
-        )
     },
 ];
 
@@ -88,60 +165,112 @@ const seniorSubjects = [
     { 
         name: "Political Science", 
         key: "political-science", 
-        icon: <Scale className="w-5 h-5" />, 
+        icon: <PoliticalIllustIcon />, 
         color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 border-indigo-200/60 dark:border-indigo-900/40",
         badgeBg: "bg-indigo-100/70 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
-        motif: (
-            <svg className="w-24 h-24 text-indigo-500/10 dark:text-indigo-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2L3 7v2h18V7l-9-5zm-7 9v8h2v-8H5zm5 0v8h2v-8h-2zm5 0v8h2v-8h-2zm5 0v8h2v-8h-2zM2 21h20v2H2v-2z"/>
-            </svg>
-        )
     },
     { 
         name: "History", 
         key: "history", 
-        icon: <Landmark className="w-5 h-5" />, 
+        icon: <HistoryIllustIcon />, 
         color: "bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border-amber-200/60 dark:border-amber-900/40",
         badgeBg: "bg-amber-100/70 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300",
-        motif: (
-            <svg className="w-24 h-24 text-amber-500/10 dark:text-amber-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm1 17.93V18a1 1 0 0 0-1-1h-1a1 1 0 0 1-1-1v-1a1 1 0 0 0-1-1H7a1 1 0 0 1-1-1v-2.07A8 8 0 0 1 12 4a7.92 7.92 0 0 1 5.66 2.34L16 8a1 1 0 0 0 0 1.41l2 2a1 1 0 0 0 1.41 0l.52-.52A8 8 0 0 1 13 19.93z"/>
-            </svg>
-        )
     },
     { 
         name: "English", 
         key: "english", 
-        icon: <BookText className="w-5 h-5" />, 
+        icon: <EnglishIllustIcon />, 
         color: "bg-blue-50 text-[#1D4ED8] dark:bg-blue-950/40 dark:text-blue-400 border-blue-200/60 dark:border-blue-900/40",
         badgeBg: "bg-blue-100/70 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300",
-        motif: (
-            <svg className="w-24 h-24 text-blue-500/10 dark:text-blue-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5zm2 0a.5.5 0 0 0 .5.5H18V4H6.5a.5.5 0 0 0-.5.5v15zM8 7h8v2H8V7zm0 4h8v2H8v-2z"/>
-            </svg>
-        )
     },
     { 
         name: "Economics", 
         key: "economics", 
-        icon: <TrendingUp className="w-5 h-5" />, 
+        icon: <EconomicsIllustIcon />, 
         color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-900/40",
         badgeBg: "bg-emerald-100/70 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300",
-        motif: (
-            <svg className="w-24 h-24 text-emerald-500/10 dark:text-emerald-400/10 absolute -right-2 -bottom-2 pointer-events-none" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/>
-            </svg>
-        )
     },
 ];
 
+function SyllabusIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#EFF6FF" />
+            <path d="M10 12C10 10.8954 10.8954 10 12 10H20V28H12C10.8954 28 10 27.1046 10 26V12Z" fill="#3B82F6" />
+            <path d="M30 12C30 10.8954 29.1046 10 28 10H20V28H28C29.1046 28 30 27.1046 30 26V12Z" fill="#60A5FA" />
+            <path d="M20 10V28" stroke="#1D4ED8" strokeWidth="1.5" />
+            <rect x="22" y="8" width="3" height="8" fill="#F59E0B" rx="1" />
+            <circle cx="30" cy="10" r="1.5" fill="#F59E0B" />
+        </svg>
+    );
+}
+
+function NotesIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#EEF2FF" />
+            <rect x="11" y="9" width="18" height="22" rx="3" fill="#6366F1" stroke="#4338CA" strokeWidth="1.5" />
+            <rect x="13" y="11" width="14" height="18" rx="2" fill="#EEF2FF" />
+            <path d="M16 15H24M16 19H24M16 23H21" stroke="#4338CA" strokeWidth="1.5" strokeLinecap="round" />
+            <circle cx="27" cy="11" r="2" fill="#EC4899" />
+        </svg>
+    );
+}
+
+function NcertIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#ECFDF5" />
+            <path d="M20 11L7 17.5L20 24L33 17.5L20 11Z" fill="#10B981" stroke="#047857" strokeWidth="1.2" strokeLinejoin="round" />
+            <path d="M12 20.5V25.5C12 27.5 15.5 29.5 20 29.5C24.5 29.5 28 27.5 28 25.5V20.5" stroke="#047857" strokeWidth="1.8" strokeLinecap="round" />
+            <path d="M30 19V26" stroke="#F59E0B" strokeWidth="1.8" strokeLinecap="round" />
+            <circle cx="30" cy="27" r="1.5" fill="#F59E0B" />
+        </svg>
+    );
+}
+
+function PyqIllustIcon({ className }: { className?: string }) {
+    return (
+        <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+            <circle cx="20" cy="20" r="18" fill="#FFFBEB" />
+            <rect x="11" y="9" width="18" height="22" rx="3" fill="#F59E0B" stroke="#D97706" strokeWidth="1.5" />
+            <rect x="13" y="11" width="14" height="18" rx="2" fill="#FFFBEB" />
+            <path d="M16 15H24M16 19H22" stroke="#D97706" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M28 9L29 7L31 6L29 5L28 3L27 5L25 6L27 7L28 9Z" fill="#EA580C" />
+        </svg>
+    );
+}
+
 // ── SECONDARY RESOURCE CATEGORIES DISCOVERY ──
 const additionalResourceTypes = [
-    { name: "Syllabus", desc: "Official CBSE curriculum guide", icon: <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400" />, href: "/resources/syllabus" },
-    { name: "Revision Notes", desc: "Key concept summaries", icon: <FileText className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />, href: "/resources/notes" },
-    { name: "NCERT Solutions", desc: "Step-by-step exercise answers", icon: <GraduationCap className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />, href: "/resources/ncert-solutions" },
-    { name: "Sample Papers", desc: "Mock exams & marking scheme", icon: <FileCheck className="w-4 h-4 text-amber-600 dark:text-amber-400" />, href: "/resources/sample-papers" },
-    { name: "Previous Papers", desc: "Past board question papers", icon: <Sparkles className="w-4 h-4 text-sky-600 dark:text-sky-400" />, href: "/resources/pyq" },
+    { 
+        name: "Syllabus", 
+        desc: "Official CBSE curriculum guide", 
+        icon: <SyllabusIllustIcon />, 
+        color: "bg-blue-50 text-[#1D4ED8] dark:bg-blue-950/40 dark:text-blue-400 border-blue-200/60 dark:border-blue-900/40",
+        href: "/resources/syllabus" 
+    },
+    { 
+        name: "Revision Notes", 
+        desc: "Key concept summaries", 
+        icon: <NotesIllustIcon />, 
+        color: "bg-indigo-50 text-indigo-600 dark:bg-indigo-950/40 dark:text-indigo-400 border-indigo-200/60 dark:border-indigo-900/40",
+        href: "/resources/notes" 
+    },
+    { 
+        name: "NCERT Solutions", 
+        desc: "Step-by-step exercise answers", 
+        icon: <NcertIllustIcon />, 
+        color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border-emerald-200/60 dark:border-emerald-900/40",
+        href: "/resources/ncert-solutions" 
+    },
+    { 
+        name: "Previous Papers", 
+        desc: "Past board question papers", 
+        icon: <PyqIllustIcon />, 
+        color: "bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border-amber-200/60 dark:border-amber-900/40",
+        href: "/resources/pyq" 
+    },
 ];
 
 function SchoolPageContent() {
@@ -166,59 +295,31 @@ function SchoolPageContent() {
 
     const currentSubjects = (activeTab === 'Class 11' || activeTab === 'Class 12') ? seniorSubjects : schoolSubjects;
 
-    const quickInfoCards = [
-        {
-            title: "Prepare Smarter",
-            category: "CBSE SYLLABUS",
-            description: "Official curriculum breakdown →",
-            icon: <BookOpen className="w-5 h-5 text-amber-600 dark:text-amber-400" />,
-            href: "/resources/syllabus",
-            iconBg: "bg-amber-50/80 dark:bg-amber-950/40 border-amber-200/60 dark:border-amber-900/40",
-            hoverBorder: "hover:border-amber-400/50 dark:hover:border-amber-600/50"
-        },
-        {
-            title: "Revision Notes",
-            category: "CHAPTER SUMMARY",
-            description: "Quick concept maps & summaries →",
-            icon: <FileText className="w-5 h-5 text-blue-600 dark:text-blue-400" />,
-            href: "/resources/notes",
-            iconBg: "bg-blue-50/80 dark:bg-blue-950/40 border-blue-200/60 dark:border-blue-900/40",
-            hoverBorder: "hover:border-blue-400/50 dark:hover:border-blue-600/50"
-        },
-        {
-            title: "NCERT Solutions",
-            category: "STEP-BY-STEP",
-            description: "Detailed exercise solutions →",
-            icon: <GraduationCap className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />,
-            href: "/resources/ncert-solutions",
-            iconBg: "bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-200/60 dark:border-emerald-900/40",
-            hoverBorder: "hover:border-emerald-400/50 dark:hover:border-emerald-600/50"
-        },
-    ];
+
 
     return (
-        <div className="min-h-screen bg-[#FAFCFF] dark:bg-slate-950 text-slate-900 dark:text-slate-100 pt-24 pb-16">
+        <div className="min-h-screen bg-[#FAFCFF] dark:bg-slate-950 text-slate-900 dark:text-slate-100 pt-16 sm:pt-20 pb-12">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 
                 {/* ── 1. BALANCED TWO-COLUMN HERO WITH PREMIUM ILLUSTRATION ── */}
-                <section className="mb-8">
-                    <div className="rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 sm:p-8 lg:p-9 shadow-xs relative overflow-hidden">
+                <section className="mb-6 sm:mb-7">
+                    <div className="rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-7 lg:p-7 shadow-xs relative overflow-hidden">
                         {/* Faint blue atmosphere glow */}
                         <div className="absolute -top-20 -right-20 w-80 h-80 bg-blue-500/8 dark:bg-blue-500/12 rounded-full blur-3xl pointer-events-none" />
                         <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
 
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-10">
                             
                             {/* LEFT COLUMN: Content */}
-                            <div className="lg:col-span-7 space-y-4 text-left">
+                            <div className="lg:col-span-8 space-y-4 text-left">
                                 {/* Eyebrow Badge */}
                                 <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-900/40 text-[#1D4ED8] dark:text-blue-300 text-[11px] font-extrabold uppercase tracking-wider">
                                     <Sparkles className="w-3.5 h-3.5" />
                                     <span>STUDY RESOURCES</span>
                                 </div>
 
-                                {/* Main Title */}
-                                <h1 className="text-[28px] sm:text-[36px] lg:text-[42px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-[1.15]">
+                                {/* Main Title (Guaranteed Single Line on Desktop) */}
+                                <h1 className="text-[26px] sm:text-[32px] md:text-[36px] lg:text-[34px] xl:text-[38px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-snug whitespace-normal lg:whitespace-nowrap">
                                     Target <span className="text-[#1D4ED8] dark:text-blue-400">{activeTab}</span> CBSE 2026–27
                                 </h1>
 
@@ -245,8 +346,8 @@ function SchoolPageContent() {
                             </div>
 
                             {/* RIGHT COLUMN: Refined Educational Illustration */}
-                            <div className="lg:col-span-5 flex items-center justify-center relative">
-                                <div className="relative w-full max-w-[320px] aspect-[4/3] sm:aspect-square flex items-center justify-center p-4 rounded-[20px] bg-gradient-to-b from-[#F4F7FF] to-[#EEF2FF] dark:from-slate-800/60 dark:to-slate-900/60 border border-[#DCE4FF] dark:border-slate-800 shadow-inner overflow-hidden">
+                            <div className="lg:col-span-4 flex items-center justify-center relative">
+                                <div className="relative w-full max-w-[280px] sm:max-w-[300px] aspect-[4/3] sm:aspect-square flex items-center justify-center p-4 rounded-[20px] bg-gradient-to-b from-[#F4F7FF] to-[#EEF2FF] dark:from-slate-800/60 dark:to-slate-900/60 border border-[#DCE4FF] dark:border-slate-800 shadow-inner overflow-hidden">
                                     
                                     {/* Background decorative subtle dotted grid */}
                                     <svg className="absolute inset-0 w-full h-full opacity-20 text-[#1D4ED8]" fill="none">
@@ -329,51 +430,23 @@ function SchoolPageContent() {
                     </div>
                 </section>
 
-                {/* ── 3. QUICK RESOURCE SHORTCUT CARDS (3 COMPACT CARDS) ── */}
-                <section className="mb-10 sm:mb-12">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {quickInfoCards.map((card, idx) => (
-                            <Link 
-                                key={idx} 
-                                href={card.href}
-                                className="group block"
-                            >
-                                <div className={cn(
-                                    "h-full bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 dark:border-slate-800 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_6px_20px_-4px_rgba(29,78,216,0.08)] flex items-start gap-4",
-                                    card.hoverBorder
-                                )}>
-                                    <div className={cn("p-3 rounded-[12px] border shrink-0 transition-transform duration-200 group-hover:scale-105", card.iconBg)}>
-                                        {card.icon}
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <span className="block text-[10px] font-black text-slate-400 dark:text-slate-500 tracking-wider uppercase mb-0.5">
-                                            {card.category}
-                                        </span>
-                                        <h3 className="text-[15.5px] font-bold text-[#0B1F4B] dark:text-white group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors leading-tight mb-1">
-                                            {card.title}
-                                        </h3>
-                                        <p className="text-[12px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed flex items-center gap-1 group-hover:text-[#1D4ED8]">
-                                            <span>{card.description}</span>
-                                        </p>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
-                </section>
+
 
                 {/* ── 4. SUBJECT-WISE CURRICULUM & MATERIALS ── */}
                 <section className="mb-12">
-                    {/* Header Line */}
-                    <div className="mb-6 pb-4 border-b border-slate-200/80 dark:border-slate-800">
-                        <div className="inline-flex items-center gap-2 mb-1">
-                            <Layers className="w-4.5 h-4.5 text-[#1D4ED8]" />
-                            <h2 className="text-[22px] sm:text-[25px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight">
+                    {/* Header Block (Centered) */}
+                    <div className="mb-6 pb-4 border-b border-slate-200/60 dark:border-slate-800 text-center flex flex-col items-center justify-center">
+                        {/* Top Line: Centered Bullet + Light Blue Subject-wise Resources Label */}
+                        <div className="flex items-center justify-center gap-2 mb-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#1D4ED8] shrink-0" />
+                            <h2 className="text-[14px] sm:text-[15px] font-extrabold text-[#1D4ED8] dark:text-blue-400 tracking-tight">
                                 Subject-wise Resources
                             </h2>
                         </div>
-                        <p className="text-[13px] text-slate-500 dark:text-slate-400 font-medium">
-                            Official curriculum and learning materials for <span className="font-semibold text-slate-700 dark:text-slate-200">{activeTab}</span> (Session 2026–27).
+
+                        {/* Bottom Line: Large Grey Target Class Description Text */}
+                        <p className="text-[20px] sm:text-[24px] lg:text-[26px] font-black text-slate-600 dark:text-slate-300 tracking-tight">
+                            {activeTab} CBSE 2026-27 (Syllabus PDF)
                         </p>
                     </div>
 
@@ -384,12 +457,9 @@ function SchoolPageContent() {
                                 key={subject.key} 
                                 className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-5.5 hover:border-[#1D4ED8]/30 hover:shadow-[0_6px_24px_-4px_rgba(11,31,75,0.08)] transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                             >
-                                {/* Vector Motif Background Overlay */}
-                                {subject.motif}
-
                                 {/* Subject Info */}
                                 <div className="flex items-center gap-3.5 min-w-0 relative z-10">
-                                    <div className={cn("p-3 rounded-[12px] border shrink-0 transition-transform duration-200 group-hover:scale-105", subject.color)}>
+                                    <div className="shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
                                         {subject.icon}
                                     </div>
                                     <div className="min-w-0">
@@ -440,30 +510,37 @@ function SchoolPageContent() {
 
                 {/* ── 5. MORE RESOURCE TYPES (DISCOVERY ROW) ── */}
                 <section className="mb-12">
-                    <div className="mb-5">
-                        <h3 className="text-[17px] font-bold text-[#0B1F4B] dark:text-white tracking-tight">
-                            More Resource Formats
-                        </h3>
-                        <p className="text-[12.5px] text-slate-500 dark:text-slate-400 font-medium">
-                            Browse by specialized study material format for targeted preparation.
+                    {/* Header Block (Centered) */}
+                    <div className="mb-6 pb-4 border-b border-slate-200/60 dark:border-slate-800 text-center flex flex-col items-center justify-center">
+                        {/* Top Line: Centered Bullet + Light Blue More Resource Formats Label */}
+                        <div className="flex items-center justify-center gap-2 mb-1.5">
+                            <span className="w-2 h-2 rounded-full bg-[#1D4ED8] shrink-0" />
+                            <h3 className="text-[14px] sm:text-[15px] font-extrabold text-[#1D4ED8] dark:text-blue-400 tracking-tight">
+                                More Resource Formats
+                            </h3>
+                        </div>
+
+                        {/* Bottom Line: Large Grey Short Description Text */}
+                        <p className="text-[20px] sm:text-[24px] lg:text-[26px] font-black text-slate-600 dark:text-slate-300 tracking-tight">
+                            {activeTab} Study Materials by Format
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
                         {additionalResourceTypes.map((res, idx) => (
                             <Link 
                                 key={idx}
                                 href={res.href}
-                                className="group p-3.5 rounded-[12px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-[#1D4ED8]/40 hover:shadow-2xs transition-all flex flex-col justify-between gap-2"
+                                className="group p-4 rounded-[14px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-[#1D4ED8]/40 hover:shadow-2xs transition-all flex items-center gap-3.5"
                             >
-                                <div className="p-2 rounded-[8px] bg-slate-50 dark:bg-slate-800 w-fit group-hover:scale-105 transition-transform">
+                                <div className={cn("p-2.5 rounded-[10px] border shadow-2xs group-hover:scale-105 transition-transform flex items-center justify-center shrink-0", res.color)}>
                                     {res.icon}
                                 </div>
-                                <div>
-                                    <h4 className="text-[13.5px] font-bold text-[#0B1F4B] dark:text-white group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors">
+                                <div className="min-w-0 flex-1">
+                                    <h4 className="text-[14px] font-extrabold text-[#0B1F4B] dark:text-white group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors truncate">
                                         {res.name}
                                     </h4>
-                                    <p className="text-[11px] text-slate-400 dark:text-slate-500 font-medium line-clamp-1 mt-0.5">
+                                    <p className="text-[11.5px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
                                         {res.desc}
                                     </p>
                                 </div>

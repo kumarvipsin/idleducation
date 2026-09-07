@@ -37,6 +37,7 @@ export async function getBlogPostBySlug(slug: string) {
 export async function addBlogPost(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const imageFile = rawData.image as File | null;
+  const authorRole = (rawData.authorRole as string) || 'admin';
   
   const postData: any = {
     title: rawData.title as string,
@@ -45,7 +46,11 @@ export async function addBlogPost(formData: FormData) {
     excerpt: rawData.excerpt as string,
     content: rawData.content as string,
     author: rawData.author as string,
+    authorRole,
+    authorId: (rawData.authorId as string) || '',
     date: rawData.date as string,
+    // Admin posts are auto-approved; teacher/student posts need approval
+    status: authorRole === 'admin' ? 'approved' : 'pending',
     createdAt: serverTimestamp(),
   };
 
@@ -60,34 +65,67 @@ export async function addBlogPost(formData: FormData) {
     const { revalidatePath } = await import('next/cache');
     revalidatePath('/blog');
     
-    return { success: true, message: "Blog post added successfully." };
+    const msg = authorRole === 'admin'
+      ? "Blog post published successfully."
+      : "Blog post submitted for admin approval.";
+    return { success: true, message: msg };
   } catch (error: any) {
     console.error("Error adding blog post:", error);
     return { success: false, message: `Failed to add post: ${error.message}` };
   }
 }
 
-export async function editBlogPost(id: string, formData: FormData) {
+export async function editBlogPost(id: string, formData: FormData, userRole?: string, userId?: string, userName?: string) {
   const rawData = Object.fromEntries(formData.entries());
   const imageFile = rawData.image as File | null;
   
-  const postData: any = {
-    title: rawData.title as string,
-    slug: generateSlug(rawData.title as string),
-    category: rawData.category as string,
-    excerpt: rawData.excerpt as string,
-    content: rawData.content as string,
-    author: rawData.author as string,
-    date: rawData.date as string,
-  };
-
   try {
+    const docRef = doc(db, "blogPosts", id);
+    const existingSnap = await getDoc(docRef);
+    if (!existingSnap.exists()) {
+      return { success: false, message: "Blog post not found." };
+    }
+    const existingData = existingSnap.data();
+
+    // Permissions check: Admin can edit any post. Teacher/Student can only edit their own PENDING post.
+    if (userRole && userRole !== 'admin') {
+      // Block editing approved posts — only admin can edit after approval
+      if (existingData.status === 'approved') {
+        return { success: false, message: "This post has been approved. Only admin can edit approved posts." };
+      }
+      // Ensure role matches the post's authorRole (if defined)
+      if (existingData.authorRole && existingData.authorRole !== userRole) {
+        return { success: false, message: "Unauthorized: Role mismatch – cannot edit posts of other roles." };
+      }
+      const isOwnerById = userId && existingData.authorId && existingData.authorId === userId;
+      const isOwnerByName = userName && existingData.author && existingData.author.toLowerCase() === userName.toLowerCase();
+      if (!isOwnerById && !isOwnerByName) {
+        return { success: false, message: "Unauthorized: You can only edit your own blog posts." };
+      }
+    }
+  
+    const postData: any = {
+      title: rawData.title as string,
+      slug: generateSlug(rawData.title as string),
+      category: rawData.category as string,
+      excerpt: rawData.excerpt as string,
+      content: rawData.content as string,
+      author: rawData.author as string,
+      date: rawData.date as string,
+    };
+
+    if (rawData.authorRole) {
+      postData.authorRole = rawData.authorRole as string;
+    }
+    if (rawData.authorId) {
+      postData.authorId = rawData.authorId as string;
+    }
+
     if (imageFile && imageFile.size > 0) {
       const destination = `blog/${id}-${imageFile.name}`;
       postData.imageUrl = await uploadFileToGCS(imageFile, destination);
     }
 
-    const docRef = doc(db, "blogPosts", id);
     await updateDoc(docRef, postData);
 
     const { revalidatePath } = await import('next/cache');
@@ -100,8 +138,12 @@ export async function editBlogPost(id: string, formData: FormData) {
   }
 }
 
-export async function deleteBlogPost(id: string) {
+export async function deleteBlogPost(id: string, userRole?: string) {
     try {
+        if (userRole && userRole !== 'admin') {
+            return { success: false, message: "Unauthorized: Only administrators can delete blog posts." };
+        }
+
         const docRef = doc(db, "blogPosts", id);
         await deleteDoc(docRef);
         
@@ -113,4 +155,28 @@ export async function deleteBlogPost(id: string) {
         console.error("Error deleting blog post:", error);
         return { success: false, message: `Failed to delete post: ${error.message}` };
     }
+}
+
+export async function approveBlogPost(id: string, userRole?: string) {
+  try {
+    if (userRole && userRole !== 'admin') {
+      return { success: false, message: "Unauthorized: Only administrators can approve blog posts." };
+    }
+
+    const docRef = doc(db, "blogPosts", id);
+    const existingSnap = await getDoc(docRef);
+    if (!existingSnap.exists()) {
+      return { success: false, message: "Blog post not found." };
+    }
+
+    await updateDoc(docRef, { status: 'approved' });
+
+    const { revalidatePath } = await import('next/cache');
+    revalidatePath('/blog');
+
+    return { success: true, message: "Blog post approved and published successfully." };
+  } catch (error: any) {
+    console.error("Error approving blog post:", error);
+    return { success: false, message: `Failed to approve post: ${error.message}` };
+  }
 }
