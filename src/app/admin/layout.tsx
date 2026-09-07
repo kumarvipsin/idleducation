@@ -18,7 +18,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -119,6 +119,57 @@ function AdminLayout({
                             <Link href="/admin/access-logs">
                                 <Activity />
                                 <span>Access Hub</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                <SidebarMenuSub value="attendance">
+                    <SidebarMenuSubButton>
+                        <ClipboardList />
+                        <span>Attendance</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance'}>
+                            <Link href="/admin/attendance">
+                                <SlidersHorizontal />
+                                <span>Overview</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/mark'}>
+                            <Link href="/admin/attendance/mark">
+                                <ClipboardList />
+                                <span>Mark Attendance</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/weekly'}>
+                            <Link href="/admin/attendance/weekly">
+                                <CalendarDays />
+                                <span>Weekly Reports</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/monthly'}>
+                            <Link href="/admin/attendance/monthly">
+                                <CalendarDays />
+                                <span>Monthly Reports</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/students'}>
+                            <Link href="/admin/attendance/students">
+                                <Users />
+                                <span>Students</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/classes'}>
+                            <Link href="/admin/attendance/classes">
+                                <BookMarked />
+                                <span>Classes & Batches</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/subjects'}>
+                            <Link href="/admin/attendance/subjects">
+                                <BookOpen />
+                                <span>Subjects</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
@@ -261,6 +312,12 @@ function AdminLayout({
                             <Link href="/admin/excellence-results">
                                 <Star />
                                 <span>Excellence Results</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/social-media')}>
+                            <Link href="/admin/social-media">
+                                <Share2 />
+                                <span>Social Media Settings</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>

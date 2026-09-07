@@ -359,6 +359,7 @@
 
 /* Floating widgets: hide when mobile drawer or any modal dialog is open */
 body:has([data-mobile-drawer][data-state="open"]) #whatsapp-floating-btn,
+body:has([data-mobile-drawer][data-state="open"]) #idl-ai-floating-btn,
 body:has([data-mobile-drawer][data-state="open"]) a[href*="wa.me"],
 body:has([data-mobile-drawer][data-state="open"]) [data-nextjs-toast-wrapper],
 body:has([data-mobile-drawer][data-state="open"]) [data-next-badge],
@@ -366,16 +367,19 @@ body:has([data-mobile-drawer][data-state="open"]) #__next-build-watcher,
 body:has([data-mobile-drawer][data-state="open"]) [data-nextjs-dev-tools-button],
 body:has([data-mobile-drawer][data-state="open"]) nextjs-portal,
 body:has(header[data-mobile-menu-open="true"]) #whatsapp-floating-btn,
+body:has(header[data-mobile-menu-open="true"]) #idl-ai-floating-btn,
 body:has(header[data-mobile-menu-open="true"]) a[href*="wa.me"],
 body:has(header[data-mobile-menu-open="true"]) [data-nextjs-dev-tools-button],
 body:has(header[data-mobile-menu-open="true"]) nextjs-portal,
-body:has([role="dialog"][data-state="open"]) #whatsapp-floating-btn,
-body:has([role="dialog"][data-state="open"]) a[href*="wa.me"],
-body:has([role="dialog"][data-state="open"]) [data-next-badge],
-body:has([role="dialog"][data-state="open"]) #__next-build-watcher,
-body:has([role="dialog"][data-state="open"]) [data-nextjs-dev-tools-button],
-body:has([role="dialog"][data-state="open"]) nextjs-portal,
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) #whatsapp-floating-btn,
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) #idl-ai-floating-btn,
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) a[href*="wa.me"],
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) [data-next-badge],
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) #__next-build-watcher,
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) [data-nextjs-dev-tools-button],
+body:has([role="dialog"][data-state="open"]:not([aria-label="IDL AI Assistant"])) nextjs-portal,
 body:has([data-radix-dialog-content]) #whatsapp-floating-btn,
+body:has([data-radix-dialog-content]) #idl-ai-floating-btn,
 body:has([data-radix-dialog-content]) a[href*="wa.me"],
 body:has([data-radix-dialog-content]) [data-next-badge],
 body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
@@ -436,6 +440,77 @@ body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
   .mobile-accordion-grid[data-open="true"],
   .mobile-accordion-chevron {
     transition: none !important;
+  }
+}
+
+/* ==========================================================================
+   IDL AI COPILOT — UNIQUE ACTIVATION ANIMATIONS
+   Step 1: Soft IDL-blue glow on trigger
+   Step 2: 4-point AI sparkle flash (350-450ms)
+   Step 3: Compact panel reveal (opacity 0->1, translateY 10px->0, scale 0.98->1)
+   Step 4: Header AI icon activation pulse
+   Respects prefers-reduced-motion
+   ========================================================================== */
+@keyframes ai-trigger-glow {
+  0% {
+    box-shadow: 0 0 0 0 rgba(29, 78, 216, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(29, 78, 216, 0.45);
+  }
+  100% {
+    box-shadow: 0 4px 16px rgba(29, 78, 216, 0.32);
+  }
+}
+
+@keyframes ai-sparkle-flash {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1.15) rotate(12deg);
+  }
+  75% {
+    opacity: 0.85;
+    transform: scale(1) rotate(18deg);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(25deg);
+  }
+}
+
+@keyframes ai-icon-activate {
+  0% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-ai-trigger-glow {
+  animation: ai-trigger-glow 450ms ease-out forwards;
+}
+
+.animate-ai-sparkle {
+  animation: ai-sparkle-flash 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-ai-icon-activate {
+  animation: ai-icon-activate 380ms ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-ai-trigger-glow,
+  .animate-ai-sparkle,
+  .animate-ai-icon-activate {
+    animation: none !important;
   }
 }
 

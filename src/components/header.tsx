@@ -28,6 +28,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "./ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { SocialLinks } from "./social-links";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "./gcs-image";
 import { ScrollArea } from "./ui/scroll-area";
@@ -790,6 +791,9 @@ export function Header() {
                             </span>
                         </a>
 
+                        {/* Social Media Links (Desktop: Phone -> Instagram -> YouTube -> Facebook -> Notification -> Login) */}
+                        <SocialLinks variant="header" />
+
                         {/* Recent Updates Notification Bell Trigger */}
                         <button 
                             type="button"
@@ -1199,14 +1203,17 @@ export function Header() {
                                     </div>
                                 </div>
 
-                                {/* Bottom Call Area: Fixed at bottom, grounded, respecting safe areas */}
-                                <div className="px-5 sm:px-6 py-4 border-t border-slate-200/70 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))]">
+                                {/* Unified Bottom Utility Group: FOLLOW IDL + Social Buttons + Primary Call Button */}
+                                <div className="px-5 sm:px-6 py-3.5 sm:py-4 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] space-y-2.5 sm:space-y-3">
+                                    <SocialLinks variant="mobile-menu" onLinkClick={() => setIsMobileMenuOpen(false)} />
+
                                     <a 
                                         href="tel:8860040010" 
-                                        className="w-full flex items-center justify-center gap-2.5 h-12 sm:h-12.5 rounded-[10px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-all duration-150 ease-out shadow-sm active:scale-[0.99] cursor-pointer"
+                                        aria-label="Call IDL Education at 8860040010"
+                                        className="w-full flex items-center justify-center gap-2 h-11 sm:h-11.5 rounded-[9px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-colors duration-150 ease-out shadow-xs active:scale-[0.99] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1F4B]/50 focus-visible:ring-offset-2"
                                     >
-                                        <Phone className="w-5 h-5 text-white stroke-[2.2] shrink-0" />
-                                        <span className="text-[18px] sm:text-[19px] font-bold text-white tracking-tight leading-none">
+                                        <Phone className="w-4 h-4 text-white shrink-0" />
+                                        <span className="text-[15.5px] sm:text-[16px] font-semibold text-white tracking-tight leading-none">
                                             8860040010
                                         </span>
                                     </a>
