@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -255,79 +257,44 @@ function TestSeriesClipboardIcon({ className }: { className?: string }) {
     );
 }
 
-// 5. Illustrated Gift Box of Knowledge with Gold Ribbon & Sparkles (Tile 05 - Free Courses)
+// 5. Polished Video Learning Display with Play Shield & Academic Star (Tile 05 - Free Courses)
 function FreeCourseIcon({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 40 40" fill="none" className={cn("shrink-0", className)} aria-hidden="true">
-            {/* Ambient Sparkles */}
-            <path d="M10 5L11 3L12 5L14 6L12 7L11 9L10 7L8 6L10 5Z" fill="#F59E0B" />
-            <path d="M30 6L31 4L32 6L34 7L32 8L31 10L30 8L28 7L30 6Z" fill="#F59E0B" />
-            <circle cx="20" cy="3" r="1.2" fill="#EA580C" />
-            <path d="M6 13L7 11.5L8 13L9.5 14L8 15L7 16.5L6 15L4.5 14L6 13Z" fill="#EA580C" opacity="0.8" />
-            <path d="M34 14L34.8 13L35.6 14L36.6 14.8L35.6 15.6L34.8 16.6L34 15.6L33 14.8L34 14Z" fill="#F59E0B" opacity="0.8" />
+            {/* Ambient Sparkles - Subtle & Minimal */}
+            <path d="M7 9L8 7L9 9L11 10L9 11L8 13L7 11L5 10L7 9Z" fill="#F59E0B" />
+            <path d="M33 7L34 5L35 7L37 8L35 9L34 11L33 9L31 8L33 7Z" fill="#EA580C" opacity="0.85" />
+            <circle cx="20" cy="4" r="1.1" fill="#F59E0B" />
 
             {/* Soft Shadow Underneath */}
-            <ellipse cx="20" cy="35" rx="11" ry="2" fill="#9A3412" opacity="0.2" />
+            <ellipse cx="20" cy="35" rx="11" ry="2" fill="#9A3412" opacity="0.18" />
 
-            {/* Gift Box Body */}
-            <rect x="9" y="16" width="22" height="18" rx="3.5" fill="#F97316" stroke="#C2410C" strokeWidth="1.4" />
-            {/* Left & Top Highlight sheen */}
-            <path d="M11 18H29C29.6 18 30 18.4 30 19V31C30 32.1 29.1 33 28 33H12C10.9 33 10 32.1 10 31V19C10 18.4 10.4 18 11 18Z" fill="#FB923C" opacity="0.45" />
+            {/* Video Player Device Frame */}
+            <rect x="7" y="10" width="26" height="21" rx="3.5" fill="#F97316" stroke="#C2410C" strokeWidth="1.3" />
 
-            {/* Vertical Ribbon */}
-            <rect x="17.5" y="16" width="5" height="18" fill="#FBBF24" stroke="#D97706" strokeWidth="1" />
-            <path d="M19 16.5V33.5" stroke="#FEF08A" strokeWidth="1" strokeLinecap="round" opacity="0.9" />
+            {/* Screen Bezel / Inner Display */}
+            <rect x="9" y="12" width="22" height="15" rx="2" fill="#FFF7ED" />
 
-            {/* Horizontal Ribbon */}
-            <rect x="9" y="23" width="22" height="4.5" fill="#FBBF24" stroke="#D97706" strokeWidth="1" />
-            <path d="M9.5 24.5H30.5" stroke="#FEF08A" strokeWidth="0.8" opacity="0.8" />
+            {/* Top Device Header Strip */}
+            <rect x="9" y="12" width="22" height="3" rx="1" fill="#FED7AA" opacity="0.6" />
+            <circle cx="11.5" cy="13.5" r="0.7" fill="#EA580C" />
+            <circle cx="13.5" cy="13.5" r="0.7" fill="#FBBF24" />
 
-            {/* Gift Box Lid (overlaps body for 3D depth) */}
-            <rect x="7" y="11.5" width="26" height="5.5" rx="2" fill="#EA580C" stroke="#9A3412" strokeWidth="1.4" />
-            {/* Lid Vertical Ribbon */}
-            <rect x="17.5" y="11.5" width="5" height="5.5" fill="#FBBF24" stroke="#D97706" strokeWidth="1" />
-            <path d="M19 12V16.5" stroke="#FEF08A" strokeWidth="1" strokeLinecap="round" opacity="0.9" />
-            {/* Lid Rim Highlight */}
-            <path d="M8.5 12.5H31.5" stroke="#FDBA74" strokeWidth="0.9" strokeLinecap="round" opacity="0.7" />
+            {/* Video Play Button in Screen Center */}
+            <circle cx="20" cy="19.5" r="4.2" fill="#EA580C" stroke="#C2410C" strokeWidth="0.8" />
+            <path d="M19 17.8L22.2 19.5L19 21.2V17.8Z" fill="#FFFFFF" />
 
-            {/* Ribbon Bow on Top of Lid */}
-            {/* Left Loop */}
-            <path 
-                d="M19 12C15 6 9.5 7.5 12.5 11.5C14 13.2 17 12.5 19 12Z" 
-                fill="#FDE047" 
-                stroke="#D97706" 
-                strokeWidth="1.2" 
-                strokeLinejoin="round" 
-            />
-            <path d="M14.5 9.5C13.2 8.8 11.8 9.6 12.8 11" stroke="#CA8A04" strokeWidth="0.9" strokeLinecap="round" />
+            {/* Video Progress Bar at Bottom of Screen */}
+            <rect x="11" y="24.2" width="18" height="1.4" rx="0.7" fill="#FED7AA" />
+            <rect x="11" y="24.2" width="9" height="1.4" rx="0.7" fill="#EA580C" />
+            <circle cx="20" cy="24.9" r="1" fill="#C2410C" />
 
-            {/* Right Loop */}
-            <path 
-                d="M21 12C25 6 30.5 7.5 27.5 11.5C26 13.2 23 12.5 21 12Z" 
-                fill="#FDE047" 
-                stroke="#D97706" 
-                strokeWidth="1.2" 
-                strokeLinejoin="round" 
-            />
-            <path d="M25.5 9.5C26.8 8.8 28.2 9.6 27.2 11" stroke="#CA8A04" strokeWidth="0.9" strokeLinecap="round" />
+            {/* Lower Device Chin / Speaker Strip */}
+            <rect x="13" y="28.5" width="14" height="1.2" rx="0.6" fill="#EA580C" opacity="0.6" />
 
-            {/* Ribbon Tails flowing downwards */}
-            <path d="M18 13.5L14.5 18L16.2 18.3L18.5 14" fill="#FBBF24" stroke="#D97706" strokeWidth="0.6" />
-            <path d="M22 13.5L25.5 18L23.8 18.3L21.5 14" fill="#FBBF24" stroke="#D97706" strokeWidth="0.6" />
-
-            {/* Center Bow Knot */}
-            <circle cx="20" cy="12" r="2.3" fill="#F59E0B" stroke="#B45309" strokeWidth="1" />
-            <circle cx="19.3" cy="11.3" r="0.7" fill="#FEF08A" />
-
-            {/* Center Learning / Free Badge Emblem */}
-            <circle cx="20" cy="25.2" r="3.4" fill="#FFFBEB" stroke="#D97706" strokeWidth="0.9" />
-            {/* 5-point Golden Star inside the badge */}
-            <path 
-                d="M20 22.8L20.7 24.2L22.2 24.4L21.1 25.5L21.4 27L20 26.2L18.6 27L18.9 25.5L17.8 24.4L19.3 24.2L20 22.8Z" 
-                fill="#F59E0B" 
-                stroke="#D97706" 
-                strokeWidth="0.4" 
-            />
+            {/* Polished Academic Star Seal on Top-Right */}
+            <circle cx="28.5" cy="9.5" r="3.2" fill="#FEF08A" stroke="#CA8A04" strokeWidth="0.8" />
+            <path d="M28.5 7.5L29.1 8.8L30.5 9L29.4 10L29.7 11.4L28.5 10.7L27.3 11.4L27.6 10L26.5 9L27.9 8.8L28.5 7.5Z" fill="#D97706" />
         </svg>
     );
 }
@@ -393,8 +360,8 @@ const courses: CourseItem[] = [
         id: 'cbse',
         number: '01',
         title: 'CBSE',
-        subtitle: 'Classes 6–12',
-        href: '/free-courses',
+        subtitle: 'Classes 9–12',
+        href: '#',
         bgColor: 'bg-[#FEF1D4] hover:bg-[#FDE8BE] dark:bg-amber-950/50',
         borderColor: 'border-[#FBD99B] dark:border-amber-800/60',
         icon: CbseBookIcon,
@@ -433,10 +400,10 @@ const courses: CourseItem[] = [
         id: 'free-courses',
         number: '05',
         title: 'FREE COURSES',
-        subtitle: 'Classes 9–10 • YouTube',
+        subtitle: 'Classes 9–12 • YouTube',
         href: '/free-courses',
-        bgColor: 'bg-[#FEE6D4] hover:bg-[#FED8BE] dark:bg-orange-950/50',
-        borderColor: 'border-[#FDC49F] dark:border-orange-800/60',
+        bgColor: 'bg-[#FFF1E6] hover:bg-[#FFE5D3] dark:bg-orange-950/40',
+        borderColor: 'border-[#FED2B8] dark:border-orange-800/50',
         icon: FreeCourseIcon,
     },
     {
@@ -498,6 +465,11 @@ export function DiscoverCoursesSection() {
                                 <Link
                                     key={course.id}
                                     href={course.href}
+                                    onClick={(e) => {
+                                        if (course.href === '#') {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                     className={cn(
                                         "group relative flex flex-col justify-between rounded-xl border-[1.5px]",
                                         // Refined height: 130-138px on mobile; 100-106px on desktop (unchanged)

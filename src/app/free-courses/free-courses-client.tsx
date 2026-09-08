@@ -381,22 +381,20 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
     handleSelectSubject(null);
   };
 
-  // Derive unique classes from data + defaults
+  // Only Class 9, Class 10, Class 11, and Class 12
   const classList = useMemo(() => {
-    const standard = ['Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'];
-    const fromData = courses.map((c) => c.class).filter(Boolean);
-    const combined = Array.from(new Set([...standard, ...fromData]));
-    // natural sort
-    return combined.sort((a, b) => {
-      const na = parseInt(a.replace(/\D/g, ''), 10) || 0;
-      const nb = parseInt(b.replace(/\D/g, ''), 10) || 0;
-      return na - nb;
-    });
-  }, [courses]);
+    return ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
+  }, []);
 
   // Filter courses by selected class
   const classFilteredCourses = useMemo(() => {
-    if (selectedClass === 'all') return courses;
+    const allowed = ['class 9', 'class 10', 'class 11', 'class 12'];
+    if (selectedClass === 'all') {
+      return courses.filter((c) => {
+        if (!c.class) return true;
+        return allowed.includes(c.class.toLowerCase().trim());
+      });
+    }
     return courses.filter(
       (c) => c.class?.toLowerCase().trim() === selectedClass.toLowerCase().trim()
     );
@@ -554,7 +552,7 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="w-[5px] h-[5px] sm:w-[6px] sm:h-[6px] rounded-full bg-blue-400 shrink-0" />
-              <span>Class 6–12</span>
+              <span>Class 9–12</span>
             </div>
             <div className="flex items-center gap-1.5 sm:gap-2">
               <span className="w-[5px] h-[5px] sm:w-[6px] sm:h-[6px] rounded-full bg-emerald-400 shrink-0" />

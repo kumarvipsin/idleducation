@@ -20,9 +20,6 @@ import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
 
 const STANDARD_CLASSES = [
-  'Class 6',
-  'Class 7',
-  'Class 8',
   'Class 9',
   'Class 10',
   'Class 11',

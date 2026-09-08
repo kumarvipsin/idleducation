@@ -106,7 +106,7 @@ export default function AdminFreeCoursesPage() {
   // Dynamic Class list for filter dropdown
   const availableClasses = useMemo(() => {
     const set = new Set(courses.map((c) => c.class).filter(Boolean));
-    return ['Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12', ...Array.from(set)];
+    return ['Class 9', 'Class 10', 'Class 11', 'Class 12', ...Array.from(set).filter(c => !['Class 9', 'Class 10', 'Class 11', 'Class 12'].includes(c))];
   }, [courses]);
 
   // Filtered courses
@@ -467,6 +467,12 @@ export default function AdminFreeCoursesPage() {
       {/* Student Preview Modal */}
       <Dialog open={!!previewingCourse} onOpenChange={(open) => !open && setPreviewingCourse(null)}>
         <DialogContent className="sm:max-w-xl p-0 overflow-hidden rounded-2xl">
+          <DialogHeader className="sr-only">
+            <DialogTitle>{previewingCourse?.title || 'Course Preview'}</DialogTitle>
+            <DialogDescription>
+              {previewingCourse?.shortDescription || previewingCourse?.description || 'Video course preview'}
+            </DialogDescription>
+          </DialogHeader>
           {previewingCourse && (
             <div>
               <div className="relative aspect-video w-full bg-black">
