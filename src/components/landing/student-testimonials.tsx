@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import Link from "next/link";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
@@ -292,19 +291,42 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
       <div className="container relative z-10 mx-auto px-4 md:px-6">
           <div className="flex flex-col">
               <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-7 md:mb-8">
-                  <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+                  <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
                       IDL{' '}
-                      <span className="relative inline-block">
-                          <span className="relative z-10">Stars</span>
-                          <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                              <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                                  <path d="M0,15 Q50,5 100,15" />
-                              </svg>
-                          </div>
+                      <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
+                          Stars
+                          {/* Tilted Orange Star Icon */}
+                          <span className="absolute -top-1 sm:-top-1.5 -right-5 sm:-right-6 pointer-events-none select-none rotate-[14deg] text-[#F59E0B]" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5 fill-[#F59E0B] stroke-[#F59E0B] stroke-[1] stroke-linejoin-round">
+                              <path d="M12 2l2.9 6.26 6.86.73-5.1 4.62 1.43 6.75L12 17l-6.09 3.36 1.43-6.75-5.1-4.62 6.86-.73L12 2z" />
+                            </svg>
+                          </span>
+
+                          {/* Curved Swoosh Trail under Stars */}
+                          <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                            <svg className="w-full h-full overflow-visible" viewBox="0 0 120 16" fill="none" preserveAspectRatio="none">
+                              <defs>
+                                <linearGradient id="idl-stars-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
+                                  <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                                  <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
+                                  <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
+                                  <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
+                                </linearGradient>
+                                <linearGradient id="idl-stars-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                                  <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
+                                  <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
+                                  <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
+                                  <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
+                                </linearGradient>
+                              </defs>
+                              <path d="M 6,8 C 35,3 80,13 114,8" stroke="url(#idl-stars-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                              <path d="M 6,8 C 35,3 80,13 114,8" stroke="url(#idl-stars-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                            </svg>
+                          </span>
                       </span>
                   </h2>
-                  <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
-                      Real Students. Real Progress. Real Stories.
+                  <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+                      Celebrating the achievements of our bright and determined learners.
                   </p>
               </div>
 
@@ -361,17 +383,6 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                               aria-label={`Go to slide ${i + 1}`}
                           />
                       ))}
-                  </div>
-
-                  {/* View More Student Stories CTA */}
-                  <div className="mt-7 sm:mt-8 flex justify-center">
-                    <Link
-                      href="/idl-stars"
-                      className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-[8px] bg-blue-50/80 hover:bg-blue-100/90 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-[#1D4ED8] dark:text-blue-300 font-bold text-sm border border-blue-200/70 dark:border-blue-800/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group cursor-pointer"
-                    >
-                      <span>View More Student Stories</span>
-                      <span className="transition-transform duration-180 ease-out group-hover:translate-x-1">→</span>
-                    </Link>
                   </div>
                 </div>
               ) : (

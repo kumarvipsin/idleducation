@@ -66,7 +66,7 @@ export function DailyChallengeSection() {
                             {/* 2. Main Heading: Tighter leading & clean navy-to-blue transition */}
                             <h2 className="text-2xl sm:text-3xl lg:text-[32px] xl:text-[34px] font-extrabold text-[#0B1F4B] dark:text-white leading-[1.18] tracking-tight mb-3.5 sm:mb-4">
                                 Can You Solve It in{' '}
-                                <span className="text-[#1D4ED8] dark:text-blue-400">60 Seconds</span>?
+                                <span className="text-[#FF6B16]">60 Seconds</span>?
                             </h2>
 
                             {/* 3. Refined Information Chips: Compact, softer borders & lightweight tactile shapes */}
@@ -106,11 +106,11 @@ export function DailyChallengeSection() {
                                 </p>
                             </div>
 
-                            {/* 5. Refined Primary CTA: 2px lift, subtle shadow, 3px arrow move */}
+                            {/* 5. Refined Primary CTA: Book a Demo Button color (#FF6B16) */}
                             <div>
                                 <Button
                                     onClick={handleStartChallenge}
-                                    className="h-11 px-6 sm:px-7 rounded-[8px] bg-[#102A68] hover:bg-[#0c2152] text-white font-bold text-sm shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-180 ease-out border-none flex items-center gap-2 group cursor-pointer"
+                                    className="h-11 px-6 sm:px-7 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 border-none flex items-center gap-2 group cursor-pointer"
                                 >
                                     <span>START CHALLENGE</span>
                                     <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-[3px]" />
@@ -159,7 +159,7 @@ export function DailyChallengeSection() {
                         {/* 2. Heading with clean intentional wrap */}
                         <h2 className="text-xl min-[360px]:text-[22px] sm:text-2xl font-extrabold text-[#0B1F4B] dark:text-white leading-[1.2] tracking-tight">
                             Can You Solve It in{' '}
-                            <span className="text-[#1D4ED8] dark:text-blue-400">60 Seconds</span>?
+                            <span className="text-[#FF6B16]">60 Seconds</span>?
                         </h2>
 
                         {/* 3. Three Refined Info Chips */}
@@ -200,7 +200,7 @@ export function DailyChallengeSection() {
                         <div className="pt-1">
                             <Button
                                 onClick={handleStartChallenge}
-                                className="w-full sm:w-auto h-11 px-6 rounded-[8px] bg-[#102A68] hover:bg-[#0c2152] text-white font-bold text-sm shadow-xs hover:shadow-md transition-all duration-180 ease-out border-none flex items-center justify-center gap-2 group cursor-pointer"
+                                className="w-full sm:w-auto h-11 px-6 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md transition-all duration-200 border-none flex items-center justify-center gap-2 group cursor-pointer"
                             >
                                 <span>START CHALLENGE</span>
                                 <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-[3px]" />

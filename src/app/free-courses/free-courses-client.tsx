@@ -30,6 +30,8 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { parseYouTubeUrl } from '@/lib/youtube';
 import type { TFreeCourse } from '@/app/actions/types';
+import { CourseCardActionBar } from '@/components/course-card-action-bar';
+import { CourseCard } from '@/components/course-card';
 
 // ── ILLUSTRATED COLORFUL SUBJECT ICONS (Matching School Page & Courses We Offer Style) ──
 function ScienceIllustIcon({ className }: { className?: string }) {
@@ -386,15 +388,17 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
     return ['Class 9', 'Class 10', 'Class 11', 'Class 12'];
   }, []);
 
-  // Filter courses by selected class
+  // Filter courses by selected class (restrict to allowed classes)
   const classFilteredCourses = useMemo(() => {
     const allowed = ['class 9', 'class 10', 'class 11', 'class 12'];
     if (selectedClass === 'all') {
+      // Show only courses that belong to allowed classes or have no class
       return courses.filter((c) => {
         if (!c.class) return true;
         return allowed.includes(c.class.toLowerCase().trim());
       });
     }
+    // Specific class selected
     return courses.filter(
       (c) => c.class?.toLowerCase().trim() === selectedClass.toLowerCase().trim()
     );
@@ -784,15 +788,34 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
                           </div>
                         </div>
 
-                        {/* Action CTA: Compact View Button */}
-                        <div className="shrink-0 relative z-10 pl-1">
+                        {/* Action CTA: Quiet secondary navigation action */}
+                        <div className="shrink-0 relative z-10 pl-1.5">
                           <div
-                            className="h-8 px-3 sm:px-3.5 rounded-[7px] text-[11.5px] sm:text-[12px] font-bold bg-[#EEF2FF] group-hover:bg-[#E0E7FF] dark:bg-[#1e2d5a]/60 dark:group-hover:bg-[#1e2d5a] text-[#1D4ED8] dark:text-blue-300 border border-[#C7D4FF]/80 dark:border-[#2a3a70] shadow-2xs group-hover:shadow-xs transition-all flex items-center justify-center gap-1.5"
+                            className={[
+                              // Size — compact, never wraps
+                              "h-7 sm:h-8 px-2 sm:px-2.5 rounded-[8px]",
+                              // Typography — semibold, IDL blue, no wrap
+                              "text-[11px] sm:text-[12px] font-semibold whitespace-nowrap",
+                              "text-[#1D4ED8]/80 dark:text-blue-400",
+                              // Surface — very light blue tint, near-transparent
+                              "bg-[#EEF4FF]/60 dark:bg-[#1a2f5e]/30",
+                              // Border — very subtle, low-contrast blue
+                              "border border-[#1D4ED8]/15 dark:border-blue-500/20",
+                              // Hover — slightly stronger border + tint, no scale
+                              "group-hover:bg-[#EEF4FF] dark:group-hover:bg-[#1a2f5e]/50",
+                              "group-hover:border-[#1D4ED8]/30 dark:group-hover:border-blue-500/40",
+                              // No shadow
+                              "shadow-none",
+                              // Layout
+                              "transition-all duration-150 flex items-center justify-center gap-1",
+                            ].join(" ")}
                           >
-                            <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-90" />
+                            <Eye className="w-[13px] h-[13px] sm:w-[14px] sm:h-[14px] opacity-75 shrink-0" />
                             <span>View</span>
+                            <span className="opacity-60 text-[10px] leading-none -ml-0.5">→</span>
                           </div>
                         </div>
+
                       </div>
                     );
                   })}
@@ -825,99 +848,27 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
                   </Button>
                 </div>
               ) : (
-                /* Course grid — 2 col mobile, 2 col tablet, 3 col desktop */
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
                   {searchFilteredCourses.map((course) => {
                     const isPlaylist = course.youtubeType === 'playlist';
                     return (
-                      <div key={course.id} className="bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col group">
-                        {/* Thumbnail — click opens modal */}
-                        <button
-                          type="button"
-                          onClick={() => setWatchingCourse({ title: course.title, url: course.youtubeUrl || '', isPlaylist })}
-                          className="relative aspect-video w-full bg-slate-100 dark:bg-slate-800 overflow-hidden block group/thumb cursor-pointer"
-                          aria-label={`Watch ${course.title}`}
-                        >
-                          {course.thumbnailUrl || course.coverImageUrl ? (
-                            <Image
-                              src={course.thumbnailUrl || course.coverImageUrl || ''}
-                              alt={course.title}
-                              fill
-                              unoptimized
-                              loading="lazy"
-                              className="object-cover group-hover/thumb:scale-105 transition-transform duration-500"
-                            />
-                          ) : (
-                            <div className="absolute inset-0 bg-gradient-to-br from-[#0B1F4B] to-[#1a3a7a] flex items-center justify-center">
-                              <BookOpen className="w-8 h-8 text-white/30" />
-                            </div>
-                          )}
+                      <CourseCard
+                        key={course.id}
+                        id={course.id}
+                        type="free"
+                        thumbnailUrl={course.thumbnailUrl || course.coverImageUrl}
+                        onThumbnailClick={() => setWatchingCourse({ title: course.title, url: course.youtubeUrl || '', isPlaylist })}
+                        courseClass={course.class}
+                        medium={course.medium}
+                        subject={course.subject}
+                        title={course.title}
+                        onTitleClick={() => setWatchingCourse({ title: course.title, url: course.youtubeUrl || '', isPlaylist })}
+                        audience={course.audience}
+                        startDate={course.startDate}
+                        endDate={course.endDate}
+                        description={course.shortDescription || course.description}
+                      />
 
-                          {/* Overlay badges — bottom strip */}
-                          <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent">
-                            <span className="text-[8px] font-bold text-white uppercase tracking-wider">
-                              {isPlaylist ? 'Free Course' : 'Free Video'}
-                            </span>
-                          </div>
-
-                          {/* Play button — centre */}
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shadow-md group-hover/thumb:scale-110 transition-transform duration-200">
-                              <Play className="w-4 h-4 fill-[#0B1F4B] text-[#0B1F4B] ml-0.5" />
-                            </div>
-                          </div>
-                        </button>
-
-                        {/* Card body — flex column so footer always sticks to bottom */}
-                        <div className="p-2 sm:p-3.5 flex flex-col flex-1 gap-0">
-                          {/* Top content grows to fill available space */}
-                          <div className="flex flex-col flex-1 space-y-1">
-                            {/* Metadata: Class · Subject */}
-                            <div className="flex items-center gap-1 text-[10px] font-medium overflow-hidden">
-                              <span className="text-primary font-semibold shrink-0">{course.class}</span>
-                              {course.subject && (
-                                <>
-                                  <span className="text-slate-300 dark:text-slate-700 shrink-0">·</span>
-                                  <span className="text-slate-500 dark:text-slate-400 truncate">{course.subject}</span>
-                                </>
-                              )}
-                            </div>
-
-                            {/* Title — 2 line clamp, clickable on mobile & desktop */}
-                            <h3
-                              onClick={() => setWatchingCourse({ title: course.title, url: course.youtubeUrl || '', isPlaylist })}
-                              className="font-bold text-[12px] sm:text-sm leading-[1.3] sm:leading-snug line-clamp-2 text-slate-900 dark:text-white group-hover:text-primary transition-colors cursor-pointer"
-                            >
-                              {course.title}
-                            </h3>
-
-                            {/* Description — desktop only, fixed 1-line slot to equalise card height */}
-                            <p className="hidden sm:block text-[11px] text-muted-foreground line-clamp-1 min-h-[1rem]">
-                              {course.shortDescription || course.description || ' '}
-                            </p>
-                          </div>
-
-                          {/* Footer — always at card bottom, perfect baseline */}
-                          <div className="flex items-center justify-between pt-1.5 sm:pt-2 mt-2 sm:mt-2 border-t border-slate-100 dark:border-slate-800">
-                            {/* FREE badge */}
-                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-medium leading-none">
-                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
-                              <span className="hidden sm:inline">{isPlaylist ? 'FREE COURSE' : 'FREE VIDEO'}</span>
-                              <span className="inline sm:hidden">FREE</span>
-                            </span>
-
-                            {/* Medium Info — compact text, no button shape */}
-                            <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400">
-                              <span className="text-[9px] sm:text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider">
-                                Medium:
-                              </span>
-                              <span className="font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[90px] sm:max-w-[130px]">
-                                {course.medium || 'Hinglish'}
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
                     );
                   })}
                 </div>

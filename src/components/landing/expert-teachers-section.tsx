@@ -474,19 +474,64 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
 
           {/* Section Heading */}
           <div className="text-center space-y-2 sm:space-y-2.5 mb-7 sm:mb-8 md:mb-9">
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
               Our Expert{' '}
-              <span className="relative inline-block">
-                <span className="relative z-10">Teachers</span>
-                <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                  <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-[#1F4FA3] fill-none stroke-current stroke-[10] opacity-60">
-                    <path d="M0,15 Q50,5 100,15" />
+              <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
+                Teachers
+                {/* Expert Teacher Graduation Cap Icon */}
+                <span className="absolute -top-3 sm:-top-4 -right-6 sm:-right-7 md:-right-8 pointer-events-none select-none text-[#F59E0B] rotate-[8deg]" aria-hidden="true">
+                  <svg viewBox="0 0 28 28" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 fill-none" stroke="currentColor">
+                    {/* Mortarboard Diamond Top */}
+                    <path
+                      d="M14 4L26 10L14 16L2 10L14 4Z"
+                      fill="#F59E0B"
+                      stroke="#F59E0B"
+                      strokeWidth="1.5"
+                      strokeLinejoin="round"
+                    />
+                    {/* Cap Base under the mortarboard */}
+                    <path
+                      d="M6.5 13.5V17.5C6.5 20 10 22 14 22C18 22 21.5 20 21.5 17.5V13.5"
+                      stroke="#F59E0B"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                    />
+                    {/* Tassel hanging down */}
+                    <path
+                      d="M23.5 11.5V18.5"
+                      stroke="#F59E0B"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="23.5" cy="19.5" r="1.3" fill="#F59E0B" stroke="#F59E0B" />
                   </svg>
-                </div>
+                </span>
+
+                {/* Curved Swoosh Trail under Teachers */}
+                <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 160 16" fill="none" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="expert-teachers-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                        <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
+                        <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
+                      </linearGradient>
+                      <linearGradient id="expert-teachers-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
+                        <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
+                        <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#expert-teachers-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                    <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#expert-teachers-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                  </svg>
+                </span>
               </span>
             </h2>
             <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-lg mx-auto">
-              Experienced educators. Clear concepts. Better learning.
+              Guiding, supporting, and inspiring every learner at every step.
             </p>
           </div>
 

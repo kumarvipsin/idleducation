@@ -53,20 +53,43 @@ export function AcademicExcellence() {
   return (
     <section className="w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-6 sm:mb-8">
-          <div className="text-center space-y-3 sm:space-y-4">
-              <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          <div className="text-center space-y-2.5 sm:space-y-3">
+              <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
                   Academic{' '}
-                  <span className="relative inline-block">
-                      <span className="relative z-10">Results</span>
-                      <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                          <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                              <path d="M0,15 Q50,5 100,15" />
-                          </svg>
-                      </div>
+                  <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
+                      Results
+                      {/* 3 Ascending Rounded Bars (Growth Chart) Icon */}
+                      <span className="absolute -top-1 sm:-top-1.5 -right-5 sm:-right-6 flex items-end gap-[2px] sm:gap-[3px] pointer-events-none select-none" aria-hidden="true">
+                        <span className="w-1 sm:w-1.5 h-2 sm:h-2.5 rounded-full bg-[#F59E0B]" />
+                        <span className="w-1 sm:w-1.5 h-3.5 sm:h-4 rounded-full bg-[#F59E0B]" />
+                        <span className="w-1 sm:w-1.5 h-5 sm:h-6 rounded-full bg-[#F59E0B]" />
+                      </span>
+
+                      {/* Curved Swoosh Trail under Results */}
+                      <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                        <svg className="w-full h-full overflow-visible" viewBox="0 0 160 16" fill="none" preserveAspectRatio="none">
+                          <defs>
+                            <linearGradient id="academic-results-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                              <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
+                              <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
+                              <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
+                            </linearGradient>
+                            <linearGradient id="academic-results-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                              <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
+                              <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
+                              <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
+                              <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
+                            </linearGradient>
+                          </defs>
+                          <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#academic-results-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                          <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#academic-results-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                        </svg>
+                      </span>
                   </span>
               </h2>
-              <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
-                  Celebrating the hard work and exceptional milestones that turn academic dreams into reality.
+              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+                  Real progress, real performance, and brighter futures with IDL Education.
               </p>
           </div>
       </div>

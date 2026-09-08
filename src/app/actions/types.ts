@@ -75,6 +75,11 @@ export interface TTopperTestimonial {
   studentClass: string;
   videoId: string;
   createdAt: string;
+  achievement?: string;
+  quote?: string;
+  thumbnailUrl?: string;
+  order?: number;
+  featured?: boolean;
 }
 
 export interface TExcellenceResult {
@@ -202,6 +207,9 @@ export interface TFreeCourse {
   originalPrice: number;
   description?: string;
   shortDescription?: string;
+  audience?: string;        // e.g. 'For Class 9 CBSE Students'
+  startDate?: string;       // ISO string or 'DD Mon YYYY'
+  endDate?: string;         // ISO string or 'DD Mon YYYY'
   youtubeUrl?: string;
   youtubeType?: 'video' | 'playlist';
   youtubeVideoId?: string;

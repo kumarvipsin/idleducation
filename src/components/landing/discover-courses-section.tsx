@@ -473,9 +473,9 @@ export function DiscoverCoursesSection() {
                                     className={cn(
                                         "group relative flex flex-col justify-between rounded-xl border-[1.5px]",
                                         // Refined height: 130-138px on mobile; 100-106px on desktop (unchanged)
-                                        "h-[130px] min-[360px]:h-[134px] min-[390px]:h-[138px] sm:h-[142px] lg:h-[100px] xl:h-[106px]",
+                                        "h-[116px] min-[360px]:h-[120px] min-[390px]:h-[124px] sm:h-[132px] lg:h-[100px] xl:h-[106px]",
                                         // Balanced internal text-safe padding: gives comfortable breathing room from all boundaries
-                                        "p-3 min-[360px]:p-3.5 sm:p-4 lg:p-3 xl:p-3.5",
+                                        "p-2.5 min-[360px]:p-3 sm:p-3.5 lg:p-3 xl:p-3.5",
                                         "shadow-[0_2px_8px_-2px_rgba(16,42,104,0.06)] hover:shadow-[0_6px_16px_-3px_rgba(16,42,104,0.12)] transition-all duration-180 ease-out hover:-translate-y-0.5",
                                         course.bgColor,
                                         course.borderColor
@@ -491,7 +491,7 @@ export function DiscoverCoursesSection() {
                                             {course.number}
                                         </span>
                                         <div className="order-2 lg:order-1 shrink-0">
-                                            <Icon className="w-12 h-12 min-[360px]:w-[50px] min-[360px]:h-[50px] sm:w-[52px] sm:h-[52px] lg:w-[34px] lg:h-[34px] xl:w-[38px] xl:h-[38px] transition-transform duration-180 ease-out group-hover:scale-105" />
+                                            <Icon className="w-10 h-10 min-[360px]:w-[42px] min-[360px]:h-[42px] sm:w-[46px] sm:h-[46px] lg:w-[34px] lg:h-[34px] xl:w-[38px] xl:h-[38px] transition-transform duration-180 ease-out group-hover:scale-105" />
                                         </div>
                                     </div>
 

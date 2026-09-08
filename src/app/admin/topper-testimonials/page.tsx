@@ -31,10 +31,14 @@ const TopperTestimonialForm = ({
     setIsSubmitting(true);
 
     const formData = new FormData(event.currentTarget);
+    const orderVal = formData.get('order') as string;
     const data = {
         studentName: formData.get('studentName') as string,
         studentClass: formData.get('studentClass') as string,
         videoId: formData.get('videoId') as string,
+        achievement: (formData.get('achievement') as string) || undefined,
+        quote: (formData.get('quote') as string) || undefined,
+        order: orderVal ? Number(orderVal) : undefined,
     };
 
     const result = testimonial
@@ -55,15 +59,27 @@ const TopperTestimonialForm = ({
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="studentName" className="text-right">Student Name</Label>
-          <Input id="studentName" name="studentName" defaultValue={testimonial?.studentName} className="col-span-3" />
+          <Input id="studentName" name="studentName" defaultValue={testimonial?.studentName} className="col-span-3" required />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="studentClass" className="text-right">Class/Course</Label>
-          <Input id="studentClass" name="studentClass" defaultValue={testimonial?.studentClass} className="col-span-3" />
+          <Input id="studentClass" name="studentClass" defaultValue={testimonial?.studentClass} className="col-span-3" placeholder="e.g., Class 10th" required />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="achievement" className="text-right">Achievement</Label>
+          <Input id="achievement" name="achievement" defaultValue={testimonial?.achievement} className="col-span-3" placeholder="e.g., 96.4% CBSE Board" />
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="videoId" className="text-right">YouTube Video ID</Label>
-          <Input id="videoId" name="videoId" defaultValue={testimonial?.videoId} className="col-span-3" placeholder="e.g., _t-tMW2-m5c" />
+          <Input id="videoId" name="videoId" defaultValue={testimonial?.videoId} className="col-span-3" placeholder="e.g., _t-tMW2-m5c" required />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="quote" className="text-right">Short Quote</Label>
+          <Input id="quote" name="quote" defaultValue={testimonial?.quote} className="col-span-3" placeholder="Optional 1-line quote" />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="order" className="text-right">Display Order</Label>
+          <Input id="order" name="order" type="number" defaultValue={testimonial?.order ?? 0} className="col-span-3" placeholder="0" />
         </div>
       </div>
       <DialogFooter>

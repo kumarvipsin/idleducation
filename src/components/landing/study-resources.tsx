@@ -169,19 +169,33 @@ export function StudyResources() {
         <div className="flex flex-col gap-8 md:gap-10">
           {/* Heading */}
           <div className="text-center space-y-2.5">
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
               Study{' '}
-              <span className="relative inline-block">
-                <span className="relative z-10">Resources</span>
-                <div className="absolute -bottom-1 left-0 w-full h-3 z-0">
-                  <svg viewBox="0 0 100 15" preserveAspectRatio="none" className="w-full h-full text-blue-500 fill-none stroke-current stroke-[10] opacity-70">
-                    <path d="M0,15 Q50,5 100,15" />
+              <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
+                Resources
+                {/* Open Book Icon with sparks above */}
+                <span className="absolute -top-3.5 sm:-top-4.5 -right-7 sm:-right-8 pointer-events-none select-none text-[#F59E0B]" aria-hidden="true">
+                  <svg viewBox="0 0 32 32" className="w-6 h-6 sm:w-7 sm:h-7 fill-none stroke-[#F59E0B] stroke-[2] stroke-linecap-round stroke-linejoin-round">
+                    {/* 3 radiating rays above book */}
+                    <path d="M16 3v3" strokeWidth="2.2" />
+                    <path d="M11 5l1.5 2.5" strokeWidth="2" />
+                    <path d="M21 5l-1.5 2.5" strokeWidth="2" />
+                    {/* Open Book Pages */}
+                    <path d="M16 11c-3-2-7-2-12 0v12c5-2 9-2 12 0 3-2 7-2 12 0V11c-5-2-9-2-12 0z" strokeWidth="2" />
+                    <path d="M16 11v12" strokeWidth="2" />
                   </svg>
-                </div>
+                </span>
+
+                {/* Segmented Accent Line under Resources (Solid Bar + Medium Bar + Dot) */}
+                <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full flex items-center gap-1 sm:gap-1.5 pointer-events-none select-none" aria-hidden="true">
+                  <span className="flex-1 h-[2.5px] sm:h-[3px] rounded-full bg-[#1D4ED8] dark:bg-blue-400" />
+                  <span className="w-5 sm:w-7 h-[2px] sm:h-[2.5px] rounded-full bg-[#1D4ED8]/45 dark:bg-blue-400/45" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] dark:bg-blue-400 shrink-0" />
+                </span>
               </span>
             </h2>
-            <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
-              Notes, NCERT Solutions &amp; Previous Year Questions — all in one place.
+            <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+              Curated materials to help you learn better, faster and smarter.
             </p>
           </div>
 

@@ -270,6 +270,21 @@
     animation: float 4s ease-in-out infinite;
   }
 
+  @keyframes drawUnderline {
+    from {
+      stroke-dashoffset: 260;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .animate-draw-underline {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    animation: drawUnderline 600ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+  }
+
   .bg-dot-pattern {
     background-image: radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0);
     background-size: 20px 20px;
@@ -357,23 +372,22 @@
   transform: translateY(0);
 }
 
-/* Landing page and Free Courses page: Strictly hide WhatsApp floating button (only IDL AI Bot icon displayed) */
+/* Landing page, Free Courses page, and IDL Stars page: Strictly hide WhatsApp floating button (only IDL AI Bot icon displayed) */
 body:has([data-landing-page="true"]) #whatsapp-floating-btn,
-body:has([data-landing-page="true"]) a[href*="wa.me"],
 body:has([data-page="free-courses"]) #whatsapp-floating-btn,
-body:has([data-page="free-courses"]) a[href*="wa.me"],
+body:has([data-page="idl-stars"]) #whatsapp-floating-btn,
 body.is-landing-page #whatsapp-floating-btn,
-body.is-landing-page a[href*="wa.me"],
 body.is-free-courses-page #whatsapp-floating-btn,
-body.is-free-courses-page a[href*="wa.me"],
+body.is-idl-stars-page #whatsapp-floating-btn,
 html:has([data-landing-page="true"]) #whatsapp-floating-btn,
-html:has([data-landing-page="true"]) a[href*="wa.me"],
 html:has([data-page="free-courses"]) #whatsapp-floating-btn,
-html:has([data-page="free-courses"]) a[href*="wa.me"],
+html:has([data-page="idl-stars"]) #whatsapp-floating-btn,
 [data-landing-page="true"] ~ * #whatsapp-floating-btn,
 [data-landing-page="true"] ~ #whatsapp-floating-btn,
 [data-page="free-courses"] ~ * #whatsapp-floating-btn,
-[data-page="free-courses"] ~ #whatsapp-floating-btn {
+[data-page="free-courses"] ~ #whatsapp-floating-btn,
+[data-page="idl-stars"] ~ * #whatsapp-floating-btn,
+[data-page="idl-stars"] ~ #whatsapp-floating-btn {
   display: none !important;
   opacity: 0 !important;
   visibility: hidden !important;

@@ -19,6 +19,18 @@ import { PlusCircle, Trash2, XCircle } from 'lucide-react';
 import Image from 'next/image';
 import { GcsImage } from '@/components/gcs-image';
 
+const STANDARD_MEDIUMS = [
+  'Hindi Medium',
+  'English Medium',
+  'Hindi + English',
+  'Hinglish',
+  'Not Specified',
+];
+
+const STANDARD_CLASSES = [
+  'Class 9', 'Class 10', 'Class 11', 'Class 12',
+];
+
 const videoSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   youtubeLink: z.string().url('Must be a valid YouTube URL'),
@@ -37,6 +49,9 @@ const courseSchema = z.object({
   medium: z.string().optional(),
   batchName: z.string().optional(),
   validity: z.string().optional(),
+  audience: z.string().optional(),
+  startDate: z.string().optional(),
+  endDate: z.string().optional(),
   price: z.coerce.number().optional(),
   originalPrice: z.coerce.number().optional(),
   description: z.string().optional(),
@@ -58,9 +73,12 @@ export function PaidCourseForm({ course, onSuccess }: { course?: TPaidCourse | n
       class: course?.class || '',
       board: course?.board || '',
       subject: course?.subject || '',
-      medium: course?.medium || '',
+      medium: course?.medium || 'Not Specified',
       batchName: course?.batchName || '',
       validity: course?.validity || '',
+      audience: course?.audience || '',
+      startDate: course?.startDate || '',
+      endDate: course?.endDate || '',
       price: course?.price || 0,
       originalPrice: course?.originalPrice || 0,
       description: course?.description || '',
@@ -125,14 +143,17 @@ export function PaidCourseForm({ course, onSuccess }: { course?: TPaidCourse | n
         <ScrollArea className="h-[60vh] pr-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField control={form.control} name="title" render={({ field }) => <FormItem><Label>Title</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="class" render={({ field }) => <FormItem><Label>Class</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="class" render={({ field }) => <FormItem><Label>Class</Label><Select onValueChange={field.onChange} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select Class" /></SelectTrigger></FormControl><SelectContent>{STANDARD_CLASSES.map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>} />
             <FormField control={form.control} name="board" render={({ field }) => <FormItem><Label>Board</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
             <FormField control={form.control} name="subject" render={({ field }) => <FormItem><Label>Subject</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="medium" render={({ field }) => <FormItem><Label>Medium</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="medium" render={({ field }) => <FormItem><Label>Medium / Language</Label><Select onValueChange={field.onChange} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder="Select Medium" /></SelectTrigger></FormControl><SelectContent>{STANDARD_MEDIUMS.map(m => <SelectItem key={m} value={m}>{m}</SelectItem>)}</SelectContent></Select><FormMessage /></FormItem>} />
             <FormField control={form.control} name="batchName" render={({ field }) => <FormItem><Label>Batch Name</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
             <FormField control={form.control} name="validity" render={({ field }) => <FormItem><Label>Validity</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="price" render={({ field }) => <FormItem><Label>Price</Label><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="originalPrice" render={({ field }) => <FormItem><Label>Original Price</Label><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="audience" render={({ field }) => <FormItem><Label>Audience (e.g. For Class 9 CBSE Students)</Label><FormControl><Input placeholder="For Class 9 CBSE Students" {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="startDate" render={({ field }) => <FormItem><Label>Start Date</Label><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="endDate" render={({ field }) => <FormItem><Label>End Date (optional)</Label><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="price" render={({ field }) => <FormItem><Label>Price (₹)</Label><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>} />
+            <FormField control={form.control} name="originalPrice" render={({ field }) => <FormItem><Label>MRP / Original Price (₹)</Label><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>} />
             <FormField control={form.control} name="status" render={({ field }) => <FormItem><Label>Status</Label><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent></Select><FormMessage /></FormItem>} />
             <div className="md:col-span-2"><FormField control={form.control} name="description" render={({ field }) => <FormItem><Label>Description</Label><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>} /></div>
             <div className="md:col-span-2">

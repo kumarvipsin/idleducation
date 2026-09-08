@@ -49,6 +49,14 @@ const STANDARD_CATEGORIES = [
   'Strategy',
 ];
 
+const STANDARD_MEDIUMS = [
+  'Hindi Medium',
+  'English Medium',
+  'Hindi + English',
+  'Hinglish',
+  'Not Specified',
+];
+
 const courseFormSchema = z.object({
   title: z.string().min(2, 'Title is required (at least 2 characters)'),
   youtubeUrl: z.string().min(5, 'YouTube URL is required'),
@@ -57,6 +65,7 @@ const courseFormSchema = z.object({
   chapter: z.string().optional(),
   category: z.string().optional(),
   shortDescription: z.string().max(250, 'Short description should be 1-2 concise lines (under 250 chars)').optional(),
+  medium: z.string().optional(),
   publishStatus: z.enum(['published', 'draft', 'unpublished', 'archived']),
   displayOrder: z.coerce.number().default(0),
   isFeatured: z.boolean().default(false),
@@ -83,6 +92,7 @@ export function FreeCourseForm({ course, onSuccess }: FreeCourseFormProps) {
     chapter: course?.chapter || '',
     category: course?.category || 'Free Course',
     shortDescription: course?.shortDescription || course?.description || '',
+    medium: course?.medium || 'Not Specified',
     publishStatus: (course?.publishStatus as any) || (course?.status === 'inactive' ? 'unpublished' : 'published'),
     displayOrder: course?.displayOrder ?? 0,
     isFeatured: Boolean(course?.isFeatured),
@@ -136,6 +146,7 @@ export function FreeCourseForm({ course, onSuccess }: FreeCourseFormProps) {
       formData.append('category', data.category || 'Free Course');
       formData.append('shortDescription', data.shortDescription?.trim() || '');
       formData.append('description', data.shortDescription?.trim() || '');
+      formData.append('medium', data.medium || 'Not Specified');
       formData.append('publishStatus', data.publishStatus);
       formData.append('status', data.publishStatus === 'published' ? 'active' : 'inactive');
       formData.append('displayOrder', String(data.displayOrder || 0));
@@ -360,6 +371,34 @@ export function FreeCourseForm({ course, onSuccess }: FreeCourseFormProps) {
                     {STANDARD_CATEGORIES.map((cat) => (
                       <SelectItem key={cat} value={cat}>
                         {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Medium / Language Dropdown */}
+          <FormField
+            control={form.control}
+            name="medium"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Medium / Language
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select Medium" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {STANDARD_MEDIUMS.map((med) => (
+                      <SelectItem key={med} value={med}>
+                        {med}
                       </SelectItem>
                     ))}
                   </SelectContent>

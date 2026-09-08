@@ -9,8 +9,8 @@ export function ChatBot() {
   const [isLanding, setIsLanding] = useState(true);
 
   useEffect(() => {
-    const p = (typeof window !== 'undefined' ? window.location.pathname : '') || pathname || '';
-    const hide = p === '/' || p === '' || p.startsWith('/free-courses') || pathname === '/' || pathname === '' || Boolean(pathname?.startsWith('/free-courses'));
+    const p = pathname || (typeof window !== 'undefined' ? window.location.pathname : '');
+    const hide = p === '/' || p === '' || p.startsWith('/free-courses') || p.startsWith('/idl-stars');
     setIsLanding(hide);
   }, [pathname]);
 

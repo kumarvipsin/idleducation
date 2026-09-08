@@ -327,6 +327,11 @@ const topperTestimonialSchema = z.object({
   studentName: z.string().min(1, 'Student name is required'),
   studentClass: z.string().min(1, 'Class/Course is required'),
   videoId: z.string().min(1, 'YouTube Video ID is required'),
+  achievement: z.string().optional(),
+  quote: z.string().optional(),
+  thumbnailUrl: z.string().optional(),
+  order: z.coerce.number().optional(),
+  featured: z.boolean().optional(),
 });
 
 type TopperTestimonialValues = z.infer<typeof topperTestimonialSchema>;
