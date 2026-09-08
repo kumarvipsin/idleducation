@@ -1,6 +1,7 @@
 'use client';
 
-import { useForm, useFieldArray } from 'react-hook-form';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@/components/ui/button';
@@ -8,190 +9,457 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
-import { ScrollArea } from '@/components/ui/scroll-area';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { DialogFooter } from '@/components/ui/dialog';
 import { useToast } from '@/hooks/use-toast';
-import { useState } from 'react';
 import { addFreeCourse, editFreeCourse } from '@/app/actions/free-courses';
 import type { TFreeCourse } from '@/app/actions/types';
-import { PlusCircle, Trash2, XCircle } from 'lucide-react';
+import { parseYouTubeUrl, ParsedYouTubeResult } from '@/lib/youtube';
+import { Video, ListVideo, Sparkles, CheckCircle, AlertCircle, ExternalLink, Image as ImageIcon, Loader2 } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 import Image from 'next/image';
-import { GcsImage } from '@/components/gcs-image';
 
-const videoSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  youtubeLink: z.string().url('Must be a valid YouTube URL'),
+const STANDARD_CLASSES = [
+  'Class 6',
+  'Class 7',
+  'Class 8',
+  'Class 9',
+  'Class 10',
+  'Class 11',
+  'Class 12',
+];
+
+const STANDARD_SUBJECTS = [
+  'Mathematics',
+  'Science',
+  'English',
+  'Social Studies',
+  'Physics',
+  'Chemistry',
+  'Biology',
+  'Economics',
+  'Hindi',
+  'General',
+];
+
+const STANDARD_CATEGORIES = [
+  'Free Course',
+  'Revision',
+  'One Shot',
+  'Concept Class',
+  'Exam Preparation',
+  'Important Questions',
+  'Strategy',
+];
+
+const courseFormSchema = z.object({
+  title: z.string().min(2, 'Title is required (at least 2 characters)'),
+  youtubeUrl: z.string().min(5, 'YouTube URL is required'),
+  class: z.string().min(1, 'Please select a Class'),
+  subject: z.string().min(1, 'Please enter or select a Subject'),
+  chapter: z.string().optional(),
+  category: z.string().optional(),
+  shortDescription: z.string().max(250, 'Short description should be 1-2 concise lines (under 250 chars)').optional(),
+  publishStatus: z.enum(['published', 'draft', 'unpublished', 'archived']),
+  displayOrder: z.coerce.number().default(0),
+  isFeatured: z.boolean().default(false),
+  customThumbnailUrl: z.string().optional(),
 });
 
-const chapterSchema = z.object({
-  name: z.string().min(1, 'Chapter name is required'),
-  videos: z.array(videoSchema),
-});
+type FormValues = z.infer<typeof courseFormSchema>;
 
-const courseSchema = z.object({
-  title: z.string().min(1, 'Title is required'),
-  class: z.string().optional(),
-  board: z.string().optional(),
-  subject: z.string().optional(),
-  medium: z.string().optional(),
-  batchName: z.string().optional(),
-  validity: z.string().optional(),
-  price: z.coerce.number().optional(),
-  originalPrice: z.coerce.number().optional(),
-  description: z.string().optional(),
-  status: z.enum(['active', 'inactive']),
-  chapters: z.array(chapterSchema),
-});
+interface FreeCourseFormProps {
+  course?: TFreeCourse | null;
+  onSuccess: () => void;
+}
 
-type CourseFormValues = z.infer<typeof courseSchema>;
-
-export function FreeCourseForm({ course, onSuccess }: { course?: TFreeCourse | null; onSuccess: () => void }) {
+export function FreeCourseForm({ course, onSuccess }: FreeCourseFormProps) {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
+  const [ytPreview, setYtPreview] = useState<ParsedYouTubeResult | null>(null);
 
-  const form = useForm<CourseFormValues>({
-    resolver: zodResolver(courseSchema),
-    defaultValues: {
-      title: course?.title || '',
-      class: course?.class || '',
-      board: course?.board || '',
-      subject: course?.subject || '',
-      medium: course?.medium || '',
-      batchName: course?.batchName || '',
-      validity: course?.validity || '',
-      price: course?.price || 0,
-      originalPrice: course?.originalPrice || 0,
-      description: course?.description || '',
-      status: course?.status || 'active',
-      chapters: course?.chapters || [],
-    },
+  const defaultValues: FormValues = useMemo(() => ({
+    title: course?.title || '',
+    youtubeUrl: course?.youtubeUrl || '',
+    class: course?.class || 'Class 9',
+    subject: course?.subject || 'Mathematics',
+    chapter: course?.chapter || '',
+    category: course?.category || 'Free Course',
+    shortDescription: course?.shortDescription || course?.description || '',
+    publishStatus: (course?.publishStatus as any) || (course?.status === 'inactive' ? 'unpublished' : 'published'),
+    displayOrder: course?.displayOrder ?? 0,
+    isFeatured: Boolean(course?.isFeatured),
+    customThumbnailUrl: course?.thumbnailUrl || '',
+  }), [course]);
+
+  const form = useForm<FormValues>({
+    resolver: zodResolver(courseFormSchema),
+    defaultValues,
   });
 
-  const { fields, append, remove } = useFieldArray({
-    control: form.control,
-    name: 'chapters',
-  });
+  const watchedUrl = form.watch('youtubeUrl');
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
-  };
-
-  const onSubmit = async (data: CourseFormValues) => {
-    setIsSubmitting(true);
-    const formData = new FormData();
-    const imageInput = document.getElementById('coverImage') as HTMLInputElement;
-    if (imageInput?.files?.[0]) {
-        formData.append('coverImage', imageInput.files[0]);
-    } else if (course?.coverImageUrl) {
-        formData.append('existingCoverImageUrl', course.coverImageUrl);
-    }
-    
-    Object.keys(data).forEach(key => {
-        if (key !== 'chapters') {
-            const value = data[key as keyof typeof data];
-            if (value !== undefined && value !== null) {
-              formData.append(key, String(value));
-            }
-        }
-    });
-
-    data.chapters.forEach((chapter, chapIndex) => {
-        formData.append(`chapters[${chapIndex}].name`, chapter.name);
-        chapter.videos.forEach((video, videoIndex) => {
-            formData.append(`chapters[${chapIndex}].videos[${videoIndex}].title`, video.title);
-            formData.append(`chapters[${chapIndex}].videos[${videoIndex}].youtubeLink`, video.youtubeLink);
-        });
-    });
-
-    const result = course ? await editFreeCourse(course.id, formData) : await addFreeCourse(formData);
-
-    if (result.success) {
-      toast({ title: 'Success', description: result.message });
-      onSuccess();
+  // Live validate YouTube link and update instant preview
+  useEffect(() => {
+    if (watchedUrl && watchedUrl.trim().length > 6) {
+      const parsed = parseYouTubeUrl(watchedUrl);
+      setYtPreview(parsed);
     } else {
-      toast({ variant: 'destructive', title: 'Error', description: result.message });
+      setYtPreview(null);
     }
-    setIsSubmitting(false);
+  }, [watchedUrl]);
+
+  const onSubmit = async (data: FormValues) => {
+    // Validate YouTube URL before proceeding
+    const validation = parseYouTubeUrl(data.youtubeUrl);
+    if (!validation.isValid) {
+      form.setError('youtubeUrl', {
+        type: 'manual',
+        message: validation.error || 'Please enter a valid YouTube video or playlist link.',
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append('title', data.title.trim());
+      formData.append('youtubeUrl', validation.normalizedUrl || data.youtubeUrl.trim());
+      formData.append('youtubeType', validation.type);
+      if (validation.videoId) formData.append('youtubeVideoId', validation.videoId);
+      if (validation.playlistId) formData.append('youtubePlaylistId', validation.playlistId);
+
+      // Auto thumbnail: use manual override or derived YouTube thumbnail
+      const activeThumbnail = data.customThumbnailUrl?.trim() || validation.thumbnailUrl || '';
+      formData.append('thumbnailUrl', activeThumbnail);
+
+      formData.append('class', data.class);
+      formData.append('subject', data.subject.trim());
+      formData.append('chapter', data.chapter?.trim() || '');
+      formData.append('category', data.category || 'Free Course');
+      formData.append('shortDescription', data.shortDescription?.trim() || '');
+      formData.append('description', data.shortDescription?.trim() || '');
+      formData.append('publishStatus', data.publishStatus);
+      formData.append('status', data.publishStatus === 'published' ? 'active' : 'inactive');
+      formData.append('displayOrder', String(data.displayOrder || 0));
+      formData.append('isFeatured', String(data.isFeatured));
+
+      const result = course
+        ? await editFreeCourse(course.id, formData)
+        : await addFreeCourse(formData);
+
+      if (result.success) {
+        toast({ title: 'Success', description: result.message });
+        onSuccess();
+      } else {
+        toast({ variant: 'destructive', title: 'Error', description: result.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Failed to save', description: err?.message || 'An error occurred' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
-  
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <ScrollArea className="h-[60vh] pr-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField control={form.control} name="title" render={({ field }) => <FormItem><Label>Title</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="class" render={({ field }) => <FormItem><Label>Class</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="board" render={({ field }) => <FormItem><Label>Board</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="subject" render={({ field }) => <FormItem><Label>Subject</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="medium" render={({ field }) => <FormItem><Label>Medium</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="batchName" render={({ field }) => <FormItem><Label>Batch Name</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="validity" render={({ field }) => <FormItem><Label>Validity</Label><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="price" render={({ field }) => <FormItem><Label>Price</Label><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="originalPrice" render={({ field }) => <FormItem><Label>Original Price</Label><FormControl><Input type="number" {...field} /></FormControl><FormMessage /></FormItem>} />
-            <FormField control={form.control} name="status" render={({ field }) => <FormItem><Label>Status</Label><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue /></SelectTrigger></FormControl><SelectContent><SelectItem value="active">Active</SelectItem><SelectItem value="inactive">Inactive</SelectItem></SelectContent></Select><FormMessage /></FormItem>} />
-            <div className="md:col-span-2"><FormField control={form.control} name="description" render={({ field }) => <FormItem><Label>Description</Label><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>} /></div>
-            <div className="md:col-span-2">
-                <Label>Cover Image</Label>
-                <div className="flex items-center gap-4 mt-2">
-                    {preview ? <Image src={preview} alt="Preview" width={128} height={72} className="rounded-md object-cover" /> : (course?.coverImageUrl) ? <GcsImage filePath={course.coverImageUrl} alt={course.title} width={128} height={72} className="rounded-md object-cover" /> : null}
-                    <Input id="coverImage" name="coverImage" type="file" onChange={handleFileChange} />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+        {/* Step 1: Paste YouTube URL (with instant reactive preview) */}
+        <div className="bg-slate-50 dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 space-y-3">
+          <FormField
+            control={form.control}
+            name="youtubeUrl"
+            render={({ field }) => (
+              <FormItem>
+                <div className="flex items-center justify-between">
+                  <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    YouTube URL *
+                  </FormLabel>
+                  <span className="text-[11px] text-muted-foreground font-medium">
+                    Video or Playlist link
+                  </span>
                 </div>
+                <FormControl>
+                  <Input
+                    placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..."
+                    {...field}
+                    className="bg-white dark:bg-slate-950 font-mono text-xs h-11"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs font-semibold" />
+              </FormItem>
+            )}
+          />
+
+          {/* Instant Live Preview */}
+          {ytPreview && (
+            <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-800">
+              {ytPreview.isValid ? (
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 p-3 bg-white dark:bg-slate-950 rounded-lg border border-emerald-200 dark:border-emerald-900/60 shadow-xs">
+                  <div className="relative w-28 aspect-video rounded overflow-hidden bg-slate-200 shrink-0 border border-slate-200 dark:border-slate-800">
+                    {ytPreview.thumbnailUrl && (
+                      <Image
+                        src={ytPreview.thumbnailUrl}
+                        alt="Detected YouTube Thumbnail"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    )}
+                  </div>
+                  <div className="space-y-1 min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <Badge
+                        variant={ytPreview.type === 'playlist' ? 'secondary' : 'default'}
+                        className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 h-5 flex items-center gap-1"
+                      >
+                        {ytPreview.type === 'playlist' ? (
+                          <>
+                            <ListVideo className="w-3 h-3" /> Playlist / Course
+                          </>
+                        ) : (
+                          <>
+                            <Video className="w-3 h-3" /> Single Video
+                          </>
+                        )}
+                      </Badge>
+                      <span className="inline-flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                        <CheckCircle className="w-3 h-3" /> Auto Thumbnail Ready
+                      </span>
+                    </div>
+                    <p className="text-[11px] font-mono text-muted-foreground truncate">
+                      ID: {ytPreview.videoId || ytPreview.playlistId}
+                    </p>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 text-xs text-destructive font-medium p-2 bg-destructive/10 rounded-lg">
+                  <AlertCircle className="w-4 h-4 shrink-0" />
+                  <span>{ytPreview.error}</span>
+                </div>
+              )}
             </div>
+          )}
+        </div>
+
+        {/* Step 2: Course Details Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Title */}
+          <div className="md:col-span-2">
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Course / Video Title *
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="e.g. Class 9 Maths Super One Shot Revision"
+                      {...field}
+                      className="font-medium h-10"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />
           </div>
-          
-          <div className="space-y-4 pt-4 border-t mt-4">
-              <h3 className="text-lg font-semibold">Chapters & Videos</h3>
-              {fields.map((chapter, chapIndex) => (
-                  <ChapterField key={chapter.id} chapIndex={chapIndex} removeChapter={remove} control={form.control} />
-              ))}
-              <Button type="button" variant="outline" size="sm" onClick={() => append({ name: '', videos: [] })}>
-                  <PlusCircle className="mr-2 h-4 w-4" /> Add Chapter
-              </Button>
+
+          {/* Class Dropdown */}
+          <FormField
+            control={form.control}
+            name="class"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Class *
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select Class" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {STANDARD_CLASSES.map((cls) => (
+                      <SelectItem key={cls} value={cls}>
+                        {cls}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Subject Selector / Input */}
+          <FormField
+            control={form.control}
+            name="subject"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Subject *
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select Subject" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {STANDARD_SUBJECTS.map((sub) => (
+                      <SelectItem key={sub} value={sub}>
+                        {sub}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Chapter Grouping (Optional) */}
+          <FormField
+            control={form.control}
+            name="chapter"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Chapter / Topic (Optional)
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="e.g. Number System, Polynomials"
+                    {...field}
+                    className="h-10"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Category Dropdown (Optional) */}
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Category (Optional)
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {STANDARD_CATEGORIES.map((cat) => (
+                      <SelectItem key={cat} value={cat}>
+                        {cat}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Short Description */}
+          <div className="md:col-span-2">
+            <FormField
+              control={form.control}
+              name="shortDescription"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                    Short Description (1–2 concise lines)
+                  </FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Complete revision of Number System with exam-focused questions and formulas."
+                      {...field}
+                      rows={2}
+                      className="resize-none text-sm"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs" />
+                </FormItem>
+              )}
+            />
           </div>
-        </ScrollArea>
-        <DialogFooter>
-          <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Saving...' : 'Save Changes'}
+
+          {/* Publish Status */}
+          <FormField
+            control={form.control}
+            name="publishStatus"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Publish Status *
+                </FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="h-10">
+                      <SelectValue placeholder="Status" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="published">Published (Visible on site)</SelectItem>
+                    <SelectItem value="draft">Draft (Admin only)</SelectItem>
+                    <SelectItem value="unpublished">Unpublished (Hidden)</SelectItem>
+                    <SelectItem value="archived">Archived</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+
+          {/* Display Order */}
+          <FormField
+            control={form.control}
+            name="displayOrder"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  Display Order
+                </FormLabel>
+                <FormControl>
+                  <Input type="number" placeholder="0" {...field} className="h-10" />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        <DialogFooter className="pt-4 border-t flex items-center justify-between sm:justify-end gap-2">
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full sm:w-auto font-bold text-xs px-6 h-10 shadow-md"
+          >
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Saving...
+              </>
+            ) : course ? (
+              'Save Changes'
+            ) : (
+              'Publish Free Course'
+            )}
           </Button>
         </DialogFooter>
       </form>
     </Form>
-  );
-}
-
-function ChapterField({ chapIndex, control, removeChapter }: { chapIndex: number; control: any; removeChapter: (index: number) => void; }) {
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: `chapters.${chapIndex}.videos`,
-  });
-
-  return (
-    <div className="space-y-3 p-3 border rounded-lg bg-muted/50 mb-4">
-        <div className="flex justify-between items-center">
-            <FormField control={control} name={`chapters.${chapIndex}.name`} render={({ field }) => ( <FormItem className="flex-1"><FormControl><Input placeholder="Chapter Name" {...field} /></FormControl><FormMessage /></FormItem> )}/>
-            <Button type="button" variant="ghost" size="icon" onClick={() => removeChapter(chapIndex)}><Trash2 className="h-4 w-4 text-destructive" /></Button>
-        </div>
-        <div className="space-y-2 pl-4">
-            {fields.map((video, videoIndex) => (
-                <div key={video.id} className="p-2 border rounded-md bg-background relative">
-                     <div className="flex items-center gap-2">
-                         <FormField control={control} name={`chapters.${chapIndex}.videos.${videoIndex}.title`} render={({ field }) => ( <FormItem className="flex-1"><FormControl><Input placeholder="Video Title" {...field} /></FormControl><FormMessage /></FormItem> )}/>
-                         <FormField control={control} name={`chapters.${chapIndex}.videos.${videoIndex}.youtubeLink`} render={({ field }) => ( <FormItem className="flex-1"><FormControl><Input placeholder="YouTube Link" {...field} /></FormControl><FormMessage /></FormItem> )}/>
-                         <Button type="button" variant="ghost" size="icon" className="h-6 w-6" onClick={() => remove(videoIndex)}><XCircle className="h-4 w-4 text-muted-foreground" /></Button>
-                     </div>
-                </div>
-            ))}
-        </div>
-        <div className="flex justify-end mt-2">
-            <Button type="button" variant="outline" size="sm" onClick={() => append({ title: '', youtubeLink: '' })}>
-                <PlusCircle className="mr-2 h-4 w-4" /> Add Video
-            </Button>
-        </div>
-    </div>
   );
 }

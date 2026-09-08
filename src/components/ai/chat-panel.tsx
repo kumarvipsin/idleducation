@@ -294,7 +294,7 @@ export function ChatPanel({ onClose, isOpen }: ChatPanelProps) {
         'bottom-3.5 left-2.5 right-2.5 mx-auto max-w-[calc(100%-20px)] w-[calc(100%-20px)] rounded-[20px]',
         'h-[74vh] min-h-[420px] max-h-[540px]',
         // Desktop: compact application window with 20px radius
-        'sm:bottom-[76px] sm:right-6 sm:left-auto sm:max-w-none',
+        'sm:bottom-[88px] sm:right-6 sm:left-auto sm:max-w-none',
         'sm:w-[410px] md:w-[430px] sm:h-[530px] md:h-[550px] sm:max-h-[calc(100vh-96px)]',
         // Unique AI activation animation: opacity, translateY & subtle scale
         'transition-all duration-300 ease-out will-change-transform',

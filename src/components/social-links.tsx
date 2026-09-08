@@ -3,12 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { getSocialMediaSettings, type TSocialMediaSettings } from '@/app/actions/social-media';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 // ============================================================
@@ -216,39 +210,31 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     if (headerItems.length === 0) return null;
 
     return (
-      <TooltipProvider delayDuration={150}>
-        <div className={cn("hidden md:flex items-center gap-1.5 lg:gap-2", className)}>
-          {headerItems.map((social) => (
-            <Tooltip key={social.id}>
-              <TooltipTrigger asChild>
-                <a
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={social.ariaLabel}
-                  className={cn(
-                    "w-8 h-8 lg:w-9 lg:h-9 rounded-full",
-                    "bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60",
-                    "flex items-center justify-center shrink-0",
-                    "text-[#1F4FA3] dark:text-blue-400",
-                    "transition-all duration-200 ease-out",
-                    "hover:bg-[#E2EDFF] dark:hover:bg-blue-900/80 hover:border-blue-300 dark:hover:border-blue-800",
-                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F4FA3]/50 focus-visible:ring-offset-2",
-                    social.brandHoverColor
-                  )}
-                >
-                  <span className="transition-transform duration-200 hover:scale-110 flex items-center justify-center">
-                    {social.icon}
-                  </span>
-                </a>
-              </TooltipTrigger>
-              <TooltipContent side="bottom" sideOffset={6} className="px-2.5 py-1 text-xs font-semibold bg-[#0B1F4B] text-white border-none shadow-md">
-                {social.name}
-              </TooltipContent>
-            </Tooltip>
-          ))}
-        </div>
-      </TooltipProvider>
+      <div className={cn("hidden md:flex items-center gap-1.5 lg:gap-2", className)}>
+        {headerItems.map((social) => (
+          <a
+            key={social.id}
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={social.ariaLabel}
+            className={cn(
+              "w-8 h-8 lg:w-9 lg:h-9 rounded-full",
+              "bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60",
+              "flex items-center justify-center shrink-0",
+              "text-[#1F4FA3] dark:text-blue-400",
+              "transition-all duration-200 ease-out",
+              "hover:bg-[#E2EDFF] dark:hover:bg-blue-900/80 hover:border-blue-300 dark:hover:border-blue-800",
+              "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F4FA3]/50 focus-visible:ring-offset-2",
+              social.brandHoverColor
+            )}
+          >
+            <span className="transition-transform duration-200 hover:scale-110 flex items-center justify-center">
+              {social.icon}
+            </span>
+          </a>
+        ))}
+      </div>
     );
   }
 
@@ -312,41 +298,33 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
         </h3>
 
         {/* Minimal Social Icon Row: 38-40px square, 8px radius, transparent, subtle border, NO shadow */}
-        <TooltipProvider delayDuration={150}>
-          <div className="flex items-center gap-2.5 sm:gap-3 pl-2.5">
-            {footerItems.map((social) => (
-              <Tooltip key={social.id}>
-                <TooltipTrigger asChild>
-                  <a
-                    href={social.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={social.ariaLabel}
-                    className={cn(
-                      "w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-[8px]",
-                      "bg-transparent dark:bg-transparent",
-                      "border border-slate-300/60 dark:border-slate-800/80",
-                      "flex items-center justify-center shrink-0",
-                      "text-[#0B1F4B] dark:text-slate-200",
-                      "transition-colors duration-200 ease-out cursor-pointer",
-                      "hover:bg-[#EEF4FF]/80 dark:hover:bg-blue-950/40 hover:border-slate-300 dark:hover:border-blue-900/60",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F4FA3]/50 focus-visible:ring-offset-1",
-                      "active:opacity-80",
-                      social.brandHoverColor
-                    )}
-                  >
-                    <span className="shrink-0 flex items-center justify-center">
-                      {social.icon}
-                    </span>
-                  </a>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" sideOffset={5} className="px-2 py-0.5 text-[11px] font-semibold bg-[#0B1F4B] text-white border-none shadow-sm">
-                  {social.name}
-                </TooltipContent>
-              </Tooltip>
-            ))}
-          </div>
-        </TooltipProvider>
+        <div className="flex items-center gap-2.5 sm:gap-3 pl-2.5">
+          {footerItems.map((social) => (
+            <a
+              key={social.id}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.ariaLabel}
+              className={cn(
+                "w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-[8px]",
+                "bg-transparent dark:bg-transparent",
+                "border border-slate-300/60 dark:border-slate-800/80",
+                "flex items-center justify-center shrink-0",
+                "text-[#0B1F4B] dark:text-slate-200",
+                "transition-colors duration-200 ease-out cursor-pointer",
+                "hover:bg-[#EEF4FF]/80 dark:hover:bg-blue-950/40 hover:border-slate-300 dark:hover:border-blue-900/60",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F4FA3]/50 focus-visible:ring-offset-1",
+                "active:opacity-80",
+                social.brandHoverColor
+              )}
+            >
+              <span className="shrink-0 flex items-center justify-center">
+                {social.icon}
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
     );
   }

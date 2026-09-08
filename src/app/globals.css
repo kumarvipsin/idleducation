@@ -357,6 +357,29 @@
   transform: translateY(0);
 }
 
+/* Landing page and Free Courses page: Strictly hide WhatsApp floating button (only IDL AI Bot icon displayed) */
+body:has([data-landing-page="true"]) #whatsapp-floating-btn,
+body:has([data-landing-page="true"]) a[href*="wa.me"],
+body:has([data-page="free-courses"]) #whatsapp-floating-btn,
+body:has([data-page="free-courses"]) a[href*="wa.me"],
+body.is-landing-page #whatsapp-floating-btn,
+body.is-landing-page a[href*="wa.me"],
+body.is-free-courses-page #whatsapp-floating-btn,
+body.is-free-courses-page a[href*="wa.me"],
+html:has([data-landing-page="true"]) #whatsapp-floating-btn,
+html:has([data-landing-page="true"]) a[href*="wa.me"],
+html:has([data-page="free-courses"]) #whatsapp-floating-btn,
+html:has([data-page="free-courses"]) a[href*="wa.me"],
+[data-landing-page="true"] ~ * #whatsapp-floating-btn,
+[data-landing-page="true"] ~ #whatsapp-floating-btn,
+[data-page="free-courses"] ~ * #whatsapp-floating-btn,
+[data-page="free-courses"] ~ #whatsapp-floating-btn {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
 /* Floating widgets: hide when mobile drawer or any modal dialog is open */
 body:has([data-mobile-drawer][data-state="open"]) #whatsapp-floating-btn,
 body:has([data-mobile-drawer][data-state="open"]) #idl-ai-floating-btn,

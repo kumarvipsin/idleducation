@@ -1,18 +1,39 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { ChatPanel } from './chat-panel';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 
 export function IdlAiAssistant() {
   const [isOpen, setIsOpen] = useState(false);
   const [isActivating, setIsActivating] = useState(false);
+  const pathname = usePathname();
+  const currentPath = pathname || (typeof window !== 'undefined' ? window.location.pathname : '/');
+  const isLandingPage = !currentPath || currentPath === '/' || currentPath === '';
+  const isFreeCoursesPage = currentPath.startsWith('/free-courses');
+  const isPrimaryCorner = isLandingPage || isFreeCoursesPage;
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (isLandingPage) {
+        document.body.classList.add('is-landing-page');
+      } else {
+        document.body.classList.remove('is-landing-page');
+      }
+      if (isFreeCoursesPage) {
+        document.body.classList.add('is-free-courses-page');
+      } else {
+        document.body.classList.remove('is-free-courses-page');
+      }
+    }
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.classList.remove('is-landing-page');
+        document.body.classList.remove('is-free-courses-page');
+      }
+    };
+  }, [isLandingPage, isFreeCoursesPage]);
 
   const handleToggle = () => {
     if (!isOpen) {
@@ -27,18 +48,18 @@ export function IdlAiAssistant() {
   return (
     <>
       {/* Floating Circular Trigger (Matches WhatsApp Floating Action Family) */}
-      <TooltipProvider delayDuration={150}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
+      <button
               id="idl-ai-floating-btn"
               type="button"
               onClick={handleToggle}
               aria-label={isOpen ? 'Close IDL AI' : 'Ask IDL AI'}
               aria-expanded={isOpen}
               className={cn(
-                // Position: perfectly right-aligned above WhatsApp button with 16px desktop / 14px mobile gap
-                'fixed bottom-[calc(88px+env(safe-area-inset-bottom))] right-[calc(1.25rem+env(safe-area-inset-right))] sm:bottom-[98px] sm:right-6 z-50',
+                // Position: On landing page and free courses (where WhatsApp is removed), sit at primary corner (bottom: 20-24px, right: 16-24px).
+                // On pages with WhatsApp, float right above WhatsApp (sm:bottom-[98px]).
+                isPrimaryCorner
+                  ? 'fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-[calc(1rem+env(safe-area-inset-right))] sm:bottom-6 sm:right-6 z-50'
+                  : 'fixed bottom-[calc(88px+env(safe-area-inset-bottom))] right-[calc(1.25rem+env(safe-area-inset-right))] sm:bottom-[98px] sm:right-6 z-50',
                 // Dimensions: perfectly circular, matching WhatsApp size family (54px mobile / 58px desktop)
                 'w-[54px] h-[54px] sm:w-[58px] sm:h-[58px] rounded-full',
                 'bg-[#1D4ED8] hover:bg-[#1A44BD]',
@@ -127,19 +148,7 @@ export function IdlAiAssistant() {
                   />
                 </svg>
               )}
-            </button>
-          </TooltipTrigger>
-          {!isOpen && (
-            <TooltipContent
-              side="left"
-              sideOffset={12}
-              className="hidden sm:block px-2.5 py-1 text-xs font-semibold bg-[#0B1F4B] text-white border-none shadow-md rounded-[7px] pointer-events-none"
-            >
-              Ask IDL AI
-            </TooltipContent>
-          )}
-        </Tooltip>
-      </TooltipProvider>
+      </button>
 
       {/* Mobile backdrop */}
       {isOpen && (

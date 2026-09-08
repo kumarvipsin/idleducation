@@ -1,468 +1,934 @@
 'use client';
 
-import { Card, CardContent, CardTitle as CardTitleUI } from "@/components/ui/card";
-import Image from "next/image";
-import { PlayCircle, BookOpen, Info, CheckCircle2, Search, Filter, X, GraduationCap, Book } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger, DialogClose } from "@/components/ui/dialog";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import type { TFreeCourse, TFreeCourseVideo } from "@/app/actions/types";
-import { GcsImage } from "@/components/gcs-image";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { cn } from "@/lib/utils";
-import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useSearchParams } from "next/navigation";
+import React, { useState, useMemo, useEffect, useRef } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useSearchParams, useRouter } from 'next/navigation';
+import {
+  Play,
+  PlayCircle,
+  BookOpen,
+  Search,
+  X,
+  ExternalLink,
+  ChevronRight,
+  GraduationCap,
+  Sparkles,
+  ListVideo,
+  Video,
+  BookText,
+  Clock,
+  Layers,
+  CheckCircle2,
+  Youtube,
+  Eye,
+} from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
+import { parseYouTubeUrl } from '@/lib/youtube';
+import type { TFreeCourse } from '@/app/actions/types';
 
-const VideoItem = ({
-    video,
-    chapterName,
-    isActive,
-    onSelect
-}: {
-    video: TFreeCourseVideo,
-    chapterName: string,
-    isActive: boolean,
-    onSelect: () => void
-}) => {
-    const videoId = video.youtubeLink.split('v=')[1]?.split('&')[0];
-    if (!videoId) return null;
+// ── ILLUSTRATED COLORFUL SUBJECT ICONS (Matching School Page & Courses We Offer Style) ──
+function ScienceIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#ECFDF5" />
+      <path d="M16 11V15.5L10.8 24.2C10.1 25.4 11 27 12.4 27H27.6C29 27 29.9 25.4 29.2 24.2L24 15.5V11" stroke="#059669" strokeWidth="2" strokeLinecap="round" />
+      <path d="M15 11H25" stroke="#047857" strokeWidth="2" strokeLinecap="round" />
+      <path d="M12.5 22H27.5L26.5 25H13.5L12.5 22Z" fill="#10B981" />
+      <circle cx="16" cy="24" r="1.5" fill="#34D399" />
+      <circle cx="21" cy="21" r="2" fill="#6EE7B7" />
+      <circle cx="23" cy="24" r="1" fill="#A7F3D0" />
+      <path d="M28 10L29 7L32 6L29 5L28 2L27 5L24 6L27 7L28 10Z" fill="#F59E0B" />
+    </svg>
+  );
+}
 
-    return (
-        <button
-            onClick={onSelect}
-            className={cn(
-                "w-full text-left flex items-center gap-3 py-3 px-4 transition-all duration-200 group border-b border-black/[0.03]",
-                isActive
-                    ? "bg-slate-50 border-l-[3px] border-l-primary"
-                    : "hover:bg-slate-100"
-            )}
-        >
-            <div className="relative h-12 w-20 rounded-md overflow-hidden shrink-0 bg-zinc-200 shadow-sm border border-border/50">
-                <Image
-                    src={`https://img.youtube.com/vi/${videoId}/mqdefault.jpg`}
-                    alt={video.title}
-                    fill
-                    className="object-cover opacity-90 group-hover:opacity-100 transition-opacity"
-                />
-                {isActive && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 backdrop-blur-[1px]">
-                        <PlayCircle className="w-5 h-5 text-white" />
-                    </div>
-                )}
-            </div>
-            <div className="flex-grow min-w-0">
-                <p className={cn(
-                    "text-[13px] font-black leading-tight line-clamp-2 transition-colors",
-                    isActive ? "text-primary" : "text-slate-700"
-                )}>{chapterName}</p>
-                {isActive && (
-                    <div className="flex items-center gap-1.5 mt-1">
-                        <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
-                        <span className="text-[9px] text-primary font-black uppercase tracking-widest">Now Playing</span>
-                    </div>
-                )}
-            </div>
-        </button>
-    );
-};
+function MathsIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#EFF6FF" />
+      <rect x="10" y="10" width="20" height="20" rx="4" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="1.5" />
+      <rect x="13" y="13" width="14" height="6" rx="2" fill="#DBEAFE" />
+      <path d="M15 22H17M23 22H25M15 26H17M23 26H25" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+      <path d="M20 22V26" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="31" cy="11" r="2" fill="#F59E0B" />
+    </svg>
+  );
+}
 
-const CoursePlayerDialog = ({ course }: { course: TFreeCourse }) => {
-    const [activeVideo, setActiveVideo] = useState<TFreeCourseVideo | null>(
-        course.chapters?.[0]?.videos?.[0] || null
-    );
+function EnglishIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#EEF2FF" />
+      <path d="M9 13C9 11.8954 9.89543 11 11 11H20V28H11C9.89543 28 9 27.1046 9 26V13Z" fill="#6366F1" />
+      <path d="M31 13C31 11.8954 30.1046 11 29 11H20V28H29C30.1046 28 31 27.1046 31 26V13Z" fill="#818CF8" />
+      <path d="M20 11V28" stroke="#4338CA" strokeWidth="1.5" />
+      <path d="M12 15H17M12 19H17M12 23H15" stroke="#E0E7FF" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M23 15H28M23 19H28M23 23H26" stroke="#EEF2FF" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M27 9L28.5 6L31.5 5L28.5 4L27 1L25.5 4L22.5 5L25.5 6L27 9Z" fill="#EC4899" />
+    </svg>
+  );
+}
 
-    const activeVideoId = activeVideo?.youtubeLink.split('v=')[1]?.split('&')[0];
+function SocialIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#FFFBEB" />
+      <circle cx="20" cy="19" r="9.5" fill="#F59E0B" stroke="#D97706" strokeWidth="1.5" />
+      <path d="M11 19C11 19 14 16 18 18C22 20 25 17 28.5 18.5" stroke="#FDE68A" strokeWidth="1.5" strokeLinecap="round" />
+      <ellipse cx="20" cy="19" rx="9.5" ry="4" stroke="#D97706" strokeWidth="1.2" fill="none" opacity="0.6" />
+      <path d="M20 9.5V28.5" stroke="#D97706" strokeWidth="1.2" opacity="0.6" />
+      <path d="M14 29H26" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+      <path d="M20 28.5V31" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
 
-    return (
-        <DialogContent className="p-0 flex flex-col lg:flex-row max-w-full lg:max-w-5xl w-full h-full lg:h-fit overflow-hidden rounded-none lg:rounded-2xl border-none lg:border border-border bg-white shadow-2xl transition-all duration-500">
-            <DialogHeader className="sr-only">
-                <DialogTitle>{course.title}</DialogTitle>
-                <DialogDescription>Video course curriculum</DialogDescription>
-            </DialogHeader>
+function PoliticalIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#EEF2FF" />
+      <path d="M20 8V28" stroke="#4338CA" strokeWidth="2" strokeLinecap="round" />
+      <path d="M11 13H29" stroke="#4338CA" strokeWidth="2" strokeLinecap="round" />
+      <path d="M11 13L8 21H14L11 13Z" fill="#818CF8" />
+      <path d="M29 13L26 21H32L29 13Z" fill="#818CF8" />
+      <path d="M16 29H24" stroke="#312E81" strokeWidth="2" strokeLinecap="round" />
+      <circle cx="20" cy="8" r="2" fill="#F59E0B" />
+    </svg>
+  );
+}
 
-            <div className="flex-none lg:flex-grow bg-white flex flex-col relative h-auto">
-                <div className="aspect-video w-full relative flex items-center justify-center bg-white">
-                    {activeVideoId ? (
-                        <iframe
-                            className="w-full h-full"
-                            src={`https://www.youtube.com/embed/${activeVideoId}?autoplay=1&rel=0&modestbranding=1`}
-                            title={activeVideo?.title}
-                            frameBorder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            allowFullScreen
-                        ></iframe>
-                    ) : (
-                        <div className="w-full h-full flex flex-col items-center justify-center text-muted-foreground/50 space-y-4">
-                            <PlayCircle className="w-16 h-16 opacity-20" />
-                            <p className="text-sm font-medium">Select a lesson to begin</p>
-                        </div>
-                    )}
-                </div>
-            </div>
+function HistoryIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#FFFBEB" />
+      <rect x="11" y="9" width="18" height="3" rx="1" fill="#D97706" />
+      <rect x="11" y="27" width="18" height="3" rx="1" fill="#D97706" />
+      <path d="M14 12V27M20 12V27M26 12V27" stroke="#F59E0B" strokeWidth="2.2" strokeLinecap="round" />
+      <path d="M9 31H31" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+      <path d="M9 7H31" stroke="#92400E" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
 
-            <div className="flex-1 lg:w-[320px] flex flex-col bg-white lg:border-l border-border lg:shrink-0 overflow-hidden min-h-0">
-                <ScrollArea className="flex-1">
-                    <div className="pb-0">
-                        {course.chapters && course.chapters.length > 0 ? (
-                            course.chapters.map((chapter, cIdx) => (
-                                <div key={`chapter-${cIdx}`} className="mt-0">
-                                    <div className="flex flex-col">
-                                        {chapter.videos.map((video, vIdx) => (
-                                            <VideoItem
-                                                key={`video-${cIdx}-${vIdx}`}
-                                                video={video}
-                                                chapterName={chapter.name}
-                                                isActive={activeVideo?.youtubeLink === video.youtubeLink}
-                                                onSelect={() => {
-                                                    setActiveVideo(video);
-                                                    if (window.innerWidth < 1024) {
-                                                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                                                    }
-                                                }}
-                                            />
-                                        ))}
-                                    </div>
-                                </div>
-                            ))
-                        ) : (
-                            <div className="flex flex-col items-center justify-center py-20 text-center text-zinc-400">
-                                <BookOpen className="w-10 h-10 opacity-20 mb-2" />
-                                <p className="text-xs font-extrabold">No content available</p>
-                            </div>
-                        )}
-                    </div>
-                </ScrollArea>
-                
-                <div className="lg:hidden p-4 border-t bg-slate-50 mt-auto">
-                    <DialogClose asChild>
-                        <Button variant="outline" className="w-full font-black text-[10px] tracking-widest uppercase h-11 rounded-xl shadow-sm border-slate-200">
-                            CLOSE PLAYER
-                        </Button>
-                    </DialogClose>
-                </div>
-            </div>
-        </DialogContent>
-    );
-};
+function EconomicsIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#ECFDF5" />
+      <rect x="10" y="22" width="4" height="7" rx="1" fill="#A7F3D0" stroke="#059669" strokeWidth="1" />
+      <rect x="16" y="17" width="4" height="12" rx="1" fill="#34D399" stroke="#059669" strokeWidth="1" />
+      <rect x="22" y="12" width="4" height="17" rx="1" fill="#10B981" stroke="#047857" strokeWidth="1" />
+      <rect x="28" y="8" width="4" height="21" rx="1" fill="#047857" stroke="#065F46" strokeWidth="1" />
+      <path d="M10 20L17 14L23 16L30 7" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M26 7H30V11" stroke="#F59E0B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
 
-export function FreeCoursesClient({ courses }: { courses: TFreeCourse[] }) {
+function GeneralIllustIcon({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
+      <circle cx="20" cy="20" r="18" fill="#EFF6FF" />
+      <path d="M10 12C10 10.8954 10.8954 10 12 10H20V28H12C10.8954 28 10 27.1046 10 26V12Z" fill="#3B82F6" />
+      <path d="M30 12C30 10.8954 29.1046 10 28 10H20V28H28C29.1046 28 30 27.1046 30 26V12Z" fill="#60A5FA" />
+      <path d="M20 10V28" stroke="#1D4ED8" strokeWidth="1.5" />
+      <rect x="22" y="8" width="3" height="8" fill="#F59E0B" rx="1" />
+      <circle cx="30" cy="10" r="1.5" fill="#F59E0B" />
+    </svg>
+  );
+}
+
+function getSubjectDetails(subjectName: string = '') {
+  const lower = subjectName.toLowerCase();
+  if (lower.includes('math')) {
+    return {
+      icon: <MathsIllustIcon />,
+      badgeBg: 'bg-blue-100/70 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+    };
+  }
+  if (lower.includes('sci') || lower.includes('phy') || lower.includes('chem') || lower.includes('bio')) {
+    return {
+      icon: <ScienceIllustIcon />,
+      badgeBg: 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300',
+    };
+  }
+  if (lower.includes('eng')) {
+    return {
+      icon: <EnglishIllustIcon />,
+      badgeBg: 'bg-indigo-100/70 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300',
+    };
+  }
+  if (lower.includes('eco')) {
+    return {
+      icon: <EconomicsIllustIcon />,
+      badgeBg: 'bg-emerald-100/70 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300',
+    };
+  }
+  if (lower.includes('polit') || lower.includes('civic')) {
+    return {
+      icon: <PoliticalIllustIcon />,
+      badgeBg: 'bg-indigo-100/70 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300',
+    };
+  }
+  if (lower.includes('hist')) {
+    return {
+      icon: <HistoryIllustIcon />,
+      badgeBg: 'bg-amber-100/70 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+    };
+  }
+  if (lower.includes('soc') || lower.includes('sst') || lower.includes('geo')) {
+    return {
+      icon: <SocialIllustIcon />,
+      badgeBg: 'bg-amber-100/70 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300',
+    };
+  }
+  return {
+    icon: <GeneralIllustIcon />,
+    badgeBg: 'bg-blue-100/70 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300',
+  };
+}
+
+interface FreeCoursesClientProps {
+  courses: TFreeCourse[];
+}
+
+// Extract robust YouTube embed URL supporting mobile playsinline & clean playback
+function getYouTubeEmbedUrl(url: string): string {
+  if (!url) return '';
+  const parsed = parseYouTubeUrl(url);
+
+  if (parsed.playlistId && (!parsed.videoId || parsed.type === 'playlist')) {
+    return `https://www.youtube.com/embed/videoseries?list=${parsed.playlistId}&rel=0&playsinline=1`;
+  }
+
+  if (parsed.videoId) {
+    return `https://www.youtube.com/embed/${parsed.videoId}?rel=0&playsinline=1${parsed.playlistId ? `&list=${parsed.playlistId}` : ''}`;
+  }
+
+  // Direct regex fallback for any 11-character video ID
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|shorts\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  if (match && match[1]) {
+    return `https://www.youtube.com/embed/${match[1]}?rel=0&playsinline=1`;
+  }
+
+  return url;
+}
+
+interface WatchingCourse {
+  title: string;
+  url: string;
+  isPlaylist: boolean;
+}
+
+export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
   const searchParams = useSearchParams();
-  const classParam = searchParams.get('class');
-  const [mounted, setMounted] = useState(false);
-  const [selectedClass, setSelectedClass] = useState(classParam || "all");
-  const [selectedSubject, setSelectedSubject] = useState("all");
-  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
+  // Navigation state: drill-down hierarchy with URL & sessionStorage persistence
+  const [selectedClass, setSelectedClass] = useState<string>(() => {
+    if (typeof window !== 'undefined') {
+      const urlClass = new URLSearchParams(window.location.search).get('class');
+      if (urlClass) return urlClass;
+      try {
+        const saved = sessionStorage.getItem('idl_free_courses_class');
+        if (saved) return saved;
+      } catch {}
+    }
+    return searchParams.get('class') || 'all';
+  });
+  const [selectedSubject, setSelectedSubject] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      const urlSubj = new URLSearchParams(window.location.search).get('subject');
+      if (urlSubj) return urlSubj;
+    }
+    return searchParams.get('subject') || null;
+  });
+  const [selectedChapter, setSelectedChapter] = useState<string | null>(() => {
+    if (typeof window !== 'undefined') {
+      const urlChap = new URLSearchParams(window.location.search).get('chapter');
+      if (urlChap) return urlChap;
+    }
+    return searchParams.get('chapter') || null;
+  });
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const [watchingCourse, setWatchingCourse] = useState<WatchingCourse | null>(null);
+
+  // Close modal on Escape key
   useEffect(() => {
-    setMounted(true);
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setWatchingCourse(null); };
+    if (watchingCourse) window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [watchingCourse]);
+
+  // Restore and sync URL & state on mount, reload and browser back/forward
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlClass = urlParams.get('class');
+    const urlSubject = urlParams.get('subject');
+    const urlChapter = urlParams.get('chapter');
+
+    if (urlClass) {
+      setSelectedClass(urlClass);
+      try { sessionStorage.setItem('idl_free_courses_class', urlClass); } catch {}
+    } else {
+      try {
+        const saved = sessionStorage.getItem('idl_free_courses_class');
+        if (saved && saved !== 'all') {
+          setSelectedClass(saved);
+          urlParams.set('class', saved);
+          window.history.replaceState(null, '', `?${urlParams.toString()}`);
+        }
+      } catch {}
+    }
+
+    if (urlSubject) setSelectedSubject(urlSubject);
+    if (urlChapter) setSelectedChapter(urlChapter);
+
+    const onPopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      setSelectedClass(params.get('class') || 'all');
+      setSelectedSubject(params.get('subject') || null);
+      setSelectedChapter(params.get('chapter') || null);
+    };
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
+  // Sync with searchParams if updated from external router
   useEffect(() => {
-    if (classParam) {
-      setSelectedClass(classParam);
+    const cls = searchParams.get('class');
+    if (cls && cls !== selectedClass) {
+      setSelectedClass(cls);
     }
-  }, [classParam]);
+  }, [searchParams]);
 
-  const availableClasses = useMemo(() => {
-    const unique = Array.from(new Set(courses.map(c => c.class))).filter(Boolean).sort();
-    return unique;
+  // Navigation handlers that keep the URL query string updated so page reload stays on the same class
+  const handleSelectClass = (cls: string) => {
+    setSelectedClass(cls);
+    setSelectedSubject(null);
+    setSelectedChapter(null);
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (cls === 'all') {
+        params.delete('class');
+        try { sessionStorage.removeItem('idl_free_courses_class'); } catch {}
+      } else {
+        params.set('class', cls);
+        try { sessionStorage.setItem('idl_free_courses_class', cls); } catch {}
+      }
+      params.delete('subject');
+      params.delete('chapter');
+
+      const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+      window.history.replaceState(null, '', newUrl);
+    }
+  };
+
+  const handleSelectSubject = (subj: string | null) => {
+    setSelectedSubject(subj);
+    setSelectedChapter(null);
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (selectedClass && selectedClass !== 'all') {
+        params.set('class', selectedClass);
+      }
+      if (subj) {
+        params.set('subject', subj);
+      } else {
+        params.delete('subject');
+      }
+      params.delete('chapter');
+
+      const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+      window.history.replaceState(null, '', newUrl);
+    }
+  };
+
+  const handleSelectChapter = (chap: string | null) => {
+    setSelectedChapter(chap);
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      if (selectedClass && selectedClass !== 'all') {
+        params.set('class', selectedClass);
+      }
+      if (selectedSubject) {
+        params.set('subject', selectedSubject);
+      }
+      if (chap) {
+        params.set('chapter', chap);
+      } else {
+        params.delete('chapter');
+      }
+
+      const newUrl = params.toString() ? `?${params.toString()}` : window.location.pathname;
+      window.history.replaceState(null, '', newUrl);
+    }
+  };
+
+  // Reset drill-down
+  const handleResetBreadcrumb = () => {
+    handleSelectSubject(null);
+  };
+
+  // Derive unique classes from data + defaults
+  const classList = useMemo(() => {
+    const standard = ['Class 6', 'Class 7', 'Class 8', 'Class 9', 'Class 10', 'Class 11', 'Class 12'];
+    const fromData = courses.map((c) => c.class).filter(Boolean);
+    const combined = Array.from(new Set([...standard, ...fromData]));
+    // natural sort
+    return combined.sort((a, b) => {
+      const na = parseInt(a.replace(/\D/g, ''), 10) || 0;
+      const nb = parseInt(b.replace(/\D/g, ''), 10) || 0;
+      return na - nb;
+    });
   }, [courses]);
 
-  const availableSubjects = useMemo(() => {
-    const unique = Array.from(new Set(courses.map(c => c.subject))).filter(Boolean).sort();
-    return unique;
-  }, [courses]);
+  // Filter courses by selected class
+  const classFilteredCourses = useMemo(() => {
+    if (selectedClass === 'all') return courses;
+    return courses.filter(
+      (c) => c.class?.toLowerCase().trim() === selectedClass.toLowerCase().trim()
+    );
+  }, [courses, selectedClass]);
 
-  const filteredCourses = useMemo(() => {
-    return courses.filter(course => {
-      const matchesClass = selectedClass === "all" || 
-        course.class?.toLowerCase().trim() === selectedClass.toLowerCase().trim() ||
-        course.class === selectedClass;
-      const matchesSubject = selectedSubject === "all" || course.subject === selectedSubject;
-      const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                            course.description?.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesClass && matchesSubject && matchesSearch;
-    });
-  }, [courses, selectedClass, selectedSubject, searchTerm]);
+  // Filter courses by search query
+  const searchFilteredCourses = useMemo(() => {
+    if (!searchQuery.trim()) return classFilteredCourses;
+    const q = searchQuery.toLowerCase().trim();
+    return classFilteredCourses.filter(
+      (c) =>
+        c.title.toLowerCase().includes(q) ||
+        c.subject?.toLowerCase().includes(q) ||
+        c.chapter?.toLowerCase().includes(q) ||
+        c.shortDescription?.toLowerCase().includes(q)
+    );
+  }, [classFilteredCourses, searchQuery]);
 
-  const groupedCourses = useMemo(() => {
-    const subjectPriority: Record<string, number> = {
-      'maths': 1,
-      'mathematics': 1,
-      'science': 2,
-      'social science': 3,
-      'social studies': 3,
-      'sst': 3,
-      'english': 4,
-    };
-
-    const getPriority = (subject: string) => {
-      const s = subject.toLowerCase().trim();
-      for (const [key, priority] of Object.entries(subjectPriority)) {
-        if (s.includes(key)) return priority;
+  // Group by Subjects for current class view
+  const subjectsMap = useMemo(() => {
+    const map = new Map<string, { courses: TFreeCourse[]; videoCount: number }>();
+    classFilteredCourses.forEach((c) => {
+      const subj = c.subject || 'General Studies';
+      if (!map.has(subj)) {
+        map.set(subj, { courses: [], videoCount: 0 });
       }
-      return 99;
-    };
+      const entry = map.get(subj)!;
+      entry.courses.push(c);
+      entry.videoCount += c.youtubeType === 'playlist' ? 5 : 1;
+    });
+    return map;
+  }, [classFilteredCourses]);
 
-    const grouped = filteredCourses.reduce((acc, course) => {
-      const rawClass = (course.class || 'Other Courses').trim();
-      const existingKey = Object.keys(acc).find(k => k.toLowerCase() === rawClass.toLowerCase());
-      const key = existingKey || rawClass;
-
-      if (!acc[key]) {
-        acc[key] = [];
+  // Group by Chapters for current subject view
+  const chaptersMap = useMemo(() => {
+    if (!selectedSubject) return new Map();
+    const map = new Map<string, TFreeCourse[]>();
+    const subjCourses = classFilteredCourses.filter(
+      (c) => (c.subject || 'General Studies').toLowerCase() === selectedSubject.toLowerCase()
+    );
+    subjCourses.forEach((c) => {
+      const chap = c.chapter || c.title || 'General Lessons';
+      if (!map.has(chap)) {
+        map.set(chap, []);
       }
-      acc[key].push(course);
-      return acc;
-    }, {} as {[key: string]: TFreeCourse[]});
-
-    Object.keys(grouped).forEach(key => {
-      grouped[key].sort((a, b) => getPriority(a.subject) - getPriority(b.subject));
+      map.get(chap)!.push(c);
     });
+    return map;
+  }, [classFilteredCourses, selectedSubject]);
 
-    return grouped;
-  }, [filteredCourses]);
+  // Videos list for selected chapter view
+  const chapterVideos = useMemo(() => {
+    if (!selectedChapter || !selectedSubject) return [];
+    return classFilteredCourses.filter(
+      (c) =>
+        (c.subject || 'General Studies').toLowerCase() === selectedSubject.toLowerCase() &&
+        (c.chapter || c.title || 'General Lessons').toLowerCase() === selectedChapter.toLowerCase()
+    );
+  }, [classFilteredCourses, selectedSubject, selectedChapter]);
 
-  const sortedGroupedEntries = useMemo(() => {
-    return Object.entries(groupedCourses).sort(([keyA], [keyB]) => {
-      const numA = parseInt(keyA.match(/\d+/)?.[0] || '0', 10);
-      const numB = parseInt(keyB.match(/\d+/)?.[0] || '0', 10);
-      return numA - numB;
-    });
-  }, [groupedCourses]);
 
-  if (courses.length === 0) {
-    const displayClass = selectedClass !== "all" ? selectedClass : null;
-    return (
-      <div className="container mx-auto py-16 md:py-24 px-4 md:px-6 max-w-4xl relative z-10">
-        <div className="text-center py-16 px-6 sm:px-12 bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-sm">
-          <div className="w-16 h-16 rounded-2xl bg-primary/10 dark:bg-primary/20 flex items-center justify-center mx-auto mb-6">
-            <GraduationCap className="w-8 h-8 text-primary" />
+  return (
+    <div data-page="free-courses" className="min-h-screen bg-[#F5F7FA] dark:bg-background pb-[calc(5.5rem+env(safe-area-inset-bottom))] sm:pb-24">
+
+      {/* ── YouTube Video Modal (Exact Sample Reference: White Top Bar, Left Close Button, Mobile & Desktop Responsive) ── */}
+      {watchingCourse && (
+        <>
+          {/* Backdrop Overlay — covers full screen, no click-to-close as per user requirement */}
+          <div
+            className="fixed inset-0 z-[120] bg-black/80 backdrop-blur-sm"
+            aria-hidden="true"
+          />
+
+          {/* Centering Wrapper — pointer-events-none so touches/taps are not intercepted by the viewport flex layer */}
+          <div
+            className="fixed inset-0 z-[121] flex items-center justify-center p-3 sm:p-5 md:p-6 pointer-events-none overscroll-contain"
+            role="dialog"
+            aria-modal="true"
+            aria-label={watchingCourse.title}
+          >
+            {/* Modal Card — pointer-events-auto enables all clicks/touches cleanly on the card & iframe */}
+            <div
+              className="pointer-events-auto relative w-[min(calc(100vw-1.5rem),calc((86dvh)*16/9),880px)] bg-white dark:bg-slate-900 rounded-lg sm:rounded-xl overflow-hidden shadow-2xl flex flex-col my-auto border-0"
+            >
+              {/* Top White Bar with Left Circular Close Button (X) matching sample */}
+              <div className="w-full bg-white dark:bg-slate-900 px-3 py-2 sm:py-2.5 flex items-center justify-start border-b border-slate-100 dark:border-slate-800 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setWatchingCourse(null)}
+                  className="w-6 h-6 sm:w-6.5 sm:h-6.5 rounded-full bg-slate-200/90 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 flex items-center justify-center transition-colors cursor-pointer shadow-xs active:scale-95"
+                  aria-label="Close video"
+                >
+                  <X className="w-3.5 h-3.5 stroke-[2.5]" />
+                </button>
+              </div>
+
+              {/* Video Player Container — 16:9, playsinline */}
+              <div className="relative aspect-video w-full bg-black overflow-hidden pointer-events-auto">
+                <iframe
+                  key={watchingCourse.url}
+                  className="w-full h-full border-0 block pointer-events-auto"
+                  src={getYouTubeEmbedUrl(watchingCourse.url)}
+                  title={watchingCourse.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                />
+              </div>
+            </div>
           </div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-semibold uppercase tracking-wider mb-4">
-            <span>Free Courses</span>
-            {displayClass && (
+        </>
+      )}
+
+
+      {/* ── HERO — Dark Navy, Compact (Refined Mobile Height) ── */}
+      <section className="relative overflow-hidden pt-5 pb-5 sm:py-10 lg:py-14 bg-gradient-to-b from-[#061026] via-[#0B1F4B] to-[#0A1A3F] text-white border-b border-white/10">
+        {/* Dot texture */}
+        <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
+        {/* Glow blobs */}
+        <div className="absolute -top-28 -left-16 w-[380px] h-[380px] bg-gradient-to-br from-blue-500/10 to-transparent rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute -bottom-20 -right-12 w-[340px] h-[340px] bg-gradient-to-tl from-[#FF6B00]/[0.07] to-transparent rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="container mx-auto px-5 md:px-6 relative z-10 max-w-4xl">
+
+          {/* Eyebrow — secondary, refined */}
+          <div className="flex items-center justify-center gap-2 mb-3 sm:mb-5">
+            <span className="w-3.5 sm:w-4 h-px bg-[#FF6B00]/60 shrink-0" />
+            <span className="text-[9.5px] sm:text-[10.5px] font-semibold uppercase tracking-[0.28em] text-[#FF6B00]">IDL Education</span>
+            <span className="w-3.5 sm:w-4 h-px bg-[#FF6B00]/60 shrink-0" />
+          </div>
+
+          {/* Headline — deliberate 2-line on mobile */}
+          <h1 className="text-center font-black text-white leading-[1.06] tracking-[-0.025em]
+            text-[28px] sm:text-[42px] md:text-[50px] lg:text-[58px]
+            max-w-[320px] sm:max-w-none mx-auto sm:mx-0">
+            Free <span className="text-[#FF6B00]">Courses</span>&nbsp;&amp;<br className="sm:hidden" /> Video Library
+          </h1>
+
+          {/* Description */}
+          <p className="text-center mt-2.5 sm:mt-4
+            text-[13px] sm:text-[14.5px]
+            text-slate-400 font-normal
+            leading-[1.45] sm:leading-[1.52]
+            max-w-[320px] sm:max-w-[480px] mx-auto">
+            Free lessons, chapter one-shots, and exam revision resources from IDL Education. Watch anytime on YouTube.
+          </p>
+
+          {/* Stats strip */}
+          <div className="mt-3.5 sm:mt-5 pt-3 sm:pt-4 border-t border-white/[0.08]
+            flex flex-wrap items-center justify-center
+            gap-x-4 gap-y-1.5 sm:gap-x-7 sm:gap-y-2
+            text-[12px] sm:text-[13px] font-medium text-slate-400">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="w-[5px] h-[5px] sm:w-[6px] sm:h-[6px] rounded-full bg-[#FF6B00] shrink-0" />
+              <span>Free Forever</span>
+            </div>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="w-[5px] h-[5px] sm:w-[6px] sm:h-[6px] rounded-full bg-blue-400 shrink-0" />
+              <span>Class 6–12</span>
+            </div>
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className="w-[5px] h-[5px] sm:w-[6px] sm:h-[6px] rounded-full bg-emerald-400 shrink-0" />
+              <span>Powered by YouTube</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ── Transition band + breathing space: dark → light ── */}
+      <div className="h-1.5 sm:h-1 bg-gradient-to-b from-[#0A1A3F] to-[#F5F7FA] dark:to-background" />
+
+      {/* ── Main Library Area ── */}
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+
+        {/* Desktop Search + Filter bar */}
+        {!selectedSubject && (
+          <div className="py-3 sm:py-4 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3 sm:gap-4">
+
+            {/* Filter tabs — horizontal scroll, no wrap */}
+            <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-1 min-w-0">
+              <div className="flex items-center gap-1 whitespace-nowrap">
+                {(['all', ...classList] as string[]).map((cls) => (
+                  <button
+                    key={cls}
+                    onClick={() => handleSelectClass(cls)}
+                    className={cn(
+                      "shrink-0 px-3 py-1.5 rounded-[8px] text-[11px] sm:text-xs font-semibold transition-all duration-150 whitespace-nowrap border",
+                      selectedClass === cls
+                        ? "bg-[#0B1F4B] text-white border-[#0B1F4B] shadow-sm"
+                        : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 hover:text-slate-800"
+                    )}
+                  >
+                    {cls === 'all' ? 'All Classes' : cls}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Blog-style expandable search — right side, mobile + desktop */}
+            <div className="relative flex items-center justify-end shrink-0 h-9">
+              <div
+                className={cn(
+                  "flex items-center h-9 transition-all duration-300 ease-in-out rounded-full overflow-hidden",
+                  isSearchOpen || searchQuery
+                    ? "w-52 sm:w-60 px-2.5 bg-slate-100 dark:bg-slate-800/80"
+                    : "w-9 justify-center hover:bg-slate-100 dark:hover:bg-slate-800"
+                )}
+              >
+                <button
+                  type="button"
+                  onClick={() => { setIsSearchOpen(true); setTimeout(() => searchInputRef.current?.focus(), 50); }}
+                  className="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors shrink-0 p-1 cursor-pointer border-none outline-none shadow-none focus:outline-none focus:ring-0"
+                  aria-label="Search courses"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+                {(isSearchOpen || searchQuery) && (
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search lessons, subjects..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onBlur={() => { if (!searchQuery) setIsSearchOpen(false); }}
+                    className="flex-1 border-0 shadow-none outline-none focus:outline-none text-xs text-slate-700 dark:text-slate-300 placeholder:text-muted-foreground/70 bg-transparent h-full px-2"
+                    aria-label="Search free courses"
+                  />
+                )}
+                {searchQuery && (
+                  <button
+                    onClick={() => { setSearchQuery(''); setIsSearchOpen(false); }}
+                    className="text-muted-foreground hover:text-foreground shrink-0 p-1 cursor-pointer border-none outline-none"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Breadcrumbs */}
+        {(selectedClass !== 'all' || selectedSubject || selectedChapter) && (
+          <div className="flex items-center flex-wrap gap-1.5 py-3 text-xs font-medium text-muted-foreground">
+            <button onClick={() => handleSelectClass('all')} className="hover:text-primary transition-colors">
+              Free Courses
+            </button>
+            {selectedClass !== 'all' && (
               <>
-                <span>•</span>
-                <span>{displayClass}</span>
+                <ChevronRight className="w-3 h-3 text-slate-400" />
+                <button onClick={handleResetBreadcrumb} className={cn("hover:text-primary transition-colors", !selectedSubject && "text-foreground font-semibold")}>
+                  {selectedClass}
+                </button>
+              </>
+            )}
+            {selectedSubject && (
+              <>
+                <ChevronRight className="w-3 h-3 text-slate-400" />
+                <button onClick={() => handleSelectChapter(null)} className={cn("hover:text-primary transition-colors", !selectedChapter && "text-foreground font-semibold")}>
+                  {selectedSubject}
+                </button>
+              </>
+            )}
+            {selectedChapter && (
+              <>
+                <ChevronRight className="w-3 h-3 text-slate-400" />
+                <span className="text-primary font-semibold">{selectedChapter}</span>
               </>
             )}
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight mb-3">
-            Courses coming soon.
-          </h1>
-          <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
-            {displayClass 
-              ? `We are currently preparing curriculum and materials for ${displayClass}. Please check back shortly.`
-              : `We are currently preparing curriculum and materials for Class 9 and Class 10. Please check back shortly.`
-            }
-          </p>
-        </div>
-      </div>
-    );
-  }
+        )}
 
-  if (!mounted) return null;
-
-  return (
-    <div className="container mx-auto py-6 md:py-10 px-4 md:px-6 max-w-7xl relative z-10">
-      
-      {/* Filtration Section - Premium Institutional Style */}
-      <div className="mb-12">
-        <Card className="rounded-sm border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 overflow-hidden shadow-none">
-            <CardContent className="p-0">
-                <div className="grid grid-cols-1 md:grid-cols-12 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                    {/* Class Filter Cell */}
-                    <div className="md:col-span-3">
-                        <div className="relative group h-full">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10 transition-transform duration-300 group-focus-within:scale-110">
-                                <GraduationCap className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                            </div>
-                            <Select value={selectedClass} onValueChange={setSelectedClass}>
-                                <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
-                                    <SelectValue placeholder="Filter by Class" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all" className="text-xs font-bold">All Classes</SelectItem>
-                                    {availableClasses.map(c => <SelectItem key={c} value={c} className="text-xs font-bold">{c}</SelectItem>)}
-                                </SelectContent>
-                            </Select>
+        {/* ── VIEW LEVEL 3: Videos inside a Chapter ── */}
+        {selectedChapter && selectedSubject ? (
+          <div className="py-4 sm:py-5">
+            <div className="grid grid-cols-1 gap-3">
+              {chapterVideos.map((video) => (
+                <div key={video.id} className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:shadow-sm transition-shadow group">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 min-w-0">
+                    <button
+                      type="button"
+                      onClick={() => setWatchingCourse({ title: video.title, url: video.youtubeUrl || '', isPlaylist: false })}
+                      className="relative w-full sm:w-40 aspect-video rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0 block group/thumb cursor-pointer"
+                      aria-label={`Watch ${video.title}`}
+                    >
+                      {video.thumbnailUrl || video.coverImageUrl ? (
+                        <Image src={video.thumbnailUrl || video.coverImageUrl || ''} alt={video.title} fill unoptimized className="object-cover group-hover/thumb:scale-105 transition-transform duration-300" />
+                      ) : null}
+                      <div className="absolute inset-0 bg-black/20 group-hover/thumb:bg-black/10 transition-colors flex items-center justify-center">
+                        <div className="w-8 h-8 rounded-full bg-white/90 flex items-center justify-center shadow-sm">
+                          <Play className="w-3.5 h-3.5 fill-[#0B1F4B] text-[#0B1F4B]" />
                         </div>
-                    </div>
-
-                    {/* Subject Filter Cell */}
-                    <div className="md:col-span-3">
-                        <div className="relative group h-full">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10 transition-transform duration-300 group-focus-within:scale-110">
-                                <Book className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                            </div>
-                            <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                                <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0">
-                                    <SelectValue placeholder="Filter by Subject" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all" className="text-xs font-bold">All Subjects</SelectItem>
-                                    {availableSubjects.map(s => <SelectItem key={s} value={s} className="text-xs font-bold">{s}</SelectItem>)}
-                                </SelectContent>
-                            </Select>
-                        </div>
-                    </div>
-
-                    {/* Search Filter Cell */}
-                    <div className="md:col-span-4">
-                        <div className="relative group h-full">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                <Search className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
-                            </div>
-                            <Input 
-                                placeholder="Search by Title... *" 
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" 
-                            />
-                            {searchTerm && (
-                                <button 
-                                    onClick={() => setSearchTerm("")}
-                                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-primary transition-colors"
-                                >
-                                    <X className="h-4 w-4" />
-                                </button>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Clear Button Cell */}
-                    <div className="md:col-span-2 bg-slate-50 dark:bg-slate-800/50">
-                        <Button 
-                            variant="ghost" 
-                            onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
-                            className="w-full h-14 border-0 rounded-none font-black text-[10px] tracking-widest uppercase hover:bg-slate-100 dark:hover:bg-slate-800 transition-all text-slate-600 dark:text-slate-400"
-                        >
-                            <X className="mr-2 h-3.5 w-3.5" />
-                            Clear All
-                        </Button>
-                    </div>
-                </div>
-            </CardContent>
-        </Card>
-      </div>
-
-      {/* Courses Display */}
-      {sortedGroupedEntries.length > 0 ? (
-        sortedGroupedEntries.map(([groupTitle, groupCourses]) => {
-            return (
-                <section key={groupTitle} className="mb-12 last:mb-0">
-                  <div className="flex items-center justify-between border-l-4 border-primary pl-3 mb-8">
-                        <div className="text-left">
-                            <h3 className="font-black text-xl md:text-2xl text-slate-900 dark:text-white tracking-tighter uppercase">
-                                {groupTitle}
-                            </h3>
-                            <p className="text-[10px] text-primary font-black uppercase tracking-[0.2em] mt-1">Free Access</p>
-                        </div>
-                    </div>
-        
-                  <div className="relative">
-                    <div className="flex overflow-x-auto pb-6 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-6 md:overflow-visible [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                        {groupCourses.map((course) => (
-                        <div key={course.id} className="flex-shrink-0 w-[285px] md:w-full h-full">
-                            <Card className="rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-500 flex flex-col bg-card border group/card relative h-full">
-                                <div className="relative overflow-hidden aspect-[16/9]">
-                                    <GcsImage
-                                        filePath={course.coverImageUrl || ""}
-                                        alt={course.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover/card:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                                </div>
-                                
-                                <CardContent className="p-4 flex flex-col flex-grow text-left">
-                                    <CardTitleUI className="text-sm md:text-base font-extrabold text-foreground leading-tight mb-2 line-clamp-2 group-hover/card:text-primary transition-colors text-left">{course.title}</CardTitleUI>
-                                    
-                                    <div className="flex flex-wrap items-center gap-1.5 mb-3">
-                                        <Badge variant="secondary" className="rounded-md bg-primary/5 text-primary border-none font-extrabold uppercase text-[8px] tracking-widest h-6 px-3 py-0 flex items-center justify-center">{course.batchName}</Badge>
-                                        <Badge variant="outline" className="rounded-md border-muted-foreground/20 text-muted-foreground text-[8px] tracking-widest font-extrabold uppercase h-6 px-3 py-0 flex items-center justify-center">{course.medium}</Badge>
-                                    </div>
-
-                                    <div className="text-[11px] text-muted-foreground mt-1 space-y-1 font-extrabold capitalize tracking-tight">
-                                        <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Validity: <span className="text-foreground">{course.validity}</span></p>
-                                        <p className="flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-primary" /> Subject: <span className="text-foreground">{course.subject}</span></p>
-                                    </div>
-
-                                    <div className="mt-4 flex items-center justify-between">
-                                    <div>
-                                        <div className="flex items-baseline gap-1.5">
-                                            <p className="text-lg font-extrabold text-primary">₹{course.price}</p>
-                                            {course.originalPrice > 0 && <p className="text-[10px] text-muted-foreground line-through opacity-50 font-extrabold">₹{course.originalPrice}</p>}
-                                        </div>
-                                        <div className="bg-green-500/10 text-green-600 text-[8px] font-extrabold px-1.5 py-0.5 rounded mt-1 border border-green-500/20 uppercase tracking-tighter w-fit">
-                                            100% OFF
-                                        </div>
-                                    </div>
-
-                                    <Popover>
-                                        <PopoverTrigger asChild>
-                                            <Button variant="ghost" size="icon" className="rounded-full bg-muted/50 hover:bg-primary hover:text-white transition-all h-7 w-7">
-                                                <Info className="w-3.5 h-3.5" />
-                                            </Button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-72 p-4 rounded-xl bg-background/95 backdrop-blur-xl border-white/20 shadow-2xl" align="end">
-                                            <h4 className="font-extrabold text-[9px] mb-2 text-primary uppercase tracking-widest text-left">About this course</h4>
-                                            <ScrollArea className="max-h-40">
-                                                <p className="text-[10px] text-foreground font-extrabold leading-relaxed whitespace-pre-wrap opacity-80 text-left">
-                                                    {course.description}
-                                                </p>
-                                            </ScrollArea>
-                                            <div className="mt-4 pt-3 border-t border-white/10">
-                                                <div className="flex items-center gap-2 text-[9px] font-extrabold text-green-600">
-                                                    <CheckCircle2 className="w-3 h-3" />
-                                                    <span>Lifetime Access</span>
-                                                </div>
-                                            </div>
-                                        </PopoverContent>
-                                    </Popover>
-                                    </div>
-                                </CardContent>
-
-                                <div className="p-4 pt-0 mt-auto">
-                                    <Dialog>
-                                        <DialogTrigger asChild>
-                                            <Button className="w-full bg-primary hover:bg-primary/90 text-white font-extrabold h-12 rounded-xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98] group/btn text-[10px] tracking-tight">
-                                                <PlayCircle className="w-3.5 h-3.5 mr-2 transition-transform group-hover:btn:scale-110" />
-                                                VIEW LESSONS
-                                            </Button>
-                                        </DialogTrigger>
-                                        <CoursePlayerDialog course={course} />
-                                    </Dialog>
-                                </div>
-                            </Card>
-                        </div>
-                        ))}
+                      </div>
+                    </button>
+                    <div className="space-y-1 min-w-0">
+                      <div className="flex items-center gap-1.5">
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-medium leading-none"><CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />FREE</span>
+                        {video.category && <span className="text-[10px] font-medium text-primary">{video.category}</span>}
+                      </div>
+                      <h3 className="font-semibold text-sm text-slate-900 dark:text-white leading-snug line-clamp-2 group-hover:text-primary transition-colors">{video.title}</h3>
+                      <p className="text-[11px] text-muted-foreground line-clamp-1">{video.shortDescription || video.description || ''}</p>
                     </div>
                   </div>
-                </section>
-            );
-        })
-      ) : (
-        <div className="text-center py-32 space-y-4">
-            <div className="p-6 bg-muted/50 rounded-full w-fit mx-auto">
-                <BookOpen className="w-10 h-10 text-muted-foreground opacity-20" />
+                  <div className="shrink-0 flex items-center gap-1 text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                    <span className="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider">
+                      Medium:
+                    </span>
+                    <span className="font-semibold text-slate-700 dark:text-slate-300">
+                      {video.medium || 'Hinglish'}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <h2 className="text-xl font-extrabold text-foreground/40 tracking-tight uppercase">No matching courses found</h2>
-            <p className="text-xs text-muted-foreground font-extrabold">Try adjusting your filters or search keywords.</p>
-            <Button 
-                variant="link" 
-                onClick={() => { setSelectedClass("all"); setSelectedSubject("all"); setSearchTerm(""); }}
-                className="text-primary font-black uppercase text-[10px] tracking-widest"
-            >
-                Clear all filters
-            </Button>
-        </div>
-      )}
+          </div>
+
+        ) : selectedSubject ? (
+          /* ── VIEW LEVEL 2: Chapters inside a Subject ── */
+          <div className="py-4 sm:py-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {Array.from(chaptersMap.entries()).map(([chapterName, chapterItems]) => (
+                <div key={chapterName} onClick={() => handleSelectChapter(chapterName)}
+                  className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl p-4 flex items-center justify-between gap-3 cursor-pointer hover:border-primary/40 hover:shadow-sm transition-all group">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 group-hover:bg-primary group-hover:text-white transition-colors text-slate-500">
+                      <BookText className="w-4 h-4" />
+                    </div>
+                    <div className="min-w-0">
+                      <h3 className="font-semibold text-sm text-slate-900 dark:text-white truncate group-hover:text-primary transition-colors">{chapterName}</h3>
+                      <p className="text-[11px] text-muted-foreground">{chapterItems.length} Free Video{chapterItems.length > 1 ? 's' : ''}</p>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                </div>
+              ))}
+            </div>
+          </div>
+
+        ) : (
+          /* ── VIEW LEVEL 1: Primary Course Library ── */
+          <div className="pt-1 pb-5 sm:pb-6 space-y-6 sm:space-y-8">
+
+            {/* Subject-wise Video Courses — Only shown when a specific class is selected and has courses */}
+            {selectedClass !== 'all' && subjectsMap.size > 0 && (
+              <section className="mb-6 sm:mb-8">
+                {/* Section Header — Left-aligned, purposeful video learning introduction */}
+                <div className="mb-4 sm:mb-5 pb-3 sm:pb-3.5 border-b border-slate-200/60 dark:border-slate-800/80 text-left">
+                  <div className="flex items-center gap-2 sm:gap-2.5">
+                    <PlayCircle className="w-5 h-5 sm:w-6 sm:h-6 text-[#1D4ED8] shrink-0 stroke-[2.2]" />
+                    <h2 className="text-[20px] sm:text-[24px] lg:text-[26px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
+                      Explore by Subject
+                    </h2>
+                  </div>
+                  <p className="text-[13px] sm:text-[14px] text-slate-500 dark:text-slate-400 font-normal mt-1 sm:mt-1.5 leading-normal">
+                    Free video lessons organised by subject.
+                  </p>
+                </div>
+
+                {/* 2-Column Grid — 10-15% more compact, uniform height and optical balance */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3.5">
+                  {Array.from(subjectsMap.entries()).map(([subjName, data]) => {
+                    const details = getSubjectDetails(subjName);
+                    const chaptersCount = new Set(data.courses.map((c) => c.chapter || c.title || 'General Lessons')).size;
+                    return (
+                      <div
+                        key={subjName}
+                        onClick={() => handleSelectSubject(subjName)}
+                        className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[14px] border border-slate-200/70 dark:border-slate-800/80 py-2.5 px-3 sm:py-3.5 sm:px-4 hover:border-[#1D4ED8]/30 dark:hover:border-blue-500/30 hover:shadow-[0_6px_20px_-3px_rgba(11,31,75,0.08)] shadow-[0_2px_8px_-2px_rgba(11,31,75,0.04)] transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer"
+                      >
+                        {/* Subject Info */}
+                        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 relative z-10 flex-1">
+                          <div className="shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
+                            {details.icon}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2 mb-0.5 min-w-0">
+                              <h3 className="text-[15px] sm:text-[15.5px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug truncate group-hover:text-[#1D4ED8] transition-colors">
+                                {subjName}
+                              </h3>
+                              <span className={cn("text-[9.5px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 leading-none h-[18px] inline-flex items-center", details.badgeBg)}>
+                                {data.courses.length} Video{data.courses.length > 1 ? 's' : ''}
+                              </span>
+                            </div>
+                            <p className="text-[11px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 truncate leading-normal">
+                              Academic Session 2026–27 · {chaptersCount} Chapter{chaptersCount > 1 ? 's' : ''}
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* Action CTA: Compact View Button */}
+                        <div className="shrink-0 relative z-10 pl-1">
+                          <div
+                            className="h-8 px-3 sm:px-3.5 rounded-[7px] text-[11.5px] sm:text-[12px] font-bold bg-[#EEF2FF] group-hover:bg-[#E0E7FF] dark:bg-[#1e2d5a]/60 dark:group-hover:bg-[#1e2d5a] text-[#1D4ED8] dark:text-blue-300 border border-[#C7D4FF]/80 dark:border-[#2a3a70] shadow-2xs group-hover:shadow-xs transition-all flex items-center justify-center gap-1.5"
+                          >
+                            <Eye className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-90" />
+                            <span>View</span>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            )}
+
+            {/* Course grid section */}
+            <div className="space-y-3">
+              {/* Section header */}
+              <div>
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight">
+                  {selectedClass === 'all' ? 'Free Courses' : `${selectedClass} — Free Courses`}
+                </h2>
+                <p className="text-[11px] text-muted-foreground mt-0.5">
+                  Showing {searchFilteredCourses.length} free learning resource{searchFilteredCourses.length !== 1 ? 's' : ''}
+                </p>
+              </div>
+
+              {searchFilteredCourses.length === 0 ? (
+                /* Empty state */
+                <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-xl py-12 px-6 text-center max-w-sm mx-auto">
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mx-auto mb-3">
+                    <GraduationCap className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-sm font-bold text-slate-900 dark:text-white">No free courses found</h3>
+                  <p className="text-[11px] text-muted-foreground mt-1.5">Try another class or search term.</p>
+                  <Button variant="outline" size="sm" onClick={() => { handleSelectClass('all'); setSearchQuery(''); }} className="mt-4 text-xs font-semibold rounded-lg">
+                    View All Classes
+                  </Button>
+                </div>
+              ) : (
+                /* Course grid — 2 col mobile, 2 col tablet, 3 col desktop */
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+                  {searchFilteredCourses.map((course) => {
+                    const isPlaylist = course.youtubeType === 'playlist';
+                    return (
+                      <div key={course.id} className="bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800 rounded-xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex flex-col group">
+                        {/* Thumbnail — click opens modal */}
+                        <button
+                          type="button"
+                          onClick={() => setWatchingCourse({ title: course.title, url: course.youtubeUrl || '', isPlaylist })}
+                          className="relative aspect-video w-full bg-slate-100 dark:bg-slate-800 overflow-hidden block group/thumb cursor-pointer"
+                          aria-label={`Watch ${course.title}`}
+                        >
+                          {course.thumbnailUrl || course.coverImageUrl ? (
+                            <Image
+                              src={course.thumbnailUrl || course.coverImageUrl || ''}
+                              alt={course.title}
+                              fill
+                              unoptimized
+                              loading="lazy"
+                              className="object-cover group-hover/thumb:scale-105 transition-transform duration-500"
+                            />
+                          ) : (
+                            <div className="absolute inset-0 bg-gradient-to-br from-[#0B1F4B] to-[#1a3a7a] flex items-center justify-center">
+                              <BookOpen className="w-8 h-8 text-white/30" />
+                            </div>
+                          )}
+
+                          {/* Overlay badges — bottom strip */}
+                          <div className="absolute bottom-0 left-0 right-0 px-2 py-1.5 flex items-center justify-between bg-gradient-to-t from-black/70 to-transparent">
+                            <span className="text-[8px] font-bold text-white uppercase tracking-wider">
+                              {isPlaylist ? 'Free Course' : 'Free Video'}
+                            </span>
+                          </div>
+
+                          {/* Play button — centre */}
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="w-9 h-9 rounded-full bg-white/95 flex items-center justify-center shadow-md group-hover/thumb:scale-110 transition-transform duration-200">
+                              <Play className="w-4 h-4 fill-[#0B1F4B] text-[#0B1F4B] ml-0.5" />
+                            </div>
+                          </div>
+                        </button>
+
+                        {/* Card body — flex column so footer always sticks to bottom */}
+                        <div className="p-2 sm:p-3.5 flex flex-col flex-1 gap-0">
+                          {/* Top content grows to fill available space */}
+                          <div className="flex flex-col flex-1 space-y-1">
+                            {/* Metadata: Class · Subject */}
+                            <div className="flex items-center gap-1 text-[10px] font-medium overflow-hidden">
+                              <span className="text-primary font-semibold shrink-0">{course.class}</span>
+                              {course.subject && (
+                                <>
+                                  <span className="text-slate-300 dark:text-slate-700 shrink-0">·</span>
+                                  <span className="text-slate-500 dark:text-slate-400 truncate">{course.subject}</span>
+                                </>
+                              )}
+                            </div>
+
+                            {/* Title — 2 line clamp, clickable on mobile & desktop */}
+                            <h3
+                              onClick={() => setWatchingCourse({ title: course.title, url: course.youtubeUrl || '', isPlaylist })}
+                              className="font-bold text-[12px] sm:text-sm leading-[1.3] sm:leading-snug line-clamp-2 text-slate-900 dark:text-white group-hover:text-primary transition-colors cursor-pointer"
+                            >
+                              {course.title}
+                            </h3>
+
+                            {/* Description — desktop only, fixed 1-line slot to equalise card height */}
+                            <p className="hidden sm:block text-[11px] text-muted-foreground line-clamp-1 min-h-[1rem]">
+                              {course.shortDescription || course.description || ' '}
+                            </p>
+                          </div>
+
+                          {/* Footer — always at card bottom, perfect baseline */}
+                          <div className="flex items-center justify-between pt-1.5 sm:pt-2 mt-2 sm:mt-2 border-t border-slate-100 dark:border-slate-800">
+                            {/* FREE badge */}
+                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-medium leading-none">
+                              <CheckCircle2 className="w-2.5 h-2.5 text-emerald-600" />
+                              <span className="hidden sm:inline">{isPlaylist ? 'FREE COURSE' : 'FREE VIDEO'}</span>
+                              <span className="inline sm:hidden">FREE</span>
+                            </span>
+
+                            {/* Medium Info — compact text, no button shape */}
+                            <div className="flex items-center gap-1 text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400">
+                              <span className="text-[9px] sm:text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider">
+                                Medium:
+                              </span>
+                              <span className="font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[90px] sm:max-w-[130px]">
+                                {course.medium || 'Hinglish'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
+

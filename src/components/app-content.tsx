@@ -82,7 +82,7 @@ export function AppContent({
         {children}
       </main>
       <Footer />
-      <ChatBotWrapper />
+      {pathname !== '/' && pathname !== '' && !pathname?.startsWith('/free-courses') && <ChatBotWrapper />}
 
       <Toaster />
     </>

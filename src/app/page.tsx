@@ -28,7 +28,7 @@ export default async function Home() {
   const heroSlides = heroSlidesResult.success ? (heroSlidesResult.data as THeroSlide[]) : [];
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
+    <div data-landing-page="true" className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
       <BuildSkillsSection slides={heroSlides} />
       <DiscoverCoursesSection />
       <TrustedPlatform />

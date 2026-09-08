@@ -1,7 +1,24 @@
-
 'use client';
 
+import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
+
 export function ChatBot() {
+  const pathname = usePathname();
+  // Default to true (hidden) so it never flashes or renders on landing page during SSR/mount
+  const [isLanding, setIsLanding] = useState(true);
+
+  useEffect(() => {
+    const p = (typeof window !== 'undefined' ? window.location.pathname : '') || pathname || '';
+    const hide = p === '/' || p === '' || p.startsWith('/free-courses') || pathname === '/' || pathname === '' || Boolean(pathname?.startsWith('/free-courses'));
+    setIsLanding(hide);
+  }, [pathname]);
+
+  // Strictly do NOT render on landing page or Free Courses page
+  if (isLanding) {
+    return null;
+  }
+
   return (
     <a
       id="whatsapp-floating-btn"

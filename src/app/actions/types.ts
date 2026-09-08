@@ -189,19 +189,33 @@ export interface TFreeCourseChapter {
 export interface TFreeCourse {
   id: string;
   title: string;
+  slug?: string;
   class: string;
-  board: string;
-  subject: string;
-  medium: string;
-  batchName: string;
-  validity: string;
+  board?: string;
+  subject?: string;
+  chapter?: string;
+  category?: string; // 'Free Course' | 'Revision' | 'One Shot' | 'Concept Class' | 'Exam Preparation' | 'Important Questions' | 'Strategy'
+  medium?: string;
+  batchName?: string;
+  validity?: string;
   price: number;
   originalPrice: number;
   description?: string;
+  shortDescription?: string;
+  youtubeUrl?: string;
+  youtubeType?: 'video' | 'playlist';
+  youtubeVideoId?: string;
+  youtubePlaylistId?: string;
+  thumbnailUrl?: string;
   coverImageUrl?: string;
   status: 'active' | 'inactive';
-  chapters: TFreeCourseChapter[];
+  publishStatus?: 'published' | 'draft' | 'unpublished' | 'archived';
+  displayOrder?: number;
+  isFeatured?: boolean;
+  publishedAt?: string;
+  chapters?: TFreeCourseChapter[];
   createdAt: string;
+  updatedAt?: string;
 }
 
 export interface TPaidCourse extends TFreeCourse {}

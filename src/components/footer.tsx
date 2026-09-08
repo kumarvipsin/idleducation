@@ -205,16 +205,18 @@ export function Footer() {
       </div>
 
       {/* Bottom Copyright Bar */}
-      <div className="bg-white/80 dark:bg-card/60 backdrop-blur-xs border-t border-slate-200/70 dark:border-slate-800/80 py-1.5 sm:py-2">
-        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-1 sm:gap-4 text-[11px] sm:text-xs font-normal text-slate-500 dark:text-slate-400 leading-tight">
-            <p className="text-center sm:text-left" suppressHydrationWarning>
+      <div className="bg-white/80 dark:bg-card/60 backdrop-blur-xs border-t border-slate-200/70 dark:border-slate-800/80 py-2 sm:py-2.5">
+        <div className="max-w-[1240px] mx-auto px-2.5 sm:px-6 lg:px-8">
+          <div className="flex flex-row flex-nowrap justify-center sm:justify-between items-center gap-x-2 sm:gap-x-4 text-[9.5px] min-[360px]:text-[10.5px] sm:text-xs font-normal text-slate-500 dark:text-slate-400 leading-tight whitespace-nowrap overflow-x-auto scrollbar-none">
+            <p className="shrink-0" suppressHydrationWarning>
               &copy; 2026 IDL Education. All Rights Reserved.
             </p>
-            <nav className="flex items-center gap-5 sm:gap-6">
+            <nav className="flex items-center gap-2 sm:gap-4 shrink-0">
+              <span className="text-slate-300 dark:text-slate-700">·</span>
               <Link href="/terms" className="text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-300 transition-colors duration-150">
                 Terms
               </Link>
+              <span className="text-slate-300 dark:text-slate-700">·</span>
               <Link href="/privacy" className="text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-300 transition-colors duration-150">
                 Privacy
               </Link>
