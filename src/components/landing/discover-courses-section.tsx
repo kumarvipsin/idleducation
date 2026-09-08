@@ -4,83 +4,73 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-// 1. Bold Illustrated Open CBSE Textbook with Bookmark, Star & Sparkles (Tile 01 - CBSE)
+// 1. Premium 3D Stack of Academic Textbooks (Tile 01 - CBSE)
 function CbseBookIcon({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 40 40" fill="none" className={cn("shrink-0", className)} aria-hidden="true">
             {/* Ambient Sparkles */}
-            <path d="M6 7L7.5 4.5L9 7L11.5 8.5L9 10L7.5 12.5L6 10L3.5 8.5L6 7Z" fill="#D97706" />
-            <path d="M33 7L34.5 4.5L36 7L38.5 8.5L36 10L34.5 12.5L33 10L30.5 8.5L33 7Z" fill="#D97706" />
-            <circle cx="20" cy="2.5" r="1.3" fill="#D97706" />
-            <path d="M4 17L5 16L6 17L5 18Z" fill="#F59E0B" />
-            <path d="M36 17L37 16L38 17L37 18Z" fill="#F59E0B" />
-
-            {/* Academic Star of Excellence Floating on Top */}
-            <path 
-                d="M20 5L21.2 7.8L24.2 8.1L21.9 10L22.6 13L20 11.4L17.4 13L18.1 10L15.8 8.1L18.8 7.8L20 5Z" 
-                fill="#FBBF24" 
-                stroke="#D97706" 
-                strokeWidth="0.8" 
-                strokeLinejoin="round" 
-            />
+            <path d="M5 6L6 3.5L7 6L9.5 7L7 8L6 10.5L5 8L2.5 7L5 6Z" fill="#F59E0B" />
+            <path d="M33 5L34 2.5L35 5L37.5 6L35 7L34 9.5L33 7L30.5 6L33 5Z" fill="#F59E0B" />
+            <circle cx="36" cy="15" r="1.1" fill="#F59E0B" />
+            <circle cx="4" cy="18" r="0.9" fill="#FBBF24" />
 
             {/* Soft Shadow Underneath */}
-            <ellipse cx="20" cy="35.5" rx="14" ry="2.5" fill="#92400E" opacity="0.25" />
+            <ellipse cx="20" cy="35.5" rx="14" ry="2.2" fill="#92400E" opacity="0.22" />
 
-            {/* Solid Hardcover Base & Spine */}
-            <path 
-                d="M5 16.5C10.5 14.8 16 15 19.5 17.2V32.5C16 29.8 10.5 29.8 5 31.8V16.5Z" 
-                fill="#B45309" 
-                stroke="#78350F" 
-                strokeWidth="1.3" 
-                strokeLinejoin="round" 
-            />
-            <path 
-                d="M35 16.5C29.5 14.8 24 15 20.5 17.2V32.5C24 29.8 29.5 29.8 35 31.8V16.5Z" 
-                fill="#B45309" 
-                stroke="#78350F" 
-                strokeWidth="1.3" 
-                strokeLinejoin="round" 
-            />
+            {/* ── BOOK 1 (Bottom: Emerald Science / Math Textbook) ── */}
+            <g id="book-bottom">
+                {/* Bottom Cover Rim */}
+                <polygon points="7,30.5 20,34 33,30.5 20,27" fill="#047857" stroke="#064E3B" strokeWidth="0.8" />
+                {/* White Page Block (Thickness) */}
+                <polygon points="7,27.5 20,31 20,34 7,30.5" fill="#FFFFFF" />
+                <polygon points="20,31 33,27.5 33,30.5 20,34" fill="#E2E8F0" />
+                <line x1="8.5" y1="29" x2="18.5" y2="32.2" stroke="#CBD5E1" strokeWidth="0.6" />
+                <line x1="21.5" y1="32.2" x2="31.5" y2="29" stroke="#CBD5E1" strokeWidth="0.6" />
+                {/* Top Hardcover */}
+                <polygon points="7,27 20,30.5 33,27 20,23.5" fill="#059669" stroke="#047857" strokeWidth="0.9" strokeLinejoin="round" />
+                <polygon points="8.5,27 20,30 31.5,27 20,24" fill="#10B981" opacity="0.4" />
+            </g>
 
-            {/* Stacked Pages Thickness (Edge Depth) */}
-            <path d="M5.5 30.5C10.5 28.5 16 28.5 19.5 30.5" stroke="#FDE68A" strokeWidth="1.8" strokeLinecap="round" />
-            <path d="M34.5 30.5C29.5 28.5 24 28.5 20.5 30.5" stroke="#FDE68A" strokeWidth="1.8" strokeLinecap="round" />
+            {/* ── BOOK 2 (Middle: IDL Royal Blue Textbook, slightly shifted left) ── */}
+            <g id="book-middle">
+                {/* Bottom Cover Rim */}
+                <polygon points="6,24.5 19,27.8 32,24.5 19,21.2" fill="#1E40AF" stroke="#1E3A8A" strokeWidth="0.8" />
+                {/* White Page Block (Thickness) */}
+                <polygon points="6,21.5 19,24.8 19,27.8 6,24.5" fill="#FFFFFF" />
+                <polygon points="19,24.8 32,21.5 32,24.5 19,27.8" fill="#E2E8F0" />
+                <line x1="7.5" y1="23" x2="17.5" y2="26.2" stroke="#CBD5E1" strokeWidth="0.6" />
+                <line x1="20.5" y1="26.2" x2="30.5" y2="23" stroke="#CBD5E1" strokeWidth="0.6" />
+                {/* Top Hardcover */}
+                <polygon points="6,21 19,24.3 32,21 19,17.7" fill="#2563EB" stroke="#1D4ED8" strokeWidth="0.9" strokeLinejoin="round" />
+                <polygon points="7.5,21 19,23.8 30.5,21 19,18.2" fill="#3B82F6" opacity="0.4" />
+            </g>
 
-            {/* Left Page (Warm Cream Sheet) */}
-            <path 
-                d="M6.5 15C11.5 13.5 16.5 13.8 19.5 15.8V29.8C16.5 27.8 11.5 27.5 6.5 29.2V15Z" 
-                fill="#FFFBEB" 
-                stroke="#D97706" 
-                strokeWidth="1.3" 
-                strokeLinejoin="round" 
-            />
-            {/* Right Page (Pure Bright Sheet) */}
-            <path 
-                d="M33.5 15C28.5 13.5 23.5 13.8 20.5 15.8V29.8C23.5 27.8 28.5 27.5 33.5 29.2V15Z" 
-                fill="#FFFFFF" 
-                stroke="#D97706" 
-                strokeWidth="1.3" 
-                strokeLinejoin="round" 
-            />
+            {/* ── BOOK 3 (Top: Warm Amber CBSE Core Textbook, slightly shifted right) ── */}
+            <g id="book-top">
+                {/* Bottom Cover Rim */}
+                <polygon points="8,17.5 21,21 34,17.5 21,14" fill="#B45309" stroke="#78350F" strokeWidth="0.8" />
+                {/* White Page Block (Thickness) */}
+                <polygon points="8,14.5 21,18 21,21 8,17.5" fill="#FFFFFF" />
+                <polygon points="21,18 34,14.5 34,17.5 21,21" fill="#E2E8F0" />
+                <line x1="9.5" y1="16" x2="19.5" y2="19.2" stroke="#FDE68A" strokeWidth="0.6" />
+                <line x1="22.5" y1="19.2" x2="32.5" y2="16" stroke="#FDE68A" strokeWidth="0.6" />
+                {/* Top Hardcover (Warm Amber/Gold) */}
+                <polygon points="8,14 21,17.5 34,14 21,10.5" fill="#F59E0B" stroke="#B45309" strokeWidth="0.9" strokeLinejoin="round" />
+                {/* Top Cover Highlight Sheen */}
+                <polygon points="9.5,14 21,17 32.5,14 21,11" fill="#FBBF24" opacity="0.5" />
 
-            {/* Textbook Study Illustrations on Left Page (A+ badge & lines) */}
-            <rect x="9" y="17.5" width="4.5" height="4.5" rx="1" fill="#FEF3C7" stroke="#F59E0B" strokeWidth="0.8" />
-            <path d="M11.2 18.5V21M10 19.8H12.5" stroke="#D97706" strokeWidth="0.8" strokeLinecap="round" />
-            <path d="M15 18H18" stroke="#D97706" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M15 21H18" stroke="#D97706" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M9 24.5H18" stroke="#F59E0B" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M9 27H16" stroke="#FBBF24" strokeWidth="1.2" strokeLinecap="round" />
+                {/* Golden Academic Star of Excellence on Top Cover */}
+                <polygon 
+                    points="21,12 21.6,13.4 23.1,13.6 22,14.6 22.3,16.1 21,15.3 19.7,16.1 20,14.6 18.9,13.6 20.4,13.4" 
+                    fill="#FEF08A" 
+                    stroke="#D97706" 
+                    strokeWidth="0.6" 
+                    strokeLinejoin="round" 
+                />
+            </g>
 
-            {/* Textbook Study Illustrations on Right Page */}
-            <path d="M22 18H31" stroke="#D97706" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M22 21H29" stroke="#D97706" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M22 24.5H31" stroke="#F59E0B" strokeWidth="1.4" strokeLinecap="round" />
-            <path d="M22 27H28" stroke="#FBBF24" strokeWidth="1.2" strokeLinecap="round" />
-
-            {/* Bold Scarlet Ribbon Bookmark Draped Down Center */}
-            <path d="M18.8 14.5V33.5L20 31.8L21.2 33.5V14.5H18.8Z" fill="#DC2626" stroke="#991B1B" strokeWidth="0.8" />
-            <circle cx="20" cy="14.5" r="1.5" fill="#EF4444" />
+            {/* ── Scarlet Ribbon Bookmark (draped gracefully from top book) ── */}
+            <polygon points="16.5,16.2 19.5,16.2 20.2,24.5 18,23 15.8,24.5" fill="#DC2626" stroke="#991B1B" strokeWidth="0.6" />
         </svg>
     );
 }
@@ -299,47 +289,81 @@ function FreeCourseIcon({ className }: { className?: string }) {
     );
 }
 
-// 6. Premium Royal Crown with Golden Sparkles (Tile 06 - Premium Courses)
+// 6. Premium Golden Diamond Gem with Sparkles & Ground Depth (Tile 06 - Premium Courses)
 function PremiumCourseIcon({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 40 40" fill="none" className={cn("shrink-0", className)} aria-hidden="true">
             {/* Ambient Sparkles */}
-            <path d="M20 4L21.2 1.5L22.5 4L25 5.2L22.5 6.5L21.2 9L20 6.5L17.5 5.2L20 4Z" fill="#F59E0B" />
-            <path d="M8 11L9 9L10 11L12 12L10 13L9 15L8 13L6 12L8 11Z" fill="#F59E0B" />
-            <path d="M32 11L33 9L34 11L36 12L34 13L33 15L32 13L30 12L32 11Z" fill="#F59E0B" />
-            
-            {/* Velvet Base Cushion / Pedestal */}
-            <path d="M9.5 27C9.5 25.5 13.5 24.5 20 24.5C26.5 24.5 30.5 25.5 30.5 27L29.5 32C29.5 33.2 25.5 34 20 34C14.5 34 10.5 33.2 10.5 32L9.5 27Z" fill="#1D4ED8" stroke="#1E40AF" strokeWidth="1.2" />
-            
-            {/* Crown Body with Peaks */}
-            <path 
-                d="M8.5 17.5L12.5 27.5H27.5L31.5 17.5L25.5 22L20 13L14.5 22L8.5 17.5Z" 
-                fill="#FBBF24" 
-                stroke="#D97706" 
-                strokeWidth="1.4" 
-                strokeLinejoin="round" 
-            />
-            {/* Crown Front Shimmer */}
-            <path 
-                d="M13 26.5L14.5 22L20 15L25.5 22L27 26.5H13Z" 
-                fill="#FDE68A" 
-                opacity="0.85" 
-            />
-            
-            {/* Jewels on Crown Peaks */}
-            <circle cx="8.5" cy="17" r="2.2" fill="#EF4444" stroke="#B91C1C" strokeWidth="0.8" />
-            <circle cx="20" cy="12.5" r="2.5" fill="#3B82F6" stroke="#1D4ED8" strokeWidth="0.8" />
-            <circle cx="31.5" cy="17" r="2.2" fill="#EF4444" stroke="#B91C1C" strokeWidth="0.8" />
-            
-            {/* Center Crown Emblem Jewel */}
-            <polygon points="20,20.5 22.5,23.5 20,26.5 17.5,23.5" fill="#EF4444" />
-            <polygon points="20,21.5 21.5,23.5 20,25.5 18.5,23.5" fill="#F87171" />
+            <path d="M6 7L7 4.5L8 7L10.5 8L8 9L7 11.5L6 9L3.5 8L6 7Z" fill="#F59E0B" />
+            <circle cx="36" cy="14" r="1.1" fill="#F59E0B" />
+            <circle cx="4" cy="18" r="0.9" fill="#FBBF24" />
 
-            {/* Crown Base Gold Rim */}
-            <rect x="11.5" y="26.5" width="17" height="3" rx="1.5" fill="#F59E0B" stroke="#B45309" strokeWidth="0.9" />
-            <circle cx="14.5" cy="28" r="0.9" fill="#10B981" />
-            <circle cx="20" cy="28" r="0.9" fill="#3B82F6" />
-            <circle cx="25.5" cy="28" r="0.9" fill="#EF4444" />
+            {/* Soft Shadow Underneath (matching depth across all 6 tiles) */}
+            <ellipse cx="20" cy="35.5" rx="12" ry="2.2" fill="#1E3A8A" opacity="0.22" />
+
+            {/* Faceted Golden Diamond Body */}
+            <g id="diamond-gem">
+                {/* 1. Crown - Outer Left Facet */}
+                <polygon points="11,13.5 4.5,21.5 15.2,21.5" fill="#F59E0B" />
+                
+                {/* 2. Crown - Mid Left Facet */}
+                <polygon points="11,13.5 20,13.5 15.2,21.5" fill="#FBBF24" />
+                
+                {/* 3. Crown - Center Radiant Kite */}
+                <polygon points="20,13.5 15.2,21.5 20,21.5 24.8,21.5" fill="#FDE047" />
+                
+                {/* 4. Crown - Mid Right Facet */}
+                <polygon points="20,13.5 29,13.5 24.8,21.5" fill="#FB923C" />
+                
+                {/* 5. Crown - Outer Right Facet */}
+                <polygon points="29,13.5 35.5,21.5 24.8,21.5" fill="#F97316" />
+
+                {/* 6. Pavilion - Far Left Facet */}
+                <polygon points="4.5,21.5 15.2,21.5 20,33.5" fill="#F59E0B" />
+
+                {/* 7. Pavilion - Center Left Facet */}
+                <polygon points="15.2,21.5 20,21.5 20,33.5" fill="#EA580C" />
+
+                {/* 8. Pavilion - Center Right Deep Coral Facet */}
+                <polygon points="20,21.5 24.8,21.5 20,33.5" fill="#DC2626" />
+
+                {/* 9. Pavilion - Far Right Facet */}
+                <polygon points="24.8,21.5 35.5,21.5 20,33.5" fill="#F97316" />
+
+                {/* Facet Boundary Lines for Crisp Definition */}
+                <line x1="4.5" y1="21.5" x2="35.5" y2="21.5" stroke="#D97706" strokeWidth="0.7" opacity="0.6" />
+                <line x1="15.2" y1="21.5" x2="20" y2="13.5" stroke="#D97706" strokeWidth="0.6" opacity="0.5" />
+                <line x1="24.8" y1="21.5" x2="20" y2="13.5" stroke="#D97706" strokeWidth="0.6" opacity="0.5" />
+                <line x1="15.2" y1="21.5" x2="20" y2="33.5" stroke="#B45309" strokeWidth="0.6" opacity="0.5" />
+                <line x1="20" y1="21.5" x2="20" y2="33.5" stroke="#991B1B" strokeWidth="0.7" opacity="0.6" />
+                <line x1="24.8" y1="21.5" x2="20" y2="33.5" stroke="#B45309" strokeWidth="0.6" opacity="0.5" />
+
+                {/* Outer Silhouette Stroke */}
+                <polygon 
+                    points="11,13.5 29,13.5 35.5,21.5 20,33.5 4.5,21.5" 
+                    fill="none" 
+                    stroke="#D97706" 
+                    strokeWidth="1.1" 
+                    strokeLinejoin="round" 
+                />
+
+                {/* Top Table Shimmer Reflection */}
+                <line x1="12.5" y1="14.2" x2="27.5" y2="14.2" stroke="#FFFFFF" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
+            </g>
+
+            {/* Top-Right 4-Point Rounded Golden Sparkle Star */}
+            <g id="top-star">
+                <rect x="25.2" y="3.5" width="2.6" height="9" rx="1.3" fill="#F59E0B" />
+                <rect x="22" y="6.7" width="9" height="2.6" rx="1.3" fill="#F59E0B" />
+                <circle cx="26.5" cy="8" r="2.1" fill="#FDE68A" />
+            </g>
+
+            {/* Bottom-Left 4-Point Rounded Golden Sparkle Star */}
+            <g id="bottom-star">
+                <rect x="8.3" y="24" width="2.2" height="6.6" rx="1.1" fill="#FBBF24" />
+                <rect x="6.1" y="26.2" width="6.6" height="2.2" rx="1.1" fill="#FBBF24" />
+                <circle cx="9.4" cy="27.3" r="1.6" fill="#FEF9C3" />
+            </g>
         </svg>
     );
 }
@@ -359,7 +383,7 @@ const courses: CourseItem[] = [
     {
         id: 'cbse',
         number: '01',
-        title: 'CBSE',
+        title: 'CBSE BOARD',
         subtitle: 'Classes 9–12',
         href: '#',
         bgColor: 'bg-[#FEF1D4] hover:bg-[#FDE8BE] dark:bg-amber-950/50',
@@ -481,16 +505,9 @@ export function DiscoverCoursesSection() {
                                         course.borderColor
                                     )}
                                 >
-                                    {/* 
-                                      Top Row:
-                                      - Mobile: Number on upper-left (order-1), Enriched larger Icon on upper-right (order-2)
-                                      - Desktop: Icon on left (lg:order-1), Number on right (lg:order-2)
-                                    */}
-                                    <div className="flex items-start justify-between">
-                                        <span className="order-1 lg:order-2 text-[10px] min-[360px]:text-[10.5px] lg:text-[9px] xl:text-[9.5px] font-mono font-bold text-slate-500 dark:text-slate-400 leading-none select-none">
-                                            {course.number}
-                                        </span>
-                                        <div className="order-2 lg:order-1 shrink-0">
+                                    {/* Top Row: Category Icon */}
+                                    <div className="flex items-start justify-start">
+                                        <div className="shrink-0">
                                             <Icon className="w-10 h-10 min-[360px]:w-[42px] min-[360px]:h-[42px] sm:w-[46px] sm:h-[46px] lg:w-[34px] lg:h-[34px] xl:w-[38px] xl:h-[38px] transition-transform duration-180 ease-out group-hover:scale-105" />
                                         </div>
                                     </div>

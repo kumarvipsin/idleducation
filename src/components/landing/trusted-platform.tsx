@@ -67,7 +67,7 @@ export function TrustedPlatform() {
               {/* Centered Compact Canvas: 300-320px height, 330-360px max width */}
               <div className="relative w-full max-w-[340px] min-[390px]:max-w-[365px] h-[300px] min-[360px]:h-[310px] min-[390px]:h-[320px] mx-auto">
                 
-                {/* Shortened Dotted Guidance Arc (Mentor -> Student) */}
+                {/* Dotted Guidance Wave (Mentor -> Student) - Balanced Wavy Flow */}
                 <svg 
                   className="absolute inset-0 w-full h-full pointer-events-none" 
                   viewBox="0 0 340 310" 
@@ -76,13 +76,15 @@ export function TrustedPlatform() {
                   aria-hidden="true"
                 >
                   <path 
-                    d="M 115 210 C 160 190, 195 140, 235 95" 
+                    d="M 105 215 C 135 185, 160 215, 190 175 C 215 140, 228 135, 245 88" 
                     stroke="#2563EB" 
-                    strokeOpacity="0.2" 
-                    strokeWidth="1.2" 
-                    strokeDasharray="3 4" 
+                    strokeOpacity="0.30" 
+                    strokeWidth="1.5" 
+                    strokeDasharray="4 5" 
+                    strokeLinecap="round"
                   />
-                  <circle cx="175" cy="152" r="2" fill="#3B82F6" fillOpacity="0.35" />
+                  <circle cx="190" cy="175" r="2.8" fill="#3B82F6" fillOpacity="0.75" />
+                  <circle cx="190" cy="175" r="5" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
                 </svg>
 
                 {/* 1. UPPER-RIGHT: Student Portrait + Message Bubble to Left */}
@@ -188,7 +190,7 @@ export function TrustedPlatform() {
               {/* Visual Composition Canvas */}
               <div className="relative w-full max-w-[540px] h-[350px]">
                 
-                {/* Connecting Dotted Guidance Path (Mentor -> Student) */}
+                {/* Connecting Dotted Guidance Path (Mentor -> Student) - Balanced Wavy Flow */}
                 <svg 
                   className="absolute inset-0 w-full h-full pointer-events-none" 
                   viewBox="0 0 540 350" 
@@ -196,15 +198,24 @@ export function TrustedPlatform() {
                   preserveAspectRatio="none"
                   aria-hidden="true"
                 >
+                  {/* Elegant Conversation Wave Path */}
                   <path 
-                    d="M 120 250 C 220 250, 280 180, 420 85" 
+                    d="M 110 248 C 150 205, 195 240, 245 210 C 295 180, 335 195, 380 135 C 405 102, 420 90, 440 80" 
                     stroke="#2563EB" 
-                    strokeOpacity="0.18" 
+                    strokeOpacity="0.30" 
                     strokeWidth="1.5" 
                     strokeDasharray="4 5" 
+                    strokeLinecap="round"
                   />
-                  {/* Subtle directional pulse dot on curve */}
-                  <circle cx="270" cy="188" r="2.5" fill="#3B82F6" fillOpacity="0.35" />
+                  {/* 3 Balanced Connection Nodes centered exactly on the Wave */}
+                  <circle cx="245" cy="210" r="3" fill="#3B82F6" fillOpacity="0.75" />
+                  <circle cx="245" cy="210" r="5.2" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
+
+                  <circle cx="314" cy="184" r="3" fill="#3B82F6" fillOpacity="0.75" />
+                  <circle cx="314" cy="184" r="5.2" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
+
+                  <circle cx="380" cy="135" r="3" fill="#3B82F6" fillOpacity="0.75" />
+                  <circle cx="380" cy="135" r="5.2" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
                 </svg>
 
                 {/* 1. UPPER-RIGHT: Student Portrait + Message Bubble */}
@@ -320,9 +331,9 @@ export function TrustedPlatform() {
                     ry="52" 
                     transform="rotate(32 140 130)" 
                     stroke="currentColor" 
-                    strokeWidth="1.1" 
+                    strokeWidth="1.2" 
                     strokeDasharray="4 6"
-                    strokeOpacity="0.06"
+                    strokeOpacity="0.14"
                   />
                   {/* Orbit Path 2 (-35° tilt) */}
                   <ellipse 
@@ -332,9 +343,9 @@ export function TrustedPlatform() {
                     ry="52" 
                     transform="rotate(-32 140 130)" 
                     stroke="currentColor" 
-                    strokeWidth="1.1" 
+                    strokeWidth="1.2" 
                     strokeDasharray="4 6"
-                    strokeOpacity="0.05"
+                    strokeOpacity="0.12"
                   />
                   {/* 2 Tiny Orbit Particles */}
                   <circle cx="215" cy="85" r="1.5" fill="#3B82F6" fillOpacity="0.25" />

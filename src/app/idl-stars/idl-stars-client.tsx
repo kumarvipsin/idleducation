@@ -156,7 +156,7 @@ export function IdlStarsClient({ initialTestimonials }: IdlStarsClientProps) {
         </div>
 
         {/* ── Filter Pills & Search Control Row (Single Unified Row on Mobile & Desktop) ── */}
-        <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-5 sm:mb-6 min-h-[38px] max-w-full">
+        <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-5 sm:mb-6 min-h-[44px] sm:min-h-[48px] max-w-full">
           
           {/* LEFT: Horizontally Scrollable Category Filter Pills */}
           <div className="flex-1 min-w-0 overflow-x-auto pb-0.5 sm:pb-0 scrollbar-none flex items-center gap-1.5">
@@ -184,16 +184,16 @@ export function IdlStarsClient({ initialTestimonials }: IdlStarsClientProps) {
           <div className="shrink-0 flex items-center">
             <div 
               className={cn(
-                "flex items-center h-9 sm:h-[38px] transition-all duration-200 ease-out rounded-full box-border",
+                "flex items-center h-[38px] sm:h-[40px] transition-all duration-200 ease-out rounded-full box-border",
                 isSearchOpen || searchTerm
                   ? "w-44 min-[420px]:w-52 sm:w-64 px-2.5 bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 shadow-2xs"
-                  : "w-9 sm:w-[38px] justify-center bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800"
+                  : "w-[38px] sm:w-[40px] justify-center bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800"
               )}
             >
               <button
                 type="button"
                 onClick={() => setIsSearchOpen(true)}
-                className="w-7 h-7 flex items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#1D4ED8] transition-colors shrink-0 cursor-pointer border-none outline-none focus:outline-none"
+                className="w-8 h-8 flex items-center justify-center text-slate-500 hover:text-[#0B1F4B] dark:text-slate-400 dark:hover:text-white transition-colors shrink-0 cursor-pointer border-none outline-none focus:outline-none"
                 aria-label="Search student stories"
               >
                 <Search className="h-4 w-4" />
