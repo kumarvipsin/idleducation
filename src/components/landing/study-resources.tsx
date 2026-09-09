@@ -173,24 +173,27 @@ export function StudyResources() {
               Study{' '}
               <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
                 Resources
-                {/* Open Book Icon with sparks above */}
-                <span className="absolute -top-3.5 sm:-top-4.5 -right-7 sm:-right-8 pointer-events-none select-none text-[#F59E0B]" aria-hidden="true">
-                  <svg viewBox="0 0 32 32" className="w-6 h-6 sm:w-7 sm:h-7 fill-none stroke-[#F59E0B] stroke-[2] stroke-linecap-round stroke-linejoin-round">
-                    {/* 3 radiating rays above book */}
-                    <path d="M16 3v3" strokeWidth="2.2" />
-                    <path d="M11 5l1.5 2.5" strokeWidth="2" />
-                    <path d="M21 5l-1.5 2.5" strokeWidth="2" />
-                    {/* Open Book Pages */}
-                    <path d="M16 11c-3-2-7-2-12 0v12c5-2 9-2 12 0 3-2 7-2 12 0V11c-5-2-9-2-12 0z" strokeWidth="2" />
-                    <path d="M16 11v12" strokeWidth="2" />
-                  </svg>
-                </span>
 
-                {/* Segmented Accent Line under Resources (Solid Bar + Medium Bar + Dot) */}
-                <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full flex items-center gap-1 sm:gap-1.5 pointer-events-none select-none" aria-hidden="true">
-                  <span className="flex-1 h-[2.5px] sm:h-[3px] rounded-full bg-[#1D4ED8] dark:bg-blue-400" />
-                  <span className="w-5 sm:w-7 h-[2px] sm:h-[2.5px] rounded-full bg-[#1D4ED8]/45 dark:bg-blue-400/45" />
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] dark:bg-blue-400 shrink-0" />
+                {/* Curved Wave Line under Resources (reduced suitable length + single distinct wave) */}
+                <span className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-[72%] h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 100 16" fill="none" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="study-resources-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                        <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
+                        <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
+                      </linearGradient>
+                      <linearGradient id="study-resources-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
+                        <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
+                        <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
+                        <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
+                      </linearGradient>
+                    </defs>
+                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#study-resources-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#study-resources-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                  </svg>
                 </span>
               </span>
             </h2>

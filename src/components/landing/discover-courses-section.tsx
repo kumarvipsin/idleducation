@@ -289,81 +289,44 @@ function FreeCourseIcon({ className }: { className?: string }) {
     );
 }
 
-// 6. Premium Golden Diamond Gem with Sparkles & Ground Depth (Tile 06 - Premium Courses)
+// 6. Polished Video Learning Display - Premium Blue Edition (Tile 06 - Premium Courses)
 function PremiumCourseIcon({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 40 40" fill="none" className={cn("shrink-0", className)} aria-hidden="true">
-            {/* Ambient Sparkles */}
-            <path d="M6 7L7 4.5L8 7L10.5 8L8 9L7 11.5L6 9L3.5 8L6 7Z" fill="#F59E0B" />
-            <circle cx="36" cy="14" r="1.1" fill="#F59E0B" />
-            <circle cx="4" cy="18" r="0.9" fill="#FBBF24" />
+            {/* Ambient Sparkles - IDL Blue & Warm Amber */}
+            <path d="M7 9L8 7L9 9L11 10L9 11L8 13L7 11L5 10L7 9Z" fill="#3B82F6" />
+            <path d="M33 7L34 5L35 7L37 8L35 9L34 11L33 9L31 8L33 7Z" fill="#F59E0B" opacity="0.9" />
+            <circle cx="20" cy="4" r="1.1" fill="#60A5FA" />
 
-            {/* Soft Shadow Underneath (matching depth across all 6 tiles) */}
-            <ellipse cx="20" cy="35.5" rx="12" ry="2.2" fill="#1E3A8A" opacity="0.22" />
+            {/* Soft Shadow Underneath */}
+            <ellipse cx="20" cy="35" rx="11" ry="2" fill="#1E3A8A" opacity="0.20" />
 
-            {/* Faceted Golden Diamond Body */}
-            <g id="diamond-gem">
-                {/* 1. Crown - Outer Left Facet */}
-                <polygon points="11,13.5 4.5,21.5 15.2,21.5" fill="#F59E0B" />
-                
-                {/* 2. Crown - Mid Left Facet */}
-                <polygon points="11,13.5 20,13.5 15.2,21.5" fill="#FBBF24" />
-                
-                {/* 3. Crown - Center Radiant Kite */}
-                <polygon points="20,13.5 15.2,21.5 20,21.5 24.8,21.5" fill="#FDE047" />
-                
-                {/* 4. Crown - Mid Right Facet */}
-                <polygon points="20,13.5 29,13.5 24.8,21.5" fill="#FB923C" />
-                
-                {/* 5. Crown - Outer Right Facet */}
-                <polygon points="29,13.5 35.5,21.5 24.8,21.5" fill="#F97316" />
+            {/* Video Player Device Frame (IDL Royal Blue) */}
+            <rect x="7" y="10" width="26" height="21" rx="3.5" fill="#2563EB" stroke="#1D4ED8" strokeWidth="1.3" />
 
-                {/* 6. Pavilion - Far Left Facet */}
-                <polygon points="4.5,21.5 15.2,21.5 20,33.5" fill="#F59E0B" />
+            {/* Screen Bezel / Inner Display */}
+            <rect x="9" y="12" width="22" height="15" rx="2" fill="#F0F7FF" />
 
-                {/* 7. Pavilion - Center Left Facet */}
-                <polygon points="15.2,21.5 20,21.5 20,33.5" fill="#EA580C" />
+            {/* Top Device Header Strip */}
+            <rect x="9" y="12" width="22" height="3" rx="1" fill="#BFDBFE" opacity="0.6" />
+            <circle cx="11.5" cy="13.5" r="0.7" fill="#1D4ED8" />
+            <circle cx="13.5" cy="13.5" r="0.7" fill="#F59E0B" />
 
-                {/* 8. Pavilion - Center Right Deep Coral Facet */}
-                <polygon points="20,21.5 24.8,21.5 20,33.5" fill="#DC2626" />
+            {/* Video Play Button in Screen Center */}
+            <circle cx="20" cy="19.5" r="4.2" fill="#1D4ED8" stroke="#1E40AF" strokeWidth="0.8" />
+            <path d="M19 17.8L22.2 19.5L19 21.2V17.8Z" fill="#FFFFFF" />
 
-                {/* 9. Pavilion - Far Right Facet */}
-                <polygon points="24.8,21.5 35.5,21.5 20,33.5" fill="#F97316" />
+            {/* Video Progress Bar at Bottom of Screen */}
+            <rect x="11" y="24.2" width="18" height="1.4" rx="0.7" fill="#BFDBFE" />
+            <rect x="11" y="24.2" width="9" height="1.4" rx="0.7" fill="#2563EB" />
+            <circle cx="20" cy="24.9" r="1" fill="#1D4ED8" />
 
-                {/* Facet Boundary Lines for Crisp Definition */}
-                <line x1="4.5" y1="21.5" x2="35.5" y2="21.5" stroke="#D97706" strokeWidth="0.7" opacity="0.6" />
-                <line x1="15.2" y1="21.5" x2="20" y2="13.5" stroke="#D97706" strokeWidth="0.6" opacity="0.5" />
-                <line x1="24.8" y1="21.5" x2="20" y2="13.5" stroke="#D97706" strokeWidth="0.6" opacity="0.5" />
-                <line x1="15.2" y1="21.5" x2="20" y2="33.5" stroke="#B45309" strokeWidth="0.6" opacity="0.5" />
-                <line x1="20" y1="21.5" x2="20" y2="33.5" stroke="#991B1B" strokeWidth="0.7" opacity="0.6" />
-                <line x1="24.8" y1="21.5" x2="20" y2="33.5" stroke="#B45309" strokeWidth="0.6" opacity="0.5" />
+            {/* Lower Device Chin / Speaker Strip */}
+            <rect x="13" y="28.5" width="14" height="1.2" rx="0.6" fill="#1D4ED8" opacity="0.5" />
 
-                {/* Outer Silhouette Stroke */}
-                <polygon 
-                    points="11,13.5 29,13.5 35.5,21.5 20,33.5 4.5,21.5" 
-                    fill="none" 
-                    stroke="#D97706" 
-                    strokeWidth="1.1" 
-                    strokeLinejoin="round" 
-                />
-
-                {/* Top Table Shimmer Reflection */}
-                <line x1="12.5" y1="14.2" x2="27.5" y2="14.2" stroke="#FFFFFF" strokeWidth="1.1" strokeLinecap="round" opacity="0.85" />
-            </g>
-
-            {/* Top-Right 4-Point Rounded Golden Sparkle Star */}
-            <g id="top-star">
-                <rect x="25.2" y="3.5" width="2.6" height="9" rx="1.3" fill="#F59E0B" />
-                <rect x="22" y="6.7" width="9" height="2.6" rx="1.3" fill="#F59E0B" />
-                <circle cx="26.5" cy="8" r="2.1" fill="#FDE68A" />
-            </g>
-
-            {/* Bottom-Left 4-Point Rounded Golden Sparkle Star */}
-            <g id="bottom-star">
-                <rect x="8.3" y="24" width="2.2" height="6.6" rx="1.1" fill="#FBBF24" />
-                <rect x="6.1" y="26.2" width="6.6" height="2.2" rx="1.1" fill="#FBBF24" />
-                <circle cx="9.4" cy="27.3" r="1.6" fill="#FEF9C3" />
-            </g>
+            {/* Polished Academic Star Seal on Top-Right */}
+            <circle cx="28.5" cy="9.5" r="3.2" fill="#FEF08A" stroke="#CA8A04" strokeWidth="0.8" />
+            <path d="M28.5 7.5L29.1 8.8L30.5 9L29.4 10L29.7 11.4L28.5 10.7L27.3 11.4L27.6 10L26.5 9L27.9 8.8L28.5 7.5Z" fill="#D97706" />
         </svg>
     );
 }
@@ -386,8 +349,8 @@ const courses: CourseItem[] = [
         title: 'CBSE BOARD',
         subtitle: 'Classes 9–12',
         href: '#',
-        bgColor: 'bg-[#FEF1D4] hover:bg-[#FDE8BE] dark:bg-amber-950/50',
-        borderColor: 'border-[#FBD99B] dark:border-amber-800/60',
+        bgColor: 'bg-[#FFF8EB] hover:bg-[#FEF1D4] dark:bg-amber-950/40',
+        borderColor: 'border-[#FCE5BA] dark:border-amber-800/50',
         icon: CbseBookIcon,
     },
     {
@@ -396,8 +359,8 @@ const courses: CourseItem[] = [
         title: 'JEE & NEET',
         subtitle: 'Classes 11–12',
         href: '#',
-        bgColor: 'bg-[#E1ECFE] hover:bg-[#D4E3FD] dark:bg-indigo-950/50',
-        borderColor: 'border-[#BED5FC] dark:border-indigo-800/60',
+        bgColor: 'bg-[#EDF4FE] hover:bg-[#E1ECFE] dark:bg-indigo-950/40',
+        borderColor: 'border-[#D0E2FD] dark:border-indigo-800/50',
         icon: AlarmClockIcon,
     },
     {
@@ -406,8 +369,8 @@ const courses: CourseItem[] = [
         title: 'CUET EXAM',
         subtitle: 'Classes 11–12',
         href: '#',
-        bgColor: 'bg-[#D5F5E5] hover:bg-[#C2EED7] dark:bg-emerald-950/50',
-        borderColor: 'border-[#A8E6C8] dark:border-emerald-800/60',
+        bgColor: 'bg-[#E6F9EE] hover:bg-[#D7F5E4] dark:bg-emerald-950/40',
+        borderColor: 'border-[#BEEFD5] dark:border-emerald-800/50',
         icon: CuetCbtExamIcon,
     },
     {
@@ -416,8 +379,8 @@ const courses: CourseItem[] = [
         title: 'TEST SERIES',
         subtitle: 'Mock Tests & PYQs',
         href: '#',
-        bgColor: 'bg-[#FDE0E6] hover:bg-[#FCCED7] dark:bg-rose-950/50',
-        borderColor: 'border-[#FBB6C4] dark:border-rose-800/60',
+        bgColor: 'bg-[#FEEBF0] hover:bg-[#FDE0E6] dark:bg-rose-950/40',
+        borderColor: 'border-[#FCC8D4] dark:border-rose-800/50',
         icon: TestSeriesClipboardIcon,
     },
     {
@@ -426,8 +389,8 @@ const courses: CourseItem[] = [
         title: 'FREE COURSES',
         subtitle: 'Classes 9–12 • YouTube',
         href: '/free-courses',
-        bgColor: 'bg-[#FFF1E6] hover:bg-[#FFE5D3] dark:bg-orange-950/40',
-        borderColor: 'border-[#FED2B8] dark:border-orange-800/50',
+        bgColor: 'bg-[#FFF6EE] hover:bg-[#FFF0E4] dark:bg-orange-950/30',
+        borderColor: 'border-[#FEDDC7] dark:border-orange-800/40',
         icon: FreeCourseIcon,
     },
     {
@@ -436,8 +399,8 @@ const courses: CourseItem[] = [
         title: 'PREMIUM COURSES',
         subtitle: 'Exclusive & Live',
         href: '/courses',
-        bgColor: 'bg-[#E0E7FE] hover:bg-[#D3DCFD] dark:bg-blue-950/50',
-        borderColor: 'border-[#C2D1FC] dark:border-blue-800/60',
+        bgColor: 'bg-[#EEF3FE] hover:bg-[#E2EBFE] dark:bg-blue-950/40',
+        borderColor: 'border-[#CFDCFD] dark:border-blue-800/50',
         icon: PremiumCourseIcon,
     },
 ];
@@ -473,10 +436,10 @@ export function DiscoverCoursesSection() {
                 {/* Floating Pure White Course Shelf (Visual Separation from #F7F9FD Background) */}
                 <div className="relative bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3 min-[360px]:p-3.5 sm:p-4 shadow-[0_12px_36px_-6px_rgba(16,42,104,0.07),0_4px_16px_-2px_rgba(16,42,104,0.03)] overflow-hidden">
                     
-                    {/* Compact Label: Small orange dot + Courses We Offer */}
-                    <div className="relative z-10 flex justify-center mb-2.5 min-[360px]:mb-3 sm:mb-3.5">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-0.5 min-[360px]:px-3.5 rounded-full bg-white/95 dark:bg-slate-800/90 border border-slate-200/90 dark:border-slate-700/70 shadow-[0_1px_3px_rgba(16,42,104,0.04)] text-[#102A68] dark:text-blue-200 font-semibold text-[10.5px] min-[360px]:text-[11px] sm:text-[11.5px] tracking-tight">
-                            <span className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0" />
+                    {/* Eyebrow: Subtle section eyebrow with tiny IDL orange accent (no button/pill styling) */}
+                    <div className="relative z-10 flex items-center justify-center gap-2 mb-3 min-[360px]:mb-3.5 sm:mb-4">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B16] shrink-0" aria-hidden="true" />
+                        <span className="text-[11px] sm:text-[11.5px] font-bold tracking-wider text-[#0B1F4B] dark:text-blue-200 uppercase select-none">
                             Courses We Offer
                         </span>
                     </div>

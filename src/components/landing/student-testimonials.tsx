@@ -295,16 +295,10 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       IDL{' '}
                       <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
                           Stars
-                          {/* Tilted Orange Star Icon */}
-                          <span className="absolute -top-1 sm:-top-1.5 -right-5 sm:-right-6 pointer-events-none select-none rotate-[14deg] text-[#F59E0B]" aria-hidden="true">
-                            <svg viewBox="0 0 24 24" className="w-4 h-4 sm:w-5 sm:h-5 fill-[#F59E0B] stroke-[#F59E0B] stroke-[1] stroke-linejoin-round">
-                              <path d="M12 2l2.9 6.26 6.86.73-5.1 4.62 1.43 6.75L12 17l-6.09 3.36 1.43-6.75-5.1-4.62 6.86-.73L12 2z" />
-                            </svg>
-                          </span>
 
-                          {/* Curved Swoosh Trail under Stars */}
-                          <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
-                            <svg className="w-full h-full overflow-visible" viewBox="0 0 120 16" fill="none" preserveAspectRatio="none">
+                          {/* Curved Wave Line under Stars (reduced suitable length + single distinct wave) */}
+                          <span className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-[72%] h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                            <svg className="w-full h-full overflow-visible" viewBox="0 0 100 16" fill="none" preserveAspectRatio="none">
                               <defs>
                                 <linearGradient id="idl-stars-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
                                   <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
@@ -319,8 +313,8 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                                   <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
                                 </linearGradient>
                               </defs>
-                              <path d="M 6,8 C 35,3 80,13 114,8" stroke="url(#idl-stars-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
-                              <path d="M 6,8 C 35,3 80,13 114,8" stroke="url(#idl-stars-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                              <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#idl-stars-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                              <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#idl-stars-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
                             </svg>
                           </span>
                       </span>

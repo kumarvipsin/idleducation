@@ -574,13 +574,9 @@ export function Header() {
             <button 
                 type="button" 
                 onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
-                className="group relative px-2.5 min-[360px]:px-3 md:px-4 py-0 rounded-[6px] md:rounded-[8px] bg-gradient-to-r from-[#1D4ED8] to-[#3B82F6] border-0 shadow-[0_1px_6px_rgba(59,130,246,0.3)] hover:shadow-[0_2px_10px_rgba(59,130,246,0.45)] transition-all duration-300 active:scale-[0.97] overflow-hidden h-[34px] md:h-9 flex items-center justify-center cursor-pointer whitespace-nowrap"
+                className="group relative px-3 min-[360px]:px-3.5 md:px-4 py-0 rounded-[9px] md:rounded-[10px] bg-[#1D4ED8] hover:bg-[#1e40af] border-0 shadow-xs hover:shadow-sm transition-all duration-200 active:scale-[0.98] h-[34px] md:h-9 flex items-center justify-center cursor-pointer whitespace-nowrap text-white font-semibold text-xs sm:text-[13px] md:text-[13.5px] leading-none"
             >
-                {/* Slide-up fill animation on hover/active — all screen sizes */}
-                <div className="absolute inset-0 translate-y-full bg-[#1565C0] transition-transform duration-300 group-hover:translate-y-0 group-active:translate-y-0" />
-                <span className="relative z-10 text-[10px] min-[360px]:text-[10.5px] md:text-[10px] font-bold md:font-extrabold uppercase tracking-[0.07em] text-white transition-colors leading-none">
-                    Login
-                </span>
+                Login
             </button>
         );
     };

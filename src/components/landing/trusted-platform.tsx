@@ -29,15 +29,15 @@ export function TrustedPlatform() {
               </h2>
 
               {/* Supporting Text: 2 lines on desktop with comfortable width (18-24px gap from heading) */}
-              <p className="mt-4 lg:mt-5 text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold leading-relaxed max-w-[560px] xl:max-w-[620px]">
+              <p className="mt-3.5 sm:mt-4 lg:mt-5 text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold leading-relaxed max-w-[560px] xl:max-w-[620px]">
                 Unlock your potential with IDL Education — an affordable learning solution built for every student&apos;s journey.
               </p>
 
-              {/* CTA Button: 24-28px spacing from paragraph, naturally integrated into text block */}
-              <div className="mt-6 lg:mt-7">
+              {/* CTA Button: naturally integrated into text block */}
+              <div className="mt-4 sm:mt-5 lg:mt-7">
                 <Button 
                   onClick={() => setIsDemoOpen(true)} 
-                  className="inline-flex items-center justify-center h-11 px-6 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 border-none cursor-pointer shrink-0"
+                  className="inline-flex items-center justify-center h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all duration-200 border-none cursor-pointer shrink-0"
                 >
                   Book a Demo
                 </Button>
@@ -51,7 +51,7 @@ export function TrustedPlatform() {
             {/* MOBILE-ONLY VISUAL COMPOSITION (lg:hidden)                   */}
             {/* Compact 300-320px height, centered, tightened diagonal flow  */}
             {/* ============================================================ */}
-            <div className="block lg:hidden relative w-full mt-7 min-[360px]:mt-8">
+            <div className="block lg:hidden relative w-full mt-4 sm:mt-5 lg:mt-0">
               
               {/* Background: Extremely subtle dot texture & cool wash */}
               <div 
@@ -207,15 +207,9 @@ export function TrustedPlatform() {
                     strokeDasharray="4 5" 
                     strokeLinecap="round"
                   />
-                  {/* 3 Balanced Connection Nodes centered exactly on the Wave */}
-                  <circle cx="245" cy="210" r="3" fill="#3B82F6" fillOpacity="0.75" />
-                  <circle cx="245" cy="210" r="5.2" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
-
-                  <circle cx="314" cy="184" r="3" fill="#3B82F6" fillOpacity="0.75" />
-                  <circle cx="314" cy="184" r="5.2" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
-
-                  <circle cx="380" cy="135" r="3" fill="#3B82F6" fillOpacity="0.75" />
-                  <circle cx="380" cy="135" r="5.2" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.25" />
+                  {/* Single Center Connection Node on the Wave */}
+                  <circle cx="314" cy="184" r="3.2" fill="#3B82F6" fillOpacity="0.8" />
+                  <circle cx="314" cy="184" r="5.5" stroke="#2563EB" strokeWidth="0.8" strokeOpacity="0.3" />
                 </svg>
 
                 {/* 1. UPPER-RIGHT: Student Portrait + Message Bubble */}

@@ -212,7 +212,7 @@ function ExpertTeacherCard({ teacher }: { teacher: TExpertTeacher }) {
                     type="button"
                     onClick={() => setIsVideoOpen(true)}
                     aria-label={`Watch introduction of ${teacher.name}`}
-                    className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 h-[29px] sm:h-[30px] rounded-[6px] bg-blue-50/90 hover:bg-blue-100 dark:bg-blue-950/40 dark:hover:bg-blue-900/50 border border-blue-200/80 hover:border-blue-300 dark:border-blue-800/60 text-[#1D4ED8] dark:text-blue-300 text-[11px] sm:text-[11.5px] font-semibold transition-all duration-150 cursor-pointer shrink-0 hover:shadow-sm hover:-translate-y-[0.5px]"
+                    className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 h-[29px] sm:h-[30px] rounded-[8px] bg-blue-50/90 hover:bg-blue-100 dark:bg-blue-950/40 dark:hover:bg-blue-900/50 border border-blue-200/80 hover:border-blue-300 dark:border-blue-800/60 text-[#1D4ED8] dark:text-blue-300 text-[11px] sm:text-[11.5px] font-semibold transition-all duration-150 cursor-pointer shrink-0 shadow-2xs hover:shadow-xs"
                   >
                     {/* Compact solid triangle play icon */}
                     <svg viewBox="0 0 24 24" className="w-2.5 h-2.5 shrink-0" fill="currentColor" aria-hidden="true">
@@ -230,7 +230,7 @@ function ExpertTeacherCard({ teacher }: { teacher: TExpertTeacher }) {
                     type="button"
                     onClick={() => setIsProfileOpen(true)}
                     aria-label={`View profile of ${teacher.name}`}
-                    className="group/profile inline-flex items-center gap-1 px-2.5 sm:px-3 h-[29px] sm:h-[30px] rounded-[6px] bg-white/90 hover:bg-slate-50/90 dark:bg-card dark:hover:bg-muted/60 border border-slate-200/90 hover:border-[#1D4ED8]/60 dark:border-border/70 dark:hover:border-blue-400/60 text-[#0B1F4B] hover:text-[#1D4ED8] dark:text-slate-200 dark:hover:text-white text-[11px] sm:text-[11.5px] font-semibold transition-all duration-150 cursor-pointer shrink-0"
+                    className="group/profile inline-flex items-center gap-1 px-2.5 sm:px-3 h-[29px] sm:h-[30px] rounded-[8px] bg-white/90 hover:bg-blue-50/80 dark:bg-card dark:hover:bg-muted/60 border border-slate-200/90 hover:border-blue-300 dark:border-border/70 dark:hover:border-blue-400/60 text-[#0B1F4B] hover:text-[#1D4ED8] dark:text-slate-200 dark:hover:text-white text-[11px] sm:text-[11.5px] font-semibold transition-all duration-150 cursor-pointer shrink-0 shadow-2xs hover:shadow-xs"
                   >
                     <span className="whitespace-nowrap">View Profile</span>
                     <span className="transition-transform duration-150 ease-out group-hover/profile:translate-x-0.5" aria-hidden="true">→</span>
@@ -475,57 +475,29 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
           {/* Section Heading */}
           <div className="text-center space-y-2 sm:space-y-2.5 mb-7 sm:mb-8 md:mb-9">
             <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
-              Our Expert{' '}
+              Meet Our{' '}
               <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
-                Teachers
-                {/* Expert Teacher Graduation Cap Icon */}
-                <span className="absolute -top-3 sm:-top-4 -right-6 sm:-right-7 md:-right-8 pointer-events-none select-none text-[#F59E0B] rotate-[8deg]" aria-hidden="true">
-                  <svg viewBox="0 0 28 28" className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 fill-none" stroke="currentColor">
-                    {/* Mortarboard Diamond Top */}
-                    <path
-                      d="M14 4L26 10L14 16L2 10L14 4Z"
-                      fill="#F59E0B"
-                      stroke="#F59E0B"
-                      strokeWidth="1.5"
-                      strokeLinejoin="round"
-                    />
-                    {/* Cap Base under the mortarboard */}
-                    <path
-                      d="M6.5 13.5V17.5C6.5 20 10 22 14 22C18 22 21.5 20 21.5 17.5V13.5"
-                      stroke="#F59E0B"
-                      strokeWidth="2.2"
-                      strokeLinecap="round"
-                    />
-                    {/* Tassel hanging down */}
-                    <path
-                      d="M23.5 11.5V18.5"
-                      stroke="#F59E0B"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                    />
-                    <circle cx="23.5" cy="19.5" r="1.3" fill="#F59E0B" stroke="#F59E0B" />
-                  </svg>
-                </span>
+                Educators
 
-                {/* Curved Swoosh Trail under Teachers */}
-                <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
-                  <svg className="w-full h-full overflow-visible" viewBox="0 0 160 16" fill="none" preserveAspectRatio="none">
+                {/* Curved Wave Line under Educators (reduced suitable length + single distinct wave) */}
+                <span className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-[72%] h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                  <svg className="w-full h-full overflow-visible" viewBox="0 0 100 16" fill="none" preserveAspectRatio="none">
                     <defs>
-                      <linearGradient id="expert-teachers-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="educators-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
                         <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
                         <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
                         <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
                       </linearGradient>
-                      <linearGradient id="expert-teachers-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="educators-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
                         <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
                         <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
                         <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
                       </linearGradient>
                     </defs>
-                    <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#expert-teachers-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
-                    <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#expert-teachers-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#educators-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#educators-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
                   </svg>
                 </span>
               </span>

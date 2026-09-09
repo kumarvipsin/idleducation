@@ -178,7 +178,7 @@ export function CategoryContent({ data, slug, subCategories, competitiveExams, f
                         <h3 className="font-bold text-xl mb-4 text-primary border-b pb-2">Study Resources</h3>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             {resourceLinks.map(link => (
-                                <Button asChild variant="outline" key={link.href} className="justify-start rounded-full">
+                                <Button asChild variant="outline" key={link.href} className="justify-start rounded-[10px] font-semibold text-xs sm:text-sm border-slate-200/80 hover:border-blue-300 hover:bg-blue-50/50 dark:border-slate-800 dark:hover:bg-blue-950/30 text-foreground transition-all">
                                     <Link href={link.href}>
                                         {link.icon}
                                         <span className="ml-2">{link.label}</span>

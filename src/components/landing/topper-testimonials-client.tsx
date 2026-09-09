@@ -89,26 +89,25 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
               Stories of our{' '}
               <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
                 Brightest Stars!
-                {/* ── Reference Accent: Fluid Double-Wave Swoosh + Tilted Orange Star ── */}
+                {/* ── Curved Wave Line under Brightest Stars! (reduced suitable length + single distinct wave) ── */}
                 <span
-                  className="absolute -bottom-3 sm:-bottom-3.5 left-0 w-full h-5 sm:h-6 pointer-events-none select-none flex items-center"
+                  className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-[115px] sm:w-[135px] h-3 pointer-events-none select-none flex items-center"
                   aria-hidden="true"
                 >
-                  {/* Responsive fluid wave swoosh (pronounced crest & trough, fades in from left) */}
                   <svg
                     className="w-full h-full overflow-visible"
-                    viewBox="0 0 250 24"
+                    viewBox="0 0 100 16"
                     fill="none"
                     preserveAspectRatio="none"
                   >
                     <defs>
-                      <linearGradient id="shooting-star-stroke" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="brightest-stars-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
                         <stop offset="20%" stopColor="#3B82F6" stopOpacity="0.4" />
                         <stop offset="60%" stopColor="#2563EB" stopOpacity="0.9" />
                         <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
                       </linearGradient>
-                      <linearGradient id="shooting-star-stroke-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <linearGradient id="brightest-stars-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
                         <stop offset="20%" stopColor="#60A5FA" stopOpacity="0.4" />
                         <stop offset="60%" stopColor="#3B82F6" stopOpacity="0.9" />
@@ -116,29 +115,24 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                       </linearGradient>
                     </defs>
                     <path
-                      d="M 8,13 C 45,4 85,3 125,12 C 165,21 205,20 244,11"
-                      stroke="url(#shooting-star-stroke)"
-                      strokeWidth="2.8"
+                      d="M 6,8 C 28,1.5 72,14.5 94,8"
+                      stroke="url(#brightest-stars-swoosh)"
+                      strokeWidth="2.5"
                       strokeLinecap="round"
                       vectorEffect="non-scaling-stroke"
                       className="dark:hidden"
                     />
                     <path
-                      d="M 8,13 C 45,4 85,3 125,12 C 165,21 205,20 244,11"
-                      stroke="url(#shooting-star-stroke-dark)"
-                      strokeWidth="2.8"
+                      d="M 6,8 C 28,1.5 72,14.5 94,8"
+                      stroke="url(#brightest-stars-swoosh-dark)"
+                      strokeWidth="2.5"
                       strokeLinecap="round"
                       vectorEffect="non-scaling-stroke"
                       className="hidden dark:inline"
                     />
                   </svg>
-
-                  {/* Golden-Orange Star at the rising tip (tilted ~14deg) */}
-                  <span className="absolute -right-2.5 sm:-right-3 top-[46%] -translate-y-1/2 rotate-[14deg] text-[#F59E0B] drop-shadow-[0_1px_3px_rgba(245,158,11,0.35)]">
-                    <svg
-                      viewBox="0 0 24 24"
-                      className="w-4 h-4 sm:w-5 sm:h-5 fill-[#F59E0B] stroke-[#F59E0B] stroke-[1.2] stroke-linejoin-round"
-                    >
+                  <span className="absolute -right-2 sm:-right-2.5 top-1/2 -translate-y-1/2 rotate-[14deg] text-[#F59E0B]">
+                    <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-[#F59E0B] stroke-[#F59E0B] stroke-[1] stroke-linejoin-round">
                       <path d="M12 2l2.9 6.26 6.86.73-5.1 4.62 1.43 6.75L12 17l-6.09 3.36 1.43-6.75-5.1-4.62 6.86-.73L12 2z" />
                     </svg>
                   </span>
@@ -214,10 +208,10 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
             <div className="mt-7 sm:mt-8 flex justify-center">
               <Link
                 href="/idl-stars"
-                className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-[8px] bg-blue-50/80 hover:bg-blue-100/90 dark:bg-blue-950/40 dark:hover:bg-blue-900/60 text-[#1D4ED8] dark:text-blue-300 font-bold text-sm border border-blue-200/70 dark:border-blue-800/50 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group cursor-pointer"
+                className="inline-flex items-center justify-center gap-2 h-11 px-6 rounded-[10px] bg-white hover:bg-blue-50/70 dark:bg-slate-900/80 dark:hover:bg-blue-950/40 text-[#1D4ED8] dark:text-blue-300 font-semibold text-sm border border-blue-200/80 dark:border-blue-800/60 shadow-2xs hover:shadow-xs transition-all duration-200 group cursor-pointer"
               >
                 <span>View More Student Stories</span>
-                <span className="transition-transform duration-180 ease-out group-hover:translate-x-1">→</span>
+                <span className="transition-transform duration-180 ease-out group-hover:translate-x-0.5" aria-hidden="true">→</span>
               </Link>
             </div>
           </div>

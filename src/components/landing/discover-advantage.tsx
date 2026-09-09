@@ -113,11 +113,11 @@ export function DiscoverAdvantage() {
                 {/* Primary CTA Button */}
                 <Button 
                   asChild 
-                  className="group h-10 px-5 sm:px-6 rounded-[8px] bg-[#FF6B16] hover:bg-[#E85D0C] text-white font-bold text-xs sm:text-[13px] shadow-sm hover:shadow-md transition-all border-none inline-flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98] shrink-0"
+                  className="group h-10 sm:h-11 px-5 sm:px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-xs sm:text-sm shadow-xs hover:shadow-sm transition-all border-none inline-flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
                 >
                   <Link href="/brochure.pdf" target="_blank" rel="noopener noreferrer">
                     <span>Download IDL Brochure</span>
-                    <ArrowRight className="w-4 h-4 ml-0.5 transition-transform duration-180 ease-out group-hover:translate-x-1" />
+                    <ArrowRight className="w-4 h-4 ml-0.5 transition-transform duration-180 ease-out group-hover:translate-x-0.5" />
                   </Link>
                 </Button>
               </div>

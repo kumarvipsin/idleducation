@@ -110,10 +110,10 @@ export function DailyChallengeSection() {
                             <div>
                                 <Button
                                     onClick={handleStartChallenge}
-                                    className="h-11 px-6 sm:px-7 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 border-none flex items-center gap-2 group cursor-pointer"
+                                    className="h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all duration-200 border-none flex items-center gap-2 group cursor-pointer"
                                 >
-                                    <span>START CHALLENGE</span>
-                                    <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-[3px]" />
+                                    <span>Start Challenge</span>
+                                    <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-0.5" />
                                 </Button>
                             </div>
                         </div>
@@ -200,10 +200,10 @@ export function DailyChallengeSection() {
                         <div className="pt-1">
                             <Button
                                 onClick={handleStartChallenge}
-                                className="w-full sm:w-auto h-11 px-6 rounded-[8px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-bold text-sm shadow-sm hover:shadow-md transition-all duration-200 border-none flex items-center justify-center gap-2 group cursor-pointer"
+                                className="w-full sm:w-auto h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all duration-200 border-none flex items-center justify-center gap-2 group cursor-pointer"
                             >
-                                <span>START CHALLENGE</span>
-                                <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-[3px]" />
+                                <span>Start Challenge</span>
+                                <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-0.5" />
                             </Button>
                         </div>
 

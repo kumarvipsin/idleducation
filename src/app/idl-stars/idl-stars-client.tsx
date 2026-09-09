@@ -141,7 +141,7 @@ export function IdlStarsClient({ initialTestimonials }: IdlStarsClientProps) {
                 }}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-[#1DB954]/15 hover:bg-[#1DB954]/25 text-[#25D366] border border-[#1DB954]/35 md:bg-[#1DB954] md:hover:bg-[#189a46] md:text-white md:border-white/10 md:shadow-[0_2px_8px_rgba(29,185,84,0.2)] md:hover:shadow-[0_4px_12px_rgba(29,185,84,0.28)] font-semibold text-[12.5px] sm:text-[13.5px] md:text-[14px] h-[38px] sm:h-10 md:h-11 px-4 sm:px-5 md:px-6 rounded-[10px] transition-all duration-150 cursor-pointer w-fit md:w-[230px] shrink-0"
+                className="inline-flex items-center justify-center gap-2 bg-[#16A34A] hover:bg-[#15803d] text-white font-semibold text-xs sm:text-[13px] md:text-sm h-10 md:h-11 px-4 sm:px-5 md:px-6 rounded-[10px] shadow-xs hover:shadow-sm transition-all duration-150 cursor-pointer w-fit md:w-[220px] shrink-0"
                 aria-label="Share your IDL story on WhatsApp"
               >
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current shrink-0" aria-hidden="true">

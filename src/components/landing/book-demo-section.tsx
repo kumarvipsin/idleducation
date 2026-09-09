@@ -18,9 +18,9 @@ export function BookDemoSection() {
               <p className="text-sm text-muted-foreground">
                 Get a free academic counselling session
               </p>
-              <Button asChild className="h-9 px-5 rounded-[8px] bg-orange-500 hover:bg-orange-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all">
+              <Button asChild className="h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all">
                 <Link href="/book-demo">
-                  Book a free demo <ArrowRight className="ml-2 h-4 w-4" />
+                  Book a Demo <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
             </div>

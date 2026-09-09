@@ -267,7 +267,7 @@ export function GetAppSection() {
                             <Button 
                                 type="submit" 
                                 disabled={supportForm.formState.isSubmitting}
-                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
+                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-[10px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-xs hover:shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
                             >
                                 <span>{supportForm.formState.isSubmitting ? 'Submitting Ticket...' : 'Raise Support Ticket'}</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -449,7 +449,7 @@ export function GetAppSection() {
                             <Button 
                                 type="submit" 
                                 disabled={callBackForm.formState.isSubmitting}
-                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
+                                className="h-10 sm:h-11 px-6 sm:px-7 rounded-[10px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-xs hover:shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2" 
                             >
                                 <span>{callBackForm.formState.isSubmitting ? 'Requesting Call Back...' : 'Get a Call Back'}</span>
                                 <ArrowRight className="w-4 h-4" />
@@ -606,7 +606,7 @@ export function GetAppSection() {
             <Copy className="w-4 h-4 text-slate-400" />
           </div>
 
-          <Button onClick={() => setSubmittedTicketId(null)} className="w-full h-10 sm:h-11 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all cursor-pointer">
+          <Button onClick={() => setSubmittedTicketId(null)} className="w-full h-10 sm:h-11 rounded-[10px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-xs hover:shadow-sm transition-all cursor-pointer">
             Submit Another Ticket
           </Button>
         </div>

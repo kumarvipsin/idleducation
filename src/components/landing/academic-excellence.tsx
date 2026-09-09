@@ -10,7 +10,6 @@ import { Skeleton } from '../ui/skeleton';
 import { GcsImage } from '../gcs-image';
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi, CarouselPrevious, CarouselNext } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { Award } from 'lucide-react';
 
 export function AcademicExcellence() {
   const [results, setResults] = useState<TExcellenceResult[]>([]);
@@ -52,69 +51,44 @@ export function AcademicExcellence() {
 
   return (
     <section className="w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background overflow-hidden">
-      <div className="container mx-auto px-4 md:px-6 mb-6 sm:mb-8">
-          <div className="text-center space-y-2.5 sm:space-y-3">
-              <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
+      <div className="container mx-auto px-4 md:px-6 mb-3.5 sm:mb-4.5">
+          <div className="text-center space-y-2 sm:space-y-2.5">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
                   Academic{' '}
-                  <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
+                  <span className="text-[#1D4ED8] dark:text-blue-400">
                       Results
-                      {/* 3 Ascending Rounded Bars (Growth Chart) Icon */}
-                      <span className="absolute -top-1 sm:-top-1.5 -right-5 sm:-right-6 flex items-end gap-[2px] sm:gap-[3px] pointer-events-none select-none" aria-hidden="true">
-                        <span className="w-1 sm:w-1.5 h-2 sm:h-2.5 rounded-full bg-[#F59E0B]" />
-                        <span className="w-1 sm:w-1.5 h-3.5 sm:h-4 rounded-full bg-[#F59E0B]" />
-                        <span className="w-1 sm:w-1.5 h-5 sm:h-6 rounded-full bg-[#F59E0B]" />
-                      </span>
-
-                      {/* Curved Swoosh Trail under Results */}
-                      <span className="absolute -bottom-2 sm:-bottom-2.5 left-0 w-full h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
-                        <svg className="w-full h-full overflow-visible" viewBox="0 0 160 16" fill="none" preserveAspectRatio="none">
-                          <defs>
-                            <linearGradient id="academic-results-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
-                              <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
-                              <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
-                              <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
-                            </linearGradient>
-                            <linearGradient id="academic-results-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
-                              <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
-                              <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
-                              <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
-                              <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
-                            </linearGradient>
-                          </defs>
-                          <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#academic-results-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
-                          <path d="M 6,8 C 45,3 105,13 154,8" stroke="url(#academic-results-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
-                        </svg>
-                      </span>
                   </span>
               </h2>
-              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
+              <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto text-center">
                   Real progress, real performance, and brighter futures with IDL Education.
               </p>
           </div>
       </div>
 
-      <div className="mb-6 sm:mb-8">
-        <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex justify-center items-center gap-2 sm:gap-3 px-4 md:px-6 whitespace-nowrap">
-            {loading ? (
-              [...Array(3)].map((_, i) => <Skeleton key={i} className="h-9 w-24 rounded-full" />)
-            ) : (
-              results.map((result, index) => (
-                <button
-                  key={result.id}
-                  onClick={() => handleCategoryClick(index)}
-                  className={cn(
-                    "h-9 sm:h-10 px-4 sm:px-6 text-xs sm:text-[13px] font-bold transition-all rounded-full border uppercase tracking-wider flex items-center justify-center",
-                    activeIndex === index
-                      ? "border-2 border-[#0A225C] text-[#0A225C] dark:border-primary dark:text-primary bg-white dark:bg-card shadow-sm"
-                      : "border border-transparent text-slate-500 dark:text-slate-400 bg-slate-100/70 dark:bg-muted/30 hover:bg-slate-100 hover:text-slate-700"
-                  )}
-                >
-                  {result.categoryName}
-                </button>
-              ))
-            )}
+      {/* Segmented Tab Selector */}
+      <div className="mb-4 sm:mb-5">
+        <div className="flex justify-center px-4 md:px-6">
+          <div className="overflow-x-auto max-w-full pb-1 scrollbar-none">
+            <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 bg-slate-100/90 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800 rounded-[10px] sm:rounded-[11px] shadow-2xs whitespace-nowrap">
+              {loading ? (
+                [...Array(3)].map((_, i) => <Skeleton key={i} className="h-8 sm:h-9 w-20 sm:w-24 rounded-[8px]" />)
+              ) : (
+                results.map((result, index) => (
+                  <button
+                    key={result.id}
+                    onClick={() => handleCategoryClick(index)}
+                    className={cn(
+                      "h-8 sm:h-9 px-3.5 sm:px-5 text-xs sm:text-[12.5px] font-semibold transition-all rounded-[7px] sm:rounded-[8px] uppercase tracking-wider flex items-center justify-center cursor-pointer",
+                      activeIndex === index
+                        ? "bg-white dark:bg-card text-[#0B1F4B] dark:text-white border border-[#0B1F4B]/20 dark:border-slate-700 shadow-xs"
+                        : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent hover:bg-white/50 dark:hover:bg-slate-800/40 font-medium"
+                    )}
+                  >
+                    {result.categoryName}
+                  </button>
+                ))
+              )}
+            </div>
           </div>
         </div>
       </div>
