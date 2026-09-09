@@ -276,11 +276,11 @@ export function Header() {
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                    <Link href="/login">
-                        <LogIn className="mr-2 h-4 w-4" />
-                        <span>Login</span>
-                    </Link>
-                </DropdownMenuItem>
+  <Link href="/login" className="flex items-center gap-2 rounded-[10%] uppercase hover:bg-primary/5 p-2">
+    <LogIn className="mr-2 h-4 w-4" />
+    <span>LOGIN</span>
+  </Link>
+</DropdownMenuItem>
                 <DropdownMenuItem asChild>
                     <Link href="/signup">
                         <UserPlus className="mr-2 h-4 w-4" />

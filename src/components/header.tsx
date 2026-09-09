@@ -235,14 +235,14 @@ const DESKTOP_MENU_TOKENS = {
     panelRadius: "rounded-none",
     panelShadow: "shadow-xl",
     dropdownAnimation: "absolute top-full left-0 transition-all duration-200 ease-in-out z-50",
-    rowPadding: "px-4 py-3.5",
+    rowPadding: "px-4 py-1.5",
     iconContainer: "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
     iconColorDefault: "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400",
     iconColorActive: "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5",
     rowGap: "gap-3.5",
-    rowBase: "group relative flex items-center rounded-none transition-all duration-150 text-left border-l-2 cursor-pointer w-full",
-    rowHover: "border-transparent hover:bg-muted/80 hover:border-primary text-foreground hover:text-primary",
-    rowActive: "bg-muted/80 border-primary text-primary",
+    rowBase: "group relative flex items-center rounded-none transition-all duration-150 text-left cursor-pointer w-full",
+    rowHover: "text-foreground hover:text-primary",
+    rowActive: "text-primary",
     textTypography: "font-bold text-[14px] leading-tight transition-colors",
     arrowClass: "w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100",
     arrowActive: "w-4 h-4 transition-all shrink-0 text-primary translate-x-0.5 opacity-100",
@@ -369,6 +369,33 @@ export function Header() {
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const [openMobileSubAccordion, setOpenMobileSubAccordion] = useState<string | null>(null);
     const [openMobileThirdAccordion, setOpenMobileThirdAccordion] = useState<string | null>(null);
+
+    // Auto-close all open sections & subsections when mobile sidebar is closed
+    useEffect(() => {
+        if (!isMobileMenuOpen) {
+            const timer = setTimeout(() => {
+                setOpenMobileAccordion(null);
+                setOpenMobileSubAccordion(null);
+                setOpenMobileThirdAccordion(null);
+            }, 200);
+            return () => clearTimeout(timer);
+        }
+    }, [isMobileMenuOpen]);
+
+    // Also close mobile menu & reset all subsections when user navigates to a new page
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+        setOpenMobileAccordion(null);
+        setOpenMobileSubAccordion(null);
+        setOpenMobileThirdAccordion(null);
+    }, [pathname]);
+
+    // When switching or toggling top-level mobile accordion (ALL COURSES / APPLY FOR / MORE),
+    // automatically reset all nested sub-accordions (CBSE, JEE, Syllabus, etc.)
+    useEffect(() => {
+        setOpenMobileSubAccordion(null);
+        setOpenMobileThirdAccordion(null);
+    }, [openMobileAccordion]);
     const [isContactOpen, setIsContactOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const [authDefaultMode, setAuthDefaultMode] = useState<'login' | 'signup'>('login');
@@ -574,9 +601,9 @@ export function Header() {
             <button 
                 type="button" 
                 onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
-                className="group relative px-3 min-[360px]:px-3.5 md:px-4 py-0 rounded-[9px] md:rounded-[10px] bg-[#1D4ED8] hover:bg-[#1e40af] border-0 shadow-xs hover:shadow-sm transition-all duration-200 active:scale-[0.98] h-[34px] md:h-9 flex items-center justify-center cursor-pointer whitespace-nowrap text-white font-semibold text-xs sm:text-[13px] md:text-[13.5px] leading-none"
+                className="px-3.5 min-[360px]:px-4 md:px-5 py-0 rounded-[8px] md:rounded-[6px] bg-[#EEF3FB] hover:bg-[#E0EAFB] active:bg-[#D0DEFA] border border-[#B8CFF5] hover:border-[#93B4EF] text-[#0B2A6B] h-[34px] md:h-9 flex items-center justify-center cursor-pointer whitespace-nowrap font-semibold text-[12px] md:text-[13px] leading-none tracking-[0.04em] transition-colors duration-150 shadow-none"
             >
-                Login
+                LOGIN
             </button>
         );
     };
@@ -608,7 +635,7 @@ export function Header() {
                                         )}>
                                             <div className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "flex flex-row divide-x divide-border")}>
                                                 {/* Left Column: Main Section (w-64, with shared DesktopMenuRow) */}
-                                                <div className="w-64 flex flex-col gap-1 p-2">
+                                                <div className="w-64 flex flex-col gap-0 p-2">
                                                     {courseCategories.map(c => (
                                                         <DesktopMenuRow
                                                             key={c.id}
@@ -636,7 +663,7 @@ export function Header() {
 
                                                     return (
                                                         <>
-                                                            <div className="w-56 p-2 flex flex-col gap-1 animate-in fade-in duration-150">
+                                                            <div className="w-56 p-2 flex flex-col gap-0 animate-in fade-in duration-150">
                                                                 {activeCategory.subItems.map((sub) => {
                                                                     const isSubActive = hoveredSubItem === sub.id;
                                                                     return (
@@ -649,10 +676,10 @@ export function Header() {
                                                                                 href={sub.href}
                                                                                 onClick={() => setActiveMenu(null)}
                                                                                 className={cn(
-                                                                                    "group relative flex items-center gap-3 px-3.5 py-3 rounded-none transition-all duration-150 text-left border-l-2",
+                                                                                    "group relative flex items-center gap-3 px-3.5 py-1.5 rounded-none transition-all duration-150 text-left",
                                                                                     isSubActive
-                                                                                        ? "bg-muted/80 border-primary text-primary"
-                                                                                        : "border-transparent hover:bg-muted/50 hover:border-border text-foreground"
+                                                                                        ? "text-primary font-semibold"
+                                                                                        : "text-foreground hover:text-primary"
                                                                                 )}
                                                                             >
                                                                                 <div className="text-left flex-1">
@@ -677,16 +704,13 @@ export function Header() {
 
                                                             {/* Right Column: Sub-section 2 / Classes (Equal size - w-56) */}
                                                             {hasLeafItems && (
-                                                                <div className="w-56 p-2 flex flex-col gap-1">
-                                                                    <div className="px-3.5 pt-1.5 pb-2 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                                                        Select Class
-                                                                    </div>
+                                                                <div className="w-56 p-2 flex flex-col gap-0">
                                                                     {activeSubItem?.items?.map((item) => (
                                                                         <Link
                                                                             key={item.id}
                                                                             href={item.href}
                                                                             onClick={() => setActiveMenu(null)}
-                                                                            className="group relative flex items-center gap-2.5 px-3.5 py-2.5 rounded-none hover:bg-muted/50 transition-all duration-150 text-left border-l-2 border-transparent hover:border-primary/40"
+                                                                            className="group relative flex items-center gap-2.5 px-3.5 py-1.5 rounded-none transition-all duration-150 text-left hover:text-primary"
                                                                         >
                                                                             <div className="text-left flex-1">
                                                                                 <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">
@@ -740,13 +764,9 @@ export function Header() {
                                             activeMenu === 'more' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
                                             <div suppressHydrationWarning className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "p-2 flex flex-col gap-1")}>
-                                                {moreMenuGroups.map((group, groupIdx) => (
-                                                    <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
-                                                        {groupIdx > 0 && <div className={DESKTOP_MENU_TOKENS.divider} />}
-                                                        <div className={DESKTOP_MENU_TOKENS.groupHeading}>
-                                                            {group.title}
-                                                        </div>
-                                                        {group.links.map(link => (
+                                                        {moreMenuGroups.map((group, groupIdx) => (
+                                                            <div key={group.title} suppressHydrationWarning className="flex flex-col gap-0">
+                                                                {group.links.map(link => (
                                                             <DesktopMenuRow
                                                                 key={link.label}
                                                                 label={link.label}
@@ -815,16 +835,15 @@ export function Header() {
                             </SheetTrigger>
                             <SheetContent 
                                 side="left" 
-                                data-mobile-drawer="true"
-                                className="fixed inset-y-0 left-0 z-[9999] p-0 gap-0 w-full max-w-full flex flex-col h-[100dvh] max-h-[100dvh] bg-gradient-to-b from-white via-[#FAFBFD] to-[#F3F7FC] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-none rounded-none overflow-hidden [&>button.absolute]:hidden"
+                                data-mobile-drawer="true" 
+                                className="fixed inset-y-0 left-0 right-auto flex-none z-[9999] p-0 gap-0 flex flex-col h-[100dvh] max-h-[100dvh] bg-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-[4px_0_24px_0_rgba(10,28,80,0.13)] overflow-hidden [&>button.absolute]:hidden" 
+                                style={{ width: '80vw', maxWidth: '440px' }}
                             >
-                                {/* Ultra-subtle IDL ambient depth: Faint dotted pattern & soft blue glow */}
-                                <div className="absolute inset-0 bg-[radial-gradient(#102A68_1px,transparent_1px)] [background-size:24px_24px] opacity-[0.02] dark:opacity-[0.03] pointer-events-none" />
-                                <div className="absolute bottom-32 right-[-10%] w-[320px] h-[320px] bg-blue-500/[0.025] dark:bg-blue-400/[0.015] rounded-full blur-3xl pointer-events-none" />
-                                <div className="absolute top-1/3 left-[-10%] w-[240px] h-[240px] bg-[#102A68]/[0.015] rounded-full blur-3xl pointer-events-none" />
+                                {/* Subtle ambient depth */}
+                                <div className="absolute inset-0 bg-[radial-gradient(#102A68_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.018] dark:opacity-[0.025] pointer-events-none" />
 
                                 {/* Full-Screen Top Header: Tightened 68-72px height, balanced padding, real logo, clean X */}
-                                <SheetHeader className="px-5 sm:px-6 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm text-left flex flex-row items-center justify-between h-[68px] sm:h-[72px] min-h-[68px] sm:min-h-[72px] max-h-[68px] sm:max-h-[72px] space-y-0 shrink-0 relative z-10">
+                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/98 dark:bg-slate-950/98 backdrop-blur-sm text-left flex flex-row items-center justify-between h-[60px] sm:h-[64px] min-h-[60px] sm:min-h-[64px] max-h-[60px] sm:max-h-[64px] space-y-0 shrink-0 relative z-10">
                                     <SheetTitle asChild>
                                         <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center group">
                                             <Image 
@@ -832,7 +851,7 @@ export function Header() {
                                               alt="IDL Education Logo" 
                                               width={100} 
                                               height={100} 
-                                              className="h-[48px] sm:h-[52px] w-auto object-contain object-left" 
+                                              className="h-[38px] sm:h-[42px] w-auto object-contain object-left" 
                                               priority 
                                             />
                                         </Link>
@@ -840,10 +859,10 @@ export function Header() {
                                     <button 
                                         type="button" 
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
+                                        className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
                                         aria-label="Close menu"
                                     >
-                                        <X className="w-5 h-5 stroke-[2]" />
+                                        <X className="w-4.5 h-4.5 stroke-[2]" />
                                     </button>
                                 </SheetHeader>
 
@@ -858,14 +877,12 @@ export function Header() {
                                                     onClick={() => {
                                                         const isCurrentlyOpen = openMobileAccordion === 'all-courses';
                                                         setOpenMobileAccordion(isCurrentlyOpen ? null : 'all-courses');
-                                                        if (isCurrentlyOpen) {
-                                                            setOpenMobileSubAccordion(null);
-                                                            setOpenMobileThirdAccordion(null);
-                                                        }
+                                                        setOpenMobileSubAccordion(null);
+                                                        setOpenMobileThirdAccordion(null);
                                                     }}
                                                     aria-expanded={openMobileAccordion === 'all-courses'}
                                                     aria-controls="mobile-accordion-all-courses"
-                                                    className="touch-manipulation px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                    className="touch-manipulation px-4 sm:px-5 min-h-[56px] sm:min-h-[60px] flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white transition-colors duration-100 text-left cursor-pointer select-none"
                                                 >
                                                     <span className="uppercase">ALL COURSES</span>
                                                     <ChevronDown className={cn(
@@ -880,8 +897,8 @@ export function Header() {
                                                     data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
                                                     className="mobile-accordion-grid"
                                                 >
-                                                    <div className="overflow-hidden min-h-0 pb-3 pt-0.5 px-4 sm:px-6">
-                                                        <div suppressHydrationWarning className="flex flex-col gap-1">
+                                                    <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
+                                                        <div suppressHydrationWarning className="flex flex-col gap-0">
                                                             {courseCategories.map((cat) => {
                                                                 const isSubOpen = openMobileSubAccordion === cat.id;
                                                                 return (
@@ -902,32 +919,19 @@ export function Header() {
                                                                             }}
                                                                             aria-expanded={isSubOpen}
                                                                             aria-controls={`mobile-sub-${cat.id}`}
-                                                                            className={cn(
-                                                                                "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[54px] rounded-lg transition-colors duration-100 text-left border-l-[3px] w-full cursor-pointer select-none",
-                                                                                isSubOpen
-                                                                                    ? "bg-blue-50/80 dark:bg-blue-950/40 border-primary text-primary"
-                                                                                    : "border-transparent text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-900/60"
-                                                                            )}
+                                                                            className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
                                                                         >
                                                                             <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                                <div className={cn(
-                                                                                    "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-100",
-                                                                                    isSubOpen
-                                                                                        ? "text-primary dark:text-blue-400"
-                                                                                        : "text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary"
-                                                                                )}>
+                                                                                <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100">
                                                                                     {getCategoryIcon(cat.id, cat.name)}
                                                                                 </div>
-                                                                                <span className={cn(
-                                                                                    "text-[14.5px] sm:text-[15px] leading-tight truncate transition-colors duration-100",
-                                                                                    isSubOpen ? "font-bold text-primary dark:text-blue-400" : "font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary"
-                                                                                )}>
+                                                                                <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                                     {cat.name}
                                                                                 </span>
                                                                             </div>
                                                                             <ChevronDown className={cn(
                                                                                 "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
-                                                                                isSubOpen && "rotate-180 text-primary dark:text-blue-400"
+                                                                                isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
                                                                             )} />
                                                                         </button>
 
@@ -940,7 +944,7 @@ export function Header() {
                                                                             className="mobile-accordion-grid"
                                                                         >
                                                                             <div className="overflow-hidden min-h-0">
-                                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3 py-1 my-0.5 space-y-1">
+                                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3 py-0.5 my-0 space-y-0">
                                                                                     {cat.subItems.map((sub) => {
                                                                                         const hasLeafs = sub.items && sub.items.length > 0;
                                                                                         const isThirdOpen = openMobileThirdAccordion === sub.id;
@@ -963,12 +967,7 @@ export function Header() {
                                                                                                         }}
                                                                                                         aria-expanded={isThirdOpen}
                                                                                                         aria-controls={`mobile-third-${sub.id}`}
-                                                                                                        className={cn(
-                                                                                                            "touch-manipulation w-full text-left font-semibold text-[13.5px] sm:text-[14px] min-h-[44px] px-3 py-2 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none",
-                                                                                                            isThirdOpen
-                                                                                                                ? "text-primary bg-blue-50/60 dark:bg-blue-950/30 font-bold"
-                                                                                                                : "text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-900/50"
-                                                                                                        )}
+                                                                                                        className="touch-manipulation w-full text-left font-semibold text-[13.5px] sm:text-[14px] min-h-[38px] px-3 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-700 dark:text-slate-300"
                                                                                                     >
                                                                                                         <span className="truncate">{sub.label}</span>
                                                                                                         <ChevronDown className={cn(
@@ -1010,7 +1009,7 @@ export function Header() {
                                                                                                 key={sub.id}
                                                                                                 href={sub.href}
                                                                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                className="w-full text-left font-medium text-[13.5px] sm:text-[14px] min-h-[44px] px-3 py-2 rounded-md text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-colors duration-100 flex items-center justify-between cursor-pointer"
+                                                                                                className="w-full text-left font-medium text-[13.5px] sm:text-[14px] min-h-[38px] px-3 py-1 rounded-md text-slate-700 dark:text-slate-300 hover:text-primary transition-colors duration-100 flex items-center justify-between cursor-pointer"
                                                                                             >
                                                                                                 <span className="truncate">{sub.label}</span>
                                                                                                 <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
@@ -1035,10 +1034,12 @@ export function Header() {
                                                     onClick={() => {
                                                         const isCurrentlyOpen = openMobileAccordion === 'apply';
                                                         setOpenMobileAccordion(isCurrentlyOpen ? null : 'apply');
+                                                        setOpenMobileSubAccordion(null);
+                                                        setOpenMobileThirdAccordion(null);
                                                     }}
                                                     aria-expanded={openMobileAccordion === 'apply'}
                                                     aria-controls="mobile-accordion-apply"
-                                                    className="touch-manipulation px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                    className="touch-manipulation px-4 sm:px-5 min-h-[48px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.04] active:bg-[#102A68]/[0.07] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
                                                 >
                                                     <span className="uppercase">APPLY FOR</span>
                                                     <ChevronDown className={cn(
@@ -1053,8 +1054,8 @@ export function Header() {
                                                     data-open={openMobileAccordion === 'apply' ? 'true' : 'false'}
                                                     className="mobile-accordion-grid"
                                                 >
-                                                    <div className="overflow-hidden min-h-0 pb-3 pt-0.5 px-4 sm:px-6">
-                                                        <div suppressHydrationWarning className="flex flex-col gap-1">
+                                                    <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
+                                                        <div suppressHydrationWarning className="flex flex-col gap-0">
                                                             {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
                                                                 <button
                                                                     key={label}
@@ -1069,10 +1070,10 @@ export function Header() {
                                                                             router.push(href);
                                                                         }
                                                                     }}
-                                                                    className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[52px] rounded-lg transition-all duration-100 text-left border-l-[3px] border-transparent hover:border-primary active:border-primary hover:bg-slate-50 active:bg-blue-50/80 text-slate-800 dark:text-slate-200 hover:text-primary active:text-primary w-full cursor-pointer"
+                                                                    className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] py-1.5 rounded-lg transition-all duration-100 text-left text-slate-800 dark:text-slate-200 hover:text-primary w-full cursor-pointer"
                                                                 >
-                                                                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                        <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary group-active:text-primary transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
+                                                                    <div className="flex items-center gap-5 min-w-0 flex-1">
+                                                                        <div className="w-6 h-6 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary group-active:text-primary transition-colors duration-100 [&>svg]:w-6 [&>svg]:h-6">
                                                                             {icon}
                                                                         </div>
                                                                         <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate transition-colors text-slate-800 dark:text-slate-200 group-hover:text-primary group-active:text-primary">
@@ -1088,13 +1089,13 @@ export function Header() {
                                             </div>
 
                                             {/* STORE ROW */}
-                                            <div className="px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center">
+                                            <div className="px-4 sm:px-5 min-h-[56px] sm:min-h-[60px] flex items-center">
                                                 <Link
                                                     href="/store"
                                                     target="_blank"
                                                     rel="noopener noreferrer"
                                                     onClick={() => setIsMobileMenuOpen(false)}
-                                                    className="touch-manipulation flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:text-primary transition-colors cursor-pointer select-none"
+                                                    className="touch-manipulation flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white hover:text-primary transition-colors cursor-pointer select-none"
                                                 >
                                                     <span className="flex items-center gap-2.5 uppercase">
                                                         <span>STORE</span>
@@ -1110,10 +1111,12 @@ export function Header() {
                                                     onClick={() => {
                                                         const isCurrentlyOpen = openMobileAccordion === 'more';
                                                         setOpenMobileAccordion(isCurrentlyOpen ? null : 'more');
+                                                        setOpenMobileSubAccordion(null);
+                                                        setOpenMobileThirdAccordion(null);
                                                     }}
                                                     aria-expanded={openMobileAccordion === 'more'}
                                                     aria-controls="mobile-accordion-more"
-                                                    className="touch-manipulation px-6 sm:px-7 min-h-[64px] sm:min-h-[68px] flex items-center justify-between w-full font-semibold text-[18px] sm:text-[19px] tracking-tight text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.03] active:bg-[#102A68]/[0.06] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                    className="touch-manipulation px-4 sm:px-5 min-h-[56px] sm:min-h-[60px] flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.04] active:bg-[#102A68]/[0.07] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
                                                 >
                                                     <span className="uppercase">MORE</span>
                                                     <ChevronDown className={cn(
@@ -1128,14 +1131,11 @@ export function Header() {
                                                     data-open={openMobileAccordion === 'more' ? 'true' : 'false'}
                                                     className="mobile-accordion-grid"
                                                 >
-                                                    <div className="overflow-hidden min-h-0 pb-3 pt-0.5 px-4 sm:px-6">
-                                                        <div suppressHydrationWarning className="flex flex-col gap-1">
+                                                    <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
+                                                        <div suppressHydrationWarning className="flex flex-col gap-0">
                                                             {moreMenuGroups.map((group, groupIdx) => (
-                                                                <div key={group.title} suppressHydrationWarning className="flex flex-col gap-1">
-                                                                    {groupIdx > 0 && <div className="my-1.5 border-t border-slate-200/70 dark:border-slate-800/80" />}
-                                                                    <div className="px-3.5 pt-2 pb-1 text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                                                        {group.title}
-                                                                    </div>
+                                                                <div key={group.title} suppressHydrationWarning className="flex flex-col gap-0">
+                                                                
                                                                     {group.links.map((link) => {
                                                                         const isDisabled = (link as any).disabled || link.label === "Register Now";
                                                                         const isAction = Boolean(link.onClick);
@@ -1165,7 +1165,7 @@ export function Header() {
                                                                                         if (link.onClick) link.onClick();
                                                                                     }}
                                                                                     className={cn(
-                                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[52px] rounded-lg transition-all duration-100 text-left border-l-[3px] border-transparent hover:border-primary active:border-primary hover:bg-slate-50 active:bg-blue-50/80 text-slate-800 dark:text-slate-200 hover:text-primary active:text-primary w-full cursor-pointer",
+                                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] py-1.5 rounded-lg transition-all duration-100 text-left text-slate-800 dark:text-slate-200 hover:text-primary w-full cursor-pointer",
                                                                                         isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                     )}
                                                                                 >
@@ -1181,7 +1181,7 @@ export function Header() {
                                                                                 suppressHydrationWarning
                                                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                                                 className={cn(
-                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[52px] rounded-lg transition-all duration-100 text-left border-l-[3px] border-transparent hover:border-primary active:border-primary hover:bg-slate-50 active:bg-blue-50/80 text-slate-800 dark:text-slate-200 hover:text-primary active:text-primary cursor-pointer",
+                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] py-1.5 rounded-lg transition-all duration-100 text-left text-slate-800 dark:text-slate-200 hover:text-primary cursor-pointer",
                                                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                 )}
                                                                             >
@@ -1200,7 +1200,7 @@ export function Header() {
                                 </div>
 
                                 {/* Unified Bottom Utility Group: FOLLOW IDL + Social Buttons + Primary Call Button */}
-                                <div className="px-5 sm:px-6 py-3.5 sm:py-4 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1.25rem,env(safe-area-inset-bottom))] space-y-2.5 sm:space-y-3">
+                                <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1rem,env(safe-area-inset-bottom))] space-y-2 sm:space-y-2.5">
                                     <SocialLinks variant="mobile-menu" onLinkClick={() => setIsMobileMenuOpen(false)} />
 
                                     <a 

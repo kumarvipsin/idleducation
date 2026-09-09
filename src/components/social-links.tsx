@@ -244,15 +244,11 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
   // NOTE: Twitter excluded from mobile menu drawer per user request
   // ==========================================
   if (variant === 'mobile-menu') {
-    const menuItems = items.filter((s) => s.id !== 'twitter');
+    const menuItems = items;
     if (menuItems.length === 0) return null;
 
     return (
-      <div className={cn("space-y-2", className)}>
-        <p className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">
-          FOLLOW IDL
-        </p>
-        <div className="grid grid-cols-3 gap-2">
+      <div className={cn("grid grid-cols-4 gap-2", className)}>
           {menuItems.map((social) => (
             <a
               key={social.id}
@@ -262,9 +258,9 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
               onClick={onLinkClick}
               aria-label={social.ariaLabel}
               className={cn(
-                "flex items-center justify-center gap-1.5 h-11 px-2 rounded-[9px]",
+                "flex items-center justify-center h-11 rounded-[9px]",
                 "bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800",
-                "text-slate-700 dark:text-slate-200 font-medium text-[12px] sm:text-[12.5px]",
+                "text-slate-700 dark:text-slate-200",
                 "shadow-[0_1px_2px_rgba(0,0,0,0.02)]",
                 "hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-slate-300 dark:hover:border-slate-700",
                 "transition-colors duration-150 ease-out cursor-pointer",
@@ -272,12 +268,10 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
                 social.brandHoverColor
               )}
             >
-              <span className="shrink-0 w-[18px] h-[18px] flex items-center justify-center">{social.icon}</span>
-              <span className="truncate">{social.name}</span>
+              <span className="w-[22px] h-[22px] flex items-center justify-center">{social.icon}</span>
             </a>
           ))}
         </div>
-      </div>
     );
   }
 
