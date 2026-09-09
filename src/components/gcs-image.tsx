@@ -16,9 +16,10 @@ interface GcsImageProps {
   fill?: boolean;
   style?: React.CSSProperties;
   sizes?: string;
+  asImgTag?: boolean;
 }
 
-export function GcsImage({ filePath, alt, className, width, height, fill, style, sizes }: GcsImageProps) {
+export function GcsImage({ filePath, alt, className, width, height, fill, style, sizes, asImgTag }: GcsImageProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -42,10 +43,20 @@ export function GcsImage({ filePath, alt, className, width, height, fill, style,
   }, [filePath]);
 
   if (loading) {
-    return <Skeleton className={cn('h-full w-full', className)} />;
+    return <Skeleton className={cn(asImgTag ? 'w-full aspect-[16/9]' : 'h-full w-full', className)} />;
   }
 
   if (imageUrl) {
+    if (asImgTag) {
+      return (
+        <img
+          src={imageUrl}
+          alt={alt}
+          className={className}
+          style={style}
+        />
+      );
+    }
     if (fill) {
         return (
           <Image 

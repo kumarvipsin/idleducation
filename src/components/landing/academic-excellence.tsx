@@ -50,7 +50,7 @@ export function AcademicExcellence() {
   };
 
   return (
-    <section className="w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background overflow-hidden">
+    <section id="academic-results" className="w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-3.5 sm:mb-4.5">
           <div className="text-center space-y-2 sm:space-y-2.5">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
@@ -65,38 +65,45 @@ export function AcademicExcellence() {
           </div>
       </div>
 
-      {/* Segmented Tab Selector */}
-      <div className="mb-4 sm:mb-5">
+      {/* Clean Outline Button Selector (Zero Background, Outline Only) */}
+      <div className="mb-5 sm:mb-6">
         <div className="flex justify-center px-4 md:px-6">
-          <div className="overflow-x-auto max-w-full pb-1 scrollbar-none">
-            <div className="inline-flex items-center gap-1 sm:gap-1.5 p-1 bg-slate-100/90 dark:bg-slate-900/70 border border-slate-200/80 dark:border-slate-800 rounded-[10px] sm:rounded-[11px] shadow-2xs whitespace-nowrap">
-              {loading ? (
-                [...Array(3)].map((_, i) => <Skeleton key={i} className="h-8 sm:h-9 w-20 sm:w-24 rounded-[8px]" />)
-              ) : (
-                results.map((result, index) => (
+          <div 
+            className="inline-flex items-center gap-2 sm:gap-2.5 select-none"
+            role="tablist"
+            aria-label="Academic Results Category"
+          >
+            {loading ? (
+              [...Array(3)].map((_, i) => <Skeleton key={i} className="h-9 w-[92px] sm:w-[114px] rounded-lg" />)
+            ) : (
+              results.map((result, index) => {
+                const isActive = activeIndex === index;
+                return (
                   <button
                     key={result.id}
+                    role="tab"
+                    aria-selected={isActive}
                     onClick={() => handleCategoryClick(index)}
                     className={cn(
-                      "h-8 sm:h-9 px-3.5 sm:px-5 text-xs sm:text-[12.5px] font-semibold transition-all rounded-[7px] sm:rounded-[8px] uppercase tracking-wider flex items-center justify-center cursor-pointer",
-                      activeIndex === index
-                        ? "bg-white dark:bg-card text-[#0B1F4B] dark:text-white border border-[#0B1F4B]/20 dark:border-slate-700 shadow-xs"
-                        : "text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 border border-transparent hover:bg-white/50 dark:hover:bg-slate-800/40 font-medium"
+                      "h-9 sm:h-[38px] min-w-[92px] sm:min-w-[114px] px-3.5 sm:px-5 text-[13px] sm:text-[13.5px] rounded-lg flex items-center justify-center transition-all duration-150 cursor-pointer bg-transparent",
+                      isActive
+                        ? "border-2 border-[#0B1F4B] dark:border-blue-400 text-[#0B1F4B] dark:text-blue-300 font-bold shadow-none"
+                        : "border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 font-medium hover:border-slate-400 hover:text-[#0B1F4B] dark:hover:text-white"
                     )}
                   >
                     {result.categoryName}
                   </button>
-                ))
-              )}
-            </div>
+                );
+              })
+            )}
           </div>
         </div>
       </div>
 
-      <div className="relative w-full">
+      <div className="relative w-full px-4 sm:px-6 md:px-0">
         {loading ? (
-          <div className="container mx-auto px-4 md:px-6">
-            <Skeleton className="w-full aspect-[16/8] sm:aspect-[16/7] md:aspect-[21/7] rounded-2xl" />
+          <div className="container mx-auto">
+            <Skeleton className="w-full aspect-[16/9] sm:aspect-[2/1] md:aspect-[21/7] rounded-xl sm:rounded-2xl" />
           </div>
         ) : (
           <Carousel
@@ -109,16 +116,27 @@ export function AcademicExcellence() {
             plugins={[Autoplay({ delay: 3500, stopOnInteraction: false, stopOnMouseEnter: true })]}
             className="w-full"
           >
-            <CarouselContent className="-ml-2.5 sm:-ml-3 md:-ml-4">
+            <CarouselContent className="ml-0 md:-ml-4">
               {results.map((result) => (
-                <CarouselItem key={result.id} className="pl-2.5 sm:pl-3 md:pl-4 basis-[86%] sm:basis-[82%] md:basis-[80%] lg:basis-[76%]">
-                  <div className="rounded-2xl overflow-hidden border border-slate-200/80 dark:border-border/60 shadow-sm md:shadow-md bg-white dark:bg-card">
-                    <div className="relative w-full aspect-[16/8] sm:aspect-[16/7] md:aspect-[21/7]">
+                <CarouselItem key={result.id} className="pl-0 md:pl-4 basis-full md:basis-[80%] lg:basis-[76%]">
+                  <div className="rounded-xl sm:rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800/80 shadow-xs md:shadow-md bg-white dark:bg-card">
+                    {/* Mobile View: Natural Image Dimensions (100% width, auto height, NO cropping, NO black bars) */}
+                    <div className="block md:hidden w-full">
+                      <GcsImage
+                        filePath={result.imageUrl}
+                        alt={`Result for ${result.categoryName}`}
+                        asImgTag
+                        className="w-full h-auto block select-none rounded-xl sm:rounded-2xl"
+                      />
+                    </div>
+
+                    {/* Desktop View: Approved Wide Carousel Banner with aspect-[21/7] */}
+                    <div className="hidden md:block relative w-full aspect-[21/7]">
                       <GcsImage
                         filePath={result.imageUrl}
                         alt={`Result for ${result.categoryName}`}
                         fill
-                        className="object-cover"
+                        className="object-cover select-none"
                       />
                     </div>
                   </div>
@@ -135,13 +153,13 @@ export function AcademicExcellence() {
       
       {/* Visual Indicator Dots */}
       {!loading && results.length > 1 && (
-        <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-8">
+        <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5 md:mt-6">
           {results.map((_, i) => (
             <button
               key={i}
               onClick={() => handleCategoryClick(i)}
               className={cn(
-                "h-1.5 rounded-full transition-all duration-300 shadow-sm",
+                "h-1.5 rounded-full transition-all duration-300 shadow-2xs",
                 activeIndex === i ? "w-6 sm:w-8 bg-[#0A225C] dark:bg-primary" : "w-1.5 sm:w-2 bg-slate-200 dark:bg-muted-foreground/30 hover:bg-slate-300"
               )}
               aria-label={`Go to slide ${i + 1}`}

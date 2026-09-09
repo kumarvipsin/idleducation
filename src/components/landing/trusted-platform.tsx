@@ -1,16 +1,11 @@
 'use client';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { BookDemoModal } from "@/components/book-demo-modal";
 
 export function TrustedPlatform() {
-  const [isDemoOpen, setIsDemoOpen] = useState(false);
-
   return (
     <>
-      <section suppressHydrationWarning className="w-full py-6 sm:py-8 lg:py-14 bg-[#F7F9FC] dark:bg-background relative overflow-hidden">
+      <section suppressHydrationWarning className="w-full py-8 sm:py-10 lg:py-14 bg-[#F7F9FC] dark:bg-background relative overflow-hidden">
         {/* Extremely low-opacity ambient blue glow behind right visual area */}
         <div className="absolute top-1/2 right-[12%] -translate-y-1/2 w-[420px] h-[340px] bg-blue-500/[0.025] rounded-full blur-3xl pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -32,19 +27,6 @@ export function TrustedPlatform() {
               <p className="mt-3.5 sm:mt-4 lg:mt-5 text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold leading-relaxed max-w-[560px] xl:max-w-[620px]">
                 Unlock your potential with IDL Education — an affordable learning solution built for every student&apos;s journey.
               </p>
-
-              {/* CTA Button: naturally integrated into text block */}
-              <div className="mt-4 sm:mt-5 lg:mt-7">
-                <Button 
-                  onClick={() => setIsDemoOpen(true)} 
-                  className="inline-flex items-center justify-center h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all duration-200 border-none cursor-pointer shrink-0"
-                >
-                  Book a Demo
-                </Button>
-              </div>
-
-              {/* Book Demo Modal */}
-              <BookDemoModal isOpen={isDemoOpen} onOpenChange={setIsDemoOpen} />
             </div>
 
             {/* ============================================================ */}
