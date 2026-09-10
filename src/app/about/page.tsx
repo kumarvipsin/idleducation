@@ -104,7 +104,7 @@ export default function AboutPage() {
                 priority
                 sizes="(max-width: 768px) 85vw, (max-width: 1200px) 32vw, 340px"
                 className={cn(
-                  "object-contain object-bottom grayscale contrast-[1.08] transition-transform duration-500 ease-out group-hover:scale-[1.01]",
+                  "object-contain object-bottom grayscale contrast-[1.08]",
                   member.imageClass
                 )}
               />
@@ -281,13 +281,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 2. MEET OUR FOUNDERS SECTION — ORIGINAL BOLD CONTRAST (PREMIUM POLISHED) */}
-      <section className="w-full bg-[#080C14] relative overflow-hidden py-10 sm:py-12 md:py-12 lg:py-14 border-b border-white/10">
-        {/* Subtle Ambient Lighting Glows */}
-        <div className="absolute -left-20 top-1/3 w-96 h-96 bg-amber-500/[0.08] rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute -right-20 top-1/3 w-96 h-96 bg-sky-500/[0.08] rounded-full blur-[140px] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(#ffffff08_1px,transparent_1px)] [background-size:32px_32px] pointer-events-none" />
-
+      {/* 2. MEET OUR FOUNDERS SECTION — FLAT PREMIUM POLISHED */}
+      <section className="w-full bg-[#030712] relative overflow-hidden py-10 sm:py-12 md:py-12 lg:py-14 border-b border-white/5">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           {/* Header Title */}
           <div className="text-center mb-6 sm:mb-8 md:mb-9 max-w-2xl mx-auto space-y-1.5">
@@ -301,85 +296,73 @@ export default function AboutPage() {
 
           {/* 2 Founder Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto items-stretch">
-            {/* FOUNDER 1: AMOD SHARMA (WARM GOLDEN YELLOW) */}
-            <div className="group relative overflow-hidden rounded-[2rem] pt-7 px-6 sm:px-7 pb-6 sm:pb-7 flex flex-col justify-between min-h-[520px] sm:min-h-[550px] md:min-h-[570px] bg-gradient-to-b from-[#F5A623] via-[#EFA11E] to-[#E59411] border border-amber-300/40 shadow-[0_20px_50px_-15px_rgba(245,166,35,0.3)] transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(245,166,35,0.4)] hover:-translate-y-1">
-              {/* Subtle top highlight rim */}
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
-
-              {/* Subtle Ambient Radial Glow in Negative Space (Replaces vertical text) */}
-              <div className="absolute right-0 top-1/4 w-72 h-72 bg-amber-300/15 rounded-full blur-3xl pointer-events-none z-0" />
-
+            {/* FOUNDER 1: AMOD SHARMA (FLAT WARM ORANGE WITH SUBTLE SHINE) */}
+            <div className="group relative overflow-hidden rounded-[24px] pt-7 flex flex-col justify-between min-h-[480px] sm:min-h-[500px] md:min-h-[540px] bg-gradient-to-b from-[#F7B54C] to-[#F5A623] border border-white/5 transition-transform duration-500 hover:-translate-y-1">
               {/* Name & Role (Top) */}
-              <div className="relative z-10 space-y-1">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-slate-950">
+              <div className="relative z-10 px-6 sm:px-8 space-y-0.5">
+                <h3 className="text-2xl sm:text-3xl lg:text-3xl font-black uppercase tracking-tight text-slate-950">
                   AMOD SHARMA
                 </h3>
-                <p className="text-xs sm:text-sm font-extrabold tracking-wide text-slate-900/85">
+                <p className="text-[13px] sm:text-sm font-extrabold tracking-wide text-slate-900/85">
                   Founder & CEO
                 </p>
               </div>
 
               {/* Portrait Container (Middle) */}
-              <div className="absolute inset-x-0 bottom-28 sm:bottom-32 top-20 sm:top-24 md:top-26 flex items-end justify-center pointer-events-none z-10">
-                <div className="relative w-80 sm:w-96 md:w-[430px] h-[96%] sm:h-[98%] scale-105 sm:scale-110 origin-bottom transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.12]">
+              <div className="absolute inset-x-0 bottom-[140px] sm:bottom-[160px] md:bottom-[170px] top-20 sm:top-24 flex items-end justify-center pointer-events-none z-10">
+                <div className="relative w-72 sm:w-80 md:w-[380px] h-full origin-bottom transition-transform duration-500 ease-out group-hover:scale-[1.04]">
                   <Image
                     src="/director.png"
                     alt="Amod Sharma"
                     fill
                     priority
-                    className="object-contain object-bottom drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)]"
+                    className="object-contain object-bottom"
                   />
                 </div>
               </div>
 
               {/* White Quote Panel (Bottom) */}
-              <div className="relative z-20 bg-white dark:bg-white rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-100/90 mt-auto">
-                <svg className="w-5 h-5 text-amber-500 mb-2 fill-current" viewBox="0 0 24 24">
+              <div className="relative z-20 bg-white rounded-[20px] p-4 sm:p-5 md:p-6 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-slate-100/50 mt-auto mx-5 sm:mx-6 md:mx-7 mb-5 sm:mb-6 md:mb-7">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#F5A623] mb-1.5 sm:mb-2 fill-current" viewBox="0 0 24 24">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
-                <p className="text-sm sm:text-[15px] md:text-base font-bold text-slate-900 leading-snug tracking-tight">
+                <p className="text-[13px] sm:text-[14px] md:text-[15px] font-bold text-slate-800 leading-[1.65] tracking-tight">
                   &ldquo;My vision is to make quality education more accessible, meaningful, and transformative—empowering every student to dream bigger, learn better, and build a brighter future.&rdquo;
                 </p>
               </div>
             </div>
 
-            {/* FOUNDER 2: VIJAY VERMA (REFINED BLUE) */}
-            <div className="group relative overflow-hidden rounded-[2rem] pt-7 px-6 sm:px-7 pb-6 sm:pb-7 flex flex-col justify-between min-h-[520px] sm:min-h-[550px] md:min-h-[570px] bg-gradient-to-b from-[#0EA5E9] via-[#0284C7] to-[#0369A1] border border-sky-300/40 shadow-[0_20px_50px_-15px_rgba(2,132,199,0.35)] transition-all duration-500 hover:shadow-[0_25px_60px_-15px_rgba(2,132,199,0.45)] hover:-translate-y-1">
-              {/* Subtle top highlight rim */}
-              <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none" />
-
-              {/* Subtle Ambient Radial Glow in Negative Space (Replaces vertical text) */}
-              <div className="absolute right-0 top-1/4 w-72 h-72 bg-white/10 rounded-full blur-3xl pointer-events-none z-0" />
-
+            {/* FOUNDER 2: VIJAY VERMA (FLAT REFINED BLUE WITH SUBTLE SHINE) */}
+            <div className="group relative overflow-hidden rounded-[24px] pt-7 flex flex-col justify-between min-h-[480px] sm:min-h-[500px] md:min-h-[540px] bg-gradient-to-b from-[#26B2EF] to-[#0EA5E9] border border-white/5 transition-transform duration-500 hover:-translate-y-1">
               {/* Name & Role (Top) */}
-              <div className="relative z-10 space-y-1">
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-black uppercase tracking-tight text-white">
+              <div className="relative z-10 px-6 sm:px-8 space-y-0.5">
+                <h3 className="text-2xl sm:text-3xl lg:text-3xl font-black uppercase tracking-tight text-white">
                   VIJAY VERMA
                 </h3>
-                <p className="text-xs sm:text-sm font-extrabold tracking-wide text-sky-100">
+                <p className="text-[13px] sm:text-sm font-extrabold tracking-wide text-white/90">
                   Co-Founder
                 </p>
               </div>
 
               {/* Portrait Container (Middle) */}
-              <div className="absolute inset-x-0 bottom-28 sm:bottom-32 top-20 sm:top-24 md:top-26 flex items-end justify-center pointer-events-none z-10">
-                <div className="relative w-80 sm:w-96 md:w-[430px] h-[96%] sm:h-[98%] scale-105 sm:scale-110 origin-bottom transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.12]">
+              <div className="absolute inset-x-0 bottom-[140px] sm:bottom-[160px] md:bottom-[170px] top-20 sm:top-24 flex items-end justify-center pointer-events-none z-10">
+                <div className="relative w-72 sm:w-80 md:w-[380px] h-full origin-bottom transition-transform duration-500 ease-out group-hover:scale-[1.04]">
                   <Image
                     src="/vijay.png"
                     alt="Vijay Verma"
                     fill
                     priority
-                    className="object-contain object-bottom drop-shadow-[0_20px_35px_rgba(0,0,0,0.5)]"
+                    className="object-contain object-bottom"
                   />
                 </div>
               </div>
 
               {/* White Quote Panel (Bottom) */}
-              <div className="relative z-20 bg-white dark:bg-white rounded-2xl p-5 sm:p-6 shadow-2xl border border-slate-100/90 mt-auto">
-                <svg className="w-5 h-5 text-sky-500 mb-2 fill-current" viewBox="0 0 24 24">
+              <div className="relative z-20 bg-white rounded-[20px] p-4 sm:p-5 md:p-6 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-slate-100/50 mt-auto mx-5 sm:mx-6 md:mx-7 mb-5 sm:mb-6 md:mb-7">
+                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#0EA5E9] mb-1.5 sm:mb-2 fill-current" viewBox="0 0 24 24">
                   <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
                 </svg>
-                <p className="text-sm sm:text-[15px] md:text-base font-bold text-slate-900 leading-snug tracking-tight">
+                <p className="text-[13px] sm:text-[14px] md:text-[15px] font-bold text-slate-800 leading-[1.65] tracking-tight">
                   &ldquo;We are committed to putting students first and leveraging technology to make learning more accessible and impactful—empowering and inspiring the next generation across Bharat.&rdquo;
                 </p>
               </div>
@@ -456,33 +439,33 @@ export default function AboutPage() {
 
 
       {/* 4. JOURNEY TEASER (COMPACT CTA LINKING TO /journey) */}
-      <section className="py-12 sm:py-14 bg-white dark:bg-background border-b border-border/40">
+      <section className="py-5 sm:py-14 bg-white dark:bg-background border-b border-border/40">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
-          <div className="rounded-3xl bg-gradient-to-r from-[#0B1F4B] via-[#0E2864] to-[#143B8E] text-white p-6 sm:p-8 md:p-10 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6 relative overflow-hidden">
+          <div className="rounded-2xl sm:rounded-3xl bg-gradient-to-r from-[#0B1F4B] via-[#0E2864] to-[#143B8E] text-white p-4 sm:p-8 md:p-10 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-3.5 sm:gap-6 relative overflow-hidden">
             {/* Background subtle watermark / timeline path */}
             <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 pointer-events-none select-none flex items-center justify-end font-black text-[9rem] tracking-tighter">
               2021-26
             </div>
 
-            <div className="space-y-2 text-center md:text-left relative z-10 max-w-xl">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
+            <div className="space-y-1 sm:space-y-2 text-left relative z-10 max-w-xl">
+              <span className="text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider text-amber-300">
                 Milestones & Evolution
               </span>
-              <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+              <h3 className="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight leading-snug">
                 Discover the Journey of IDL
               </h3>
-              <p className="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed">
+              <p className="text-[12px] sm:text-sm text-slate-200 font-medium leading-relaxed">
                 Explore the milestones, people and moments that shaped IDL Education from its foundational start in 2021 to a nationwide platform.
               </p>
             </div>
 
-            <div className="shrink-0 relative z-10">
+            <div className="flex items-center justify-end w-full md:w-auto shrink-0 relative z-10 self-end md:self-center">
               <Link
                 href="/journey"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#FF6B00] hover:bg-[#E56000] text-white text-sm font-bold transition-transform active:scale-95 shadow-md"
+                className="inline-flex items-center gap-1.5 sm:gap-2 h-9 sm:h-11 px-4 sm:px-6 rounded-lg sm:rounded-xl bg-[#FF6B00] hover:bg-[#E56000] text-white text-xs sm:text-sm font-bold transition-transform active:scale-95 shadow-md"
               >
                 <span>Explore Our Journey</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </Link>
             </div>
           </div>

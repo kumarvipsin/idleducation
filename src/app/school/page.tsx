@@ -498,30 +498,30 @@ function SchoolPageContent() {
                 </section>
 
                 {/* ── 6. RESULTS & ACHIEVEMENTS GATEWAY ── */}
-                <section className="mb-10 sm:mb-12">
-                    <div className="rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
+                <section className="mb-3.5 sm:mb-10 lg:mb-12">
+                    <div className="rounded-[16px] sm:rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-3.5 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-6">
                         
                         {/* LEFT COLUMN: Eyebrow, Heading & Description */}
-                        <div className="space-y-2 max-w-xl text-left relative z-10">
+                        <div className="space-y-1 sm:space-y-1.5 max-w-xl text-left relative z-10">
                             {/* Subtle Eyebrow Label with delicate orange accent */}
-                            <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-600 dark:text-amber-400 tracking-wider uppercase">
+                            <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400 tracking-wider uppercase">
                                 <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                                 <span>RESULTS & ACHIEVEMENTS</span>
                             </div>
 
                             {/* Main Heading */}
-                            <h3 className="text-[19px] sm:text-[21px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight leading-snug">
+                            <h3 className="text-[16.5px] sm:text-[21px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight leading-snug">
                                 Academic Results & Achievements
                             </h3>
 
                             {/* Concise Description */}
-                            <p className="text-[13px] sm:text-[13.5px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed">
+                            <p className="text-[12px] sm:text-[13.5px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed">
                                 Board performance, merit ranks, and student achievements for the academic session.
                             </p>
                         </div>
 
-                        {/* RIGHT COLUMN: Subtle 2D Achievement Visual + View Results CTA */}
-                        <div className="flex items-center gap-3.5 shrink-0 relative z-10 self-start md:self-center">
+                        {/* RIGHT COLUMN: Subtle 2D Achievement Visual + View Results CTA (Right aligned on mobile) */}
+                        <div className="flex items-center justify-end w-full md:w-auto gap-2.5 sm:gap-3.5 shrink-0 relative z-10 self-end md:self-center">
                             {/* Deliberate subtle 2D trophy motif badge */}
                             <div className="hidden sm:flex w-10 h-10 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-900/40 items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
                                 <Trophy className="w-5 h-5 stroke-[1.8]" />
@@ -531,7 +531,7 @@ function SchoolPageContent() {
                             <Button 
                                 asChild
                                 variant="outline"
-                                className="h-10 sm:h-10.5 px-4 sm:px-5 rounded-[8px] font-bold text-xs bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#0B1F4B] dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
+                                className="h-9 sm:h-10.5 px-3.5 sm:px-5 rounded-[8px] font-bold text-xs bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#0B1F4B] dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
                             >
                                 <Link href="/#academic-results">
                                     <span>View Results</span>
@@ -544,8 +544,8 @@ function SchoolPageContent() {
                 </section>
 
                 {/* ── 7. FINAL GUIDANCE CTA BANNER ── */}
-                <section className="mb-6">
-                    <div className="rounded-[20px] bg-gradient-to-r from-[#102A68] via-[#0F285C] to-[#1D4ED8] p-6 sm:p-8 text-white shadow-md relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                <section className="mb-4 sm:mb-6">
+                    <div className="rounded-[16px] sm:rounded-[20px] bg-gradient-to-r from-[#102A68] via-[#0F285C] to-[#1D4ED8] p-4 sm:p-7 lg:p-8 text-white shadow-md relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 sm:gap-6">
                         
                         {/* Background guidance compass motif overlay */}
                         <div className="absolute right-0 top-0 bottom-0 opacity-10 text-white pointer-events-none hidden lg:block">
@@ -555,22 +555,23 @@ function SchoolPageContent() {
                             </svg>
                         </div>
 
-                        <div className="space-y-1.5 text-left relative z-10 max-w-xl">
-                            <h3 className="text-[20px] sm:text-[23px] font-extrabold tracking-tight text-white">
+                        <div className="space-y-1 sm:space-y-1.5 text-left relative z-10 max-w-xl">
+                            <h3 className="text-[17px] sm:text-[23px] font-extrabold tracking-tight text-white leading-snug">
                                 Need guidance for {activeTab}?
                             </h3>
-                            <p className="text-[13.5px] text-blue-100 font-medium leading-relaxed">
+                            <p className="text-[12px] sm:text-[13.5px] text-blue-100 font-medium leading-relaxed">
                                 Talk to an IDL academic counselor or ask IDL AI for instant course recommendations.
                             </p>
                         </div>
 
-                        <div className="flex flex-wrap items-center gap-3 shrink-0 relative z-10">
+                        {/* Buttons (Right aligned on mobile) */}
+                        <div className="flex items-center justify-end w-full lg:w-auto gap-2.5 sm:gap-3 shrink-0 relative z-10 self-end lg:self-center">
                             {/* Ask IDL AI CTA Button */}
                             <Button 
                                 onClick={() => setIsContactOpen(true)}
-                                className="h-11 px-5 rounded-[8px] font-bold text-xs bg-white text-[#102A68] hover:bg-blue-50 shadow-sm hover:shadow-md transition-all cursor-pointer border-none flex items-center gap-1.5"
+                                className="h-9 sm:h-11 px-3.5 sm:px-5 rounded-[8px] font-bold text-xs bg-white text-[#102A68] hover:bg-blue-50 shadow-sm hover:shadow-md transition-all cursor-pointer border-none flex items-center gap-1.5"
                             >
-                                <Bot className="w-4 h-4 text-[#1D4ED8]" />
+                                <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1D4ED8]" />
                                 <span>Ask IDL AI →</span>
                             </Button>
 
@@ -578,7 +579,7 @@ function SchoolPageContent() {
                             <Button 
                                 asChild
                                 variant="outline"
-                                className="h-11 px-5 rounded-[8px] font-bold text-xs bg-white/10 hover:bg-white/20 text-white border-white/30 shadow-2xs transition-all cursor-pointer flex items-center gap-1.5"
+                                className="h-9 sm:h-11 px-3.5 sm:px-5 rounded-[8px] font-bold text-xs bg-white/10 hover:bg-white/20 text-white border-white/30 shadow-2xs transition-all cursor-pointer flex items-center gap-1.5"
                             >
                                 <a href="tel:8860040010">
                                     <Phone className="w-3.5 h-3.5 text-white" />
