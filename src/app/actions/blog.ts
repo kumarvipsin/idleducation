@@ -4,6 +4,7 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, updateDoc, deleteDoc, doc, serverTimestamp, getDocs, query, orderBy, where, getDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
+import { CBSE_SYLLABUS_POSTS } from "@/lib/syllabus-blogs";
 
 const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
@@ -14,10 +15,16 @@ export async function getBlogPosts() {
         const blogQuery = query(collection(db, "blogPosts"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(blogQuery);
         const posts = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-        return { success: true, data: posts };
+        
+        // Merge with CBSE Syllabus curated posts if not already present
+        const existingSlugs = new Set(posts.map(p => p.slug));
+        const missingSyllabusPosts = CBSE_SYLLABUS_POSTS.filter(sp => !existingSlugs.has(sp.slug));
+        const combined = [...posts, ...missingSyllabusPosts];
+
+        return { success: true, data: combined };
     } catch (error) {
         console.error("Error fetching blog posts:", error);
-        return { success: false, message: "Failed to fetch blog posts." };
+        return { success: true, data: CBSE_SYLLABUS_POSTS };
     }
 }
 
@@ -25,11 +32,24 @@ export async function getBlogPostBySlug(slug: string) {
     try {
         const q = query(collection(db, "blogPosts"), where("slug", "==", slug));
         const querySnapshot = await getDocs(q);
-        if (querySnapshot.empty) return { success: false, message: "Post not found." };
-        const post = { id: querySnapshot.docs[0].id, ...serializeFirestoreData(querySnapshot.docs[0].data()) };
-        return { success: true, data: post };
+        if (!querySnapshot.empty) {
+            const post = { id: querySnapshot.docs[0].id, ...serializeFirestoreData(querySnapshot.docs[0].data()) };
+            return { success: true, data: post };
+        }
+
+        // Fallback to curated CBSE syllabus posts
+        const syllabusPost = CBSE_SYLLABUS_POSTS.find(p => p.slug === slug);
+        if (syllabusPost) {
+            return { success: true, data: syllabusPost };
+        }
+
+        return { success: false, message: "Post not found." };
     } catch (error) {
         console.error("Error fetching blog post by slug:", error);
+        const syllabusPost = CBSE_SYLLABUS_POSTS.find(p => p.slug === slug);
+        if (syllabusPost) {
+            return { success: true, data: syllabusPost };
+        }
         return { success: false, message: "Failed to fetch blog post." };
     }
 }

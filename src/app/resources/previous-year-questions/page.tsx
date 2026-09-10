@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { 
@@ -54,6 +55,8 @@ const SubjectIcon = ({ name, className }: { name: string, className?: string }) 
 };
 
 function PreviousYearQuestionsContent() {
+    const searchParams = useSearchParams();
+    const classParam = searchParams.get('class');
     const [questions, setQuestions] = useState<TPreviousYearQuestion[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
@@ -61,6 +64,19 @@ function PreviousYearQuestionsContent() {
     const [expandedSubjectId, setExpandedSubjectId] = useState<string | null>(null);
     const [expandedYearId, setExpandedYearId] = useState<string | null>(null);
     const { toast } = useToast();
+
+    const matchTargetClass = (classList: string[], target: string | null) => {
+        if (!target || !classList.length) return null;
+        const clean = target.trim().toLowerCase();
+        const direct = classList.find(c => c.trim().toLowerCase() === clean);
+        if (direct) return direct;
+        const targetDigits = clean.match(/\d+/)?.[0];
+        if (targetDigits) {
+            const numMatch = classList.find(c => c.match(/\d+/)?.[0] === targetDigits);
+            if (numMatch) return numMatch;
+        }
+        return classList.find(c => c.toLowerCase().includes(clean) || clean.includes(c.toLowerCase())) || null;
+    };
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -71,14 +87,15 @@ function PreviousYearQuestionsContent() {
                 setQuestions(fetchedQuestions);
                 const initialClasses = Array.from(new Set(fetchedQuestions.map(q => q.exam))).sort();
                 if (initialClasses.length > 0) {
-                    const defaultClass = initialClasses.find(c => c.includes('10')) || initialClasses[0];
+                    const matched = matchTargetClass(initialClasses, classParam);
+                    const defaultClass = matched || initialClasses.find(c => c.includes('10')) || initialClasses[0];
                     setSelectedClass(defaultClass);
                 }
             }
             setLoading(false);
         };
         fetchQuestions();
-    }, []);
+    }, [classParam]);
 
     const toggleSubject = (id: string) => {
         setExpandedSubjectId(prev => (prev === id ? null : id));
@@ -93,6 +110,15 @@ function PreviousYearQuestionsContent() {
         const uniqueClasses = Array.from(new Set(questions.map(q => q.exam))).sort();
         return uniqueClasses;
     }, [questions]);
+
+    useEffect(() => {
+        if (classParam && classes.length > 0) {
+            const matched = matchTargetClass(classes, classParam);
+            if (matched && matched !== selectedClass) {
+                setSelectedClass(matched);
+            }
+        }
+    }, [classParam, classes]);
 
     useEffect(() => {
         setExpandedSubjectId(null);

@@ -39,7 +39,7 @@ export function CourseCardActionBar({
   // ── CTA config by type ──────────────────────────────────────────
   const cta = {
     free: {
-      label: label ?? 'Free Video',
+      label: label ?? 'Play Now',
       icon: <Play className="w-[11px] h-[11px] sm:w-3 sm:h-3 fill-current shrink-0" />,
       classes: [
         // Surface — very light green tint

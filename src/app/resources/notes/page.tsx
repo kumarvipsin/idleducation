@@ -5,6 +5,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, HelpCircle, Sigma, Lightbulb, Globe, Plus, Minus, X, Divide, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -72,11 +73,26 @@ const getTheme = (key: string) => {
 };
 
 function NotesPageContent() {
+  const searchParams = useSearchParams();
+  const classParam = searchParams.get('class');
   const [notesByClass, setNotesByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
+
+  const matchTargetClass = (classList: string[], target: string | null) => {
+    if (!target || !classList.length) return null;
+    const clean = target.trim().toLowerCase();
+    const direct = classList.find(c => c.trim().toLowerCase() === clean);
+    if (direct) return direct;
+    const targetDigits = clean.match(/\d+/)?.[0];
+    if (targetDigits) {
+      const numMatch = classList.find(c => c.match(/\d+/)?.[0] === targetDigits);
+      if (numMatch) return numMatch;
+    }
+    return classList.find(c => c.toLowerCase().includes(clean) || clean.includes(c.toLowerCase())) || null;
+  };
 
   useEffect(() => {
     const fetchNotesData = async () => {
@@ -106,7 +122,8 @@ function NotesPageContent() {
         setNotesByClass(formattedData);
         setClasses(sortedClasses);
         if (sortedClasses.length > 0) {
-            const defaultClass = sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
+            const matched = matchTargetClass(sortedClasses, classParam);
+            const defaultClass = matched || sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
             setSelectedClass(defaultClass);
         }
       }
@@ -114,7 +131,17 @@ function NotesPageContent() {
     };
 
     fetchNotesData();
-  }, []);
+  }, [classParam]);
+
+  useEffect(() => {
+    if (classParam && classes.length > 0) {
+      const matched = matchTargetClass(classes, classParam);
+      if (matched && matched !== selectedClass) {
+        setSelectedClass(matched);
+        setAnimationKey(prev => prev + 1);
+      }
+    }
+  }, [classParam, classes]);
 
   const subjects = notesByClass[selectedClass] || [];
   
@@ -172,7 +199,7 @@ function NotesPageContent() {
             {loading ? (
               renderSkeleton()
             ) : (
-              <div key={animationKey} className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6 animate-fade-in-up">
+              <div key={animationKey} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 animate-fade-in-up">
                 {subjects && subjects.length > 0 ? (
                   subjects.map((subject: Subject, index: number) => {
                       const theme = getTheme(subject.subjectKey);
@@ -180,36 +207,30 @@ function NotesPageContent() {
                         <Link key={`${subject.href}-${index}`} href={subject.href} className="block group h-full">
                             <Card
                             className={cn(
-                                "relative flex flex-col h-[160px] w-full rounded-xl border border-black/5 shadow-sm transition-all duration-300 overflow-hidden",
-                                "hover:shadow-md hover:border-black/10 active:scale-[0.98]",
+                                "relative flex flex-col h-[200px] w-full rounded-2xl border border-black/5 shadow-sm transition-all duration-300 overflow-hidden",
+                                "hover:shadow-lg hover:border-black/10 active:scale-[0.98]",
                                 theme.bg
                             )}
                             style={{ animationDelay: `${index * 50}ms` }}
                             >
-                                {/* Book Spine */}
-
-                                <CardContent className="p-6 md:p-8 flex flex-col h-full relative z-10">
-                                    {/* Subject Name */}
-                                    <div className="flex flex-col items-start text-left">
-                                        <h3 className={cn("text-xl md:text-2xl font-black tracking-tight leading-tight", theme.text)}>
-                                            {subject.name}
-                                        </h3>
-                                        <Badge variant="outline" className={cn("mt-2 border-current opacity-60 text-[10px] font-black uppercase tracking-widest px-2", theme.text)}>
-                                            {selectedClass}
-                                        </Badge>
-                                    </div>
-
-                                    {/* Background Icon Watermark */}
-                                    <div className="absolute bottom-4 right-4 transform transition-transform duration-700 group-hover:scale-110 group-hover:rotate-6">
-                                        {theme.icon}
-                                    </div>
-                                    
-                                    <div className="mt-auto self-end">
-                                        <div className={cn("p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0", theme.bg, "shadow-sm border border-black/5")}>
-                                            <ArrowRight className={cn("w-4 h-4", theme.text)} />
-                                        </div>
-                                    </div>
-                                </CardContent>
+                                <CardContent className="p-4 md:p-6 flex flex-col h-full relative z-10 space-y-2">
+  <div className="flex items-center space-x-3">
+    <div className="w-8 h-8 flex-shrink-0 text-current">
+      {theme.icon}
+    </div>
+    <div className="flex flex-col">
+      <h3 className={cn("text-lg md:text-xl font-medium", theme.text)}>{subject.name}</h3>
+      <p className="text-sm text-muted-foreground">Chapter-wise Notes</p>
+      <p className="text-xs text-muted-foreground">Hindi · English</p>
+    </div>
+  </div>
+  <div className="mt-auto self-end">
+    <span className={cn("flex items-center space-x-1 text-primary font-medium", theme.text)}>
+      <span>View Notes</span>
+      <ArrowRight className={cn("w-4 h-4", theme.text)} />
+    </span>
+  </div>
+</CardContent>
                             </Card>
                         </Link>
                       );

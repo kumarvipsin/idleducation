@@ -22,6 +22,7 @@ import {
   CheckCircle2,
   Youtube,
   Eye,
+  ArrowRight,
 } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -571,29 +572,32 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
       <div className="h-1.5 sm:h-1 bg-gradient-to-b from-[#0A1A3F] to-[#F5F7FA] dark:to-background" />
 
       {/* ── Main Library Area ── */}
-      <div className="container mx-auto max-w-6xl px-4 sm:px-6">
+      <div className="container mx-auto max-w-6xl px-4 sm:px-6 pb-20 sm:pb-24">
 
         {/* Desktop Search + Filter bar */}
         {!selectedSubject && (
           <div className="py-3 sm:py-4 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3 sm:gap-4">
 
-            {/* Filter tabs — horizontal scroll, no wrap */}
+            {/* Filter tabs — horizontal scroll, no wrap (matching School Page tabs) */}
             <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-1 min-w-0">
-              <div className="flex items-center gap-1 whitespace-nowrap">
-                {(['all', ...classList] as string[]).map((cls) => (
-                  <button
-                    key={cls}
-                    onClick={() => handleSelectClass(cls)}
-                    className={cn(
-                      "shrink-0 px-3 py-1.5 rounded-[8px] text-[11px] sm:text-xs font-semibold transition-all duration-150 whitespace-nowrap border",
-                      selectedClass === cls
-                        ? "bg-[#0B1F4B] text-white border-[#0B1F4B] shadow-sm"
-                        : "bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 hover:text-slate-800"
-                    )}
-                  >
-                    {cls === 'all' ? 'All Classes' : cls}
-                  </button>
-                ))}
+              <div className="flex items-center gap-4 sm:gap-6 md:gap-8 whitespace-nowrap -mb-[1px]">
+                {(['all', ...classList] as string[]).map((cls) => {
+                  const isActive = selectedClass === cls;
+                  return (
+                    <button
+                      key={cls}
+                      onClick={() => handleSelectClass(cls)}
+                      className={cn(
+                        "text-sm font-bold transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 cursor-pointer shrink-0",
+                        isActive
+                          ? "text-primary border-primary"
+                          : "text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20"
+                      )}
+                    >
+                      {cls === 'all' ? 'All Classes' : cls}
+                    </button>
+                  );
+                })}
               </div>
             </div>
 
@@ -741,24 +745,18 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
           /* ── VIEW LEVEL 1: Primary Course Library ── */
           <div className="pt-1 pb-5 sm:pb-6 space-y-6 sm:space-y-8">
 
-            {/* Subject-wise Video Courses — Only shown when a specific class is selected and has courses */}
+            {/* Subject-wise Video Courses — Styled identically to School CBSE Syllabus Section */}
             {selectedClass !== 'all' && subjectsMap.size > 0 && (
-              <section className="mb-6 sm:mb-8">
-                {/* Section Header — Left-aligned, purposeful video learning introduction */}
-                <div className="mb-4 sm:mb-5 pb-3 sm:pb-3.5 border-b border-slate-200/60 dark:border-slate-800/80 text-left">
-                  <div className="flex items-center gap-2 sm:gap-2.5">
-                    <PlayCircle className="w-5 h-5 sm:w-6 sm:h-6 text-[#1D4ED8] shrink-0 stroke-[2.2]" />
-                    <h2 className="text-[20px] sm:text-[24px] lg:text-[26px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
-                      Explore by Subject
-                    </h2>
-                  </div>
-                  <p className="text-[13px] sm:text-[14px] text-slate-500 dark:text-slate-400 font-normal mt-1 sm:mt-1.5 leading-normal">
-                    Free video lessons organised by subject.
-                  </p>
+              <section className="mb-8 sm:mb-10">
+                {/* Header matching School Syllabus header */}
+                <div className="mb-5 flex items-center gap-2 text-left">
+                  <h2 className="text-[15px] sm:text-[16px] font-bold text-slate-700 dark:text-slate-200 tracking-tight">
+                    {selectedClass} — Explore by Subject 2026–27
+                  </h2>
                 </div>
 
-                {/* 2-Column Grid — 10-15% more compact, uniform height and optical balance */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3.5">
+                {/* 2-Column Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-5">
                   {Array.from(subjectsMap.entries()).map(([subjName, data]) => {
                     const details = getSubjectDetails(subjName);
                     const chaptersCount = new Set(data.courses.map((c) => c.chapter || c.title || 'General Lessons')).size;
@@ -766,45 +764,34 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
                       <div
                         key={subjName}
                         onClick={() => handleSelectSubject(subjName)}
-                        className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[14px] border border-slate-200/70 dark:border-slate-800/80 h-[84px] sm:h-[86px] px-3 sm:px-4 py-3 sm:py-3.5 hover:border-[#1D4ED8]/30 dark:hover:border-blue-500/30 hover:shadow-[0_6px_20px_-3px_rgba(11,31,75,0.08)] shadow-[0_2px_8px_-2px_rgba(11,31,75,0.04)] transition-all duration-200 flex items-center justify-between gap-3 sm:gap-3.5 cursor-pointer"
+                        className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 dark:border-slate-800 p-3.5 sm:p-5 hover:border-[#1D4ED8]/30 hover:shadow-[0_6px_24px_-4px_rgba(11,31,75,0.08)] transition-all duration-200 flex items-center justify-between gap-3 sm:gap-4 cursor-pointer"
                       >
-                        {/* 1. Left: Normalized Fixed Icon Box */}
-                        <div className="w-11 h-11 shrink-0 flex items-center justify-center relative z-10 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
+                        {/* 1. Left: Icon Box */}
+                        <div className="shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs flex items-center justify-center relative z-10">
                           {details.icon}
                         </div>
 
-                        {/* 2. Center: Subject Title + Video Badge + Academic Session Subtitle */}
-                        <div className="min-w-0 flex-1 relative z-10 flex flex-col justify-center">
-                          <div className="flex items-center gap-2 min-w-0">
-                            <h3 className="text-[14.5px] sm:text-[15px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-none truncate group-hover:text-[#1D4ED8] transition-colors">
+                        {/* 2. Center: Flexible Content Area */}
+                        <div className="min-w-0 flex-1 relative z-10">
+                          <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5">
+                            <h3 className="text-[14px] sm:text-[16.5px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug truncate group-hover:text-[#1D4ED8] transition-colors">
                               {subjName}
                             </h3>
-                            <span className={cn("text-[9.5px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 leading-none h-[18px] inline-flex items-center", details.badgeBg)}>
+                            <span className={cn("text-[9.5px] sm:text-[10px] font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0", details.badgeBg)}>
                               {data.courses.length} Video{data.courses.length > 1 ? 's' : ''}
                             </span>
                           </div>
-                          <p className="text-[11px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 truncate leading-tight mt-1.5">
+                          <p className="text-[10.5px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 truncate">
                             Academic Session 2026–27 · {chaptersCount} Chapter{chaptersCount > 1 ? 's' : ''}
                           </p>
                         </div>
 
-                        {/* 3. Right: Fixed Size View Button */}
-                        <div className="shrink-0 relative z-10">
-                          <div
-                            className={cn(
-                              "w-[76px] sm:w-[84px] h-[34px] sm:h-[36px] rounded-[8px]",
-                              "text-[11.5px] sm:text-[12px] font-semibold whitespace-nowrap",
-                              "text-[#1D4ED8]/80 dark:text-blue-400",
-                              "bg-[#EEF4FF]/60 dark:bg-[#1a2f5e]/30",
-                              "border border-[#1D4ED8]/15 dark:border-blue-500/20",
-                              "group-hover:bg-[#EEF4FF] dark:group-hover:bg-[#1a2f5e]/50",
-                              "group-hover:border-[#1D4ED8]/30 dark:group-hover:border-blue-500/40",
-                              "shadow-none transition-all duration-150 flex items-center justify-center gap-0.5"
-                            )}
-                          >
-                            <span>View</span>
-                            <span className="opacity-70 text-[11px] leading-none ml-0.5">→</span>
-                          </div>
+                        {/* 3. Right: Fixed Action Area (Never Wraps) */}
+                        <div className="shrink-0 flex items-center justify-end relative z-10">
+                          <span className="inline-flex items-center gap-1 sm:gap-1.5 text-[13px] sm:text-[14px] font-bold text-[#1D4ED8] dark:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-300 transition-all duration-200 group-hover:translate-x-0.5 whitespace-nowrap">
+                            <span className="whitespace-nowrap">View Now</span>
+                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                          </span>
                         </div>
 
                       </div>
@@ -839,7 +826,7 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
                   {searchFilteredCourses.map((course) => {
                     const isPlaylist = course.youtubeType === 'playlist';
                     return (

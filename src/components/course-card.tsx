@@ -211,30 +211,7 @@ export function CourseCard({
             </div>
           )}
 
-          {/* Central Play Button Overlay */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="w-9 h-9 sm:w-11 sm:h-11 rounded-full bg-white/95 flex items-center justify-center shadow-md group-hover/thumb:scale-110 transition-transform duration-200">
-              <Play className="w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 fill-[#0B1F4B] text-[#0B1F4B] ml-0.5" />
-            </div>
-          </div>
         </button>
-
-        {/* Subtle WhatsApp Inquiry Button */}
-        <a
-          href={`https://wa.me/918860040010?text=${encodeURIComponent(
-            `Hi IDL Education, I want to know more about "${title}".`
-          )}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="absolute top-2 right-2 z-10 w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-white/90 dark:bg-slate-900/90 shadow-sm flex items-center justify-center text-[#25D366] hover:bg-white hover:scale-105 transition-all"
-          title="Inquire on WhatsApp"
-          aria-label="Inquire on WhatsApp"
-        >
-          <svg className="w-4 h-4 sm:w-4.5 sm:h-4.5 fill-current" viewBox="0 0 24 24">
-            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
-          </svg>
-        </a>
       </div>
 
       {/* ══════════════════════════════════════════
@@ -258,17 +235,16 @@ export function CourseCard({
             onClick={onTitleClick}
             title={title}
             className={cn(
-              'font-bold text-[14px] sm:text-[15.5px] text-[#0B1F4B] dark:text-white leading-[1.3] line-clamp-1 mb-2',
+              'font-bold text-[13.5px] sm:text-[15.5px] text-[#0B1F4B] dark:text-white leading-[1.28] line-clamp-2 min-h-[35px] sm:min-h-[40px] mb-1.5',
               onTitleClick && 'cursor-pointer hover:text-[#1D4ED8] transition-colors'
             )}
           >
             {title}
           </h3>
 
-          {/* ── ROW 3: Detail 1 (Academic Cap Icon: Audience/Class) ── */}
-          <div className="flex items-center gap-1.5 sm:gap-2 mb-1.5 text-slate-600 dark:text-slate-300">
-            <AcademicCapIcon className="w-4 h-4 sm:w-[17px] sm:h-[17px]" />
-            <span className="text-[11px] sm:text-[12.5px] leading-snug truncate">
+          {/* ── ROW 3: Detail 1 (Audience/Class) ── */}
+          <div className="mb-1 text-slate-500 dark:text-slate-400">
+            <span className="text-[11px] sm:text-[12px] font-medium leading-snug truncate block">
               {formatAudience(audience, courseClass, subject)}
             </span>
           </div>
@@ -285,18 +261,18 @@ export function CourseCard({
         </div>
 
         {/* ── ROW 5: Bottom Price & Action Footer (Anchored, Flex-End) ── */}
-        <div className="mt-3 pt-2 flex items-end justify-between gap-1.5 sm:gap-2">
+        <div className="mt-3 sm:mt-4 pt-2 sm:pt-2.5 flex items-center justify-between gap-2">
           {/* Status / Price Block Left */}
-          <div className="min-w-0 flex flex-col justify-end">
+          <div className="shrink-0 flex flex-col justify-end">
             {type === 'premium' ? (
               price > 0 ? (
                 <>
                   <div className="flex items-baseline gap-1 leading-none">
-                    <span className="text-[16px] sm:text-[19px] md:text-[20px] font-bold text-slate-900 dark:text-white">
+                    <span className="text-[17px] sm:text-[19px] md:text-[21px] font-bold text-slate-900 dark:text-white">
                       ₹{price.toLocaleString('en-IN')}
                     </span>
                     {originalPrice > price && (
-                      <span className="text-[11px] sm:text-[13px] text-slate-400 dark:text-slate-500 line-through font-normal">
+                      <span className="text-[11.5px] sm:text-[13px] text-slate-400 dark:text-slate-500 line-through font-normal">
                         ₹{originalPrice.toLocaleString('en-IN')}
                       </span>
                     )}
@@ -309,10 +285,10 @@ export function CourseCard({
                 </>
               ) : (
                 <div className="flex flex-col justify-end">
-                  <span className="text-[15.1px] sm:text-[17px] md:text-[19px] font-black text-emerald-600 dark:text-emerald-400 leading-none tracking-tight">
+                  <span className="text-[16px] sm:text-[18px] md:text-[20px] font-black text-emerald-600 dark:text-emerald-400 leading-none tracking-tight">
                     FREE
                   </span>
-                  <span className="text-[6.7px] sm:text-[7.5px] font-bold text-emerald-600 dark:text-emerald-400 leading-none mt-0.5 tracking-tight">
+                  <span className="text-[7.5px] sm:text-[8.5px] md:text-[9px] font-bold text-emerald-600/90 dark:text-emerald-400/90 leading-none mt-1 tracking-tight">
                     100% FREE
                   </span>
                 </div>
@@ -320,10 +296,10 @@ export function CourseCard({
             ) : (
               /* Free course: clean green status block */
               <div className="flex flex-col justify-end">
-                <span className="text-[15.1px] sm:text-[17px] md:text-[19px] font-black text-emerald-600 dark:text-emerald-400 leading-none tracking-tight">
+                <span className="text-[16px] sm:text-[18px] md:text-[20px] font-black text-emerald-600 dark:text-emerald-400 leading-none tracking-tight">
                   FREE
                 </span>
-                <span className="text-[6.7px] sm:text-[7.5px] font-bold text-emerald-600 dark:text-emerald-400 leading-none mt-0.5 tracking-tight">
+                <span className="text-[7.5px] sm:text-[8.5px] md:text-[9px] font-bold text-emerald-600/90 dark:text-emerald-400/90 leading-none mt-1 tracking-tight">
                   100% FREE
                 </span>
               </div>
@@ -338,19 +314,19 @@ export function CourseCard({
                   renderExploreTrigger(
                     <button
                       type="button"
-                      className="h-[32px] sm:h-[36px] px-3 sm:px-4 rounded-[8px] border border-[#1D4ED8]/30 bg-[#EEF4FF] dark:bg-blue-950/30 text-[#1D4ED8] dark:text-blue-400 hover:bg-[#E0ECFF] text-[12px] sm:text-[13px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-none"
+                      className="h-[34px] sm:h-[36px] md:h-[38px] px-3.5 sm:px-4 rounded-[8px] sm:rounded-[9px] border border-[#1D4ED8]/30 bg-[#EEF4FF] dark:bg-blue-950/30 text-[#1D4ED8] dark:text-blue-400 hover:bg-[#E0ECFF] text-[12.5px] sm:text-[13px] md:text-[13.5px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-none"
                       aria-label={`Explore ${title}`}
                     >
-                      <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current shrink-0" />
+                      <Play className="w-3.5 h-3.5 fill-current shrink-0" />
                       <span>Explore</span>
                     </button>
                   )
                 ) : (
                   <button
                     type="button"
-                    className="h-[32px] sm:h-[36px] px-3 sm:px-4 rounded-[8px] border border-[#1D4ED8]/30 bg-[#EEF4FF] dark:bg-blue-950/30 text-[#1D4ED8] dark:text-blue-400 hover:bg-[#E0ECFF] text-[12px] sm:text-[13px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-none"
+                    className="h-[34px] sm:h-[36px] md:h-[38px] px-3.5 sm:px-4 rounded-[8px] sm:rounded-[9px] border border-[#1D4ED8]/30 bg-[#EEF4FF] dark:bg-blue-950/30 text-[#1D4ED8] dark:text-blue-400 hover:bg-[#E0ECFF] text-[12.5px] sm:text-[13px] md:text-[13.5px] font-semibold transition-colors flex items-center gap-1.5 cursor-pointer shadow-none"
                   >
-                    <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current shrink-0" />
+                    <Play className="w-3.5 h-3.5 fill-current shrink-0" />
                     <span>Explore</span>
                   </button>
                 )
@@ -360,7 +336,7 @@ export function CourseCard({
                   type="button"
                   onClick={onBuyNow}
                   disabled={isProcessing}
-                  className="h-[32px] sm:h-[36px] px-3.5 sm:px-4 rounded-[8px] bg-[#0B1F4B] hover:bg-[#1D4ED8] text-white text-[12px] sm:text-[13.5px] font-semibold transition-colors shadow-sm flex items-center justify-center gap-1 cursor-pointer disabled:opacity-60 whitespace-nowrap"
+                  className="h-[34px] sm:h-[36px] md:h-[38px] px-4 sm:px-4.5 rounded-[8px] sm:rounded-[9px] bg-[#0B1F4B] hover:bg-[#1D4ED8] text-white text-[12.5px] sm:text-[13px] md:text-[13.5px] font-semibold transition-colors shadow-sm flex items-center justify-center gap-1 cursor-pointer disabled:opacity-60 whitespace-nowrap"
                   aria-label={`Buy ${title}`}
                 >
                   <span>{isProcessing ? 'Processing…' : 'Buy Now'}</span>
@@ -372,11 +348,11 @@ export function CourseCard({
               <button
                 type="button"
                 onClick={onThumbnailClick}
-                className="h-[32px] sm:h-[36px] px-2.5 min-[360px]:px-3 sm:px-3.5 rounded-[8px] border border-[#1D4ED8]/25 dark:border-blue-500/30 bg-[#EEF4FF] dark:bg-blue-950/30 text-[#1D4ED8] dark:text-blue-400 hover:bg-[#E0ECFF] hover:border-[#1D4ED8]/45 dark:hover:bg-blue-900/40 text-[11.5px] min-[360px]:text-[12px] sm:text-[13px] font-semibold whitespace-nowrap cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 transition-all shadow-none shrink-0"
+                className="h-[34px] sm:h-[36px] md:h-[38px] px-3.5 sm:px-4 rounded-[8px] sm:rounded-[9px] border border-[#1D4ED8]/25 dark:border-blue-500/30 bg-[#EEF4FF] dark:bg-blue-950/30 text-[#1D4ED8] dark:text-blue-400 hover:bg-[#E0ECFF] hover:border-[#1D4ED8]/45 dark:hover:bg-blue-900/40 text-[12.5px] sm:text-[13px] md:text-[13.5px] font-bold whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 transition-all shadow-none shrink-0"
                 aria-label={`Watch ${title}`}
               >
-                <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current shrink-0" />
-                <span>Free Video</span>
+                <Play className="w-3.5 h-3.5 fill-current shrink-0" />
+                <span>Play Now</span>
               </button>
             )}
           </div>

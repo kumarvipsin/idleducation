@@ -1,7 +1,8 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Home, ShoppingCart, Star } from "lucide-react";
@@ -15,14 +16,28 @@ import { GcsImage } from '@/components/gcs-image';
 import { useCart } from '@/context/cart-context';
 import { useToast } from '@/hooks/use-toast';
 
-
-export default function ReferenceBooksPage() {
+function ReferenceBooksContent() {
+    const searchParams = useSearchParams();
+    const classParam = searchParams.get('class');
     const [books, setBooks] = useState<TReferenceBook[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedClass, setSelectedClass] = useState('');
     const [selectedSubject, setSelectedSubject] = useState('All');
     const { addToCart } = useCart();
     const { toast } = useToast();
+
+    const matchTargetClass = (classList: string[], target: string | null) => {
+        if (!target || !classList.length) return null;
+        const clean = target.trim().toLowerCase();
+        const direct = classList.find(c => c.trim().toLowerCase() === clean);
+        if (direct) return direct;
+        const targetDigits = clean.match(/\d+/)?.[0];
+        if (targetDigits) {
+            const numMatch = classList.find(c => c.match(/\d+/)?.[0] === targetDigits);
+            if (numMatch) return numMatch;
+        }
+        return classList.find(c => c.toLowerCase().includes(clean) || clean.includes(c.toLowerCase())) || null;
+    };
 
     useEffect(() => {
         const fetchBooks = async () => {
@@ -33,15 +48,25 @@ export default function ReferenceBooksPage() {
                 setBooks(refBooks);
                 const classes = Array.from(new Set(refBooks.map(b => b.class))).sort();
                 if(classes.length > 0) {
-                    setSelectedClass(classes.find(c => c.includes('10')) || classes[0]);
+                    const matched = matchTargetClass(classes, classParam);
+                    setSelectedClass(matched || classes.find(c => c.includes('10')) || classes[0]);
                 }
             }
             setLoading(false);
         };
         fetchBooks();
-    }, []);
+    }, [classParam]);
 
     const classes = Array.from(new Set(books.map(book => book.class))).sort();
+
+    useEffect(() => {
+        if (classParam && classes.length > 0) {
+            const matched = matchTargetClass(classes, classParam);
+            if (matched && matched !== selectedClass) {
+                setSelectedClass(matched);
+            }
+        }
+    }, [classParam, classes]);
     
     const subjects = ['All', ...Array.from(new Set(books.filter(book => book.class === selectedClass).map(book => book.subject)))];
 
@@ -186,5 +211,20 @@ export default function ReferenceBooksPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ReferenceBooksPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen w-full flex items-center justify-center">
+                <div className="space-y-4 text-center">
+                    <Skeleton className="h-10 w-48 mx-auto" />
+                    <Skeleton className="h-4 w-96 mx-auto" />
+                </div>
+            </div>
+        }>
+            <ReferenceBooksContent />
+        </Suspense>
     );
 }

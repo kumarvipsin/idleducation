@@ -5,6 +5,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, HelpCircle, Sigma, Lightbulb, Globe, Plus, Minus, X, Divide, BookCheck, BookOpen } from 'lucide-react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 import { getCollection } from '@/app/actions/data';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -72,11 +73,26 @@ const getTheme = (key: string) => {
 };
 
 function NcertSolutionsPageContent() {
+  const searchParams = useSearchParams();
+  const classParam = searchParams.get('class');
   const [solutionsByClass, setSolutionsByClass] = useState<any>({});
   const [classes, setClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedClass, setSelectedClass] = useState('');
   const [animationKey, setAnimationKey] = useState(0);
+
+  const matchTargetClass = (classList: string[], target: string | null) => {
+    if (!target || !classList.length) return null;
+    const clean = target.trim().toLowerCase();
+    const direct = classList.find(c => c.trim().toLowerCase() === clean);
+    if (direct) return direct;
+    const targetDigits = clean.match(/\d+/)?.[0];
+    if (targetDigits) {
+      const numMatch = classList.find(c => c.match(/\d+/)?.[0] === targetDigits);
+      if (numMatch) return numMatch;
+    }
+    return classList.find(c => c.toLowerCase().includes(clean) || clean.includes(c.toLowerCase())) || null;
+  };
 
   useEffect(() => {
     const fetchSolutionsData = async () => {
@@ -106,14 +122,26 @@ function NcertSolutionsPageContent() {
         setSolutionsByClass(formattedData);
         setClasses(sortedClasses);
         if (sortedClasses.length > 0) {
-            setSelectedClass(sortedClasses[0]);
+            const matched = matchTargetClass(sortedClasses, classParam);
+            const defaultClass = matched || sortedClasses.find(c => c.includes('10')) || sortedClasses[0];
+            setSelectedClass(defaultClass);
         }
       }
       setLoading(false);
     };
 
     fetchSolutionsData();
-  }, []);
+  }, [classParam]);
+
+  useEffect(() => {
+    if (classParam && classes.length > 0) {
+      const matched = matchTargetClass(classes, classParam);
+      if (matched && matched !== selectedClass) {
+        setSelectedClass(matched);
+        setAnimationKey(prev => prev + 1);
+      }
+    }
+  }, [classParam, classes]);
 
   const subjects = solutionsByClass[selectedClass] || [];
   

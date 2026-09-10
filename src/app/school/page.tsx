@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { 
     ArrowRight, 
@@ -192,7 +193,7 @@ const seniorSubjects = [
     },
 ];
 
-function SyllabusIllustIcon({ className }: { className?: string }) {
+function ReferenceBookIllustIcon({ className }: { className?: string }) {
     return (
         <svg viewBox="0 0 40 40" fill="none" className={cn("w-11 h-11 shrink-0", className)}>
             <circle cx="20" cy="20" r="18" fill="#EFF6FF" />
@@ -244,13 +245,6 @@ function PyqIllustIcon({ className }: { className?: string }) {
 // ── SECONDARY RESOURCE CATEGORIES DISCOVERY ──
 const additionalResourceTypes = [
     { 
-        name: "Syllabus", 
-        desc: "Official CBSE curriculum guide", 
-        icon: <SyllabusIllustIcon />, 
-        color: "bg-blue-50 text-[#1D4ED8] dark:bg-blue-950/40 dark:text-blue-400 border-blue-200/60 dark:border-blue-900/40",
-        href: "/resources/syllabus" 
-    },
-    { 
         name: "Revision Notes", 
         desc: "Key concept summaries", 
         icon: <NotesIllustIcon />, 
@@ -269,7 +263,14 @@ const additionalResourceTypes = [
         desc: "Past board question papers", 
         icon: <PyqIllustIcon />, 
         color: "bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 border-amber-200/60 dark:border-amber-900/40",
-        href: "/resources/pyq" 
+        href: "/resources/previous-year-questions" 
+    },
+    { 
+        name: "Reference Books", 
+        desc: "Curated supplementary books", 
+        icon: <ReferenceBookIllustIcon />, 
+        color: "bg-blue-50 text-[#1D4ED8] dark:bg-blue-950/40 dark:text-blue-400 border-blue-200/60 dark:border-blue-900/40",
+        href: "" 
     },
 ];
 
@@ -301,98 +302,50 @@ function SchoolPageContent() {
         <div className="min-h-screen bg-[#FAFCFF] dark:bg-slate-950 text-slate-900 dark:text-slate-100 pt-16 sm:pt-20 pb-12">
             <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 
-                {/* ── 1. BALANCED TWO-COLUMN HERO WITH PREMIUM ILLUSTRATION ── */}
-                <section className="mb-6 sm:mb-7">
-                    <div className="rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-7 lg:p-7 shadow-xs relative overflow-hidden">
-                        {/* Faint blue atmosphere glow */}
-                        <div className="absolute -top-20 -right-20 w-80 h-80 bg-blue-500/8 dark:bg-blue-500/12 rounded-full blur-3xl pointer-events-none" />
-                        <div className="absolute -bottom-20 -left-20 w-72 h-72 bg-indigo-500/5 dark:bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center relative z-10">
+                {/* ── 1. CLEAN TWO-COLUMN HERO WITH MATCHED BACKGROUND ── */}
+                <section className="mb-6">
+                    <div className="rounded-[20px] bg-[#F8FAFC] dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center relative z-10">
                             
                             {/* LEFT COLUMN: Content */}
-                            <div className="lg:col-span-8 space-y-4 text-left">
-                                {/* Eyebrow Badge */}
-                                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-950/60 border border-blue-200/60 dark:border-blue-900/40 text-[#1D4ED8] dark:text-blue-300 text-[11px] font-extrabold uppercase tracking-wider">
-                                    <Sparkles className="w-3.5 h-3.5" />
+                            <div className="lg:col-span-7 space-y-3 sm:space-y-3.5 text-left">
+                                {/* Subtle Eyebrow Label */}
+                                <div className="flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-bold text-[#1D4ED8] dark:text-blue-400 tracking-wider uppercase">
+                                    <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] dark:bg-blue-400" />
                                     <span>STUDY RESOURCES</span>
                                 </div>
 
-                                {/* Main Title (Guaranteed Single Line on Desktop) */}
-                                <h1 className="text-[26px] sm:text-[32px] md:text-[36px] lg:text-[34px] xl:text-[38px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-snug whitespace-normal lg:whitespace-nowrap">
-                                    Target <span className="text-[#1D4ED8] dark:text-blue-400">{activeTab}</span> CBSE 2026–27
+                                {/* Main Title (Target Class primary emphasis + CBSE 2026–27 academic context) */}
+                                <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
+                                    Target <span className="text-[#1D4ED8] dark:text-blue-400">{activeTab}</span>
+                                    <span className="block sm:inline sm:ml-2.5 text-[16px] sm:text-[20px] md:text-[22px] font-bold text-slate-500 dark:text-slate-400">
+                                        CBSE 2026–27
+                                    </span>
                                 </h1>
 
                                 {/* Supporting Text */}
-                                <p className="text-[14px] sm:text-[15.5px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed max-w-xl">
-                                    Complete preparation resources for <span className="font-bold text-[#0B1F4B] dark:text-white">{activeTab}</span> — official syllabus, revision notes, NCERT solutions, and academic guidance.
+                                <p className="text-[13.5px] sm:text-[14.5px] text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-xl">
+                                    Complete preparation resources for <span className="font-semibold text-[#0B1F4B] dark:text-white">{activeTab}</span> — official syllabus, revision notes, NCERT solutions, and academic guidance.
                                 </p>
 
-                                {/* Verification Strip */}
-                                <div className="pt-3 border-t border-slate-100 dark:border-slate-800/80 flex flex-wrap items-center gap-4 sm:gap-6 text-[12px] font-semibold text-slate-600 dark:text-slate-400">
-                                    <div className="flex items-center gap-1.5">
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                                        <span>Updated 2026–27 Syllabus</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5">
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                                        <span>NCERT Solutions</span>
-                                    </div>
-                                    <div className="flex items-center gap-1.5">
-                                        <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
-                                        <span>100% Free Access</span>
-                                    </div>
+                                {/* Single Key Feature Strip with Light Divider */}
+                                <div className="pt-2.5 sm:pt-3 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-600 dark:text-slate-400">
+                                    <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
+                                    <span>Updated 2026–27 Syllabus</span>
                                 </div>
                             </div>
 
-                            {/* RIGHT COLUMN: Refined Educational Illustration */}
-                            <div className="lg:col-span-4 flex items-center justify-center relative">
-                                <div className="relative w-full max-w-[280px] sm:max-w-[300px] aspect-[4/3] sm:aspect-square flex items-center justify-center p-4 rounded-[20px] bg-gradient-to-b from-[#F4F7FF] to-[#EEF2FF] dark:from-slate-800/60 dark:to-slate-900/60 border border-[#DCE4FF] dark:border-slate-800 shadow-inner overflow-hidden">
-                                    
-                                    {/* Background decorative subtle dotted grid */}
-                                    <svg className="absolute inset-0 w-full h-full opacity-20 text-[#1D4ED8]" fill="none">
-                                        <pattern id="dotPattern" x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                                            <circle cx="2" cy="2" r="1.5" fill="currentColor" />
-                                        </pattern>
-                                        <rect width="100%" height="100%" fill="url(#dotPattern)" />
-                                    </svg>
-
-                                    {/* Curved Progress Path Line */}
-                                    <svg className="absolute inset-0 w-full h-full text-[#1D4ED8]/25" fill="none" viewBox="0 0 200 200">
-                                        <path d="M 20,160 Q 100,40 180,120" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6 4" />
-                                    </svg>
-
-                                    {/* Central SVG Study Desk Illustration */}
-                                    <div className="relative z-10 w-full h-full flex flex-col items-center justify-center text-center">
-                                        <div className="relative flex items-center justify-center mb-2">
-                                            {/* Glowing IDL Crest Badge */}
-                                            <div className="w-20 h-20 rounded-[18px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 shadow-md flex items-center justify-center text-[#102A68] dark:text-blue-400 relative">
-                                                <GraduationCap className="w-10 h-10 text-[#1D4ED8]" />
-                                                <div className="absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-[10px] font-bold shadow-xs">
-                                                    ✓
-                                                </div>
-                                            </div>
-
-                                            {/* Floating Achievement Node 1 */}
-                                            <div className="absolute -left-10 top-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full px-2.5 py-1 shadow-xs flex items-center gap-1 text-[11px] font-bold text-[#0B1F4B] dark:text-slate-200">
-                                                <BookOpen className="w-3.5 h-3.5 text-blue-600" />
-                                                <span>CBSE</span>
-                                            </div>
-
-                                            {/* Floating Achievement Node 2 */}
-                                            <div className="absolute -right-8 bottom-1 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-full px-2.5 py-1 shadow-xs flex items-center gap-1 text-[11px] font-bold text-amber-600 dark:text-amber-400">
-                                                <Award className="w-3.5 h-3.5" />
-                                                <span>2026–27</span>
-                                            </div>
-                                        </div>
-
-                                        <p className="text-[12px] font-extrabold text-[#102A68] dark:text-blue-300 uppercase tracking-widest mt-3">
-                                            IDL STUDY HUB
-                                        </p>
-                                        <span className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">
-                                            Verified Learning Modules
-                                        </span>
-                                    </div>
+                            {/* RIGHT COLUMN: Seamless Supporting Educational Illustration */}
+                            <div className="lg:col-span-5 flex items-center justify-center relative">
+                                <div className="relative w-full max-w-[240px] sm:max-w-[340px] lg:max-w-[380px] flex items-center justify-center">
+                                    <Image 
+                                        src="/hub.png" 
+                                        alt="Target Class CBSE 2026–27 Study Hub" 
+                                        width={1536} 
+                                        height={1024} 
+                                        priority 
+                                        className="w-full h-auto object-contain select-none"
+                                    />
                                 </div>
                             </div>
 
@@ -400,32 +353,27 @@ function SchoolPageContent() {
                     </div>
                 </section>
 
-                {/* ── 2. SEGMENTED CLASS SELECTOR NAVIGATION ── */}
-                <section className="mb-8">
-                    <div className="w-full bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-[14px] p-2 shadow-xs">
-                        <div className="overflow-x-auto pb-1 sm:pb-0 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                            <div className="flex items-center justify-start sm:justify-center gap-2 min-w-max">
-                                <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3 hidden sm:inline-block">
-                                    TARGET CLASS:
-                                </span>
-                                {classes.map((className) => {
-                                    const isActive = activeTab === className;
-                                    return (
-                                        <button
-                                            key={className}
-                                            onClick={() => handleClassChange(className)} 
-                                            className={cn(
-                                                "h-10 px-5 rounded-[9px] text-[13px] font-bold transition-all duration-180 cursor-pointer shrink-0 border",
-                                                isActive 
-                                                    ? "bg-[#102A68] text-white border-[#102A68] shadow-sm" 
-                                                    : "bg-transparent text-slate-600 dark:text-slate-300 border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#1D4ED8]"
-                                            )}
-                                        >
-                                            {className}
-                                        </button>
-                                    );
-                                })}
-                            </div>
+                {/* ── 2. CLASS SELECTOR NAVIGATION ── */}
+                <section className="mb-7">
+                    <div className="overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+                        <div className="flex justify-start sm:justify-center items-center gap-8 whitespace-nowrap px-4 sm:px-0">
+                            {classes.map((className) => {
+                                const isActive = activeTab === className;
+                                return (
+                                    <button
+                                        key={className}
+                                        onClick={() => handleClassChange(className)}
+                                        className={cn(
+                                            "text-sm font-bold transition-all duration-300 pb-2 border-b-2 outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 focus:ring-0 cursor-pointer",
+                                            isActive
+                                                ? "text-primary border-primary"
+                                                : "text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20"
+                                        )}
+                                    >
+                                        {className}
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 </section>
@@ -433,75 +381,50 @@ function SchoolPageContent() {
 
 
                 {/* ── 4. SUBJECT-WISE CURRICULUM & MATERIALS ── */}
-                <section className="mb-12">
-                    {/* Header Block (Centered) */}
-                    <div className="mb-6 pb-4 border-b border-slate-200/60 dark:border-slate-800 text-center flex flex-col items-center justify-center">
-                        {/* Top Line: Centered Bullet + Light Blue Subject-wise Resources Label */}
-                        <div className="flex items-center justify-center gap-2 mb-1.5">
-                            <span className="w-2 h-2 rounded-full bg-[#1D4ED8] shrink-0" />
-                            <h2 className="text-[14px] sm:text-[15px] font-extrabold text-[#1D4ED8] dark:text-blue-400 tracking-tight">
-                                Subject-wise Resources
-                            </h2>
-                        </div>
-
-                        {/* Bottom Line: Large Grey Target Class Description Text */}
-                        <p className="text-[20px] sm:text-[24px] lg:text-[26px] font-black text-slate-600 dark:text-slate-300 tracking-tight">
-                            {activeTab} CBSE 2026-27 (Syllabus PDF)
-                        </p>
+                <section id="curriculum" className="mb-12 scroll-mt-24">
+                    {/* Header */}
+                    <div className="mb-5 flex items-center gap-2">
+                        <h2 className="text-[15px] sm:text-[16px] font-bold text-slate-700 dark:text-slate-200 tracking-tight">
+                            {activeTab} — CBSE Syllabus 2026-27
+                        </h2>
                     </div>
 
                     {/* 2-Column Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-5">
                         {currentSubjects.map((subject) => (
                             <div 
                                 key={subject.key} 
-                                className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 dark:border-slate-800 p-5 sm:p-5.5 hover:border-[#1D4ED8]/30 hover:shadow-[0_6px_24px_-4px_rgba(11,31,75,0.08)] transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                                className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 dark:border-slate-800 p-3.5 sm:p-5 hover:border-[#1D4ED8]/30 hover:shadow-[0_6px_24px_-4px_rgba(11,31,75,0.08)] transition-all duration-200 flex items-center justify-between gap-3 sm:gap-4"
                             >
-                                {/* Subject Info */}
-                                <div className="flex items-center gap-3.5 min-w-0 relative z-10">
-                                    <div className="shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
-                                        {subject.icon}
-                                    </div>
-                                    <div className="min-w-0">
-                                        <div className="flex items-center gap-2 mb-0.5">
-                                            <h3 className="text-[16.5px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug truncate">
-                                                {subject.name}
-                                            </h3>
-                                            <span className={cn("text-[10px] font-extrabold px-2 py-0.5 rounded-full shrink-0", subject.badgeBg)}>
-                                                4 Modules
-                                            </span>
-                                        </div>
-                                        <p className="text-[11.5px] font-medium text-slate-400 dark:text-slate-500">
-                                            Academic Session 2026–27
-                                        </p>
-                                    </div>
+                                {/* Left Icon Area */}
+                                <div className="shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs flex items-center justify-center relative z-10">
+                                    {subject.icon}
                                 </div>
 
-                                {/* Action CTAs: View + Get */}
-                                <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800 relative z-10">
-                                    {/* VIEW Button: Primary Action */}
-                                    <Button 
-                                        asChild 
-                                        variant="outline" 
-                                        className="h-9 px-4 rounded-[8px] text-[12.5px] font-bold bg-[#EEF2FF] hover:bg-[#E0E7FF] dark:bg-[#1e2d5a]/60 dark:hover:bg-[#1e2d5a] text-[#1D4ED8] dark:text-blue-300 border border-[#C7D4FF]/80 dark:border-[#2a3a70] shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
-                                    >
-                                        <Link href={`/resources/notes`}>
-                                            <Eye className="w-3.5 h-3.5 opacity-90" />
-                                            <span>View</span>
-                                        </Link>
-                                    </Button>
+                                {/* Center Flexible Content Area */}
+                                <div className="min-w-0 flex-1 relative z-10">
+                                    <div className="flex items-center gap-1.5 sm:gap-2 mb-0.5">
+                                        <h3 className="text-[14px] sm:text-[16.5px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug truncate">
+                                            {subject.name}
+                                        </h3>
+                                        <span className={cn("text-[9.5px] sm:text-[10px] font-extrabold px-1.5 sm:px-2 py-0.5 rounded-full shrink-0", subject.badgeBg)}>
+                                            4 Modules
+                                        </span>
+                                    </div>
+                                    <p className="text-[10.5px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 truncate">
+                                        Academic Session 2026–27
+                                    </p>
+                                </div>
 
-                                    {/* GET Button: Secondary Action */}
-                                    <Button 
-                                        asChild 
-                                        variant="outline" 
-                                        className="h-9 px-4 rounded-[8px] text-[12.5px] font-bold bg-emerald-50 hover:bg-emerald-100/80 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center justify-center gap-1.5"
+                                {/* Right Fixed Action Area (Never Wraps) */}
+                                <div className="shrink-0 flex items-center justify-end relative z-10">
+                                    <Link 
+                                        href={`/blog/cbse-class-${activeTab.match(/\d+/)?.[0] || '12'}-syllabus-2026-27`}
+                                        className="inline-flex items-center gap-1 sm:gap-1.5 text-[13px] sm:text-[14px] font-bold text-[#1D4ED8] dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-200 group-hover:translate-x-0.5 whitespace-nowrap"
                                     >
-                                        <Link href={`/resources/ncert-solutions`}>
-                                            <Download className="w-3.5 h-3.5 opacity-90" />
-                                            <span>Get</span>
-                                        </Link>
-                                    </Button>
+                                        <span className="whitespace-nowrap">Read More</span>
+                                        <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                                    </Link>
                                 </div>
                             </div>
                         ))}
@@ -510,79 +433,113 @@ function SchoolPageContent() {
 
                 {/* ── 5. MORE RESOURCE TYPES (DISCOVERY ROW) ── */}
                 <section className="mb-12">
-                    {/* Header Block (Centered) */}
-                    <div className="mb-6 pb-4 border-b border-slate-200/60 dark:border-slate-800 text-center flex flex-col items-center justify-center">
-                        {/* Top Line: Centered Bullet + Light Blue More Resource Formats Label */}
-                        <div className="flex items-center justify-center gap-2 mb-1.5">
-                            <span className="w-2 h-2 rounded-full bg-[#1D4ED8] shrink-0" />
-                            <h3 className="text-[14px] sm:text-[15px] font-extrabold text-[#1D4ED8] dark:text-blue-400 tracking-tight">
-                                More Resource Formats
-                            </h3>
-                        </div>
-
-                        {/* Bottom Line: Large Grey Short Description Text */}
-                        <p className="text-[20px] sm:text-[24px] lg:text-[26px] font-black text-slate-600 dark:text-slate-300 tracking-tight">
-                            {activeTab} Study Materials by Format
-                        </p>
+                    {/* Header */}
+                    <div className="mb-5 flex items-center gap-2">
+                        <h3 className="text-[15px] sm:text-[16px] font-bold text-slate-700 dark:text-slate-200 tracking-tight">
+                            {activeTab} — Study Materials by Format
+                        </h3>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
-                        {additionalResourceTypes.map((res, idx) => (
-                            <Link 
-                                key={idx}
-                                href={res.href}
-                                className="group p-4 rounded-[14px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-[#1D4ED8]/40 hover:shadow-2xs transition-all flex items-center gap-3.5"
-                            >
-                                <div className={cn("p-2.5 rounded-[10px] border shadow-2xs group-hover:scale-105 transition-transform flex items-center justify-center shrink-0", res.color)}>
-                                    {res.icon}
-                                </div>
-                                <div className="min-w-0 flex-1">
-                                    <h4 className="text-[14px] font-extrabold text-[#0B1F4B] dark:text-white group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors truncate">
-                                        {res.name}
-                                    </h4>
-                                    <p className="text-[11.5px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
-                                        {res.desc}
-                                    </p>
-                                </div>
-                            </Link>
-                        ))}
+                        {additionalResourceTypes.map((res, idx) => {
+                            const classQuery = encodeURIComponent(activeTab);
+                            const isReferenceBooks = res.name === "Reference Books" || res.name === "Reference Book";
+                            let targetHref = res.href;
+                            if (res.name === "Revision Notes") {
+                                targetHref = `/resources/notes?class=${classQuery}`;
+                            } else if (res.name === "NCERT Solutions") {
+                                targetHref = `/resources/ncert-solutions?class=${classQuery}`;
+                            } else if (res.name === "Previous Papers") {
+                                targetHref = `/resources/previous-year-questions?class=${classQuery}`;
+                            }
+
+                            if (isReferenceBooks) {
+                                return (
+                                    <div 
+                                        key={idx}
+                                        className="group p-4 rounded-[14px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 flex items-center gap-3.5 cursor-default select-none"
+                                    >
+                                        <div className={cn("p-2.5 rounded-[10px] border shadow-2xs flex items-center justify-center shrink-0", res.color)}>
+                                            {res.icon}
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <h4 className="text-[14px] font-extrabold text-[#0B1F4B] dark:text-white transition-colors truncate">
+                                                {res.name}
+                                            </h4>
+                                            <p className="text-[11.5px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
+                                                {res.desc}
+                                            </p>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            return (
+                                <Link 
+                                    key={idx}
+                                    href={targetHref}
+                                    className="group p-4 rounded-[14px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 hover:border-[#1D4ED8]/40 hover:shadow-2xs transition-all flex items-center gap-3.5"
+                                >
+                                    <div className={cn("p-2.5 rounded-[10px] border shadow-2xs group-hover:scale-105 transition-transform flex items-center justify-center shrink-0", res.color)}>
+                                        {res.icon}
+                                    </div>
+                                    <div className="min-w-0 flex-1">
+                                        <h4 className="text-[14px] font-extrabold text-[#0B1F4B] dark:text-white group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors truncate">
+                                            {res.name}
+                                        </h4>
+                                        <p className="text-[11.5px] text-slate-500 dark:text-slate-400 font-medium line-clamp-1 mt-0.5">
+                                            {res.desc}
+                                        </p>
+                                    </div>
+                                </Link>
+                            );
+                        })}
                     </div>
                 </section>
 
-                {/* ── 6. RESULTS & ACHIEVEMENTS ANNOUNCEMENT ── */}
-                <section className="mb-12">
-                    <div className="rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-6 sm:p-7 shadow-xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-6">
+                {/* ── 6. RESULTS & ACHIEVEMENTS GATEWAY ── */}
+                <section className="mb-10 sm:mb-12">
+                    <div className="rounded-[20px] bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6">
                         
-                        {/* Background subtle medal outline motif */}
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-amber-500/5 dark:text-amber-400/10 pointer-events-none hidden lg:block">
-                            <Trophy className="w-44 h-44" />
-                        </div>
-
+                        {/* LEFT COLUMN: Eyebrow, Heading & Description */}
                         <div className="space-y-2 max-w-xl text-left relative z-10">
-                            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-900/40 text-amber-700 dark:text-amber-300 text-[11px] font-extrabold uppercase tracking-wider">
-                                <Trophy className="w-3.5 h-3.5" />
+                            {/* Subtle Eyebrow Label with delicate orange accent */}
+                            <div className="flex items-center gap-1.5 text-[11px] font-bold text-amber-600 dark:text-amber-400 tracking-wider uppercase">
+                                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
                                 <span>RESULTS & ACHIEVEMENTS</span>
                             </div>
-                            <h3 className="text-[20px] sm:text-[22px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight leading-snug">
-                                Board Exam Performance & Merit Ranks
+
+                            {/* Main Heading */}
+                            <h3 className="text-[19px] sm:text-[21px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight leading-snug">
+                                Academic Results & Achievements
                             </h3>
-                            <p className="text-[13px] text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-                                Board performance, merit ranks, and student achievements for the upcoming academic session will be published here.
+
+                            {/* Concise Description */}
+                            <p className="text-[13px] sm:text-[13.5px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed">
+                                Board performance, merit ranks, and student achievements for the academic session.
                             </p>
                         </div>
 
-                        <div className="flex items-center gap-3 shrink-0 relative z-10">
+                        {/* RIGHT COLUMN: Subtle 2D Achievement Visual + View Results CTA */}
+                        <div className="flex items-center gap-3.5 shrink-0 relative z-10 self-start md:self-center">
+                            {/* Deliberate subtle 2D trophy motif badge */}
+                            <div className="hidden sm:flex w-10 h-10 rounded-xl bg-amber-50/90 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-900/40 items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
+                                <Trophy className="w-5 h-5 stroke-[1.8]" />
+                            </div>
+
+                            {/* Premium IDL Outline Button */}
                             <Button 
                                 asChild
                                 variant="outline"
-                                className="h-11 px-5 rounded-[8px] font-bold text-xs bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center gap-2"
+                                className="h-10 sm:h-10.5 px-4 sm:px-5 rounded-[8px] font-bold text-xs bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#0B1F4B] dark:text-slate-200 border border-slate-200 dark:border-slate-700 shadow-2xs hover:shadow-xs transition-all cursor-pointer flex items-center gap-1.5"
                             >
-                                <Link href="/idl-stars">
-                                    <span>View IDL Stars</span>
-                                    <ArrowRight className="w-3.5 h-3.5" />
+                                <Link href="/#academic-results">
+                                    <span>View Results</span>
+                                    <ArrowRight className="w-3.5 h-3.5 text-[#1D4ED8]" />
                                 </Link>
                             </Button>
                         </div>
+
                     </div>
                 </section>
 

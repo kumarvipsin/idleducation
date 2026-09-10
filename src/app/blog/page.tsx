@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -90,13 +91,21 @@ function BlogCardImage({ src, alt }: { src?: string; alt: string }) {
   );
 }
 
-export default function BlogPage() {
+function BlogPageContent() {
+  const searchParams = useSearchParams();
+  const catParam = searchParams.get('category');
   const [posts, setPosts] = useState<TBlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedCategory, setSelectedCategory] = useState(catParam || 'All');
 
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+
+  useEffect(() => {
+    if (catParam) {
+      setSelectedCategory(catParam);
+    }
+  }, [catParam]);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -287,5 +296,22 @@ export default function BlogPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function BlogPage() {
+  return (
+    <Suspense fallback={
+      <div className="container mx-auto px-4 md:px-6 py-12">
+        <Skeleton className="h-10 w-48 mb-8" />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+          {[...Array(4)].map((_, i) => (
+            <Skeleton key={i} className="h-[340px] w-full rounded-2xl" />
+          ))}
+        </div>
+      </div>
+    }>
+      <BlogPageContent />
+    </Suspense>
   );
 }
