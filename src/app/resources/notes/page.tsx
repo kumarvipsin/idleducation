@@ -132,14 +132,14 @@ function NotesPageContent() {
   );
 
   return (
-    <div className="container mx-auto py-12 px-4 md:px-6">
-      <div className="text-center mb-12 animate-fade-in-up">
+    <div className="container mx-auto py-6 px-4 md:px-6">
+      <div className="text-center mb-8 animate-fade-in-up">
         <h1 className="text-2xl md:text-3xl font-extrabold text-primary tracking-tight group inline-block">
-            Notes For {selectedClass}
-            <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
+          Revision Notes
+          <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground font-semibold">
-            Find concise and comprehensive notes to help you revise and learn effectively.
+          Chapter‑wise notes for quick revision.
         </p>
       </div>
 
@@ -180,15 +180,13 @@ function NotesPageContent() {
                         <Link key={`${subject.href}-${index}`} href={subject.href} className="block group h-full">
                             <Card
                             className={cn(
-                                "relative flex flex-col h-[240px] w-full rounded-2xl shadow-sm border-none transition-all duration-500 overflow-hidden",
-                                "group-hover:shadow-xl group-hover:-translate-y-2 active:scale-95",
+                                "relative flex flex-col h-[160px] w-full rounded-xl border border-black/5 shadow-sm transition-all duration-300 overflow-hidden",
+                                "hover:shadow-md hover:border-black/10 active:scale-[0.98]",
                                 theme.bg
                             )}
                             style={{ animationDelay: `${index * 50}ms` }}
                             >
                                 {/* Book Spine */}
-                                <div className={cn("absolute left-0 top-0 bottom-0 w-3 md:w-4 opacity-40", theme.spine)} />
-                                <div className={cn("absolute left-3 md:left-4 top-0 bottom-0 w-[1px] opacity-10", "bg-black")} />
 
                                 <CardContent className="p-6 md:p-8 flex flex-col h-full relative z-10">
                                     {/* Subject Name */}

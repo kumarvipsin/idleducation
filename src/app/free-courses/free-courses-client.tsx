@@ -766,53 +766,44 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
                       <div
                         key={subjName}
                         onClick={() => handleSelectSubject(subjName)}
-                        className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[14px] border border-slate-200/70 dark:border-slate-800/80 py-2.5 px-3 sm:py-3.5 sm:px-4 hover:border-[#1D4ED8]/30 dark:hover:border-blue-500/30 hover:shadow-[0_6px_20px_-3px_rgba(11,31,75,0.08)] shadow-[0_2px_8px_-2px_rgba(11,31,75,0.04)] transition-all duration-200 flex items-center justify-between gap-3 cursor-pointer"
+                        className="group relative overflow-hidden bg-white dark:bg-slate-900 rounded-[14px] border border-slate-200/70 dark:border-slate-800/80 h-[84px] sm:h-[86px] px-3 sm:px-4 py-3 sm:py-3.5 hover:border-[#1D4ED8]/30 dark:hover:border-blue-500/30 hover:shadow-[0_6px_20px_-3px_rgba(11,31,75,0.08)] shadow-[0_2px_8px_-2px_rgba(11,31,75,0.04)] transition-all duration-200 flex items-center justify-between gap-3 sm:gap-3.5 cursor-pointer"
                       >
-                        {/* Subject Info */}
-                        <div className="flex items-center gap-3 sm:gap-3.5 min-w-0 relative z-10 flex-1">
-                          <div className="shrink-0 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
-                            {details.icon}
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div className="flex items-center gap-2 mb-0.5 min-w-0">
-                              <h3 className="text-[15px] sm:text-[15.5px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug truncate group-hover:text-[#1D4ED8] transition-colors">
-                                {subjName}
-                              </h3>
-                              <span className={cn("text-[9.5px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 leading-none h-[18px] inline-flex items-center", details.badgeBg)}>
-                                {data.courses.length} Video{data.courses.length > 1 ? 's' : ''}
-                              </span>
-                            </div>
-                            <p className="text-[11px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 truncate leading-normal">
-                              Academic Session 2026–27 · {chaptersCount} Chapter{chaptersCount > 1 ? 's' : ''}
-                            </p>
-                          </div>
+                        {/* 1. Left: Normalized Fixed Icon Box */}
+                        <div className="w-11 h-11 shrink-0 flex items-center justify-center relative z-10 transition-transform duration-200 group-hover:scale-105 drop-shadow-xs">
+                          {details.icon}
                         </div>
 
-                        {/* Action CTA: Quiet secondary navigation action */}
-                        <div className="shrink-0 relative z-10 pl-1.5">
+                        {/* 2. Center: Subject Title + Video Badge + Academic Session Subtitle */}
+                        <div className="min-w-0 flex-1 relative z-10 flex flex-col justify-center">
+                          <div className="flex items-center gap-2 min-w-0">
+                            <h3 className="text-[14.5px] sm:text-[15px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-none truncate group-hover:text-[#1D4ED8] transition-colors">
+                              {subjName}
+                            </h3>
+                            <span className={cn("text-[9.5px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full shrink-0 leading-none h-[18px] inline-flex items-center", details.badgeBg)}>
+                              {data.courses.length} Video{data.courses.length > 1 ? 's' : ''}
+                            </span>
+                          </div>
+                          <p className="text-[11px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 truncate leading-tight mt-1.5">
+                            Academic Session 2026–27 · {chaptersCount} Chapter{chaptersCount > 1 ? 's' : ''}
+                          </p>
+                        </div>
+
+                        {/* 3. Right: Fixed Size View Button */}
+                        <div className="shrink-0 relative z-10">
                           <div
-                            className={[
-                              // Size — compact, never wraps
-                              "h-7 sm:h-8 px-2 sm:px-2.5 rounded-[8px]",
-                              // Typography — semibold, IDL blue, no wrap
-                              "text-[11px] sm:text-[12px] font-semibold whitespace-nowrap",
+                            className={cn(
+                              "w-[76px] sm:w-[84px] h-[34px] sm:h-[36px] rounded-[8px]",
+                              "text-[11.5px] sm:text-[12px] font-semibold whitespace-nowrap",
                               "text-[#1D4ED8]/80 dark:text-blue-400",
-                              // Surface — very light blue tint, near-transparent
                               "bg-[#EEF4FF]/60 dark:bg-[#1a2f5e]/30",
-                              // Border — very subtle, low-contrast blue
                               "border border-[#1D4ED8]/15 dark:border-blue-500/20",
-                              // Hover — slightly stronger border + tint, no scale
                               "group-hover:bg-[#EEF4FF] dark:group-hover:bg-[#1a2f5e]/50",
                               "group-hover:border-[#1D4ED8]/30 dark:group-hover:border-blue-500/40",
-                              // No shadow
-                              "shadow-none",
-                              // Layout
-                              "transition-all duration-150 flex items-center justify-center gap-1",
-                            ].join(" ")}
+                              "shadow-none transition-all duration-150 flex items-center justify-center gap-0.5"
+                            )}
                           >
-                            <Eye className="w-[13px] h-[13px] sm:w-[14px] sm:h-[14px] opacity-75 shrink-0" />
                             <span>View</span>
-                            <span className="opacity-60 text-[10px] leading-none -ml-0.5">→</span>
+                            <span className="opacity-70 text-[11px] leading-none ml-0.5">→</span>
                           </div>
                         </div>
 

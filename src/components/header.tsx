@@ -430,14 +430,10 @@ export function Header() {
     }, []);
 
     const controlNavbar = useCallback(() => {
-        if (typeof window !== 'undefined') {
-            if (window.scrollY > lastScrollY && window.scrollY > 80) {
-                setShow(false);
-            } else {
-                setShow(true);
-            }
-            setLastScrollY(window.scrollY);
-        }
+        // Keep header visible on scroll
+        setShow(true);
+        // Update lastScrollY for completeness (not used)
+        setLastScrollY(window.scrollY);
     }, [lastScrollY]);
 
     useEffect(() => {
@@ -676,16 +672,16 @@ export function Header() {
                                                                                 href={sub.href}
                                                                                 onClick={() => setActiveMenu(null)}
                                                                                 className={cn(
-                                                                                    "group relative flex items-center gap-3 px-3.5 py-1.5 rounded-none transition-all duration-150 text-left",
+                                                                                    "group relative flex items-center gap-3 px-4 py-2 rounded-none transition-all duration-150 text-left cursor-pointer",
                                                                                     isSubActive
-                                                                                        ? "text-primary font-semibold"
+                                                                                        ? "text-primary"
                                                                                         : "text-foreground hover:text-primary"
                                                                                 )}
                                                                             >
-                                                                                <div className="text-left flex-1">
+                                                                                <div className="text-left flex-1 min-w-0">
                                                                                     <p className={cn(
-                                                                                        "font-medium text-[13px] leading-tight transition-colors",
-                                                                                        isSubActive ? "text-primary font-semibold" : "text-foreground group-hover:text-primary"
+                                                                                        "text-[13.5px] leading-tight tracking-[-0.01em] transition-colors",
+                                                                                        isSubActive ? "font-bold text-primary" : "font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary"
                                                                                     )}>
                                                                                         {sub.label}
                                                                                     </p>
@@ -694,7 +690,7 @@ export function Header() {
                                                                                     "w-4 h-4 transition-all shrink-0",
                                                                                     isSubActive
                                                                                         ? "text-primary translate-x-0.5 opacity-100"
-                                                                                        : "text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5"
+                                                                                        : "text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5"
                                                                                 )} />
                                                                             </Link>
                                                                         </div>
@@ -710,14 +706,14 @@ export function Header() {
                                                                             key={item.id}
                                                                             href={item.href}
                                                                             onClick={() => setActiveMenu(null)}
-                                                                            className="group relative flex items-center gap-2.5 px-3.5 py-1.5 rounded-none transition-all duration-150 text-left hover:text-primary"
+                                                                            className="group relative flex items-center gap-2.5 px-4 py-2 rounded-none transition-all duration-150 text-left hover:text-primary cursor-pointer"
                                                                         >
-                                                                            <div className="text-left flex-1">
-                                                                                <p className="font-medium text-[13px] text-foreground leading-tight group-hover:text-primary transition-colors">
+                                                                            <div className="text-left flex-1 min-w-0">
+                                                                                <p className="font-semibold text-[13.5px] tracking-[-0.01em] text-slate-800 dark:text-slate-200 leading-tight group-hover:text-primary transition-colors">
                                                                                     {item.label}
                                                                                 </p>
                                                                             </div>
-                                                                            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                                                                            <ChevronRight className="w-4 h-4 text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
                                                                         </Link>
                                                                     ))}
                                                                 </div>
@@ -967,7 +963,7 @@ export function Header() {
                                                                                                         }}
                                                                                                         aria-expanded={isThirdOpen}
                                                                                                         aria-controls={`mobile-third-${sub.id}`}
-                                                                                                        className="touch-manipulation w-full text-left font-semibold text-[13.5px] sm:text-[14px] min-h-[38px] px-3 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-700 dark:text-slate-300"
+                                                                                                        className="touch-manipulation w-full text-left font-bold text-[13.5px] sm:text-[14px] min-h-[40px] px-3 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200"
                                                                                                     >
                                                                                                         <span className="truncate">{sub.label}</span>
                                                                                                         <ChevronDown className={cn(
@@ -991,7 +987,7 @@ export function Header() {
                                                                                                                         key={item.id}
                                                                                                                         href={item.href}
                                                                                                                         onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                                        className="group flex items-center justify-between min-h-[38px] px-2.5 py-1.5 rounded-md text-[13px] font-medium text-slate-600 dark:text-slate-400 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
+                                                                                                                        className="group flex items-center justify-between min-h-[38px] px-2.5 py-1.5 rounded-md text-[13.5px] font-semibold text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
                                                                                                                     >
                                                                                                                         <span className="truncate">{item.label}</span>
                                                                                                                         <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
@@ -1009,7 +1005,7 @@ export function Header() {
                                                                                                 key={sub.id}
                                                                                                 href={sub.href}
                                                                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                className="w-full text-left font-medium text-[13.5px] sm:text-[14px] min-h-[38px] px-3 py-1 rounded-md text-slate-700 dark:text-slate-300 hover:text-primary transition-colors duration-100 flex items-center justify-between cursor-pointer"
+                                                                                                className="w-full text-left font-bold text-[13.5px] sm:text-[14px] min-h-[40px] px-3 py-1 rounded-md text-slate-800 dark:text-slate-200 hover:text-primary transition-colors duration-100 flex items-center justify-between cursor-pointer"
                                                                                             >
                                                                                                 <span className="truncate">{sub.label}</span>
                                                                                                 <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
@@ -1070,17 +1066,17 @@ export function Header() {
                                                                             router.push(href);
                                                                         }
                                                                     }}
-                                                                    className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] py-1.5 rounded-lg transition-all duration-100 text-left text-slate-800 dark:text-slate-200 hover:text-primary w-full cursor-pointer"
+                                                                    className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
                                                                 >
-                                                                    <div className="flex items-center gap-5 min-w-0 flex-1">
-                                                                        <div className="w-6 h-6 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary group-active:text-primary transition-colors duration-100 [&>svg]:w-6 [&>svg]:h-6">
+                                                                    <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                        <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
                                                                             {icon}
                                                                         </div>
-                                                                        <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate transition-colors text-slate-800 dark:text-slate-200 group-hover:text-primary group-active:text-primary">
+                                                                        <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                             {label}
                                                                         </span>
                                                                     </div>
-                                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
                                                                 </button>
                                                             ))}
                                                         </div>
@@ -1143,14 +1139,14 @@ export function Header() {
                                                                         const rowContent = (
                                                                             <>
                                                                                 <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                                    <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 group-hover:text-primary group-active:text-primary transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
+                                                                                    <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
                                                                                         {link.icon}
                                                                                     </div>
-                                                                                    <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate transition-colors text-slate-800 dark:text-slate-200 group-hover:text-primary group-active:text-primary">
+                                                                                    <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                                         {link.label}
                                                                                     </span>
                                                                                 </div>
-                                                                                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
                                                                             </>
                                                                         );
 
@@ -1165,7 +1161,7 @@ export function Header() {
                                                                                         if (link.onClick) link.onClick();
                                                                                     }}
                                                                                     className={cn(
-                                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] py-1.5 rounded-lg transition-all duration-100 text-left text-slate-800 dark:text-slate-200 hover:text-primary w-full cursor-pointer",
+                                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
                                                                                         isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                     )}
                                                                                 >
@@ -1181,7 +1177,7 @@ export function Header() {
                                                                                 suppressHydrationWarning
                                                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                                                 className={cn(
-                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] py-1.5 rounded-lg transition-all duration-100 text-left text-slate-800 dark:text-slate-200 hover:text-primary cursor-pointer",
+                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
                                                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                 )}
                                                                             >
