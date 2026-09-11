@@ -304,47 +304,48 @@ function SchoolPageContent() {
                 
                 {/* ── 1. CLEAN TWO-COLUMN HERO WITH MATCHED BACKGROUND ── */}
                 <section className="mb-6">
-                    <div className="rounded-[20px] bg-[#F8FAFC] dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 lg:p-7 shadow-xs relative overflow-hidden">
-                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-center relative z-10">
+                    <div className="rounded-[24px] bg-gradient-to-r from-[#FDFDFE] to-[#F1F6FB] dark:from-slate-900 dark:to-slate-900/90 border border-slate-200/60 dark:border-slate-800 p-5 sm:p-6 lg:p-8 shadow-[0_4px_24px_rgba(11,31,75,0.03)] relative overflow-hidden">
+                        
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 items-center relative z-10">
                             
                             {/* LEFT COLUMN: Content */}
-                            <div className="lg:col-span-7 space-y-3 sm:space-y-3.5 text-left">
+                            <div className="lg:col-span-7 flex flex-col gap-2.5 sm:gap-3 text-left">
                                 {/* Subtle Eyebrow Label */}
-                                <div className="flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-bold text-[#1D4ED8] dark:text-blue-400 tracking-wider uppercase">
+                                <div className="flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-bold text-[#1D4ED8] dark:text-blue-400 tracking-wider uppercase mb-0.5">
                                     <span className="w-1.5 h-1.5 rounded-full bg-[#1D4ED8] dark:bg-blue-400" />
                                     <span>STUDY RESOURCES</span>
                                 </div>
 
                                 {/* Main Title (Target Class primary emphasis + CBSE 2026–27 academic context) */}
-                                <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
+                                <h1 className="text-[24px] sm:text-[28px] md:text-[32px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-[1.1]">
                                     Target <span className="text-[#1D4ED8] dark:text-blue-400">{activeTab}</span>
-                                    <span className="block sm:inline sm:ml-2.5 text-[16px] sm:text-[20px] md:text-[22px] font-bold text-slate-500 dark:text-slate-400">
+                                    <span className="block sm:inline sm:ml-2.5 text-[16px] sm:text-[20px] md:text-[22px] font-bold text-slate-500 dark:text-slate-400 mt-0.5 sm:mt-0">
                                         CBSE 2026–27
                                     </span>
                                 </h1>
 
                                 {/* Supporting Text */}
-                                <p className="text-[13.5px] sm:text-[14.5px] text-slate-600 dark:text-slate-300 font-normal leading-relaxed max-w-xl">
+                                <p className="text-[13px] sm:text-[14px] lg:text-[15px] text-slate-600 dark:text-slate-300 font-normal leading-[1.6] max-w-xl">
                                     Complete preparation resources for <span className="font-semibold text-[#0B1F4B] dark:text-white">{activeTab}</span> — official syllabus, revision notes, NCERT solutions, and academic guidance.
                                 </p>
 
                                 {/* Single Key Feature Strip with Light Divider */}
-                                <div className="pt-2.5 sm:pt-3 border-t border-slate-200/60 dark:border-slate-800/60 flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-600 dark:text-slate-400">
+                                <div className="pt-2 sm:pt-3 mt-1 sm:mt-1.5 border-t border-slate-200/50 dark:border-slate-800/60 flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-600 dark:text-slate-400">
                                     <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0" />
                                     <span>Updated 2026–27 Syllabus</span>
                                 </div>
                             </div>
 
                             {/* RIGHT COLUMN: Seamless Supporting Educational Illustration */}
-                            <div className="lg:col-span-5 flex items-center justify-center relative">
-                                <div className="relative w-full max-w-[240px] sm:max-w-[340px] lg:max-w-[380px] flex items-center justify-center">
+                            <div className="lg:col-span-5 flex items-center justify-center lg:justify-end relative mt-2 sm:mt-0">
+                                <div className="relative w-full max-w-[300px] sm:max-w-[420px] lg:max-w-[500px] flex items-center justify-center">
                                     <Image 
-                                        src="/hub.png" 
+                                        src="/hub2.png" 
                                         alt="Target Class CBSE 2026–27 Study Hub" 
                                         width={1536} 
                                         height={1024} 
                                         priority 
-                                        className="w-full h-auto object-contain select-none"
+                                        className="w-full h-auto object-contain select-none scale-[1.02] sm:scale-105 lg:scale-[1.15] lg:translate-x-4"
                                     />
                                 </div>
                             </div>
@@ -545,44 +546,44 @@ function SchoolPageContent() {
 
                 {/* ── 7. FINAL GUIDANCE CTA BANNER ── */}
                 <section className="mb-4 sm:mb-6">
-                    <div className="rounded-[16px] sm:rounded-[20px] bg-gradient-to-r from-[#102A68] via-[#0F285C] to-[#1D4ED8] p-4 sm:p-7 lg:p-8 text-white shadow-md relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 sm:gap-6">
+                    <div className="rounded-[16px] sm:rounded-[20px] bg-gradient-to-r from-[#0B1F4B] via-[#0E2453] to-[#183979] p-4 sm:p-5 lg:p-6 text-white shadow-sm border border-slate-700/40 relative overflow-hidden flex flex-col lg:flex-row lg:items-center justify-between gap-3.5 sm:gap-4">
                         
-                        {/* Background guidance compass motif overlay */}
-                        <div className="absolute right-0 top-0 bottom-0 opacity-10 text-white pointer-events-none hidden lg:block">
-                            <svg className="h-full w-auto" viewBox="0 0 200 200" fill="currentColor">
+                        {/* Background guidance compass motif overlay (ultra subtle) */}
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-[0.03] text-white pointer-events-none hidden sm:block">
+                            <svg className="h-48 w-48 lg:h-64 lg:w-64" viewBox="0 0 200 200" fill="currentColor">
                                 <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="2" fill="none" />
                                 <path d="M100 20 L110 90 L180 100 L110 110 L100 180 L90 110 L20 100 L90 90 Z" />
                             </svg>
                         </div>
 
-                        <div className="space-y-1 sm:space-y-1.5 text-left relative z-10 max-w-xl">
-                            <h3 className="text-[17px] sm:text-[23px] font-extrabold tracking-tight text-white leading-snug">
+                        <div className="space-y-1 text-left relative z-10 max-w-xl pr-2">
+                            <h3 className="text-[16px] sm:text-[18px] lg:text-[20px] font-semibold tracking-tight text-white leading-snug">
                                 Need guidance for {activeTab}?
                             </h3>
-                            <p className="text-[12px] sm:text-[13.5px] text-blue-100 font-medium leading-relaxed">
+                            <p className="text-[12.5px] sm:text-[13px] text-blue-100/80 font-normal leading-relaxed">
                                 Talk to an IDL academic counselor or ask IDL AI for instant course recommendations.
                             </p>
                         </div>
 
-                        {/* Buttons (Right aligned on mobile) */}
-                        <div className="flex items-center justify-end w-full lg:w-auto gap-2.5 sm:gap-3 shrink-0 relative z-10 self-end lg:self-center">
-                            {/* Ask IDL AI CTA Button */}
+                        {/* Buttons (Right aligned on all screens, single row, no wrapping) */}
+                        <div className="flex flex-row flex-nowrap items-center justify-end w-full lg:w-auto gap-2.5 shrink-0 relative z-10 mt-1 sm:mt-0">
+                            {/* Ask IDL AI CTA Button (Primary) */}
                             <Button 
                                 onClick={() => setIsContactOpen(true)}
-                                className="h-9 sm:h-11 px-3.5 sm:px-5 rounded-[8px] font-bold text-xs bg-white text-[#102A68] hover:bg-blue-50 shadow-sm hover:shadow-md transition-all cursor-pointer border-none flex items-center gap-1.5"
+                                className="h-9 sm:h-10 px-4 sm:px-4.5 rounded-[8px] font-medium text-[12px] sm:text-[12.5px] bg-white text-[#0B1F4B] hover:bg-slate-50 shadow-xs hover:shadow-sm transition-all cursor-pointer border-none flex items-center gap-1.5 whitespace-nowrap"
                             >
-                                <Bot className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1D4ED8]" />
+                                <Bot className="w-3.5 h-3.5 text-[#1D4ED8] shrink-0" />
                                 <span>Ask IDL AI →</span>
                             </Button>
 
-                            {/* Call Now CTA Button */}
+                            {/* Call Now CTA Button (Secondary) */}
                             <Button 
                                 asChild
                                 variant="outline"
-                                className="h-9 sm:h-11 px-3.5 sm:px-5 rounded-[8px] font-bold text-xs bg-white/10 hover:bg-white/20 text-white border-white/30 shadow-2xs transition-all cursor-pointer flex items-center gap-1.5"
+                                className="h-9 sm:h-10 px-3.5 sm:px-4 rounded-[8px] font-medium text-[12px] sm:text-[12.5px] bg-transparent hover:bg-white/5 text-white border-white/20 transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap"
                             >
                                 <a href="tel:8860040010">
-                                    <Phone className="w-3.5 h-3.5 text-white" />
+                                    <Phone className="w-3.5 h-3.5 text-white/80 shrink-0" />
                                     <span>Call Now</span>
                                 </a>
                             </Button>

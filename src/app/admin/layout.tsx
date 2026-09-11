@@ -54,6 +54,10 @@ function AdminLayout({
     router.push('/');
   };
 
+  if (pathname?.startsWith('/admin/attendance')) {
+    return <>{children}</>;
+  }
+
   return (
     <>
     <Header />

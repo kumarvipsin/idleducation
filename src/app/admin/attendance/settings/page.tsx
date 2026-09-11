@@ -1,181 +1,281 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { useAttendance } from '@/context/attendance-context';
+import {
+  Settings,
+  Sliders,
+  Shield,
+  RotateCcw,
+  Check,
+  Sparkles,
+  Building2,
+  Trash2,
+  AlertTriangle,
+  UserCheck,
+  Lock,
+} from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Badge } from '@/components/ui/badge';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useToast } from '@/hooks/use-toast';
-import { PlusCircle, Edit, Calendar, CheckCircle2, Archive } from 'lucide-react';
-import { getAcademicYears, addAcademicYear, updateAcademicYear } from '@/app/actions/attendance';
-import type { TAcademicYear } from '@/app/actions/types';
 
-export default function AcademicYearPage() {
-  const [years, setYears] = useState<TAcademicYear[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [editingYear, setEditingYear] = useState<TAcademicYear | null>(null);
-  const { toast } = useToast();
+export default function AttendanceSettingsPage() {
+  const { resetToSeedData, clearAllDemoData, isDemoData, currentRole } = useAttendance();
+  const [threshold, setThreshold] = useState('75');
+  const [instituteName, setInstituteName] = useState('IDL EDUCATION');
+  const [tagline, setTagline] = useState('Learn Today, Lead Tomorrow');
+  const [branch, setBranch] = useState('Main Branch (Delhi)');
+  const [saved, setSaved] = useState(false);
 
-  const fetchYears = async () => {
-    setLoading(true);
-    const result = await getAcademicYears();
-    if (result.success && result.data) setYears(result.data as TAcademicYear[]);
-    setLoading(false);
+  const handleSave = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2000);
   };
 
-  useEffect(() => { fetchYears(); }, []);
-
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const data = {
-      name: formData.get('name') as string,
-      startDate: formData.get('startDate') as string,
-      endDate: formData.get('endDate') as string,
-    };
-
-    const result = editingYear
-      ? await updateAcademicYear(editingYear.id, data)
-      : await addAcademicYear(data);
-
-    if (result.success) {
-      toast({ title: 'Success', description: result.message });
-      setIsDialogOpen(false);
-      setEditingYear(null);
-      fetchYears();
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: result.message });
+  const handleReset = () => {
+    if (confirm('Reset all classes, batches, students, teachers, schedules, and attendance to default demo sample data?')) {
+      resetToSeedData();
     }
   };
 
-  const handleToggleStatus = async (year: TAcademicYear) => {
-    const newStatus = year.status === 'active' ? 'archived' : 'active';
-    const result = await updateAcademicYear(year.id, { status: newStatus });
-    if (result.success) {
-      toast({ title: 'Success', description: `Academic year ${newStatus}.` });
-      fetchYears();
+  const handleClear = () => {
+    if (confirm('WARNING: Are you sure you want to CLEAR ALL DEMO DATA?\n\nThis will wipe out sample classes, students, teachers, and attendance records so you can start with a clean blank database for real institute onboarding.\n\nYou can restore sample data anytime by clicking "Reset Demo Data".')) {
+      clearAllDemoData();
     }
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-6 max-w-4xl mx-auto pb-10">
+      {/* Header Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
         <div>
-          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-slate-100">Academic Year</h1>
-          <p className="text-sm text-muted-foreground mt-1">Manage academic years for the attendance system.</p>
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl md:text-2xl font-black tracking-tight text-slate-900">
+              System Settings &amp; Configuration
+            </h1>
+            <Badge className="bg-blue-50 text-blue-700 border-blue-200 font-bold text-xs">
+              Institute Policy
+            </Badge>
+          </div>
+          <p className="text-xs md:text-sm text-slate-500 mt-1 font-medium">
+            Configure institute details, attendance threshold rules, role permissions, and database demo mode.
+          </p>
         </div>
+
+        <Link href="/admin/attendance">
+          <Button variant="outline" size="sm" className="text-xs font-semibold">
+            ← Back to Dashboard
+          </Button>
+        </Link>
       </div>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <Card className="border border-slate-200/80 dark:border-slate-800 shadow-sm rounded-2xl">
-          <CardHeader className="flex flex-row items-center justify-between pb-4">
-            <div>
-              <CardTitle className="text-lg font-bold">Academic Years</CardTitle>
-              <CardDescription className="text-xs">Create and manage academic year periods.</CardDescription>
-            </div>
-            <DialogTrigger asChild>
-              <Button onClick={() => setEditingYear(null)} className="font-bold gap-1.5 h-9 rounded-lg">
-                <PlusCircle className="h-4 w-4" /> Add Year
-              </Button>
-            </DialogTrigger>
+      <form onSubmit={handleSave} className="space-y-5">
+        {/* Institute Identity */}
+        <Card className="border-slate-200 shadow-xs">
+          <CardHeader className="p-4 border-b border-slate-100">
+            <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <Building2 className="h-4 w-4 text-blue-600" />
+              Institute Brand &amp; Branch Identity
+            </CardTitle>
           </CardHeader>
-          <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Start Date</TableHead>
-                  <TableHead>End Date</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {loading ? (
-                  [...Array(3)].map((_, i) => (
-                    <TableRow key={i}>
-                      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                      <TableCell><Skeleton className="h-4 w-24" /></TableCell>
-                      <TableCell><Skeleton className="h-4 w-16" /></TableCell>
-                      <TableCell><Skeleton className="h-4 w-20" /></TableCell>
-                    </TableRow>
-                  ))
-                ) : years.length > 0 ? (
-                  years.map((year) => (
-                    <TableRow key={year.id}>
-                      <TableCell className="font-bold text-slate-800 dark:text-slate-100">{year.name}</TableCell>
-                      <TableCell className="text-sm text-slate-600">{year.startDate}</TableCell>
-                      <TableCell className="text-sm text-slate-600">{year.endDate}</TableCell>
-                      <TableCell>
-                        {year.status === 'active' ? (
-                          <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-[10px] font-extrabold uppercase gap-1">
-                            <CheckCircle2 className="w-3 h-3" /> Active
-                          </Badge>
-                        ) : (
-                          <Badge variant="secondary" className="text-[10px] font-extrabold uppercase gap-1">
-                            <Archive className="w-3 h-3" /> Archived
-                          </Badge>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <Button variant="outline" size="sm" className="h-8 px-2.5 text-xs font-bold gap-1"
-                            onClick={() => { setEditingYear(year); setIsDialogOpen(true); }}>
-                            <Edit className="h-3.5 w-3.5" /> Edit
-                          </Button>
-                          <Button variant="outline" size="sm"
-                            className={`h-8 px-2.5 text-xs font-bold gap-1 ${year.status === 'active' ? 'text-amber-700 border-amber-300 hover:bg-amber-50' : 'text-emerald-700 border-emerald-300 hover:bg-emerald-50'}`}
-                            onClick={() => handleToggleStatus(year)}>
-                            {year.status === 'active' ? <><Archive className="h-3.5 w-3.5" /> Archive</> : <><CheckCircle2 className="h-3.5 w-3.5" /> Activate</>}
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={5} className="text-center h-28 text-muted-foreground font-medium">
-                      No academic years found. Add your first one!
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+          <CardContent className="p-4 space-y-3.5 text-xs">
+            <div>
+              <Label className="text-xs font-semibold">Institute Name</Label>
+              <Input
+                value={instituteName}
+                onChange={e => setInstituteName(e.target.value)}
+                className="mt-1 h-9 text-xs"
+              />
+            </div>
+            <div>
+              <Label className="text-xs font-semibold">Brand Tagline</Label>
+              <Input
+                value={tagline}
+                onChange={e => setTagline(e.target.value)}
+                className="mt-1 h-9 text-xs"
+              />
+            </div>
+            <div>
+              <Label className="text-xs font-semibold">Primary Branch Location</Label>
+              <Input
+                value={branch}
+                onChange={e => setBranch(e.target.value)}
+                className="mt-1 h-9 text-xs"
+              />
+            </div>
           </CardContent>
         </Card>
 
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-extrabold">{editingYear ? 'Edit Academic Year' : 'Add Academic Year'}</DialogTitle>
-            <DialogDescription className="text-xs">e.g., 2026–27 (April 2026 to March 2027)</DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit}>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right font-bold">Name</Label>
-                <Input id="name" name="name" defaultValue={editingYear?.name} className="col-span-3" required placeholder="e.g., 2026–27" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="startDate" className="text-right font-bold">Start Date</Label>
-                <Input id="startDate" name="startDate" type="date" defaultValue={editingYear?.startDate} className="col-span-3" required />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="endDate" className="text-right font-bold">End Date</Label>
-                <Input id="endDate" name="endDate" type="date" defaultValue={editingYear?.endDate} className="col-span-3" required />
-              </div>
+        {/* Rules & Thresholds */}
+        <Card className="border-slate-200 shadow-xs">
+          <CardHeader className="p-4 border-b border-slate-100">
+            <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <Shield className="h-4 w-4 text-emerald-600" />
+              Attendance Rules &amp; Thresholds
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3.5 text-xs">
+            <div>
+              <Label className="text-xs font-semibold">Mandatory Attendance Threshold (%)</Label>
+              <Input
+                type="number"
+                value={threshold}
+                onChange={e => setThreshold(e.target.value)}
+                className="mt-1 h-9 text-xs max-w-xs"
+              />
+              <p className="text-[11px] text-slate-500 mt-1">
+                Students below this threshold will be flagged in Red across class reports and trigger parent notifications.
+              </p>
             </div>
-            <DialogFooter>
-              <Button type="submit" className="font-bold">{editingYear ? 'Update' : 'Create'}</Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
+          </CardContent>
+        </Card>
+
+        {/* Role-Based Permissions Overview */}
+        <Card className="border-slate-200 shadow-xs">
+          <CardHeader className="p-4 border-b border-slate-100">
+            <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <UserCheck className="h-4 w-4 text-purple-600" />
+              Role-Based Access Control (RBAC) Matrix
+            </CardTitle>
+            <CardDescription className="text-xs">
+              Current active preview role: <span className="font-bold text-blue-700">{currentRole}</span> (switch roles in top navigation bar)
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-0 overflow-x-auto text-xs">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 text-[11px] uppercase tracking-wider">
+                  <th className="py-2.5 px-4">Feature / Capability</th>
+                  <th className="py-2.5 px-3 text-center">Super Admin</th>
+                  <th className="py-2.5 px-3 text-center">Admin</th>
+                  <th className="py-2.5 px-3 text-center">Teacher</th>
+                  <th className="py-2.5 px-3 text-center">Staff</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">Live Attendance Session &amp; Mark Present/Late/Absent</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">Attendance Correction &amp; Void (Requires Reason &amp; Audit Log)</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">Classes, Batches &amp; Subjects Management</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-slate-400">View Only</td>
+                  <td className="py-2.5 px-3 text-center text-slate-400">View Only</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">Student Enrolment, Archive &amp; Batch Transfer</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-slate-400">View Only</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">Leave Approval &amp; Parent Follow-up Call Recording</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">View Administrative Audit Trail</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                </tr>
+                <tr>
+                  <td className="py-2.5 px-4 font-semibold text-slate-800">Clear / Reset Demo Database</td>
+                  <td className="py-2.5 px-3 text-center text-emerald-600 font-bold">✓</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                  <td className="py-2.5 px-3 text-center text-slate-300">—</td>
+                </tr>
+              </tbody>
+            </table>
+          </CardContent>
+        </Card>
+
+        {/* Demo Data & Database Controls */}
+        <Card className="border-amber-200 bg-amber-50/30 shadow-xs">
+          <CardHeader className="p-4 border-b border-amber-100">
+            <CardTitle className="text-sm font-bold flex items-center justify-between">
+              <span className="flex items-center gap-2 text-amber-900">
+                <AlertTriangle className="h-4 w-4 text-amber-600" />
+                Database &amp; Demo Data Controls
+              </span>
+              <Badge className={isDemoData ? 'bg-amber-100 text-amber-800 border-amber-300' : 'bg-emerald-100 text-emerald-800 border-emerald-300'}>
+                {isDemoData ? 'Demo Seed Mode Active' : 'Clean Slate Database'}
+              </Badge>
+            </CardTitle>
+            <CardDescription className="text-xs text-amber-800/80">
+              Easily clear out sample records to start real institute onboarding, or reload clean seed data for testing.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3 text-xs">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-amber-200/70">
+              <div>
+                <span className="font-bold text-slate-900 block">Clear All Demo Data (Clean Slate)</span>
+                <span className="text-slate-500 text-[11px]">
+                  Empties all sample classes, students, teachers, and attendance history so you can onboard your real school/coaching data.
+                </span>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleClear}
+                className="text-xs font-bold text-rose-600 border-rose-300 hover:bg-rose-50 gap-1.5 shrink-0"
+              >
+                <Trash2 className="h-3.5 w-3.5" />
+                Clear All Demo Data
+              </Button>
+            </div>
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 p-3 bg-white rounded-xl border border-slate-200">
+              <div>
+                <span className="font-bold text-slate-900 block">Reset Demo Sample Data</span>
+                <span className="text-slate-500 text-[11px]">
+                  Restores realistic demo classes (9th, 10th, 11th, 12th), batches, student profiles, and live sessions.
+                </span>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={handleReset}
+                className="text-xs font-bold text-blue-700 border-blue-300 hover:bg-blue-50 gap-1.5 shrink-0"
+              >
+                <RotateCcw className="h-3.5 w-3.5" />
+                Reset Demo Data
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Save button */}
+        <div className="flex items-center justify-end pt-2">
+          <Button type="submit" className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-6 gap-1.5">
+            {saved ? <Check className="h-4 w-4" /> : null}
+            {saved ? 'Settings Saved!' : 'Save Configuration'}
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }

@@ -241,7 +241,7 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
         if (saved) return saved;
       } catch {}
     }
-    return searchParams.get('class') || 'all';
+    return searchParams.get('class') || 'Class 9';
   });
   const [selectedSubject, setSelectedSubject] = useState<string | null>(() => {
     if (typeof window !== 'undefined') {
@@ -579,9 +579,9 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
           <div className="py-3 sm:py-4 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between gap-3 sm:gap-4">
 
             {/* Filter tabs — horizontal scroll, no wrap (matching School Page tabs) */}
-            <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-1 min-w-0">
-              <div className="flex items-center gap-4 sm:gap-6 md:gap-8 whitespace-nowrap -mb-[1px]">
-                {(['all', ...classList] as string[]).map((cls) => {
+            <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden flex-1 min-w-0 -mx-4 sm:mx-0 px-4 sm:px-0">
+              <div className="flex items-center justify-start sm:justify-center gap-4 sm:gap-6 md:gap-8 whitespace-nowrap -mb-[1px]">
+                {(classList).map((cls) => {
                   const isActive = selectedClass === cls;
                   return (
                     <button
@@ -594,7 +594,7 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
                           : "text-muted-foreground/60 border-transparent hover:text-foreground hover:border-muted-foreground/20"
                       )}
                     >
-                      {cls === 'all' ? 'All Classes' : cls}
+                      {cls}
                     </button>
                   );
                 })}
