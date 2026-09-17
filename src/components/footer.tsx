@@ -38,15 +38,15 @@ export function Footer() {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <footer className="relative bg-[#F4F7FB] dark:bg-background text-slate-700 dark:text-slate-300 border-t border-[#E8EDF5] dark:border-slate-800/80 overflow-hidden">
+    <footer className="relative bg-[#061537] text-slate-300 border-t border-blue-900/40 overflow-hidden">
       {/* Ambient soft glow towards top-right */}
-      <div className="absolute -top-12 right-[8%] w-[460px] sm:w-[620px] h-[320px] bg-blue-500/[0.025] dark:bg-blue-500/[0.015] rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-12 right-[8%] w-[460px] sm:w-[620px] h-[320px] bg-blue-500/[0.04] rounded-full blur-3xl pointer-events-none" />
 
       {/* Very faint IDL dot texture (2-3% opacity, primarily in empty spaces) */}
       <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.015]"
+        className="absolute inset-0 pointer-events-none opacity-[0.03]"
         style={{
-          backgroundImage: `radial-gradient(#0B1F4B 1px, transparent 1px)`,
+          backgroundImage: `radial-gradient(#3B82F6 1px, transparent 1px)`,
           backgroundSize: `24px 24px`
         }}
       />
@@ -63,12 +63,12 @@ export function Footer() {
                 alt="IDL Education Logo" 
                 width={105} 
                 height={105} 
-                className="h-[88px] sm:h-[92px] w-auto object-contain object-left" 
+                className="h-[88px] sm:h-[92px] w-auto object-contain object-left brightness-0 invert" 
                 priority
               />
             </Link>
 
-            <p className="text-[12px] sm:text-[12.5px] text-slate-500 dark:text-slate-400 font-normal leading-[1.6] antialiased tracking-normal text-left max-w-[310px] sm:max-w-[330px]">
+            <p className="text-[12px] sm:text-[12.5px] text-slate-300/90 font-normal leading-[1.6] antialiased tracking-normal text-left max-w-[310px] sm:max-w-[330px]">
               We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
             </p>
 
@@ -78,7 +78,7 @@ export function Footer() {
 
           {/* Column 2: Quick Links */}
           <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
               Quick Links
             </h3>
             <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5" suppressHydrationWarning>
@@ -90,7 +90,7 @@ export function Footer() {
                       e.preventDefault();
                       setIsContactOpen(true);
                     } : undefined}
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -101,7 +101,7 @@ export function Footer() {
 
           {/* Column 3: Resources */}
           <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
               Resources
             </h3>
             <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5">
@@ -111,7 +111,7 @@ export function Footer() {
                     href={link.href} 
                     target={link.target} 
                     rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -122,7 +122,7 @@ export function Footer() {
 
           {/* Column 4: Apply For */}
           <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
               Apply For
             </h3>
             <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5">
@@ -130,7 +130,7 @@ export function Footer() {
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -141,7 +141,7 @@ export function Footer() {
 
           {/* Column 5: Foundation */}
           <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
               Foundation
             </h3>
             <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5">
@@ -151,7 +151,7 @@ export function Footer() {
                     href={link.href} 
                     target={link.target} 
                     rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    className="text-slate-600 dark:text-slate-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -162,28 +162,28 @@ export function Footer() {
 
           {/* Column 6: Get in Touch */}
           <div className="flex flex-col items-start w-full col-span-2 sm:col-span-2 lg:col-span-1">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
               Get in Touch
             </h3>
             <div className="space-y-3 text-[12.5px] sm:text-[13px] pl-2.5 text-left w-full">
               <div className="space-y-0.5">
-                <p className="text-[11.5px] text-slate-500 dark:text-slate-400 font-normal">Have questions?</p>
-                <p className="text-[#0B1F4B] dark:text-white font-bold tracking-tight">Talk to our team</p>
+                <p className="text-[11.5px] text-slate-400 font-normal">Have questions?</p>
+                <p className="text-white font-bold tracking-tight">Talk to our team</p>
               </div>
 
               <div className="space-y-2 pt-0.5">
                 <a 
                   href="tel:8860040010" 
-                  className="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 font-semibold transition-all duration-150 ease-out hover:translate-x-0.5 whitespace-nowrap"
+                  className="flex items-center gap-2 text-slate-300 hover:text-white font-semibold transition-all duration-150 ease-out hover:translate-x-0.5 whitespace-nowrap"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#1D4ED8] shrink-0" />
+                  <Phone className="w-3.5 h-3.5 text-[#3B82F6] shrink-0" />
                   <span>8860040010</span>
                 </a>
                 <a 
                   href="mailto:info@idleducation.in" 
-                  className="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 font-semibold transition-all duration-150 ease-out hover:translate-x-0.5 whitespace-nowrap sm:whitespace-normal break-words"
+                  className="flex items-center gap-2 text-slate-300 hover:text-white font-semibold transition-all duration-150 ease-out hover:translate-x-0.5 whitespace-nowrap sm:whitespace-normal break-words"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#1D4ED8] shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-[#3B82F6] shrink-0" />
                   <span>info@idleducation.in</span>
                 </a>
               </div>
@@ -192,7 +192,7 @@ export function Footer() {
                 <button
                   type="button"
                   onClick={() => setIsContactOpen(true)}
-                  className="inline-flex items-center gap-1.5 text-[12.5px] sm:text-[13px] font-bold text-[#1D4ED8] hover:text-[#0B1F4B] dark:text-blue-400 dark:hover:text-blue-300 transition-colors cursor-pointer group"
+                  className="inline-flex items-center gap-1.5 text-[12.5px] sm:text-[13px] font-bold text-[#60A5FA] hover:text-white transition-colors cursor-pointer group"
                 >
                   <span>Contact Us</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-1" />
@@ -205,19 +205,19 @@ export function Footer() {
       </div>
 
       {/* Bottom Copyright Bar */}
-      <div className="bg-white/80 dark:bg-card/60 backdrop-blur-xs border-t border-slate-200/70 dark:border-slate-800/80 py-2 sm:py-2.5">
+      <div className="bg-[#040E26] backdrop-blur-xs border-t border-blue-900/40 py-2.5 sm:py-3">
         <div className="max-w-[1240px] mx-auto px-2.5 sm:px-6 lg:px-8">
-          <div className="flex flex-row flex-nowrap justify-center sm:justify-between items-center gap-x-2 sm:gap-x-4 text-[9.5px] min-[360px]:text-[10.5px] sm:text-xs font-normal text-slate-500 dark:text-slate-400 leading-tight whitespace-nowrap overflow-x-auto scrollbar-none">
+          <div className="flex flex-row flex-nowrap justify-center sm:justify-between items-center gap-x-2 sm:gap-x-4 text-[9.5px] min-[360px]:text-[10.5px] sm:text-xs font-normal text-slate-400 leading-tight whitespace-nowrap overflow-x-auto scrollbar-none">
             <p className="shrink-0" suppressHydrationWarning>
               &copy; 2026 IDL Education. All Rights Reserved.
             </p>
             <nav className="flex items-center gap-2 sm:gap-4 shrink-0">
-              <span className="text-slate-300 dark:text-slate-700">·</span>
-              <Link href="/terms" className="text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-300 transition-colors duration-150">
+              <span className="text-slate-600">·</span>
+              <Link href="/terms" className="text-slate-400 hover:text-white transition-colors duration-150">
                 Terms
               </Link>
-              <span className="text-slate-300 dark:text-slate-700">·</span>
-              <Link href="/privacy" className="text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-300 transition-colors duration-150">
+              <span className="text-slate-600">·</span>
+              <Link href="/privacy" className="text-slate-400 hover:text-white transition-colors duration-150">
                 Privacy
               </Link>
             </nav>

@@ -118,11 +118,29 @@ function ExpertTeacherCard({ teacher }: { teacher: TExpertTeacher }) {
                At ~390px card width: photo ≈ 312px → ~57–59% of card. Balanced portrait.
                Photo is clean — no play button overlay.
           */}
-          <div className="relative w-full aspect-[5/4] overflow-hidden bg-slate-100 dark:bg-muted shrink-0">
-            <TeacherAvatarImage src={photoUrl} alt={teacher.name} photoPosition={teacher.photoPosition} />
+          {/* ── 1. UNIFORM PREMIUM STUDIO PHOTO BLOCK ── */}
+          <div className="relative w-full aspect-[5/4] overflow-hidden bg-gradient-to-b from-[#0D2254] via-[#07173B] to-[#040D26] shrink-0">
+            {/* Studio Radial Ambient Glow Behind Educator */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 h-4/5 rounded-full bg-blue-500/20 blur-2xl pointer-events-none" />
+            
+            {/* Geometric Portrait Arch Frame Accent */}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 w-[72%] h-[90%] border border-blue-400/15 rounded-t-full pointer-events-none" />
 
-            {/* Subtle depth gradient at bottom — purely aesthetic */}
-            <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-black/15 to-transparent pointer-events-none" />
+            {/* Soft Radial Center Spotlight */}
+            <div 
+              className="absolute inset-0 pointer-events-none z-0"
+              style={{
+                backgroundImage: `radial-gradient(ellipse at 50% 35%, rgba(56, 189, 248, 0.22) 0%, rgba(6, 19, 45, 0) 70%)`
+              }}
+            />
+
+            {/* Educator Avatar Image (Supports transparent PNG cutouts) */}
+            <div className="relative z-10 w-full h-full">
+              <TeacherAvatarImage src={photoUrl} alt={teacher.name} photoPosition={teacher.photoPosition} />
+            </div>
+
+            {/* Smooth Bottom Vignette Scrim for Seamless PNG Cutout Blend */}
+            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#040D26] via-[#040D26]/40 to-transparent pointer-events-none z-20" />
           </div>
 
           {/* ── 2. CARD CONTENT ── */}
@@ -466,7 +484,7 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
   return (
     <section
       id="expert-teachers"
-      className="relative w-full pt-12 sm:pt-14 md:pt-16 pb-10 sm:pb-12 md:pb-14 bg-[#F8FAFD] dark:bg-slate-950 overflow-hidden"
+      className="relative w-full pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-slate-950 overflow-hidden"
     >
 
       <div className="container relative z-10 mx-auto px-4 md:px-6">

@@ -34,7 +34,7 @@ import type { UserRole } from '@/lib/attendance-store';
 interface SmartDeleteDialogProps {
   open: boolean;
   onClose: () => void;
-  entityType: 'Class' | 'Batch' | 'Student' | 'Teacher' | 'Subject' | 'Schedule';
+  entityType: 'Class' | 'Batch' | 'Student' | 'Teacher' | 'Subject' | 'Schedule' | 'Holiday' | 'Leave' | 'Call' | string;
   entityName: string;
   entityId: string;
   isDemoMode: boolean;
@@ -71,12 +71,12 @@ export function SmartDeleteDialog({
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
 
   const totalDeps =
-    dependencies.batches +
-    dependencies.students +
-    dependencies.schedules +
-    dependencies.attendanceSessions +
-    dependencies.leaveRecords +
-    dependencies.callRecords;
+    (dependencies?.batches || 0) +
+    (dependencies?.students || 0) +
+    (dependencies?.schedules || 0) +
+    (dependencies?.attendanceSessions || 0) +
+    (dependencies?.leaveRecords || 0) +
+    (dependencies?.callRecords || 0);
 
   const hasDependencies = totalDeps > 0;
   const isHighImpact = totalDeps >= 10;
@@ -114,22 +114,24 @@ export function SmartDeleteDialog({
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2 text-slate-900">
               <Trash2 className="h-4 w-4 text-red-500" />
-              Delete {entityType}
+              Delete {entityType}?
             </DialogTitle>
-            <DialogDescription className="text-slate-500">
-              Delete <span className="font-semibold text-slate-800">{entityName}</span>? This action cannot be undone.
+            <DialogDescription className="text-slate-600">
+              Delete <span className="font-semibold text-slate-800">{entityName}</span>?
             </DialogDescription>
           </DialogHeader>
 
-          {isDemoMode && (
-            <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 px-3 py-2 text-xs font-medium text-amber-700">
-              <Sparkles className="h-3.5 w-3.5 flex-shrink-0" />
-              Demo Mode — this record will be permanently removed.
+          {isDemoMode ? (
+            <div className="rounded-lg bg-amber-50/80 border border-amber-200 p-3 space-y-1.5 text-xs text-amber-800">
+              <div className="flex items-center gap-1.5 font-semibold">
+                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                This is demo data.
+              </div>
+              <p className="text-slate-500">This action cannot be undone.</p>
             </div>
-          )}
-
-          {!isDemoMode && (
+          ) : (
             <div className="space-y-1.5">
+              <p className="text-xs text-slate-500">This action cannot be undone.</p>
               <Label className="text-xs font-semibold text-slate-700">Reason (optional)</Label>
               <Textarea
                 placeholder="Why is this being deleted?"
@@ -144,7 +146,7 @@ export function SmartDeleteDialog({
             <Button variant="outline" size="sm" onClick={handleClose}>Cancel</Button>
             <Button
               size="sm"
-              className="bg-red-600 hover:bg-red-700 text-white"
+              className="bg-red-600 hover:bg-red-700 text-white font-medium"
               onClick={handleDelete}
             >
               <Trash2 className="h-3.5 w-3.5 mr-1.5" />
@@ -162,103 +164,144 @@ export function SmartDeleteDialog({
       <DialogContent className="max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-slate-900">
-            {isDemoMode
-              ? <><Sparkles className="h-4 w-4 text-amber-500" /> Delete Demo {entityType}</>
-              : <><AlertTriangle className="h-4 w-4 text-orange-500" /> Delete {entityType}</>
-            }
+            <Trash2 className="h-4 w-4 text-red-500" />
+            Delete {entityType}?
           </DialogTitle>
-          <DialogDescription className="text-slate-500">
-            <span className="font-semibold text-slate-800">{entityName}</span> has linked records.
+          <DialogDescription className="text-slate-600">
+            Delete <span className="font-semibold text-slate-900">{entityName}</span>?
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-4">
-          {/* Demo Mode banner */}
-          {isDemoMode && (
-            <div className="rounded-lg bg-amber-50 border border-amber-200 px-3 py-2.5">
-              <div className="flex items-center gap-2 mb-1">
-                <Sparkles className="h-3.5 w-3.5 text-amber-600 flex-shrink-0" />
-                <span className="text-xs font-bold text-amber-700">DEMO MODE — Cascade Delete Allowed</span>
+        <div className="space-y-3">
+          {/* Demo Mode layout */}
+          {isDemoMode ? (
+            <div className="rounded-lg bg-amber-50/80 border border-amber-200 p-3.5 space-y-2.5">
+              <div className="flex items-center gap-1.5 text-xs font-semibold text-amber-800">
+                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                This is demo data.
               </div>
-              <p className="text-xs text-amber-600 ml-5">
-                All linked demo records below will also be permanently removed. This is safe in demo mode.
-              </p>
-            </div>
-          )}
-
-          {/* Real mode — Super Admin warning */}
-          {!isDemoMode && isSuperAdmin && (
-            <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2.5">
-              <div className="flex items-center gap-2 mb-1">
-                <ShieldAlert className="h-3.5 w-3.5 text-red-600 flex-shrink-0" />
-                <span className="text-xs font-bold text-red-700">Super Admin — Permanent Deletion</span>
-              </div>
-              <p className="text-xs text-red-600 ml-5">
-                This will permanently remove {entityName} and may affect the records listed below.
-              </p>
-            </div>
-          )}
-
-          {/* Real mode — Admin (not super admin) */}
-          {!isDemoMode && !isSuperAdmin && (
-            <div className="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2.5">
-              <div className="flex items-center gap-2 mb-1">
-                <Archive className="h-3.5 w-3.5 text-blue-600 flex-shrink-0" />
-                <span className="text-xs font-bold text-blue-700">Archive Recommended</span>
-              </div>
-              <p className="text-xs text-blue-600 ml-5">
-                {entityName} has linked records. Archive to preserve history. Permanent deletion requires Super Admin.
-              </p>
-            </div>
-          )}
-
-          {/* Dependency list */}
-          <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 space-y-1.5">
-            <p className="text-xs font-bold text-slate-600 mb-2">{entityName} is linked to:</p>
-            <DepRow icon={<Layers className="h-3.5 w-3.5" />} label="batches" count={dependencies.batches} />
-            <DepRow icon={<Users className="h-3.5 w-3.5" />} label="students" count={dependencies.students} />
-            <DepRow icon={<Calendar className="h-3.5 w-3.5" />} label="class schedules" count={dependencies.schedules} />
-            <DepRow icon={<Clock className="h-3.5 w-3.5" />} label="attendance session(s)" count={dependencies.attendanceSessions} />
-            <DepRow icon={<FileText className="h-3.5 w-3.5" />} label="leave records" count={dependencies.leaveRecords} />
-            <DepRow icon={<Phone className="h-3.5 w-3.5" />} label="parent call records" count={dependencies.callRecords} />
-          </div>
-
-          {/* Reason (required in real mode) */}
-          {!isDemoMode && canForceDelete && (
-            <div className="space-y-1.5">
-              <Label className="text-xs font-semibold text-slate-700">
-                Reason <span className="text-red-500">*</span>
-              </Label>
-              <Textarea
-                placeholder={`Why is ${entityName} being permanently deleted?`}
-                value={reason}
-                onChange={e => setReason(e.target.value)}
-                className="h-16 text-xs resize-none"
-              />
-              {reason.trim().length > 0 && reason.trim().length < 5 && (
-                <p className="text-xs text-red-500">Please provide a reason (min 5 characters).</p>
-              )}
-            </div>
-          )}
-
-          {/* Type DELETE confirmation for high-impact real data */}
-          {needsTypedConfirm && (
-            <div className="space-y-1.5">
-              <Label className="text-xs font-semibold text-slate-700">
-                Type <span className="font-mono bg-slate-100 px-1 rounded text-red-600 font-bold">DELETE</span> to confirm
-              </Label>
-              <Input
-                placeholder="Type DELETE"
-                value={deleteConfirmText}
-                onChange={e => setDeleteConfirmText(e.target.value)}
-                className={`text-xs font-mono ${deleteConfirmText === 'DELETE' ? 'border-green-400 bg-green-50' : ''}`}
-              />
-              {deleteConfirmText === 'DELETE' && (
-                <p className="text-xs text-green-600 flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3" /> Confirmed
+              <div className="space-y-1.5 text-xs">
+                <p className="font-semibold text-slate-800">
+                  The following related demo records will also be permanently deleted:
                 </p>
-              )}
+                <ul className="space-y-1 text-slate-700 pl-1 font-medium">
+                  {dependencies.batches > 0 && (
+                    <li className="flex items-center gap-1.5">
+                      <span className="text-amber-500 font-bold">•</span>
+                      <span>{dependencies.batches} demo batch{dependencies.batches > 1 ? 'es' : ''}</span>
+                    </li>
+                  )}
+                  {dependencies.students > 0 && (
+                    <li className="flex items-center gap-1.5">
+                      <span className="text-amber-500 font-bold">•</span>
+                      <span>{dependencies.students} demo student{dependencies.students > 1 ? 's' : ''}</span>
+                    </li>
+                  )}
+                  {dependencies.schedules > 0 && (
+                    <li className="flex items-center gap-1.5">
+                      <span className="text-amber-500 font-bold">•</span>
+                      <span>{dependencies.schedules} demo class schedule{dependencies.schedules > 1 ? 's' : ''}</span>
+                    </li>
+                  )}
+                  {dependencies.attendanceSessions > 0 && (
+                    <li className="flex items-center gap-1.5">
+                      <span className="text-amber-500 font-bold">•</span>
+                      <span>{dependencies.attendanceSessions} demo attendance record{dependencies.attendanceSessions > 1 ? 's' : ''}</span>
+                    </li>
+                  )}
+                  {dependencies.leaveRecords > 0 && (
+                    <li className="flex items-center gap-1.5">
+                      <span className="text-amber-500 font-bold">•</span>
+                      <span>{dependencies.leaveRecords} demo leave record{dependencies.leaveRecords > 1 ? 's' : ''}</span>
+                    </li>
+                  )}
+                  {dependencies.callRecords > 0 && (
+                    <li className="flex items-center gap-1.5">
+                      <span className="text-amber-500 font-bold">•</span>
+                      <span>{dependencies.callRecords} demo call log{dependencies.callRecords > 1 ? 's' : ''}</span>
+                    </li>
+                  )}
+                </ul>
+              </div>
+              <p className="text-xs text-slate-500 font-medium">This action cannot be undone.</p>
             </div>
+          ) : (
+            <>
+              {/* Real mode — Super Admin warning */}
+              {isSuperAdmin && (
+                <div className="rounded-lg bg-red-50 border border-red-200 px-3 py-2.5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <ShieldAlert className="h-3.5 w-3.5 text-red-600 flex-shrink-0" />
+                    <span className="text-xs font-bold text-red-700">Super Admin — Permanent Deletion</span>
+                  </div>
+                  <p className="text-xs text-red-600 ml-5">
+                    This will permanently remove {entityName} and cascade across linked records.
+                  </p>
+                </div>
+              )}
+
+              {/* Real mode — Admin (not super admin) */}
+              {!isSuperAdmin && (
+                <div className="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2.5">
+                  <div className="flex items-center gap-2 mb-1">
+                    <Archive className="h-3.5 w-3.5 text-blue-600 flex-shrink-0" />
+                    <span className="text-xs font-bold text-blue-700">Archive Recommended</span>
+                  </div>
+                  <p className="text-xs text-blue-600 ml-5">
+                    {entityName} has linked records. Archive to preserve history. Permanent deletion requires Super Admin.
+                  </p>
+                </div>
+              )}
+
+              {/* Dependency list */}
+              <div className="rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 space-y-1.5">
+                <p className="text-xs font-bold text-slate-600 mb-2">{entityName} is linked to:</p>
+                <DepRow icon={<Layers className="h-3.5 w-3.5" />} label="batches" count={dependencies.batches} />
+                <DepRow icon={<Users className="h-3.5 w-3.5" />} label="students" count={dependencies.students} />
+                <DepRow icon={<Calendar className="h-3.5 w-3.5" />} label="class schedules" count={dependencies.schedules} />
+                <DepRow icon={<Clock className="h-3.5 w-3.5" />} label="attendance session(s)" count={dependencies.attendanceSessions} />
+                <DepRow icon={<FileText className="h-3.5 w-3.5" />} label="leave records" count={dependencies.leaveRecords} />
+                <DepRow icon={<Phone className="h-3.5 w-3.5" />} label="parent call records" count={dependencies.callRecords} />
+              </div>
+
+              {/* Reason (required in real mode) */}
+              {canForceDelete && (
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-semibold text-slate-700">
+                    Reason <span className="text-red-500">*</span>
+                  </Label>
+                  <Textarea
+                    placeholder={`Why is ${entityName} being permanently deleted?`}
+                    value={reason}
+                    onChange={e => setReason(e.target.value)}
+                    className="h-16 text-xs resize-none"
+                  />
+                  {reason.trim().length > 0 && reason.trim().length < 5 && (
+                    <p className="text-xs text-red-500">Please provide a reason (min 5 characters).</p>
+                  )}
+                </div>
+              )}
+
+              {/* Type DELETE confirmation for high-impact real data */}
+              {needsTypedConfirm && (
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-semibold text-slate-700">
+                    Type <span className="font-mono bg-slate-100 px-1 rounded text-red-600 font-bold">DELETE</span> to confirm
+                  </Label>
+                  <Input
+                    placeholder="Type DELETE"
+                    value={deleteConfirmText}
+                    onChange={e => setDeleteConfirmText(e.target.value)}
+                    className={`text-xs font-mono ${deleteConfirmText === 'DELETE' ? 'border-green-400 bg-green-50' : ''}`}
+                  />
+                  {deleteConfirmText === 'DELETE' && (
+                    <p className="text-xs text-green-600 flex items-center gap-1">
+                      <CheckCircle2 className="h-3 w-3" /> Confirmed
+                    </p>
+                  )}
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -285,11 +328,7 @@ export function SmartDeleteDialog({
             <Button
               size="sm"
               disabled={!canSubmit}
-              className={`w-full sm:w-auto text-white ${
-                isDemoMode
-                  ? 'bg-amber-600 hover:bg-amber-700'
-                  : 'bg-red-600 hover:bg-red-700'
-              } disabled:opacity-50`}
+              className="w-full sm:w-auto text-white bg-red-600 hover:bg-red-700 disabled:opacity-50"
               onClick={handleDelete}
             >
               <Trash2 className="h-3.5 w-3.5 mr-1.5" />

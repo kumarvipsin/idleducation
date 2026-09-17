@@ -42,7 +42,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { ScheduleType, TScheduleItem } from '@/lib/attendance-store';
-
+import { SmartDeleteDialog } from '@/components/attendance/smart-delete-dialog';
 const TIME_SLOTS = [
   '08:00 - 09:00',
   '09:00 - 10:00',
@@ -84,6 +84,8 @@ export default function ClassSchedulePage() {
     deleteHoliday,
     startLiveSession,
     currentRole,
+    isDemoData,
+    getDependencySummary,
   } = useAttendance();
 
   const [activeTab, setActiveTab] = useState('weekly');
@@ -96,6 +98,7 @@ export default function ClassSchedulePage() {
   const [isAddOneTimeOpen, setIsAddOneTimeOpen] = useState(false);
   const [isHolidayOpen, setIsHolidayOpen] = useState(false);
   const [selectedScheduleItem, setSelectedScheduleItem] = useState<TScheduleItem | null>(null);
+  const [scheduleToDelete, setScheduleToDelete] = useState<TScheduleItem | null>(null);
 
   // Modal sub-views: 'details' | 'reschedule' | 'cancel' | 'edit' | 'duplicate'
   const [modalMode, setModalMode] = useState<'details' | 'reschedule' | 'cancel' | 'edit' | 'duplicate'>('details');
@@ -235,13 +238,10 @@ export default function ClassSchedulePage() {
 
   const handleDeleteScheduleSubmit = () => {
     if (!selectedScheduleItem) return;
-    if (confirm(`Are you sure you want to delete this session (${selectedScheduleItem.subject} - ${selectedScheduleItem.batchName})?`)) {
-      const res = deleteScheduleItemSafe(selectedScheduleItem.id);
-      if (res.success) {
-        setSelectedScheduleItem(null);
-        setModalMode('details');
-      }
-    }
+    // Open SmartDeleteDialog for confirmation and cascade delete handling
+    setScheduleToDelete(selectedScheduleItem);
+    setSelectedScheduleItem(null);
+    setModalMode('details');
   };
 
   return (
@@ -683,6 +683,24 @@ export default function ClassSchedulePage() {
               </div>
             </div>
           )}
+        {/* Smart Delete Dialog for Schedule */}
+        {scheduleToDelete && (
+          <SmartDeleteDialog
+            open={!!scheduleToDelete}
+            onClose={() => setScheduleToDelete(null)}
+            entityType="Schedule"
+            entityName={scheduleToDelete.subject}
+            entityId={scheduleToDelete.id}
+            isDemoMode={isDemoData}
+            currentRole={currentRole}
+            dependencies={getDependencySummary('Schedule', scheduleToDelete.id)}
+            onForceDelete={() => {
+              deleteScheduleItemSafe(scheduleToDelete.id);
+              setScheduleToDelete(null);
+            }}
+            onArchive={undefined}
+          />
+        )}
 
           {/* Edit Session View */}
           {modalMode === 'edit' && (

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useAttendance } from '@/context/attendance-context';
 import {
@@ -30,6 +30,9 @@ import {
   Shield,
   Ban,
   RotateCcw,
+  Play,
+  User,
+  BookOpen,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -51,13 +54,17 @@ import {
   StudentStatus,
   formatMinutesToDuration,
   getCurrentTimeFormatted,
+  formatDateDisplay,
+  TScheduleItem,
 } from '@/lib/attendance-store';
 
 export default function LiveAttendancePage() {
   const {
     liveSession,
+    schedules,
     students,
     currentRole,
+    startLiveSession,
     markStudentPresent,
     bulkMarkPresent,
     markStudentExit,
@@ -74,14 +81,19 @@ export default function LiveAttendancePage() {
   const [statusFilter, setStatusFilter] = useState('all');
 
   // Elapsed Timer
-  const [elapsedSeconds, setElapsedSeconds] = useState(47 * 60 + 32);
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
 
   useEffect(() => {
+    if (!liveSession) {
+      setElapsedSeconds(0);
+      return;
+    }
+    setElapsedSeconds(0);
     const timer = setInterval(() => {
       setElapsedSeconds(prev => prev + 1);
     }, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [liveSession?.id]);
 
   const formatTimer = (totalSeconds: number) => {
     const hrs = Math.floor(totalSeconds / 3600);
@@ -100,7 +112,11 @@ export default function LiveAttendancePage() {
   const [editStatus, setEditStatus] = useState<StudentStatus>('present');
   const [editReason, setEditReason] = useState('Manual verification correction');
 
-  // Void Modal (Requirement #10)
+  // Custom Exit Modal
+  const [exitModalStudent, setExitModalStudent] = useState<any | null>(null);
+  const [customExitTime, setCustomExitTime] = useState('');
+
+  // Void Modal
   const [voidModalRecord, setVoidModalRecord] = useState<any | null>(null);
   const [voidReason, setVoidReason] = useState('Attendance marked incorrectly by teacher');
 
@@ -109,19 +125,118 @@ export default function LiveAttendancePage() {
   const [leaveReason, setLeaveReason] = useState('Fever');
   const [leaveRemark, setLeaveRemark] = useState('');
 
+  // Today's date for scheduled classes list
+  const todayDate = useMemo(() => new Date().toISOString().split('T')[0], []);
+
+  const todaySchedules = useMemo(() => {
+    return schedules.filter(s => s.date === todayDate || s.status === 'Ongoing' || s.status === 'Upcoming');
+  }, [schedules, todayDate]);
+
+  // If no live session is currently running, show active schedules to start immediately
   if (!liveSession) {
     return (
-      <div className="p-12 text-center text-slate-500 bg-white rounded-2xl border border-slate-200 max-w-lg mx-auto space-y-3">
-        <Radio className="h-10 w-10 text-slate-300 mx-auto" />
-        <h3 className="font-bold text-slate-900 text-base">No Live Session In Progress</h3>
-        <p className="text-xs text-slate-500">
-          Start a class session from the Class Schedule to begin live check-in tracking.
-        </p>
-        <Link href="/admin/attendance/schedule">
-          <Button className="mt-2 bg-blue-600 text-white font-bold text-xs">
-            Open Class Schedule
-          </Button>
-        </Link>
+      <div className="space-y-6 max-w-5xl mx-auto">
+        <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <Radio className="h-5 w-5 text-slate-400" />
+              <h1 className="text-xl md:text-2xl font-black text-slate-900">Live Attendance Session</h1>
+            </div>
+            <p className="text-xs md:text-sm text-slate-500 mt-1">
+              There is no live session running right now. Choose a scheduled class below to begin live roll-call tracking.
+            </p>
+          </div>
+          <Link href="/admin/attendance/schedule">
+            <Button variant="outline" className="text-xs font-bold gap-1.5 border-slate-300">
+              <Calendar className="h-3.5 w-3.5 text-slate-500" />
+              Manage All Schedules
+            </Button>
+          </Link>
+        </div>
+
+        <Card className="border-slate-200 shadow-xs">
+          <CardHeader className="p-4 border-b border-slate-100 bg-slate-50/50 flex flex-row items-center justify-between">
+            <div>
+              <CardTitle className="text-sm font-bold text-slate-800">
+                Scheduled Classes for Today ({formatDateDisplay(todayDate)})
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-500">
+                Select any class below to start live attendance and check-in capture.
+              </CardDescription>
+            </div>
+            <Badge variant="outline" className="bg-white font-mono text-xs font-semibold">
+              {todaySchedules.length} Available
+            </Badge>
+          </CardHeader>
+
+          <CardContent className="p-4 space-y-3">
+            {todaySchedules.length === 0 ? (
+              <div className="p-8 text-center text-slate-500 space-y-3">
+                <Calendar className="h-10 w-10 text-slate-300 mx-auto" />
+                <h4 className="font-bold text-slate-800 text-sm">No classes scheduled for today</h4>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Create a schedule entry in the Class Schedule page to start tracking live attendance for your batches.
+                </p>
+                <Link href="/admin/attendance/schedule">
+                  <Button className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-4">
+                    Create Class Schedule
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {todaySchedules.map(sch => {
+                  const enrolledCount = students.filter(
+                    s => s.status === 'active' && (s.batchId === sch.batchId || s.batchName === sch.batchName)
+                  ).length;
+
+                  return (
+                    <div
+                      key={sch.id}
+                      className="p-4 rounded-xl border border-slate-200 bg-white hover:border-blue-300 hover:shadow-xs transition-all flex flex-col justify-between gap-3"
+                    >
+                      <div className="space-y-1.5">
+                        <div className="flex items-center justify-between gap-2">
+                          <Badge className="bg-blue-50 text-blue-800 border-blue-200 font-bold text-[10px]">
+                            {sch.className} • {sch.batchName}
+                          </Badge>
+                          <span className="text-[11px] font-mono font-bold text-slate-600">
+                            {sch.startTime} – {sch.endTime}
+                          </span>
+                        </div>
+                        <h3 className="font-bold text-sm text-slate-900">{sch.subject}</h3>
+                        <div className="flex items-center gap-4 text-xs text-slate-600">
+                          <span className="flex items-center gap-1">
+                            <User className="h-3 w-3 text-slate-400" />
+                            {sch.teacherName}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <BookOpen className="h-3 w-3 text-slate-400" />
+                            {enrolledCount} enrolled students
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                        <span className="text-[11px] font-semibold text-slate-500">
+                          Duration: {formatMinutesToDuration(sch.durationMinutes)}
+                        </span>
+                        <Button
+                          size="sm"
+                          onClick={() => startLiveSession(sch.id)}
+                          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-8 px-3 gap-1.5 shadow-xs"
+                        >
+                          <Play className="h-3.5 w-3.5 fill-current" />
+                          Start Live Attendance
+                        </Button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </CardContent>
+        </Card>
       </div>
     );
   }
@@ -212,6 +327,12 @@ export default function LiveAttendancePage() {
     setEditTimingStudent(null);
   };
 
+  const handleSaveCustomExit = () => {
+    if (!exitModalStudent) return;
+    markStudentExit(exitModalStudent.studentId, customExitTime || getCurrentTimeFormatted());
+    setExitModalStudent(null);
+  };
+
   const handleConfirmVoid = () => {
     if (!voidModalRecord) return;
     voidAttendanceRecord(liveSession.id, voidModalRecord.studentId, voidReason);
@@ -261,7 +382,9 @@ export default function LiveAttendancePage() {
         <div className="flex flex-wrap items-center gap-4 sm:gap-6">
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4 text-blue-400" />
-            <span className="text-slate-300 font-medium">Thu, 11 Sep 2026</span>
+            <span className="text-slate-300 font-medium">
+              {liveSession.date ? formatDateDisplay(liveSession.date) : formatDateDisplay(todayDate)}
+            </span>
           </div>
           <div>
             <span className="text-slate-400">Class:</span>{' '}
@@ -285,7 +408,8 @@ export default function LiveAttendancePage() {
           <Clock className="h-3.5 w-3.5 text-blue-400" />
           <span className="text-slate-300">Scheduled:</span>
           <span className="font-bold text-white font-mono">
-            {liveSession.scheduledStartTime} – {liveSession.scheduledEndTime} (2h)
+            {liveSession.scheduledStartTime} – {liveSession.scheduledEndTime} (
+            {formatMinutesToDuration(liveSession.scheduledDurationMinutes)})
           </span>
         </div>
       </div>
@@ -435,7 +559,7 @@ export default function LiveAttendancePage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {filteredRecords.map((record, index) => {
+              {filteredRecords.map(record => {
                 const isSelected = selectedIds.includes(record.studentId);
                 const isPresent = record.status === 'present';
                 const isNotArrived = record.status === 'not_arrived';
@@ -545,10 +669,14 @@ export default function LiveAttendancePage() {
                         </div>
                       )}
                       {isNotArrived && <span className="text-slate-400">-</span>}
-                      {isAbsent && <span className="text-rose-600 font-bold">0h (Missed 2h)</span>}
+                      {isAbsent && (
+                        <span className="text-rose-600 font-bold">
+                          0h (Missed {formatMinutesToDuration(liveSession.scheduledDurationMinutes)})
+                        </span>
+                      )}
                       {isLeave && (
                         <span className="text-amber-700 font-medium">
-                          Leave ({record.leaveReason || 'Family function'})
+                          Leave ({record.leaveReason || 'Informed leave'})
                         </span>
                       )}
                     </td>
@@ -578,15 +706,30 @@ export default function LiveAttendancePage() {
                         )}
 
                         {isPresent && !record.checkOutTime && (
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => markStudentExit(record.studentId)}
-                            className="text-rose-600 border-rose-200 hover:bg-rose-50 font-bold text-xs h-7 px-2.5 gap-1"
-                          >
-                            <LogOut className="h-3 w-3" />
-                            Exit
-                          </Button>
+                          <div className="flex items-center gap-1">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => markStudentExit(record.studentId)}
+                              className="text-rose-600 border-rose-200 hover:bg-rose-50 font-bold text-xs h-7 px-2.5 gap-1"
+                              title="Mark Student Exit Now"
+                            >
+                              <LogOut className="h-3 w-3" />
+                              Exit Now
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => {
+                                setExitModalStudent(record);
+                                setCustomExitTime(getCurrentTimeFormatted());
+                              }}
+                              className="text-slate-600 hover:text-slate-900 h-7 px-1.5 text-xs"
+                              title="Set Custom Exit Time"
+                            >
+                              <Clock className="h-3 w-3" />
+                            </Button>
+                          </div>
                         )}
 
                         {/* Admin Correction & Voiding Dropdown Actions */}
@@ -597,8 +740,8 @@ export default function LiveAttendancePage() {
                               variant="ghost"
                               onClick={() => {
                                 setEditTimingStudent(record);
-                                setEditCheckIn(record.checkInTime || '04:00 PM');
-                                setEditCheckOut(record.checkOutTime || '06:00 PM');
+                                setEditCheckIn(record.checkInTime || liveSession.scheduledStartTime || getCurrentTimeFormatted());
+                                setEditCheckOut(record.checkOutTime || liveSession.scheduledEndTime || getCurrentTimeFormatted());
                                 setEditStatus(record.status);
                                 setEditReason('Manual teacher attendance correction');
                               }}
@@ -634,7 +777,43 @@ export default function LiveAttendancePage() {
         </div>
       </Card>
 
-      {/* Audit Logged Attendance Correction Modal (Requirement #10) */}
+      {/* Custom Exit Time Modal */}
+      <Dialog open={!!exitModalStudent} onOpenChange={open => !open && setExitModalStudent(null)}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-sm font-bold flex items-center gap-2">
+              <LogOut className="h-4 w-4 text-rose-600" />
+              Student Exit: {exitModalStudent?.studentName}
+            </DialogTitle>
+            <DialogDescription className="text-xs">
+              Record specific early exit or departure time for this student.
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 py-2 text-xs">
+            <div>
+              <Label className="text-xs font-semibold">Exit Time (e.g. 04:45 PM)</Label>
+              <Input
+                value={customExitTime}
+                onChange={e => setCustomExitTime(e.target.value)}
+                placeholder="04:45 PM"
+                className="mt-1 h-9 text-xs font-mono"
+              />
+            </div>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" size="sm" onClick={() => setExitModalStudent(null)}>
+              Cancel
+            </Button>
+            <Button size="sm" onClick={handleSaveCustomExit} className="bg-rose-600 hover:bg-rose-700 text-white font-bold">
+              Record Exit
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Audit Logged Attendance Correction Modal */}
       <Dialog open={!!editTimingStudent} onOpenChange={open => !open && setEditTimingStudent(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>
@@ -643,7 +822,7 @@ export default function LiveAttendancePage() {
               Correct Attendance Record
             </DialogTitle>
             <DialogDescription className="text-xs">
-              Student: <strong>{editTimingStudent?.studentName}</strong> • Admin: <strong>Amod Sharma ({currentRole})</strong>
+              Student: <strong>{editTimingStudent?.studentName}</strong> • Role: <strong>{currentRole}</strong>
             </DialogDescription>
           </DialogHeader>
 
@@ -658,7 +837,6 @@ export default function LiveAttendancePage() {
                   <SelectItem value="present">Present</SelectItem>
                   <SelectItem value="absent">Absent</SelectItem>
                   <SelectItem value="leave">Leave</SelectItem>
-                  <SelectItem value="late">Late Arrival</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -707,7 +885,7 @@ export default function LiveAttendancePage() {
         </DialogContent>
       </Dialog>
 
-      {/* Void Attendance Record Modal (Requirement #10) */}
+      {/* Void Attendance Record Modal */}
       <Dialog open={!!voidModalRecord} onOpenChange={open => !open && setVoidModalRecord(null)}>
         <DialogContent className="max-w-md">
           <DialogHeader>
@@ -722,7 +900,7 @@ export default function LiveAttendancePage() {
 
           <div className="space-y-3 py-2 text-xs">
             <div className="p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-950 space-y-1">
-              <p><strong>Admin Identity:</strong> Amod Sharma ({currentRole})</p>
+              <p><strong>Admin Role:</strong> {currentRole}</p>
               <p><strong>Timestamp:</strong> {getCurrentTimeFormatted()}</p>
               <p><strong>Previous Status:</strong> {voidModalRecord?.status} (Check-in: {voidModalRecord?.checkInTime || '-'})</p>
             </div>

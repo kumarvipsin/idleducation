@@ -70,7 +70,7 @@ function TeacherLayout({
                 alt="IDL Education" 
                 width={130} 
                 height={38} 
-                className="h-8 w-auto object-contain"
+                className="h-11 w-auto object-contain"
                 priority
               />
             </Link>

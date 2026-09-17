@@ -5,7 +5,7 @@ import Image from "next/image";
 export function TrustedPlatform() {
   return (
     <>
-      <section suppressHydrationWarning className="w-full py-8 sm:py-10 lg:py-14 bg-[#F7F9FC] dark:bg-background relative overflow-hidden">
+      <section suppressHydrationWarning className="w-full py-6 sm:py-7 lg:py-9 bg-white dark:bg-background relative overflow-hidden">
         {/* Extremely low-opacity ambient blue glow behind right visual area */}
         <div className="absolute top-1/2 right-[12%] -translate-y-1/2 w-[420px] h-[340px] bg-blue-500/[0.025] rounded-full blur-3xl pointer-events-none" />
         <div className="container mx-auto px-4 md:px-6 relative z-10">
@@ -24,7 +24,7 @@ export function TrustedPlatform() {
               </h2>
 
               {/* Supporting Text: 2 lines on desktop with comfortable width (18-24px gap from heading) */}
-              <p className="mt-3.5 sm:mt-4 lg:mt-5 text-sm md:text-base text-slate-600 dark:text-slate-400 font-bold leading-relaxed max-w-[560px] xl:max-w-[620px]">
+              <p className="mt-3.5 sm:mt-4 lg:mt-5 text-sm md:text-base text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-[560px] xl:max-w-[620px]">
                 Unlock your potential with IDL Education — an affordable learning solution built for every student&apos;s journey.
               </p>
             </div>

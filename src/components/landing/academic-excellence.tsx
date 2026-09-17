@@ -50,7 +50,7 @@ export function AcademicExcellence() {
   };
 
   return (
-    <section id="academic-results" className="w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-white dark:bg-background overflow-hidden">
+    <section id="academic-results" className="w-full pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden">
       <div className="container mx-auto px-4 md:px-6 mb-3.5 sm:mb-4.5">
           <div className="text-center space-y-2 sm:space-y-2.5">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">

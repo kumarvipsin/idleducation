@@ -22,7 +22,7 @@ const TestimonialCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   return (
     <>
       <Card
-        className="h-full w-full flex flex-col shadow-[0_2px_10px_-2px_rgba(11,31,75,0.04)] hover:shadow-[0_8px_24px_-4px_rgba(11,31,75,0.08)] hover:-translate-y-0.5 transition-all duration-180 ease-out bg-white dark:bg-card text-foreground rounded-[18px] sm:rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-border/60 group/card"
+        className="h-full w-full flex flex-col shadow-[0_2px_10px_-2px_rgba(11,31,75,0.04)] hover:shadow-[0_12px_28px_-4px_rgba(11,31,75,0.12)] hover:-translate-y-1 transition-all duration-200 ease-out bg-white dark:bg-card text-foreground rounded-[18px] sm:rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-border/60 border-t-2 border-t-[#1D4ED8] dark:border-t-blue-500 group/card"
       >
           <CardContent className="p-3.5 sm:p-4 flex flex-col text-left items-start h-full justify-between flex-1 w-full">
               {/* Photo & Video Area */}
@@ -283,7 +283,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   const testimonialList = testimonials && testimonials.length > 0 ? testimonials : [];
 
   return (
-    <section id="testimonials" className="relative w-full pt-12 sm:pt-14 md:pt-16 pb-10 sm:pb-12 md:pb-14 bg-gradient-to-b from-[#FCFBF8]/40 via-[#F6F8FC] to-[#F6F8FC] dark:bg-background overflow-hidden">
+    <section id="testimonials" className="relative w-full pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden">
       {/* Subtle ambient depth glows */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[960px] h-[340px] sm:h-[420px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
       <div className="absolute top-1/4 right-[10%] w-[320px] sm:w-[480px] h-[260px] bg-amber-500/[0.015] rounded-full blur-3xl pointer-events-none" />

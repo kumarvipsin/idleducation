@@ -464,8 +464,8 @@ export function GetAppSection() {
       </div>
     </section>
 
-    {/* Learning App Section: Soft Cool-Blue-White surface with elevated white inner panel */}
-    <section className="w-full pt-6 sm:pt-8 pb-8 sm:pb-10 md:pb-12 bg-[#F7F9FC] dark:bg-background border-t border-slate-200/50 dark:border-slate-800/50">
+    {/* Learning App Section: Clean white background with elevated white inner panel */}
+    <section className="w-full pt-6 sm:pt-8 pb-8 sm:pb-10 md:pb-12 bg-white dark:bg-background">
       <div className="container mx-auto px-4 md:px-6">
         <div className="relative rounded-[22px] bg-white dark:bg-card p-5 sm:p-7 md:p-8 border border-slate-200/80 dark:border-border/60 shadow-sm md:shadow-md overflow-hidden">
           {/* Background Texture & Map Silhouette */}

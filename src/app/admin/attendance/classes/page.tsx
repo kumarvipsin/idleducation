@@ -56,6 +56,8 @@ export default function ClassesAndBatchesPage() {
     getDependencySummary,
     forceDeleteClass,
     forceDeleteBatch,
+    currentRole,
+    isDemoData,
   } = useAttendance();
 
   // Active selected class drill-down (defaults to 9th or first class)
@@ -373,7 +375,7 @@ export default function ClassesAndBatchesPage() {
                         </td>
                         <td className="py-3 px-4 text-right">
                           <div className="flex items-center justify-end gap-1.5">
-                            <Link href={`/admin/attendance/students?batch=${batch.name}`}>
+                            <Link href={`/admin/attendance/students?batchId=${batch.id}&classId=${batch.classId}`}>
                               <Button
                                 size="sm"
                                 variant="ghost"
@@ -683,7 +685,7 @@ export default function ClassesAndBatchesPage() {
           entityId={deleteClassConfirm?.id || ''}
           isDemoMode={isDemoData}
           currentRole={currentRole}
-          dependencies={getDependencySummary('Class', deleteClassConfirm?.id)}
+          dependencies={getDependencySummary('Class', deleteClassConfirm?.id || '')}
           onArchive={() => {
             if (deleteClassConfirm) {
               archiveClass(deleteClassConfirm.id);
@@ -708,7 +710,7 @@ export default function ClassesAndBatchesPage() {
           entityId={deleteBatchConfirm?.id || ''}
           isDemoMode={isDemoData}
           currentRole={currentRole}
-          dependencies={getDependencySummary('Batch', deleteBatchConfirm?.id)}
+          dependencies={getDependencySummary('Batch', deleteBatchConfirm?.id || '')}
           onArchive={() => {
             if (deleteBatchConfirm) {
               archiveBatch(deleteBatchConfirm.id);

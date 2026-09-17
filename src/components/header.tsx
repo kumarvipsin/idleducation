@@ -615,8 +615,8 @@ export function Header() {
                 )}
             >
                 <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                    <Link href="/" className="flex items-center justify-center -ml-2">
-                        <Image src="/idllogo.png" alt="IDL Education Logo" width={48} height={48} className="h-12 w-auto" />
+                    <Link href="/" className="flex items-center justify-center -ml-2 py-0.5">
+                        <Image src="/idllogo.png" alt="IDL Education Logo" width={120} height={120} className="h-[56px] sm:h-[58px] md:h-[60px] max-h-[60px] w-auto object-contain object-left" priority />
                     </Link>
 
                     <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex h-full">
@@ -845,9 +845,9 @@ export function Header() {
                                             <Image 
                                               src="/idllogo.png" 
                                               alt="IDL Education Logo" 
-                                              width={100} 
-                                              height={100} 
-                                              className="h-[38px] sm:h-[42px] w-auto object-contain object-left" 
+                                              width={140} 
+                                              height={140} 
+                                              className="h-[52px] sm:h-[56px] max-h-[56px] w-auto object-contain object-left" 
                                               priority 
                                             />
                                         </Link>

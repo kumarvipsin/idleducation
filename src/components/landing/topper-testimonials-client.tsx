@@ -77,7 +77,7 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
   }
 
   return (
-    <section className="relative w-full py-8 sm:py-10 md:py-12 bg-white dark:bg-background overflow-hidden">
+    <section className="relative w-full py-6 sm:py-7 md:py-8 bg-white dark:bg-background overflow-hidden">
       {/* Subtle brand ambiance */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[320px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
 

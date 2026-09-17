@@ -151,9 +151,9 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 
   return (
-    <section suppressHydrationWarning className="w-full py-2 sm:py-3 bg-white dark:bg-background">
-      <div className="container mx-auto px-3 sm:px-4 md:px-6">
-        <div className="relative rounded-2xl overflow-hidden shadow-sm border border-border/50 bg-[#06122E]">
+    <section suppressHydrationWarning className="w-full pt-0 pb-0 bg-white dark:bg-background">
+      <div className="w-full px-0">
+        <div className="relative w-full rounded-none overflow-hidden bg-[#06122E] [transform:translateZ(0)]">
           <Carousel 
             setApi={setApi}
             opts={{ loop: true }}
@@ -165,37 +165,37 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                 const meta = getSlideMeta(slide, index);
 
                 return (
-                  <CarouselItem key={slide.id}>
-                    {/* Desktop Composition (>= 1024px): Preserved wide banner billboard */}
-                    <div className="hidden lg:block relative w-full aspect-[16/6]">
+                  <CarouselItem key={slide.id} className="rounded-none overflow-hidden">
+                    {/* Desktop Composition (>= 1024px): Full height edge-to-edge banner billboard */}
+                    <div className="hidden lg:block relative w-full aspect-[16/6] min-h-[400px] xl:min-h-[440px] rounded-none overflow-hidden [transform:translateZ(0)]">
                       <GcsImage
                         filePath={slide.imageUrl}
                         alt={slide.title || 'Educational Excellence'}
                         fill
-                        className="object-cover"
+                        className="object-cover object-center rounded-none"
                       />
                     </div>
 
-                    {/* Mobile & Tablet Composition (< 1024px: 320px, 375px, 390px, 430px, 768px) */}
+                    {/* Mobile & Tablet Composition (< 1024px) */}
                     <Link
                       href={meta.link}
-                      className="block lg:hidden relative w-full h-[200px] sm:h-[250px] md:h-[290px] overflow-hidden select-none bg-[#06122E] group"
+                      className="block lg:hidden relative w-full h-[240px] sm:h-[280px] md:h-[320px] overflow-hidden select-none bg-[#06122E] group rounded-none [transform:translateZ(0)]"
                     >
-                      {/* Primary Student / Artwork Visual (Confined strictly to right side; zero overlap behind text) */}
+                      {/* Primary Student / Artwork Visual */}
                       <div className="absolute top-0 right-0 bottom-0 w-[46%] sm:w-[48%] md:w-[50%] overflow-hidden pointer-events-none">
                         <GcsImage
                           filePath={slide.imageUrl}
                           alt={slide.title || 'Educational Excellence'}
                           fill
-                          className="object-cover object-right"
+                          className="object-cover object-center"
                         />
-                        {/* Soft left-edge blend into solid background so no hard seam is visible */}
+                        {/* Soft left-edge blend */}
                         <div className="absolute inset-y-0 left-0 w-8 sm:w-12 bg-gradient-to-r from-[#06122E] to-transparent z-10" />
-                        {/* Soft bottom-edge scrim for carousel indicator cleanliness */}
+                        {/* Soft bottom-edge scrim */}
                         <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#06122E]/80 to-transparent z-10" />
                       </div>
 
-                      {/* Highest-Priority Content Layer on Solid Navy (Zero ghosted or duplicate background text) */}
+                      {/* Content Layer */}
                       <div className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-8 md:px-10 max-w-[58%] sm:max-w-[54%] md:max-w-[50%]">
                         {/* Category Badge */}
                         <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold tracking-widest text-[#F5B51B] uppercase mb-1 sm:mb-1.5">
@@ -222,8 +222,8 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
             </CarouselContent>
           </Carousel>
           
-          {/* Carousel Indicators */}
-          <div className="absolute bottom-2.5 sm:bottom-3 md:bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 z-20 flex justify-center gap-1.5 sm:gap-2">
+          {/* Carousel Indicators: Positioned cleanly above overlapping course shelf */}
+          <div className="absolute bottom-10 sm:bottom-12 md:bottom-14 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 flex justify-center gap-1.5 sm:gap-2">
             {displaySlides.map((_, i) => (
               <button
                 key={i}

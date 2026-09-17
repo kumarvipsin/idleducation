@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { useAttendance } from '@/context/attendance-context';
 import {
   GraduationCap,
@@ -43,28 +44,52 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { TStudent } from '@/lib/attendance-store';
+import { SmartDeleteDialog } from '@/components/attendance/smart-delete-dialog';
 
 export default function StudentsDirectoryPage() {
   const {
     students,
     classes,
     batches,
+    currentRole,
+    isDemoData,
+    getDependencySummary,
     addStudent,
     updateStudent,
     archiveStudent,
     restoreStudent,
     transferStudentBatch,
     deleteStudentSafe,
+    forceDeleteStudent,
     bulkArchiveStudents,
     bulkTransferStudents,
   } = useAttendance();
 
-  // Filters & Search
+  const searchParams = useSearchParams();
+
+  // Filters & Search — pre-filled from URL params when coming from Classes & Batches page
+  const urlBatchId = searchParams.get('batchId') || 'all';
+  const urlClassId = searchParams.get('classId') || 'all';
+
   const [search, setSearch] = useState('');
   const [classFilter, setClassFilter] = useState('all');
   const [batchFilter, setBatchFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'archived'>('all');
   const [sortBy, setSortBy] = useState<'name' | 'roll' | 'admission'>('roll');
+
+  // Initialize filters from URL once batches/classes are loaded
+  useEffect(() => {
+    if (urlBatchId !== 'all' && batches.length > 0) {
+      const batchObj = batches.find(b => b.id === urlBatchId);
+      if (batchObj) {
+        setBatchFilter(batchObj.id);
+        setClassFilter(batchObj.classId);
+      }
+    } else if (urlClassId !== 'all' && classes.length > 0) {
+      setClassFilter(urlClassId);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlBatchId, urlClassId, batches.length, classes.length]);
 
   // Multi-select bulk actions
   const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([]);
@@ -75,24 +100,53 @@ export default function StudentsDirectoryPage() {
   const [transferStudentItem, setTransferStudentItem] = useState<TStudent | null>(null);
   const [deleteStudentConfirm, setDeleteStudentConfirm] = useState<TStudent | null>(null);
   const [isBulkTransferOpen, setIsBulkTransferOpen] = useState(false);
+  const [isBulkDeleteOpen, setIsBulkDeleteOpen] = useState(false);
+  const [isBulkDeleteAllOpen, setIsBulkDeleteAllOpen] = useState(false);
 
   // Form states for Add / Edit
+  // Helper to compute dependency summary for bulk delete
+  const computeBulkDependency = () => {
+    return {
+      batches: 0,
+      students: selectedStudentIds.length,
+      schedules: 0,
+      attendanceSessions: 0,
+      leaveRecords: 0,
+      callRecords: 0,
+    };
+  };
   const [formName, setFormName] = useState('');
   const [formDob, setFormDob] = useState('2011-06-15');
   const [formParentName, setFormParentName] = useState('');
   const [formStudentPhone, setFormStudentPhone] = useState('');
   const [formParentPhone, setFormParentPhone] = useState('');
   const [formAddress, setFormAddress] = useState('');
-  const [formBatch, setFormBatch] = useState('9A');
-  const [formAdmissionDate, setFormAdmissionDate] = useState('2026-04-01');
+  // formBatch stores batch ID (not name) for precise assignment
+  const [formBatch, setFormBatch] = useState('');
+  const [formAdmissionDate, setFormAdmissionDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
   const [formNotes, setFormNotes] = useState('');
 
-  // Transfer Form states
-  const [transferToBatch, setTransferToBatch] = useState('9B');
-  const [transferEffectiveDate, setTransferEffectiveDate] = useState('2026-09-15');
-  const [transferReason, setTransferReason] = useState('Academic stream adjustment requested by parent');
+  // Pre-fill formBatch from URL when opening Add Student from a specific batch
+  useEffect(() => {
+    if (urlBatchId !== 'all' && batches.length > 0) {
+      const batchObj = batches.find(b => b.id === urlBatchId);
+      if (batchObj) setFormBatch(batchObj.id);
+    } else if (batches.length > 0 && !formBatch) {
+      setFormBatch(batches[0].id);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [urlBatchId, batches.length]);
 
-  // Filter & Sort logic
+  // Transfer Form states
+  const [transferToBatch, setTransferToBatch] = useState('');
+  const [transferEffectiveDate, setTransferEffectiveDate] = useState(
+    new Date().toISOString().split('T')[0]
+  );
+  const [transferReason, setTransferReason] = useState('');
+
+  // Filter & Sort logic — uses IDs for class/batch to avoid cross-class name collisions
   const filteredStudents = students.filter(s => {
     if (search.trim()) {
       const q = search.toLowerCase();
@@ -103,8 +157,8 @@ export default function StudentsDirectoryPage() {
         String(s.rollNo) === q;
       if (!match) return false;
     }
-    if (classFilter !== 'all' && s.className !== classFilter) return false;
-    if (batchFilter !== 'all' && s.batchName !== batchFilter) return false;
+    if (classFilter !== 'all' && s.classId !== classFilter) return false;
+    if (batchFilter !== 'all' && s.batchId !== batchFilter) return false;
     if (statusFilter !== 'all' && s.status !== statusFilter) return false;
     return true;
   });
@@ -132,16 +186,18 @@ export default function StudentsDirectoryPage() {
 
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formName.trim()) return;
-    const batchObj = batches.find(b => b.name === formBatch);
+    if (!formName.trim() || !formBatch) return;
+    // formBatch is a batch ID — look up full batch object for denormalized fields
+    const batchObj = batches.find(b => b.id === formBatch);
+    if (!batchObj) return;
 
     addStudent({
       name: formName.trim(),
-      rollNo: students.filter(s => s.batchId === formBatch).length + 1,
-      classId: batchObj?.classId || 'c9',
-      className: batchObj?.className || '9th',
-      batchId: formBatch,
-      batchName: formBatch,
+      rollNo: students.filter(s => s.batchId === batchObj.id).length + 1,
+      classId: batchObj.classId,
+      className: batchObj.className || batchObj.name,
+      batchId: batchObj.id,
+      batchName: batchObj.name,
       admissionDate: formAdmissionDate,
       dob: formDob,
       status: 'active',
@@ -284,14 +340,14 @@ export default function StudentsDirectoryPage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <div className="w-32">
-              <Select value={classFilter} onValueChange={setClassFilter}>
+              <Select value={classFilter} onValueChange={(v) => { setClassFilter(v); setBatchFilter('all'); }}>
                 <SelectTrigger className="h-9 text-xs font-medium">
                   <SelectValue placeholder="Class" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Classes</SelectItem>
                   {classes.map(c => (
-                    <SelectItem key={c.id} value={c.name}>
+                    <SelectItem key={c.id} value={c.id}>
                       Class {c.name}
                     </SelectItem>
                   ))}
@@ -306,11 +362,13 @@ export default function StudentsDirectoryPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">All Batches</SelectItem>
-                  {batches.map(b => (
-                    <SelectItem key={b.id} value={b.name}>
-                      Batch {b.name}
-                    </SelectItem>
-                  ))}
+                  {batches
+                    .filter(b => classFilter === 'all' || b.classId === classFilter)
+                    .map(b => (
+                      <SelectItem key={b.id} value={b.id}>
+                        {b.className ? `Class ${b.className} — ` : ''}Batch {b.name}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>
@@ -345,12 +403,94 @@ export default function StudentsDirectoryPage() {
 
         {/* Multi-Select Floating Bulk Strip */}
         {selectedStudentIds.length > 0 && (
-          <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 flex flex-wrap items-center justify-between gap-3 text-xs">
-            <div className="flex items-center gap-2 text-blue-900 font-bold">
-              <span>{selectedStudentIds.length} students selected</span>
-            </div>
+  <div className="p-2.5 rounded-lg bg-blue-50 border border-blue-200 flex flex-wrap items-center justify-between gap-3 text-xs">
+    <div className="flex items-center gap-2 text-blue-900 font-bold">
+      <span>{selectedStudentIds.length} students selected</span>
+    </div>
+    <div className="flex items-center gap-2">
+      <Button
+        size="sm"
+        onClick={() => setIsBulkTransferOpen(true)}
+        className="bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs h-7 px-3 gap-1"
+      >
+        <ArrowRightLeft className="h-3 w-3" /> Transfer Batch
+      </Button>
+      <Button
+        size="sm"
+        variant="outline"
+        onClick={() => bulkArchiveStudents(selectedStudentIds)}
+        className="text-amber-800 border-amber-300 bg-amber-50 hover:bg-amber-100 font-bold text-xs h-7 px-3 gap-1"
+      >
+        <Archive className="h-3 w-3" /> Archive Selected
+      </Button>
+      <Button
+        size="sm"
+        variant="ghost"
+        onClick={() => setSelectedStudentIds([])}
+        className="text-slate-500 h-7 text-xs"
+      >
+        Clear Selection
+      </Button>
+      <Button
+        size="sm"
+        variant="destructive"
+        onClick={() => setIsBulkDeleteOpen(true)}
+        className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs h-7 px-3 gap-1"
+      >
+        Delete Selected
+      </Button>
+      {isDemoData && (
+        <Button
+          size="sm"
+          variant="destructive"
+          onClick={() => setIsBulkDeleteAllOpen(true)}
+          className="bg-red-800 hover:bg-red-900 text-white font-bold text-xs h-7 px-3 gap-1 ml-2"
+        >
+          Delete All Students
+        </Button>
+      )}
+    </div>
+  </div>
+)}
 
-            <div className="flex items-center gap-2">
+      {/* Bulk Delete Confirmation Dialogs */}
+      <SmartDeleteDialog
+        open={isBulkDeleteOpen}
+        onClose={() => setIsBulkDeleteOpen(false)}
+        entityType="Student"
+        entityName={`${selectedStudentIds.length} selected student${selectedStudentIds.length > 1 ? 's' : ''}`}
+        entityId=""
+        isDemoMode={isDemoData}
+        currentRole={currentRole}
+        dependencies={computeBulkDependency()}
+        onForceDelete={(reason) => {
+          selectedStudentIds.forEach(id => forceDeleteStudent(id, reason));
+          setSelectedStudentIds([]);
+          setIsBulkDeleteOpen(false);
+        }}
+      />
+      <SmartDeleteDialog
+        open={isBulkDeleteAllOpen}
+        onClose={() => setIsBulkDeleteAllOpen(false)}
+        entityType="Student"
+        entityName={`All ${students.length} students`}
+        entityId=""
+        isDemoMode={isDemoData}
+        currentRole={currentRole}
+        dependencies={{
+          batches: 0,
+          students: students.length,
+          schedules: 0,
+          attendanceSessions: 0,
+          leaveRecords: 0,
+          callRecords: 0,
+        }}
+        onForceDelete={(reason) => {
+          students.forEach(s => forceDeleteStudent(s.id, reason));
+          setSelectedStudentIds([]);
+          setIsBulkDeleteAllOpen(false);
+        }}
+      />
               <Button
                 size="sm"
                 onClick={() => setIsBulkTransferOpen(true)}
@@ -378,9 +518,9 @@ export default function StudentsDirectoryPage() {
               >
                 Clear Selection
               </Button>
-            </div>
-          </div>
-        )}
+  
+
+
       </div>
 
       {/* Students Table */}
@@ -524,7 +664,7 @@ export default function StudentsDirectoryPage() {
                             variant="ghost"
                             onClick={() => {
                               setTransferStudentItem(st);
-                              setTransferToBatch(st.batchName === '9A' ? '9B' : '9A');
+                              setTransferToBatch('');
                             }}
                             className="text-purple-700 hover:bg-purple-50 h-7 px-2 text-xs"
                             title="Transfer Batch"
@@ -563,12 +703,13 @@ export default function StudentsDirectoryPage() {
                         </div>
                       </td>
                     </tr>
-                  );
-                })}
+                 );
+                                                                   })}
               </tbody>
             </table>
           )}
-        </div>
+          </div>
+
       </Card>
 
       {/* Add Student Modal */}
@@ -609,12 +750,12 @@ export default function StudentsDirectoryPage() {
                 <Label className="text-xs font-semibold">Assign Batch *</Label>
                 <Select value={formBatch} onValueChange={setFormBatch}>
                   <SelectTrigger className="mt-1 h-9 text-xs">
-                    <SelectValue />
+                    <SelectValue placeholder="Select batch..." />
                   </SelectTrigger>
                   <SelectContent>
                     {batches.map(b => (
-                      <SelectItem key={b.id} value={b.name}>
-                        Class {b.className} - Batch {b.name} ({b.room})
+                      <SelectItem key={b.id} value={b.id}>
+                        Class {b.className || b.name} — Batch {b.name} ({b.room})
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -812,10 +953,10 @@ export default function StudentsDirectoryPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {batches
-                    .filter(b => b.name !== transferStudentItem?.batchName)
+                    .filter(b => b.id !== transferStudentItem?.batchId)
                     .map(b => (
-                      <SelectItem key={b.id} value={b.name}>
-                        Class {b.className} - Batch {b.name} ({b.room})
+                      <SelectItem key={b.id} value={b.id}>
+                        Class {b.className} — Batch {b.name} ({b.room})
                       </SelectItem>
                     ))}
                 </SelectContent>
@@ -873,8 +1014,8 @@ export default function StudentsDirectoryPage() {
                 </SelectTrigger>
                 <SelectContent>
                   {batches.map(b => (
-                    <SelectItem key={b.id} value={b.name}>
-                      Class {b.className} - Batch {b.name}
+                    <SelectItem key={b.id} value={b.id}>
+                      Class {b.className} — Batch {b.name}
                     </SelectItem>
                   ))}
                 </SelectContent>
@@ -904,42 +1045,21 @@ export default function StudentsDirectoryPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Delete Student Confirmation Modal */}
-      <Dialog open={!!deleteStudentConfirm} onOpenChange={open => !open && setDeleteStudentConfirm(null)}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-base font-bold text-rose-700 flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-rose-600" />
-              Delete Student {deleteStudentConfirm?.name}?
-            </DialogTitle>
-            <DialogDescription className="text-xs">
-              Permanent deletion is blocked if this student has recorded attendance history.
-            </DialogDescription>
-          </DialogHeader>
-
-          <p className="text-xs text-slate-600 py-2">
-            If this student has ever attended a class, use <strong>Archive / Deactivate</strong> instead to protect institute attendance records and transcripts.
-          </p>
-
-          <DialogFooter className="gap-2">
-            <Button variant="outline" size="sm" onClick={() => setDeleteStudentConfirm(null)}>
-              Cancel
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => {
-                if (deleteStudentConfirm) {
-                  deleteStudentSafe(deleteStudentConfirm.id);
-                  setDeleteStudentConfirm(null);
-                }
-              }}
-              className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs"
-            >
-              Confirm Permanent Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {/* Smart Delete Student Modal */}
+      {deleteStudentConfirm && (
+        <SmartDeleteDialog
+          open={!!deleteStudentConfirm}
+          onClose={() => setDeleteStudentConfirm(null)}
+          entityType="Student"
+          entityName={deleteStudentConfirm.name}
+          entityId={deleteStudentConfirm.id}
+          isDemoMode={isDemoData || (deleteStudentConfirm.isDemo ?? false)}
+          currentRole={currentRole}
+          dependencies={getDependencySummary('student', deleteStudentConfirm.id)}
+          onArchive={() => archiveStudent(deleteStudentConfirm.id)}
+          onForceDelete={(reason) => forceDeleteStudent(deleteStudentConfirm.id, reason)}
+        />
+      )}
     </div>
   );
 }

@@ -35,16 +35,21 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { TTeacher } from '@/lib/attendance-store';
+import { SmartDeleteDialog } from '@/components/attendance/smart-delete-dialog';
 
 export default function TeachersPage() {
   const {
     teachers,
     schedules,
+    currentRole,
+    isDemoData,
+    getDependencySummary,
     addTeacher,
     updateTeacher,
     archiveTeacher,
     restoreTeacher,
     deleteTeacherSafe,
+    forceDeleteTeacher,
   } = useAttendance();
 
   const [search, setSearch] = useState('');
@@ -462,41 +467,26 @@ export default function TeachersPage() {
       </Dialog>
 
       {/* Delete Teacher Confirmation */}
-      <Dialog open={!!deleteConfirmItem} onOpenChange={open => !open && setDeleteConfirmItem(null)}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="text-base font-bold text-rose-700 flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-rose-600" />
-              Delete Teacher {deleteConfirmItem?.name}?
-            </DialogTitle>
-            <DialogDescription className="text-xs">
-              If this teacher has conducted any classes, use Archive instead to protect past class attendance records.
-            </DialogDescription>
-          </DialogHeader>
-
-          <p className="text-xs text-slate-600 py-2">
-            Archiving preserves the teacher&apos;s name on past class transcripts without allowing new assignments.
-          </p>
-
-          <DialogFooter className="gap-2">
-            <Button variant="outline" size="sm" onClick={() => setDeleteConfirmItem(null)}>
-              Cancel
-            </Button>
-            <Button
-              size="sm"
-              onClick={() => {
-                if (deleteConfirmItem) {
-                  deleteTeacherSafe(deleteConfirmItem.id);
-                  setDeleteConfirmItem(null);
-                }
-              }}
-              className="bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs"
-            >
-              Confirm Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      {deleteConfirmItem && (
+        <SmartDeleteDialog
+          open={!!deleteConfirmItem}
+          onClose={() => setDeleteConfirmItem(null)}
+          entityType="Teacher"
+          entityName={deleteConfirmItem.name}
+          entityId={deleteConfirmItem.id}
+          isDemoMode={isDemoData || (deleteConfirmItem.isDemo ?? false)}
+          currentRole={currentRole}
+          dependencies={getDependencySummary('teacher', deleteConfirmItem.id)}
+          onArchive={() => {
+            archiveTeacher(deleteConfirmItem.id);
+            setDeleteConfirmItem(null);
+          }}
+          onForceDelete={(reason) => {
+            forceDeleteTeacher(deleteConfirmItem.id, reason);
+            setDeleteConfirmItem(null);
+          }}
+        />
+      )}
     </div>
   );
 }

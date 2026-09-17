@@ -279,7 +279,7 @@ const courses: CourseItem[] = [
 
 export function DiscoverCoursesSection() {
     return (
-        <section suppressHydrationWarning className="relative w-full bg-gradient-to-b from-transparent via-[#F7F9FD] to-[#F7F9FD] dark:bg-background -mt-5 sm:-mt-7 md:-mt-9 lg:-mt-11 z-20 pt-6 sm:pt-7 md:pt-8 pb-5 sm:pb-6 overflow-hidden">
+        <section suppressHydrationWarning className="relative w-full bg-white dark:bg-background -mt-7 sm:-mt-9 md:-mt-11 lg:-mt-14 z-30 pt-0 pb-4 sm:pb-5 overflow-visible">
             
             {/* Ambient Background Texture: Faint Academic Dot Grid (3-4% Opacity) */}
             <div 
@@ -308,11 +308,11 @@ export function DiscoverCoursesSection() {
                 {/* Floating Pure White Course Shelf (Visual Separation from #F7F9FD Background) */}
                 <div className="relative bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl sm:rounded-3xl p-3 min-[360px]:p-3.5 sm:p-4 shadow-[0_12px_36px_-6px_rgba(16,42,104,0.07),0_4px_16px_-2px_rgba(16,42,104,0.03)] overflow-hidden">
                     
-                    {/* Eyebrow: Subtle section eyebrow with tiny IDL orange accent (no button/pill styling) */}
+                    {/* Eyebrow: Centered uppercase COURSES WE OFFER with bullet point, without background highlight */}
                     <div className="relative z-10 flex items-center justify-center gap-2 mb-3 min-[360px]:mb-3.5 sm:mb-4">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B16] shrink-0" aria-hidden="true" />
-                        <span className="text-[11px] sm:text-[11.5px] font-bold tracking-wider text-[#0B1F4B] dark:text-blue-200 uppercase select-none">
-                            Courses We Offer
+                        <span className="text-[11px] sm:text-[12px] font-bold tracking-wider text-[#0B1F4B] dark:text-blue-200 uppercase select-none">
+                            COURSES WE OFFER
                         </span>
                     </div>
 

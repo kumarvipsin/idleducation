@@ -54,6 +54,7 @@ export interface TStudent {
   notes?: string;
   batchHistory?: TStudentBatchTransfer[];
   createdAt?: string;
+  isDemo?: boolean;
 }
 
 export interface TClass {
@@ -64,6 +65,7 @@ export interface TClass {
   status: 'active' | 'archived';
   description?: string;
   createdAt?: string;
+  isDemo?: boolean;
 }
 
 export interface TBatch {
@@ -77,6 +79,7 @@ export interface TBatch {
   endDate?: string;
   description?: string;
   createdAt?: string;
+  isDemo?: boolean;
 }
 
 export interface TTeacher {
@@ -91,6 +94,7 @@ export interface TTeacher {
   assignedClasses?: string[];
   assignedBatches?: string[];
   notes?: string;
+  isDemo?: boolean;
 }
 
 export interface TSubject {
@@ -102,6 +106,7 @@ export interface TSubject {
   status: 'active' | 'archived';
   description?: string;
   avgAttendance?: string;
+  isDemo?: boolean;
 }
 
 export interface TScheduleItem {
@@ -124,6 +129,7 @@ export interface TScheduleItem {
   holidayTitle?: string;
   room?: string;
   notes?: string;
+  isDemo?: boolean;
 }
 
 export interface TStudentSessionRecord {
@@ -146,6 +152,7 @@ export interface TStudentSessionRecord {
   lastEditedAt?: string;
   lastEditedBy?: string;
   editReason?: string;
+  isDemo?: boolean;
 }
 
 export interface TClassSession {
@@ -165,6 +172,7 @@ export interface TClassSession {
   startedAt?: string;
   endedAt?: string;
   studentRecords: Record<string, TStudentSessionRecord>;
+  isDemo?: boolean;
 }
 
 export interface TLeaveRequest {
@@ -183,6 +191,7 @@ export interface TLeaveRequest {
   status: LeaveApprovalStatus;
   remark?: string;
   appliedOn: string;
+  isDemo?: boolean;
 }
 
 export interface TAbsenceFollowUp {
@@ -202,6 +211,7 @@ export interface TAbsenceFollowUp {
   remark?: string;
   lastContactedAt?: string;
   contactNumber: string;
+  isDemo?: boolean;
 }
 
 export interface THoliday {
@@ -210,7 +220,12 @@ export interface THoliday {
   title: string;
   type: 'Institute Holiday' | 'Class Cancelled' | 'Teacher Unavailable' | 'Other';
   reason: string;
+  branchName?: string;
+  appliedTo?: 'all' | 'selected';
+  targetClasses?: string[];
+  targetBatches?: string[];
   status?: 'active' | 'archived';
+  isDemo?: boolean;
 }
 
 export interface TAuditLog {
@@ -248,12 +263,24 @@ export interface TAuditLog {
     | 'Schedule Added'
     | 'Schedule Rescheduled'
     | 'Schedule Cancelled'
+    | 'Schedule Deleted'
     | 'Attendance Edited'
     | 'Attendance Voided'
     | 'Holiday Declared'
+    | 'Holiday Edited'
+    | 'Holiday Archived'
     | 'Holiday Deleted'
+    | 'Leave Added'
+    | 'Leave Approved'
+    | 'Leave Rejected'
+    | 'Leave Deleted'
+    | 'Session Started'
+    | 'Session Completed'
+    | 'Audit Logs Cleared'
+    | 'Audit Log Deleted'
     | 'Demo Data Reset'
-    | 'Demo Data Cleared';
+    | 'Demo Data Cleared'
+    | string;
   entity: string;
   entityId: string;
   previousValue?: string;
@@ -340,46 +367,169 @@ export function calculateStudentAttendanceTiming(
 }
 
 // -----------------------------------------------------------------------------
+// DATE NORMALIZATION & BATCH APPLICABILITY RESOLUTION
+// -----------------------------------------------------------------------------
+
+export function normalizeDateString(dateStr: string): string {
+  if (!dateStr) return '';
+  const trimmed = dateStr.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return trimmed;
+
+  const dmyMatch = trimmed.match(/^(\d{1,2})\s+([A-Za-z]{3,9})\s+(\d{4})$/);
+  if (dmyMatch) {
+    const day = dmyMatch[1].padStart(2, '0');
+    const monthStr = dmyMatch[2].slice(0, 3).toLowerCase();
+    const year = dmyMatch[3];
+    const monthNames: Record<string, string> = {
+      jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
+      jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12',
+    };
+    const month = monthNames[monthStr] || '01';
+    return `${year}-${month}-${day}`;
+  }
+
+  const parsed = new Date(trimmed);
+  if (!isNaN(parsed.getTime())) {
+    const y = parsed.getFullYear();
+    const m = String(parsed.getMonth() + 1).padStart(2, '0');
+    const d = String(parsed.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+  return trimmed;
+}
+
+export function formatDateDisplay(dateStr: string): string {
+  const norm = normalizeDateString(dateStr);
+  if (!norm || !norm.includes('-')) return dateStr;
+  const parts = norm.split('-').map(Number);
+  if (parts.length < 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) return dateStr;
+  const [y, m, d] = parts;
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return `${String(d).padStart(2, '0')} ${months[m - 1] || 'Jan'} ${y}`;
+}
+
+export function formatMinutesToHoursDisplay(minutes: number): string {
+  if (minutes <= 0) return '0h';
+  const h = Math.floor(minutes / 60);
+  const m = Math.round(minutes % 60);
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
+}
+
+export function getStudentBatchOnDate(student: TStudent, dateStr: string): string {
+  const normDate = normalizeDateString(dateStr);
+  if (!student.batchHistory || student.batchHistory.length === 0) {
+    return student.batchId || student.batchName;
+  }
+  const sorted = [...student.batchHistory].sort((a, b) =>
+    normalizeDateString(a.effectiveDate).localeCompare(normalizeDateString(b.effectiveDate))
+  );
+
+  for (const transfer of sorted) {
+    const eff = normalizeDateString(transfer.effectiveDate);
+    if (normDate < eff) {
+      return transfer.fromBatchId || transfer.fromBatchName;
+    }
+  }
+  const last = sorted[sorted.length - 1];
+  return last.toBatchId || last.toBatchName;
+}
+
+export function isClassApplicableToStudent(
+  student: TStudent,
+  sessionDate: string,
+  sessionBatchId: string
+): boolean {
+  const normSessionDate = normalizeDateString(sessionDate);
+  const normAdmissionDate = normalizeDateString(student.admissionDate);
+
+  // If class was conducted before the student was admitted, NOT applicable
+  if (normAdmissionDate && normSessionDate < normAdmissionDate) {
+    return false;
+  }
+
+  // If student has an exit date and class is after exit date, NOT applicable
+  if (student.exitDate) {
+    const normExitDate = normalizeDateString(student.exitDate);
+    if (normSessionDate > normExitDate) {
+      return false;
+    }
+  }
+
+  const activeBatch = getStudentBatchOnDate(student, sessionDate);
+  const b1 = (activeBatch || '').toLowerCase().replace(/^batch\s*/i, '').trim();
+  const b2 = (sessionBatchId || '').toLowerCase().replace(/^batch\s*/i, '').trim();
+  return b1 === b2;
+}
+
+export function isHolidayOnDate(
+  holidays: THoliday[] | undefined,
+  dateStr: string,
+  batchIdOrName?: string
+): THoliday | null {
+  if (!holidays || holidays.length === 0) return null;
+  const normDate = normalizeDateString(dateStr);
+  const cleanBatch = (batchIdOrName || '').toLowerCase().replace(/^batch\s*/i, '').trim();
+
+  for (const h of holidays) {
+    if (h.status === 'archived') continue;
+    if (normalizeDateString(h.date) !== normDate) continue;
+
+    if (h.appliedTo === 'selected') {
+      if (cleanBatch && h.targetBatches && h.targetBatches.length > 0) {
+        const matches = h.targetBatches.some(
+          tb => tb.toLowerCase().replace(/^batch\s*/i, '').trim() === cleanBatch
+        );
+        if (!matches) continue;
+      }
+    }
+    return h;
+  }
+  return null;
+}
+
+// -----------------------------------------------------------------------------
 // SEED DATA - REALISTIC EDUCATIONAL INSTITUTE
 // -----------------------------------------------------------------------------
 
 export const SEED_CLASSES: TClass[] = [
-  { id: 'c9', name: '9th', displayName: 'Class 9th (CBSE)', batches: ['9A', '9B'], status: 'active', createdAt: '2026-03-01' },
-  { id: 'c10', name: '10th', displayName: 'Class 10th (CBSE Board)', batches: ['10A', '10B'], status: 'active', createdAt: '2026-03-01' },
-  { id: 'c11', name: '11th', displayName: 'Class 11th (JEE/NEET)', batches: ['11A'], status: 'active', createdAt: '2026-03-01' },
-  { id: 'c12', name: '12th', displayName: 'Class 12th (Board & Entrance)', batches: ['12A'], status: 'active', createdAt: '2026-03-01' },
+  { id: 'c9', name: '9th', displayName: 'Class 9th (CBSE)', batches: ['9A', '9B'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c10', name: '10th', displayName: 'Class 10th (CBSE Board)', batches: ['10A', '10B'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c11', name: '11th', displayName: 'Class 11th (JEE/NEET)', batches: ['11A'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c12', name: '12th', displayName: 'Class 12th (Board & Entrance)', batches: ['12A'], status: 'active', createdAt: '2026-03-01', isDemo: true },
 ];
 
 export const SEED_BATCHES: TBatch[] = [
-  { id: '9A', name: '9A', classId: 'c9', className: '9th', room: 'Room 101', status: 'active', startDate: '2026-04-01', description: 'Morning foundational batch' },
-  { id: '9B', name: '9B', classId: 'c9', className: '9th', room: 'Room 102', status: 'active', startDate: '2026-04-01', description: 'Afternoon standard batch' },
-  { id: '10A', name: '10A', classId: 'c10', className: '10th', room: 'Hall A', status: 'active', startDate: '2026-03-25', description: 'Board examination primary batch' },
-  { id: '10B', name: '10B', classId: 'c10', className: '10th', room: 'Hall B', status: 'active', startDate: '2026-04-01', description: 'Board examination evening batch' },
-  { id: '11A', name: '11A', classId: 'c11', className: '11th', room: 'Lab 1', status: 'active', startDate: '2026-04-01', description: 'Science & Entrance intensive' },
-  { id: '12A', name: '12A', classId: 'c12', className: '12th', room: 'Auditorium', status: 'active', startDate: '2026-04-01', description: 'Target 2027 competitive batch' },
+  { id: '9A', name: '9A', classId: 'c9', className: '9th', room: 'Room 101', status: 'active', startDate: '2026-04-01', description: 'Morning foundational batch', isDemo: true },
+  { id: '9B', name: '9B', classId: 'c9', className: '9th', room: 'Room 102', status: 'active', startDate: '2026-04-01', description: 'Afternoon standard batch', isDemo: true },
+  { id: '10A', name: '10A', classId: 'c10', className: '10th', room: 'Hall A', status: 'active', startDate: '2026-03-25', description: 'Board examination primary batch', isDemo: true },
+  { id: '10B', name: '10B', classId: 'c10', className: '10th', room: 'Hall B', status: 'active', startDate: '2026-04-01', description: 'Board examination evening batch', isDemo: true },
+  { id: '11A', name: '11A', classId: 'c11', className: '11th', room: 'Lab 1', status: 'active', startDate: '2026-04-01', description: 'Science & Entrance intensive', isDemo: true },
+  { id: '12A', name: '12A', classId: 'c12', className: '12th', room: 'Auditorium', status: 'active', startDate: '2026-04-01', description: 'Target 2027 competitive batch', isDemo: true },
 ];
 
 export const SEED_TEACHERS: TTeacher[] = [
-  { id: 't1', name: 'Amod Sharma', subject: 'Mathematics', phone: '+91 98765 43210', email: 'amod@idleducation.com', status: 'active', joiningDate: '2024-06-01', assignedClasses: ['9th', '11th'], assignedBatches: ['9A', '11A'], notes: 'Academic Director & Math Head' },
-  { id: 't2', name: 'Nitin Vijay Sir', subject: 'English & Physics', phone: '+91 98765 43211', email: 'nitin@idleducation.com', status: 'active', joiningDate: '2024-07-15', assignedClasses: ['9th', '10th'], assignedBatches: ['9B', '10A'] },
-  { id: 't3', name: 'Rakesh Sir', subject: 'Science & Chemistry', phone: '+91 98765 43212', email: 'rakesh@idleducation.com', status: 'active', joiningDate: '2025-01-10', assignedClasses: ['9th', '10th'], assignedBatches: ['9A', '10B'] },
-  { id: 't4', name: 'Priya Ma\'am', subject: 'Biology & Chemistry', phone: '+91 98765 43213', email: 'priya@idleducation.com', status: 'active', joiningDate: '2025-03-01', assignedClasses: ['11th', '12th'], assignedBatches: ['12A'] },
-  { id: 't5', name: 'Sanjay Verma Sir', subject: 'Social Science (SST)', phone: '+91 98765 43214', email: 'sanjay@idleducation.com', status: 'active', joiningDate: '2025-04-01', assignedClasses: ['9th', '10th'], assignedBatches: ['9A', '9B'] },
+  { id: 't1', name: 'Amod Sharma', subject: 'Mathematics', phone: '+91 98765 43210', email: 'amod@idleducation.com', status: 'active', joiningDate: '2024-06-01', assignedClasses: ['9th', '11th'], assignedBatches: ['9A', '11A'], notes: 'Academic Director & Math Head', isDemo: true },
+  { id: 't2', name: 'Nitin Vijay Sir', subject: 'English & Physics', phone: '+91 98765 43211', email: 'nitin@idleducation.com', status: 'active', joiningDate: '2024-07-15', assignedClasses: ['9th', '10th'], assignedBatches: ['9B', '10A'], isDemo: true },
+  { id: 't3', name: 'Rakesh Sir', subject: 'Science & Chemistry', phone: '+91 98765 43212', email: 'rakesh@idleducation.com', status: 'active', joiningDate: '2025-01-10', assignedClasses: ['9th', '10th'], assignedBatches: ['9A', '10B'], isDemo: true },
+  { id: 't4', name: 'Priya Ma\'am', subject: 'Biology & Chemistry', phone: '+91 98765 43213', email: 'priya@idleducation.com', status: 'active', joiningDate: '2025-03-01', assignedClasses: ['11th', '12th'], assignedBatches: ['12A'], isDemo: true },
+  { id: 't5', name: 'Sanjay Verma Sir', subject: 'Social Science (SST)', phone: '+91 98765 43214', email: 'sanjay@idleducation.com', status: 'active', joiningDate: '2025-04-01', assignedClasses: ['9th', '10th'], assignedBatches: ['9A', '9B'], isDemo: true },
 ];
 
 export const SEED_SUBJECTS: TSubject[] = [
-  { id: 'sub-1', name: 'Mathematics', code: 'MATH-01', classes: ['9th', '10th', '11th', '12th'], teachers: ['Amod Sharma', 'Nitin Vijay Sir'], status: 'active', avgAttendance: '88%' },
-  { id: 'sub-2', name: 'Science', code: 'SCI-01', classes: ['9th', '10th'], teachers: ['Rakesh Sir'], status: 'active', avgAttendance: '82%' },
-  { id: 'sub-3', name: 'Physics', code: 'PHY-01', classes: ['11th', '12th'], teachers: ['Nitin Vijay Sir', 'Amod Sharma'], status: 'active', avgAttendance: '91%' },
-  { id: 'sub-4', name: 'Chemistry', code: 'CHEM-01', classes: ['11th', '12th'], teachers: ['Priya Ma\'am', 'Rakesh Sir'], status: 'active', avgAttendance: '86%' },
-  { id: 'sub-5', name: 'Biology', code: 'BIO-01', classes: ['11th', '12th'], teachers: ['Priya Ma\'am'], status: 'active', avgAttendance: '90%' },
-  { id: 'sub-6', name: 'English', code: 'ENG-01', classes: ['9th', '10th'], teachers: ['Nitin Vijay Sir'], status: 'active', avgAttendance: '93%' },
-  { id: 'sub-7', name: 'Social Science (SST)', code: 'SST-01', classes: ['9th', '10th'], teachers: ['Sanjay Verma Sir'], status: 'active', avgAttendance: '85%' },
+  { id: 'sub-1', name: 'Mathematics', code: 'MATH-01', classes: ['9th', '10th', '11th', '12th'], teachers: ['Amod Sharma', 'Nitin Vijay Sir'], status: 'active', avgAttendance: '88%', isDemo: true },
+  { id: 'sub-2', name: 'Science', code: 'SCI-01', classes: ['9th', '10th'], teachers: ['Rakesh Sir'], status: 'active', avgAttendance: '82%', isDemo: true },
+  { id: 'sub-3', name: 'Physics', code: 'PHY-01', classes: ['11th', '12th'], teachers: ['Nitin Vijay Sir', 'Amod Sharma'], status: 'active', avgAttendance: '91%', isDemo: true },
+  { id: 'sub-4', name: 'Chemistry', code: 'CHEM-01', classes: ['11th', '12th'], teachers: ['Priya Ma\'am', 'Rakesh Sir'], status: 'active', avgAttendance: '86%', isDemo: true },
+  { id: 'sub-5', name: 'Biology', code: 'BIO-01', classes: ['11th', '12th'], teachers: ['Priya Ma\'am'], status: 'active', avgAttendance: '90%', isDemo: true },
+  { id: 'sub-6', name: 'English', code: 'ENG-01', classes: ['9th', '10th'], teachers: ['Nitin Vijay Sir'], status: 'active', avgAttendance: '93%', isDemo: true },
+  { id: 'sub-7', name: 'Social Science (SST)', code: 'SST-01', classes: ['9th', '10th'], teachers: ['Sanjay Verma Sir'], status: 'active', avgAttendance: '85%', isDemo: true },
 ];
 
 export const SEED_HOLIDAYS: THoliday[] = [
-  { id: 'h1', date: '2026-09-16', title: 'Ganesh Chaturthi', type: 'Institute Holiday', reason: 'Festival Holiday for all batches and staff.', status: 'active' },
-  { id: 'h2', date: '2026-10-02', title: 'Gandhi Jayanti', type: 'Institute Holiday', reason: 'National Holiday', status: 'active' },
+  { id: 'h1', date: '2026-09-16', title: 'Ganesh Chaturthi', type: 'Institute Holiday', reason: 'Festival Holiday for all batches and staff.', status: 'active', isDemo: true },
+  { id: 'h2', date: '2026-10-02', title: 'Gandhi Jayanti', type: 'Institute Holiday', reason: 'National Holiday', status: 'active', isDemo: true },
 ];
 
 export const SEED_AUDIT_LOGS: TAuditLog[] = [
@@ -540,7 +690,7 @@ export function generateSeedStudents(): TStudent[] {
     });
   }
 
-  return students;
+  return students.map(s => ({ ...s, isDemo: true }));
 }
 
 export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
@@ -560,7 +710,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Nitin Vijay Sir',
     type: 'regular',
     status: 'Completed',
-    room: 'Hall A'
+    room: 'Hall A',
+    isDemo: true,
   },
   {
     id: 'sch-2',
@@ -578,7 +729,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Amod Sharma',
     type: 'regular',
     status: 'Completed',
-    room: 'Lab 1'
+    room: 'Lab 1',
+    isDemo: true,
   },
   {
     id: 'sch-3',
@@ -596,7 +748,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Rakesh Sir',
     type: 'regular',
     status: 'Completed',
-    room: 'Room 101'
+    room: 'Room 101',
+    isDemo: true,
   },
   {
     id: 'sch-4',
@@ -614,7 +767,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Amod Sharma',
     type: 'regular',
     status: 'Ongoing',
-    room: 'Room 101'
+    room: 'Room 101',
+    isDemo: true,
   },
   {
     id: 'sch-5',
@@ -632,7 +786,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Nitin Vijay Sir',
     type: 'regular',
     status: 'Upcoming',
-    room: 'Room 102'
+    room: 'Room 102',
+    isDemo: true,
   },
   {
     id: 'sch-6',
@@ -650,7 +805,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Rakesh Sir',
     type: 'one_time',
     status: 'Upcoming',
-    room: 'Hall B'
+    room: 'Hall B',
+    isDemo: true,
   },
   {
     id: 'sch-7',
@@ -668,7 +824,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Priya Ma\'am',
     type: 'extra',
     status: 'Upcoming',
-    room: 'Auditorium'
+    room: 'Auditorium',
+    isDemo: true,
   },
   {
     id: 'sch-8',
@@ -686,7 +843,8 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
     teacherName: 'Amod Sharma',
     type: 'regular',
     status: 'Completed',
-    room: 'Lab 1'
+    room: 'Lab 1',
+    isDemo: true,
   },
 ];
 
@@ -719,6 +877,7 @@ export function generateInitialLiveSession(students: TStudent[]): TClassSession 
         missedMinutes: timing.missedMinutes,
         extraMinutes: timing.extraMinutes,
         isOngoing: true,
+        isDemo: true,
       };
     } else {
       // Remaining students start as NOT ARRIVED (strictly complying with user requirement)
@@ -730,6 +889,7 @@ export function generateInitialLiveSession(students: TStudent[]): TClassSession 
         attendedMinutes: 0,
         missedMinutes: 0,
         extraMinutes: 0,
+        isDemo: true,
       };
     }
   });
@@ -750,6 +910,7 @@ export function generateInitialLiveSession(students: TStudent[]): TClassSession 
     sessionStatus: 'Ongoing',
     startedAt: '04:00 PM',
     studentRecords,
+    isDemo: true,
   };
 }
 
@@ -918,3 +1079,1044 @@ export const AMAN_KUMAR_SUBJECT_STATS = [
   { subject: 'English', attendancePercent: 95, totalHours: 10, attendedHours: 9.5, missedHours: 0.5 },
   { subject: 'Social Science', attendancePercent: 88, totalHours: 12, attendedHours: 10.5, missedHours: 1.5 },
 ];
+
+export const SEED_ATTENDANCE_SESSIONS: TClassSession[] = [
+  {
+    id: 'session-seed-1',
+    scheduleId: 'sch-seed-1',
+    date: '2026-09-02',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Mathematics',
+    teacherName: 'Amod Sharma',
+    scheduledStartTime: '04:00 PM',
+    scheduledEndTime: '06:00 PM',
+    scheduledDurationMinutes: 120,
+    sessionStatus: 'Completed',
+    startedAt: '04:00 PM',
+    endedAt: '06:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'present',
+        checkInTime: '04:02 PM',
+        checkOutTime: '06:00 PM',
+        attendedMinutes: 118,
+        missedMinutes: 2,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-2',
+    scheduleId: 'sch-seed-2',
+    date: '2026-09-03',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Science',
+    teacherName: 'Rakesh Sir',
+    scheduledStartTime: '05:00 PM',
+    scheduledEndTime: '06:00 PM',
+    scheduledDurationMinutes: 60,
+    sessionStatus: 'Completed',
+    startedAt: '05:00 PM',
+    endedAt: '06:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'absent',
+        absenceRemark: 'Fever (Father informed)',
+        attendedMinutes: 0,
+        missedMinutes: 60,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-3',
+    scheduleId: 'sch-seed-3',
+    date: '2026-09-04',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Mathematics',
+    teacherName: 'Amod Sharma',
+    scheduledStartTime: '04:00 PM',
+    scheduledEndTime: '06:00 PM',
+    scheduledDurationMinutes: 120,
+    sessionStatus: 'Completed',
+    startedAt: '04:00 PM',
+    endedAt: '06:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'leave',
+        leaveReason: 'Family Function',
+        attendedMinutes: 0,
+        missedMinutes: 0,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-4',
+    scheduleId: 'sch-seed-4',
+    date: '2026-09-05',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'English',
+    teacherName: 'Nitin Vijay Sir',
+    scheduledStartTime: '06:00 PM',
+    scheduledEndTime: '07:00 PM',
+    scheduledDurationMinutes: 60,
+    sessionStatus: 'Completed',
+    startedAt: '06:00 PM',
+    endedAt: '07:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'present',
+        checkInTime: '05:58 PM',
+        checkOutTime: '07:00 PM',
+        attendedMinutes: 60,
+        missedMinutes: 0,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-5',
+    scheduleId: 'sch-seed-5',
+    date: '2026-09-08',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Science',
+    teacherName: 'Rakesh Sir',
+    scheduledStartTime: '05:00 PM',
+    scheduledEndTime: '06:00 PM',
+    scheduledDurationMinutes: 60,
+    sessionStatus: 'Completed',
+    startedAt: '05:00 PM',
+    endedAt: '06:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'present',
+        checkInTime: '05:05 PM',
+        checkOutTime: '06:00 PM',
+        attendedMinutes: 55,
+        missedMinutes: 5,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-6',
+    scheduleId: 'sch-seed-6',
+    date: '2026-09-09',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Mathematics',
+    teacherName: 'Amod Sharma',
+    scheduledStartTime: '04:00 PM',
+    scheduledEndTime: '06:00 PM',
+    scheduledDurationMinutes: 120,
+    sessionStatus: 'Completed',
+    startedAt: '04:00 PM',
+    endedAt: '06:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'present',
+        checkInTime: '04:00 PM',
+        checkOutTime: '06:00 PM',
+        attendedMinutes: 120,
+        missedMinutes: 0,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-7',
+    scheduleId: 'sch-seed-7',
+    date: '2026-09-10',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Social Science',
+    teacherName: 'Sanjay Verma Sir',
+    scheduledStartTime: '06:00 PM',
+    scheduledEndTime: '07:30 PM',
+    scheduledDurationMinutes: 90,
+    sessionStatus: 'Completed',
+    startedAt: '06:00 PM',
+    endedAt: '07:30 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'present',
+        checkInTime: '06:04 PM',
+        checkOutTime: '07:30 PM',
+        attendedMinutes: 86,
+        missedMinutes: 4,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+  {
+    id: 'session-seed-8',
+    scheduleId: 'sch-seed-8',
+    date: '2026-09-11',
+    classId: 'c9',
+    className: '9th',
+    batchId: '9A',
+    batchName: '9A',
+    subject: 'Science',
+    teacherName: 'Rakesh Sir',
+    scheduledStartTime: '12:00 PM',
+    scheduledEndTime: '01:00 PM',
+    scheduledDurationMinutes: 60,
+    sessionStatus: 'Completed',
+    startedAt: '12:00 PM',
+    endedAt: '01:00 PM',
+    studentRecords: {
+      's-9a-7': {
+        studentId: 's-9a-7',
+        studentName: 'Aman Kumar',
+        rollNo: 12,
+        status: 'present',
+        checkInTime: '12:01 PM',
+        checkOutTime: '01:00 PM',
+        attendedMinutes: 59,
+        missedMinutes: 1,
+        extraMinutes: 0,
+        isDemo: true,
+      },
+    },
+    isDemo: true,
+  },
+];
+
+export interface TStudentAttendanceSummary {
+  totalClasses: number;
+  presentCount: number;
+  absentCount: number;
+  leaveCount: number;
+  presentPercent: number;
+  absentPercent: number;
+  leavePercent: number;
+  overallAttendancePercent: number;
+  scheduledMinutes: number;
+  attendedMinutes: number;
+  missedMinutes: number;
+  scheduledHoursDisplay: string;
+  attendedHoursDisplay: string;
+  missedHoursDisplay: string;
+  records: TStudentHistoryRecord[];
+  subjectStats: Array<{
+    subject: string;
+    totalClasses: number;
+    totalHours: number;
+    attendedHours: number;
+    missedHours: number;
+    attendancePercent: number;
+  }>;
+  isEmpty: boolean;
+}
+
+export function calculateStudentAttendanceSummary(options: {
+  student: TStudent;
+  schedules: TScheduleItem[];
+  attendanceSessions: TClassSession[];
+  liveSession: TClassSession | null;
+  leaveRequests: TLeaveRequest[];
+  holidays?: THoliday[];
+  fromDate: string;
+  toDate: string;
+}): TStudentAttendanceSummary {
+  const { student, schedules, attendanceSessions, liveSession, leaveRequests, holidays, fromDate, toDate } = options;
+  const fromNorm = normalizeDateString(fromDate);
+  const toNorm = normalizeDateString(toDate);
+
+  // Combine attendance sessions
+  const allSessions: TClassSession[] = [...(attendanceSessions || [])];
+  if (liveSession) {
+    if (!allSessions.some(s => s.id === liveSession.id)) {
+      allSessions.push(liveSession);
+    }
+  }
+
+  // Filter sessions applicable to this student in the date range
+  const applicableSessions = allSessions.filter(sess => {
+    const sessDateNorm = normalizeDateString(sess.date);
+    if (fromNorm && sessDateNorm < fromNorm) return false;
+    if (toNorm && sessDateNorm > toNorm) return false;
+    return isClassApplicableToStudent(student, sess.date, sess.batchId || sess.batchName);
+  });
+
+  // Also find applicable schedules that don't have a matching session yet
+  const applicableSchedules = (schedules || []).filter(sch => {
+    if (sch.status === 'Cancelled' || sch.status === 'Holiday') return false;
+    if (isHolidayOnDate(holidays, sch.date, sch.batchId || sch.batchName)) return false;
+    const schDateNorm = normalizeDateString(sch.date);
+    if (fromNorm && schDateNorm < fromNorm) return false;
+    if (toNorm && schDateNorm > toNorm) return false;
+    if (!isClassApplicableToStudent(student, sch.date, sch.batchId || sch.batchName)) return false;
+
+    const hasSession = applicableSessions.some(
+      sess =>
+        sess.scheduleId === sch.id ||
+        (sess.date === sch.date &&
+          sess.subject === sch.subject &&
+          (sess.batchId === sch.batchId || sess.batchName === sch.batchName))
+    );
+    return !hasSession;
+  });
+
+  const records: TStudentHistoryRecord[] = [];
+  let scheduledMinutes = 0;
+  let attendedMinutes = 0;
+  let missedMinutes = 0;
+  let presentCount = 0;
+  let absentCount = 0;
+  let leaveCount = 0;
+
+  // Process applicable sessions
+  for (const session of applicableSessions) {
+    const duration = session.scheduledDurationMinutes || 60;
+    const studentRec = session.studentRecords ? session.studentRecords[student.id] : undefined;
+
+    // Check if student has approved leave request for this date
+    const leaveReq = (leaveRequests || []).find(
+      l =>
+        l.studentId === student.id &&
+        normalizeDateString(l.date) === normalizeDateString(session.date) &&
+        l.status === 'Approved'
+    );
+
+    // Check if session falls on a declared holiday
+    const isHoliday = isHolidayOnDate(holidays, session.date, session.batchId || session.batchName);
+
+    let status: 'Present' | 'Absent' | 'Leave' = 'Absent';
+    let recordAttended = '0h';
+    let recordMissed = formatMinutesToDuration(duration);
+    let checkIn = '-';
+    let checkOut = '-';
+    let reason = '';
+
+    scheduledMinutes += duration;
+
+    const recStatus = (studentRec?.status || '').toLowerCase();
+    if (studentRec && (recStatus === 'present' || recStatus === 'late' || recStatus === 'left')) {
+      status = 'Present';
+      presentCount++;
+      const attMins = studentRec.attendedMinutes > 0 ? studentRec.attendedMinutes : duration;
+      const misMins = studentRec.missedMinutes || 0;
+      attendedMinutes += attMins;
+      missedMinutes += misMins;
+      recordAttended = formatMinutesToDuration(attMins);
+      recordMissed = formatMinutesToDuration(misMins);
+      checkIn = studentRec.checkInTime || '-';
+      checkOut = studentRec.checkOutTime || '-';
+    } else if (leaveReq || recStatus === 'leave') {
+      status = 'Leave';
+      leaveCount++;
+      recordAttended = '0h';
+      recordMissed = '0h';
+      reason = studentRec?.leaveReason || leaveReq?.reason || 'Approved leave';
+    } else if (isHoliday) {
+      status = 'Leave';
+      recordAttended = '0h';
+      recordMissed = '0h';
+      reason = isHoliday.title || isHoliday.reason || 'Institute Holiday';
+    } else if (recStatus === 'absent') {
+      status = 'Absent';
+      absentCount++;
+      missedMinutes += duration;
+      recordAttended = '0h';
+      recordMissed = formatMinutesToDuration(duration);
+      reason = studentRec?.absenceRemark || 'Absent';
+    } else if (session.sessionStatus === 'Completed') {
+      // Unmarked student in completed session defaults to absent
+      status = 'Absent';
+      absentCount++;
+      missedMinutes += duration;
+      recordAttended = '0h';
+      recordMissed = formatMinutesToDuration(duration);
+      reason = 'Did not attend';
+    } else {
+      // Ongoing or upcoming with not_arrived
+      status = 'Absent';
+      missedMinutes += duration;
+      recordAttended = '0h';
+      recordMissed = formatMinutesToDuration(duration);
+      reason = 'Not arrived yet';
+    }
+
+    records.push({
+      id: `rec-${session.id}`,
+      date: formatDateDisplay(session.date),
+      subject: session.subject,
+      scheduledTime: `${session.scheduledStartTime}–${session.scheduledEndTime}`,
+      duration: formatMinutesToDuration(duration),
+      checkIn,
+      checkOut,
+      attended: recordAttended,
+      missed: recordMissed,
+      status,
+      reason,
+    });
+  }
+
+  // Process standalone upcoming/scheduled classes without attendance session yet
+  for (const sch of applicableSchedules) {
+    const duration = sch.durationMinutes || 60;
+    scheduledMinutes += duration;
+
+    const leaveReq = (leaveRequests || []).find(
+      l =>
+        l.studentId === student.id &&
+        normalizeDateString(l.date) === normalizeDateString(sch.date) &&
+        l.status === 'Approved'
+    );
+
+    if (leaveReq) {
+      leaveCount++;
+      records.push({
+        id: `rec-sch-${sch.id}`,
+        date: formatDateDisplay(sch.date),
+        subject: sch.subject,
+        scheduledTime: `${sch.startTime}–${sch.endTime}`,
+        duration: formatMinutesToDuration(duration),
+        checkIn: '-',
+        checkOut: '-',
+        attended: '0h',
+        missed: '0h',
+        status: 'Leave',
+        reason: leaveReq.reason,
+      });
+    }
+  }
+
+  const totalClasses =
+    records.length > 0
+      ? records.length
+      : scheduledMinutes > 0
+      ? applicableSessions.length + applicableSchedules.length
+      : 0;
+  const totalMarked = presentCount + absentCount + leaveCount;
+  const presentPercent = totalMarked > 0 ? Math.round((presentCount / totalMarked) * 100) : 0;
+  const absentPercent = totalMarked > 0 ? Math.round((absentCount / totalMarked) * 100) : 0;
+  const leavePercent = totalMarked > 0 ? Math.round((leaveCount / totalMarked) * 100) : 0;
+  const overallAttendancePercent =
+    scheduledMinutes > 0
+      ? Math.min(100, Math.round((attendedMinutes / scheduledMinutes) * 100))
+      : totalMarked > 0
+      ? presentPercent
+      : 0;
+
+  // Subject-wise stats
+  const subjectMap = new Map<
+    string,
+    { totalClasses: number; scheduledMins: number; attendedMins: number; missedMins: number }
+  >();
+
+  for (const rec of records) {
+    const sub = rec.subject;
+    const existing = subjectMap.get(sub) || {
+      totalClasses: 0,
+      scheduledMins: 0,
+      attendedMins: 0,
+      missedMins: 0,
+    };
+    existing.totalClasses++;
+    subjectMap.set(sub, existing);
+  }
+
+  for (const sess of applicableSessions) {
+    const sub = sess.subject;
+    const duration = sess.scheduledDurationMinutes || 60;
+    const studentRec = sess.studentRecords ? sess.studentRecords[student.id] : undefined;
+    const existing = subjectMap.get(sub) || {
+      totalClasses: 0,
+      scheduledMins: 0,
+      attendedMins: 0,
+      missedMins: 0,
+    };
+    existing.scheduledMins += duration;
+    if (studentRec && (studentRec.status === 'present' || studentRec.status === 'late')) {
+      existing.attendedMins += studentRec.attendedMinutes > 0 ? studentRec.attendedMinutes : duration;
+      existing.missedMins += studentRec.missedMinutes || 0;
+    } else if (studentRec && studentRec.status === 'absent') {
+      existing.missedMins += duration;
+    }
+    subjectMap.set(sub, existing);
+  }
+
+  for (const sch of applicableSchedules) {
+    const sub = sch.subject;
+    const duration = sch.durationMinutes || 60;
+    const existing = subjectMap.get(sub) || {
+      totalClasses: 0,
+      scheduledMins: 0,
+      attendedMins: 0,
+      missedMins: 0,
+    };
+    existing.scheduledMins += duration;
+    subjectMap.set(sub, existing);
+  }
+
+  const subjectStats = Array.from(subjectMap.entries()).map(([subject, data]) => {
+    const totalHours = Math.round((data.scheduledMins / 60) * 10) / 10;
+    const attendedHours = Math.round((data.attendedMins / 60) * 10) / 10;
+    const missedHours = Math.round((data.missedMins / 60) * 10) / 10;
+    const attendancePercent =
+      data.scheduledMins > 0 ? Math.round((data.attendedMins / data.scheduledMins) * 100) : 0;
+    return {
+      subject,
+      totalClasses: data.totalClasses,
+      totalHours,
+      attendedHours,
+      missedHours,
+      attendancePercent,
+    };
+  });
+
+  // Sort records chronologically descending (latest first)
+  records.sort((a, b) => normalizeDateString(b.date).localeCompare(normalizeDateString(a.date)));
+
+  return {
+    totalClasses,
+    presentCount,
+    absentCount,
+    leaveCount,
+    presentPercent,
+    absentPercent,
+    leavePercent,
+    overallAttendancePercent,
+    scheduledMinutes,
+    attendedMinutes,
+    missedMinutes,
+    scheduledHoursDisplay: formatMinutesToHoursDisplay(scheduledMinutes),
+    attendedHoursDisplay: formatMinutesToHoursDisplay(attendedMinutes),
+    missedHoursDisplay: formatMinutesToHoursDisplay(missedMinutes),
+    records,
+    subjectStats,
+    isEmpty: totalClasses === 0 && scheduledMinutes === 0 && records.length === 0,
+  };
+}
+
+// -----------------------------------------------------------------------------
+// DASHBOARD AGGREGATED STATS (REAL TIME & CONSISTENT)
+// -----------------------------------------------------------------------------
+
+export interface TDashboardStats {
+  totalStudents: number;
+  todayClassesCount: number;
+  completedClassesCount: number;
+  ongoingClassesCount: number;
+  upcomingClassesCount: number;
+  todayPresentCount: number;
+  todayAbsentCount: number;
+  todayLeaveCount: number;
+  todayPresentPercent: number;
+  todayAbsentPercent: number;
+  todayLeavePercent: number;
+  todayClassesOverview: Array<{
+    id: string;
+    startTime: string;
+    endTime: string;
+    className: string;
+    batchName: string;
+    subject: string;
+    teacherName: string;
+    durationMinutes: number;
+    status: 'Completed' | 'Ongoing' | 'Upcoming' | 'Cancelled' | 'Holiday';
+    presentCount: number;
+    totalEnrolled: number;
+  }>;
+  todayAbsentStudents: Array<{
+    id: string;
+    studentId: string;
+    studentName: string;
+    className: string;
+    batchName: string;
+    subject: string;
+    missedHours: string;
+    contactNumber: string;
+    callStatus: CallStatus;
+    spokeTo?: SpokeTo;
+    parentReason?: string;
+    remark?: string;
+  }>;
+  attendanceTrend: Array<{
+    day: string;
+    date: string;
+    attendance: number;
+  }>;
+  trendAverage: number;
+}
+
+export function calculateDashboardStats(params: {
+  todayDate: string;
+  students: TStudent[];
+  schedules: TScheduleItem[];
+  attendanceSessions: TClassSession[];
+  liveSession: TClassSession | null;
+  leaveRequests: TLeaveRequest[];
+  absentFollowUps: TAbsenceFollowUp[];
+  holidays?: THoliday[];
+}): TDashboardStats {
+  const {
+    todayDate,
+    students,
+    schedules,
+    attendanceSessions,
+    liveSession,
+    leaveRequests,
+    absentFollowUps,
+    holidays,
+  } = params;
+
+  const todayNorm = normalizeDateString(todayDate);
+  const activeStudents = (students || []).filter(s => s.status === 'active');
+
+  // Schedules for today (excluding cancelled or declared holidays)
+  const todaySchedules = (schedules || []).filter(s => {
+    const schDateNorm = normalizeDateString(s.date);
+    return schDateNorm === todayNorm;
+  });
+
+  const todayActiveSchedules = todaySchedules.filter(s => s.status !== 'Cancelled' && s.status !== 'Holiday');
+  const todayClassesCount = todayActiveSchedules.length;
+  const completedClassesCount = todayActiveSchedules.filter(s => s.status === 'Completed').length;
+  const ongoingClassesCount = todayActiveSchedules.filter(s => s.status === 'Ongoing').length;
+  const upcomingClassesCount = todayActiveSchedules.filter(s => s.status === 'Upcoming').length;
+
+  // Combine today's sessions
+  const todaySessions: TClassSession[] = (attendanceSessions || []).filter(
+    s => normalizeDateString(s.date) === todayNorm
+  );
+  if (liveSession && normalizeDateString(liveSession.date) === todayNorm) {
+    if (!todaySessions.some(s => s.id === liveSession.id)) {
+      todaySessions.push(liveSession);
+    }
+  }
+
+  // Calculate unique student counts for today
+  const presentStudentIds = new Set<string>();
+  const absentStudentIds = new Set<string>();
+  const leaveStudentIds = new Set<string>();
+
+  // Leaves approved for today
+  for (const lr of leaveRequests || []) {
+    if (lr.status === 'Approved' && normalizeDateString(lr.date) === todayNorm) {
+      leaveStudentIds.add(lr.studentId);
+    }
+  }
+
+  // Student statuses from today's sessions
+  for (const session of todaySessions) {
+    if (!session.studentRecords) continue;
+    for (const [stId, rec] of Object.entries(session.studentRecords)) {
+      const st = (rec.status || '').toLowerCase();
+      if (st === 'present' || st === 'late' || st === 'left') {
+        presentStudentIds.add(stId);
+        absentStudentIds.delete(stId);
+      } else if (st === 'leave') {
+        leaveStudentIds.add(stId);
+      } else if (st === 'absent') {
+        if (!presentStudentIds.has(stId) && !leaveStudentIds.has(stId)) {
+          absentStudentIds.add(stId);
+        }
+      }
+    }
+  }
+
+  const todayPresentCount = presentStudentIds.size;
+  const todayAbsentCount = absentStudentIds.size;
+  const todayLeaveCount = leaveStudentIds.size;
+  const totalMarkedToday = todayPresentCount + todayAbsentCount + todayLeaveCount;
+
+  const todayPresentPercent = totalMarkedToday > 0 ? Math.round((todayPresentCount / totalMarkedToday) * 1000) / 10 : 0;
+  const todayAbsentPercent = totalMarkedToday > 0 ? Math.round((todayAbsentCount / totalMarkedToday) * 1000) / 10 : 0;
+  const todayLeavePercent = totalMarkedToday > 0 ? Math.round((todayLeaveCount / totalMarkedToday) * 1000) / 10 : 0;
+
+  // Today's classes overview
+  const todayClassesOverview = todaySchedules.map(item => {
+    // Determine enrolled students in this batch today
+    const enrolled = activeStudents.filter(st =>
+      isClassApplicableToStudent(st, item.date, item.batchId || item.batchName)
+    ).length;
+
+    // Find matching session
+    let presentInClass = 0;
+    const isOngoing = item.status === 'Ongoing';
+
+    if (isOngoing && liveSession && (liveSession.scheduleId === item.id || (normalizeDateString(liveSession.date) === normalizeDateString(item.date) && (liveSession.batchId === item.batchId || liveSession.batchName === item.batchName)))) {
+      presentInClass = Object.values(liveSession.studentRecords || {}).filter(
+        r => {
+          const s = (r.status || '').toLowerCase();
+          return s === 'present' || s === 'late' || s === 'left';
+        }
+      ).length;
+    } else {
+      const matchingSession = (attendanceSessions || []).find(
+        s => s.scheduleId === item.id || (normalizeDateString(s.date) === normalizeDateString(item.date) && (s.batchId === item.batchId || s.batchName === item.batchName) && s.subject === item.subject)
+      );
+      if (matchingSession && matchingSession.studentRecords) {
+        presentInClass = Object.values(matchingSession.studentRecords).filter(
+          r => {
+            const s = (r.status || '').toLowerCase();
+            return s === 'present' || s === 'late' || s === 'left';
+          }
+        ).length;
+      }
+    }
+
+    return {
+      id: item.id,
+      startTime: item.startTime,
+      endTime: item.endTime,
+      className: item.className,
+      batchName: item.batchName,
+      subject: item.subject,
+      teacherName: item.teacherName,
+      durationMinutes: item.durationMinutes,
+      status: item.status,
+      presentCount: presentInClass,
+      totalEnrolled: enrolled,
+    };
+  });
+
+  // Today's absent students
+  const todayAbsentStudentsMap = new Map<string, TDashboardStats['todayAbsentStudents'][0]>();
+
+  // Add from absent follow-ups
+  for (const af of absentFollowUps || []) {
+    if (normalizeDateString(af.date) === todayNorm) {
+      todayAbsentStudentsMap.set(af.studentId, {
+        id: af.id,
+        studentId: af.studentId,
+        studentName: af.studentName,
+        className: af.className,
+        batchName: af.batchName,
+        subject: af.subject,
+        missedHours: af.missedHours,
+        contactNumber: af.contactNumber,
+        callStatus: af.callStatus,
+        spokeTo: af.spokeTo,
+        parentReason: af.parentReason,
+        remark: af.remark,
+      });
+    }
+  }
+
+  // Add from today's sessions if any student is marked absent and not in map
+  for (const session of todaySessions) {
+    if (!session.studentRecords) continue;
+    for (const [stId, rec] of Object.entries(session.studentRecords)) {
+      if ((rec.status || '').toLowerCase() === 'absent' && !todayAbsentStudentsMap.has(stId)) {
+        const studentObj = activeStudents.find(s => s.id === stId);
+        todayAbsentStudentsMap.set(stId, {
+          id: `af-dyn-${stId}`,
+          studentId: stId,
+          studentName: rec.studentName || studentObj?.name || 'Student',
+          className: session.className || studentObj?.className || '',
+          batchName: session.batchName || studentObj?.batchName || '',
+          subject: session.subject,
+          missedHours: formatMinutesToHoursDisplay(rec.missedMinutes || session.scheduledDurationMinutes || 60),
+          contactNumber: studentObj?.parentPhone || studentObj?.phone || '+91 99999 00000',
+          callStatus: 'Not Contacted',
+          remark: rec.absenceRemark || 'Unexcused absence today',
+        });
+      }
+    }
+  }
+
+  const todayAbsentStudents = Array.from(todayAbsentStudentsMap.values());
+
+  // Attendance Trend from real attendance sessions
+  const dateMap = new Map<string, { attended: number; scheduled: number; present: number; total: number }>();
+  for (const sess of attendanceSessions || []) {
+    if (sess.sessionStatus !== 'Completed') continue;
+    const d = normalizeDateString(sess.date);
+    if (!d) continue;
+
+    const existing = dateMap.get(d) || { attended: 0, scheduled: 0, present: 0, total: 0 };
+    for (const rec of Object.values(sess.studentRecords || {})) {
+      const st = (rec.status || '').toLowerCase();
+      existing.total++;
+      if (st === 'present' || st === 'late' || st === 'left') {
+        existing.present++;
+        existing.attended += rec.attendedMinutes > 0 ? rec.attendedMinutes : (sess.scheduledDurationMinutes || 60);
+      }
+      existing.scheduled += sess.scheduledDurationMinutes || 60;
+    }
+    dateMap.set(d, existing);
+  }
+
+  const sortedDates = Array.from(dateMap.keys()).sort();
+  const attendanceTrend = sortedDates.map(dateKey => {
+    const data = dateMap.get(dateKey)!;
+    const rate = data.total > 0 ? Math.round((data.present / data.total) * 1000) / 10 : 0;
+    return {
+      day: formatDateDisplay(dateKey),
+      date: dateKey,
+      attendance: rate,
+    };
+  });
+
+  const trendAverage =
+    attendanceTrend.length > 0
+      ? Math.round(
+          (attendanceTrend.reduce((acc, curr) => acc + curr.attendance, 0) / attendanceTrend.length) * 10
+        ) / 10
+      : 0;
+
+  return {
+    totalStudents: activeStudents.length,
+    todayClassesCount,
+    completedClassesCount,
+    ongoingClassesCount,
+    upcomingClassesCount,
+    todayPresentCount,
+    todayAbsentCount,
+    todayLeaveCount,
+    todayPresentPercent,
+    todayAbsentPercent,
+    todayLeavePercent,
+    todayClassesOverview,
+    todayAbsentStudents,
+    attendanceTrend,
+    trendAverage,
+  };
+}
+
+// -----------------------------------------------------------------------------
+// INSTITUTE REPORTS ENGINE (DYNAMIC & 100% FROM ACTUAL DATA)
+// -----------------------------------------------------------------------------
+
+export interface TInstituteReport {
+  totalStudents: number;
+  totalClasses: number;
+  presentCount: number;
+  absentCount: number;
+  leaveCount: number;
+  presentPercent: number;
+  absentPercent: number;
+  leavePercent: number;
+  totalHours: string;
+  attendanceTrend: Array<{ day: string; percent: number }>;
+  subjectWiseAttendance: Array<{ subject: string; percent: number; color: string; classesCount: number }>;
+  rankedStudents: Array<{ rank: number; id: string; name: string; batch: string; attendance: number; status: 'high' | 'normal' | 'low'; rollNo: number }>;
+  isEmpty: boolean;
+}
+
+export function calculateInstituteReports(params: {
+  students: TStudent[];
+  schedules: TScheduleItem[];
+  attendanceSessions: TClassSession[];
+  leaveRequests: TLeaveRequest[];
+  holidays?: THoliday[];
+  period: string; // 'daily' | 'weekly' | 'monthly' | 'custom' | 'yearly'
+  selectedMonth: string; // e.g. "September 2026"
+  selectedClass: string; // 'all' or "9th"
+  selectedBatch: string; // 'all' or "9A"
+  selectedSubject: string; // 'all' or "Mathematics"
+}): TInstituteReport {
+  const {
+    students,
+    schedules,
+    attendanceSessions,
+    leaveRequests,
+    holidays,
+    period,
+    selectedMonth,
+    selectedClass,
+    selectedBatch,
+    selectedSubject,
+  } = params;
+
+  // Derive date filter prefix or range based on month
+  let monthPrefix = '2026-09';
+  if (selectedMonth.includes('August')) monthPrefix = '2026-08';
+  else if (selectedMonth.includes('July')) monthPrefix = '2026-07';
+  else if (selectedMonth.includes('October')) monthPrefix = '2026-10';
+
+  // Filter students matching class & batch
+  const enrolledStudents = (students || []).filter(st => {
+    if (st.status !== 'active') return false;
+    if (selectedClass !== 'all' && st.className !== selectedClass) return false;
+    if (selectedBatch !== 'all' && (st.batchId !== selectedBatch && st.batchName !== selectedBatch)) return false;
+    return true;
+  });
+
+  const enrolledStudentIds = new Set(enrolledStudents.map(s => s.id));
+
+  // Filter attendance sessions matching period, class, batch, subject
+  const matchingSessions = (attendanceSessions || []).filter(sess => {
+    const dNorm = normalizeDateString(sess.date);
+    if (period === 'monthly' && !dNorm.startsWith(monthPrefix)) return false;
+    if (selectedClass !== 'all' && sess.className !== selectedClass) return false;
+    if (selectedBatch !== 'all' && sess.batchId !== selectedBatch && sess.batchName !== selectedBatch) return false;
+    if (selectedSubject !== 'all' && sess.subject !== selectedSubject) return false;
+    return true;
+  });
+
+  // Calculate student attendance aggregations
+  let totalScheduledMinutes = 0;
+  let totalAttendedMinutes = 0;
+  let totalPresentMarks = 0;
+  let totalAbsentMarks = 0;
+  let totalLeaveMarks = 0;
+
+  // Date map for trend
+  const trendMap = new Map<string, { present: number; total: number }>();
+  // Subject map for breakdown
+  const subjectMap = new Map<string, { attendedMins: number; scheduledMins: number; classes: Set<string> }>();
+  // Student map for ranking
+  const studentStatsMap = new Map<string, { attendedMins: number; scheduledMins: number; present: number; total: number }>();
+
+  for (const sess of matchingSessions) {
+    const duration = sess.scheduledDurationMinutes || 60;
+    const dKey = formatDateDisplay(sess.date);
+    const sub = sess.subject || 'General';
+
+    const subEntry = subjectMap.get(sub) || { attendedMins: 0, scheduledMins: 0, classes: new Set() };
+    subEntry.classes.add(sess.id);
+
+    const trendEntry = trendMap.get(dKey) || { present: 0, total: 0 };
+
+    for (const [stId, rec] of Object.entries(sess.studentRecords || {})) {
+      // Check if student is within target enrolled students
+      if (enrolledStudents.length > 0 && !enrolledStudentIds.has(stId)) continue;
+
+      const st = (rec.status || '').toLowerCase();
+      totalScheduledMinutes += duration;
+      subEntry.scheduledMins += duration;
+      trendEntry.total++;
+
+      const stStat = studentStatsMap.get(stId) || { attendedMins: 0, scheduledMins: 0, present: 0, total: 0 };
+      stStat.scheduledMins += duration;
+      stStat.total++;
+
+      if (st === 'present' || st === 'late' || st === 'left') {
+        totalPresentMarks++;
+        const attMins = rec.attendedMinutes > 0 ? rec.attendedMinutes : duration;
+        totalAttendedMinutes += attMins;
+        subEntry.attendedMins += attMins;
+        trendEntry.present++;
+        stStat.attendedMins += attMins;
+        stStat.present++;
+      } else if (st === 'leave') {
+        totalLeaveMarks++;
+      } else {
+        totalAbsentMarks++;
+      }
+
+      studentStatsMap.set(stId, stStat);
+    }
+
+    subjectMap.set(sub, subEntry);
+    trendMap.set(dKey, trendEntry);
+  }
+
+  const totalMarks = totalPresentMarks + totalAbsentMarks + totalLeaveMarks;
+  const presentPercent = totalMarks > 0 ? Math.round((totalPresentMarks / totalMarks) * 1000) / 10 : 0;
+  const absentPercent = totalMarks > 0 ? Math.round((totalAbsentMarks / totalMarks) * 1000) / 10 : 0;
+  const leavePercent = totalMarks > 0 ? Math.round((totalLeaveMarks / totalMarks) * 1000) / 10 : 0;
+
+  // Trend array
+  const attendanceTrend = Array.from(trendMap.entries()).map(([day, data]) => ({
+    day,
+    percent: data.total > 0 ? Math.round((data.present / data.total) * 1000) / 10 : 0,
+  }));
+
+  // Subject-wise colors
+  const PALETTE = ['#2563eb', '#0284c7', '#16a34a', '#7c3aed', '#f59e0b', '#ec4899', '#0d9488'];
+  const subjectWiseAttendance = Array.from(subjectMap.entries()).map(([subject, data], idx) => ({
+    subject,
+    percent: data.scheduledMins > 0 ? Math.round((data.attendedMins / data.scheduledMins) * 100) : 0,
+    color: PALETTE[idx % PALETTE.length],
+    classesCount: data.classes.size,
+  }));
+
+  // Ranked students
+  const rankedStudents = enrolledStudents
+    .map(st => {
+      const stats = studentStatsMap.get(st.id);
+      let pct = 0;
+      if (stats && stats.scheduledMins > 0) {
+        pct = Math.round((stats.attendedMins / stats.scheduledMins) * 1000) / 10;
+      }
+      return {
+        id: st.id,
+        name: st.name,
+        batch: st.batchName || st.batchId,
+        attendance: pct,
+        status: (pct >= 90 ? 'high' : pct >= 75 ? 'normal' : 'low') as 'high' | 'normal' | 'low',
+        rollNo: st.rollNo,
+      };
+    })
+    .sort((a, b) => b.attendance - a.attendance)
+    .map((s, idx) => ({ ...s, rank: idx + 1 }));
+
+  const isEmpty = matchingSessions.length === 0 && totalMarks === 0;
+
+  return {
+    totalStudents: enrolledStudents.length,
+    totalClasses: matchingSessions.length,
+    presentCount: totalPresentMarks,
+    absentCount: totalAbsentMarks,
+    leaveCount: totalLeaveMarks,
+    presentPercent,
+    absentPercent,
+    leavePercent,
+    totalHours: formatMinutesToHoursDisplay(totalScheduledMinutes),
+    attendanceTrend,
+    subjectWiseAttendance,
+    rankedStudents,
+    isEmpty,
+  };
+}

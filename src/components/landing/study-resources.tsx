@@ -164,7 +164,7 @@ export function StudyResources() {
   ];
 
   return (
-    <section className="w-full pt-10 md:pt-12 pb-12 md:pb-16 bg-[#F8FAFC] dark:bg-[#080D1A] border-y border-slate-200/60 dark:border-slate-800/60">
+    <section className="w-full pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-[#080D1A]">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col gap-8 md:gap-10">
           {/* Heading */}

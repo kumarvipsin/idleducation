@@ -31,17 +31,22 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import { TSubject } from '@/lib/attendance-store';
+import { SmartDeleteDialog } from '@/components/attendance/smart-delete-dialog';
 
 export default function SubjectsPage() {
   const {
     subjects,
     classes,
     teachers,
+    currentRole,
+    isDemoData,
+    getDependencySummary,
     addSubject,
     updateSubject,
     archiveSubject,
     restoreSubject,
     deleteSubjectSafe,
+    forceDeleteSubject,
   } = useAttendance();
 
   const [search, setSearch] = useState('');
@@ -417,35 +422,26 @@ export default function SubjectsPage() {
         </DialogContent>
       </Dialog>
 
-import { SmartDeleteDialog } from '@/components/attendance/smart-delete-dialog';
-import { useAttendance } from '@/context/attendance-context';
-import { useState } from 'react';
-
-// Inside component (replace existing deleteConfirmItem state usage)
-const { getDependencySummary, forceDeleteSubject, isDemoData, currentRole } = useAttendance();
-// Using currentRole from context.
-
-// Replace the Delete Subject Confirmation Dialog block with:
-{deleteConfirmItem && (
-  <SmartDeleteDialog
-    open={!!deleteConfirmItem}
-    onClose={() => setDeleteConfirmItem(null)}
-    entityType="Subject"
-    entityName={deleteConfirmItem.name}
-    entityId={deleteConfirmItem.id}
-    isDemoMode={isDemoData}
-    currentRole={currentRole}
-    dependencies={getDependencySummary('subject', deleteConfirmItem.id)}
-    onArchive={() => {
-      archiveSubject(deleteConfirmItem.id);
-      setDeleteConfirmItem(null);
-    }}
-    onForceDelete={(reason) => {
-      forceDeleteSubject(deleteConfirmItem.id, reason);
-      setDeleteConfirmItem(null);
-    }}
-  />
-)}
+      {deleteConfirmItem && (
+        <SmartDeleteDialog
+          open={!!deleteConfirmItem}
+          onClose={() => setDeleteConfirmItem(null)}
+          entityType="Subject"
+          entityName={deleteConfirmItem.name}
+          entityId={deleteConfirmItem.id}
+          isDemoMode={isDemoData || (deleteConfirmItem.isDemo ?? false)}
+          currentRole={currentRole}
+          dependencies={getDependencySummary('subject', deleteConfirmItem.id)}
+          onArchive={() => {
+            archiveSubject(deleteConfirmItem.id);
+            setDeleteConfirmItem(null);
+          }}
+          onForceDelete={(reason) => {
+            forceDeleteSubject(deleteConfirmItem.id, reason);
+            setDeleteConfirmItem(null);
+          }}
+        />
+      )}
     </div>
   );
 }

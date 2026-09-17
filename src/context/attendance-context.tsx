@@ -27,10 +27,12 @@ import {
   SEED_LEAVE_REQUESTS,
   SEED_ABSENT_FOLLOWUPS,
   SEED_AUDIT_LOGS,
+  SEED_ATTENDANCE_SESSIONS,
   generateSeedStudents,
   generateInitialLiveSession,
   calculateStudentAttendanceTiming,
   getCurrentTimeFormatted,
+  isClassApplicableToStudent,
 } from '@/lib/attendance-store';
 
 export interface DependencySummary {
@@ -40,6 +42,7 @@ export interface DependencySummary {
   attendanceSessions: number;
   leaveRecords: number;
   callRecords: number;
+  isDemoEntity?: boolean;
 }
 
 export interface ToastInfo {
@@ -63,16 +66,18 @@ interface AttendanceContextType {
   holidays: THoliday[];
   students: TStudent[];
   schedules: TScheduleItem[];
-  liveSession: TClassSession;
+  attendanceSessions: TClassSession[];
+  liveSession: TClassSession | null;
   leaveRequests: TLeaveRequest[];
   absentFollowUps: TAbsenceFollowUp[];
   auditLogs: TAuditLog[];
   selectedDate: string;
   setSelectedDate: (date: string) => void;
   isDemoData: boolean;
+  setIsDemoData: (value: boolean) => void;
 
   // Dependency summary (for smart delete dialog)
-  getDependencySummary: (entityType: 'class' | 'batch' | 'student' | 'teacher' | 'subject' | 'schedule', entityId: string) => DependencySummary;
+  getDependencySummary: (entityType: string, entityId: string) => DependencySummary;
 
   // Class Management CRUD
   addClass: (cls: Omit<TClass, 'id'>) => { success: boolean; message: string };
@@ -164,10 +169,13 @@ interface AttendanceContextType {
   // Holiday Actions
   addHoliday: (holiday: Omit<THoliday, 'id'>) => void;
   updateHoliday: (id: string, updates: Partial<THoliday>) => void;
-  deleteHoliday: (id: string) => void;
+  deleteHoliday: (id: string, reason?: string) => void;
+  archiveHoliday: (id: string) => void;
 
   // Audit Log & Demo Data
   addAuditLog: (entry: Omit<TAuditLog, 'id' | 'timestamp' | 'user' | 'role'>) => void;
+  clearAllAuditLogs: (reason: string) => { success: boolean; message: string };
+  deleteAuditLog: (id: string) => void;
   clearAllDemoData: () => void;
   resetToSeedData: () => void;
 }
@@ -186,6 +194,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
   const [subjects, setSubjects] = useState<TSubject[]>(SEED_SUBJECTS);
   const [students, setStudents] = useState<TStudent[]>([]);
   const [schedules, setSchedules] = useState<TScheduleItem[]>(SEED_SCHEDULE_ITEMS);
+  const [attendanceSessions, setAttendanceSessions] = useState<TClassSession[]>(SEED_ATTENDANCE_SESSIONS);
   const [liveSession, setLiveSession] = useState<TClassSession | null>(null);
   const [leaveRequests, setLeaveRequests] = useState<TLeaveRequest[]>(SEED_LEAVE_REQUESTS);
   const [absentFollowUps, setAbsentFollowUps] = useState<TAbsenceFollowUp[]>(SEED_ABSENT_FOLLOWUPS);
@@ -218,33 +227,62 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     setAuditLogs(prev => [newLog, ...prev]);
   };
 
+  const clearAllAuditLogs = (reason: string): { success: boolean; message: string } => {
+    if (currentRole !== 'Super Admin') {
+      showToast('Only Super Admin can clear the audit log.', 'error');
+      return { success: false, message: 'Unauthorized. Super Admin role required.' };
+    }
+    setAuditLogs([]);
+    showToast('All audit logs have been cleared.');
+    return { success: true, message: 'All audit logs cleared.' };
+  };
+
+  const deleteAuditLog = (id: string) => {
+    if (currentRole !== 'Super Admin') {
+      showToast('Only Super Admin can delete audit records.', 'error');
+      return;
+    }
+    setAuditLogs(prev => prev.filter(l => l.id !== id));
+    showToast('Audit record deleted.');
+  };
+
   // Initialize from localStorage or seed
   useEffect(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        setClasses(parsed.classes || SEED_CLASSES);
-        setBatches(parsed.batches || SEED_BATCHES);
-        setTeachers(parsed.teachers || SEED_TEACHERS);
-        setSubjects(parsed.subjects || SEED_SUBJECTS);
-        setStudents(parsed.students || generateSeedStudents());
-        setSchedules(parsed.schedules || SEED_SCHEDULE_ITEMS);
-        setLiveSession(parsed.liveSession || generateInitialLiveSession(parsed.students || generateSeedStudents()));
-        setLeaveRequests(parsed.leaveRequests || SEED_LEAVE_REQUESTS);
-        setAbsentFollowUps(parsed.absentFollowUps || SEED_ABSENT_FOLLOWUPS);
-        setHolidays(parsed.holidays || SEED_HOLIDAYS);
+        const isDemoSaved = parsed.isDemoData ?? true;
+        const normalizeDemo = (arr: any[]) =>
+          (arr || []).map(item => ({
+            ...item,
+            isDemo: item.isDemo !== undefined ? item.isDemo : isDemoSaved,
+          }));
+
+        setClasses(normalizeDemo(parsed.classes || SEED_CLASSES));
+        setBatches(normalizeDemo(parsed.batches || SEED_BATCHES));
+        setTeachers(normalizeDemo(parsed.teachers || SEED_TEACHERS));
+        setSubjects(normalizeDemo(parsed.subjects || SEED_SUBJECTS));
+        setStudents(normalizeDemo(parsed.students || generateSeedStudents()));
+        setSchedules(normalizeDemo(parsed.schedules || SEED_SCHEDULE_ITEMS));
+        setAttendanceSessions(normalizeDemo(parsed.attendanceSessions || SEED_ATTENDANCE_SESSIONS));
+        setLiveSession(parsed.liveSession || (isDemoSaved ? generateInitialLiveSession(parsed.students || generateSeedStudents()) : null));
+        setLeaveRequests(normalizeDemo(parsed.leaveRequests || SEED_LEAVE_REQUESTS));
+        setAbsentFollowUps(normalizeDemo(parsed.absentFollowUps || SEED_ABSENT_FOLLOWUPS));
+        setHolidays(normalizeDemo(parsed.holidays || SEED_HOLIDAYS));
         setAuditLogs(parsed.auditLogs || SEED_AUDIT_LOGS);
-        setIsDemoData(parsed.isDemoData ?? true);
+        setIsDemoData(isDemoSaved);
       } else {
         const seedSt = generateSeedStudents();
         setStudents(seedSt);
+        setAttendanceSessions(SEED_ATTENDANCE_SESSIONS);
         setLiveSession(generateInitialLiveSession(seedSt));
       }
     } catch (e) {
       console.error('Failed to load storage:', e);
       const seedSt = generateSeedStudents();
       setStudents(seedSt);
+      setAttendanceSessions(SEED_ATTENDANCE_SESSIONS);
       setLiveSession(generateInitialLiveSession(seedSt));
     }
     setIsInitialized(true);
@@ -252,7 +290,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
 
   // Save changes
   useEffect(() => {
-    if (!isInitialized || !liveSession) return;
+    if (!isInitialized) return;
     try {
       localStorage.setItem(
         STORAGE_KEY,
@@ -263,6 +301,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
           subjects,
           students,
           schedules,
+          attendanceSessions,
           liveSession,
           leaveRequests,
           absentFollowUps,
@@ -274,55 +313,70 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     } catch (e) {
       console.error('Failed to persist attendance state:', e);
     }
-  }, [classes, batches, teachers, subjects, students, schedules, liveSession, leaveRequests, absentFollowUps, holidays, auditLogs, isDemoData, isInitialized]);
+  }, [classes, batches, teachers, subjects, students, schedules, attendanceSessions, liveSession, leaveRequests, absentFollowUps, holidays, auditLogs, isDemoData, isInitialized]);
 
   // -------------------------------------------------------------
   // DEPENDENCY SUMMARY (used by SmartDeleteDialog)
   // -------------------------------------------------------------
+  // -------------------------------------------------------------
+  // DEPENDENCY SUMMARY (used by SmartDeleteDialog)
+  // -------------------------------------------------------------
   const getDependencySummary = (
-    entityType: 'class' | 'batch' | 'student' | 'teacher' | 'subject' | 'schedule',
+    entityType: string,
     entityId: string
   ): DependencySummary => {
-    const empty: DependencySummary = { batches: 0, students: 0, schedules: 0, attendanceSessions: 0, leaveRecords: 0, callRecords: 0 };
+    const empty: DependencySummary = { batches: 0, students: 0, schedules: 0, attendanceSessions: 0, leaveRecords: 0, callRecords: 0, isDemoEntity: isDemoData };
+    const type = (entityType || '').toLowerCase();
 
-    if (entityType === 'class') {
+    if (type === 'class') {
       const cls = classes.find(c => c.id === entityId);
       if (!cls) return empty;
+      const isDemo = cls.isDemo ?? isDemoData;
       const classBatches = batches.filter(b => b.classId === entityId);
       const classBatchIds = classBatches.map(b => b.id);
-      const classStudents = students.filter(s => s.classId === entityId);
-      const classSchedules = schedules.filter(s => s.classId === entityId);
-      const classLeaves = leaveRequests.filter(l => l.classId === entityId);
-      const classFollowUps = absentFollowUps.filter(f => f.classId === entityId);
+      const classStudents = students.filter(s => s.classId === entityId || classBatchIds.includes(s.batchId));
+      const classSchedules = schedules.filter(s => s.classId === entityId || classBatchIds.includes(s.batchId));
+      const classLeaves = leaveRequests.filter(l => l.classId === entityId || classBatchIds.includes(l.batchId));
+      const classFollowUps = absentFollowUps.filter(f => f.classId === entityId || classBatchIds.includes(f.batchId));
+      const sessionCount = attendanceSessions.filter(s => s.classId === entityId || classBatchIds.includes(s.batchId)).length +
+        (liveSession && (liveSession.classId === entityId || classBatchIds.includes(liveSession.batchId)) ? 1 : 0);
       return {
         batches: classBatches.length,
         students: classStudents.length,
         schedules: classSchedules.length,
-        attendanceSessions: liveSession && liveSession.classId === entityId ? 1 : 0,
+        attendanceSessions: sessionCount,
         leaveRecords: classLeaves.length,
         callRecords: classFollowUps.length,
+        isDemoEntity: isDemo,
       };
     }
 
-    if (entityType === 'batch') {
+    if (type === 'batch') {
       const batch = batches.find(b => b.id === entityId);
       if (!batch) return empty;
+      const isDemo = batch.isDemo ?? isDemoData;
       const batchStudents = students.filter(s => s.batchId === entityId);
       const batchSchedules = schedules.filter(s => s.batchId === entityId);
       const batchLeaves = leaveRequests.filter(l => l.batchId === entityId);
       const batchFollowUps = absentFollowUps.filter(f => f.batchId === entityId);
+      const sessionCount = attendanceSessions.filter(s => s.batchId === entityId || s.batchName === entityId).length +
+        (liveSession && (liveSession.batchId === entityId || liveSession.batchName === entityId) ? 1 : 0);
       return {
         batches: 0,
         students: batchStudents.length,
         schedules: batchSchedules.length,
-        attendanceSessions: liveSession && liveSession.batchId === entityId ? 1 : 0,
+        attendanceSessions: sessionCount,
         leaveRecords: batchLeaves.length,
         callRecords: batchFollowUps.length,
+        isDemoEntity: isDemo,
       };
     }
 
-    if (entityType === 'student') {
-      const sessionCount = liveSession && liveSession.studentRecords[entityId] ? 1 : 0;
+    if (type === 'student') {
+      const st = students.find(s => s.id === entityId);
+      const isDemo = st?.isDemo ?? isDemoData;
+      const sessionCount = attendanceSessions.filter(s => s.studentRecords && s.studentRecords[entityId]).length +
+        (liveSession && liveSession.studentRecords && liveSession.studentRecords[entityId] ? 1 : 0);
       const leaves = leaveRequests.filter(l => l.studentId === entityId);
       const followUps = absentFollowUps.filter(f => f.studentId === entityId);
       return {
@@ -332,24 +386,44 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
         attendanceSessions: sessionCount,
         leaveRecords: leaves.length,
         callRecords: followUps.length,
+        isDemoEntity: isDemo,
       };
     }
 
-    if (entityType === 'teacher') {
-      const teacherSchedules = schedules.filter(s => s.teacherId === entityId);
-      return { ...empty, schedules: teacherSchedules.length };
+    if (type === 'teacher') {
+      const t = teachers.find(item => item.id === entityId);
+      const isDemo = t?.isDemo ?? isDemoData;
+      const teacherSchedules = schedules.filter(s => s.teacherId === entityId || s.teacherName === t?.name);
+      return { ...empty, schedules: teacherSchedules.length, isDemoEntity: isDemo };
     }
 
-    if (entityType === 'subject') {
+    if (type === 'subject') {
       const sub = subjects.find(s => s.id === entityId);
       if (!sub) return empty;
+      const isDemo = sub.isDemo ?? isDemoData;
       const subSchedules = schedules.filter(s => s.subject === sub.name);
-      return { ...empty, schedules: subSchedules.length };
+      return { ...empty, schedules: subSchedules.length, isDemoEntity: isDemo };
     }
 
-    if (entityType === 'schedule') {
-      const hasSessions = liveSession && liveSession.scheduleId === entityId ? 1 : 0;
-      return { ...empty, attendanceSessions: hasSessions };
+    if (type === 'schedule') {
+      const sch = schedules.find(s => s.id === entityId);
+      const isDemo = sch?.isDemo ?? isDemoData;
+      const hasSessions = attendanceSessions.filter(s => s.scheduleId === entityId).length +
+        (liveSession && liveSession.scheduleId === entityId ? 1 : 0);
+      return { ...empty, attendanceSessions: hasSessions, isDemoEntity: isDemo };
+    }
+
+    if (type === 'holiday') {
+      const hol = holidays.find(h => h.id === entityId);
+      const isDemo = hol?.isDemo ?? isDemoData;
+      const matchingSchedules = hol ? schedules.filter(s => s.date === hol.date) : [];
+      const matchingSessions = hol ? attendanceSessions.filter(s => s.date === hol.date) : [];
+      return {
+        ...empty,
+        schedules: matchingSchedules.length,
+        attendanceSessions: matchingSessions.length,
+        isDemoEntity: isDemo,
+      };
     }
 
     return empty;
@@ -366,6 +440,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       batches: cls.batches || [],
       status: 'active',
       createdAt: new Date().toISOString().split('T')[0],
+      isDemo: cls.isDemo !== undefined ? cls.isDemo : isDemoData,
     };
     setClasses(prev => [...prev, newClass]);
     addAuditLog({
@@ -420,9 +495,19 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const cls = classes.find(c => c.id === id);
     if (!cls) return { success: false, message: 'Class not found.' };
 
+    const isDemo = isDemoData || Boolean(cls.isDemo);
+    if (isDemo) {
+      forceDeleteClass(id, 'Demo class cascade deletion.');
+      return { success: true, message: `Demo class "${cls.name}" deleted.` };
+    }
+
     // Dependency check: Active batches or students
     const activeBatches = batches.filter(b => b.classId === id && b.status === 'active');
     if (activeBatches.length > 0) {
+      if (currentRole === 'Super Admin') {
+        forceDeleteClass(id, 'Super Admin permanent deletion of class.');
+        return { success: true, message: 'Class deleted by Super Admin.' };
+      }
       showToast(`Cannot delete class with ${activeBatches.length} active batches. Archive it instead.`, 'error');
       return { success: false, message: 'Class contains active batches.' };
     }
@@ -449,6 +534,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       id,
       status: 'active',
       createdAt: new Date().toISOString().split('T')[0],
+      isDemo: batch.isDemo !== undefined ? batch.isDemo : isDemoData,
     };
     setBatches(prev => [...prev, newBatch]);
 
@@ -508,8 +594,18 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const batch = batches.find(b => b.id === id);
     if (!batch) return { success: false, message: 'Batch not found.' };
 
+    const isDemo = isDemoData || Boolean(batch.isDemo);
+    if (isDemo) {
+      forceDeleteBatch(id, 'Demo batch cascade deletion.');
+      return { success: true, message: `Demo batch "${batch.name}" deleted.` };
+    }
+
     const activeStudents = students.filter(s => s.batchId === batch.name && s.status === 'active');
     if (activeStudents.length > 0) {
+      if (currentRole === 'Super Admin') {
+        forceDeleteBatch(id, 'Super Admin permanent deletion of batch.');
+        return { success: true, message: 'Batch deleted by Super Admin.' };
+      }
       showToast(`Cannot delete batch with ${activeStudents.length} active students. Transfer students or archive batch.`, 'error');
       return { success: false, message: 'Batch has enrolled students.' };
     }
@@ -537,6 +633,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       status: 'active',
       createdAt: new Date().toISOString().split('T')[0],
       batchHistory: [],
+      isDemo: student.isDemo !== undefined ? student.isDemo : isDemoData,
     };
     setStudents(prev => [newStudent, ...prev]);
     addAuditLog({
@@ -647,9 +744,22 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const st = students.find(s => s.id === id);
     if (!st) return { success: false, message: 'Student not found.' };
 
-    // Check if attendance records exist
-    const hasPastSession = liveSession && liveSession.studentRecords[id]?.status === 'present';
+    const isDemo = isDemoData || Boolean(st.isDemo);
+    if (isDemo) {
+      forceDeleteStudent(id, 'Demo student cascade deletion.');
+      return { success: true, message: `Demo student "${st.name}" deleted.` };
+    }
+
+    // Check if attendance records exist for real data
+    const hasPastSession = (liveSession && liveSession.studentRecords[id]?.status === 'present') ||
+      leaveRequests.some(l => l.studentId === id) ||
+      absentFollowUps.some(f => f.studentId === id);
+
     if (hasPastSession) {
+      if (currentRole === 'Super Admin') {
+        forceDeleteStudent(id, 'Super Admin permanent deletion of student.');
+        return { success: true, message: `Student "${st.name}" deleted by Super Admin.` };
+      }
       showToast(`Cannot delete student with attendance records. Use "Archive / Deactivate" instead.`, 'error');
       return { success: false, message: 'Student has recorded attendance.' };
     }
@@ -706,6 +816,23 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     showToast(`${studentIds.length} students transferred to Batch ${toBatch.name}.`);
   };
 
+    // Bulk Delete Students (selected IDs)
+  const bulkDeleteStudents = (studentIds: string[]) => {
+    studentIds.forEach(id => {
+      const st = students.find(s => s.id === id);
+      if (!st) return;
+      const isDemo = isDemoData || Boolean(st.isDemo);
+      if (isDemo) {
+        // Force delete demo student to cascade delete related demo records
+        forceDeleteStudent(id, 'Demo student cascade deletion.');
+      } else {
+        // Safe delete for real data respecting constraints
+        deleteStudentSafe(id);
+      }
+    });
+    showToast(`${studentIds.length} student(s) deleted ${isDemoData ? '(demo)' : ''}.`);
+  };
+
   // -------------------------------------------------------------
   // TEACHERS CRUD
   // -------------------------------------------------------------
@@ -716,6 +843,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       id,
       status: 'active',
       joiningDate: teacher.joiningDate || new Date().toISOString().split('T')[0],
+      isDemo: teacher.isDemo !== undefined ? teacher.isDemo : isDemoData,
     };
     setTeachers(prev => [...prev, newT]);
     addAuditLog({
@@ -769,8 +897,18 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const t = teachers.find(item => item.id === id);
     if (!t) return { success: false, message: 'Teacher not found.' };
 
+    const isDemo = isDemoData || Boolean(t.isDemo);
+    if (isDemo) {
+      forceDeleteTeacher(id, 'Demo teacher cascade deletion.');
+      return { success: true, message: `Demo teacher "${t.name}" deleted.` };
+    }
+
     const hasClasses = schedules.some(s => s.teacherId === id || s.teacherName === t.name);
     if (hasClasses) {
+      if (currentRole === 'Super Admin') {
+        forceDeleteTeacher(id, 'Super Admin permanent deletion of teacher.');
+        return { success: true, message: `Teacher "${t.name}" deleted by Super Admin.` };
+      }
       showToast(`Cannot delete teacher assigned to classes. Use "Archive" to preserve history.`, 'error');
       return { success: false, message: 'Teacher has assigned classes.' };
     }
@@ -797,6 +935,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       id,
       status: 'active',
       avgAttendance: '85%',
+      isDemo: sub.isDemo !== undefined ? sub.isDemo : isDemoData,
     };
     setSubjects(prev => [...prev, newSub]);
     addAuditLog({
@@ -850,8 +989,18 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const s = subjects.find(item => item.id === id);
     if (!s) return { success: false, message: 'Subject not found.' };
 
+    const isDemo = isDemoData || Boolean(s.isDemo);
+    if (isDemo) {
+      forceDeleteSubject(id, 'Demo subject cascade deletion.');
+      return { success: true, message: `Demo subject "${s.name}" deleted.` };
+    }
+
     const hasSchedules = schedules.some(sch => sch.subject === s.name);
     if (hasSchedules) {
+      if (currentRole === 'Super Admin') {
+        forceDeleteSubject(id, 'Super Admin permanent deletion of subject.');
+        return { success: true, message: `Subject "${s.name}" deleted by Super Admin.` };
+      }
       showToast(`Cannot delete subject scheduled in classes. Use Archive instead.`, 'error');
       return { success: false, message: 'Subject used in timetable.' };
     }
@@ -877,24 +1026,43 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const cls = classes.find(c => c.id === id);
     if (!cls) return;
 
-    // Cascade: collect all dependents
-    const classBatchIds = batches.filter(b => b.classId === id).map(b => b.id);
-    const classStudentIds = students.filter(s => s.classId === id).map(s => s.id);
+    const isDemo = isDemoData || Boolean(cls.isDemo);
 
-    let removed = 0;
+    // Cascade: collect all dependents
+    const classBatches = batches.filter(b => b.classId === id && (!isDemo || b.isDemo !== false));
+    const classBatchIds = classBatches.map(b => b.id);
+    const classStudents = students.filter(s => (s.classId === id || classBatchIds.includes(s.batchId)) && (!isDemo || s.isDemo !== false));
+    const classStudentIds = classStudents.map(s => s.id);
 
     // Remove students in this class
-    setStudents(prev => { const next = prev.filter(s => !classStudentIds.includes(s.id)); removed += prev.length - next.length; return next; });
+    setStudents(prev => prev.filter(s => !(s.classId === id || classBatchIds.includes(s.batchId))));
     // Remove batches in this class
     setBatches(prev => prev.filter(b => b.classId !== id));
     // Remove schedules
-    setSchedules(prev => prev.filter(s => s.classId !== id));
+    setSchedules(prev => prev.filter(s => !(s.classId === id || classBatchIds.includes(s.batchId))));
     // Remove leave requests
-    setLeaveRequests(prev => prev.filter(l => l.classId !== id));
+    setLeaveRequests(prev => prev.filter(l => !(l.classId === id || classBatchIds.includes(l.batchId))));
     // Remove followups
-    setAbsentFollowUps(prev => prev.filter(f => f.classId !== id));
+    setAbsentFollowUps(prev => prev.filter(f => !(f.classId === id || classBatchIds.includes(f.batchId))));
     // Remove class
     setClasses(prev => prev.filter(c => c.id !== id));
+
+    // Reset or clean liveSession if it belongs to this class
+    setLiveSession(prev => {
+      if (!prev) return null;
+      if (prev.classId === id || classBatchIds.includes(prev.batchId)) {
+        return null;
+      }
+      const nextRecords = { ...prev.studentRecords };
+      let changed = false;
+      classStudentIds.forEach(stId => {
+        if (nextRecords[stId]) {
+          delete nextRecords[stId];
+          changed = true;
+        }
+      });
+      return changed ? { ...prev, studentRecords: nextRecords } : prev;
+    });
 
     const totalRemoved = classBatchIds.length + classStudentIds.length;
     addAuditLog({
@@ -905,16 +1073,18 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       reason,
       dependentRecordsDeleted: totalRemoved,
     });
-    showToast(`Class "${cls.name}" and all dependent records permanently deleted.`, 'warning');
+    showToast(`Class "${cls.name}" and all dependent records permanently deleted.`, isDemo ? 'success' : 'warning');
   };
 
   const forceDeleteBatch = (id: string, reason: string) => {
     const batch = batches.find(b => b.id === id);
     if (!batch) return;
 
-    const batchStudentIds = students.filter(s => s.batchId === id).map(s => s.id);
+    const isDemo = isDemoData || Boolean(batch.isDemo);
+    const batchStudents = students.filter(s => s.batchId === id && (!isDemo || s.isDemo !== false));
+    const batchStudentIds = batchStudents.map(s => s.id);
 
-    setStudents(prev => prev.filter(s => !batchStudentIds.includes(s.id)));
+    setStudents(prev => prev.filter(s => !(s.batchId === id && (!isDemo || s.isDemo !== false))));
     setSchedules(prev => prev.filter(s => s.batchId !== id));
     setLeaveRequests(prev => prev.filter(l => l.batchId !== id));
     setAbsentFollowUps(prev => prev.filter(f => f.batchId !== id));
@@ -922,8 +1092,25 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
 
     // Update parent class batch list
     setClasses(prev =>
-      prev.map(c => c.id === batch.classId ? { ...c, batches: c.batches.filter(n => n !== batch.name) } : c)
+      prev.map(c => c.id === batch.classId ? { ...c, batches: c.batches.filter(n => n !== batch.name && n !== batch.id) } : c)
     );
+
+    // Reset or clean liveSession if it belongs to this batch
+    setLiveSession(prev => {
+      if (!prev) return null;
+      if (prev.batchId === id) {
+        return null;
+      }
+      const nextRecords = { ...prev.studentRecords };
+      let changed = false;
+      batchStudentIds.forEach(stId => {
+        if (nextRecords[stId]) {
+          delete nextRecords[stId];
+          changed = true;
+        }
+      });
+      return changed ? { ...prev, studentRecords: nextRecords } : prev;
+    });
 
     const totalRemoved = batchStudentIds.length;
     addAuditLog({
@@ -934,13 +1121,15 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       reason,
       dependentRecordsDeleted: totalRemoved,
     });
-    showToast(`Batch "${batch.name}" and ${totalRemoved} student(s) permanently deleted.`, 'warning');
+    showToast(`Batch "${batch.name}" and ${totalRemoved} student(s) permanently deleted.`, isDemo ? 'success' : 'warning');
   };
 
   const forceDeleteStudent = (id: string, reason: string) => {
     const st = students.find(s => s.id === id);
     if (!st) return;
 
+    const isDemo = isDemoData || Boolean(st.isDemo);
+    const sessionCount = liveSession && liveSession.studentRecords[id] ? 1 : 0;
     const leaveCount = leaveRequests.filter(l => l.studentId === id).length;
     const followUpCount = absentFollowUps.filter(f => f.studentId === id).length;
 
@@ -948,7 +1137,18 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     setLeaveRequests(prev => prev.filter(l => l.studentId !== id));
     setAbsentFollowUps(prev => prev.filter(f => f.studentId !== id));
 
-    const totalRemoved = leaveCount + followUpCount;
+    // Clean up student from liveSession
+    setLiveSession(prev => {
+      if (!prev || !prev.studentRecords[id]) return prev;
+      const nextRecords = { ...prev.studentRecords };
+      delete nextRecords[id];
+      return {
+        ...prev,
+        studentRecords: nextRecords,
+      };
+    });
+
+    const totalRemoved = sessionCount + leaveCount + followUpCount;
     addAuditLog({
       action: 'Student Deleted',
       entity: 'Student',
@@ -957,19 +1157,33 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       reason,
       dependentRecordsDeleted: totalRemoved,
     });
-    showToast(`Student "${st.name}" permanently deleted.`, 'warning');
+    showToast(`Student "${st.name}" and all related demo records permanently deleted.`, isDemo ? 'success' : 'warning');
   };
 
   const forceDeleteTeacher = (id: string, reason: string) => {
     const t = teachers.find(item => item.id === id);
     if (!t) return;
 
-    const schedCount = schedules.filter(s => s.teacherId === id).length;
+    const isDemo = isDemoData || Boolean(t.isDemo);
+    const schedCount = schedules.filter(s => s.teacherId === id || s.teacherName === t.name).length;
 
-    // Don't cascade-delete schedules — just orphan teacher name (history preserved)
-    setSchedules(prev =>
-      prev.map(s => s.teacherId === id ? { ...s, teacherName: `${t.name} (Removed)`, teacherId: '' } : s)
-    );
+    if (isDemo) {
+      // In demo mode: remove demo schedules assigned to this teacher
+      setSchedules(prev => prev.filter(s => !(s.teacherId === id || s.teacherName === t.name)));
+      setLiveSession(prev => {
+        if (!prev) return null;
+        if (prev.teacherName === t.name) {
+          return { ...prev, teacherName: 'Unassigned Faculty' };
+        }
+        return prev;
+      });
+    } else {
+      // Real mode: orphan schedules (history preserved)
+      setSchedules(prev =>
+        prev.map(s => (s.teacherId === id || s.teacherName === t.name) ? { ...s, teacherName: `${t.name} (Removed)`, teacherId: '' } : s)
+      );
+    }
+
     setTeachers(prev => prev.filter(item => item.id !== id));
 
     addAuditLog({
@@ -980,16 +1194,22 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       reason,
       dependentRecordsDeleted: schedCount,
     });
-    showToast(`Teacher "${t.name}" permanently deleted. ${schedCount} schedule(s) now show "Removed" as teacher.`, 'warning');
+    showToast(`Teacher "${t.name}" permanently deleted.`, isDemo ? 'success' : 'warning');
   };
 
   const forceDeleteSubject = (id: string, reason: string) => {
     const s = subjects.find(item => item.id === id);
     if (!s) return;
 
+    const isDemo = isDemoData || Boolean(s.isDemo);
     const schedCount = schedules.filter(sch => sch.subject === s.name).length;
 
-    // Orphan schedules (subject name preserved as string in history)
+    if (isDemo) {
+      // In demo mode: remove demo schedules for this subject
+      setSchedules(prev => prev.filter(sch => sch.subject !== s.name));
+      setLiveSession(prev => (prev && prev.subject === s.name ? null : prev));
+    }
+
     setSubjects(prev => prev.filter(item => item.id !== id));
 
     addAuditLog({
@@ -1000,13 +1220,15 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       reason,
       dependentRecordsDeleted: schedCount,
     });
-    showToast(`Subject "${s.name}" permanently deleted.`, 'warning');
+    showToast(`Subject "${s.name}" permanently deleted.`, isDemo ? 'success' : 'warning');
   };
 
   const forceDeleteScheduleItem = (id: string, reason: string) => {
     const orig = schedules.find(s => s.id === id);
     if (!orig) return;
 
+    // If live session is this schedule, clear it
+    setLiveSession(prev => (prev && prev.scheduleId === id ? null : prev));
     setSchedules(prev => prev.filter(s => s.id !== id));
 
     addAuditLog({
@@ -1016,106 +1238,176 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       previousValue: `${orig.className} ${orig.batchName} — ${orig.subject}`,
       reason,
     });
-    showToast(`Class session permanently deleted.`, 'warning');
+    showToast(`Class session permanently deleted.`, 'success');
   };
 
-  // -------------------------------------------------------------
-  // ATTENDANCE VOID & CORRECTION WITH AUDIT TRAIL
-  // -------------------------------------------------------------
   const editAttendanceRecord = (
     sessionId: string,
     studentId: string,
     updates: { checkInTime?: string; checkOutTime?: string; status?: StudentStatus },
     reason: string
   ) => {
-    if (!liveSession) return;
     const student = students.find(s => s.id === studentId);
-    const prevRec = liveSession.studentRecords[studentId];
+    let prevRec: any = null;
+    let newStatus: StudentStatus = 'present';
+    let checkIn: string | undefined;
 
-    const newStatus = updates.status || prevRec?.status || 'present';
-    const checkIn = updates.checkInTime || prevRec?.checkInTime;
-    const checkOut = updates.checkOutTime || prevRec?.checkOutTime;
+    if (liveSession && liveSession.id === sessionId) {
+      prevRec = liveSession.studentRecords[studentId];
+      newStatus = updates.status || prevRec?.status || 'present';
+      checkIn = updates.checkInTime || prevRec?.checkInTime;
+      const checkOut = updates.checkOutTime || prevRec?.checkOutTime;
 
-    const timing = calculateStudentAttendanceTiming(
-      liveSession.scheduledStartTime,
-      liveSession.scheduledEndTime,
-      checkIn,
-      checkOut,
-      !!checkOut
-    );
+      const timing = calculateStudentAttendanceTiming(
+        liveSession.scheduledStartTime,
+        liveSession.scheduledEndTime,
+        checkIn,
+        checkOut,
+        !!checkOut
+      );
 
-    setLiveSession(prev => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        studentRecords: {
-          ...prev.studentRecords,
-          [studentId]: {
-            ...prev.studentRecords[studentId],
-            status: newStatus,
-            checkInTime: checkIn,
-            checkOutTime: checkOut,
-            attendedMinutes: timing.attendedMinutes,
-            missedMinutes: timing.missedMinutes,
-            extraMinutes: timing.extraMinutes,
-            lastEditedAt: getCurrentTimeFormatted(),
-            lastEditedBy: 'Amod Sharma (Admin)',
-            editReason: reason,
+      setLiveSession(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          studentRecords: {
+            ...prev.studentRecords,
+            [studentId]: {
+              ...prev.studentRecords[studentId],
+              status: newStatus,
+              checkInTime: checkIn,
+              checkOutTime: checkOut,
+              attendedMinutes: timing.attendedMinutes,
+              missedMinutes: timing.missedMinutes,
+              extraMinutes: timing.extraMinutes,
+              lastEditedAt: getCurrentTimeFormatted(),
+              lastEditedBy: 'Amod Sharma (Admin)',
+              editReason: reason,
+            },
           },
-        },
-      };
-    });
+        };
+      });
+    }
+
+    setAttendanceSessions(prev =>
+      prev.map(sess => {
+        if (sess.id === sessionId && sess.studentRecords && sess.studentRecords[studentId]) {
+          const rec = sess.studentRecords[studentId];
+          prevRec = prevRec || rec;
+          newStatus = updates.status || rec.status || 'present';
+          checkIn = updates.checkInTime || rec.checkInTime;
+          const checkOut = updates.checkOutTime || rec.checkOutTime;
+          const timing = calculateStudentAttendanceTiming(
+            sess.scheduledStartTime,
+            sess.scheduledEndTime,
+            checkIn,
+            checkOut,
+            true
+          );
+          return {
+            ...sess,
+            studentRecords: {
+              ...sess.studentRecords,
+              [studentId]: {
+                ...rec,
+                status: newStatus,
+                checkInTime: checkIn,
+                checkOutTime: checkOut,
+                attendedMinutes: timing.attendedMinutes,
+                missedMinutes: timing.missedMinutes,
+                extraMinutes: timing.extraMinutes,
+                lastEditedAt: getCurrentTimeFormatted(),
+                lastEditedBy: 'Amod Sharma (Admin)',
+                editReason: reason,
+              },
+            },
+          };
+        }
+        return sess;
+      })
+    );
 
     addAuditLog({
       action: 'Attendance Edited',
       entity: 'Student Attendance',
       entityId: studentId,
-      previousValue: `${prevRec?.status} (${prevRec?.checkInTime || '-'})`,
+      previousValue: `${prevRec?.status || 'Unknown'} (${prevRec?.checkInTime || '-'})`,
       newValue: `${newStatus} (${checkIn || '-'})`,
       reason,
     });
 
-    showToast(`Attendance updated for ${student?.name}. Logged in audit trail.`);
+    showToast(`Attendance updated for ${student?.name || 'student'}. Logged in audit trail.`);
   };
 
   const voidAttendanceRecord = (sessionId: string, studentId: string, reason: string) => {
-    if (!liveSession) return;
     const student = students.find(s => s.id === studentId);
-    const prevRec = liveSession.studentRecords[studentId];
+    let prevRec: any = null;
 
-    setLiveSession(prev => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        studentRecords: {
-          ...prev.studentRecords,
-          [studentId]: {
-            ...prev.studentRecords[studentId],
-            status: 'not_arrived',
-            isVoided: true,
-            voidReason: reason,
-            voidedBy: 'Amod Sharma (Admin)',
-            attendedMinutes: 0,
-            missedMinutes: 0,
-            extraMinutes: 0,
-            checkInTime: undefined,
-            checkOutTime: undefined,
-            isOngoing: false,
+    if (liveSession && liveSession.id === sessionId) {
+      prevRec = liveSession.studentRecords[studentId];
+      setLiveSession(prev => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          studentRecords: {
+            ...prev.studentRecords,
+            [studentId]: {
+              ...prev.studentRecords[studentId],
+              status: 'not_arrived',
+              isVoided: true,
+              voidReason: reason,
+              voidedBy: 'Amod Sharma (Admin)',
+              attendedMinutes: 0,
+              missedMinutes: 0,
+              extraMinutes: 0,
+              checkInTime: undefined,
+              checkOutTime: undefined,
+              isOngoing: false,
+            },
           },
-        },
-      };
-    });
+        };
+      });
+    }
+
+    setAttendanceSessions(prev =>
+      prev.map(sess => {
+        if (sess.id === sessionId && sess.studentRecords && sess.studentRecords[studentId]) {
+          const rec = sess.studentRecords[studentId];
+          prevRec = prevRec || rec;
+          return {
+            ...sess,
+            studentRecords: {
+              ...sess.studentRecords,
+              [studentId]: {
+                ...rec,
+                status: 'not_arrived',
+                isVoided: true,
+                voidReason: reason,
+                voidedBy: 'Amod Sharma (Admin)',
+                attendedMinutes: 0,
+                missedMinutes: 0,
+                extraMinutes: 0,
+                checkInTime: undefined,
+                checkOutTime: undefined,
+                isOngoing: false,
+              },
+            },
+          };
+        }
+        return sess;
+      })
+    );
 
     addAuditLog({
       action: 'Attendance Voided',
       entity: 'Student Attendance',
       entityId: studentId,
-      previousValue: `${prevRec?.status} (Check-in ${prevRec?.checkInTime})`,
+      previousValue: `${prevRec?.status || 'Unknown'} (Check-in ${prevRec?.checkInTime || '-'})`,
       newValue: 'Voided (Not Arrived)',
       reason,
     });
 
-    showToast(`Attendance record voided for ${student?.name}.`, 'warning');
+    showToast(`Attendance record voided for ${student?.name || 'student'}.`, 'warning');
   };
 
   // -------------------------------------------------------------
@@ -1354,13 +1646,20 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
   const endLiveSession = () => {
     if (!liveSession) return;
     markExitAllPresent();
-    setLiveSession(prev => {
-      if (!prev) return prev;
-      return {
-        ...prev,
-        sessionStatus: 'Completed',
-        endedAt: getCurrentTimeFormatted(),
-      };
+    const completedSession: TClassSession = {
+      ...liveSession,
+      sessionStatus: 'Completed',
+      endedAt: getCurrentTimeFormatted(),
+    };
+    setLiveSession(completedSession);
+    setAttendanceSessions(prev => {
+      const idx = prev.findIndex(s => s.id === completedSession.id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = completedSession;
+        return next;
+      }
+      return [completedSession, ...prev];
     });
     setSchedules(prev =>
       prev.map(s => (s.id === liveSession.scheduleId ? { ...s, status: 'Completed' } : s))
@@ -1371,7 +1670,11 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
   const startLiveSession = (scheduleId: string) => {
     const sch = schedules.find(s => s.id === scheduleId);
     if (!sch) return;
-    const batchStudents = students.filter(st => st.batchId === sch.batchId && st.status === 'active');
+    const batchStudents = students.filter(
+      st =>
+        st.status === 'active' &&
+        isClassApplicableToStudent(st, sch.date, sch.batchId || sch.batchName)
+    );
     const studentRecords: Record<string, any> = {};
 
     batchStudents.forEach(st => {
@@ -1402,9 +1705,19 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       sessionStatus: 'Ongoing',
       startedAt: getCurrentTimeFormatted(),
       studentRecords,
+      isDemo: sch.isDemo !== undefined ? sch.isDemo : isDemoData,
     };
 
     setLiveSession(newSession);
+    setAttendanceSessions(prev => {
+      const idx = prev.findIndex(s => s.id === newSession.id);
+      if (idx >= 0) {
+        const next = [...prev];
+        next[idx] = newSession;
+        return next;
+      }
+      return [newSession, ...prev];
+    });
     setSchedules(prev =>
       prev.map(s => (s.id === scheduleId ? { ...s, status: 'Ongoing' } : s))
     );
@@ -1418,6 +1731,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     const newItem: TScheduleItem = {
       ...item,
       id: `sch-${Date.now()}`,
+      isDemo: item.isDemo !== undefined ? item.isDemo : isDemoData,
     };
     setSchedules(prev => [...prev, newItem]);
     addAuditLog({
@@ -1444,6 +1758,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       date: newDate,
       status: 'Upcoming',
       type: 'extra',
+      isDemo: orig.isDemo !== undefined ? orig.isDemo : isDemoData,
     };
     setSchedules(prev => [...prev, duplicated]);
     showToast(`Session duplicated for ${newDate}.`);
@@ -1500,8 +1815,12 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     showToast(`Class session cancelled. Does not count as student absence.`);
   };
 
-  const deleteScheduleItemSafe = (id: string) => {
+  const deleteScheduleItemSafe = (id: string): { success: boolean; message: string } => {
     const orig = schedules.find(s => s.id === id);
+    if (isDemoData || orig?.isDemo) {
+      forceDeleteScheduleItem(id, 'Demo schedule item removed');
+      return { success: true, message: 'Deleted demo schedule.' };
+    }
     if (orig?.status === 'Completed') {
       showToast(`Cannot delete completed session with attendance history. Cancel it instead.`, 'error');
       return { success: false, message: 'Session is completed.' };
@@ -1516,6 +1835,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       ...holiday,
       id: `h-${Date.now()}`,
       status: 'active',
+      isDemo: holiday.isDemo !== undefined ? holiday.isDemo : isDemoData,
     };
     setHolidays(prev => [...prev, newH]);
     addAuditLog({
@@ -1529,12 +1849,42 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
   };
 
   const updateHoliday = (id: string, updates: Partial<THoliday>) => {
+    const orig = holidays.find(h => h.id === id);
     setHolidays(prev => prev.map(h => (h.id === id ? { ...h, ...updates } : h)));
+    addAuditLog({
+      action: 'Holiday Edited',
+      entity: 'Holiday',
+      entityId: id,
+      previousValue: orig?.title,
+      newValue: updates.title || orig?.title,
+      reason: updates.reason || 'Holiday details updated',
+    });
     showToast(`Holiday updated.`);
   };
 
-  const deleteHoliday = (id: string) => {
+  const archiveHoliday = (id: string) => {
+    const orig = holidays.find(h => h.id === id);
+    setHolidays(prev => prev.map(h => (h.id === id ? { ...h, status: 'archived' } : h)));
+    addAuditLog({
+      action: 'Holiday Archived',
+      entity: 'Holiday',
+      entityId: id,
+      previousValue: orig?.title,
+      reason: 'Holiday deactivated / archived',
+    });
+    showToast(`Holiday archived.`);
+  };
+
+  const deleteHoliday = (id: string, reason = 'Holiday removed') => {
+    const orig = holidays.find(h => h.id === id);
     setHolidays(prev => prev.filter(h => h.id !== id));
+    addAuditLog({
+      action: 'Holiday Deleted',
+      entity: 'Holiday',
+      entityId: id,
+      previousValue: orig?.title,
+      reason,
+    });
     showToast(`Holiday removed.`);
   };
 
@@ -1546,6 +1896,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
       ...req,
       id: `lr-${Date.now()}`,
       appliedOn: new Date().toISOString().split('T')[0],
+      isDemo: req.isDemo !== undefined ? req.isDemo : isDemoData,
     };
     setLeaveRequests(prev => [newReq, ...prev]);
     showToast(`Leave request submitted for ${req.studentName}.`);
@@ -1600,25 +1951,26 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
   // DEMO DATA MANAGEMENT
   // -------------------------------------------------------------
   const clearAllDemoData = () => {
-    setClasses([]);
-    setBatches([]);
-    setTeachers([]);
-    setSubjects([]);
-    setStudents([]);
-    setSchedules([]);
-    setLiveSession(null);
-    setLeaveRequests([]);
-    setAbsentFollowUps([]);
-    setHolidays([]);
+    setClasses(prev => prev.filter(c => c.isDemo === false));
+    setBatches(prev => prev.filter(b => b.isDemo === false));
+    setTeachers(prev => prev.filter(t => t.isDemo === false));
+    setSubjects(prev => prev.filter(s => s.isDemo === false));
+    setStudents(prev => prev.filter(st => st.isDemo === false));
+    setSchedules(prev => prev.filter(s => s.isDemo === false));
+    setAttendanceSessions(prev => prev.filter(s => s.isDemo === false));
+    setLiveSession(prev => (prev?.isDemo ? null : prev));
+    setLeaveRequests(prev => prev.filter(l => l.isDemo === false));
+    setAbsentFollowUps(prev => prev.filter(f => f.isDemo === false));
+    setHolidays(prev => prev.filter(h => h.isDemo === false));
     setIsDemoData(false);
     localStorage.removeItem(STORAGE_KEY);
     addAuditLog({
       action: 'Demo Data Cleared',
       entity: 'Database',
       entityId: 'root',
-      reason: 'Administrator cleared all demo records to start fresh.',
+      reason: 'Administrator cleared all demo records.',
     });
-    showToast(`All sample data cleared. Database is now in fresh setup mode.`, 'warning');
+    showToast(`All demo data cleared. Clean state established.`, 'warning');
   };
 
   const resetToSeedData = () => {
@@ -1629,6 +1981,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     setSubjects(SEED_SUBJECTS);
     setStudents(seedSt);
     setSchedules(SEED_SCHEDULE_ITEMS);
+    setAttendanceSessions(SEED_ATTENDANCE_SESSIONS);
     setLiveSession(generateInitialLiveSession(seedSt));
     setLeaveRequests(SEED_LEAVE_REQUESTS);
     setAbsentFollowUps(SEED_ABSENT_FOLLOWUPS);
@@ -1645,7 +1998,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     showToast(`Restored IDL Education official demo dataset.`);
   };
 
-  const currentLive = liveSession || generateInitialLiveSession(students.length ? students : generateSeedStudents());
+  const currentLive = liveSession;
 
   return (
     <AttendanceContext.Provider
@@ -1662,6 +2015,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
         holidays,
         students,
         schedules,
+        attendanceSessions,
         liveSession: currentLive,
         leaveRequests,
         absentFollowUps,
@@ -1669,6 +2023,7 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
         selectedDate,
         setSelectedDate,
         isDemoData,
+        setIsDemoData,
         getDependencySummary,
         addClass,
         updateClass,
@@ -1729,7 +2084,10 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
         addHoliday,
         updateHoliday,
         deleteHoliday,
+        archiveHoliday,
         addAuditLog,
+        clearAllAuditLogs,
+        deleteAuditLog,
         clearAllDemoData,
         resetToSeedData,
       }}

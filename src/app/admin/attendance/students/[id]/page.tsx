@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useAttendance } from '@/context/attendance-context';
@@ -48,24 +48,36 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog';
 import {
-  AMAN_KUMAR_HISTORY,
-  AMAN_KUMAR_SUBJECT_STATS,
+  calculateStudentAttendanceSummary,
   TStudentHistoryRecord,
+  TStudent,
+  TStudentBatchTransfer,
 } from '@/lib/attendance-store';
 
 export default function StudentProfilePage() {
   const params = useParams();
-  const { students, batches, absentFollowUps, leaveRequests, transferStudentBatch } = useAttendance();
+  const {
+    students,
+    batches,
+    schedules,
+    attendanceSessions,
+    liveSession,
+    absentFollowUps,
+    leaveRequests,
+    transferStudentBatch,
+  } = useAttendance();
 
   const studentId = (params?.id as string) || 's-9a-7';
-  const student = students.find(s => s.id === studentId) || {
+  const fallbackStudent: TStudent = {
     id: 's-9a-7',
     name: 'Aman Kumar',
     rollNo: 12,
+    classId: 'c9',
     className: '9th',
+    batchId: '9A',
     batchName: '9A',
-    admissionDate: '10 Aug 2026',
-    status: 'active' as const,
+    admissionDate: '2026-08-10',
+    status: 'active',
     parentPhone: '+91 99110 20006',
     parentName: 'Ramesh Kumar (Father)',
     phone: '+91 98110 10006',
@@ -74,6 +86,7 @@ export default function StudentProfilePage() {
     notes: '',
     batchHistory: [],
   };
+  const student: TStudent = students.find(s => s.id === studentId) || fallbackStudent;
 
   const [activeTab, setActiveTab] = useState('overview');
   const [dateFilter, setDateFilter] = useState('this_month');
@@ -97,6 +110,19 @@ export default function StudentProfilePage() {
   const studentCalls = absentFollowUps.filter(f => f.studentId === student.id);
   const studentLeaves = leaveRequests.filter(l => l.studentId === student.id);
 
+  // Dynamic Student Attendance Calculations
+  const attendanceSummary = useMemo(() => {
+    return calculateStudentAttendanceSummary({
+      student,
+      schedules,
+      attendanceSessions,
+      liveSession,
+      leaveRequests,
+      fromDate,
+      toDate,
+    });
+  }, [student, schedules, attendanceSessions, liveSession, leaveRequests, fromDate, toDate]);
+
   const handleTransferSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!transferTargetBatch) {
@@ -108,7 +134,7 @@ export default function StudentProfilePage() {
   };
 
   const handleShareWhatsApp = () => {
-    const text = `*IDL EDUCATION - Student Attendance Report*\nStudent: ${student.name} (${student.className}, Batch ${student.batchName})\nAttendance: 84.4%\nAttended: 46 Hours | Missed: 8 Hours\n\nLearn Today, Lead Tomorrow.`;
+    const text = `*IDL EDUCATION - Student Attendance Report*\nStudent: ${student.name} (${student.className}, Batch ${student.batchName})\nAttendance: ${attendanceSummary.overallAttendancePercent}%\nAttended: ${attendanceSummary.attendedHoursDisplay} | Missed: ${attendanceSummary.missedHoursDisplay}\n\nLearn Today, Lead Tomorrow.`;
     navigator.clipboard.writeText(text);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2500);
@@ -282,56 +308,69 @@ export default function StudentProfilePage() {
         </div>
       </div>
 
-      {/* Metric Cards Row (Panel 4 Reference) */}
+      {/* Metric Cards Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Total Classes</span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">32</span>
+          <span className="text-2xl font-black text-slate-900 mt-1 block">{attendanceSummary.totalClasses}</span>
         </div>
 
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs border-l-4 border-l-emerald-500">
           <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Present</span>
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-2xl font-black text-emerald-600">27</span>
-            <span className="text-[11px] font-bold text-emerald-700">(84.4%)</span>
+            <span className="text-2xl font-black text-emerald-600">{attendanceSummary.presentCount}</span>
+            <span className="text-[11px] font-bold text-emerald-700">({attendanceSummary.presentPercent}%)</span>
           </div>
         </div>
 
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs border-l-4 border-l-rose-500">
           <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider block">Absent</span>
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-2xl font-black text-rose-600">3</span>
-            <span className="text-[11px] font-bold text-rose-700">(9.4%)</span>
+            <span className="text-2xl font-black text-rose-600">{attendanceSummary.absentCount}</span>
+            <span className="text-[11px] font-bold text-rose-700">({attendanceSummary.absentPercent}%)</span>
           </div>
         </div>
 
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs border-l-4 border-l-amber-500">
           <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider block">Leave</span>
           <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-2xl font-black text-amber-600">2</span>
-            <span className="text-[11px] font-bold text-amber-700">(6.2%)</span>
+            <span className="text-2xl font-black text-amber-600">{attendanceSummary.leaveCount}</span>
+            <span className="text-[11px] font-bold text-amber-700">({attendanceSummary.leavePercent}%)</span>
           </div>
         </div>
 
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Scheduled</span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">54h</span>
+          <span className="text-2xl font-black text-slate-900 mt-1 block">{attendanceSummary.scheduledHoursDisplay}</span>
         </div>
 
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
           <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Attended</span>
-          <span className="text-2xl font-black text-emerald-600 mt-1 block">46h</span>
+          <span className="text-2xl font-black text-emerald-600 mt-1 block">{attendanceSummary.attendedHoursDisplay}</span>
         </div>
 
         <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs col-span-2 sm:col-span-1">
           <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider block">Missed</span>
-          <span className="text-2xl font-black text-rose-600 mt-1 block">8h</span>
+          <span className="text-2xl font-black text-rose-600 mt-1 block">{attendanceSummary.missedHoursDisplay}</span>
         </div>
       </div>
 
       {/* Main Tab Content */}
       {activeTab === 'overview' && (
         <div className="space-y-4">
+          {/* Zero/Fresh Student Attendance Banner */}
+          {attendanceSummary.isEmpty && (
+            <div className="p-4 bg-blue-50/70 border border-blue-200/80 rounded-xl text-xs text-slate-700 flex items-start gap-3 shadow-xs">
+              <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+              <div>
+                <h4 className="font-bold text-slate-900 text-xs">No attendance records yet</h4>
+                <p className="text-slate-600 mt-0.5 text-xs">
+                  Attendance will appear after the student attends/misses a scheduled class.
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Personal Details */}
             <Card className="border-slate-200 shadow-xs">
@@ -409,7 +448,9 @@ export default function StudentProfilePage() {
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-500">Total Recorded Sessions</span>
-                  <span className="font-bold text-slate-800">32 Classes</span>
+                  <span className="font-bold text-slate-800">
+                    {attendanceSummary.totalClasses} {attendanceSummary.totalClasses === 1 ? 'Class' : 'Classes'}
+                  </span>
                 </div>
               </CardContent>
             </Card>
@@ -444,7 +485,7 @@ export default function StudentProfilePage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {student.batchHistory.map((bh, idx) => (
+                    {(student.batchHistory || []).map((bh: TStudentBatchTransfer, idx: number) => (
                       <tr key={idx} className="hover:bg-slate-50/70">
                         <td className="py-2.5 px-4 font-mono font-bold text-blue-700">{bh.effectiveDate}</td>
                         <td className="py-2.5 px-3 font-semibold text-slate-600">Batch {bh.fromBatchName}</td>
@@ -468,90 +509,100 @@ export default function StudentProfilePage() {
           <CardHeader className="p-4 sm:p-5 border-b border-slate-100 flex flex-row items-center justify-between">
             <div>
               <CardTitle className="text-sm font-bold text-slate-900">
-                Attendance Records ({AMAN_KUMAR_HISTORY.length} Sessions)
+                Attendance Records ({attendanceSummary.records.length} Sessions)
               </CardTitle>
               <CardDescription className="text-xs text-slate-500">
                 Exact check-in, check-out, attended hours and absence remarks
               </CardDescription>
             </div>
             <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
-              Overall: 84.4%
+              Overall: {attendanceSummary.overallAttendancePercent}%
             </span>
           </CardHeader>
 
           <CardContent className="p-0 overflow-x-auto">
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 text-[11px] uppercase tracking-wider">
-                  <th className="py-3 px-4">Date</th>
-                  <th className="py-3 px-4">Subject</th>
-                  <th className="py-3 px-4">Time</th>
-                  <th className="py-3 px-3">Duration</th>
-                  <th className="py-3 px-3">Status</th>
-                  <th className="py-3 px-3">Missed</th>
-                  <th className="py-3 px-4">Reason / Remark</th>
-                  <th className="py-3 px-4 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {AMAN_KUMAR_HISTORY.map(row => {
-                  const isPresent = row.status === 'Present';
-                  const isAbsent = row.status === 'Absent';
-                  const isLeave = row.status === 'Leave';
+            {attendanceSummary.records.length === 0 ? (
+              <div className="p-12 text-center text-slate-500 space-y-2">
+                <Calendar className="h-10 w-10 text-slate-300 mx-auto" />
+                <h4 className="font-bold text-slate-900 text-sm">No Attendance Records</h4>
+                <p className="text-xs text-slate-500">
+                  No attendance has been marked for {student.name} in this period.
+                </p>
+              </div>
+            ) : (
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 text-[11px] uppercase tracking-wider">
+                    <th className="py-3 px-4">Date</th>
+                    <th className="py-3 px-4">Subject</th>
+                    <th className="py-3 px-4">Time</th>
+                    <th className="py-3 px-3">Duration</th>
+                    <th className="py-3 px-3">Status</th>
+                    <th className="py-3 px-3">Missed</th>
+                    <th className="py-3 px-4">Reason / Remark</th>
+                    <th className="py-3 px-4 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {attendanceSummary.records.map(row => {
+                    const isPresent = row.status === 'Present';
+                    const isAbsent = row.status === 'Absent';
+                    const isLeave = row.status === 'Leave';
 
-                  return (
-                    <tr
-                      key={row.id}
-                      onClick={() => setSelectedRecord(row)}
-                      className="hover:bg-slate-50 cursor-pointer transition-colors"
-                    >
-                      <td className="py-3 px-4 font-mono font-semibold text-slate-800">
-                        {row.date}
-                      </td>
-                      <td className="py-3 px-4 font-bold text-slate-900">{row.subject}</td>
-                      <td className="py-3 px-4 font-mono text-slate-600">{row.scheduledTime}</td>
-                      <td className="py-3 px-3 font-semibold text-slate-700">{row.duration}</td>
-                      <td className="py-3 px-3">
-                        {isPresent && (
-                          <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 font-bold text-[10px]">
-                            Present
-                          </Badge>
-                        )}
-                        {isAbsent && (
-                          <Badge className="bg-rose-50 text-rose-700 border-rose-200 font-bold text-[10px]">
-                            Absent
-                          </Badge>
-                        )}
-                        {isLeave && (
-                          <Badge className="bg-amber-50 text-amber-700 border-amber-200 font-bold text-[10px]">
-                            Leave
-                          </Badge>
-                        )}
-                      </td>
-                      <td className="py-3 px-3 font-mono font-semibold">
-                        {row.missed !== '0h' && row.missed !== '0m' ? (
-                          <span className="text-rose-600 font-bold">{row.missed}</span>
-                        ) : (
-                          <span className="text-slate-400">0h</span>
-                        )}
-                      </td>
-                      <td className="py-3 px-4 text-slate-600">
-                        {row.reason || <span className="text-slate-300">-</span>}
-                      </td>
-                      <td className="py-3 px-4 text-right">
-                        <Button
-                          variant="ghost"
-                          size="sm"
-                          className="text-blue-600 hover:text-blue-800 font-semibold text-xs h-7 px-2"
-                        >
-                          View
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+                    return (
+                      <tr
+                        key={row.id}
+                        onClick={() => setSelectedRecord(row)}
+                        className="hover:bg-slate-50 cursor-pointer transition-colors"
+                      >
+                        <td className="py-3 px-4 font-mono font-semibold text-slate-800">
+                          {row.date}
+                        </td>
+                        <td className="py-3 px-4 font-bold text-slate-900">{row.subject}</td>
+                        <td className="py-3 px-4 font-mono text-slate-600">{row.scheduledTime}</td>
+                        <td className="py-3 px-3 font-semibold text-slate-700">{row.duration}</td>
+                        <td className="py-3 px-3">
+                          {isPresent && (
+                            <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 font-bold text-[10px]">
+                              Present
+                            </Badge>
+                          )}
+                          {isAbsent && (
+                            <Badge className="bg-rose-50 text-rose-700 border-rose-200 font-bold text-[10px]">
+                              Absent
+                            </Badge>
+                          )}
+                          {isLeave && (
+                            <Badge className="bg-amber-50 text-amber-700 border-amber-200 font-bold text-[10px]">
+                              Leave
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="py-3 px-3 font-mono font-semibold">
+                          {row.missed !== '0h' && row.missed !== '0m' ? (
+                            <span className="text-rose-600 font-bold">{row.missed}</span>
+                          ) : (
+                            <span className="text-slate-400">0h</span>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-slate-600">
+                          {row.reason || <span className="text-slate-300">-</span>}
+                        </td>
+                        <td className="py-3 px-4 text-right">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-blue-600 hover:text-blue-800 font-semibold text-xs h-7 px-2"
+                          >
+                            View
+                          </Button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
           </CardContent>
         </Card>
       )}
@@ -559,50 +610,60 @@ export default function StudentProfilePage() {
       {/* Subject-Wise Tab */}
       {activeTab === 'subject_wise' && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {AMAN_KUMAR_SUBJECT_STATS.map(sub => (
-            <Card key={sub.subject} className="border-slate-200 shadow-xs">
-              <CardContent className="p-5">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-sm text-slate-900">{sub.subject}</span>
-                  <Badge
-                    className={`font-bold text-xs ${
-                      sub.attendancePercent >= 90
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : sub.attendancePercent >= 75
-                        ? 'bg-blue-50 text-blue-700 border-blue-200'
-                        : 'bg-rose-50 text-rose-700 border-rose-200'
-                    }`}
-                  >
-                    {sub.attendancePercent}%
-                  </Badge>
-                </div>
+          {attendanceSummary.subjectStats.length === 0 ? (
+            <div className="col-span-1 md:col-span-2 p-12 text-center text-slate-500 space-y-2 bg-white rounded-xl border border-slate-200">
+              <BookOpen className="h-10 w-10 text-slate-300 mx-auto" />
+              <h4 className="font-bold text-slate-900 text-sm">No Subject Attendance Records</h4>
+              <p className="text-xs text-slate-500">
+                Subject-wise breakdown will appear after attendance is marked for scheduled classes.
+              </p>
+            </div>
+          ) : (
+            attendanceSummary.subjectStats.map(sub => (
+              <Card key={sub.subject} className="border-slate-200 shadow-xs">
+                <CardContent className="p-5">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-sm text-slate-900">{sub.subject}</span>
+                    <Badge
+                      className={`font-bold text-xs ${
+                        sub.attendancePercent >= 90
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : sub.attendancePercent >= 75
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
+                          : 'bg-rose-50 text-rose-700 border-rose-200'
+                      }`}
+                    >
+                      {sub.attendancePercent}%
+                    </Badge>
+                  </div>
 
-                <div className="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
-                  <div
-                    className={`h-full rounded-full ${
-                      sub.attendancePercent >= 90 ? 'bg-emerald-500' : 'bg-blue-600'
-                    }`}
-                    style={{ width: `${sub.attendancePercent}%` }}
-                  />
-                </div>
+                  <div className="w-full bg-slate-100 h-2 rounded-full mt-3 overflow-hidden">
+                    <div
+                      className={`h-full rounded-full ${
+                        sub.attendancePercent >= 90 ? 'bg-emerald-500' : 'bg-blue-600'
+                      }`}
+                      style={{ width: `${sub.attendancePercent}%` }}
+                    />
+                  </div>
 
-                <div className="grid grid-cols-3 gap-2 mt-4 text-center text-xs">
-                  <div className="p-2 rounded-lg bg-slate-50">
-                    <span className="text-[10px] text-slate-500 block">Total Hours</span>
-                    <span className="font-bold text-slate-800">{sub.totalHours}h</span>
+                  <div className="grid grid-cols-3 gap-2 mt-4 text-center text-xs">
+                    <div className="p-2 rounded-lg bg-slate-50">
+                      <span className="text-[10px] text-slate-500 block">Total Hours</span>
+                      <span className="font-bold text-slate-800">{sub.totalHours}h</span>
+                    </div>
+                    <div className="p-2 rounded-lg bg-emerald-50/60">
+                      <span className="text-[10px] text-emerald-700 block">Attended</span>
+                      <span className="font-bold text-emerald-700">{sub.attendedHours}h</span>
+                    </div>
+                    <div className="p-2 rounded-lg bg-rose-50/60">
+                      <span className="text-[10px] text-rose-700 block">Missed</span>
+                      <span className="font-bold text-rose-700">{sub.missedHours}h</span>
+                    </div>
                   </div>
-                  <div className="p-2 rounded-lg bg-emerald-50/60">
-                    <span className="text-[10px] text-emerald-700 block">Attended</span>
-                    <span className="font-bold text-emerald-700">{sub.attendedHours}h</span>
-                  </div>
-                  <div className="p-2 rounded-lg bg-rose-50/60">
-                    <span className="text-[10px] text-rose-700 block">Missed</span>
-                    <span className="font-bold text-rose-700">{sub.missedHours}h</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))
+          )}
         </div>
       )}
 
@@ -815,7 +876,7 @@ export default function StudentProfilePage() {
               </div>
               <div>
                 <span className="text-slate-500 block text-[10px]">Attendance %</span>
-                <span className="font-black text-emerald-600 text-sm">84.4%</span>
+                <span className="font-black text-emerald-600 text-sm">{attendanceSummary.overallAttendancePercent}%</span>
               </div>
             </div>
 
@@ -823,15 +884,15 @@ export default function StudentProfilePage() {
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-2 rounded-lg bg-blue-50/70 border border-blue-100">
                 <span className="text-[10px] text-blue-700 block">Total Scheduled</span>
-                <span className="font-black text-slate-900 text-sm">54 Hours</span>
+                <span className="font-black text-slate-900 text-sm">{attendanceSummary.scheduledHoursDisplay}</span>
               </div>
               <div className="p-2 rounded-lg bg-emerald-50/70 border border-emerald-100">
                 <span className="text-[10px] text-emerald-700 block">Attended Hours</span>
-                <span className="font-black text-emerald-700 text-sm">46 Hours</span>
+                <span className="font-black text-emerald-700 text-sm">{attendanceSummary.attendedHoursDisplay}</span>
               </div>
               <div className="p-2 rounded-lg bg-rose-50/70 border border-rose-100">
                 <span className="text-[10px] text-rose-700 block">Missed Hours</span>
-                <span className="font-black text-rose-700 text-sm">8 Hours</span>
+                <span className="font-black text-rose-700 text-sm">{attendanceSummary.missedHoursDisplay}</span>
               </div>
             </div>
 
@@ -840,14 +901,20 @@ export default function StudentProfilePage() {
               <h4 className="font-bold text-slate-900 text-[11px] mb-2 uppercase tracking-wider">
                 Subject-Wise Attendance Breakdown
               </h4>
-              <div className="grid grid-cols-2 gap-2">
-                {AMAN_KUMAR_SUBJECT_STATS.map(s => (
-                  <div key={s.subject} className="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-100">
-                    <span className="font-medium text-slate-800">{s.subject}</span>
-                    <span className="font-black text-slate-900">{s.attendancePercent}%</span>
-                  </div>
-                ))}
-              </div>
+              {attendanceSummary.subjectStats.length === 0 ? (
+                <div className="p-3 text-center text-slate-500 bg-slate-50 rounded">
+                  No subject attendance records for this period.
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-2">
+                  {attendanceSummary.subjectStats.map(s => (
+                    <div key={s.subject} className="flex items-center justify-between p-2 rounded bg-slate-50 border border-slate-100">
+                      <span className="font-medium text-slate-800">{s.subject}</span>
+                      <span className="font-black text-slate-900">{s.attendancePercent}%</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Recent Absences */}
@@ -855,16 +922,34 @@ export default function StudentProfilePage() {
               <h4 className="font-bold text-slate-900 text-[11px] mb-1 uppercase tracking-wider">
                 Recent Absences &amp; Reasons
               </h4>
-              <div className="space-y-1.5 text-[11px]">
-                <div className="p-2 rounded bg-rose-50/50 border border-rose-100 flex justify-between">
-                  <span>03 Sep 2026 • Science (1h)</span>
-                  <span className="font-semibold text-rose-700">Fever (Father informed)</span>
+              {attendanceSummary.records.filter(r => r.status === 'Absent' || r.status === 'Leave').length === 0 ? (
+                <div className="p-2.5 rounded bg-slate-50 border border-slate-100 text-slate-500 text-center">
+                  No recorded absences or leaves in this period.
                 </div>
-                <div className="p-2 rounded bg-amber-50/50 border border-amber-100 flex justify-between">
-                  <span>04 Sep 2026 • Mathematics (2h)</span>
-                  <span className="font-semibold text-amber-700">Family function (Leave)</span>
+              ) : (
+                <div className="space-y-1.5 text-[11px]">
+                  {attendanceSummary.records
+                    .filter(r => r.status === 'Absent' || r.status === 'Leave')
+                    .slice(0, 4)
+                    .map(r => (
+                      <div
+                        key={r.id}
+                        className={`p-2 rounded border flex justify-between ${
+                          r.status === 'Absent'
+                            ? 'bg-rose-50/50 border-rose-100 text-rose-800'
+                            : 'bg-amber-50/50 border-amber-100 text-amber-800'
+                        }`}
+                      >
+                        <span>
+                          {r.date} • {r.subject} ({r.duration})
+                        </span>
+                        <span className="font-semibold">
+                          {r.reason || (r.status === 'Absent' ? 'Absent' : 'Leave')}
+                        </span>
+                      </div>
+                    ))}
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Signature & Stamp */}

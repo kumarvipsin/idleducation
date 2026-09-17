@@ -287,7 +287,7 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     return (
       <div className={cn("mt-3 sm:mt-3.5", className)}>
         {/* Footer Column Heading matching Quick Links, Resources, etc. */}
-        <h3 className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-white uppercase tracking-[0.07em] mb-2 sm:mb-2.5 border-l-2 border-[#1D4ED8] pl-2.5">
+        <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-2 sm:mb-2.5 border-l-2 border-[#1D4ED8] pl-2.5">
           Follow IDL
         </h3>
 
@@ -302,13 +302,13 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
               aria-label={social.ariaLabel}
               className={cn(
                 "w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-[8px]",
-                "bg-transparent dark:bg-transparent",
-                "border border-slate-300/60 dark:border-slate-800/80",
+                "bg-transparent",
+                "border border-slate-700/80",
                 "flex items-center justify-center shrink-0",
-                "text-[#0B1F4B] dark:text-slate-200",
+                "text-slate-300 hover:text-white",
                 "transition-colors duration-200 ease-out cursor-pointer",
-                "hover:bg-[#EEF4FF]/80 dark:hover:bg-blue-950/40 hover:border-slate-300 dark:hover:border-blue-900/60",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1F4FA3]/50 focus-visible:ring-offset-1",
+                "hover:bg-blue-900/40 hover:border-slate-500",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-1",
                 "active:opacity-80",
                 social.brandHoverColor
               )}
