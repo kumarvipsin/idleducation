@@ -147,11 +147,29 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
             },
         ],
     },
+    {
+        id: "cat_free_courses",
+        name: "FREE COURSES",
+        slug: "free-courses",
+        href: "/free-courses",
+        order: 4,
+        status: "active",
+        subItems: [],
+    },
+    {
+        id: "cat_premium_courses",
+        name: "PREMIUM COURSES",
+        slug: "premium-courses",
+        href: "#",
+        order: 5,
+        status: "active",
+        subItems: [],
+    },
 ];
 
 const getCategoryIcon = (id: string, name: string) => {
     const key = (name || id).toLowerCase();
-    if (key.includes('cbse') || key.includes('school') || key.includes('free')) {
+    if (key.includes('cbse') || key.includes('school')) {
         return <GraduationCap className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
     }
     if (key.includes('jee') || key.includes('iit')) {
@@ -162,6 +180,12 @@ const getCategoryIcon = (id: string, name: string) => {
     }
     if (key.includes('cuet') || key.includes('entrance') || key.includes('target')) {
         return <Target className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+    }
+    if (key.includes('free') || key.includes('youtube')) {
+        return <PlayCircle className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+    }
+    if (key.includes('premium')) {
+        return <Award className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
     }
     return <BookOpen className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
 };
@@ -360,7 +384,10 @@ export function Header() {
         let isMounted = true;
         getAllCoursesCategories().then((res) => {
             if (isMounted && res.success && res.data && res.data.length > 0) {
-                setCourseCategories(res.data);
+                const staticExtras = DEFAULT_COURSE_CATEGORIES.filter(c => 
+                    c.id === 'cat_free_courses' || c.id === 'cat_premium_courses'
+                );
+                setCourseCategories([...res.data, ...staticExtras]);
             }
         });
         return () => { isMounted = false; };

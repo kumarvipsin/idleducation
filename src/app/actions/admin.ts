@@ -593,11 +593,18 @@ export async function editStudentProfile(studentId: string, formData: FormData) 
 export async function addHeroSlide(formData: FormData) {
   const rawData = Object.fromEntries(formData.entries());
   const imageFile = rawData.image as File | null;
-  if (!imageFile) return { success: false, message: "Image is required." };
+  const mobileImageFile = rawData.mobileImage as File | null;
+  if (!imageFile || imageFile.size === 0) return { success: false, message: "Desktop image is required." };
 
   try {
     const destination = `hero-slides/${Date.now()}-${imageFile.name}`;
     const imageUrl = await uploadFileToGCS(imageFile, destination);
+    
+    let mobileImageUrl: string | undefined = undefined;
+    if (mobileImageFile && mobileImageFile.size > 0) {
+      const mobileDestination = `hero-slides/${Date.now()}-mobile-${mobileImageFile.name}`;
+      mobileImageUrl = await uploadFileToGCS(mobileImageFile, mobileDestination);
+    }
     
     await addDoc(collection(db, "heroSlides"), {
       title: rawData.title as string,
@@ -606,6 +613,7 @@ export async function addHeroSlide(formData: FormData) {
       buttonLink: rawData.buttonLink as string,
       order: parseInt(rawData.order as string, 10) || 99,
       imageUrl,
+      ...(mobileImageUrl ? { mobileImageUrl } : {}),
       createdAt: serverTimestamp(),
     });
     
@@ -619,6 +627,7 @@ export async function addHeroSlide(formData: FormData) {
 export async function editHeroSlide(id: string, formData: FormData) {
     const rawData = Object.fromEntries(formData.entries());
     const imageFile = rawData.image as File | null;
+    const mobileImageFile = rawData.mobileImage as File | null;
 
     const slideData: any = {
       title: rawData.title as string,
@@ -632,6 +641,11 @@ export async function editHeroSlide(id: string, formData: FormData) {
         if (imageFile && imageFile.size > 0) {
             const destination = `hero-slides/${Date.now()}-${imageFile.name}`;
             slideData.imageUrl = await uploadFileToGCS(imageFile, destination);
+        }
+
+        if (mobileImageFile && mobileImageFile.size > 0) {
+            const mobileDestination = `hero-slides/${Date.now()}-mobile-${mobileImageFile.name}`;
+            slideData.mobileImageUrl = await uploadFileToGCS(mobileImageFile, mobileDestination);
         }
 
         const docRef = doc(db, "heroSlides", id);
@@ -715,8 +729,8 @@ export async function addExpertTeacher(formData: FormData) {
     
     await addDoc(collection(db, "expertTeachers"), {
       ...teacherData,
-      avatarUrl: avatarUrl || '/director.png',
-      photoUrl: avatarUrl || '/director.png',
+      avatarUrl: avatarUrl || '',
+      photoUrl: avatarUrl || '',
       createdAt: serverTimestamp(),
     });
     
@@ -754,8 +768,8 @@ export async function editExpertTeacher(id: string, formData: FormData) {
   try {
     if (rawData.removePhoto === 'true') {
       // Admin explicitly removed the photo — clear it
-      teacherData.avatarUrl = '/director.png';
-      teacherData.photoUrl = '/director.png';
+      teacherData.avatarUrl = '';
+      teacherData.photoUrl = '';
     } else if (photoFile && photoFile.size > 0) {
       // New file uploaded
       const destination = `expert-teachers/${Date.now()}-${photoFile.name}`;

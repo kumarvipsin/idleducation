@@ -6,7 +6,6 @@ import { AcademicExcellence } from '@/components/landing/academic-excellence';
 import { getTopperTestimonials, getCollection, getTestimonials, getExpertTeachers } from '@/app/actions';
 import type { TTopperTestimonial, THeroSlide, TTestimonial, TExpertTeacher } from '@/app/actions/types';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
-import { TrustedPlatform } from '@/components/landing/trusted-platform';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
 import { DailyChallengeSection } from '@/components/landing/daily-challenge-section';
@@ -31,7 +30,6 @@ export default async function Home() {
     <div data-landing-page="true" className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
       <BuildSkillsSection slides={heroSlides} />
       <DiscoverCoursesSection />
-      <TrustedPlatform />
       <AcademicExcellence />
       <ExpertTeachersSection teachers={expertTeachers} />
       <ScholarshipSection />

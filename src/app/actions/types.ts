@@ -148,6 +148,7 @@ export interface TExpertTeacher {
   photoUrl?: string;
   originalPhotoUrl?: string;
   photoPosition?: string;   // CSS object-position e.g. 'top', 'center', '50% 20%'
+  motto?: string;           // Short motivational quote shown in card image overlay
   videoId?: string;
   videoUrl?: string;
   introVideo?: string;
@@ -233,6 +234,7 @@ export interface THeroSlide {
   title: string;
   description?: string;
   imageUrl: string;
+  mobileImageUrl?: string;
   buttonText?: string;
   buttonLink?: string;
   order: number;

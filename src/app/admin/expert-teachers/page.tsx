@@ -509,7 +509,8 @@ const ExpertTeacherForm = ({
         canvasExportHeight={440}
         title="Adjust Teacher Photo"
         subtitle="Card frame (5 : 4 ratio) • Drag to center face & zoom"
-        fileName="teacher-cropped-photo.jpg"
+        fileName="teacher-cropped-photo.png"
+        preserveTransparency={true}
         onApplyCrop={(croppedDataUrl, fileBlob) => {
           setPhotoPreview(croppedDataUrl);
           setActiveCropImage(croppedDataUrl);

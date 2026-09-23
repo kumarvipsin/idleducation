@@ -17,9 +17,10 @@ interface GcsImageProps {
   style?: React.CSSProperties;
   sizes?: string;
   asImgTag?: boolean;
+  priority?: boolean;
 }
 
-export function GcsImage({ filePath, alt, className, width, height, fill, style, sizes, asImgTag }: GcsImageProps) {
+export function GcsImage({ filePath, alt, className, width, height, fill, style, sizes, asImgTag, priority }: GcsImageProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -66,6 +67,7 @@ export function GcsImage({ filePath, alt, className, width, height, fill, style,
             className={className} 
             style={style}
             sizes={sizes}
+            priority={priority}
             unoptimized 
           />
         );
@@ -79,6 +81,7 @@ export function GcsImage({ filePath, alt, className, width, height, fill, style,
         className={className} 
         style={style}
         sizes={sizes}
+        priority={priority}
         unoptimized 
       />
     );

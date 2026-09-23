@@ -6,7 +6,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { THeroSlide } from "@/app/actions/types";
 import { GcsImage } from "../gcs-image";
-import { Trophy } from "lucide-react";
 import Link from "next/link";
 
 const defaultSlides: THeroSlide[] = [
@@ -20,108 +19,6 @@ const defaultSlides: THeroSlide[] = [
     order: 1,
   },
 ];
-
-interface SlideVisualMeta {
-  category: string;
-  headline1: string;
-  headline2: string;
-  highlight: string;
-  subHighlight: string;
-  visualFocus: string;
-  link: string;
-}
-
-function getSlideMeta(slide: THeroSlide, index: number): SlideVisualMeta {
-  const url = slide.imageUrl || '';
-  const title = (slide.title || '').trim();
-  const desc = (slide.description || '').trim();
-  const link = slide.buttonLink || '/admission';
-
-  // Check for specific known hero banners by image URL or title
-  if (url.includes('03_02_38') || title.toLowerCase().includes('iit') || title.toLowerCase().includes('jee')) {
-    return {
-      category: "CRACK IIT-JEE",
-      headline1: "Focus Today,",
-      headline2: "Achieve Tomorrow",
-      highlight: "95%+ Success Rate",
-      subHighlight: "Top Results • Expert IITian Mentorship",
-      visualFocus: "object-[82%_35%] sm:object-[78%_center]",
-      link,
-    };
-  }
-
-  if (url.includes('03_09_01') || title.toLowerCase().includes('class 12') || title.toLowerCase().includes('12th')) {
-    return {
-      category: "CLASS 12 BOARDS",
-      headline1: "Focused Today,",
-      headline2: "Leading Tomorrow",
-      highlight: "99% Results",
-      subHighlight: "Outstanding Academic Track Record • Verified",
-      visualFocus: "object-[82%_25%] sm:object-[80%_center]",
-      link,
-    };
-  }
-
-  if (url.includes('03_07_29') || title.toLowerCase().includes('class 10') || title.toLowerCase().includes('10th')) {
-    return {
-      category: "CLASS 10 BOARDS",
-      headline1: "Focused Today,",
-      headline2: "Future Ready",
-      highlight: "99% Results",
-      subHighlight: "Strong Foundation • Proven Board Success",
-      visualFocus: "object-[82%_25%] sm:object-[80%_center]",
-      link,
-    };
-  }
-
-  // If a custom non-'cover' title was provided by admin
-  if (title && title.toLowerCase() !== 'cover') {
-    const parts = title.split(' ');
-    const mid = Math.ceil(parts.length / 2);
-    return {
-      category: "ACADEMIC EXCELLENCE",
-      headline1: parts.slice(0, mid).join(' '),
-      headline2: parts.slice(mid).join(' '),
-      highlight: desc ? desc.slice(0, 30) : "Enroll For 2026-27",
-      subHighlight: desc || "Personalized Guidance & High Scores",
-      visualFocus: "object-[80%_center]",
-      link,
-    };
-  }
-
-  // Fallback by order/index
-  if (index === 0) {
-    return {
-      category: "CRACK IIT-JEE",
-      headline1: "Focus Today,",
-      headline2: "Achieve Tomorrow",
-      highlight: "95%+ Success Rate",
-      subHighlight: "Top Results • Expert IITian Mentorship",
-      visualFocus: "object-[82%_35%] sm:object-[78%_center]",
-      link,
-    };
-  } else if (index === 1) {
-    return {
-      category: "CLASS 12 BOARDS",
-      headline1: "Focused Today,",
-      headline2: "Leading Tomorrow",
-      highlight: "99% Results",
-      subHighlight: "Outstanding Academic Track Record",
-      visualFocus: "object-[82%_25%] sm:object-[80%_center]",
-      link,
-    };
-  } else {
-    return {
-      category: "CLASS 10 BOARDS",
-      headline1: "Focused Today,",
-      headline2: "Future Ready",
-      highlight: "99% Results",
-      subHighlight: "Strong Foundation • Board Exam Success",
-      visualFocus: "object-[82%_25%] sm:object-[80%_center]",
-      link,
-    };
-  }
-}
 
 export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSlide[] }) {
   const [api, setApi] = useState<CarouselApi>();
@@ -162,58 +59,36 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
           >
             <CarouselContent>
               {displaySlides.map((slide, index) => {
-                const meta = getSlideMeta(slide, index);
+                const link = slide.buttonLink || '/admission';
 
                 return (
                   <CarouselItem key={slide.id} className="rounded-none overflow-hidden">
-                    {/* Desktop Composition (>= 1024px): Full height edge-to-edge banner billboard */}
-                    <div className="hidden lg:block relative w-full aspect-[16/6] min-h-[400px] xl:min-h-[440px] rounded-none overflow-hidden [transform:translateZ(0)]">
-                      <GcsImage
-                        filePath={slide.imageUrl}
-                        alt={slide.title || 'Educational Excellence'}
-                        fill
-                        className="object-cover object-center rounded-none"
-                      />
-                    </div>
-
-                    {/* Mobile & Tablet Composition (< 1024px) */}
                     <Link
-                      href={meta.link}
-                      className="block lg:hidden relative w-full h-[240px] sm:h-[280px] md:h-[320px] overflow-hidden select-none bg-[#06122E] group rounded-none [transform:translateZ(0)]"
+                      href={link}
+                      className="block relative w-full select-none cursor-pointer overflow-hidden rounded-none [transform:translateZ(0)]"
                     >
-                      {/* Primary Student / Artwork Visual */}
-                      <div className="absolute top-0 right-0 bottom-0 w-[46%] sm:w-[48%] md:w-[50%] overflow-hidden pointer-events-none">
+                      {/* Mobile View (< 768px): Uses slide.mobileImageUrl if uploaded, else falls back to slide.imageUrl. Shows full-size vertical/mobile banner without cropping */}
+                      <div className="block md:hidden relative w-full bg-[#06122E] overflow-hidden">
+                        <GcsImage
+                          filePath={slide.mobileImageUrl || slide.imageUrl}
+                          alt={slide.title || 'Educational Excellence'}
+                          asImgTag={true}
+                          priority={index === 0}
+                          className="w-full h-auto object-contain block mx-auto"
+                          sizes="(max-width: 768px) 100vw, 768px"
+                        />
+                      </div>
+
+                      {/* Desktop View (>= 768px): Uses slide.imageUrl - static image with no zoom on mouse hover */}
+                      <div className="hidden md:block relative w-full aspect-[16/6] min-h-[360px] lg:min-h-[400px] xl:min-h-[440px] bg-[#06122E] overflow-hidden">
                         <GcsImage
                           filePath={slide.imageUrl}
                           alt={slide.title || 'Educational Excellence'}
                           fill
-                          className="object-cover object-center"
+                          priority={index === 0}
+                          className="object-cover object-center rounded-none"
+                          sizes="(max-width: 1024px) 100vw, 1920px"
                         />
-                        {/* Soft left-edge blend */}
-                        <div className="absolute inset-y-0 left-0 w-8 sm:w-12 bg-gradient-to-r from-[#06122E] to-transparent z-10" />
-                        {/* Soft bottom-edge scrim */}
-                        <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-[#06122E]/80 to-transparent z-10" />
-                      </div>
-
-                      {/* Content Layer */}
-                      <div className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-8 md:px-10 max-w-[58%] sm:max-w-[54%] md:max-w-[50%]">
-                        {/* Category Badge */}
-                        <div className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-bold tracking-widest text-[#F5B51B] uppercase mb-1 sm:mb-1.5">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#F5B51B] shrink-0" />
-                          <span className="truncate">{meta.category}</span>
-                        </div>
-
-                        {/* Main Headline */}
-                        <h2 className="text-[17px] sm:text-2xl md:text-3xl font-black tracking-tight text-white leading-[1.2] mb-2">
-                          {meta.headline1}<br />
-                          <span className="text-[#F5B51B]">{meta.headline2}</span>
-                        </h2>
-
-                        {/* Key Result / Highlight Badge */}
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[#0A225C] border border-[#F5B51B]/40 text-[#F5B51B] text-[11px] sm:text-xs font-bold shadow-sm w-fit">
-                          <Trophy className="w-3.5 h-3.5 text-[#F5B51B] shrink-0" />
-                          <span>{meta.highlight}</span>
-                        </div>
                       </div>
                     </Link>
                   </CarouselItem>
@@ -223,21 +98,23 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
           </Carousel>
           
           {/* Carousel Indicators: Positioned cleanly above overlapping course shelf */}
-          <div className="absolute bottom-10 sm:bottom-12 md:bottom-14 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 flex justify-center gap-1.5 sm:gap-2">
-            {displaySlides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => scrollTo(i)}
-                className={cn(
-                  "h-1.5 sm:h-2 rounded-full transition-all duration-300 shadow-sm",
-                  current === i 
-                    ? "w-6 sm:w-8 lg:w-10 bg-white" 
-                    : "w-1.5 sm:w-2 bg-white/40 hover:bg-white/60"
-                )}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
-          </div>
+          {displaySlides.length > 1 && (
+            <div className="absolute bottom-8 min-[390px]:bottom-10 sm:bottom-11 md:bottom-13 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 flex justify-center gap-1.5 sm:gap-2 pointer-events-auto bg-black/25 backdrop-blur-xs px-2.5 py-1 rounded-full">
+              {displaySlides.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => scrollTo(i)}
+                  className={cn(
+                    "h-1.5 sm:h-2 rounded-full transition-all duration-300 shadow-sm",
+                    current === i 
+                      ? "w-6 sm:w-8 lg:w-10 bg-white" 
+                      : "w-1.5 sm:w-2 bg-white/40 hover:bg-white/60"
+                  )}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </section>

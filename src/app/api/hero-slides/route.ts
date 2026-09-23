@@ -13,11 +13,17 @@ export async function GET() {
     
     if (result.success && Array.isArray(result.data)) {
         const signedData = await Promise.all(result.data.map(async (slide: any) => {
+            let imageUrl = slide.imageUrl;
+            let mobileImageUrl = slide.mobileImageUrl;
             if (slide.imageUrl) {
                 const signed = await getSignedUrlForPdf(slide.imageUrl);
-                return { ...slide, imageUrl: signed.success ? signed.url : slide.imageUrl };
+                if (signed.success && signed.url) imageUrl = signed.url;
             }
-            return slide;
+            if (slide.mobileImageUrl) {
+                const signed = await getSignedUrlForPdf(slide.mobileImageUrl);
+                if (signed.success && signed.url) mobileImageUrl = signed.url;
+            }
+            return { ...slide, imageUrl, mobileImageUrl };
         }));
         return NextResponse.json({ success: true, data: signedData });
     }

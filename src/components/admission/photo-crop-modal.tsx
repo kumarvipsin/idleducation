@@ -29,6 +29,10 @@ export interface PhotoCropModalProps {
   title?: string;
   subtitle?: string;
   fileName?: string;
+  showFaceGuide?: boolean;
+  minScale?: number;
+  maxScale?: number;
+  preserveTransparency?: boolean;
 }
 
 export function PhotoCropModal({
@@ -43,8 +47,12 @@ export function PhotoCropModal({
   title = "Adjust Photo",
   subtitle = "Standard 3.5 × 4.5 cm passport frame",
   fileName = "student-passport-photo.jpg",
+  showFaceGuide = true,
+  minScale = 1.0,
+  maxScale = 3.5,
+  preserveTransparency = false,
 }: PhotoCropModalProps) {
-  const [scale, setScale] = useState(1.0);
+  const [scale, setScale] = useState(minScale);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
   const [naturalSize, setNaturalSize] = useState<{ w: number; h: number } | null>(null);
@@ -74,12 +82,15 @@ export function PhotoCropModal({
     setIsLoading(true);
     setLoadError(null);
     setExportError(null);
-    setScale(1.0);
+    setScale(minScale);
     setOffset({ x: 0, y: 0 });
     setRotation(0);
 
     const img = new Image();
-    img.crossOrigin = "anonymous";
+    if (!imageSrc.startsWith('data:') && !imageSrc.startsWith('blob:')) {
+      img.crossOrigin = "anonymous";
+    }
+
     img.onload = () => {
       imgRef.current = img;
       setNaturalSize({
@@ -88,7 +99,14 @@ export function PhotoCropModal({
       });
       setIsLoading(false);
     };
+
     img.onerror = () => {
+      // If anonymous CORS failed on remote URL, retry once without crossOrigin
+      if (img.crossOrigin) {
+        img.crossOrigin = null as any;
+        img.src = imageSrc;
+        return;
+      }
       setLoadError("Unable to load this photo. Please choose another image.");
       setIsLoading(false);
     };
@@ -228,7 +246,7 @@ export function PhotoCropModal({
 
   // Reset to initial centered & 100% cover position
   const handleReset = () => {
-    setScale(1.0);
+    setScale(minScale);
     setOffset({ x: 0, y: 0 });
     setRotation(0);
     setExportError(null);
@@ -250,9 +268,13 @@ export function PhotoCropModal({
         throw new Error("Could not initialize 2D canvas context");
       }
 
-      // Crisp solid background
-      ctx.fillStyle = "#FFFFFF";
-      ctx.fillRect(0, 0, canvasExportWidth, canvasExportHeight);
+      // If preserving transparency (e.g. educator cutouts), clear transparently; otherwise fill white
+      if (!preserveTransparency) {
+        ctx.fillStyle = "#FFFFFF";
+        ctx.fillRect(0, 0, canvasExportWidth, canvasExportHeight);
+      } else {
+        ctx.clearRect(0, 0, canvasExportWidth, canvasExportHeight);
+      }
 
       ctx.save();
       // Move context to exact canvas center
@@ -269,18 +291,23 @@ export function PhotoCropModal({
       ctx.drawImage(imgRef.current, -drawW / 2, -drawH / 2, drawW, drawH);
       ctx.restore();
 
-      const croppedDataUrl = canvas.toDataURL("image/jpeg", 0.95);
+      const mimeType = preserveTransparency ? "image/png" : "image/jpeg";
+      const croppedDataUrl = canvas.toDataURL(mimeType, 0.95);
 
       const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob((b) => resolve(b), "image/jpeg", 0.95)
+        canvas.toBlob((b) => resolve(b), mimeType, 0.95)
       );
 
       if (!blob) {
         throw new Error("Failed to generate cropped image blob");
       }
 
-      const file = new File([blob], fileName, {
-        type: "image/jpeg",
+      const outFileName = preserveTransparency && fileName.endsWith(".jpg")
+        ? fileName.replace(/\.jpg$/i, ".png")
+        : fileName;
+
+      const file = new File([blob], outFileName, {
+        type: mimeType,
         lastModified: Date.now(),
       });
 
@@ -317,7 +344,8 @@ export function PhotoCropModal({
               e.preventDefault();
               onClose();
             }}
-            className="pointer-events-auto relative w-full max-w-[480px] bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-150"
+            className="pointer-events-auto relative w-full bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-2xl overflow-hidden flex flex-col focus:outline-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 duration-150"
+            style={{ maxWidth: `${Math.max(480, Math.min(frameWidth + 56, 760))}px` }}
           >
             {/* HEADER */}
             <div className="px-5 py-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-slate-900/80">
@@ -387,34 +415,50 @@ export function PhotoCropModal({
                     />
 
                     {/* Guidelines Overlay */}
-                    <div className="absolute inset-0 pointer-events-none border border-white/20 rounded-lg">
-                      {/* Face placement oval */}
-                      <div
-                        className="absolute border border-dashed border-white/85 rounded-[50%] shadow-[0_0_8px_rgba(0,0,0,0.6)]"
-                        style={
-                          frameWidth > frameHeight
-                            ? { top: "8%", left: "26%", width: "48%", height: "78%" }
-                            : { top: "14%", left: "20%", width: "60%", height: "62%" }
-                        }
-                      />
-                      {/* Eye level line */}
-                      <div
-                        className="absolute border-b border-white/40"
-                        style={
-                          frameWidth > frameHeight
-                            ? { top: "34%", left: "30%", right: "30%" }
-                            : { top: "38%", left: "22%", right: "22%" }
-                        }
-                      />
-                      {frameWidth <= frameHeight && (
-                        <div className="absolute bottom-[20%] left-[30%] right-[30%] border-b border-white/40" />
+                    <div className="absolute inset-0 pointer-events-none border border-white/20 rounded-lg overflow-hidden">
+                      {showFaceGuide ? (
+                        <>
+                          {/* Face placement oval */}
+                          <div
+                            className="absolute border border-dashed border-white/85 rounded-[50%] shadow-[0_0_8px_rgba(0,0,0,0.6)]"
+                            style={
+                              frameWidth > frameHeight
+                                ? { top: "8%", left: "26%", width: "48%", height: "78%" }
+                                : { top: "14%", left: "20%", width: "60%", height: "62%" }
+                            }
+                          />
+                          {/* Eye level line */}
+                          <div
+                            className="absolute border-b border-white/40"
+                            style={
+                              frameWidth > frameHeight
+                                ? { top: "34%", left: "30%", right: "30%" }
+                                : { top: "38%", left: "22%", right: "22%" }
+                            }
+                          />
+                          {frameWidth <= frameHeight && (
+                            <div className="absolute bottom-[20%] left-[30%] right-[30%] border-b border-white/40" />
+                          )}
+                        </>
+                      ) : (
+                        <div className="absolute inset-0 grid grid-cols-3 grid-rows-3 pointer-events-none">
+                          <div className="border-r border-b border-white/25" />
+                          <div className="border-r border-b border-white/25" />
+                          <div className="border-b border-white/25" />
+                          <div className="border-r border-b border-white/25" />
+                          <div className="border-r border-b border-white/25" />
+                          <div className="border-b border-white/25" />
+                          <div className="border-r border-white/25" />
+                          <div className="border-r border-white/25" />
+                          <div />
+                        </div>
                       )}
                     </div>
 
                     {/* Helper Floating Badge */}
                     <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-slate-950/80 backdrop-blur-xs text-white text-[9px] font-semibold px-2.5 py-0.5 rounded-full pointer-events-none flex items-center gap-1 shadow-md">
                       <Move className="w-2.5 h-2.5" />
-                      <span>Drag to Center Face</span>
+                      <span>{showFaceGuide ? "Drag to Center Face" : "Drag to Reposition"}</span>
                     </div>
                   </>
                 )}
@@ -434,7 +478,7 @@ export function PhotoCropModal({
                   <button
                     type="button"
                     disabled={isLoading || !!loadError}
-                    onClick={() => setScale((s) => Math.max(1.0, +(s - 0.1).toFixed(2)))}
+                    onClick={() => setScale((s) => Math.max(minScale, +(s - 0.1).toFixed(2)))}
                     className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-[#102A68] dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer pointer-events-auto"
                     title="Zoom Out"
                     aria-label="Zoom out"
@@ -444,8 +488,8 @@ export function PhotoCropModal({
 
                   <input
                     type="range"
-                    min="1.0"
-                    max="3.0"
+                    min={minScale}
+                    max={maxScale}
                     step="0.05"
                     disabled={isLoading || !!loadError}
                     value={scale}
@@ -457,7 +501,7 @@ export function PhotoCropModal({
                   <button
                     type="button"
                     disabled={isLoading || !!loadError}
-                    onClick={() => setScale((s) => Math.min(3.0, +(s + 0.1).toFixed(2)))}
+                    onClick={() => setScale((s) => Math.min(maxScale, +(s + 0.1).toFixed(2)))}
                     className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-[#102A68] dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors disabled:opacity-40 disabled:pointer-events-none cursor-pointer pointer-events-auto"
                     title="Zoom In"
                     aria-label="Zoom in"
