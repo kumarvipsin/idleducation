@@ -300,12 +300,16 @@ export function StudyResources() {
               <button
                 key={i}
                 onClick={() => scrollTo(i)}
-                className={cn(
-                  "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
-                  (current % resources.length) === i ? "w-8 bg-primary" : "w-2 bg-muted-foreground/20 hover:bg-muted-foreground/40"
-                )}
+                className="p-3 cursor-pointer group flex items-center justify-center min-w-[44px] min-h-[44px]"
                 aria-label={`Go to slide ${i + 1}`}
-              />
+              >
+                <span
+                  className={cn(
+                    "rounded-full transition-all duration-300",
+                    (current % resources.length) === i ? "w-8 h-2.5 bg-primary" : "w-2.5 h-2.5 bg-muted-foreground/20 group-hover:bg-muted-foreground/40"
+                  )}
+                />
+              </button>
             ))}
           </div>
         </div>

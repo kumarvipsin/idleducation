@@ -132,7 +132,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             onClick={() => videoId ? setIsVideoOpen(true) : undefined}
             disabled={!videoId}
             aria-label={`Watch introduction of ${teacher.name}`}
-            className={`absolute bottom-3 right-3 z-30 w-[40px] h-[40px] rounded-full bg-black/20 backdrop-blur-[2px] border-2 border-white/90 flex items-center justify-center transition-all duration-200 ${videoId ? 'cursor-pointer hover:bg-black/30 hover:border-white hover:scale-105 active:scale-95' : 'cursor-default opacity-30'}`}
+            className={`absolute bottom-3 right-3 z-30 w-[40px] h-[40px] rounded-full bg-transparent border-[3px] border-white/90 flex items-center justify-center transition-all duration-200 ${videoId ? 'cursor-pointer hover:bg-white/10 hover:border-white hover:scale-105 active:scale-95' : 'cursor-default opacity-30'}`}
           >
             <Play
               className={`w-[13px] h-[13px] ml-[2px] ${videoId ? 'text-white fill-white' : 'text-white/40 fill-white/40'}`}
@@ -140,45 +140,49 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </button>
         </div>
 
-        {/* ── CARD BODY ── */}
-        <div className="flex flex-col flex-1 px-4 pt-4 pb-4">
+        {/* ── CARD BODY — Premium lower section ── */}
+        <div className="flex flex-col flex-1 px-4 pt-3.5 pb-3.5">
 
-          {/* NAME — Bold primary anchor */}
-          <h3 className="font-bold text-[18px] sm:text-[19px] text-[#0C1F4A] tracking-[-0.02em] leading-[1.2] text-center w-full mb-2">
+          {/* NAME — Dominant anchor, bold geometric sans, dark navy */}
+          <h3 className="font-extrabold text-[17px] sm:text-[18px] text-[#0A1E42] tracking-[-0.025em] leading-[1.15] text-center w-full">
             {teacher.name}
           </h3>
 
-          {/* EXPERIENCE BADGE — readable, anchored to name */}
-          {hasExp && (
-            <div className="flex justify-center mb-2.5">
-              <span className="inline-flex items-center gap-[5px] px-2.5 py-[3px] rounded-full bg-[#EEF2FF] text-[#3B5EA6] text-[10.5px] font-semibold tracking-[0.02em]">
-                <Clock className="w-[10px] h-[10px] shrink-0 stroke-[2.5]" />
-                {expDisplay}
+          {/* METADATA ROW — Experience • Subject in one elegant line */}
+          <div className="flex items-center justify-center gap-1.5 mt-2 mb-0.5">
+            {hasExp && (
+              <>
+                <span className="inline-flex items-center gap-[4px] text-[11px] font-semibold text-[#2D5BA9] tracking-[0.01em]">
+                  <Clock className="w-[10px] h-[10px] shrink-0 stroke-[2.5] text-[#3B6FCF]" />
+                  {expDisplay}
+                </span>
+                {(subjectLabel || designation) && (
+                  <span className="text-[10px] text-slate-300 select-none" aria-hidden="true">•</span>
+                )}
+              </>
+            )}
+            {(subjectLabel || designation) && (
+              <span className="text-[11px] font-medium text-[#3D506F] tracking-[0.005em]">
+                {(subjectLabel || designation || '').replace(/^Maths$/i, 'Mathematics').replace(/^Phy$/i, 'Physics').replace(/^Chem$/i, 'Chemistry').replace(/^Bio$/i, 'Biology').replace(/^Eng$/i, 'English')}
               </span>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* SUBJECT — medium weight, clearly readable */}
-          {(subjectLabel || designation) && (
-            <p className="text-[12.5px] text-[#4A5E82] font-medium text-center mb-1.5 leading-snug tracking-[0.005em]">
-              {subjectLabel || designation}
-            </p>
-          )}
+          {/* SUBTLE SHORT DIVIDER — barely visible accent separator */}
+          <div className="mt-auto pt-3">
+            <div className="w-10 h-[0.5px] bg-slate-200/80 mx-auto mb-2.5" />
 
-
-          {/* DIVIDER + VIEW PROFILE */}
-          <div className="mt-auto pt-3.5">
-            <div className="w-full h-px bg-slate-100 mb-3" />
+            {/* VIEW PROFILE CTA — clean text-based, IDL blue, refined arrow */}
             <button
               type="button"
               onClick={() => setIsProfileOpen(true)}
               aria-label={`View profile of ${teacher.name}`}
-              className="w-full flex items-center justify-center gap-1 bg-transparent border-none p-0 cursor-pointer group"
+              className="w-full flex items-center justify-center gap-1 bg-transparent border-none p-0 cursor-pointer group/cta"
             >
-              <span className="text-[12.5px] font-semibold text-[#1A56DB] group-hover:text-[#0F3FA8] transition-colors duration-150 tracking-[0.01em]">
+              <span className="text-[12px] font-bold text-[#1A56DB] group-hover/cta:text-[#0D3B9E] transition-colors duration-150 tracking-[0.015em]">
                 View Profile
               </span>
-              <ArrowRight className="w-3 h-3 stroke-[2.5] text-[#1A56DB] group-hover:text-[#0F3FA8] transition-colors duration-150" />
+              <ArrowRight className="w-[11px] h-[11px] stroke-[2.8] text-[#1A56DB] group-hover/cta:text-[#0D3B9E] group-hover/cta:translate-x-0.5 transition-all duration-150" />
             </button>
           </div>
         </div>

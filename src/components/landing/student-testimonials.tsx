@@ -7,9 +7,9 @@ import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "../gcs-image";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
+import { Dialog, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
 import { VideoModalDialogContent } from "@/components/ui/video-modal-dialog";
-import { Play, ChevronLeft, ChevronRight } from "lucide-react";
+import { Play, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 
 const DURATIONS = ["2:35", "3:12", "2:18", "2:52", "3:05", "2:40", "3:15"];
 
@@ -18,7 +18,7 @@ const FALLBACK_TESTIMONIALS: TTestimonial[] = [
     id: "star-1",
     name: "Ananya Verma",
     achievement: "Class 10",
-    testimonial: "IDL’s regular tests and personal guidance really helped me stay on track.",
+    testimonial: "IDL's regular tests and personal guidance really helped me stay on track.",
     avatarUrl: "https://storage.googleapis.com/idlcloud/testimonials/1768739625626-Gemini_Generated_Image_lrc5h4lrc5h4lrc5.png",
     videoId: "9MOum9jk6lQ",
     createdAt: new Date().toISOString(),
@@ -68,13 +68,13 @@ function getStoryButtonLabel(name: string): string {
     "shreya", "anjali", "divya", "isha", "tanvi", "simran", "aditi", "swati", 
     "shipra", "megha", "muskan", "khushi", "tanya", "palak", "mansi"
   ]);
-  if (femaleNames.has(firstName)) return "Watch Her Story →";
+  if (femaleNames.has(firstName)) return "Watch Her Story";
   if (firstName.endsWith("a") || firstName.endsWith("i") || firstName.endsWith("ya")) {
     if (!["aman", "krishna", "rishi", "ravi", "ali"].includes(firstName)) {
-      return "Watch Her Story →";
+      return "Watch Her Story";
     }
   }
-  return "Watch His Story →";
+  return "Watch His Story";
 }
 
 function formatStudentClass(achievement?: string): string {
@@ -89,13 +89,15 @@ function formatStudentClass(achievement?: string): string {
 
 function cleanQuote(text: string): string {
   let q = text.trim();
-  q = q.replace(/^["“']|["”']$/g, '').trim();
-  return `“${q}”`;
+  q = q.replace(/^[""']|[""']$/g, '').trim();
+  return q;
 }
 
-const TestimonialCard = ({ testimonial, index }: { testimonial: TTestimonial; index: number }) => {
+/* ═══════════════════════════════════════════════════════════════════════
+   FEATURED STORY CARD — Refined Editorial Hero
+   ═══════════════════════════════════════════════════════════════════════ */
+const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; index: number }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-
   const duration = DURATIONS[index % DURATIONS.length];
   const storyLabel = getStoryButtonLabel(testimonial.name);
   const classLabel = formatStudentClass(testimonial.achievement);
@@ -104,26 +106,33 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: TTestimonial; in
 
   return (
     <>
-      <div className="h-full w-full flex flex-col bg-white dark:bg-card text-foreground rounded-2xl overflow-hidden border border-slate-200/90 dark:border-border/60 shadow-[0_2px_8px_rgba(0,0,0,0.04)] hover:shadow-md transition-all duration-200 group/card">
-        {/* Photo Container — flush with card edges */}
-        <div className="relative w-full aspect-[16/11] overflow-hidden bg-slate-100 dark:bg-muted shrink-0">
+      <div className="group/featured flex flex-col lg:flex-row h-full w-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800/70 shadow-[0_2px_12px_-4px_rgba(10,30,66,0.06)] hover:shadow-[0_8px_24px_-6px_rgba(10,30,66,0.10)] transition-all duration-300">
+        
+        {/* IMAGE — Editorial portrait visual */}
+        <div 
+          className="relative w-full lg:w-[48%] xl:w-[49%] h-[240px] sm:h-[270px] lg:h-full overflow-hidden cursor-pointer shrink-0"
+          onClick={() => setIsVideoOpen(true)}
+        >
           <GcsImage
-            filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/400/300"}
+            filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/600/400"}
             alt={testimonial.name}
             fill
-            className="object-cover transition-transform duration-300 ease-out group-hover/card:scale-[1.03]"
+            className="object-cover object-center transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]"
           />
-          {/* Duration Pill Badge */}
-          <div className="absolute bottom-2.5 right-2.5 px-2 py-0.5 rounded-[4px] bg-black/75 backdrop-blur-[2px] text-white text-[11px] font-semibold tracking-tight z-10 select-none">
+          {/* Subtle bottom gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent pointer-events-none" />
+          
+          {/* Duration badge */}
+          <div className="absolute top-3.5 left-3.5 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-xs text-white text-[10.5px] font-semibold tracking-tight z-10 select-none">
             {duration}
           </div>
         </div>
 
-        {/* Content Body */}
-        <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between relative bg-white dark:bg-card">
-          {/* Watermark Quote Icon in top-right */}
+        {/* CONTENT PANEL — Refined editorial composition with natural, balanced spacing */}
+        <div className="flex flex-col justify-center h-full flex-1 p-6 sm:p-7 xl:p-8 relative min-w-0 bg-white dark:bg-slate-900">
+          {/* Watermark quote icon — subtle & elegant */}
           <svg
-            className="absolute top-3.5 right-4 w-10 h-10 text-[#E8F0FE] dark:text-blue-950/40 select-none pointer-events-none"
+            className="absolute top-5 right-5 lg:top-6 lg:right-6 w-12 h-12 lg:w-14 lg:h-14 text-blue-100/50 dark:text-blue-950/20 select-none pointer-events-none"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
@@ -131,33 +140,40 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: TTestimonial; in
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
 
-          {/* Testimonial Quote */}
-          <p className="text-[13px] sm:text-[13.5px] text-[#334155] dark:text-slate-300 font-normal leading-[1.45] line-clamp-3 min-h-[58px] mb-3.5 relative z-10 antialiased">
-            {quoteText}
-          </p>
+          {/* Quote & Student identity */}
+          <div className="relative z-10 min-w-0">
+            {/* Quote — strong readable navy tone, clamped to 3 lines */}
+            <blockquote className="mb-3 sm:mb-3.5">
+              <p className="text-[17px] sm:text-[18px] lg:text-[18.5px] xl:text-[19.5px] font-semibold text-[#0B1E48] dark:text-slate-100 leading-[1.45] tracking-tight line-clamp-3 antialiased">
+                &ldquo;{quoteText}&rdquo;
+              </p>
+            </blockquote>
 
-          {/* Student Name & Class */}
-          <div className="mb-4">
-            <h3 className="font-bold text-[16px] sm:text-[17px] text-[#0B1F4B] dark:text-white tracking-tight leading-snug mb-0.5 truncate">
-              {testimonial.name}
-            </h3>
-            <p className="text-[12.5px] sm:text-[13px] text-[#64748B] dark:text-slate-400 font-medium leading-none">
-              {classLabel}
-            </p>
+            {/* Student metadata positioned naturally below the quote */}
+            <div className="min-w-0">
+              <h3 className="font-bold text-[16px] sm:text-[17px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+                {testimonial.name}
+              </h3>
+              <p className="text-[12.5px] sm:text-[13px] text-[#3B4D66] dark:text-slate-300 font-medium mt-0.5 truncate">
+                {classLabel} · IDL Education
+              </p>
+            </div>
           </div>
 
-          {/* Bottom Action Button */}
-          <button
-            type="button"
-            onClick={() => setIsVideoOpen(true)}
-            aria-label={`${storyLabel} - ${testimonial.name}`}
-            className="w-full py-2.5 px-4 rounded-xl bg-[#0066FF] hover:bg-[#0052CC] active:scale-[0.99] text-white flex items-center justify-center gap-2 font-medium text-[13px] sm:text-[13.5px] shadow-xs transition-all duration-150 cursor-pointer"
-          >
-            <span className="w-[18px] h-[18px] rounded-full border-[1.5px] border-white flex items-center justify-center shrink-0">
-              <Play className="w-2 h-2 fill-white text-white ml-[1px]" />
-            </span>
-            <span>{storyLabel}</span>
-          </button>
+          {/* CTA Button — tightened spacing */}
+          <div className="relative z-10 mt-4 sm:mt-4.5">
+            <button
+              type="button"
+              onClick={() => setIsVideoOpen(true)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#062B67] hover:bg-[#0A1E42] text-white text-[13.5px] font-semibold shadow-[0_2px_8px_-2px_rgba(6,43,103,0.25)] hover:shadow-[0_4px_14px_-2px_rgba(6,43,103,0.35)] transition-all duration-200 cursor-pointer active:scale-[0.98] shrink-0"
+            >
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                <Play className="w-2.5 h-2.5 fill-white text-white ml-[1px]" />
+              </span>
+              {storyLabel}
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] ml-0.5" />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -185,10 +201,205 @@ const TestimonialCard = ({ testimonial, index }: { testimonial: TTestimonial; in
   );
 };
 
+/* ═══════════════════════════════════════════════════════════════════════
+   COMPACT STORY CARD — Supporting stories (right side on desktop)
+   ═══════════════════════════════════════════════════════════════════════ */
+const CompactStoryCard = ({ 
+  testimonial, 
+  index, 
+  onSelect 
+}: { 
+  testimonial: TTestimonial; 
+  index: number; 
+  onSelect?: () => void;
+}) => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const duration = DURATIONS[index % DURATIONS.length];
+  const classLabel = formatStudentClass(testimonial.achievement);
+  const quoteText = cleanQuote(testimonial.testimonial);
+  const videoId = testimonial.videoId || "9MOum9jk6lQ";
+
+  return (
+    <>
+      <div 
+        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200/70 dark:border-slate-800/70 shadow-[0_1px_6px_-2px_rgba(10,30,66,0.05)] hover:shadow-[0_4px_16px_-3px_rgba(10,30,66,0.1)] hover:-translate-y-[1px] transition-all duration-200 cursor-pointer"
+        onClick={() => {
+          if (onSelect) {
+            onSelect();
+          } else {
+            setIsVideoOpen(true);
+          }
+        }}
+      >
+        {/* Thumbnail */}
+        <div className="relative w-[115px] sm:w-[120px] xl:w-[125px] h-full shrink-0 overflow-hidden">
+          <GcsImage
+            filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/200/200"}
+            alt={testimonial.name}
+            fill
+            className="object-cover transition-transform duration-400 group-hover/compact:scale-[1.04]"
+          />
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-black/15 pointer-events-none" />
+          
+          {/* Clean subtle duration badge */}
+          <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/60 backdrop-blur-xs text-white text-[9.5px] font-medium tracking-tight z-10 select-none">
+            {duration}
+          </div>
+        </div>
+
+        {/* Text content — stronger weight, deep navy color, balanced spacing */}
+        <div className="flex flex-col justify-center flex-1 px-3.5 py-2.5 min-w-0">
+          {/* Quote — stronger weight, deep navy color, balanced readability */}
+          <p className="text-[13.5px] sm:text-[14px] xl:text-[14.2px] text-[#0A1E42] dark:text-slate-100 font-semibold leading-[1.38] line-clamp-2 mb-1.5 antialiased">
+            &ldquo;{quoteText}&rdquo;
+          </p>
+          {/* Identity */}
+          <div className="min-w-0">
+            <p className="font-bold text-[13.5px] sm:text-[14px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+              {testimonial.name}
+            </p>
+            <p className="text-[11.5px] sm:text-[12px] text-[#3B4D66] dark:text-slate-300 font-medium leading-none truncate mt-0.5">
+              {classLabel}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Video Modal */}
+      {videoId && (
+        <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
+          <VideoModalDialogContent className="w-[min(calc(100vw-2.5rem),calc((84dvh)*9/16),420px)] aspect-[9/16] h-auto">
+            <DialogHeader className="sr-only">
+              <DialogTitle>{testimonial.name} - Success Story</DialogTitle>
+              <DialogDescription>Video success story from a student.</DialogDescription>
+            </DialogHeader>
+            <div className="relative w-full h-full overflow-hidden">
+              <iframe
+                className="block w-full h-full border-0"
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+                title={`YouTube video player for ${testimonial.name}'s testimonial`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </VideoModalDialogContent>
+        </Dialog>
+      )}
+    </>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MOBILE STORY CARD — Full-width single-card layout for mobile
+   ═══════════════════════════════════════════════════════════════════════ */
+const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; index: number }) => {
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
+  const duration = DURATIONS[index % DURATIONS.length];
+  const storyLabel = getStoryButtonLabel(testimonial.name);
+  const classLabel = formatStudentClass(testimonial.achievement);
+  const quoteText = cleanQuote(testimonial.testimonial);
+  const videoId = testimonial.videoId || "9MOum9jk6lQ";
+
+  return (
+    <>
+      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800/70 shadow-[0_2px_12px_-4px_rgba(10,30,66,0.06)]">
+        {/* Image — full width at top, cinematic aspect ratio */}
+        <div 
+          className="relative w-full aspect-[16/10] overflow-hidden cursor-pointer shrink-0"
+          onClick={() => setIsVideoOpen(true)}
+        >
+          <GcsImage
+            filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/600/400"}
+            alt={testimonial.name}
+            fill
+            className="object-cover object-center transition-transform duration-500 group-hover/mobile:scale-[1.03]"
+          />
+          {/* Subtle gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent pointer-events-none" />
+          
+          {/* Duration badge at top-left */}
+          <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-black/60 backdrop-blur-xs text-white text-[10.5px] font-semibold tracking-tight z-10 select-none">
+            {duration}
+          </div>
+        </div>
+
+        {/* Content Area — comfortable horizontal padding, readable navy quote, student info, compact CTA */}
+        <div className="p-5 sm:p-6 flex flex-col justify-between relative bg-white dark:bg-slate-900">
+          {/* Subtle Watermark */}
+          <svg className="absolute top-4 right-4 w-10 h-10 text-blue-100/40 dark:text-blue-950/20 select-none pointer-events-none" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+          </svg>
+          
+          <div className="relative z-10 min-w-0">
+            {/* Quote — 3-4 lines with controlled ellipsis */}
+            <blockquote className="mb-3.5">
+              <p className="text-[14.5px] sm:text-[15.5px] font-semibold text-[#0B1E48] dark:text-slate-100 leading-[1.48] tracking-tight line-clamp-3 sm:line-clamp-4 antialiased">
+                &ldquo;{quoteText}&rdquo;
+              </p>
+            </blockquote>
+
+            {/* Student info */}
+            <div className="min-w-0">
+              <h3 className="font-bold text-[15px] sm:text-[16px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+                {testimonial.name}
+              </h3>
+              <p className="text-[12.5px] sm:text-[13px] text-[#3B4D66] dark:text-slate-300 font-medium mt-0.5 truncate">
+                {classLabel} · IDL Education
+              </p>
+            </div>
+          </div>
+
+          {/* Compact CTA Button — fixed padding, gap, and whitespace-nowrap to prevent text clipping */}
+          <div className="relative z-10 pt-4 mt-1">
+            <button
+              type="button"
+              onClick={() => setIsVideoOpen(true)}
+              className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-xl bg-[#062B67] hover:bg-[#0A1E42] text-white text-[13.5px] font-semibold shadow-[0_2px_8px_-2px_rgba(6,43,103,0.25)] hover:shadow-[0_4px_14px_-2px_rgba(6,43,103,0.35)] transition-all duration-200 cursor-pointer active:scale-[0.98] w-fit whitespace-nowrap"
+            >
+              <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center shrink-0">
+                <Play className="w-2.5 h-2.5 fill-white text-white ml-[1px]" />
+              </span>
+              <span className="whitespace-nowrap">{storyLabel}</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] ml-0.5 shrink-0" />
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Video Modal */}
+      {videoId && (
+        <Dialog open={isVideoOpen} onOpenChange={setIsVideoOpen}>
+          <VideoModalDialogContent className="w-[min(calc(100vw-2.5rem),calc((84dvh)*9/16),420px)] aspect-[9/16] h-auto">
+            <DialogHeader className="sr-only">
+              <DialogTitle>{testimonial.name} - Success Story</DialogTitle>
+              <DialogDescription>Video success story from a student.</DialogDescription>
+            </DialogHeader>
+            <div className="relative w-full h-full overflow-hidden">
+              <iframe
+                className="block w-full h-full border-0"
+                src={`https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`}
+                title={`YouTube video player for ${testimonial.name}'s testimonial`}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </VideoModalDialogContent>
+        </Dialog>
+      )}
+    </>
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   MAIN SECTION — IDL Stars · Premium editorial layout
+   ═══════════════════════════════════════════════════════════════════════ */
 export function StudentTestimonials({ testimonials }: { testimonials: TTestimonial[] }) {
   const [loading, setLoading] = useState(!testimonials);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [isDesktopHovered, setIsDesktopHovered] = useState(false);
 
   const isHoveredRef = useRef(false);
   const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -291,54 +502,143 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
     ? rawList 
     : [...rawList, ...FALLBACK_TESTIMONIALS.slice(rawList.length)];
 
+  // Split: first = featured, rest = supporting stories
+  const featured = testimonialList[activeSlide] || testimonialList[0];
+  const supporting = testimonialList.filter((_, i) => i !== activeSlide);
+  // Show up to 3 supporting stories on desktop
+  const desktopSupporting = supporting.slice(0, 3);
+
+  // Auto-rotate the featured story every 6 seconds (pauses on desktop hover)
+  useEffect(() => {
+    if (loading || testimonialList.length <= 1 || isDesktopHovered) return;
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % testimonialList.length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, [loading, testimonialList.length, isDesktopHovered]);
+
   return (
-    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 bg-[#F8FAFD]/60 dark:bg-background overflow-hidden">
-      {/* Subtle ambient depth glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[960px] h-[340px] sm:h-[420px] bg-blue-500/[0.03] dark:bg-blue-500/[0.02] rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/4 right-[10%] w-[320px] sm:w-[480px] h-[260px] bg-amber-500/[0.015] rounded-full blur-3xl pointer-events-none" />
+    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 bg-[#FAFBFE] dark:bg-background overflow-hidden">
+      {/* Subtle ambient depth glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[350px] sm:h-[450px] bg-blue-500/[0.02] dark:bg-blue-500/[0.015] rounded-full blur-3xl pointer-events-none" />
 
       <div className="container relative z-10 mx-auto px-4 md:px-6 max-w-7xl">
-        <div className="flex flex-col">
-          <div className="text-center space-y-2.5 sm:space-y-3 mb-6 sm:mb-8 md:mb-10">
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
-              IDL{' '}
-              <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
-                Stars
-                {/* Curved Wave Line under Stars */}
-                <span className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-[72%] h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
-                  <svg className="w-full h-full overflow-visible" viewBox="0 0 100 16" fill="none" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="idl-stars-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
-                        <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
-                        <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
-                      </linearGradient>
-                      <linearGradient id="idl-stars-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
-                        <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
-                        <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#idl-stars-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
-                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#idl-stars-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
-                  </svg>
-                </span>
-              </span>
-            </h2>
-            <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
-              Celebrating the achievements of our bright and determined learners.
-            </p>
-          </div>
 
-          {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-80 w-full rounded-2xl" />)}
+        {/* ── Section Header — Tighter vertical spacing ── */}
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0A1E42] dark:text-white leading-[1.15]">
+            IDL{' '}
+            <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
+              Stars
+              {/* Curved underline accent */}
+              <span className="absolute -bottom-1.5 sm:-bottom-2 left-1/2 -translate-x-1/2 w-[75%] h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
+                <svg className="w-full h-full overflow-visible" viewBox="0 0 100 16" fill="none" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="idl-stars-swoosh-v3" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
+                      <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
+                      <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
+                    </linearGradient>
+                    <linearGradient id="idl-stars-swoosh-v3-dark" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
+                      <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
+                      <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
+                      <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
+                    </linearGradient>
+                  </defs>
+                  <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#idl-stars-swoosh-v3)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
+                  <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#idl-stars-swoosh-v3-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
+                </svg>
+              </span>
+            </span>
+          </h2>
+          <p className="text-sm sm:text-[15px] md:text-base text-[#3B4D66] dark:text-slate-300 font-medium mt-2.5 sm:mt-3 max-w-xl mx-auto tracking-[-0.01em]">
+            Real stories. Real journeys. Real results.
+          </p>
+        </div>
+
+        {/* ── Loading State ── */}
+        {loading ? (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <Skeleton className="h-[364px] w-full rounded-2xl" />
+            <div className="space-y-3">
+              {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-[104px] w-full rounded-xl" />)}
             </div>
-          ) : testimonialList.length > 0 ? (
+          </div>
+        ) : testimonialList.length > 0 ? (
+          <>
+            {/* ═══════════════════════════════════════════
+                DESKTOP LAYOUT — Asymmetric editorial with FIXED matched height
+                Featured (left) + Stacked compact (right)
+               ═══════════════════════════════════════════ */}
             <div 
-              className="relative w-full overflow-visible"
+              className="hidden lg:grid lg:grid-cols-[1fr_370px] xl:grid-cols-[1fr_395px] gap-5 xl:gap-5.5 lg:h-[364px] xl:h-[372px] items-stretch"
+              onMouseEnter={() => setIsDesktopHovered(true)}
+              onMouseLeave={() => setIsDesktopHovered(false)}
+            >
+              
+              {/* LEFT — Featured story (fixed height, clamped text, balanced vertical spacing) */}
+              <div key={activeSlide} className="h-full w-full animate-in fade-in duration-300">
+                <FeaturedStoryCard 
+                  testimonial={featured} 
+                  index={activeSlide} 
+                />
+              </div>
+
+              {/* RIGHT — Stacked compact stories with matched total height */}
+              <div className="flex flex-col justify-between h-full">
+                <div className="flex flex-col gap-2.5 flex-1 min-h-0 justify-between">
+                  {desktopSupporting.map((t) => {
+                    const originalIndex = testimonialList.indexOf(t);
+                    return (
+                      <CompactStoryCard 
+                        key={t.id || originalIndex} 
+                        testimonial={t} 
+                        index={originalIndex}
+                        onSelect={() => setActiveSlide(originalIndex)}
+                      />
+                    );
+                  })}
+                </div>
+
+                {/* "View More Student Stories" link */}
+                <a 
+                  href="/idl-stars"
+                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13.5px] sm:text-sm font-bold pt-2 pb-0.5 transition-colors cursor-pointer group shrink-0"
+                >
+                  <span>View More Student Stories</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+
+            {/* Slide indicators (Desktop) */}
+            <div className="hidden lg:flex justify-center gap-1.5 mt-6">
+              {testimonialList.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveSlide(i)}
+                  className="p-2 flex items-center justify-center min-w-[32px] min-h-[32px] cursor-pointer group/dot"
+                  aria-label={`View story ${i + 1}`}
+                >
+                  <span
+                    className={cn(
+                      "rounded-full transition-all duration-300",
+                      activeSlide === i 
+                        ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500" 
+                        : "w-2 h-2 bg-slate-200 dark:bg-slate-700 group-hover/dot:bg-slate-300"
+                    )}
+                  />
+                </button>
+              ))}
+            </div>
+
+            {/* ═══════════════════════════════════════════
+                MOBILE/TABLET LAYOUT — Single card carousel (One card at a time)
+               ═══════════════════════════════════════════ */}
+            <div 
+              className="lg:hidden relative w-full max-w-sm sm:max-w-md mx-auto px-2 sm:px-0"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               onTouchStart={handleTouchStart}
@@ -351,7 +651,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                 opts={{
                   align: "start",
                   loop: true,
-                  duration: 32,
+                  duration: 25,
                 }}
                 plugins={[
                   Autoplay({
@@ -360,59 +660,76 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                     stopOnMouseEnter: true,
                   }),
                 ]}
-                className="w-full"
+                className="w-full overflow-hidden"
               >
-                <CarouselContent className="-ml-3 sm:-ml-4 md:-ml-4 items-stretch">
+                <CarouselContent className="-ml-0 items-stretch">
                   {testimonialList.map((testimonial, index) => (
                     <CarouselItem 
                       key={testimonial.id || index} 
-                      className="pl-3 sm:pl-4 md:pl-4 basis-[82%] min-[480px]:basis-[48%] md:basis-[33.33%] lg:basis-[25%] xl:basis-[20%] flex flex-col"
+                      className="pl-0 basis-full flex flex-col"
                     >
-                      <div className="h-full flex flex-col flex-1">
-                        <TestimonialCard testimonial={testimonial} index={index} />
+                      <div className="w-full">
+                        <MobileStoryCard testimonial={testimonial} index={index} />
                       </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
               </Carousel>
 
-              {/* Circular Prev/Next Arrow Buttons (Matching Screenshot) */}
+              {/* Nav arrows (tablet) */}
               <button
                 type="button"
                 onClick={() => api?.scrollPrev()}
-                className="hidden md:flex absolute -left-4 lg:-left-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200/90 dark:border-slate-800 items-center justify-center text-slate-700 dark:text-slate-200 hover:text-[#0066FF] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                aria-label="Previous testimonials"
+                className="hidden sm:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200/80 dark:border-slate-800 items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#062B67] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                aria-label="Previous stories"
               >
-                <ChevronLeft className="w-5 h-5 stroke-[2.5]" />
+                <ChevronLeft className="w-4.5 h-4.5 stroke-[2.5]" />
               </button>
               <button
                 type="button"
                 onClick={() => api?.scrollNext()}
-                className="hidden md:flex absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200/90 dark:border-slate-800 items-center justify-center text-slate-700 dark:text-slate-200 hover:text-[#0066FF] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                aria-label="Next testimonials"
+                className="hidden sm:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200/80 dark:border-slate-800 items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#062B67] hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                aria-label="Next stories"
               >
-                <ChevronRight className="w-5 h-5 stroke-[2.5]" />
+                <ChevronRight className="w-4.5 h-4.5 stroke-[2.5]" />
               </button>
               
-              {/* Pagination Dots */}
-              <div className="flex justify-center gap-1.5 sm:gap-2 mt-6 sm:mt-7">
+              {/* Pagination dots (mobile) */}
+              <div className="flex justify-center gap-1.5 mt-5 sm:mt-6 mb-2">
                 {testimonialList.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => scrollTo(i)}
-                    className={cn(
-                      "h-1.5 rounded-full transition-all duration-300 shadow-xs cursor-pointer",
-                      current === i ? "w-6 sm:w-8 bg-[#0A225C] dark:bg-primary" : "w-1.5 sm:w-2 bg-slate-200 dark:bg-muted-foreground/30 hover:bg-slate-300"
-                    )}
+                    className="p-2 flex items-center justify-center min-w-[32px] min-h-[32px] cursor-pointer group/dot"
                     aria-label={`Go to slide ${i + 1}`}
-                  />
+                  >
+                    <span
+                      className={cn(
+                        "rounded-full transition-all duration-300",
+                        current === i 
+                          ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500" 
+                          : "w-2 h-2 bg-slate-200 dark:bg-slate-700 group-hover/dot:bg-slate-300"
+                      )}
+                    />
+                  </button>
                 ))}
               </div>
+
+              {/* "View More Student Stories" link (mobile below dots) */}
+              <div className="flex justify-center mt-2.5">
+                <a 
+                  href="/idl-stars"
+                  className="inline-flex items-center justify-center gap-1.5 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13.5px] sm:text-sm font-bold py-1 px-3 transition-colors cursor-pointer group"
+                >
+                  <span>View More Student Stories</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
             </div>
-          ) : (
-            <p className="text-center text-xs text-muted-foreground italic font-bold">New success stories coming soon!</p>
-          )}
-        </div>
+          </>
+        ) : (
+          <p className="text-center text-sm text-[#3B4D66] dark:text-slate-300 font-medium italic">New success stories coming soon!</p>
+        )}
       </div>
     </section>
   );

@@ -28,6 +28,7 @@ export default async function Home() {
 
   return (
     <div data-landing-page="true" className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
+      <h1 className="sr-only">IDL Education</h1>
       <BuildSkillsSection slides={heroSlides} />
       <DiscoverCoursesSection />
       <AcademicExcellence />

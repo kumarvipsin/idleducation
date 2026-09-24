@@ -120,9 +120,9 @@ export function GetAppSection() {
         {/* Support Area: Need Help? We're Here. */}
         <div className="max-w-3xl mx-auto">
           <div className="text-center mb-2.5">
-            <h3 className="text-xs sm:text-sm font-extrabold text-[#0B1F4B] dark:text-slate-200 uppercase tracking-wider">
+            <h2 className="text-xs sm:text-sm font-extrabold text-[#0B1F4B] dark:text-slate-200 uppercase tracking-wider">
               Need Help? We&apos;re Here.
-            </h3>
+            </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-2 sm:p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
             {/* Action 1: Technical Support */}

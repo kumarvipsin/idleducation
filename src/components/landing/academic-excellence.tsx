@@ -566,7 +566,7 @@ export function AcademicExcellence() {
                   <div className="w-6 h-1 rounded-full bg-[#FF6B21] mb-2" />
                   
                   {/* Category Title e.g. CLASS 12 • 2026 RESULTS */}
-                  <h3 className="text-base sm:text-[18px] lg:text-[19px] font-extrabold tracking-tight flex flex-wrap items-center gap-1.5 leading-snug">
+                  <h3 className="text-xl sm:text-2xl lg:text-[26px] font-extrabold tracking-tight flex flex-wrap items-center gap-2 leading-snug">
                     <span className="text-[#062B67] dark:text-white">
                       {activeCategory.headlineTitle}
                     </span>
@@ -576,7 +576,7 @@ export function AcademicExcellence() {
                     </span>
                   </h3>
 
-                  <p className="text-[12px] sm:text-[13px] text-slate-500 dark:text-slate-400 mt-1 leading-relaxed line-clamp-2">
+                  <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
                     {activeCategory.description}
                   </p>
                 </div>
@@ -585,48 +585,48 @@ export function AcademicExcellence() {
                 <div className="grid grid-cols-3 gap-1 sm:gap-2 py-3 sm:py-4 my-2.5 sm:my-3.5 border-y border-[#EDF2FA] dark:border-slate-800">
                   
                   {/* Stat 1: Highest Score */}
-                  <div className="flex flex-col items-center text-center px-0.5 sm:px-1">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-amber-50 dark:bg-amber-950/40 text-[#FF6B21] flex items-center justify-center mb-1 shadow-2xs">
-                      <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <div className="flex flex-col items-center text-center px-1 sm:px-2">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-50 dark:bg-amber-950/40 text-[#FF6B21] flex items-center justify-center mb-1.5 shadow-2xs">
+                      <Trophy className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold text-[15px] sm:text-[17px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight leading-none mb-1">
                       {activeCategory.stats.highestScore.value}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.highestScore.label}
                     </span>
                   </div>
 
                   {/* Stat 2: Students 90%+ */}
-                  <div className="flex flex-col items-center text-center px-0.5 sm:px-1 border-x border-[#EDF2FA] dark:border-slate-800">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#155EEF] dark:text-blue-400 flex items-center justify-center mb-1 shadow-2xs">
-                      <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <div className="flex flex-col items-center text-center px-1 sm:px-2 border-x border-[#EDF2FA] dark:border-slate-800">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#155EEF] dark:text-blue-400 flex items-center justify-center mb-1.5 shadow-2xs">
+                      <Users className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold text-[15px] sm:text-[17px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight leading-none mb-1">
                       {activeCategory.stats.students90Plus.value}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students90Plus.label}
                     </span>
                   </div>
 
                   {/* Stat 3: Students 95%+ */}
-                  <div className="flex flex-col items-center text-center px-0.5 sm:px-1">
-                    <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-1 shadow-2xs">
-                      <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                  <div className="flex flex-col items-center text-center px-1 sm:px-2">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-1.5 shadow-2xs">
+                      <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold text-[15px] sm:text-[17px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight leading-none mb-1">
                       {activeCategory.stats.students95Plus.value}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students95Plus.label}
                     </span>
                   </div>
                 </div>
 
                 {/* Motivational Quote at Bottom */}
-                <div className="bg-[#F8FAFF] dark:bg-slate-800/60 rounded-xl p-2.5 sm:p-3 border border-[#E8EFFB] dark:border-slate-800 text-[11px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed italic flex items-start gap-1.5 sm:gap-2">
-                  <span className="text-[#155EEF] text-base sm:text-lg font-serif font-bold leading-none shrink-0 mt-0.5">“</span>
+                <div className="bg-[#F8FAFF] dark:bg-slate-800/60 rounded-xl p-3 sm:p-4 border border-[#E8EFFB] dark:border-slate-800 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed italic flex items-start gap-2">
+                  <span className="text-[#155EEF] text-xl sm:text-2xl font-serif font-bold leading-none shrink-0 mt-0.5">“</span>
                   <div>
                     {activeCategory.quote.text}
                     <strong className="text-[#155EEF] dark:text-blue-400 not-italic font-semibold">
@@ -720,7 +720,7 @@ export function AcademicExcellence() {
                               <h5 className="font-bold text-[13px] sm:text-[14.5px] text-[#062B67] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors truncate">
                                 {student.name}
                               </h5>
-                              <p className="text-[10.5px] sm:text-[11.5px] text-slate-500 dark:text-slate-400 mt-0.5 truncate">
+                              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5" title={student.grade}>
                                 {student.grade}
                               </p>
                             </div>
@@ -743,20 +743,24 @@ export function AcademicExcellence() {
                 </Carousel>
               </div>
 
-              {/* Small Carousel Dots */}
-              <div className="flex justify-center items-center gap-1.5 mt-3 sm:mt-4">
+              {/* Small Carousel Dots (Fixed for 44px hit area) */}
+              <div className="flex justify-center items-center gap-2 mt-4 sm:mt-5">
                 {activeCategory.topPerformers.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => carouselApi?.scrollTo(i)}
                     aria-label={`Jump to performer ${i + 1}`}
-                    className={cn(
-                      "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
-                      currentSlideIndex === i 
-                        ? "w-4 sm:w-5 bg-[#062B67] dark:bg-blue-400" 
-                        : "w-1.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400"
-                    )}
-                  />
+                    className="p-3 cursor-pointer group flex items-center justify-center min-w-[44px] min-h-[44px]"
+                  >
+                    <span
+                      className={cn(
+                        "rounded-full transition-all duration-300",
+                        currentSlideIndex === i 
+                          ? "w-8 sm:w-10 h-2.5 bg-[#062B67] dark:bg-blue-400" 
+                          : "w-2.5 h-2.5 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
+                      )}
+                    />
+                  </button>
                 ))}
               </div>
 

@@ -29,6 +29,12 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    /* ── Corner Radius Scale (Issue #3) – 5 steps ────────────────── */
+    --radius-sm:   0.375rem;   /*  6px – inputs, small badges          */
+    --radius-md:   0.625rem;   /* 10px – buttons, chips                */
+    --radius-lg:   0.875rem;   /* 14px – cards, modals                 */
+    --radius-xl:   1.25rem;    /* 20px – panels, hero containers       */
+    --radius-full: 9999px;     /* pill – rounded badges, tags          */
     --sidebar-background: 220 15% 96%;
     --sidebar-foreground: 222 47% 11%;
     --sidebar-primary: 222 84% 20%;
@@ -150,6 +156,52 @@
   /* Inputs & form elements */
   input, textarea, select {
     font-family: var(--font-sans), 'Plus Jakarta Sans', sans-serif;
+  }
+
+  /* =====================================================================
+     IDL DESIGN SYSTEM — TYPE SCALE (Issue #1)
+     8 steps → well under the target of ≤10 distinct sizes.
+     Use these token names everywhere instead of arbitrary px values.
+     ===================================================================== */
+  :root {
+    --text-xs:   0.6875rem;   /* 11px  – badges, captions, helper text   */
+    --text-sm:   0.8125rem;   /* 13px  – secondary labels, card subtitles */
+    --text-base: 1rem;        /* 16px  – body copy                        */
+    --text-md:   1.125rem;    /* 18px  – card titles, UI labels           */
+    --text-lg:   1.375rem;    /* 22px  – sub-headings, section intros     */
+    --text-xl:   1.75rem;     /* 28px  – section headings                 */
+    --text-2xl:  2.25rem;     /* 36px  – page titles                      */
+    --text-3xl:  3rem;        /* 48px  – hero headings                    */
+  }
+
+  /* =====================================================================
+     IDL DESIGN SYSTEM — SEMANTIC TEXT COLOURS (Issue #2)
+     10 tokens → well under the target of ≤12 distinct colours.
+     ===================================================================== */
+  :root {
+    --color-text-primary:   #0B1F4B;   /* IDL navy   — primary headings    */
+    --color-text-secondary: #3B5EA6;   /* IDL blue   — secondary headings  */
+    --color-text-accent:    #155EEF;   /* IDL vivid  — links, highlights   */
+    --color-text-orange:    #FF6B21;   /* IDL orange — CTAs, badges        */
+    --color-text-body:      #1E293B;   /* slate-800  — body copy           */
+    --color-text-muted:     #64748B;   /* slate-500  — captions, helpers   */
+    --color-text-disabled:  #94A3B8;   /* slate-400  — disabled states     */
+    --color-text-inverse:   #FFFFFF;   /* white      — on dark backgrounds */
+    --color-text-success:   #059669;   /* emerald-600 – success states     */
+    --color-text-danger:    #DC2626;   /* red-600    — error / warning     */
+  }
+
+  .dark {
+    --color-text-primary:   #E2E8F0;
+    --color-text-secondary: #93C5FD;
+    --color-text-accent:    #60A5FA;
+    --color-text-orange:    #FB923C;
+    --color-text-body:      #CBD5E1;
+    --color-text-muted:     #94A3B8;
+    --color-text-disabled:  #64748B;
+    --color-text-inverse:   #0B1F4B;
+    --color-text-success:   #34D399;
+    --color-text-danger:    #F87171;
   }
 }
 

@@ -20,7 +20,7 @@ export function ScholarshipSection() {
                         {/* ── LEFT COLUMN: Text, Benefits, CTA (5 cols on lg) ── */}
                         <div className="md:col-span-6 lg:col-span-5 flex flex-col items-start text-left space-y-3.5 sm:space-y-4">
                             {/* Refined Small Pill Badge */}
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10.5px] sm:text-[11.5px] font-bold uppercase tracking-wider bg-[#EBF3FE] dark:bg-blue-950/40 text-[#062B67] dark:text-blue-300 border border-[#D5E3FA] dark:border-blue-900/50">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-[#EBF3FE] dark:bg-blue-950/40 text-[#062B67] dark:text-blue-300 border border-[#D5E3FA] dark:border-blue-900/50">
                                 <GraduationCap className="w-3.5 h-3.5 text-[#0A5CFF] dark:text-blue-400" />
                                 <span>ADMISSIONS &amp; SCHOLARSHIP 2026–27</span>
                             </div>
@@ -86,41 +86,67 @@ export function ScholarshipSection() {
                             </div>
                         </div>
 
-                        {/* ── RIGHT COLUMN: Vertical White Stats Card (3 cols on lg) ── */}
-                        <div className="md:col-span-12 lg:col-span-3 w-full flex justify-center lg:justify-end pt-2 lg:pt-0">
-                            <div className="w-full max-w-[440px] lg:max-w-[240px] bg-white dark:bg-slate-900 rounded-2xl border border-[#DCE6F5] dark:border-slate-800 shadow-[0_4px_20px_rgba(6,43,103,0.04)] p-4 sm:p-5">
+                        {/* ── RIGHT COLUMN: Stats Card (Horizontal compact proof strip on mobile, vertical card on desktop) ── */}
+                        <div className="md:col-span-12 lg:col-span-3 w-full flex justify-center lg:justify-end pt-1.5 lg:pt-0">
+                            <div className="w-full max-w-[390px] sm:max-w-[420px] lg:max-w-[240px] bg-white dark:bg-slate-900 rounded-[14px] sm:rounded-[16px] lg:rounded-2xl border border-[#DCE6F5]/80 dark:border-slate-800 shadow-[0_2px_8px_rgba(6,43,103,0.03)] lg:shadow-[0_4px_20px_rgba(6,43,103,0.04)] py-2.5 px-2 sm:py-3 sm:px-3 lg:p-5">
                                 
-                                <div className="grid grid-cols-3 lg:grid-cols-1 gap-4 lg:gap-5 divide-x lg:divide-x-0 lg:divide-y divide-[#EDF2FA] dark:divide-slate-800">
+                                <div className="grid grid-cols-3 lg:grid-cols-1 divide-x divide-[#EEF3FB] dark:divide-slate-800/60 lg:divide-x-0 lg:divide-y lg:divide-[#EDF2FA] lg:dark:divide-slate-800 lg:gap-5">
                                     {/* Stat 1 */}
-                                    <div className="flex items-center gap-3 px-1 lg:px-0 lg:pb-4">
-                                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#EBF3FE] dark:bg-blue-950/60 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center shrink-0">
-                                            <GraduationCap className="w-4 h-4 sm:w-5 sm:h-5" />
+                                    <div className="flex flex-col items-center text-center px-1 lg:flex-row lg:items-center lg:text-left lg:gap-3 lg:px-0 lg:pb-4">
+                                        {/* Desktop Icon Box */}
+                                        <div className="hidden lg:flex w-10 h-10 rounded-xl bg-[#EBF3FE] dark:bg-blue-950/60 text-[#0A5CFF] dark:text-blue-400 items-center justify-center shrink-0">
+                                            <GraduationCap className="w-5 h-5" />
                                         </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[15px] sm:text-[18px] font-extrabold text-[#062B67] dark:text-white leading-tight">9+</span>
-                                            <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-tight">Years of Excellence</span>
+                                        {/* Mobile Clean Line Icon Above Number */}
+                                        <GraduationCap className="w-3.5 h-3.5 text-[#0A5CFF] dark:text-blue-400 mb-1 lg:hidden stroke-[2.2]" />
+                                        
+                                        <div className="flex flex-col items-center lg:items-start min-w-0">
+                                            <span className="text-[16px] sm:text-[17px] lg:text-[18px] font-extrabold text-[#062B67] dark:text-white leading-none tracking-tight whitespace-nowrap">
+                                                9+
+                                            </span>
+                                            <span className="text-[9.5px] sm:text-[10px] lg:text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-tight text-center lg:text-left mt-1">
+                                                <span className="lg:hidden">Years</span>
+                                                <span className="hidden lg:inline">Years of Excellence</span>
+                                            </span>
                                         </div>
                                     </div>
 
                                     {/* Stat 2 */}
-                                    <div className="flex items-center gap-3 px-1 lg:px-0 lg:py-4">
-                                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#EBF3FE] dark:bg-blue-950/60 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center shrink-0">
-                                            <Building2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                                    <div className="flex flex-col items-center text-center px-1 lg:flex-row lg:items-center lg:text-left lg:gap-3 lg:px-0 lg:py-4">
+                                        {/* Desktop Icon Box */}
+                                        <div className="hidden lg:flex w-10 h-10 rounded-xl bg-[#EBF3FE] dark:bg-blue-950/60 text-[#0A5CFF] dark:text-blue-400 items-center justify-center shrink-0">
+                                            <Building2 className="w-5 h-5" />
                                         </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[15px] sm:text-[18px] font-extrabold text-[#062B67] dark:text-white leading-tight">5</span>
-                                            <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-tight">Delhi Branches</span>
+                                        {/* Mobile Clean Line Icon Above Number */}
+                                        <Building2 className="w-3.5 h-3.5 text-[#0A5CFF] dark:text-blue-400 mb-1 lg:hidden stroke-[2.2]" />
+                                        
+                                        <div className="flex flex-col items-center lg:items-start min-w-0">
+                                            <span className="text-[16px] sm:text-[17px] lg:text-[18px] font-extrabold text-[#062B67] dark:text-white leading-none tracking-tight whitespace-nowrap">
+                                                5
+                                            </span>
+                                            <span className="text-[9.5px] sm:text-[10px] lg:text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-tight text-center lg:text-left mt-1">
+                                                Delhi<br className="lg:hidden" /> Branches
+                                            </span>
                                         </div>
                                     </div>
 
                                     {/* Stat 3 */}
-                                    <div className="flex items-center gap-3 px-1 lg:px-0 lg:pt-4">
-                                        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[#EBF3FE] dark:bg-blue-950/60 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center shrink-0">
-                                            <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+                                    <div className="flex flex-col items-center text-center px-1 lg:flex-row lg:items-center lg:text-left lg:gap-3 lg:px-0 lg:pt-4">
+                                        {/* Desktop Icon Box */}
+                                        <div className="hidden lg:flex w-10 h-10 rounded-xl bg-[#EBF3FE] dark:bg-blue-950/60 text-[#0A5CFF] dark:text-blue-400 items-center justify-center shrink-0">
+                                            <Users className="w-5 h-5" />
                                         </div>
-                                        <div className="flex flex-col">
-                                            <span className="text-[15px] sm:text-[18px] font-extrabold text-[#062B67] dark:text-white leading-tight">10,000+</span>
-                                            <span className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-tight">Students Guided</span>
+                                        {/* Mobile Clean Line Icon Above Number */}
+                                        <Users className="w-3.5 h-3.5 text-[#0A5CFF] dark:text-blue-400 mb-1 lg:hidden stroke-[2.2]" />
+                                        
+                                        <div className="flex flex-col items-center lg:items-start min-w-0">
+                                            <span className="text-[16px] sm:text-[17px] lg:text-[18px] font-extrabold text-[#062B67] dark:text-white leading-none tracking-tight whitespace-nowrap">
+                                                <span className="lg:hidden">10K+</span>
+                                                <span className="hidden lg:inline">10,000+</span>
+                                            </span>
+                                            <span className="text-[9.5px] sm:text-[10px] lg:text-[11px] font-medium text-slate-500 dark:text-slate-400 leading-tight text-center lg:text-left mt-1">
+                                                Students<br className="lg:hidden" /> Guided
+                                            </span>
                                         </div>
                                     </div>
                                 </div>

@@ -741,10 +741,10 @@ export function DiscoverCoursesSection() {
                     <div className="relative bg-white dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-[0_14px_38px_-6px_rgba(11,40,88,0.08),0_2px_8px_-2px_rgba(11,40,88,0.03)] p-3.5 sm:p-4 md:p-5 overflow-hidden">
                         
                         {/* Section Header / Eyebrow */}
-                        <div className="relative z-10 flex items-center justify-center mb-3.5 sm:mb-4.5">
-                            <h2 className="inline-flex items-center text-[12px] sm:text-[13px] font-extrabold tracking-[0.02em] text-[#0B2858] select-none bg-[#FCD34D] rounded-full px-3.5 py-0.5">
+                        <div className="relative z-10 flex items-center justify-center mb-4 sm:mb-5">
+                            <p className="inline-flex items-center text-sm sm:text-base font-extrabold tracking-[0.02em] text-[#0B2858] select-none bg-[#FCD34D] rounded-full px-5 py-1.5 shadow-sm">
                                 Courses We Offer
-                            </h2>
+                            </p>
                         </div>
 
                         {/* Six Course Cards: 1 Horizontal Row on Desktop, 2 Columns on Mobile */}
@@ -776,8 +776,8 @@ export function DiscoverCoursesSection() {
                                         className={cn(
                                             "group relative flex items-center justify-between rounded-[14px] border shadow-[0_4px_14px_-3px_rgba(11,40,88,0.06),0_1px_3px_rgba(11,40,88,0.03)]",
                                             "hover:shadow-[0_10px_24px_-4px_rgba(11,40,88,0.13)] transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]",
-                                            "h-[80px] min-[360px]:h-[82px] sm:h-[86px] lg:h-[80px] xl:h-[84px]",
-                                            "px-2.5 py-2.5 min-[360px]:px-2.5 min-[360px]:py-2.5 sm:px-3 sm:py-3 lg:px-2 lg:py-2.5 xl:px-2.5 xl:py-3",
+                                            "h-[88px] min-[360px]:h-[92px] sm:h-[96px] lg:h-[90px] xl:h-[96px]",
+                                            "px-3 py-3 sm:px-3.5 sm:py-3.5 lg:px-2.5 lg:py-3 xl:px-3 xl:py-3.5",
                                             "animate-fade-up overflow-hidden",
                                             course.cardBg,
                                             course.cardBorder,
@@ -789,19 +789,19 @@ export function DiscoverCoursesSection() {
 
                                         {/* Left: 2D Icon Container with Soft Circular Badge */}
                                         <div className={cn(
-                                            "relative z-10 w-9 h-9 min-[360px]:w-9.5 min-[360px]:h-9.5 sm:w-10 sm:h-10 lg:w-9 lg:h-9 xl:w-10 xl:h-10 rounded-full border flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-all duration-200",
+                                            "relative z-10 w-11 h-11 sm:w-12 sm:h-12 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-full border flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-all duration-200",
                                             course.badgeBg,
                                             course.badgeBorder
                                         )}>
-                                            <IconComponent className="w-4.5 h-4.5 min-[360px]:w-5 min-[360px]:h-5 sm:w-5.5 sm:h-5.5 lg:w-4.5 lg:h-4.5 xl:w-5 xl:h-5" />
+                                            <IconComponent className="w-[60%] h-[60%]" />
                                         </div>
 
                                         {/* Middle: Course Title & Subtitle in IDL Navy (#0B2858) */}
-                                        <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2 sm:ml-2.5 lg:ml-2 xl:ml-2.5">
-                                            <h3 className="text-[10.5px] min-[360px]:text-[11px] sm:text-[12.5px] lg:text-[10px] min-[1150px]:text-[11px] xl:text-[12px] font-black text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                        <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2.5 sm:ml-3 lg:ml-2.5 xl:ml-3">
+                                            <h3 className="text-[12px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-black text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
                                                 {course.title}
                                             </h3>
-                                            <p className="text-[8.5px] min-[360px]:text-[9px] sm:text-[10px] lg:text-[8px] min-[1150px]:text-[8.5px] xl:text-[9.5px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
+                                            <p className="text-[10px] min-[360px]:text-[10.5px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
                                                 {course.subtitle}
                                             </p>
                                         </div>

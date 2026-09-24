@@ -104,14 +104,18 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                 <button
                   key={i}
                   onClick={() => scrollTo(i)}
-                  className={cn(
-                    "h-1.5 sm:h-2 rounded-full transition-all duration-300 shadow-sm",
-                    current === i 
-                      ? "w-6 sm:w-8 lg:w-10 bg-white" 
-                      : "w-1.5 sm:w-2 bg-white/40 hover:bg-white/60"
-                  )}
+                  className="p-3 flex items-center justify-center min-w-[44px] min-h-[44px] group"
                   aria-label={`Go to slide ${i + 1}`}
-                />
+                >
+                  <span
+                    className={cn(
+                      "rounded-full transition-all duration-300 shadow-sm",
+                      current === i 
+                        ? "h-2 w-8 sm:w-10 lg:w-12 bg-white" 
+                        : "h-2 w-2 bg-white/40 group-hover:bg-white/60"
+                    )}
+                  />
+                </button>
               ))}
             </div>
           )}

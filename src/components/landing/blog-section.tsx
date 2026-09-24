@@ -250,12 +250,16 @@ export function BlogSection() {
               <button
                 key={i}
                 onClick={() => scrollTo(i)}
-                className={cn(
-                  "h-1.5 rounded-full transition-all duration-300 cursor-pointer",
-                  current === i ? "w-6 bg-primary" : "w-1.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400"
-                )}
+                className="p-3 flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer group"
                 aria-label={`Go to slide ${i + 1}`}
-              />
+              >
+                <span
+                  className={cn(
+                    "rounded-full transition-all duration-300",
+                    current === i ? "w-8 h-2.5 bg-primary" : "w-2.5 h-2.5 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
+                  )}
+                />
+              </button>
             ))}
           </div>
 

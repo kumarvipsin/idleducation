@@ -192,14 +192,18 @@ export function TopperTestimonialsClient({ testimonials }: { testimonials: TTopp
                     key={i}
                     type="button"
                     onClick={() => scrollTo(i)}
-                    className={cn(
-                      "h-1.5 rounded-full transition-all duration-300 cursor-pointer focus-visible:outline-none",
-                      current === i
-                        ? "w-7 sm:w-8 bg-[#0B1F4B] dark:bg-[#1D4ED8]"
-                        : "w-1.5 sm:w-2 bg-slate-200 dark:bg-slate-700 hover:bg-slate-300"
-                    )}
+                    className="p-3 flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer group focus-visible:outline-none"
                     aria-label={`Go to slide ${i + 1}`}
-                  />
+                  >
+                    <span
+                      className={cn(
+                        "rounded-full transition-all duration-300",
+                        current === i
+                          ? "w-8 sm:w-10 h-2.5 bg-[#0B1F4B] dark:bg-[#1D4ED8]"
+                          : "w-2.5 h-2.5 bg-slate-200 dark:bg-slate-700 group-hover:bg-slate-300"
+                      )}
+                    />
+                  </button>
                 ))}
               </div>
             )}

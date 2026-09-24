@@ -580,8 +580,6 @@ export function Header() {
         {
             title: "COMPANY",
             links: [
-                { href: "/about", label: "About Us", icon: <Info className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
-                { href: "#", label: "Contact Us", icon: <MessageSquare className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsContactOpen(true) },
                 { href: "/journey", label: "The Journey", icon: <Rocket className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
             ]
         },
@@ -647,7 +645,7 @@ export function Header() {
                     </Link>
 
                     <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex h-full">
-                        <nav suppressHydrationWarning className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                        <nav aria-label="Main Navigation" suppressHydrationWarning className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
                             {!pathname.startsWith('/idl-foundation') ? (
                                 <>
                                     <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center relative">
@@ -779,6 +777,16 @@ export function Header() {
                                             </Link>
                                         </Button>
                                     </div>
+                                    <div className="h-full flex items-center">
+                                        <Button asChild variant="ghost" className={cn(navItemClass, pathname === '/about' && "after:scale-x-100 text-primary")}>
+                                            <Link href="/about">ABOUT US</Link>
+                                        </Button>
+                                    </div>
+                                    <div className="h-full flex items-center">
+                                        <Button variant="ghost" className={navItemClass} onClick={() => setIsContactOpen(true)}>
+                                            CONTACT US
+                                        </Button>
+                                    </div>
                                     <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
                                         <div className={cn(
@@ -892,7 +900,7 @@ export function Header() {
                                 {/* Body - Scrollable Navigation Content */}
                                 <div className="flex-1 overflow-y-auto overscroll-contain relative z-10">
                                     <div className="pt-2 sm:pt-2.5 pb-8">
-                                        <nav className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
+                                        <nav aria-label="Mobile Navigation" className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
                                             {/* 1. ALL COURSES ROW */}
                                             <div className="flex flex-col">
                                                 <button 

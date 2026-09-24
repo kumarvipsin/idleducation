@@ -211,7 +211,7 @@ export function Footer() {
             <p className="shrink-0" suppressHydrationWarning>
               &copy; 2026 IDL Education. All Rights Reserved.
             </p>
-            <nav className="flex items-center gap-2 sm:gap-4 shrink-0">
+            <nav aria-label="Social Links" className="flex items-center gap-2 sm:gap-4 shrink-0">
               <span className="text-slate-600">·</span>
               <Link href="/terms" className="text-slate-400 hover:text-white transition-colors duration-150">
                 Terms

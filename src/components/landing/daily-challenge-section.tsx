@@ -58,7 +58,7 @@ export function DailyChallengeSection() {
                         <div className="md:col-span-7 flex flex-col items-start text-left max-w-[530px]">
                             
                             {/* 1. Outlined Pill Label with Sparkles Accent */}
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 shadow-2xs text-[#102A68] dark:text-blue-200 text-[10.5px] sm:text-[11px] font-bold tracking-wider uppercase mb-3">
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 shadow-2xs text-[#102A68] dark:text-blue-200 text-xs font-bold tracking-wider uppercase mb-3">
                                 <Sparkles className="w-3 h-3 text-[#FF6B16]" />
                                 <span>TODAY&apos;S CHALLENGE</span>
                             </div>
@@ -151,7 +151,7 @@ export function DailyChallengeSection() {
                     <div className="flex flex-col md:hidden text-left space-y-3 relative z-10">
                         
                         {/* 1. Label with Sparkles */}
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 shadow-2xs text-[#102A68] dark:text-blue-200 text-[10px] font-bold tracking-wider uppercase w-fit">
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 shadow-2xs text-[#102A68] dark:text-blue-200 text-xs font-bold tracking-wider uppercase w-fit">
                             <Sparkles className="w-3 h-3 text-[#FF6B16]" />
                             <span>TODAY&apos;S CHALLENGE</span>
                         </div>
