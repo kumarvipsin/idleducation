@@ -72,6 +72,13 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
           count={count}
           scrollTo={scrollTo}
         />
+
+        {/* ── 3. VIEW ALL LINK ── */}
+        <div className="flex justify-center mt-8">
+          <span className="text-[14px] sm:text-[15px] font-bold text-[#062B67] cursor-default select-none tracking-tight">
+            View All Educators →
+          </span>
+        </div>
       </div>
     </section>
   );

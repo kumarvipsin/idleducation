@@ -32,6 +32,7 @@ export default async function Home() {
       <DiscoverCoursesSection />
       <AcademicExcellence />
       <ExpertTeachersSection teachers={expertTeachers} />
+      {/* Scholarship & Admission Test Banner */}
       <ScholarshipSection />
       <StudentTestimonials testimonials={studentTestimonials.slice(0, 5)} />
       <DailyChallengeSection />

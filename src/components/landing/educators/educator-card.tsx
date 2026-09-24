@@ -5,16 +5,10 @@ import Image from "next/image";
 import type { TExpertTeacher } from "@/app/actions/types";
 import { getSignedUrlForPdf } from "@/app/actions";
 import {
-  Award,
-  GraduationCap,
   Clock,
-  Calculator,
-  BookOpen,
-  BarChart3,
-  Sparkles,
   Users,
-  User,
-  PlayCircle,
+  Play,
+  ArrowRight,
 } from "lucide-react";
 import {
   TEACHER_FALLBACK_IMAGES,
@@ -23,24 +17,6 @@ import {
 } from "./educator-constants";
 import { EducatorVideoModal } from "./educator-video-modal";
 import { EducatorProfileModal } from "./educator-profile-modal";
-
-function getSubjectBadgeIcon(subject?: string | null) {
-  if (!subject) return <BookOpen className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  const s = subject.toLowerCase();
-  if (s.includes("econ") || s.includes("commerce")) {
-    return <BarChart3 className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  if (s.includes("math") || s.includes("quant")) {
-    return <Calculator className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  if (s.includes("social") || s.includes("history") || s.includes("geo") || s.includes("civics")) {
-    return <BookOpen className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  if (s.includes("sci") || s.includes("phys") || s.includes("chem") || s.includes("bio")) {
-    return <Sparkles className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  return <BookOpen className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-}
 
 interface EducatorCardProps {
   teacher: TExpertTeacher;
@@ -65,7 +41,6 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
       setImgSrc(fallbackPhoto);
       return;
     }
-
     if (raw.includes('storage.googleapis.com') && !raw.includes('GoogleAccessId=')) {
       getSignedUrlForPdf(raw).then((res) => {
         if (!active) return;
@@ -81,15 +56,12 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
     } else {
       setImgSrc(raw);
     }
-    return () => {
-      active = false;
-    };
+    return () => { active = false; };
   }, [rawPhoto, fallbackPhoto]);
 
   const displaySrc = imgSrc || fallbackPhoto;
   const hasPhoto = Boolean(displaySrc) && !imgError;
 
-  // Subject label
   const subjectLabel =
     teacher.specialization ||
     (teacher.subject && teacher.examFocus
@@ -112,17 +84,14 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
   return (
     <>
       {/* ── CARD CONTAINER ── */}
-      <div className="group/card h-full w-full flex flex-col bg-white rounded-xl border border-slate-200/80 shadow-[0_1px_8px_-2px_rgba(6,43,103,0.06)] hover:shadow-[0_8px_28px_-6px_rgba(6,43,103,0.12)] hover:-translate-y-[2px] transition-all duration-200 ease-out overflow-hidden">
-        
-        {/* ── IMAGE BLOCK: Taller, Prominent & Uncluttered Portrait ── */}
+      <div className="group/card h-full w-full flex flex-col bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_12px_-3px_rgba(6,43,103,0.08)] hover:shadow-[0_8px_32px_-6px_rgba(6,43,103,0.14)] hover:-translate-y-[3px] transition-all duration-200 ease-out overflow-hidden">
+
+        {/* ── IMAGE BLOCK ── */}
         <div
-          className="relative w-full aspect-[4/4.3] shrink-0 overflow-hidden bg-black"
-          style={{
-            background:
-              "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)",
-          }}
+          className="relative w-full aspect-[4/4.5] shrink-0 overflow-hidden"
+          style={{ background: "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)" }}
         >
-          {/* Teacher photo */}
+          {/* Teacher Photo */}
           {hasPhoto && (
             <div className="absolute inset-0 z-10">
               <Image
@@ -131,11 +100,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
                 fill
                 sizes="(max-width: 640px) 84vw, (max-width: 1024px) 48vw, 25vw"
                 className="object-cover object-top transition-transform duration-300 ease-out group-hover/card:scale-[1.03]"
-                style={
-                  teacher.photoPosition
-                    ? { objectPosition: teacher.photoPosition }
-                    : undefined
-                }
+                style={teacher.photoPosition ? { objectPosition: teacher.photoPosition } : undefined}
                 unoptimized={true}
                 onError={() => {
                   if (fallbackPhoto && imgSrc !== fallbackPhoto) {
@@ -148,126 +113,72 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             </div>
           )}
 
-          {/* No-photo fallback icon */}
+          {/* Fallback icon */}
           {!hasPhoto && (
             <div className="absolute inset-0 z-10 flex items-center justify-center">
               <Users className="w-16 h-16 text-white/15" />
             </div>
           )}
 
-          {/* Bottom subtle gradient */}
+          {/* Subtle bottom gradient */}
           <div
-            className="absolute inset-x-0 bottom-0 h-10 z-20 pointer-events-none"
-            style={{
-              background:
-                "linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 100%)",
-            }}
+            className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
           />
+
+          {/* ── PLAY BUTTON: bottom-right corner — thicker clean outline ── */}
+          <button
+            type="button"
+            onClick={() => videoId ? setIsVideoOpen(true) : undefined}
+            disabled={!videoId}
+            aria-label={`Watch introduction of ${teacher.name}`}
+            className={`absolute bottom-3 right-3 z-30 w-[40px] h-[40px] rounded-full bg-black/20 backdrop-blur-[2px] border-2 border-white/90 flex items-center justify-center transition-all duration-200 ${videoId ? 'cursor-pointer hover:bg-black/30 hover:border-white hover:scale-105 active:scale-95' : 'cursor-default opacity-30'}`}
+          >
+            <Play
+              className={`w-[13px] h-[13px] ml-[2px] ${videoId ? 'text-white fill-white' : 'text-white/40 fill-white/40'}`}
+            />
+          </button>
         </div>
 
         {/* ── CARD BODY ── */}
-        <div className="flex flex-col flex-1 p-3.5 sm:p-4">
-          
-          {/* Subject Badge: Premium, clean tag above name */}
-          {subjectLabel && (
-            <div className="inline-flex items-center gap-1.5 w-fit px-2 py-0.5 rounded-md bg-blue-50/90 text-[#155EEF] text-[10px] sm:text-[10.5px] font-bold tracking-[0.03em] uppercase border border-blue-100/90 mb-1.5">
-              {getSubjectBadgeIcon(subjectLabel)}
-              <span className="truncate max-w-[170px]">{subjectLabel}</span>
-            </div>
-          )}
+        <div className="flex flex-col flex-1 px-4 pt-4 pb-4">
 
-          {/* Name */}
-          <h3 className="font-extrabold text-[15.5px] sm:text-[16.5px] text-[#062B67] tracking-[-0.02em] leading-snug truncate w-full shrink-0">
+          {/* NAME — Bold primary anchor */}
+          <h3 className="font-bold text-[18px] sm:text-[19px] text-[#0C1F4A] tracking-[-0.02em] leading-[1.2] text-center w-full mb-2">
             {teacher.name}
           </h3>
 
-          {/* Designation / Title */}
-          {designation && (
-            <p className="text-[11.5px] sm:text-[12px] text-slate-500 font-medium truncate mb-3 mt-0.5 shrink-0">
-              {designation}
-            </p>
-          )}
-
-          {/* Qual (Left) + Exp (Right) 2-column meta row */}
-          {(hasQual || hasExp) && (
-            <div className="flex items-start gap-2.5 sm:gap-3.5 mb-3.5 shrink-0">
-              {/* Qualification First (Left) */}
-              {hasQual && (
-                <div className="flex flex-col gap-[2px] min-w-0 flex-1">
-                  <div className="flex items-center gap-[4px]">
-                    <GraduationCap className="w-4 h-4 text-[#155EEF] shrink-0 stroke-[2]" />
-                    <span
-                      className="font-bold text-[12.5px] sm:text-[13px] text-[#062B67] leading-none truncate"
-                      title={qualDisplay}
-                    >
-                      {qualDisplay}
-                    </span>
-                  </div>
-                  <span className="text-[10.5px] text-slate-400 font-medium leading-none pl-[20px]">
-                    Qualification
-                  </span>
-                </div>
-              )}
-
-              {/* Divider between Qual and Exp */}
-              {hasQual && hasExp && (
-                <div
-                  className="w-px h-6 bg-slate-200/80 shrink-0 self-center"
-                  aria-hidden="true"
-                />
-              )}
-
-              {/* Experience Second (Right) */}
-              {hasExp && (
-                <div className="flex flex-col gap-[2px] min-w-0">
-                  <div className="flex items-center gap-[4px]">
-                    <Clock className="w-4 h-4 text-[#155EEF] shrink-0 stroke-[2]" />
-                    <span className="font-bold text-[12.5px] sm:text-[13px] text-[#062B67] leading-none truncate">
-                      {expDisplay}
-                    </span>
-                  </div>
-                  <span className="text-[10.5px] text-slate-400 font-medium leading-none pl-[20px]">
-                    Experience
-                  </span>
-                </div>
-              )}
+          {/* EXPERIENCE BADGE — readable, anchored to name */}
+          {hasExp && (
+            <div className="flex justify-center mb-2.5">
+              <span className="inline-flex items-center gap-[5px] px-2.5 py-[3px] rounded-full bg-[#EEF2FF] text-[#3B5EA6] text-[10.5px] font-semibold tracking-[0.02em]">
+                <Clock className="w-[10px] h-[10px] shrink-0 stroke-[2.5]" />
+                {expDisplay}
+              </span>
             </div>
           )}
 
-          {/* Footer: View Profile (Left) & Watch Intro (Right) */}
-          <div className="flex items-center mt-auto pt-4 border-t border-slate-100 shrink-0 pb-1">
-            {/* View Profile (Left) */}
+          {/* SUBJECT — medium weight, clearly readable */}
+          {(subjectLabel || designation) && (
+            <p className="text-[12.5px] text-[#4A5E82] font-medium text-center mb-1.5 leading-snug tracking-[0.005em]">
+              {subjectLabel || designation}
+            </p>
+          )}
+
+
+          {/* DIVIDER + VIEW PROFILE */}
+          <div className="mt-auto pt-3.5">
+            <div className="w-full h-px bg-slate-100 mb-3" />
             <button
               type="button"
               onClick={() => setIsProfileOpen(true)}
               aria-label={`View profile of ${teacher.name}`}
-              className="flex-1 group flex items-center justify-center gap-2 cursor-pointer py-1 transition-opacity hover:opacity-80"
+              className="w-full flex items-center justify-center gap-1 bg-transparent border-none p-0 cursor-pointer group"
             >
-              <div className="w-[28px] h-[28px] rounded-full bg-[#F0F4FF] flex items-center justify-center shrink-0">
-                <User className="w-4 h-4 text-[#155EEF] stroke-[2]" />
-              </div>
-              <span className="text-[13px] sm:text-[14.5px] font-bold text-[#062B67] whitespace-nowrap">
+              <span className="text-[12.5px] font-semibold text-[#1A56DB] group-hover:text-[#0F3FA8] transition-colors duration-150 tracking-[0.01em]">
                 View Profile
               </span>
-            </button>
-
-            <div className="w-px h-6 bg-slate-200 shrink-0" aria-hidden="true" />
-
-            {/* Watch Intro (Right) */}
-            <button
-              type="button"
-              onClick={() => videoId ? setIsVideoOpen(true) : undefined}
-              aria-label={`Watch introduction of ${teacher.name}`}
-              disabled={!videoId}
-              className={`flex-1 group flex items-center justify-center gap-2 py-1 transition-opacity ${videoId ? 'cursor-pointer hover:opacity-80' : 'cursor-not-allowed opacity-40'}`}
-              title={!videoId ? "Intro video not available" : undefined}
-            >
-              <div className="w-[28px] h-[28px] rounded-full bg-[#F0F4FF] flex items-center justify-center shrink-0">
-                <PlayCircle className={`w-4 h-4 ${videoId ? 'text-[#155EEF] stroke-[2]' : 'text-slate-400 stroke-[2]'}`} />
-              </div>
-              <span className={`text-[13px] sm:text-[14.5px] font-bold whitespace-nowrap ${videoId ? 'text-[#062B67]' : 'text-slate-500'}`}>
-                Watch Intro
-              </span>
+              <ArrowRight className="w-3 h-3 stroke-[2.5] text-[#1A56DB] group-hover:text-[#0F3FA8] transition-colors duration-150" />
             </button>
           </div>
         </div>

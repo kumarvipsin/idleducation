@@ -325,8 +325,8 @@ const RESULTS_DATA: CategoryResultData[] = [
   },
   {
     id: 'cuet',
-    categoryName: 'CUET',
-    tabLabel: 'CUET',
+    categoryName: 'CUET (UG)',
+    tabLabel: 'CUET (UG)',
     year: '2026',
     headlineTitle: 'CUET (UG)',
     headlineHighlight: '2026 RESULTS',
