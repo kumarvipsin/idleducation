@@ -96,7 +96,7 @@ const courses: CourseItem[] = [
     },
     {
         id: 'youtube-channel',
-        title: 'YOUTUBE CHANNEL',
+        title: 'YOUTUBE',
         subtitle: 'Free Video Lectures',
         href: 'https://youtube.com/@idleducation',
         cardBg: 'bg-gradient-to-br from-[#FFF5F5] via-[#FFFAFA] to-[#FEE2E2] dark:from-rose-950/40 dark:via-slate-900 dark:to-rose-900/25',
