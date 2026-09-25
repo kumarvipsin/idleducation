@@ -53,12 +53,12 @@ export function ScholarshipSection() {
                             </div>
 
                             {/* Primary CTA Button */}
-                            <div className="pt-2 w-full sm:w-auto">
+                            <div className="pt-2 w-fit">
                                 <Button 
                                     onClick={() => setIsScholarshipOpen(true)} 
-                                    className="group w-full sm:w-auto h-[44px] sm:h-[46px] px-6 sm:px-7 rounded-xl bg-[#0A5CFF] hover:bg-[#004BD6] text-white font-bold text-sm shadow-[0_3px_10px_rgba(10,92,255,0.22)] hover:shadow-[0_5px_15px_rgba(10,92,255,0.32)] transition-all duration-200 border-none cursor-pointer flex items-center justify-center gap-2"
+                                    className="group w-fit h-[42px] sm:h-[46px] px-5 sm:px-7 rounded-xl bg-[#0A5CFF] hover:bg-[#004BD6] text-white font-bold text-sm shadow-[0_3px_10px_rgba(10,92,255,0.22)] hover:shadow-[0_5px_15px_rgba(10,92,255,0.32)] transition-all duration-200 border-none cursor-pointer flex items-center justify-center gap-2"
                                 >
-                                    <span>Register For FREE</span>
+                                    <span>Apply Now</span>
                                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                                 <ScholarshipModal isOpen={isScholarshipOpen} onOpenChange={setIsScholarshipOpen} />

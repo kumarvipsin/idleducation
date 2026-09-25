@@ -156,3 +156,32 @@ export function Youtube2DIcon({ className = "w-5 h-5" }: { className?: string })
         </svg>
     );
 }
+
+// ── 7. OLYMPIAD: Single 2D Trophy / Award Icon ─────────────────────────────────
+export function Olympiad2DIcon({ className = "w-5 h-5" }: { className?: string }) {
+    return (
+        <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            className={className}
+            stroke="#0B2858"
+            strokeWidth="1.85"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+        >
+            {/* Trophy Cup */}
+            <path d="M6 4.5h12v4a6 6 0 0 1-12 0V4.5z" fill="#FFF5F5" stroke="#0B2858" strokeWidth="1.85" />
+            {/* Left Handle */}
+            <path d="M6 6H4a2 2 0 0 0-2 2v0.5a3 3 0 0 0 3 3h1" />
+            {/* Right Handle */}
+            <path d="M18 6h2a2 2 0 0 1 2 2v0.5a3 3 0 0 1-3 3h-1" />
+            {/* Stem */}
+            <path d="M12 14.5V17.5" />
+            {/* Base */}
+            <path d="M8 20.5h8" strokeWidth="2" />
+            {/* Star Accent */}
+            <circle cx="12" cy="8.5" r="1.3" fill="#E11D48" stroke="none" />
+        </svg>
+    );
+}

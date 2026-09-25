@@ -126,17 +126,19 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
           />
 
-          {/* ── PLAY BUTTON: bottom-right corner — thicker clean outline ── */}
+          {/* ── PLAY BUTTON: bottom-right corner — clean transparent round play icon ── */}
           <button
             type="button"
             onClick={() => videoId ? setIsVideoOpen(true) : undefined}
             disabled={!videoId}
             aria-label={`Watch introduction of ${teacher.name}`}
-            className={`absolute bottom-3 right-3 z-30 w-[40px] h-[40px] rounded-full bg-transparent border-[3px] border-white/90 flex items-center justify-center transition-all duration-200 ${videoId ? 'cursor-pointer hover:bg-white/10 hover:border-white hover:scale-105 active:scale-95' : 'cursor-default opacity-30'}`}
+            className={`absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 flex items-center justify-center transition-all duration-200 ${
+              videoId 
+                ? 'cursor-pointer hover:bg-white/30 hover:scale-105 active:scale-95' 
+                : 'cursor-default opacity-40'
+            }`}
           >
-            <Play
-              className={`w-[13px] h-[13px] ml-[2px] ${videoId ? 'text-white fill-white' : 'text-white/40 fill-white/40'}`}
-            />
+            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
           </button>
         </div>
 

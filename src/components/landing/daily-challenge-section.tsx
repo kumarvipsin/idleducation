@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { ArrowRight, Timer, HelpCircle, CalendarDays, Flame, Sparkles } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { ArrowRight, Sparkles } from 'lucide-react';
 import { DailyChallengeModal } from './daily-challenge-modal';
 import { getDailyChallengeState, DailyChallengeState } from '@/lib/daily-challenge-storage';
 
@@ -20,125 +19,70 @@ export function DailyChallengeSection() {
     };
 
     return (
-        <section suppressHydrationWarning className="w-full py-3 sm:py-4 md:py-6 bg-white dark:bg-background relative z-20">
-            <div className="container mx-auto px-4 md:px-6">
+        <section suppressHydrationWarning className="w-full py-2.5 sm:py-3.5 md:py-6 bg-white dark:bg-background relative z-20">
+            <div className="container mx-auto px-4 sm:px-5 md:px-6 max-w-7xl">
                 
-                {/* Main Card Container: Cool-white, subtle 1px border, soft multi-layer shadow, inner highlight */}
-                <div className="relative rounded-[22px] bg-[#FAFBFD] dark:bg-card/95 p-5 sm:p-7 md:p-8 border border-slate-200/70 dark:border-slate-800/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.95),0_8px_24px_-6px_rgba(16,42,104,0.04),0_2px_6px_-1px_rgba(16,42,104,0.02)] overflow-hidden">
+                {/* ── Feature Container: Clean, breathable, minimal light backdrop, no heavy ad/banner feel ── */}
+                <div className="relative rounded-[22px] sm:rounded-[26px] lg:rounded-[28px] bg-[#F7FAFE] dark:bg-slate-900/60 border border-[#E1EDF9] dark:border-slate-800/80 px-4 pt-4 pb-1.5 sm:px-5 sm:pt-4.5 sm:pb-2 md:px-8 md:py-6 lg:px-10 lg:py-7 xl:px-11 xl:py-8 overflow-hidden shadow-[0_2px_12px_-4px_rgba(6,43,103,0.03)]">
                     
-                    {/* Subtle branded top accent line */}
-                    <div className="absolute top-0 left-6 right-6 h-[2px] bg-gradient-to-r from-transparent via-[#102A68]/30 dark:via-blue-500/30 to-transparent pointer-events-none" />
-
-                    {/* Subtle micro dot-grid texture across card */}
-                    <div 
-                        aria-hidden="true" 
-                        className="pointer-events-none absolute inset-0 opacity-[0.025] dark:opacity-[0.04]"
-                        style={{
-                            backgroundImage: `radial-gradient(#102A68 0.75px, transparent 0.75px)`,
-                            backgroundSize: '14px 14px'
-                        }}
-                    />
-
-                    {/* Very soft ambient brand depth */}
-                    <div className="absolute top-0 right-1/4 w-80 h-32 bg-blue-500/[0.025] blur-3xl rounded-full pointer-events-none" />
-                    <div className="absolute bottom-0 left-10 w-72 h-32 bg-[#102A68]/[0.02] blur-3xl rounded-full pointer-events-none" />
-
-                    {/* Faint academic marks (Very low prominence so student artwork dominates) */}
-                    <span className="absolute top-4 left-[38%] text-base font-serif text-[#102A68] select-none pointer-events-none opacity-[0.02]">∑</span>
-                    <span className="absolute bottom-4 left-[28%] text-sm font-serif text-[#102A68] select-none pointer-events-none opacity-[0.02]">π</span>
-                    <span className="absolute top-1/2 left-[48%] text-sm font-serif text-[#102A68] select-none pointer-events-none opacity-[0.018]">∫</span>
-                    <span className="absolute bottom-8 right-8 text-base font-serif text-[#102A68] select-none pointer-events-none opacity-[0.02]">√x</span>
+                    {/* Very subtle ambient coolness in corners */}
+                    <div className="pointer-events-none absolute -top-24 -left-16 w-72 h-72 bg-blue-400/[0.04] rounded-full blur-3xl" />
+                    <div className="pointer-events-none absolute -bottom-24 right-1/4 w-72 h-72 bg-blue-300/[0.04] rounded-full blur-3xl" />
 
                     {/* ============================================================ */}
-                    {/* DESKTOP COMPOSITION (Left: Content, Right: Illustration)    */}
+                    {/* DESKTOP LAYOUT (Curiosity-first, balanced 48% / 44% spread)   */}
                     {/* ============================================================ */}
                     <div className="hidden md:grid md:grid-cols-12 md:gap-6 lg:gap-8 items-center relative z-10">
                         
-                        {/* Left Column: Label -> Heading -> Refined Chips -> Streak Line -> CTA */}
-                        <div className="md:col-span-7 flex flex-col items-start text-left max-w-[530px]">
+                        {/* Left Column: Label -> Headline -> Metadata -> Curiosity line -> Refined Navy CTA */}
+                        <div className="md:col-span-7 lg:col-span-7 flex flex-col items-start text-left">
                             
-                            {/* 1. Outlined Pill Label with Sparkles Accent */}
-                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 shadow-2xs text-[#102A68] dark:text-blue-200 text-xs font-bold tracking-wider uppercase mb-3">
-                                <Sparkles className="w-3 h-3 text-[#FF6B16]" />
+                            {/* 1. Small Label: TODAY'S CHALLENGE */}
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/70 dark:border-blue-800/50 text-[#062B67] dark:text-blue-300 text-[11px] font-bold tracking-wider uppercase mb-3 select-none">
+                                <Sparkles className="w-3.5 h-3.5 text-[#FF5500] fill-[#FF5500]/20" />
                                 <span>TODAY&apos;S CHALLENGE</span>
                             </div>
 
-                            {/* 2. Main Heading: Tighter leading & clean navy-to-blue transition */}
-                            <h2 className="text-2xl sm:text-3xl lg:text-[32px] xl:text-[34px] font-extrabold text-[#0B1F4B] dark:text-white leading-[1.18] tracking-tight mb-3.5 sm:mb-4">
+                            {/* 2. Main Headline: Can You Solve It in 60 Seconds? */}
+                            <h2 className="text-2xl sm:text-[27px] lg:text-[31px] xl:text-[33px] font-extrabold text-[#0A1E42] dark:text-white leading-[1.2] tracking-tight mb-2.5">
                                 Can You Solve It in{' '}
-                                <span className="text-[#FF6B16]">60 Seconds</span>?
+                                <span className="text-[#FF5500]">60 Seconds</span>?
                             </h2>
 
-                            {/* 3. Refined Information Chips: Compact, softer borders & lightweight tactile shapes */}
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-3 sm:mb-3.5">
-                                {/* 5 Questions */}
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg bg-white/80 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-                                    <div className="w-5 h-5 rounded-md bg-blue-50/90 dark:bg-blue-950/60 border border-blue-200/50 dark:border-blue-800/40 flex items-center justify-center shrink-0">
-                                        <HelpCircle className="w-3 h-3 text-[#1D4ED8] dark:text-blue-400 stroke-[2]" />
-                                    </div>
-                                    <span className="text-[11.5px] sm:text-xs font-semibold text-slate-700 dark:text-slate-200">5 Questions</span>
-                                </div>
+                            {/* 3. Supporting Line: 5 Questions · 60 Seconds · Every Day */}
+                            <p className="text-[13.5px] lg:text-[14px] font-semibold text-[#0E357A] dark:text-blue-300 tracking-wide mb-1.5">
+                                5 Questions <span className="text-slate-300 dark:text-slate-600 mx-1.5">·</span> 60 Seconds <span className="text-slate-300 dark:text-slate-600 mx-1.5">·</span> Every Day
+                            </p>
 
-                                {/* 60 Sec Each */}
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg bg-white/80 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-                                    <div className="w-5 h-5 rounded-md bg-orange-50/90 dark:bg-orange-950/60 border border-orange-200/50 dark:border-orange-800/40 flex items-center justify-center shrink-0">
-                                        <Timer className="w-3 h-3 text-[#FF6B16] dark:text-orange-400 stroke-[2]" />
-                                    </div>
-                                    <span className="text-[11.5px] sm:text-xs font-semibold text-slate-700 dark:text-slate-200">60 Sec Each</span>
-                                </div>
+                            {/* 4. Short Curiosity Line */}
+                            <p className="text-[13px] lg:text-[13.5px] font-medium text-slate-500 dark:text-slate-400 mb-5 leading-normal">
+                                Think fast. Beat the clock. Keep your streak alive.
+                            </p>
 
-                                {/* Every Day */}
-                                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1 rounded-lg bg-white/80 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-                                    <div className="w-5 h-5 rounded-md bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-200/50 dark:border-emerald-800/40 flex items-center justify-center shrink-0">
-                                        <CalendarDays className="w-3 h-3 text-emerald-600 dark:text-emerald-400 stroke-[2]" />
-                                    </div>
-                                    <span className="text-[11.5px] sm:text-xs font-semibold text-slate-700 dark:text-slate-200">Every Day</span>
-                                </div>
-                            </div>
-
-                            {/* 4. Supporting Streak Line with Subtle Flame Accent */}
-                            <div className="flex items-center gap-2.5 mb-4 sm:mb-5">
-                                <div className="w-6 h-6 rounded-md bg-orange-50/90 dark:bg-orange-950/50 border border-orange-200/60 dark:border-orange-900/50 flex items-center justify-center shrink-0 shadow-2xs">
-                                    <Flame className="w-3.5 h-3.5 text-[#FF6B16] fill-[#FF6B16]/20 stroke-[2]" />
-                                </div>
-                                <p className="text-sm md:text-base font-semibold text-slate-600 dark:text-slate-400 leading-snug">
-                                    Complete today&apos;s challenge &amp; keep your streak alive
-                                </p>
-                            </div>
-
-                            {/* 5. Refined Primary CTA: Book a Demo Button color (#FF6B16) */}
+                            {/* 5. Primary CTA: Refined Navy Button with Orange Accent Arrow */}
                             <div>
-                                <Button
+                                <button
+                                    type="button"
                                     onClick={handleStartChallenge}
-                                    className="h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all duration-200 border-none flex items-center gap-2 group cursor-pointer"
+                                    className="group inline-flex items-center gap-2.5 h-[44px] px-6 rounded-[12px] bg-[#062B67] hover:bg-[#0A1E42] text-white text-[13.5px] font-semibold shadow-[0_2px_8px_-2px_rgba(6,43,103,0.25)] hover:shadow-[0_4px_14px_-2px_rgba(6,43,103,0.35)] hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.98] transition-all duration-200 cursor-pointer select-none"
                                 >
-                                    <span>Start Challenge</span>
-                                    <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-0.5" />
-                                </Button>
+                                    <span>Take the Challenge</span>
+                                    <ArrowRight className="w-4 h-4 stroke-[2.2] text-[#FF6B16] group-hover:text-white transition-all duration-200 group-hover:translate-x-1" />
+                                </button>
                             </div>
                         </div>
 
-                        {/* Right Column: Illustration with integrated 60 SEC badge and subtle 6s float */}
-                        <div className="md:col-span-5 relative flex items-center justify-center">
-                            
-                            {/* Integrated 60 SEC Badge */}
-                            <div className="absolute top-1 right-3 lg:right-5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs border border-blue-200/70 dark:border-blue-800/60 shadow-xs text-[#102A68] dark:text-blue-200 z-10 select-none">
-                                <div className="w-3.5 h-3.5 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0">
-                                    <Timer className="w-2.5 h-2.5 text-[#FF6B16]" />
-                                </div>
-                                <span className="text-[10px] font-extrabold tracking-wider uppercase">60 SEC</span>
-                            </div>
-
-                            {/* Student solving quiz illustration (Focal Point) */}
+                        {/* Right Column: Confident Student Illustration with Subtle Idle Float */}
+                        <div className="md:col-span-5 lg:col-span-5 relative flex items-center justify-end">
                             <div 
-                                className="relative w-full h-56 sm:h-64 lg:h-72 flex items-center justify-center"
+                                className="relative w-full h-[220px] lg:h-[245px] xl:h-[265px] flex items-center justify-end"
                                 style={{ animation: 'dc-float 6s ease-in-out infinite' }}
                             >
                                 <Image
                                     src="/quiz.png"
-                                    alt="Daily Quiz Challenge - Student taking quiz"
+                                    alt="Today's Challenge - Student taking quick quiz"
                                     fill
-                                    className="object-contain"
+                                    className="object-contain object-right"
                                     priority
                                 />
                             </div>
@@ -146,86 +90,56 @@ export function DailyChallengeSection() {
                     </div>
 
                     {/* ============================================================ */}
-                    {/* MOBILE COMPOSITION                                           */}
+                    {/* MOBILE LAYOUT (Dedicated, compact, curiosity-driven)          */}
                     {/* ============================================================ */}
-                    <div className="flex flex-col md:hidden text-left space-y-3 relative z-10">
+                    <div className="flex flex-col md:hidden text-left space-y-2 relative z-10">
                         
-                        {/* 1. Label with Sparkles */}
-                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/80 dark:bg-blue-950/40 border border-blue-200/60 dark:border-blue-800/50 shadow-2xs text-[#102A68] dark:text-blue-200 text-xs font-bold tracking-wider uppercase w-fit">
-                            <Sparkles className="w-3 h-3 text-[#FF6B16]" />
+                        {/* 1. Small Label */}
+                        <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/90 dark:bg-blue-950/40 border border-blue-200/70 dark:border-blue-800/50 text-[#062B67] dark:text-blue-300 text-[10.5px] font-bold tracking-wider uppercase w-fit select-none">
+                            <Sparkles className="w-3 h-3 text-[#FF5500] fill-[#FF5500]/20" />
                             <span>TODAY&apos;S CHALLENGE</span>
                         </div>
 
-                        {/* 2. Heading with clean intentional wrap */}
-                        <h2 className="text-xl min-[360px]:text-[22px] sm:text-2xl font-extrabold text-[#0B1F4B] dark:text-white leading-[1.2] tracking-tight">
+                        {/* 2. Main Headline: Natural 2 lines, clean & not oversized */}
+                        <h2 className="text-[20px] min-[360px]:text-[21px] font-extrabold text-[#0A1E42] dark:text-white leading-[1.24] tracking-tight">
                             Can You Solve It in{' '}
-                            <span className="text-[#FF6B16]">60 Seconds</span>?
+                            <span className="text-[#FF5500]">60 Seconds</span>?
                         </h2>
 
-                        {/* 3. Three Refined Info Chips */}
-                        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-                                <div className="w-4.5 h-4.5 rounded-md bg-blue-50/90 dark:bg-blue-950/60 border border-blue-200/50 dark:border-blue-800/40 flex items-center justify-center shrink-0">
-                                    <HelpCircle className="w-2.5 h-2.5 text-[#1D4ED8] dark:text-blue-400 stroke-[2]" />
-                                </div>
-                                <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-200">5 Questions</span>
-                            </div>
+                        {/* 3. Supporting Line */}
+                        <p className="text-[12.5px] font-semibold text-[#0E357A] dark:text-blue-300 tracking-wide">
+                            5 Questions <span className="text-slate-300 dark:text-slate-600 mx-1">·</span> 60 Seconds <span className="text-slate-300 dark:text-slate-600 mx-1">·</span> Every Day
+                        </p>
 
-                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-                                <div className="w-4.5 h-4.5 rounded-md bg-orange-50/90 dark:bg-orange-950/60 border border-orange-200/50 dark:border-orange-800/40 flex items-center justify-center shrink-0">
-                                    <Timer className="w-2.5 h-2.5 text-[#FF6B16] dark:text-orange-400 stroke-[2]" />
-                                </div>
-                                <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-200">60 Sec Each</span>
-                            </div>
+                        {/* 4. Short Curiosity Line */}
+                        <p className="text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-snug">
+                            Think fast. Beat the clock. Keep your streak alive.
+                        </p>
 
-                            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/80 dark:bg-slate-800/70 border border-slate-200/70 dark:border-slate-700/60 shadow-2xs">
-                                <div className="w-4.5 h-4.5 rounded-md bg-emerald-50/90 dark:bg-emerald-950/60 border border-emerald-200/50 dark:border-emerald-800/40 flex items-center justify-center shrink-0">
-                                    <CalendarDays className="w-2.5 h-2.5 text-emerald-600 dark:text-emerald-400 stroke-[2]" />
-                                </div>
-                                <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-200">Every Day</span>
-                            </div>
-                        </div>
-
-                        {/* 4. Supporting streak line */}
-                        <div className="flex items-center gap-2 pt-0.5">
-                            <div className="w-5.5 h-5.5 rounded-md bg-orange-50/90 dark:bg-orange-950/50 border border-orange-200/60 dark:border-orange-900/50 flex items-center justify-center shrink-0 shadow-2xs">
-                                <Flame className="w-3 h-3 text-[#FF6B16] fill-[#FF6B16]/20 stroke-[2]" />
-                            </div>
-                            <p className="text-xs min-[360px]:text-sm font-semibold text-slate-600 dark:text-slate-400 leading-snug">
-                                Complete today&apos;s challenge &amp; keep your streak alive
-                            </p>
-                        </div>
-
-                        {/* 5. Primary CTA */}
-                        <div className="pt-1">
-                            <Button
+                        {/* 5. Compact CTA (Content-width, refined navy button, NOT a giant orange block!) */}
+                        <div className="pt-0.5">
+                            <button
+                                type="button"
                                 onClick={handleStartChallenge}
-                                className="w-full sm:w-auto h-11 px-6 rounded-[10px] bg-[#FF6B16] hover:bg-[#e65a0c] text-white font-semibold text-sm shadow-xs hover:shadow-sm transition-all duration-200 border-none flex items-center justify-center gap-2 group cursor-pointer"
+                                className="group inline-flex items-center gap-2 h-[40px] px-5 rounded-[11px] bg-[#062B67] hover:bg-[#0A1E42] text-white text-[13px] font-semibold shadow-[0_2px_8px_-2px_rgba(6,43,103,0.22)] active:scale-[0.98] transition-all duration-200 cursor-pointer w-fit select-none"
                             >
-                                <span>Start Challenge</span>
-                                <ArrowRight className="w-4 h-4 transition-transform duration-180 ease-out group-hover:translate-x-0.5" />
-                            </Button>
+                                <span>Take the Challenge</span>
+                                <ArrowRight className="w-3.5 h-3.5 stroke-[2.2] text-[#FF6B16] group-hover:text-white transition-all duration-200 group-hover:translate-x-1" />
+                            </button>
                         </div>
 
-                        {/* 6. Illustration with integrated 60 SEC badge on mobile */}
-                        <div className="relative w-full max-w-[320px] sm:max-w-[360px] mx-auto pt-2 pb-1 flex items-center justify-center">
-                            {/* Integrated mobile 60 SEC Badge */}
-                            <div className="absolute top-0 right-2 inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-xs border border-blue-200/70 dark:border-blue-800/60 shadow-xs text-[#102A68] dark:text-blue-200 z-10 select-none">
-                                <div className="w-3 h-3 rounded-full bg-orange-500/10 flex items-center justify-center shrink-0">
-                                    <Timer className="w-2 h-2 text-[#FF6B16]" />
-                                </div>
-                                <span className="text-[9px] font-extrabold tracking-wider uppercase">60 SEC</span>
-                            </div>
-
+                        {/* 6. Integrated Illustration: Prominent, student + laptop + 60s timer sharp, zero bottom dead space */}
+                        <div className="relative w-full max-w-[290px] min-[360px]:max-w-[320px] mx-auto mt-0.5 flex items-center justify-center -mb-2">
                             <div 
-                                className="relative w-full h-48 min-[360px]:h-52 sm:h-60 flex items-center justify-center"
+                                className="relative w-full h-[175px] min-[360px]:h-[195px] flex items-center justify-center"
                                 style={{ animation: 'dc-float 6s ease-in-out infinite' }}
                             >
                                 <Image
                                     src="/quiz.png"
-                                    alt="Daily Quiz Challenge - Student taking quiz"
+                                    alt="Today's Challenge - Student taking quick quiz"
                                     fill
                                     className="object-contain"
+                                    priority
                                 />
                             </div>
                         </div>
@@ -234,14 +148,14 @@ export function DailyChallengeSection() {
                 </div>
             </div>
 
-            {/* Scoped keyframe for subtle 6-second float of the illustration */}
+            {/* Subtle floating animation */}
             <style>{`
                 @keyframes dc-float {
                     0%, 100% {
                         transform: translateY(0px);
                     }
                     50% {
-                        transform: translateY(-2.5px);
+                        transform: translateY(-3px);
                     }
                 }
             `}</style>

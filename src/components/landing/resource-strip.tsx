@@ -42,7 +42,7 @@ const coursesOffer = [
   },
   {
     id: "cuet",
-    label: "CUET EXAM",
+    label: "CUET (UG)",
     description: "Classes 11–12",
     href: "/courses",
     cardBg: "bg-[#F0FDF4] hover:bg-[#E6FAED] dark:bg-emerald-950/25 dark:hover:bg-emerald-950/45 border-[#DCFCE7] dark:border-emerald-900/50",

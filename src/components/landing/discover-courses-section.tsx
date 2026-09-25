@@ -10,7 +10,8 @@ import {
     Cbse2DIcon,
     Cuet2DIcon,
     TestSeries2DIcon,
-    Youtube2DIcon
+    Youtube2DIcon,
+    Olympiad2DIcon
 } from './course-2d-icons';
 
 // ── Course Item Interface & Data ──────────────────────────────────────
@@ -70,7 +71,7 @@ const courses: CourseItem[] = [
     },
     {
         id: 'cuet',
-        title: 'CUET EXAM',
+        title: 'CUET (UG)',
         subtitle: 'Classes 11–12',
         href: '#',
         cardBg: 'bg-gradient-to-br from-[#F0FDFA] via-[#F7FEFD] to-[#CCFBF1] dark:from-teal-950/40 dark:via-slate-900 dark:to-teal-900/25',
@@ -80,6 +81,19 @@ const courses: CourseItem[] = [
         badgeBorder: 'border-[#99F6E4] dark:border-teal-800',
         waveColor: '#BEF2E7',
         icon: Cuet2DIcon,
+    },
+    {
+        id: 'olympiad',
+        title: 'OLYMPIAD',
+        subtitle: 'Classes 6–10',
+        href: '#',
+        cardBg: 'bg-gradient-to-br from-[#FFF5F5] via-[#FFFAFA] to-[#FEE2E2] dark:from-rose-950/40 dark:via-slate-900 dark:to-rose-900/25',
+        cardBorder: 'border-[#FDC7C7] dark:border-rose-900/60',
+        hoverBorder: 'hover:border-rose-400 dark:hover:border-rose-500',
+        badgeBg: 'bg-white/95 dark:bg-rose-950/90',
+        badgeBorder: 'border-[#FECACA] dark:border-rose-800',
+        waveColor: '#FCCC CC'.replace(' ', ''),
+        icon: Olympiad2DIcon,
     },
     {
         id: 'test-series',
@@ -93,19 +107,6 @@ const courses: CourseItem[] = [
         badgeBorder: 'border-[#D8B4FE] dark:border-purple-800',
         waveColor: '#E6D0FC',
         icon: TestSeries2DIcon,
-    },
-    {
-        id: 'youtube-channel',
-        title: 'YOUTUBE',
-        subtitle: 'Free Video Lectures',
-        href: 'https://youtube.com/@idleducation',
-        cardBg: 'bg-gradient-to-br from-[#FFF5F5] via-[#FFFAFA] to-[#FEE2E2] dark:from-rose-950/40 dark:via-slate-900 dark:to-rose-900/25',
-        cardBorder: 'border-[#FDC7C7] dark:border-rose-900/60',
-        hoverBorder: 'hover:border-rose-400 dark:hover:border-rose-500',
-        badgeBg: 'bg-white/95 dark:bg-rose-950/90',
-        badgeBorder: 'border-[#FECACA] dark:border-rose-800',
-        waveColor: '#FCCC CC'.replace(' ', ''),
-        icon: Youtube2DIcon,
     }
 ];
 

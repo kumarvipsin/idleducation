@@ -1,9 +1,9 @@
 'use client';
 
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight } from "lucide-react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -11,53 +11,91 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import React, { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 
-const resources = [
+interface ResourceItem {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  imageUrl: string;
+  imageHint: string;
+  ctaText: string;
+}
+
+const resources: ResourceItem[] = [
   {
-    category: "REVISION NOTES",
-    title: "Notes",
-    description: "Comprehensive, simplified notes designed for conceptual clarity and quick exam revision.",
+    id: "revision-notes",
+    title: "Revision Notes",
+    description: "Concise notes for concepts and quick revision.",
     href: "/resources/notes",
     imageUrl: "/notes.png",
-    imageHint: "idl notes illustration",
+    imageHint: "revision notes illustration",
     ctaText: "Explore Notes",
-    // Notes: Blue + soft yellow accent
-    badgeStyle: "bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 border-amber-200/80 dark:border-amber-800/60",
-    imgBgStyle: "bg-gradient-to-b from-blue-50/40 to-amber-50/50 dark:from-blue-950/20 dark:to-amber-950/20 border-amber-100/70 dark:border-amber-900/30",
-    ctaStyle: "text-[#1F4FA3] group-hover:text-amber-600 dark:group-hover:text-amber-400",
-    borderHover: "group-hover:border-amber-200 dark:group-hover:border-amber-800/60",
   },
   {
-    category: "TEXTBOOK SOLUTIONS",
+    id: "ncert-solutions",
     title: "NCERT Solutions",
-    description: "Step-by-step, expert-verified solutions for NCERT textbook exercises across all subjects.",
+    description: "Step-by-step solutions for NCERT exercises.",
     href: "/resources/ncert-solutions",
     imageUrl: "/ncert.png",
     imageHint: "ncert solutions illustration",
-    ctaText: "View Solutions",
-    // NCERT Solutions: Blue + soft green accent
-    badgeStyle: "bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border-emerald-200/80 dark:border-emerald-800/60",
-    imgBgStyle: "bg-gradient-to-b from-blue-50/40 to-emerald-50/50 dark:from-blue-950/20 dark:to-emerald-950/20 border-emerald-100/70 dark:border-emerald-900/30",
-    ctaStyle: "text-[#1F4FA3] group-hover:text-emerald-600 dark:group-hover:text-emerald-400",
-    borderHover: "group-hover:border-emerald-200 dark:group-hover:border-emerald-800/60",
+    ctaText: "Explore Solutions",
   },
   {
-    category: "EXAM PRACTICE",
+    id: "previous-year-qp",
     title: "Previous Year QP",
-    description: "Practice with the last 10 years of solved board and entrance question papers to master exam timing.",
+    description: "Solved previous-year papers for better exam practice.",
     href: "/resources/previous-year-questions",
     imageUrl: "/pyq.png",
     imageHint: "previous year questions illustration",
     ctaText: "Practice PYQs",
-    // Previous Year QP: Navy + soft orange accent
-    badgeStyle: "bg-orange-50 dark:bg-orange-950/40 text-orange-800 dark:text-orange-300 border-orange-200/80 dark:border-orange-800/60",
-    imgBgStyle: "bg-gradient-to-b from-slate-50 to-orange-50/50 dark:from-slate-900/40 dark:to-orange-950/20 border-orange-100/70 dark:border-orange-900/30",
-    ctaStyle: "text-[#0B1F4B] group-hover:text-[#FF6B16] dark:group-hover:text-[#FF6B16]",
-    borderHover: "group-hover:border-orange-200 dark:group-hover:border-orange-800/60",
   },
 ];
+
+function ResourceCard({ resource }: { resource: ResourceItem }) {
+  return (
+    <Link href={resource.href} className="group block h-full select-none">
+      <div className="h-full flex flex-col bg-white dark:bg-slate-900 rounded-[22px] border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_12px_-4px_rgba(6,43,103,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(6,43,103,0.12)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden p-4 sm:p-5">
+        
+        {/* Consistent Top Image Container — unified light background, subtle border, rounded frame */}
+        <div className="relative w-full aspect-[16/11] sm:aspect-[16/10] rounded-[16px] overflow-hidden bg-[#F0F5FD] dark:bg-slate-800/80 border border-[#E0ECFB] dark:border-slate-700/60 p-3.5 flex items-center justify-center mb-4 sm:mb-4.5">
+          <div className="relative w-full h-full transition-transform duration-300 ease-out group-hover:scale-[1.04]">
+            <Image
+              src={resource.imageUrl}
+              alt={resource.title}
+              data-ai-hint={resource.imageHint}
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
+        </div>
+
+        {/* Content */}
+        <div className="flex flex-col flex-1 text-left">
+          {/* Title */}
+          <h3 className="font-bold text-[18px] sm:text-[19px] lg:text-[20px] tracking-tight text-[#0A1E42] dark:text-white mb-1.5 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors">
+            {resource.title}
+          </h3>
+
+          {/* Short, concise description */}
+          <p className="text-[13px] sm:text-[13.5px] text-[#4A5568] dark:text-slate-300 font-normal leading-relaxed mb-4 flex-1 line-clamp-2">
+            {resource.description}
+          </p>
+
+          {/* Clean CTA with arrow */}
+          <div className="pt-1 mt-auto">
+            <span className="inline-flex items-center gap-1.5 text-[13.5px] sm:text-[14px] font-semibold text-[#1D4ED8] dark:text-blue-400 group-hover:text-[#062B67] dark:group-hover:text-blue-300 transition-colors">
+              <span>{resource.ctaText}</span>
+              <ArrowRight className="w-4 h-4 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1" />
+            </span>
+          </div>
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 export function StudyResources() {
   const [api, setApi] = useState<CarouselApi>();
@@ -67,9 +105,7 @@ export function StudyResources() {
   const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (!api) {
-      return;
-    }
+    if (!api) return;
     setCurrent(api.selectedScrollSnap());
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
@@ -92,227 +128,131 @@ export function StudyResources() {
     };
   }, []);
 
-  // Check if carousel actually has multiple slides to scroll
-  const canAutoplay = useCallback(() => {
-    if (!api) return false;
-    const snaps = api.scrollSnapList();
-    return Boolean(snaps && snaps.length > 1);
-  }, [api]);
-
-  // Hover handlers: immediate pause on hover, smooth resume on leave
   const handleMouseEnter = useCallback(() => {
     isHoveredRef.current = true;
-    if (!canAutoplay()) return;
     try {
       api?.plugins()?.autoplay?.stop();
     } catch {
-      // safe fallback
+      /* safe fallback */
     }
-  }, [api, canAutoplay]);
+  }, [api]);
 
   const handleMouseLeave = useCallback(() => {
     isHoveredRef.current = false;
-    if (!canAutoplay()) return;
     try {
       api?.plugins()?.autoplay?.play();
     } catch {
-      // safe fallback
+      /* safe fallback */
     }
-  }, [api, canAutoplay]);
+  }, [api]);
 
-  // Touch handlers: pause during touch/swipe, resume after gentle delay
   const handleTouchStart = useCallback(() => {
     if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    if (!canAutoplay()) return;
     try {
       api?.plugins()?.autoplay?.stop();
     } catch {
-      // safe fallback
+      /* safe fallback */
     }
-  }, [api, canAutoplay]);
+  }, [api]);
 
   const handleTouchEnd = useCallback(() => {
     if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    if (!canAutoplay()) return;
     touchTimeoutRef.current = setTimeout(() => {
-      if (!isHoveredRef.current && canAutoplay()) {
+      if (!isHoveredRef.current) {
         try {
           api?.plugins()?.autoplay?.play();
         } catch {
-          // safe fallback
+          /* safe fallback */
         }
       }
     }, 1200);
-  }, [api, canAutoplay]);
+  }, [api]);
 
   const scrollTo = useCallback(
     (index: number) => {
-      if (!api) return;
-      const currentSnap = api.selectedScrollSnap();
-      const currentCycle = Math.floor(currentSnap / resources.length);
-      const targetIndex = index + currentCycle * resources.length;
-      api.scrollTo(targetIndex);
+      api?.scrollTo(index);
     },
     [api]
   );
 
-  // Cloned sets (3 sets of 3 = 9 items) to ensure smooth infinite rail without empty areas
-  const displayResources = [
-    ...resources.map((r, i) => ({ ...r, uniqueKey: `res-1-${i}` })),
-    ...resources.map((r, i) => ({ ...r, uniqueKey: `res-2-${i}` })),
-    ...resources.map((r, i) => ({ ...r, uniqueKey: `res-3-${i}` })),
-  ];
-
   return (
-    <section className="w-full pt-6 sm:pt-8 md:pt-10 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-[#080D1A]">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="flex flex-col gap-8 md:gap-10">
-          {/* Heading */}
-          <div className="text-center space-y-2.5">
-            <h2 className="text-2xl md:text-4xl font-extrabold tracking-tight text-[#0B1F4B] dark:text-white">
-              Study{' '}
-              <span className="relative inline-block text-[#1D4ED8] dark:text-blue-400">
-                Resources
+    <section className="w-full py-6 sm:py-8 md:py-10 bg-white dark:bg-background relative z-20">
+      <div className="container mx-auto px-4 sm:px-5 md:px-6 max-w-7xl">
+        
+        {/* Section Header */}
+        <div className="text-center mb-6 sm:mb-8 md:mb-10">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0A1E42] dark:text-white leading-[1.15]">
+            Study{' '}
+            <span className="text-[#1D4ED8] dark:text-blue-400">
+              Resources
+            </span>
+          </h2>
+        </div>
 
-                {/* Curved Wave Line under Resources (reduced suitable length + single distinct wave) */}
-                <span className="absolute -bottom-2 sm:-bottom-2.5 left-1/2 -translate-x-1/2 w-[72%] h-3 pointer-events-none select-none flex items-center" aria-hidden="true">
-                  <svg className="w-full h-full overflow-visible" viewBox="0 0 100 16" fill="none" preserveAspectRatio="none">
-                    <defs>
-                      <linearGradient id="study-resources-swoosh" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#3B82F6" stopOpacity="0" />
-                        <stop offset="30%" stopColor="#3B82F6" stopOpacity="0.45" />
-                        <stop offset="70%" stopColor="#2563EB" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#1D4ED8" stopOpacity="1" />
-                      </linearGradient>
-                      <linearGradient id="study-resources-swoosh-dark" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#60A5FA" stopOpacity="0" />
-                        <stop offset="30%" stopColor="#60A5FA" stopOpacity="0.45" />
-                        <stop offset="70%" stopColor="#3B82F6" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#60A5FA" stopOpacity="1" />
-                      </linearGradient>
-                    </defs>
-                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#study-resources-swoosh)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="dark:hidden" />
-                    <path d="M 6,8 C 28,1.5 72,14.5 94,8" stroke="url(#study-resources-swoosh-dark)" strokeWidth="2.5" strokeLinecap="round" vectorEffect="non-scaling-stroke" className="hidden dark:inline" />
-                  </svg>
-                </span>
-              </span>
-            </h2>
-            <p className="text-sm md:text-base text-slate-500 dark:text-slate-400 font-medium max-w-2xl mx-auto">
-              Curated materials to help you learn better, faster and smarter.
-            </p>
-          </div>
+        {/* ── DESKTOP: Equal 3-Column Grid ── */}
+        <div className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-7 items-stretch">
+          {resources.map((resource) => (
+            <ResourceCard key={resource.id} resource={resource} />
+          ))}
+        </div>
 
-          {/* Carousel Container with Hover & Touch Pause */}
-          <div 
-            className="w-full"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
+        {/* ── MOBILE: Proper Horizontal Carousel (1 Full Card visible at a time, zero clipping) ── */}
+        <div 
+          className="md:hidden w-full max-w-[380px] sm:max-w-md mx-auto"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onTouchStart={handleTouchStart}
+          onTouchEnd={handleTouchEnd}
+        >
+          <Carousel
+            setApi={setApi}
+            opts={{
+              align: "start",
+              loop: true,
+              duration: 25,
+            }}
+            plugins={[
+              Autoplay({
+                delay: 4000,
+                stopOnInteraction: false,
+                stopOnMouseEnter: true,
+              }),
+            ]}
+            className="w-full overflow-hidden"
           >
-            <Carousel
-              setApi={setApi}
-              opts={{
-                align: "start",
-                loop: true,
-                duration: 35,
-              }}
-              plugins={[
-                Autoplay({
-                  delay: 4000,
-                  stopOnInteraction: false,
-                  stopOnMouseEnter: true,
-                }),
-              ]}
-              className="w-full"
-            >
-              <CarouselContent className="-ml-4">
-                {displayResources.map((resource) => (
-                  <CarouselItem key={resource.uniqueKey} className="pl-4 basis-[85%] sm:basis-[46.5%] md:basis-[46.5%] lg:basis-1/3">
-                    <div className="p-1 h-full">
-                      <Link href={resource.href} className="block h-full group">
-                        <Card className={cn(
-                          "h-full flex flex-col bg-white dark:bg-slate-900 text-foreground rounded-2xl overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-xs hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1.5",
-                          resource.borderHover
-                        )}>
-                          <CardContent className="p-4 sm:p-5 flex flex-col flex-1 text-left items-start">
-                            {/* Top Tag & Info */}
-                            <div className="flex items-center justify-between w-full mb-3">
-                              <span className={cn(
-                                "inline-flex items-center px-2.5 py-0.5 rounded-md text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border",
-                                resource.badgeStyle
-                              )}>
-                                {resource.category}
-                              </span>
-                              <span className="text-[10px] font-medium text-slate-400/80 dark:text-slate-500/80 tracking-tight">Free Access</span>
-                            </div>
+            <CarouselContent className="-ml-0 items-stretch">
+              {resources.map((resource) => (
+                <CarouselItem key={resource.id} className="pl-0 basis-full flex flex-col">
+                  <div className="w-full p-0.5">
+                    <ResourceCard resource={resource} />
+                  </div>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+          </Carousel>
 
-                            {/* Reduced Height Container (-25-30%) with +15-20% Visual Presence */}
-                            <div className={cn(
-                              "relative w-full h-44 sm:h-48 rounded-xl overflow-hidden mb-3.5 p-2 flex items-center justify-center border",
-                              resource.imgBgStyle
-                            )}>
-                              <div className="relative w-full h-full transition-transform duration-300 ease-out group-hover:scale-105">
-                                <Image
-                                  src={resource.imageUrl}
-                                  alt={resource.title}
-                                  data-ai-hint={resource.imageHint}
-                                  fill
-                                  className="object-contain drop-shadow-sm"
-                                />
-                              </div>
-                            </div>
-                            
-                            {/* Title */}
-                            <h3 className="font-extrabold text-base sm:text-lg tracking-tight text-[#0B1F4B] dark:text-white mb-1.5 line-clamp-1 group-hover:text-primary transition-colors">
-                              {resource.title}
-                            </h3>
-                            
-                            {/* Description with balanced spacing */}
-                            <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 font-semibold leading-relaxed line-clamp-2 sm:line-clamp-3 mb-4 flex-1">
-                              {resource.description}
-                            </p>
-
-                            {/* Resource CTA */}
-                            <div className="mt-auto pt-3 border-t border-slate-100 dark:border-slate-800/80 w-full flex items-center justify-between">
-                              <span className={cn(
-                                "text-xs sm:text-sm font-bold transition-colors flex items-center gap-1.5",
-                                resource.ctaStyle
-                              )}>
-                                <span>{resource.ctaText}</span>
-                                <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
-                              </span>
-                              <span className="text-[10px] font-medium text-slate-400/80 dark:text-slate-500/80 tracking-tight">Instant PDF</span>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      </Link>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-          </div>
-          
-          {/* Pagination Dots */}
-          <div className="flex justify-center gap-2 mt-2">
+          {/* Clean Pagination Dots */}
+          <div className="flex justify-center gap-1.5 mt-4 sm:mt-5">
             {resources.map((_, i) => (
               <button
                 key={i}
                 onClick={() => scrollTo(i)}
-                className="p-3 cursor-pointer group flex items-center justify-center min-w-[44px] min-h-[44px]"
-                aria-label={`Go to slide ${i + 1}`}
+                className="p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px] cursor-pointer group/dot"
+                aria-label={`Go to resource ${i + 1}`}
               >
                 <span
                   className={cn(
                     "rounded-full transition-all duration-300",
-                    (current % resources.length) === i ? "w-8 h-2.5 bg-primary" : "w-2.5 h-2.5 bg-muted-foreground/20 group-hover:bg-muted-foreground/40"
+                    (current % resources.length) === i
+                      ? "w-6 h-2 bg-[#1D4ED8]"
+                      : "w-2 h-2 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
                   )}
                 />
               </button>
             ))}
           </div>
         </div>
+
       </div>
     </section>
   );
