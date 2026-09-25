@@ -287,12 +287,12 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     return (
       <div className={cn("mt-3 sm:mt-3.5", className)}>
         {/* Footer Column Heading matching Quick Links, Resources, etc. */}
-        <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-2 sm:mb-2.5 border-l-2 border-[#1D4ED8] pl-2.5">
+        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
           Follow IDL
         </h3>
 
-        {/* Minimal Social Icon Row: 38-40px square, 8px radius, transparent, subtle border, NO shadow */}
-        <div className="flex items-center gap-2.5 sm:gap-3 pl-2.5">
+        {/* Minimal Social Icon Row: subtle outlined square icons with refined hover effect */}
+        <div className="flex items-center gap-2 pl-2">
           {footerItems.map((social) => (
             <a
               key={social.id}
@@ -301,13 +301,13 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
               rel="noopener noreferrer"
               aria-label={social.ariaLabel}
               className={cn(
-                "w-[38px] h-[38px] sm:w-[40px] sm:h-[40px] rounded-[8px]",
+                "w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-[6px]",
                 "bg-transparent",
                 "border border-slate-700/80",
                 "flex items-center justify-center shrink-0",
                 "text-slate-300 hover:text-white",
-                "transition-colors duration-200 ease-out cursor-pointer",
-                "hover:bg-blue-900/40 hover:border-slate-500",
+                "transition-all duration-150 ease-out cursor-pointer",
+                "hover:border-[#0A5CFF]/70 hover:bg-[#0A5CFF]/10",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-1",
                 "active:opacity-80",
                 social.brandHoverColor

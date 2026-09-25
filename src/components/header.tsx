@@ -28,7 +28,6 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "./ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
-import { SocialLinks } from "./social-links";
 import { cn } from "@/lib/utils";
 import { GcsImage } from "./gcs-image";
 import { ScrollArea } from "./ui/scroll-area";
@@ -838,8 +837,6 @@ export function Header() {
                             </span>
                         </a>
 
-                        {/* Social Media Links (Desktop: Phone -> Instagram -> YouTube -> Facebook -> Notification -> Login) */}
-                        <SocialLinks variant="header" />
 
                         {/* Recent Updates Notification Bell Trigger */}
                         <button 
@@ -1230,9 +1227,8 @@ export function Header() {
                                     </div>
                                 </div>
 
-                                {/* Unified Bottom Utility Group: FOLLOW IDL + Social Buttons + Primary Call Button */}
-                                <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1rem,env(safe-area-inset-bottom))] space-y-2 sm:space-y-2.5">
-                                    <SocialLinks variant="mobile-menu" onLinkClick={() => setIsMobileMenuOpen(false)} />
+                                {/* Bottom Utility Group: Primary Call Button */}
+                                <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1rem,env(safe-area-inset-bottom))]">
 
                                     <a 
                                         href="tel:8860040010" 

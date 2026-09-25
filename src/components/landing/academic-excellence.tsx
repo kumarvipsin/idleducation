@@ -547,89 +547,126 @@ export function AcademicExcellence() {
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative rounded-[20px] sm:rounded-[24px] bg-[#F8FAFF] dark:bg-slate-900/60 border border-[#DCE6F5] dark:border-slate-800 p-4 sm:p-6 lg:p-7 shadow-[0_8px_30px_rgba(6,43,103,0.04)] dark:shadow-none overflow-hidden"
+          className="relative rounded-[24px] sm:rounded-[30px] lg:rounded-[34px] bg-gradient-to-br from-[#F5F9FE] via-[#F8FBFF] to-[#EDF5FE] dark:from-slate-900/90 dark:via-slate-900/70 dark:to-slate-950 border border-[#DCE8F8] dark:border-slate-800 p-4 sm:p-6 lg:p-7 shadow-[0_8px_32px_-8px_rgba(6,43,103,0.05)] dark:shadow-none overflow-hidden"
         >
-          {/* Subtle Decorative Element (Faint Trophy Watermark) */}
-          <div className="absolute right-4 -top-6 w-44 h-44 text-[#155EEF] opacity-[0.025] dark:opacity-[0.015] pointer-events-none select-none">
-            <Trophy className="w-full h-full" strokeWidth={1} />
+          {/* Background Soft Fluid Organic Waves (matching reference screenshot design) */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+            {/* Top-Right Organic Wave Accent */}
+            <svg 
+              className="absolute -top-12 -right-12 w-[380px] sm:w-[520px] lg:w-[640px] h-auto text-[#DCEAFB]/70 dark:text-blue-950/30" 
+              viewBox="0 0 680 440" 
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M160 0C320 90 480 30 680 180V0H160Z" 
+                fill="currentColor" 
+              />
+              <path 
+                d="M260 0C400 130 520 80 680 260V0H260Z" 
+                fill="currentColor" 
+                opacity="0.45"
+              />
+            </svg>
+
+            {/* Bottom-Left Organic Wave Accent */}
+            <svg 
+              className="absolute -bottom-16 -left-16 w-[340px] sm:w-[460px] lg:w-[580px] h-auto text-[#DCEAFB]/60 dark:text-blue-950/20" 
+              viewBox="0 0 620 400" 
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M0 240C150 170 300 250 480 400H0V240Z" 
+                fill="currentColor" 
+              />
+              <path 
+                d="M0 160C120 90 250 190 400 400H0V160Z" 
+                fill="currentColor" 
+                opacity="0.4"
+              />
+            </svg>
           </div>
 
           <div className="relative z-10 flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6 items-stretch">
             
-            {/* ----------------- LEFT SIDE: SUMMARY CARD ----------------- */}
-            <div className="w-full lg:w-[32%] shrink-0">
-              <div className="bg-white dark:bg-slate-900/95 rounded-[16px] sm:rounded-[20px] p-4 sm:p-6 border border-[#DCE6F5] dark:border-slate-800 shadow-[0_2px_12px_rgba(6,43,103,0.03)] h-full flex flex-col justify-between">
+            {/* ----------------- LEFT SIDE: SUMMARY CARD (Pixel-accurate to Reference) ----------------- */}
+            <div className="w-full lg:w-[35%] xl:w-[34%] shrink-0">
+              <div className="bg-white dark:bg-slate-900 rounded-[22px] sm:rounded-[26px] p-5 sm:p-6 lg:p-7 border border-[#DFEAF8] dark:border-slate-800 shadow-[0_4px_24px_-4px_rgba(6,43,103,0.05)] h-full flex flex-col justify-between relative z-10">
                 
                 {/* Title & Description */}
                 <div>
-                  {/* Orange accent line */}
-                  <div className="w-6 h-1 rounded-full bg-[#FF6B21] mb-2" />
+                  {/* Top orange accent bar */}
+                  <div className="w-11 h-1.5 rounded-full bg-[#FF5500] mb-3.5" />
                   
                   {/* Category Title e.g. CLASS 12 • 2026 RESULTS */}
-                  <h3 className="text-xl sm:text-2xl lg:text-[26px] font-extrabold tracking-tight flex flex-wrap items-center gap-2 leading-snug">
-                    <span className="text-[#062B67] dark:text-white">
+                  <h3 className="text-[22px] sm:text-[26px] lg:text-[28px] font-black tracking-tight flex flex-wrap items-center gap-2 leading-tight">
+                    <span className="text-[#062B67] dark:text-white font-extrabold">
                       {activeCategory.headlineTitle}
                     </span>
-                    <span className="text-slate-300 font-bold">•</span>
-                    <span className="text-[#155EEF] dark:text-blue-400">
+                    <span className="w-2 h-2 rounded-full bg-[#CBD5E1] dark:bg-slate-700 inline-block mx-0.5" />
+                    <span className="text-[#0A5CFF] dark:text-blue-400 font-extrabold">
                       {activeCategory.headlineHighlight}
                     </span>
                   </h3>
 
-                  <p className="text-sm sm:text-base text-slate-500 dark:text-slate-400 mt-2 leading-relaxed">
+                  <p className="text-[13.5px] sm:text-[14.5px] text-slate-500 dark:text-slate-400 mt-2 font-medium leading-relaxed">
                     {activeCategory.description}
                   </p>
                 </div>
 
-                {/* 3 Key Statistics in 3 Columns */}
-                <div className="grid grid-cols-3 gap-1 sm:gap-2 py-3 sm:py-4 my-2.5 sm:my-3.5 border-y border-[#EDF2FA] dark:border-slate-800">
+                {/* Divider Line */}
+                <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 my-4 sm:my-5" />
+
+                {/* 3 Key Statistics in 3 Columns with Clean Dividers */}
+                <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 py-1">
                   
                   {/* Stat 1: Highest Score */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-50 dark:bg-amber-950/40 text-[#FF6B21] flex items-center justify-center mb-1.5 shadow-2xs">
-                      <Trophy className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-2 mx-auto shadow-2xs">
+                      <Trophy className="w-5 h-5 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight leading-none mb-1">
+                    <span className="text-[#062B67] dark:text-white font-black text-2xl sm:text-[28px] lg:text-[30px] tracking-tight leading-none mb-1">
                       {activeCategory.stats.highestScore.value}
                     </span>
-                    <span className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[11.5px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.highestScore.label}
                     </span>
                   </div>
 
                   {/* Stat 2: Students 90%+ */}
-                  <div className="flex flex-col items-center text-center px-1 sm:px-2 border-x border-[#EDF2FA] dark:border-slate-800">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-50 dark:bg-blue-950/40 text-[#155EEF] dark:text-blue-400 flex items-center justify-center mb-1.5 shadow-2xs">
-                      <Users className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <div className="flex flex-col items-center text-center px-1 sm:px-2">
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-2 mx-auto shadow-2xs">
+                      <Users className="w-5 h-5 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight leading-none mb-1">
+                    <span className="text-[#062B67] dark:text-white font-black text-2xl sm:text-[28px] lg:text-[30px] tracking-tight leading-none mb-1">
                       {activeCategory.stats.students90Plus.value}
                     </span>
-                    <span className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[11.5px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students90Plus.label}
                     </span>
                   </div>
 
                   {/* Stat 3: Students 95%+ */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-1.5 shadow-2xs">
-                      <TrendingUp className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-2 mx-auto shadow-2xs">
+                      <TrendingUp className="w-5 h-5 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold text-xl sm:text-2xl tracking-tight leading-none mb-1">
+                    <span className="text-[#062B67] dark:text-white font-black text-2xl sm:text-[28px] lg:text-[30px] tracking-tight leading-none mb-1">
                       {activeCategory.stats.students95Plus.value}
                     </span>
-                    <span className="text-xs sm:text-[13px] text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[11.5px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students95Plus.label}
                     </span>
                   </div>
                 </div>
 
                 {/* Motivational Quote at Bottom */}
-                <div className="bg-[#F8FAFF] dark:bg-slate-800/60 rounded-xl p-3 sm:p-4 border border-[#E8EFFB] dark:border-slate-800 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed italic flex items-start gap-2">
-                  <span className="text-[#155EEF] text-xl sm:text-2xl font-serif font-bold leading-none shrink-0 mt-0.5">“</span>
+                <div className="mt-4 sm:mt-5 bg-[#F4F8FD] dark:bg-slate-800/60 rounded-2xl p-3.5 sm:p-4 border border-[#E2EDF8] dark:border-slate-800/80 text-[12.5px] sm:text-[13.5px] text-slate-600 dark:text-slate-300 leading-relaxed italic flex items-start gap-2.5">
+                  <span className="text-[#0A5CFF] text-2xl font-serif font-black leading-none shrink-0 mt-0.5">“</span>
                   <div>
-                    {activeCategory.quote.text}
-                    <strong className="text-[#155EEF] dark:text-blue-400 not-italic font-semibold">
+                    {activeCategory.quote.text.trim()}{' '}
+                    <strong className="text-[#0A5CFF] dark:text-blue-400 not-italic font-bold">
                       {activeCategory.quote.highlight}
                     </strong>
                   </div>
@@ -639,7 +676,7 @@ export function AcademicExcellence() {
             </div>
 
             {/* ----------------- RIGHT SIDE: TOP PERFORMERS CAROUSEL ----------------- */}
-            <div className="w-full lg:w-[68%] flex flex-col justify-between mt-2 sm:mt-0">
+            <div className="w-full lg:w-[65%] xl:w-[66%] flex flex-col justify-between mt-2 sm:mt-0">
               
               {/* Top Performers Header + Navigation Arrows */}
               <div className="flex items-center justify-between mb-2.5 sm:mb-3.5 px-0.5">

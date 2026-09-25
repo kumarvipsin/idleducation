@@ -38,37 +38,32 @@ export function Footer() {
   const [isContactOpen, setIsContactOpen] = useState(false);
 
   return (
-    <footer className="relative bg-[#061537] text-slate-300 border-t border-blue-900/40 overflow-hidden">
+    <footer className="relative bg-[#061537] text-slate-300 border-t border-blue-900/30 overflow-hidden">
       {/* Ambient soft glow towards top-right */}
-      <div className="absolute -top-12 right-[8%] w-[460px] sm:w-[620px] h-[320px] bg-blue-500/[0.04] rounded-full blur-3xl pointer-events-none" />
-
-      {/* Very faint IDL dot texture (2-3% opacity, primarily in empty spaces) */}
-      <div 
-        className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{
-          backgroundImage: `radial-gradient(#3B82F6 1px, transparent 1px)`,
-          backgroundSize: `24px 24px`
-        }}
-      />
+      <div className="absolute -top-12 right-[8%] w-[460px] sm:w-[620px] h-[320px] bg-blue-500/[0.03] rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Content Area */}
-      <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-14 md:pt-16 pb-12 sm:pb-14 md:pb-16">
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.75fr_0.75fr_0.75fr_0.75fr_0.9fr] gap-x-6 sm:gap-x-8 lg:gap-x-5 xl:gap-x-8 gap-y-8 sm:gap-y-9 items-start">
+      <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-12 pb-7 sm:pb-9 lg:pb-11">
+        
+        {/* Responsive Grid:
+            Mobile: 2-column layout with top brand, 2x2 link grid, full-width contact
+            Desktop: Proportionate 6-column layout with equalized link columns */}
+        <div className="grid grid-cols-2 lg:grid-cols-[1.3fr_0.75fr_0.75fr_0.75fr_0.75fr_1fr] gap-x-6 sm:gap-x-8 lg:gap-x-6 xl:gap-x-8 gap-y-5 sm:gap-y-6 lg:gap-y-0 items-start">
 
-          {/* Column 1: Brand & Socials (~28% desktop ratio) */}
-          <div className="flex flex-col items-start col-span-2 lg:col-span-1 pr-0 lg:pr-2">
-            <Link href="/" className="inline-block -mt-1 sm:-mt-2 mb-2 transition-opacity duration-150 hover:opacity-90">
+          {/* Group 1: Brand & Socials (Full width on mobile, Col 1 on desktop) */}
+          <div className="flex flex-col items-start col-span-2 lg:col-span-1 pr-0 lg:pr-3">
+            <Link href="/" className="inline-block -mt-1 mb-1.5 transition-opacity duration-150 hover:opacity-90">
               <Image 
                 src="/idllogo.png" 
                 alt="IDL Education Logo" 
-                width={105} 
-                height={105} 
-                className="h-[88px] sm:h-[92px] w-auto object-contain object-left brightness-0 invert" 
+                width={95} 
+                height={95} 
+                className="h-[52px] sm:h-[62px] lg:h-[72px] w-auto object-contain object-left brightness-0 invert" 
                 priority
               />
             </Link>
 
-            <p className="text-[12px] sm:text-[12.5px] text-slate-300/90 font-normal leading-[1.6] antialiased tracking-normal text-left max-w-[310px] sm:max-w-[330px]">
+            <p className="text-[12px] sm:text-[12.5px] text-slate-300/85 font-normal leading-[1.6] antialiased tracking-normal text-left max-w-[320px]">
               We understand that every student has unique needs and abilities, that’s why our curriculum is designed to adapt to your needs and help you grow!
             </p>
 
@@ -76,12 +71,12 @@ export function Footer() {
             <SocialLinks variant="footer" />
           </div>
 
-          {/* Column 2: Quick Links */}
-          <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+          {/* Group 2: Quick Links (Col 1 on mobile Row 1, Col 2 on desktop) */}
+          <div className="flex flex-col items-start w-full col-span-1">
+            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Quick Links
             </h3>
-            <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5" suppressHydrationWarning>
+            <ul className="space-y-1.5 sm:space-y-2 lg:space-y-2.5 text-[12px] sm:text-[12.5px] font-medium pl-2" suppressHydrationWarning>
               {quickLinks.map(link => (
                 <li key={link.label}>
                   <Link 
@@ -90,7 +85,7 @@ export function Footer() {
                       e.preventDefault();
                       setIsContactOpen(true);
                     } : undefined}
-                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300/85 hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -99,19 +94,19 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 3: Resources */}
-          <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+          {/* Group 3: Resources (Col 2 on mobile Row 1, Col 3 on desktop) */}
+          <div className="flex flex-col items-start w-full col-span-1">
+            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Resources
             </h3>
-            <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5">
+            <ul className="space-y-1.5 sm:space-y-2 lg:space-y-2.5 text-[12px] sm:text-[12.5px] font-medium pl-2">
               {resourceLinks.map(link => (
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
                     target={link.target} 
                     rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300/85 hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -120,17 +115,17 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 4: Apply For */}
-          <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+          {/* Group 4: Apply For (Col 1 on mobile Row 2, Col 4 on desktop) */}
+          <div className="flex flex-col items-start w-full col-span-1">
+            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Apply For
             </h3>
-            <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5">
+            <ul className="space-y-1.5 sm:space-y-2 lg:space-y-2.5 text-[12px] sm:text-[12.5px] font-medium pl-2">
               {programLinks.map(link => (
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
-                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300/85 hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -139,19 +134,19 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 5: Foundation */}
-          <div className="flex flex-col items-start w-full">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+          {/* Group 5: Foundation (Col 2 on mobile Row 2, Col 5 on desktop) */}
+          <div className="flex flex-col items-start w-full col-span-1">
+            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Foundation
             </h3>
-            <ul className="space-y-2.5 sm:space-y-3 text-[12.5px] sm:text-[13px] font-medium pl-2.5">
+            <ul className="space-y-1.5 sm:space-y-2 lg:space-y-2.5 text-[12px] sm:text-[12.5px] font-medium pl-2">
               {foundationLinks.map(link => (
                 <li key={link.href}>
                   <Link 
                     href={link.href} 
                     target={link.target} 
                     rel={link.target === '_blank' ? 'noopener noreferrer' : undefined} 
-                    className="text-slate-300 hover:text-white transition-all duration-150 ease-out hover:translate-x-0.5 inline-block"
+                    className="text-slate-300/85 hover:text-white transition-colors duration-150 py-0.5 inline-block"
                   >
                     {link.label}
                   </Link>
@@ -160,39 +155,39 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Column 6: Get in Touch */}
-          <div className="flex flex-col items-start w-full col-span-2 sm:col-span-2 lg:col-span-1">
-            <h3 className="text-[11.5px] sm:text-[12px] font-bold text-white uppercase tracking-[0.07em] mb-3.5 sm:mb-4 border-l-2 border-[#1D4ED8] pl-2.5">
+          {/* Group 6: Get in Touch (Full width on mobile below grid, Col 6 on desktop) */}
+          <div className="flex flex-col items-start w-full col-span-2 lg:col-span-1 pt-3.5 sm:pt-4 lg:pt-0 border-t border-white/[0.06] lg:border-t-0">
+            <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
               Get in Touch
             </h3>
-            <div className="space-y-3 text-[12.5px] sm:text-[13px] pl-2.5 text-left w-full">
+            <div className="space-y-2.5 text-[12px] sm:text-[12.5px] pl-2 text-left w-full">
               <div className="space-y-0.5">
-                <p className="text-[11.5px] text-slate-400 font-normal">Have questions?</p>
-                <p className="text-white font-bold tracking-tight">Talk to our team</p>
+                <p className="text-[11px] text-slate-400 font-normal">Have questions?</p>
+                <p className="text-white font-semibold tracking-tight text-[12.5px] sm:text-[13px]">Talk to our team</p>
               </div>
 
-              <div className="space-y-2 pt-0.5">
+              <div className="flex flex-col sm:flex-row lg:flex-col gap-1.5 sm:gap-4 lg:gap-1.5 pt-0.5">
                 <a 
                   href="tel:8860040010" 
-                  className="flex items-center gap-2 text-slate-300 hover:text-white font-semibold transition-all duration-150 ease-out hover:translate-x-0.5 whitespace-nowrap"
+                  className="flex items-center gap-2 text-slate-300/85 hover:text-white font-medium transition-colors duration-150 py-0.5 whitespace-nowrap"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#3B82F6] shrink-0" />
+                  <Phone className="w-3.5 h-3.5 text-[#0A5CFF] shrink-0" />
                   <span>8860040010</span>
                 </a>
                 <a 
                   href="mailto:info@idleducation.in" 
-                  className="flex items-center gap-2 text-slate-300 hover:text-white font-semibold transition-all duration-150 ease-out hover:translate-x-0.5 whitespace-nowrap sm:whitespace-normal break-words"
+                  className="flex items-center gap-2 text-slate-300/85 hover:text-white font-medium transition-colors duration-150 py-0.5 whitespace-nowrap sm:whitespace-normal break-words"
                 >
-                  <Mail className="w-3.5 h-3.5 text-[#3B82F6] shrink-0" />
+                  <Mail className="w-3.5 h-3.5 text-[#0A5CFF] shrink-0" />
                   <span>info@idleducation.in</span>
                 </a>
               </div>
 
-              <div className="pt-1">
+              <div className="pt-0.5">
                 <button
                   type="button"
                   onClick={() => setIsContactOpen(true)}
-                  className="inline-flex items-center gap-1.5 text-[12.5px] sm:text-[13px] font-bold text-[#60A5FA] hover:text-white transition-colors cursor-pointer group"
+                  className="inline-flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-bold text-[#60A5FA] hover:text-white transition-colors cursor-pointer group py-0.5"
                 >
                   <span>Contact Us</span>
                   <ArrowRight className="w-3.5 h-3.5 transition-transform duration-150 group-hover:translate-x-1" />
@@ -204,19 +199,18 @@ export function Footer() {
         </div>
       </div>
 
-      {/* Bottom Copyright Bar */}
-      <div className="bg-[#040E26] backdrop-blur-xs border-t border-blue-900/40 py-2.5 sm:py-3">
-        <div className="max-w-[1240px] mx-auto px-2.5 sm:px-6 lg:px-8">
-          <div className="flex flex-row flex-nowrap justify-center sm:justify-between items-center gap-x-2 sm:gap-x-4 text-[9.5px] min-[360px]:text-[10.5px] sm:text-xs font-normal text-slate-400 leading-tight whitespace-nowrap overflow-x-auto scrollbar-none">
-            <p className="shrink-0" suppressHydrationWarning>
+      {/* Subtle Divider & Bottom Copyright Bar */}
+      <div className="border-t border-white/[0.08] py-2.5 sm:py-3">
+        <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-row justify-between items-center text-[10.5px] sm:text-[11.5px] font-normal text-slate-400">
+            <p suppressHydrationWarning>
               &copy; 2026 IDL Education. All Rights Reserved.
             </p>
-            <nav aria-label="Social Links" className="flex items-center gap-2 sm:gap-4 shrink-0">
-              <span className="text-slate-600">·</span>
+            <nav aria-label="Legal Links" className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 pr-14 sm:pr-0">
               <Link href="/terms" className="text-slate-400 hover:text-white transition-colors duration-150">
                 Terms
               </Link>
-              <span className="text-slate-600">·</span>
+              <span className="text-slate-600 select-none">·</span>
               <Link href="/privacy" className="text-slate-400 hover:text-white transition-colors duration-150">
                 Privacy
               </Link>

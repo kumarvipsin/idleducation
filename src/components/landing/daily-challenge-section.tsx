@@ -59,15 +59,15 @@ export function DailyChallengeSection() {
                                 Think fast. Beat the clock. Keep your streak alive.
                             </p>
 
-                            {/* 5. Primary CTA: Refined Navy Button with Orange Accent Arrow */}
+                            {/* 5. Primary CTA: Refined Premium Challenge Button */}
                             <div>
                                 <button
                                     type="button"
                                     onClick={handleStartChallenge}
-                                    className="group inline-flex items-center gap-2.5 h-[44px] px-6 rounded-[12px] bg-[#062B67] hover:bg-[#0A1E42] text-white text-[13.5px] font-semibold shadow-[0_2px_8px_-2px_rgba(6,43,103,0.25)] hover:shadow-[0_4px_14px_-2px_rgba(6,43,103,0.35)] hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.98] transition-all duration-200 cursor-pointer select-none"
+                                    className="group inline-flex items-center gap-2.5 h-[44px] px-6 rounded-[12px] bg-gradient-to-r from-[#FF5500] to-[#FF6E1C] hover:from-[#E64D00] hover:to-[#F05C0F] text-white text-[13.5px] font-bold shadow-[0_4px_14px_rgba(255,85,0,0.28)] hover:shadow-[0_6px_20px_rgba(255,85,0,0.38)] hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 cursor-pointer select-none"
                                 >
                                     <span>Take the Challenge</span>
-                                    <ArrowRight className="w-4 h-4 stroke-[2.2] text-[#FF6B16] group-hover:text-white transition-all duration-200 group-hover:translate-x-1" />
+                                    <ArrowRight className="w-4 h-4 stroke-[2.3] text-white transition-transform duration-200 group-hover:translate-x-1" />
                                 </button>
                             </div>
                         </div>
@@ -79,7 +79,7 @@ export function DailyChallengeSection() {
                                 style={{ animation: 'dc-float 6s ease-in-out infinite' }}
                             >
                                 <Image
-                                    src="/quiz.png"
+                                    src="/quiz1.png"
                                     alt="Today's Challenge - Student taking quick quiz"
                                     fill
                                     className="object-contain object-right"
@@ -116,15 +116,15 @@ export function DailyChallengeSection() {
                             Think fast. Beat the clock. Keep your streak alive.
                         </p>
 
-                        {/* 5. Compact CTA (Content-width, refined navy button, NOT a giant orange block!) */}
+                        {/* 5. Compact CTA (Content-width, premium vibrant orange challenge button) */}
                         <div className="pt-0.5">
                             <button
                                 type="button"
                                 onClick={handleStartChallenge}
-                                className="group inline-flex items-center gap-2 h-[40px] px-5 rounded-[11px] bg-[#062B67] hover:bg-[#0A1E42] text-white text-[13px] font-semibold shadow-[0_2px_8px_-2px_rgba(6,43,103,0.22)] active:scale-[0.98] transition-all duration-200 cursor-pointer w-fit select-none"
+                                className="group inline-flex items-center gap-2 h-[40px] px-5 rounded-[11px] bg-gradient-to-r from-[#FF5500] to-[#FF6E1C] hover:from-[#E64D00] hover:to-[#F05C0F] text-white text-[13px] font-bold shadow-[0_3px_12px_rgba(255,85,0,0.26)] active:scale-[0.98] transition-all duration-200 cursor-pointer w-fit select-none"
                             >
                                 <span>Take the Challenge</span>
-                                <ArrowRight className="w-3.5 h-3.5 stroke-[2.2] text-[#FF6B16] group-hover:text-white transition-all duration-200 group-hover:translate-x-1" />
+                                <ArrowRight className="w-3.5 h-3.5 stroke-[2.3] text-white transition-transform duration-200 group-hover:translate-x-1" />
                             </button>
                         </div>
 
@@ -135,7 +135,7 @@ export function DailyChallengeSection() {
                                 style={{ animation: 'dc-float 6s ease-in-out infinite' }}
                             >
                                 <Image
-                                    src="/quiz.png"
+                                    src="/quiz1.png"
                                     alt="Today's Challenge - Student taking quick quiz"
                                     fill
                                     className="object-contain"
