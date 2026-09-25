@@ -587,7 +587,6 @@ export function Header() {
     const applyForLinks = [
         { href: "#", label: "Admission Form", icon: <FileText className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsAdmissionOpen(true) },
         { href: "#", label: "Book Free Demo", icon: <Presentation className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsBookDemoOpen(true) },
-        { href: "#", label: "Feedback", icon: <MessageSquareText className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsFeedbackOpen(true) },
         { href: "#", label: "Student Enquiry", icon: <CircleHelp className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsEnquiryOpen(true) },
         { href: "#", label: "Scholarship", icon: <Award className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsScholarshipOpen(true) },
     ];
@@ -864,22 +863,19 @@ export function Header() {
                             <SheetContent 
                                 side="left" 
                                 data-mobile-drawer="true" 
-                                className="fixed inset-y-0 left-0 right-auto flex-none z-[9999] p-0 gap-0 flex flex-col h-[100dvh] max-h-[100dvh] bg-white dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 border-none shadow-[4px_0_24px_0_rgba(10,28,80,0.13)] overflow-hidden [&>button.absolute]:hidden" 
-                                style={{ width: '80vw', maxWidth: '440px' }}
+                                className="fixed inset-y-0 left-0 right-auto flex-none z-[9999] p-0 gap-0 flex flex-col h-[100dvh] max-h-[100dvh] bg-white dark:bg-slate-950 border-r border-slate-200/80 dark:border-slate-800 shadow-[4px_0_24px_0_rgba(10,28,80,0.12)] overflow-hidden [&>button.absolute]:hidden" 
+                                style={{ width: '82vw', maxWidth: '340px' }}
                             >
-                                {/* Subtle ambient depth */}
-                                <div className="absolute inset-0 bg-[radial-gradient(#102A68_1px,transparent_1px)] [background-size:28px_28px] opacity-[0.018] dark:opacity-[0.025] pointer-events-none" />
-
-                                {/* Full-Screen Top Header: Tightened 68-72px height, balanced padding, real logo, clean X */}
-                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-200/70 dark:border-slate-800/70 bg-white/98 dark:bg-slate-950/98 backdrop-blur-sm text-left flex flex-row items-center justify-between h-[60px] sm:h-[64px] min-h-[60px] sm:min-h-[64px] max-h-[60px] sm:max-h-[64px] space-y-0 shrink-0 relative z-10">
+                                {/* Refined Sidebar Header */}
+                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[56px] min-h-[56px] max-h-[56px] space-y-0 shrink-0 relative z-10">
                                     <SheetTitle asChild>
-                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center group">
+                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
                                             <Image 
                                               src="/idllogo.png" 
                                               alt="IDL Education Logo" 
-                                              width={140} 
-                                              height={140} 
-                                              className="h-[52px] sm:h-[56px] max-h-[56px] w-auto object-contain object-left" 
+                                              width={125} 
+                                              height={125} 
+                                              className="h-[44px] w-auto object-contain object-left" 
                                               priority 
                                             />
                                         </Link>
@@ -887,7 +883,7 @@ export function Header() {
                                     <button 
                                         type="button" 
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
+                                        className="w-8 h-8 rounded-md flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
                                         aria-label="Close menu"
                                     >
                                         <X className="w-4.5 h-4.5 stroke-[2]" />
@@ -896,347 +892,365 @@ export function Header() {
 
                                 {/* Body - Scrollable Navigation Content */}
                                 <div className="flex-1 overflow-y-auto overscroll-contain relative z-10">
-                                    <div className="pt-2 sm:pt-2.5 pb-8">
-                                        <nav aria-label="Mobile Navigation" className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
-                                            {/* 1. ALL COURSES ROW */}
-                                            <div className="flex flex-col">
-                                                <button 
-                                                    type="button"
-                                                    onClick={() => {
-                                                        const isCurrentlyOpen = openMobileAccordion === 'all-courses';
-                                                        setOpenMobileAccordion(isCurrentlyOpen ? null : 'all-courses');
-                                                        setOpenMobileSubAccordion(null);
-                                                        setOpenMobileThirdAccordion(null);
-                                                    }}
-                                                    aria-expanded={openMobileAccordion === 'all-courses'}
-                                                    aria-controls="mobile-accordion-all-courses"
-                                                    className="touch-manipulation px-4 sm:px-5 min-h-[56px] sm:min-h-[60px] flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white transition-colors duration-100 text-left cursor-pointer select-none"
-                                                >
-                                                    <span className="uppercase">ALL COURSES</span>
-                                                    <ChevronDown className={cn(
-                                                        "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
-                                                        openMobileAccordion === 'all-courses' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                    )} />
-                                                </button>
-                                                <div
-                                                    id="mobile-accordion-all-courses"
-                                                    role="region"
-                                                    aria-hidden={openMobileAccordion !== 'all-courses'}
-                                                    data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
-                                                    className="mobile-accordion-grid"
-                                                >
-                                                    <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
-                                                        <div suppressHydrationWarning className="flex flex-col gap-0">
-                                                            {courseCategories.map((cat) => {
-                                                                const isSubOpen = openMobileSubAccordion === cat.id;
-                                                                return (
-                                                                    <div key={cat.id} className="flex flex-col">
-                                                                        {/* Level 1: Category Row (52-58px) */}
-                                                                        <button
-                                                                            type="button"
-                                                                            onClick={(e) => {
-                                                                                const next = isSubOpen ? null : cat.id;
-                                                                                setOpenMobileSubAccordion(next);
-                                                                                setOpenMobileThirdAccordion(null);
-                                                                                if (next) {
-                                                                                    const target = e.currentTarget;
-                                                                                    requestAnimationFrame(() => {
-                                                                                        target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                                                                                    });
-                                                                                }
-                                                                            }}
-                                                                            aria-expanded={isSubOpen}
-                                                                            aria-controls={`mobile-sub-${cat.id}`}
-                                                                            className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
-                                                                        >
-                                                                            <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                                <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100">
-                                                                                    {getCategoryIcon(cat.id, cat.name)}
-                                                                                </div>
-                                                                                <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                                    {cat.name}
-                                                                                </span>
+                                    <nav aria-label="Mobile Navigation" className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
+                                        
+                                        {/* 1. ALL COURSES ROW (Submenu with Chevron) */}
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button"
+                                                onClick={() => {
+                                                    const isCurrentlyOpen = openMobileAccordion === 'all-courses';
+                                                    setOpenMobileAccordion(isCurrentlyOpen ? null : 'all-courses');
+                                                    setOpenMobileSubAccordion(null);
+                                                    setOpenMobileThirdAccordion(null);
+                                                }}
+                                                aria-expanded={openMobileAccordion === 'all-courses'}
+                                                aria-controls="mobile-accordion-all-courses"
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">ALL COURSES</span>
+                                                <ChevronDown className={cn(
+                                                    "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                    openMobileAccordion === 'all-courses' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                )} />
+                                            </button>
+                                            <div
+                                                id="mobile-accordion-all-courses"
+                                                role="region"
+                                                aria-hidden={openMobileAccordion !== 'all-courses'}
+                                                data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
+                                                className="mobile-accordion-grid"
+                                            >
+                                                <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
+                                                    <div suppressHydrationWarning className="flex flex-col gap-0">
+                                                        {courseCategories.map((cat) => {
+                                                            const isSubOpen = openMobileSubAccordion === cat.id;
+                                                            return (
+                                                                <div key={cat.id} className="flex flex-col">
+                                                                    {/* Level 1: Category Row */}
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={(e) => {
+                                                                            const next = isSubOpen ? null : cat.id;
+                                                                            setOpenMobileSubAccordion(next);
+                                                                            setOpenMobileThirdAccordion(null);
+                                                                            if (next) {
+                                                                                const target = e.currentTarget;
+                                                                                requestAnimationFrame(() => {
+                                                                                    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                                                                });
+                                                                            }
+                                                                        }}
+                                                                        aria-expanded={isSubOpen}
+                                                                        aria-controls={`mobile-sub-${cat.id}`}
+                                                                        className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
+                                                                    >
+                                                                        <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                            <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100">
+                                                                                {getCategoryIcon(cat.id, cat.name)}
                                                                             </div>
-                                                                            <ChevronDown className={cn(
-                                                                                "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
-                                                                                isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                                            )} />
-                                                                        </button>
+                                                                            <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                                {cat.name}
+                                                                            </span>
+                                                                        </div>
+                                                                        <ChevronDown className={cn(
+                                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
+                                                                            isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                                        )} />
+                                                                    </button>
 
-                                                                        {/* Level 2: Nested Sub-items (CBSE Syllabus, CBSE Exam) */}
-                                                                        <div
-                                                                            id={`mobile-sub-${cat.id}`}
-                                                                            role="region"
-                                                                            aria-hidden={!isSubOpen}
-                                                                            data-open={isSubOpen ? 'true' : 'false'}
-                                                                            className="mobile-accordion-grid"
-                                                                        >
-                                                                            <div className="overflow-hidden min-h-0">
-                                                                                <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3 py-0.5 my-0 space-y-0">
-                                                                                    {cat.subItems.map((sub) => {
-                                                                                        const hasLeafs = sub.items && sub.items.length > 0;
-                                                                                        const isThirdOpen = openMobileThirdAccordion === sub.id;
+                                                                    {/* Level 2: Nested Sub-items */}
+                                                                    <div
+                                                                        id={`mobile-sub-${cat.id}`}
+                                                                        role="region"
+                                                                        aria-hidden={!isSubOpen}
+                                                                        data-open={isSubOpen ? 'true' : 'false'}
+                                                                        className="mobile-accordion-grid"
+                                                                    >
+                                                                        <div className="overflow-hidden min-h-0">
+                                                                            <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3 py-0.5 my-0 space-y-0">
+                                                                                {cat.subItems.map((sub) => {
+                                                                                    const hasLeafs = sub.items && sub.items.length > 0;
+                                                                                    const isThirdOpen = openMobileThirdAccordion === sub.id;
 
-                                                                                        if (hasLeafs) {
-                                                                                            return (
-                                                                                                <div key={sub.id} className="flex flex-col">
-                                                                                                    {/* Level 2 Row (44-50px) - Text + Chevron ONLY */}
-                                                                                                    <button
-                                                                                                        type="button"
-                                                                                                        onClick={(e) => {
-                                                                                                            const next = isThirdOpen ? null : sub.id;
-                                                                                                            setOpenMobileThirdAccordion(next);
-                                                                                                            if (next) {
-                                                                                                                const target = e.currentTarget;
-                                                                                                                requestAnimationFrame(() => {
-                                                                                                                    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                                                                                                                });
-                                                                                                            }
-                                                                                                        }}
-                                                                                                        aria-expanded={isThirdOpen}
-                                                                                                        aria-controls={`mobile-third-${sub.id}`}
-                                                                                                        className="touch-manipulation w-full text-left font-bold text-[13.5px] sm:text-[14px] min-h-[40px] px-3 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200"
-                                                                                                    >
-                                                                                                        <span className="truncate">{sub.label}</span>
-                                                                                                        <ChevronDown className={cn(
-                                                                                                            "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
-                                                                                                            isThirdOpen && "rotate-180 text-primary"
-                                                                                                        )} />
-                                                                                                    </button>
+                                                                                    if (hasLeafs) {
+                                                                                        return (
+                                                                                            <div key={sub.id} className="flex flex-col">
+                                                                                                <button
+                                                                                                    type="button"
+                                                                                                    onClick={(e) => {
+                                                                                                        const next = isThirdOpen ? null : sub.id;
+                                                                                                        setOpenMobileThirdAccordion(next);
+                                                                                                        if (next) {
+                                                                                                            const target = e.currentTarget;
+                                                                                                            requestAnimationFrame(() => {
+                                                                                                                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                                                                                            });
+                                                                                                        }
+                                                                                                    }}
+                                                                                                    aria-expanded={isThirdOpen}
+                                                                                                    aria-controls={`mobile-third-${sub.id}`}
+                                                                                                    className="touch-manipulation w-full text-left font-bold text-[13px] sm:text-[13.5px] min-h-[38px] px-3 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200"
+                                                                                                >
+                                                                                                    <span className="truncate">{sub.label}</span>
+                                                                                                    <ChevronDown className={cn(
+                                                                                                        "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
+                                                                                                        isThirdOpen && "rotate-180 text-primary"
+                                                                                                    )} />
+                                                                                                </button>
 
-                                                                                                    {/* Level 3: Classes (38-44px) */}
-                                                                                                    <div
-                                                                                                        id={`mobile-third-${sub.id}`}
-                                                                                                        role="region"
-                                                                                                        aria-hidden={!isThirdOpen}
-                                                                                                        data-open={isThirdOpen ? 'true' : 'false'}
-                                                                                                        className="mobile-accordion-grid"
-                                                                                                    >
-                                                                                                        <div className="overflow-hidden min-h-0">
-                                                                                                            <div className="border-l-[1.5px] border-slate-200/80 dark:border-slate-800/80 ml-3 pl-2.5 py-0.5 my-0.5 space-y-0.5">
-                                                                                                                {sub.items!.map((item) => (
-                                                                                                                    <Link
-                                                                                                                        key={item.id}
-                                                                                                                        href={item.href}
-                                                                                                                        onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                                        className="group flex items-center justify-between min-h-[38px] px-2.5 py-1.5 rounded-md text-[13.5px] font-semibold text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
-                                                                                                                    >
-                                                                                                                        <span className="truncate">{item.label}</span>
-                                                                                                                        <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
-                                                                                                                    </Link>
-                                                                                                                ))}
-                                                                                                            </div>
+                                                                                                <div
+                                                                                                    id={`mobile-third-${sub.id}`}
+                                                                                                    role="region"
+                                                                                                    aria-hidden={!isThirdOpen}
+                                                                                                    data-open={isThirdOpen ? 'true' : 'false'}
+                                                                                                    className="mobile-accordion-grid"
+                                                                                                >
+                                                                                                    <div className="overflow-hidden min-h-0">
+                                                                                                        <div className="border-l-[1.5px] border-slate-200/80 dark:border-slate-800/80 ml-3 pl-2.5 py-0.5 my-0.5 space-y-0.5">
+                                                                                                            {sub.items!.map((item) => (
+                                                                                                                <Link
+                                                                                                                    key={item.id}
+                                                                                                                    href={item.href}
+                                                                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                                    className="group flex items-center justify-between min-h-[36px] px-2.5 py-1 rounded-md text-[13px] font-semibold text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
+                                                                                                                >
+                                                                                                                    <span className="truncate">{item.label}</span>
+                                                                                                                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                                                                </Link>
+                                                                                                            ))}
                                                                                                         </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            );
-                                                                                        }
-
-                                                                                        return (
-                                                                                            <Link
-                                                                                                key={sub.id}
-                                                                                                href={sub.href}
-                                                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                className="w-full text-left font-bold text-[13.5px] sm:text-[14px] min-h-[40px] px-3 py-1 rounded-md text-slate-800 dark:text-slate-200 hover:text-primary transition-colors duration-100 flex items-center justify-between cursor-pointer"
-                                                                                            >
-                                                                                                <span className="truncate">{sub.label}</span>
-                                                                                                <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
-                                                                                            </Link>
+                                                                                            </div>
                                                                                         );
-                                                                                    })}
-                                                                                </div>
+                                                                                    }
+
+                                                                                    return (
+                                                                                        <Link
+                                                                                            key={sub.id}
+                                                                                            href={sub.href}
+                                                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                                                            className="w-full text-left font-bold text-[13px] sm:text-[13.5px] min-h-[38px] px-3 py-1 rounded-md text-slate-800 dark:text-slate-200 hover:text-primary transition-colors duration-100 flex items-center justify-between cursor-pointer"
+                                                                                        >
+                                                                                            <span className="truncate">{sub.label}</span>
+                                                                                            <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                                        </Link>
+                                                                                    );
+                                                                                })}
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                );
-                                                            })}
-                                                        </div>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            {/* 2. APPLY FOR ROW */}
-                                            <div className="flex flex-col">
-                                                <button 
-                                                    type="button" 
-                                                    onClick={() => {
-                                                        const isCurrentlyOpen = openMobileAccordion === 'apply';
-                                                        setOpenMobileAccordion(isCurrentlyOpen ? null : 'apply');
-                                                        setOpenMobileSubAccordion(null);
-                                                        setOpenMobileThirdAccordion(null);
-                                                    }}
-                                                    aria-expanded={openMobileAccordion === 'apply'}
-                                                    aria-controls="mobile-accordion-apply"
-                                                    className="touch-manipulation px-4 sm:px-5 min-h-[48px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.04] active:bg-[#102A68]/[0.07] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
-                                                >
-                                                    <span className="uppercase">APPLY FOR</span>
-                                                    <ChevronDown className={cn(
-                                                        "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
-                                                        openMobileAccordion === 'apply' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                    )} />
-                                                </button>
-                                                <div
-                                                    id="mobile-accordion-apply"
-                                                    role="region"
-                                                    aria-hidden={openMobileAccordion !== 'apply'}
-                                                    data-open={openMobileAccordion === 'apply' ? 'true' : 'false'}
-                                                    className="mobile-accordion-grid"
-                                                >
-                                                    <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
-                                                        <div suppressHydrationWarning className="flex flex-col gap-0">
-                                                            {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
-                                                                <button
-                                                                    key={label}
-                                                                    type="button"
-                                                                    suppressHydrationWarning
-                                                                    onClick={(e) => {
-                                                                        e.preventDefault();
-                                                                        setIsMobileMenuOpen(false);
-                                                                        if (linkOnClick) {
-                                                                          linkOnClick();
-                                                                        } else if (href && href !== '#') {
-                                                                            router.push(href);
-                                                                        }
-                                                                    }}
-                                                                    className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
-                                                                >
-                                                                    <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                        <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
-                                                                            {icon}
-                                                                        </div>
-                                                                        <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                            {label}
-                                                                        </span>
+                                        {/* 2. APPLY FOR ROW (Submenu with Chevron) */}
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button" 
+                                                onClick={() => {
+                                                    const isCurrentlyOpen = openMobileAccordion === 'apply';
+                                                    setOpenMobileAccordion(isCurrentlyOpen ? null : 'apply');
+                                                    setOpenMobileSubAccordion(null);
+                                                    setOpenMobileThirdAccordion(null);
+                                                }}
+                                                aria-expanded={openMobileAccordion === 'apply'}
+                                                aria-controls="mobile-accordion-apply"
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">APPLY FOR</span>
+                                                <ChevronDown className={cn(
+                                                    "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                    openMobileAccordion === 'apply' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                )} />
+                                            </button>
+                                            <div
+                                                id="mobile-accordion-apply"
+                                                role="region"
+                                                aria-hidden={openMobileAccordion !== 'apply'}
+                                                data-open={openMobileAccordion === 'apply' ? 'true' : 'false'}
+                                                className="mobile-accordion-grid"
+                                            >
+                                                <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
+                                                    <div suppressHydrationWarning className="flex flex-col gap-0">
+                                                        {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
+                                                            <button
+                                                                key={label}
+                                                                type="button"
+                                                                suppressHydrationWarning
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    setIsMobileMenuOpen(false);
+                                                                    if (linkOnClick) {
+                                                                      linkOnClick();
+                                                                    } else if (href && href !== '#') {
+                                                                        router.push(href);
+                                                                    }
+                                                                }}
+                                                                className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
+                                                            >
+                                                                <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                    <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
+                                                                        {icon}
                                                                     </div>
-                                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
-                                                                </button>
-                                                            ))}
-                                                        </div>
+                                                                    <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                        {label}
+                                                                    </span>
+                                                                </div>
+                                                                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                            </button>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            {/* STORE ROW */}
-                                            <div className="px-4 sm:px-5 min-h-[56px] sm:min-h-[60px] flex items-center">
-                                                <Link
-                                                    href="/store"
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                    className="touch-manipulation flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white hover:text-primary transition-colors cursor-pointer select-none"
-                                                >
-                                                    <span className="flex items-center gap-2.5 uppercase">
-                                                        <span>STORE</span>
-                                                    </span>
-                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0" />
-                                                </Link>
-                                            </div>
+                                        {/* 3. STORE ROW (Direct Link - NO Chevron) */}
+                                        <div className="flex items-center">
+                                            <Link
+                                                href="/store"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">STORE</span>
+                                            </Link>
+                                        </div>
 
-                                            {/* 3. MORE ROW */}
-                                            <div className="flex flex-col">
-                                                <button 
-                                                    type="button" 
-                                                    onClick={() => {
-                                                        const isCurrentlyOpen = openMobileAccordion === 'more';
-                                                        setOpenMobileAccordion(isCurrentlyOpen ? null : 'more');
-                                                        setOpenMobileSubAccordion(null);
-                                                        setOpenMobileThirdAccordion(null);
-                                                    }}
-                                                    aria-expanded={openMobileAccordion === 'more'}
-                                                    aria-controls="mobile-accordion-more"
-                                                    className="touch-manipulation px-4 sm:px-5 min-h-[56px] sm:min-h-[60px] flex items-center justify-between w-full font-semibold text-[15px] sm:text-[16px] tracking-wide text-[#102A68] dark:text-white hover:bg-[#102A68]/[0.04] active:bg-[#102A68]/[0.07] dark:hover:bg-slate-900/60 transition-colors duration-100 text-left cursor-pointer select-none"
-                                                >
-                                                    <span className="uppercase">MORE</span>
-                                                    <ChevronDown className={cn(
-                                                        "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
-                                                        openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
-                                                    )} />
-                                                </button>
-                                                <div
-                                                    id="mobile-accordion-more"
-                                                    role="region"
-                                                    aria-hidden={openMobileAccordion !== 'more'}
-                                                    data-open={openMobileAccordion === 'more' ? 'true' : 'false'}
-                                                    className="mobile-accordion-grid"
-                                                >
-                                                    <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
-                                                        <div suppressHydrationWarning className="flex flex-col gap-0">
-                                                            {moreMenuGroups.map((group, groupIdx) => (
-                                                                <div key={group.title} suppressHydrationWarning className="flex flex-col gap-0">
-                                                                
-                                                                    {group.links.map((link) => {
-                                                                        const isDisabled = (link as any).disabled || link.label === "Register Now";
-                                                                        const isAction = Boolean(link.onClick);
+                                        {/* 4. ABOUT US ROW (Direct Link - NO Chevron) */}
+                                        <div className="flex items-center">
+                                            <Link
+                                                href="/about"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">ABOUT US</span>
+                                            </Link>
+                                        </div>
 
-                                                                        const rowContent = (
-                                                                            <>
-                                                                                <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                                    <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
-                                                                                        {link.icon}
-                                                                                    </div>
-                                                                                    <span className="text-[14.5px] sm:text-[15px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                                        {link.label}
-                                                                                    </span>
+                                        {/* 5. CONTACT US ROW (Direct Action Button - NO Chevron) */}
+                                        <div className="flex items-center">
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    setIsMobileMenuOpen(false);
+                                                    setIsContactOpen(true);
+                                                }}
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors text-left cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">CONTACT US</span>
+                                            </button>
+                                        </div>
+
+                                        {/* 6. MORE ROW (Submenu with Chevron) */}
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button" 
+                                                onClick={() => {
+                                                    const isCurrentlyOpen = openMobileAccordion === 'more';
+                                                    setOpenMobileAccordion(isCurrentlyOpen ? null : 'more');
+                                                    setOpenMobileSubAccordion(null);
+                                                    setOpenMobileThirdAccordion(null);
+                                                }}
+                                                aria-expanded={openMobileAccordion === 'more'}
+                                                aria-controls="mobile-accordion-more"
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">MORE</span>
+                                                <ChevronDown className={cn(
+                                                    "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                    openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                )} />
+                                            </button>
+                                            <div
+                                                id="mobile-accordion-more"
+                                                role="region"
+                                                aria-hidden={openMobileAccordion !== 'more'}
+                                                data-open={openMobileAccordion === 'more' ? 'true' : 'false'}
+                                                className="mobile-accordion-grid"
+                                            >
+                                                <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
+                                                    <div suppressHydrationWarning className="flex flex-col gap-0">
+                                                        {moreMenuGroups.map((group, groupIdx) => (
+                                                            <div key={group.title} suppressHydrationWarning className="flex flex-col gap-0">
+                                                                {group.links.map((link) => {
+                                                                    const isDisabled = (link as any).disabled || link.label === "Register Now";
+                                                                    const isAction = Boolean(link.onClick);
+
+                                                                    const rowContent = (
+                                                                        <>
+                                                                            <div className="flex items-center gap-3 min-w-0 flex-1">
+                                                                                <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
+                                                                                    {link.icon}
                                                                                 </div>
-                                                                                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
-                                                                            </>
-                                                                        );
+                                                                                <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                                    {link.label}
+                                                                                </span>
+                                                                            </div>
+                                                                            <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                        </>
+                                                                    );
 
-                                                                        if (isAction) {
-                                                                            return (
-                                                                                <button
-                                                                                    key={link.label}
-                                                                                    type="button"
-                                                                                    suppressHydrationWarning
-                                                                                    onClick={() => {
-                                                                                        setIsMobileMenuOpen(false);
-                                                                                        if (link.onClick) link.onClick();
-                                                                                    }}
-                                                                                    className={cn(
-                                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
-                                                                                        isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                                    )}
-                                                                                >
-                                                                                    {rowContent}
-                                                                                </button>
-                                                                            );
-                                                                        }
-
+                                                                    if (isAction) {
                                                                         return (
-                                                                            <Link
+                                                                            <button
                                                                                 key={link.label}
-                                                                                href={isDisabled ? '#' : link.href}
+                                                                                type="button"
                                                                                 suppressHydrationWarning
-                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                onClick={() => {
+                                                                                    setIsMobileMenuOpen(false);
+                                                                                    if (link.onClick) link.onClick();
+                                                                                }}
                                                                                 className={cn(
-                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
+                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
                                                                                     isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                                 )}
                                                                             >
                                                                                 {rowContent}
-                                                                            </Link>
+                                                                            </button>
                                                                         );
-                                                                    })}
-                                                                </div>
-                                                            ))}
-                                                        </div>
+                                                                    }
+
+                                                                    return (
+                                                                        <Link
+                                                                            key={link.label}
+                                                                            href={isDisabled ? '#' : link.href}
+                                                                            suppressHydrationWarning
+                                                                            onClick={() => setIsMobileMenuOpen(false)}
+                                                                            className={cn(
+                                                                                "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
+                                                                                isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                            )}
+                                                                        >
+                                                                            {rowContent}
+                                                                        </Link>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 </div>
                                             </div>
-                                         </nav>
-                                    </div>
+                                        </div>
+
+                                    </nav>
                                 </div>
 
-                                {/* Bottom Utility Group: Primary Call Button */}
-                                <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50/95 dark:bg-slate-900/95 backdrop-blur-sm shrink-0 relative z-10 pb-[max(1rem,env(safe-area-inset-bottom))]">
-
+                                {/* Bottom Contact CTA: Sticky Phone Button */}
+                                <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-t border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0 relative z-10 pb-[max(0.875rem,env(safe-area-inset-bottom))]">
                                     <a 
                                         href="tel:8860040010" 
                                         aria-label="Call IDL Education at 8860040010"
-                                        className="w-full flex items-center justify-center gap-2 h-11 sm:h-11.5 rounded-[9px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-colors duration-150 ease-out shadow-xs active:scale-[0.99] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1F4B]/50 focus-visible:ring-offset-2"
+                                        className="w-full flex items-center justify-center gap-2.5 h-11 rounded-[10px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-colors duration-150 ease-out shadow-xs active:scale-[0.99] cursor-pointer"
                                     >
                                         <Phone className="w-4 h-4 text-white shrink-0" />
-                                        <span className="text-[15.5px] sm:text-[16px] font-semibold text-white tracking-tight leading-none">
+                                        <span className="text-[15px] sm:text-[15.5px] font-semibold text-white tracking-tight leading-none">
                                             8860040010
                                         </span>
                                     </a>
