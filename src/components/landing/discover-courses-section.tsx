@@ -799,9 +799,9 @@ export function DiscoverCoursesSection() {
 
                                         {/* Middle: Course Title & Subtitle in IDL Navy (#0B2858) */}
                                         <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2.5 sm:ml-3 lg:ml-2.5 xl:ml-3">
-                                            <h3 className="text-[12px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-black text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                            <h4 className="text-[12px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-black text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
                                                 {course.title}
-                                            </h3>
+                                            </h4>
                                             <p className="text-[10px] min-[360px]:text-[10.5px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
                                                 {course.subtitle}
                                             </p>

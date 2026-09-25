@@ -88,7 +88,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
 
         {/* ── IMAGE BLOCK ── */}
         <div
-          className="relative w-full aspect-[4/4.5] shrink-0 overflow-hidden"
+          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden"
           style={{ background: "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)" }}
         >
           {/* Teacher Photo */}
@@ -143,7 +143,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
         </div>
 
         {/* ── CARD BODY — Premium lower section ── */}
-        <div className="flex flex-col flex-1 px-4 pt-3.5 pb-3.5">
+        <div className="flex flex-col flex-1 px-4 pt-3 pb-3">
 
           {/* NAME — Dominant anchor, bold geometric sans, dark navy */}
           <h3 className="font-extrabold text-[17px] sm:text-[18px] text-[#0A1E42] tracking-[-0.025em] leading-[1.15] text-center w-full">
@@ -171,7 +171,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </div>
 
           {/* SUBTLE SHORT DIVIDER — barely visible accent separator */}
-          <div className="mt-auto pt-3">
+          <div className="mt-auto pt-2">
             <div className="w-10 h-[0.5px] bg-slate-200/80 mx-auto mb-2.5" />
 
             {/* VIEW PROFILE CTA — clean text-based, IDL blue, refined arrow */}

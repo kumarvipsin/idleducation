@@ -23,7 +23,7 @@ export function EducatorsHeader({
   onNext,
 }: EducatorsHeaderProps) {
   return (
-    <div className="text-center mb-8 sm:mb-10 relative">
+    <div className="text-center mb-5 sm:mb-7 relative">
       {/* Eyebrow */}
       {eyebrow && (
         <div className="flex items-center justify-center gap-3 mb-3">

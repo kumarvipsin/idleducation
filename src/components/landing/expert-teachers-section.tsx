@@ -42,7 +42,7 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
   return (
     <section
       id="expert-teachers"
-      className="relative w-full py-14 sm:py-16 md:py-20 bg-[#FAFBFE] overflow-hidden"
+      className="relative w-full py-10 sm:py-12 md:py-16 bg-[#FAFBFE] overflow-hidden"
     >
       {/* Subtle decorative background ambient glow */}
       <div
@@ -74,7 +74,7 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
         />
 
         {/* ── 3. VIEW ALL LINK ── */}
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-4 sm:mt-5">
           <span className="text-[14px] sm:text-[15px] font-bold text-[#062B67] cursor-default select-none tracking-tight">
             View All Educators →
           </span>

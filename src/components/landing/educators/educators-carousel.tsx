@@ -134,7 +134,7 @@ export function EducatorsCarousel({
       </Carousel>
 
       {/* Pagination dots */}
-      <div className="flex justify-center items-center gap-2 mt-5 sm:mt-6">
+      <div className="flex justify-center items-center gap-2 mt-3 sm:mt-4">
         {Array.from({ length: count }).map((_, i) => (
           <button
             key={i}

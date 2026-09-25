@@ -633,13 +633,13 @@ export function Header() {
                 suppressHydrationWarning
                 data-mobile-menu-open={isMobileMenuOpen ? "true" : "false"}
                 className={cn(
-                    "sticky top-0 z-[60] border-b transition-transform duration-300 h-16 bg-background/95 backdrop-blur-sm",
+                    "sticky top-0 z-[60] border-b transition-transform duration-300 h-[68px] bg-background/95 backdrop-blur-sm",
                     show ? "translate-y-0" : "-translate-y-full"
                 )}
             >
                 <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
-                    <Link href="/" className="flex items-center justify-center -ml-2 py-0.5">
-                        <Image src="/idllogo.png" alt="IDL Education Logo" width={120} height={120} className="h-[56px] sm:h-[58px] md:h-[60px] max-h-[60px] w-auto object-contain object-left" priority />
+                    <Link href="/" className="flex items-center justify-center -ml-2 py-0 h-full">
+                        <Image src="/idllogo.png" alt="IDL Education Logo" width={180} height={80} className="h-[62px] sm:h-[64px] md:h-[65px] max-h-[62px] sm:max-h-[64px] md:max-h-[65px] w-auto object-contain object-left" priority />
                     </Link>
 
                     <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex h-full">
@@ -769,13 +769,6 @@ export function Header() {
                                         </div>
                                     </div>
                                     <div className="h-full flex items-center">
-                                        <Button asChild variant="ghost" className={navItemClass}>
-                                            <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
-                                                <ShoppingCart className="h-4 w-4" /><span>STORE</span>
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                    <div className="h-full flex items-center">
                                         <Button asChild variant="ghost" className={cn(navItemClass, pathname === '/about' && "after:scale-x-100 text-primary")}>
                                             <Link href="/about">ABOUT US</Link>
                                         </Button>
@@ -810,6 +803,13 @@ export function Header() {
                                                 ))}
                                             </div>
                                         </div>
+                                    </div>
+                                    <div className="h-full flex items-center">
+                                        <Button asChild variant="ghost" className={navItemClass}>
+                                            <Link href="/store" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5">
+                                                <ShoppingCart className="h-4 w-4" /><span>STORE</span>
+                                            </Link>
+                                        </Button>
                                     </div>
                                 </>
                             ) : (
@@ -867,15 +867,15 @@ export function Header() {
                                 style={{ width: '82vw', maxWidth: '340px' }}
                             >
                                 {/* Refined Sidebar Header */}
-                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[56px] min-h-[56px] max-h-[56px] space-y-0 shrink-0 relative z-10">
+                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[68px] min-h-[68px] max-h-[68px] space-y-0 shrink-0 relative z-10">
                                     <SheetTitle asChild>
-                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center">
+                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center h-full">
                                             <Image 
                                               src="/idllogo.png" 
                                               alt="IDL Education Logo" 
-                                              width={125} 
-                                              height={125} 
-                                              className="h-[44px] w-auto object-contain object-left" 
+                                              width={160} 
+                                              height={80} 
+                                              className="h-[60px] max-h-[60px] w-auto object-contain object-left" 
                                               priority 
                                             />
                                         </Link>
@@ -883,10 +883,10 @@ export function Header() {
                                     <button 
                                         type="button" 
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="w-8 h-8 rounded-md flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
+                                        className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
                                         aria-label="Close menu"
                                     >
-                                        <X className="w-4.5 h-4.5 stroke-[2]" />
+                                        <X className="w-5 h-5 stroke-[2]" />
                                     </button>
                                 </SheetHeader>
 
@@ -1110,20 +1110,7 @@ export function Header() {
                                             </div>
                                         </div>
 
-                                        {/* 3. STORE ROW (Direct Link - NO Chevron) */}
-                                        <div className="flex items-center">
-                                            <Link
-                                                href="/store"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
-                                            >
-                                                <span className="uppercase">STORE</span>
-                                            </Link>
-                                        </div>
-
-                                        {/* 4. ABOUT US ROW (Direct Link - NO Chevron) */}
+                                        {/* 3. ABOUT US ROW (Direct Link - NO Chevron) */}
                                         <div className="flex items-center">
                                             <Link
                                                 href="/about"
@@ -1134,7 +1121,7 @@ export function Header() {
                                             </Link>
                                         </div>
 
-                                        {/* 5. CONTACT US ROW (Direct Action Button - NO Chevron) */}
+                                        {/* 4. CONTACT US ROW (Direct Action Button - NO Chevron) */}
                                         <div className="flex items-center">
                                             <button
                                                 type="button"
@@ -1148,7 +1135,7 @@ export function Header() {
                                             </button>
                                         </div>
 
-                                        {/* 6. MORE ROW (Submenu with Chevron) */}
+                                        {/* 5. MORE ROW (Submenu with Chevron) */}
                                         <div className="flex flex-col">
                                             <button 
                                                 type="button" 
@@ -1237,6 +1224,19 @@ export function Header() {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        {/* 6. STORE ROW (Direct Link - NO Chevron) */}
+                                        <div className="flex items-center">
+                                            <Link
+                                                href="/store"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
+                                            >
+                                                <span className="uppercase">STORE</span>
+                                            </Link>
                                         </div>
 
                                     </nav>

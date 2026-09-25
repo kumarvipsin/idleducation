@@ -287,11 +287,11 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     return (
       <div className={cn("mt-3 sm:mt-3.5", className)}>
         {/* Footer Column Heading matching Quick Links, Resources, etc. */}
-        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-white uppercase tracking-[0.08em] mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
           Follow IDL
         </h3>
 
-        {/* Minimal Social Icon Row: subtle outlined square icons with refined hover effect */}
+        {/* Minimal Social Icon Row: transparent background to match footer bg */}
         <div className="flex items-center gap-2 pl-2">
           {footerItems.map((social) => (
             <a
@@ -301,13 +301,13 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
               rel="noopener noreferrer"
               aria-label={social.ariaLabel}
               className={cn(
-                "w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-[6px]",
+                "w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-[7px]",
                 "bg-transparent",
-                "border border-slate-700/80",
+                "border border-slate-300/80 dark:border-slate-700/80",
                 "flex items-center justify-center shrink-0",
-                "text-slate-300 hover:text-white",
+                "text-slate-600 dark:text-slate-300",
                 "transition-all duration-150 ease-out cursor-pointer",
-                "hover:border-[#0A5CFF]/70 hover:bg-[#0A5CFF]/10",
+                "hover:text-[#0A5CFF] hover:border-[#0A5CFF]/60 hover:bg-[#0A5CFF]/10",
                 "focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400/50 focus-visible:ring-offset-1",
                 "active:opacity-80",
                 social.brandHoverColor

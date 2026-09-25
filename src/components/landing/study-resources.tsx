@@ -182,7 +182,7 @@ export function StudyResources() {
         {/* Section Header */}
         <div className="text-center mb-6 sm:mb-8 md:mb-10">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0A1E42] dark:text-white leading-[1.15]">
-            Study{' '}
+            Free Learning{' '}
             <span className="text-[#1D4ED8] dark:text-blue-400">
               Resources
             </span>

@@ -494,13 +494,13 @@ export function AcademicExcellence() {
     <section 
       id="academic-results" 
       aria-label="Academic Results"
-      className="w-full pt-[40px] pb-10 sm:pt-[52px] sm:pb-12 md:pt-[68px] md:pb-14 bg-white dark:bg-background overflow-hidden relative"
+      className="w-full pt-[34px] pb-8 sm:pt-[46px] sm:pb-10 md:pt-[64px] md:pb-12 bg-white dark:bg-background overflow-hidden relative"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         
         {/* ===================== HEADER SECTION ===================== */}
-        <div className="text-center max-w-2xl mx-auto mb-[14px] sm:mb-[18px]">
+        <div className="text-center max-w-2xl mx-auto mb-[12px] sm:mb-[16px]">
           <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-extrabold tracking-[-0.025em] leading-[1.15]">
             <span className="text-[#062B67] dark:text-white">Academic</span>{' '}
             <span className="text-[#155EEF] dark:text-blue-400">Results</span>
@@ -509,7 +509,7 @@ export function AcademicExcellence() {
 
         {/* ===================== CATEGORY TABS ===================== */}
         {/* Mobile: 3 compact pill buttons fitting cleanly. Desktop: Centered row */}
-        <div className="w-full mb-[20px] sm:mb-[26px] md:mb-[28px]">
+        <div className="w-full mb-[16px] sm:mb-[22px] md:mb-[26px]">
           <div className="flex justify-center px-1">
             <div 
               role="tablist" 
@@ -705,7 +705,13 @@ export function AcademicExcellence() {
 
               {/* Carousel Container */}
               {/* Desktop: 4 cards visible at once. Mobile: Horizontal swipe carousel with center alignment & partial neighboring cards (peek effect) */}
-              <div className="relative w-full overflow-hidden">
+              <div
+                className="relative w-full overflow-hidden"
+                style={{
+                  maskImage: 'linear-gradient(to right, black calc(100% - 60px), transparent 100%)',
+                  WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 60px), transparent 100%)',
+                }}
+              >
                 <Carousel
                   setApi={setCarouselApi}
                   opts={{
@@ -781,7 +787,7 @@ export function AcademicExcellence() {
               </div>
 
               {/* Small Carousel Dots (Fixed for 44px hit area) */}
-              <div className="flex justify-center items-center gap-2 mt-4 sm:mt-5">
+              <div className="flex justify-center items-center gap-2 mt-3 sm:mt-4">
                 {activeCategory.topPerformers.map((_, i) => (
                   <button
                     key={i}
@@ -805,7 +811,7 @@ export function AcademicExcellence() {
           </div>
 
           {/* ===================== VIEW ALL RESULTS CTA (TEXT ONLY) ===================== */}
-          <div className="mt-4 sm:mt-6 pt-1 sm:pt-2 flex justify-center">
+          <div className="mt-3 sm:mt-5 pt-1 flex justify-center">
             <button
               type="button"
               onClick={() => setShowAllResultsModal(true)}
