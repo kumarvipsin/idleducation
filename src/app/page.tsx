@@ -1,54 +1,14 @@
-import nextDynamic from 'next/dynamic';
+import { StudentTestimonials } from '@/components/landing/student-testimonials';
+import { ExpertTeachersSection } from '@/components/landing/expert-teachers-section';
+import { StudyResources } from '@/components/landing/study-resources';
+import { AcademicExcellence } from '@/components/landing/academic-excellence';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
+import { GetAppSection } from '@/components/landing/get-app-section';
+import { ScholarshipSection } from '@/components/landing/scholarship-section';
+import { DailyChallengeSection } from '@/components/landing/daily-challenge-section';
+import { DiscoverCoursesSection } from '@/components/landing/discover-courses-section';
 import { getCollection, getTestimonials, getExpertTeachers } from '@/app/actions';
 import type { THeroSlide, TTestimonial, TExpertTeacher } from '@/app/actions/types';
-
-// ============================================================================
-// ISOLATED SECTION CODE-SPLITTING
-// Har section ko independent chunk me split kiya gaya hai taaki:
-// 1. Jis section me change hoga, sirf wahi section fast recompile/reload hoga
-// 2. Doosre sections un-affected rahenge aur Fast-Refresh lightning fast hoga
-// ============================================================================
-
-const DiscoverCoursesSection = nextDynamic(
-  () => import('@/components/landing/discover-courses-section').then((mod) => mod.DiscoverCoursesSection),
-  { ssr: true }
-);
-
-const AcademicExcellence = nextDynamic(
-  () => import('@/components/landing/academic-excellence').then((mod) => mod.AcademicExcellence),
-  { ssr: true }
-);
-
-const ExpertTeachersSection = nextDynamic(
-  () => import('@/components/landing/expert-teachers-section').then((mod) => mod.ExpertTeachersSection),
-  { ssr: true }
-);
-
-const ScholarshipSection = nextDynamic(
-  () => import('@/components/landing/scholarship-section').then((mod) => mod.ScholarshipSection),
-  { ssr: true }
-);
-
-const StudentTestimonials = nextDynamic(
-  () => import('@/components/landing/student-testimonials').then((mod) => mod.StudentTestimonials),
-  { ssr: true }
-);
-
-const DailyChallengeSection = nextDynamic(
-  () => import('@/components/landing/daily-challenge-section').then((mod) => mod.DailyChallengeSection),
-  { ssr: true }
-);
-
-const StudyResources = nextDynamic(
-  () => import('@/components/landing/study-resources').then((mod) => mod.StudyResources),
-  { ssr: true }
-);
-
-const GetAppSection = nextDynamic(
-  () => import('@/components/landing/get-app-section').then((mod) => mod.GetAppSection),
-  { ssr: true }
-);
 
 export const dynamic = 'force-dynamic';
 
