@@ -76,26 +76,46 @@ export default function LoginPage() {
       toast({ variant: "destructive", title: "Name Required", description: "Please enter your full name to complete registration." });
       return;
     }
+    const getRedirectTarget = (role: string | null) => {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectParam = urlParams.get('redirect');
+        if (redirectParam && redirectParam.startsWith('/')) {
+          return redirectParam;
+        }
+      }
+      return role === 'admin' ? '/admin/dashboard' : `/${role}/dashboard`;
+    };
+
     setIsSubmittingPhone(true);
     const result = await verifyPhoneOtpAndLogin({ phone, otp, role: userRole, name: isNewUser ? userName.trim() : undefined });
     setIsSubmittingPhone(false);
     if (result.success && result.user) {
       toast({ title: "Login Successful", description: `Welcome ${result.user.name || 'User'}!` });
       login(result.user as UserProfile);
-      const redirectPath = result.user.role === 'admin' ? '/admin/dashboard' : `/${result.user.role}/dashboard`;
-      router.push(redirectPath);
+      router.push(getRedirectTarget(result.user.role));
     } else {
       toast({ variant: "destructive", title: "Verification Failed", description: result.message });
     }
   };
 
   const handleEmailLogin = async (data: LoginValues) => {
+    const getRedirectTarget = (role: string | null) => {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const redirectParam = urlParams.get('redirect');
+        if (redirectParam && redirectParam.startsWith('/')) {
+          return redirectParam;
+        }
+      }
+      return role === 'admin' ? '/admin/dashboard' : `/${role}/dashboard`;
+    };
+
     const result = await loginUser(data);
     if (result.success && result.user) {
       toast({ title: "Login Successful", description: "Welcome back!" });
       login(result.user as UserProfile);
-      const redirectPath = result.user.role === 'admin' ? '/admin/dashboard' : `/${result.user.role}/dashboard`;
-      router.push(redirectPath);
+      router.push(getRedirectTarget(result.user.role));
     } else {
       toast({ variant: "destructive", title: "Login Failed", description: result.message });
     }

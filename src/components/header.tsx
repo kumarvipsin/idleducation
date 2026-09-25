@@ -52,11 +52,58 @@ const megaMenuBg = "bg-white shadow-2xl";
 
 const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
     {
+        id: "cat_jee",
+        name: "JEE",
+        slug: "jee",
+        href: "#",
+        order: 1,
+        status: "active",
+        subItems: [
+            {
+                id: "sub_jee_main",
+                label: "JEE Main",
+                slug: "jee-main",
+                href: "#",
+                order: 1,
+                status: "active",
+                items: [],
+            },
+            {
+                id: "sub_jee_adv",
+                label: "JEE Advanced",
+                slug: "jee-advanced",
+                href: "#",
+                order: 2,
+                status: "active",
+                items: [],
+            },
+        ],
+    },
+    {
+        id: "cat_neet",
+        name: "NEET",
+        slug: "neet",
+        href: "#",
+        order: 2,
+        status: "active",
+        subItems: [
+            {
+                id: "sub_neet_ug",
+                label: "NEET UG",
+                slug: "neet-ug",
+                href: "#",
+                order: 1,
+                status: "active",
+                items: [],
+            },
+        ],
+    },
+    {
         id: "cat_cbse",
         name: "CBSE",
         slug: "cbse",
         href: "/school",
-        order: 1,
+        order: 3,
         status: "active",
         subItems: [
             {
@@ -88,72 +135,50 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
         ],
     },
     {
-        id: "cat_jee",
-        name: "JEE",
-        slug: "jee",
-        href: "/category/iit-jee",
-        order: 2,
-        status: "active",
-        subItems: [
-            {
-                id: "sub_jee_main",
-                label: "JEE Main",
-                slug: "jee-main",
-                href: "/category/iit-jee",
-                order: 1,
-                status: "active",
-                items: [
-                    { id: "jee_main_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/category/iit-jee?target=class-11", order: 1, status: "active" },
-                    { id: "jee_main_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/category/iit-jee?target=class-12", order: 2, status: "active" },
-                    { id: "jee_main_dropper", label: "Dropper / Repeater", slug: "dropper", href: "/category/iit-jee?target=dropper", order: 3, status: "active" },
-                ],
-            },
-            {
-                id: "sub_jee_adv",
-                label: "JEE Advanced",
-                slug: "jee-advanced",
-                href: "/category/iit-jee",
-                order: 2,
-                status: "active",
-                items: [
-                    { id: "jee_adv_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/category/iit-jee?target=class-11", order: 1, status: "active" },
-                    { id: "jee_adv_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/category/iit-jee?target=class-12", order: 2, status: "active" },
-                    { id: "jee_adv_dropper", label: "Dropper / Repeater", slug: "dropper", href: "/category/iit-jee?target=dropper", order: 3, status: "active" },
-                ],
-            },
-        ],
-    },
-    {
-        id: "cat_neet",
-        name: "NEET",
-        slug: "neet",
-        href: "/category/neet",
-        order: 3,
-        status: "active",
-        subItems: [
-            {
-                id: "sub_neet_ug",
-                label: "NEET UG",
-                slug: "neet-ug",
-                href: "/category/neet",
-                order: 1,
-                status: "active",
-                items: [
-                    { id: "neet_ug_11", label: "Class 11", classNumber: 11, slug: "class-11", href: "/category/neet?target=class-11", order: 1, status: "active" },
-                    { id: "neet_ug_12", label: "Class 12", classNumber: 12, slug: "class-12", href: "/category/neet?target=class-12", order: 2, status: "active" },
-                    { id: "neet_ug_dropper", label: "Dropper / Repeater", slug: "dropper", href: "/category/neet?target=dropper", order: 3, status: "active" },
-                ],
-            },
-        ],
-    },
-    {
         id: "cat_free_courses",
         name: "FREE COURSES",
         slug: "free-courses",
         href: "/free-courses",
         order: 4,
         status: "active",
-        subItems: [],
+        subItems: [
+            {
+                id: "free_class_9",
+                label: "Class 9",
+                classNumber: 9,
+                slug: "class-9",
+                href: "/free-courses?class=Class 9",
+                order: 1,
+                status: "active",
+            },
+            {
+                id: "free_class_10",
+                label: "Class 10",
+                classNumber: 10,
+                slug: "class-10",
+                href: "/free-courses?class=Class 10",
+                order: 2,
+                status: "active",
+            },
+            {
+                id: "free_class_11",
+                label: "Class 11",
+                classNumber: 11,
+                slug: "class-11",
+                href: "/free-courses?class=Class 11",
+                order: 3,
+                status: "active",
+            },
+            {
+                id: "free_class_12",
+                label: "Class 12",
+                classNumber: 12,
+                slug: "class-12",
+                href: "/free-courses?class=Class 12",
+                order: 4,
+                status: "active",
+            },
+        ],
     },
     {
         id: "cat_premium_courses",
@@ -383,10 +408,44 @@ export function Header() {
         let isMounted = true;
         getAllCoursesCategories().then((res) => {
             if (isMounted && res.success && res.data && res.data.length > 0) {
+                const dynamicCategories = res.data.filter(c => 
+                    c.id !== 'cat_free_courses' && 
+                    c.slug !== 'free-courses' && 
+                    c.id !== 'cat_premium_courses' && 
+                    c.slug !== 'premium-courses'
+                ).map(c => {
+                    const key = (c.slug || c.id || c.name || '').toLowerCase();
+                    if (key.includes('jee') || key.includes('neet')) {
+                        const defaultMatch = DEFAULT_COURSE_CATEGORIES.find(d => 
+                            d.id === c.id || (c.slug && d.slug === c.slug) || (c.name && d.name.toLowerCase() === c.name.toLowerCase())
+                        );
+                        if (defaultMatch) return defaultMatch;
+                        return {
+                            ...c,
+                            href: '#',
+                            subItems: (c.subItems || []).map(s => ({ ...s, href: '#', items: [] })),
+                        };
+                    }
+                    return c;
+                });
                 const staticExtras = DEFAULT_COURSE_CATEGORIES.filter(c => 
                     c.id === 'cat_free_courses' || c.id === 'cat_premium_courses'
                 );
-                setCourseCategories([...res.data, ...staticExtras]);
+
+                const getCategoryRank = (c: CourseCategory) => {
+                    const key = (c.slug || c.id || c.name || '').toLowerCase();
+                    if (key.includes('jee') || key.includes('iit')) return 1;
+                    if (key.includes('neet') || key.includes('medical')) return 2;
+                    if (key.includes('cbse') || key.includes('school')) return 3;
+                    if (key.includes('free')) return 4;
+                    if (key.includes('premium')) return 5;
+                    return c.order ?? 99;
+                };
+
+                const sorted = [...dynamicCategories, ...staticExtras].sort(
+                    (a, b) => getCategoryRank(a) - getCategoryRank(b)
+                );
+                setCourseCategories(sorted);
             }
         });
         return () => { isMounted = false; };
@@ -571,24 +630,24 @@ export function Header() {
         {
             title: "EXPLORE",
             links: [
-                { href: "/offline-centers", label: "Offline Centers", icon: <Building className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
-                { href: "/blog", label: "IDL Blog", icon: <FileText className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
-                { href: '/gallery', label: "Gallery", icon: <ImageIcon className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
+                { href: "/offline-centers", label: "Offline Centers" },
+                { href: "/blog", label: "IDL Blog" },
+                { href: '/gallery', label: "Gallery" },
             ]
         },
         {
             title: "COMPANY",
             links: [
-                { href: "/journey", label: "The Journey", icon: <Rocket className="w-5 h-5 shrink-0" strokeWidth={2.2} /> },
+                { href: "/journey", label: "The Journey" },
             ]
         },
     ];
 
     const applyForLinks = [
-        { href: "#", label: "Admission Form", icon: <FileText className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsAdmissionOpen(true) },
-        { href: "#", label: "Book Free Demo", icon: <Presentation className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsBookDemoOpen(true) },
-        { href: "#", label: "Student Enquiry", icon: <CircleHelp className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsEnquiryOpen(true) },
-        { href: "#", label: "Scholarship", icon: <Award className="w-5 h-5 shrink-0" strokeWidth={2.2} />, onClick: () => setIsScholarshipOpen(true) },
+        { href: "#", label: "Admission Form", onClick: () => setIsAdmissionOpen(true) },
+        { href: "#", label: "Book Free Demo", onClick: () => setIsBookDemoOpen(true) },
+        { href: "#", label: "Student Enquiry", onClick: () => setIsEnquiryOpen(true) },
+        { href: "#", label: "Scholarship", onClick: () => setIsScholarshipOpen(true) },
     ];
 
     const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -659,7 +718,6 @@ export function Header() {
                                                         <DesktopMenuRow
                                                             key={c.id}
                                                             label={c.name}
-                                                            icon={getCategoryIcon(c.id, c.name)}
                                                             href={c.href}
                                                             isActive={hoveredCourseCategory === c.id}
                                                             onMouseEnter={() => {
@@ -685,6 +743,23 @@ export function Header() {
                                                             <div className="w-56 p-2 flex flex-col gap-0 animate-in fade-in duration-150">
                                                                 {activeCategory.subItems.map((sub) => {
                                                                     const isSubActive = hoveredSubItem === sub.id;
+                                                                    const isSubDisabled = !sub.href || sub.href === '#' || (sub as any).disabled;
+
+                                                                    if (isSubDisabled) {
+                                                                        return (
+                                                                            <div
+                                                                                key={sub.id}
+                                                                                className="w-full flex items-center justify-between px-4 py-2 cursor-default select-none text-slate-700 dark:text-slate-300"
+                                                                            >
+                                                                                <div className="text-left flex-1 min-w-0">
+                                                                                    <p className="text-[13.5px] leading-tight tracking-[-0.01em] font-semibold text-slate-700 dark:text-slate-300">
+                                                                                        {sub.label}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        );
+                                                                    }
+
                                                                     return (
                                                                         <div
                                                                             key={sub.id}
@@ -759,7 +834,6 @@ export function Header() {
                                                     <DesktopMenuRow
                                                         key={l.label}
                                                         label={l.label}
-                                                        icon={l.icon}
                                                         href={l.href}
                                                         onClick={l.onClick}
                                                         onSelect={() => setActiveMenu(null)}
@@ -792,9 +866,8 @@ export function Header() {
                                                             <DesktopMenuRow
                                                                 key={link.label}
                                                                 label={link.label}
-                                                                icon={link.icon}
                                                                 href={link.href}
-                                                                onClick={link.onClick}
+                                                                onClick={(link as any).onClick}
                                                                 disabled={(link as any).disabled || link.label === "Register Now"}
                                                                 onSelect={() => setActiveMenu(null)}
                                                             />
@@ -945,10 +1018,7 @@ export function Header() {
                                                                         aria-controls={`mobile-sub-${cat.id}`}
                                                                         className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
                                                                     >
-                                                                        <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                            <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100">
-                                                                                {getCategoryIcon(cat.id, cat.name)}
-                                                                            </div>
+                                                                        <div className="flex items-center min-w-0 flex-1">
                                                                             <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                                 {cat.name}
                                                                             </span>
@@ -1026,6 +1096,18 @@ export function Header() {
                                                                                         );
                                                                                     }
 
+                                                                                    const isSubDisabled = !sub.href || sub.href === '#' || (sub as any).disabled;
+                                                                                    if (isSubDisabled) {
+                                                                                        return (
+                                                                                            <div
+                                                                                                key={sub.id}
+                                                                                                className="w-full text-left font-bold text-[13px] sm:text-[13.5px] min-h-[38px] px-3 py-1 rounded-md text-slate-700 dark:text-slate-300 flex items-center select-none cursor-default"
+                                                                                            >
+                                                                                                <span className="truncate">{sub.label}</span>
+                                                                                            </div>
+                                                                                        );
+                                                                                    }
+
                                                                                     return (
                                                                                         <Link
                                                                                             key={sub.id}
@@ -1078,7 +1160,7 @@ export function Header() {
                                             >
                                                 <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
                                                     <div suppressHydrationWarning className="flex flex-col gap-0">
-                                                        {applyForLinks.map(({ href, label, icon, onClick: linkOnClick }) => (
+                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
                                                             <button
                                                                 key={label}
                                                                 type="button"
@@ -1094,10 +1176,7 @@ export function Header() {
                                                                 }}
                                                                 className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
                                                             >
-                                                                <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                    <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
-                                                                        {icon}
-                                                                    </div>
+                                                                <div className="flex items-center min-w-0 flex-1">
                                                                     <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                         {label}
                                                                     </span>
@@ -1168,14 +1247,11 @@ export function Header() {
                                                             <div key={group.title} suppressHydrationWarning className="flex flex-col gap-0">
                                                                 {group.links.map((link) => {
                                                                     const isDisabled = (link as any).disabled || link.label === "Register Now";
-                                                                    const isAction = Boolean(link.onClick);
+                                                                    const isAction = Boolean((link as any).onClick);
 
                                                                     const rowContent = (
                                                                         <>
-                                                                            <div className="flex items-center gap-3 min-w-0 flex-1">
-                                                                                <div className="w-5 h-5 flex items-center justify-center shrink-0 text-[#0B1F4B] dark:text-slate-300 transition-colors duration-100 [&>svg]:w-5 [&>svg]:h-5">
-                                                                                    {link.icon}
-                                                                                </div>
+                                                                            <div className="flex items-center min-w-0 flex-1">
                                                                                 <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                                     {link.label}
                                                                                 </span>
@@ -1192,7 +1268,7 @@ export function Header() {
                                                                                 suppressHydrationWarning
                                                                                 onClick={() => {
                                                                                     setIsMobileMenuOpen(false);
-                                                                                    if (link.onClick) link.onClick();
+                                                                                    if ((link as any).onClick) (link as any).onClick();
                                                                                 }}
                                                                                 className={cn(
                                                                                     "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",

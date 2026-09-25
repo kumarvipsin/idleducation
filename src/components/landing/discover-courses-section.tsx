@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -139,9 +140,10 @@ function CardWave({ waveColor }: { waveColor: string }) {
 const CLASSES = ['Class 9', 'Class 10', 'Class 11', 'Class 12'] as const;
 
 function CbseModal({ onClose }: { onClose: () => void }) {
+    const router = useRouter();
     const [step, setStep] = React.useState<'class' | 'stream' | 'mode'>('class');
-    const [, setSelectedClass] = React.useState<string | null>(null);
-    const [, setSelectedStream] = React.useState<string | null>(null);
+    const [selectedClass, setSelectedClass] = React.useState<string | null>(null);
+    const [selectedStream, setSelectedStream] = React.useState<string | null>(null);
     const [, setSelectedMode] = React.useState<string | null>(null);
 
     const handleClassClick = (cls: string) => {
@@ -159,12 +161,24 @@ function CbseModal({ onClose }: { onClose: () => void }) {
 
     const handleModeClick = (id: string) => {
         setSelectedMode(id);
-        setTimeout(() => onClose(), 200);
+
+        const modeMap: Record<string, string> = {
+            offline: 'Offline Mode',
+            online: 'Online Mode',
+            hybrid: 'Hybrid Mode',
+        };
+        const modeParam = modeMap[id] || 'Offline Mode';
+
+        setTimeout(() => {
+            onClose();
+            router.push(`/courses?center=Mukherjee%20Nagar&stream=Grade%209-12&class=${encodeURIComponent(selectedClass || 'Class 9')}&mode=${encodeURIComponent(modeParam)}&session=2026-27`);
+        }, 150);
     };
 
     const MODES = [
         {
-            id: 'offline', label: 'Offline Mode',
+            id: 'offline', 
+            label: 'Offline Mode',
             icon: (
                 <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-amber-500 transition-colors" aria-hidden="true">
                     <rect x="2" y="4" width="14" height="10" rx="2" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.2"/>
@@ -174,7 +188,8 @@ function CbseModal({ onClose }: { onClose: () => void }) {
             ),
         },
         {
-            id: 'online', label: 'Online Mode',
+            id: 'online', 
+            label: 'Online Mode',
             icon: (
                 <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-amber-500 transition-colors" aria-hidden="true">
                     <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
@@ -183,7 +198,8 @@ function CbseModal({ onClose }: { onClose: () => void }) {
             ),
         },
         {
-            id: 'hybrid', label: 'Hybrid Mode',
+            id: 'hybrid', 
+            label: 'Hybrid Mode',
             icon: (
                 <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-amber-500 transition-colors" aria-hidden="true">
                     <circle cx="7" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
@@ -195,7 +211,7 @@ function CbseModal({ onClose }: { onClose: () => void }) {
 
     const STREAM_DATA = [
         {
-            id: 'science', label: 'Science Stream',
+            id: 'science', label: 'Science Stream (PCM / PCB)',
             color: 'border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 hover:bg-blue-100',
             icon: (
                 <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0" aria-hidden="true">
@@ -237,7 +253,7 @@ function CbseModal({ onClose }: { onClose: () => void }) {
 
     return (
         <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" role="dialog" aria-modal="true">
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
             <div
                 className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-amber-200/60 dark:border-amber-800/40 overflow-hidden"
                 style={{ animation: 'cbseModalIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards' }}
@@ -259,7 +275,14 @@ function CbseModal({ onClose }: { onClose: () => void }) {
                     <div className="flex items-center gap-2">
                         {step !== 'class' && (
                             <button
-                                onClick={() => step === 'mode' ? setStep('stream') : setStep('class')}
+                                onClick={() => {
+                                    if (step === 'mode') {
+                                        const is11_12 = selectedClass === 'Class 11' || selectedClass === 'Class 12';
+                                        setStep(is11_12 ? 'stream' : 'class');
+                                    } else {
+                                        setStep('class');
+                                    }
+                                }}
                                 className="w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 hover:bg-amber-200 transition-colors"
                                 aria-label="Back"
                             >
@@ -285,15 +308,15 @@ function CbseModal({ onClose }: { onClose: () => void }) {
                 {/* Body */}
                 <div className="p-4">
                     {step === 'class' && (
-                        <div className="slide-up grid grid-cols-2 gap-2">
+                        <div className="slide-up grid grid-cols-2 gap-2.5">
                             {CLASSES.map((cls) => (
                                 <button
                                     key={cls}
                                     onClick={() => handleClassClick(cls)}
-                                    className="relative flex items-center justify-center px-3 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-[13px] transition-all duration-200 hover:border-amber-400 hover:bg-amber-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
+                                    className="relative flex items-center justify-center py-3.5 px-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-[14px] transition-all duration-200 hover:border-amber-400 hover:bg-amber-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97] group"
                                 >
-                                    {cls}
-                                    <ArrowRight className="absolute right-3 w-3.5 h-3.5 text-slate-300 group-hover:text-amber-400" />
+                                    <span>{cls}</span>
+                                    <ArrowRight className="absolute right-3 w-4 h-4 text-slate-300 group-hover:text-amber-500 transition-transform group-hover:translate-x-0.5" />
                                 </button>
                             ))}
                         </div>
@@ -306,13 +329,13 @@ function CbseModal({ onClose }: { onClose: () => void }) {
                                     key={s.id}
                                     onClick={() => handleStreamClick(s.id)}
                                     className={cn(
-                                        "flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 font-semibold text-[13px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]",
+                                        "flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 font-bold text-[13px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]",
                                         s.color
                                     )}
                                 >
                                     {s.icon}
-                                    {s.label}
-                                    <ArrowRight className="ml-auto w-3.5 h-3.5 opacity-50" />
+                                    <span>{s.label}</span>
+                                    <ArrowRight className="ml-auto w-3.5 h-3.5 opacity-60" />
                                 </button>
                             ))}
                         </div>
@@ -324,10 +347,10 @@ function CbseModal({ onClose }: { onClose: () => void }) {
                                 <button
                                     key={mode.id}
                                     onClick={() => handleModeClick(mode.id)}
-                                    className="group flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-[13px] text-left transition-all duration-200 hover:border-amber-400 hover:bg-amber-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
+                                    className="group flex items-center gap-3 w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-[13.5px] text-left transition-all duration-200 hover:border-amber-400 hover:bg-amber-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
                                 >
                                     {mode.icon}
-                                    <span>{mode.label}</span>
+                                    <span className="flex-1">{mode.label}</span>
                                     <ArrowRight className="ml-auto w-4 h-4 opacity-50 shrink-0 group-hover:text-amber-500 transition-colors" />
                                 </button>
                             ))}
@@ -382,8 +405,9 @@ const JEE_OPTIONS = [
 ];
 
 function JeeModal({ onClose }: { onClose: () => void }) {
+    const router = useRouter();
     const [step, setStep] = React.useState<'course' | 'mode'>('course');
-    const [, setSelectedCourse] = React.useState<string | null>(null);
+    const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
     const [, setSelectedMode] = React.useState<string | null>(null);
 
     const handleCourseClick = (id: string) => {
@@ -394,7 +418,11 @@ function JeeModal({ onClose }: { onClose: () => void }) {
 
     const handleModeClick = (id: string) => {
         setSelectedMode(id);
-        setTimeout(() => onClose(), 200);
+        const modeMap: Record<string, string> = { offline: 'Classroom', online: 'Online', hybrid: 'Hybrid' };
+        setTimeout(() => {
+            onClose();
+            router.push(`/courses?center=Agra&stream=JEE&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
+        }, 150);
     };
 
     const JEE_MODES = [
@@ -562,8 +590,9 @@ const NEET_OPTIONS = [
 ];
 
 function NeetModal({ onClose }: { onClose: () => void }) {
+    const router = useRouter();
     const [step, setStep] = React.useState<'course' | 'mode'>('course');
-    const [, setSelectedCourse] = React.useState<string | null>(null);
+    const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
     const [, setSelectedMode] = React.useState<string | null>(null);
 
     const handleCourseClick = (id: string) => {
@@ -574,7 +603,11 @@ function NeetModal({ onClose }: { onClose: () => void }) {
 
     const handleModeClick = (id: string) => {
         setSelectedMode(id);
-        setTimeout(() => onClose(), 200);
+        const modeMap: Record<string, string> = { offline: 'Classroom', online: 'Online', hybrid: 'Hybrid' };
+        setTimeout(() => {
+            onClose();
+            router.push(`/courses?center=Agra&stream=NEET&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
+        }, 150);
     };
 
     const NEET_MODES = [

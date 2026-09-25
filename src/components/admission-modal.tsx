@@ -58,15 +58,46 @@ const classes = [
   "Target Repeater Batch (NEET)", "Target Repeater Batch (JEE)",
   "Crash Course / Test Series Program"
 ];
+const programs = [
+  "Foundation",
+  "JEE",
+  "NEET",
+  "CUET",
+  "Olympiad",
+  "School Classes",
+];
+
+const boards = [
+  "CBSE",
+  "ICSE / ISC",
+  "State Board",
+  "IB / Cambridge",
+  "Other",
+];
+
+const previousClasses = [
+  "Class 5th",
+  "Class 6th",
+  "Class 7th",
+  "Class 8th",
+  "Class 9th",
+  "Class 10th",
+  "Class 11th",
+  "Class 12th",
+  "Other",
+];
+
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const admissionFormSchema = z.object({
+  // STEP 1 — BRANCH
   studentId: z.string(),
+  admissionSession: z.string().default('2026–27'),
+  branch: z.string().min(1, { message: "Please select preferred branch." }),
+  studentPhoto: z.any().optional(),
+
+  // STEP 2 — STUDENT
   studentName: z.string().min(2, { message: "Student full name is required (min 2 letters)." }),
-  fatherName: z.string().min(2, { message: "Father's name is required." }),
-  fatherOccupation: z.string().optional(),
-  motherName: z.string().min(2, { message: "Mother's name is required." }),
-  motherOccupation: z.string().optional(),
   dob: z.date({
     required_error: "Date of birth is required.",
   }).refine((dob) => {
@@ -75,24 +106,43 @@ const admissionFormSchema = z.object({
     return dob <= threeYearsAgo;
   }, { message: "Student must be at least 3 years old." }),
   gender: z.enum(["male", "female", "other"], { required_error: "Please select gender." }),
-  bloodGroup: z.string().optional(),
-  aadharNumber: z.string().regex(aadharRegex, { message: "Enter a valid 12-digit Aadhar number." }).optional().or(z.literal('')),
-  apaarId: z.string().optional(),
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  classApplied: z.string().min(1, { message: "Please select class / course." }),
+  board: z.string().optional().or(z.literal('')),
+  program: z.string().optional().or(z.literal('')),
   studentPhone: z.string().regex(phoneRegex, { message: "Enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
+
+  // STEP 3 — PARENT
+  fatherName: z.string().min(2, { message: "Father / Guardian name is required." }),
+  motherName: z.string().optional().or(z.literal('')),
   fatherPhone: z.string().regex(phoneRegex, { message: "Enter a valid 10-digit mobile number." }),
-  motherPhone: z.string().regex(phoneRegex, { message: "Enter a valid 10-digit mobile number." }),
-  telephone: z.string().optional().or(z.literal('')),
+  parentEmail: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
+  fatherOccupation: z.string().optional().or(z.literal('')),
+
+  // STEP 4 — CONTACT
+  email: z.string().email({ message: "Please enter a valid email address." }).optional().or(z.literal('')),
   address: z.string().min(5, { message: "Full residential address is required." }),
-  country: z.string().min(1, { message: "Country is required." }),
+  city: z.string().min(2, { message: "City is required." }),
   state: z.string().min(1, { message: "Please select state." }),
   pincode: z.string().regex(pincodeRegex, { message: "Enter a valid 6-digit pincode." }),
-  classApplied: z.string().min(1, { message: "Please select course/class." }),
-  previousSchool: z.string().optional(),
-  additionalInfo: z.string().optional(),
-  branch: z.string().min(1, { message: "Please select nearest branch." }),
-  studentPhoto: z.any().optional(),
+  emergencyContact: z.string().regex(phoneRegex, { message: "Enter a valid 10-digit emergency number." }).optional().or(z.literal('')),
+
+  // STEP 5 — ACADEMIC
+  previousSchool: z.string().optional().or(z.literal('')),
+  previousClass: z.string().optional().or(z.literal('')),
+  previousPercentage: z.string().optional().or(z.literal('')),
+  stream: z.string().optional().or(z.literal('')),
+  scholarshipTest: z.string().optional().or(z.literal('')),
+
+  // Additional & compatibility fields
   transactionId: z.string().min(1, { message: "Transaction ID is required." }),
+  motherPhone: z.string().optional().or(z.literal('')),
+  motherOccupation: z.string().optional().or(z.literal('')),
+  telephone: z.string().optional().or(z.literal('')),
+  country: z.string().optional().or(z.literal('')),
+  bloodGroup: z.string().optional().or(z.literal('')),
+  aadharNumber: z.string().optional().or(z.literal('')),
+  apaarId: z.string().optional().or(z.literal('')),
+  additionalInfo: z.string().optional().or(z.literal('')),
 });
 
 type AdmissionFormValues = z.infer<typeof admissionFormSchema>;
@@ -102,11 +152,11 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const STEPS = [
-  { id: 1, title: 'Center', subtitle: 'Center Details', icon: Building },
+  { id: 1, title: 'Branch', subtitle: 'Branch & Session', icon: Building },
   { id: 2, title: 'Student', subtitle: 'Student Details', icon: User },
-  { id: 3, title: 'Parents', subtitle: 'Parents Details', icon: Briefcase },
+  { id: 3, title: 'Parent', subtitle: 'Parent Details', icon: Briefcase },
   { id: 4, title: 'Contact', subtitle: 'Contact Details', icon: Phone },
-  { id: 5, title: 'Academic', subtitle: 'Academic & Review', icon: GraduationCap },
+  { id: 5, title: 'Academic', subtitle: 'Academic Details', icon: GraduationCap },
 ];
 
 interface AdmissionModalProps {
@@ -168,29 +218,39 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
     resolver: zodResolver(admissionFormSchema),
     defaultValues: {
       studentId: '',
+      admissionSession: '2026–27',
+      branch: '',
       studentName: '',
-      fatherName: '',
-      fatherOccupation: '',
-      motherName: '',
-      motherOccupation: '',
-      email: '',
+      gender: undefined,
+      classApplied: '',
+      board: '',
+      program: '',
       studentPhone: '',
+      fatherName: '',
+      motherName: '',
       fatherPhone: '',
-      motherPhone: '',
-      telephone: '',
+      parentEmail: '',
+      fatherOccupation: '',
+      email: '',
       address: '',
-      country: 'India',
+      city: '',
       state: '',
       pincode: '',
-      classApplied: '',
+      emergencyContact: '',
       previousSchool: '',
-      additionalInfo: '',
-      branch: '',
+      previousClass: '',
+      previousPercentage: '',
+      stream: '',
+      scholarshipTest: '',
       transactionId: 'N/A',
-      gender: undefined,
+      motherPhone: '',
+      motherOccupation: '',
+      telephone: '',
+      country: 'India',
       bloodGroup: '',
       aadharNumber: '',
       apaarId: '',
+      additionalInfo: '',
     },
   });
   
@@ -276,13 +336,25 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
     if (step === 1) {
       fieldsToValidate = ['branch'];
     } else if (step === 2) {
-      fieldsToValidate = ['studentName', 'dob', 'gender'];
+      fieldsToValidate = ['studentName', 'dob', 'gender', 'classApplied'];
+      if (form.getValues('studentPhone')) {
+        fieldsToValidate.push('studentPhone');
+      }
     } else if (step === 3) {
-      fieldsToValidate = ['fatherName', 'motherName'];
+      fieldsToValidate = ['fatherName', 'fatherPhone'];
+      if (form.getValues('parentEmail')) {
+        fieldsToValidate.push('parentEmail');
+      }
     } else if (step === 4) {
-      fieldsToValidate = ['email', 'fatherPhone', 'motherPhone', 'state', 'pincode', 'address'];
+      fieldsToValidate = ['address', 'city', 'state', 'pincode'];
+      if (form.getValues('email')) {
+        fieldsToValidate.push('email');
+      }
+      if (form.getValues('emergencyContact')) {
+        fieldsToValidate.push('emergencyContact');
+      }
     } else if (step === 5) {
-      fieldsToValidate = ['classApplied'];
+      fieldsToValidate = [];
     }
 
     const isValid = await form.trigger(fieldsToValidate);
@@ -336,7 +408,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
 
   const handlePreview = async () => {
     const result = await form.trigger([
-      "studentName", "fatherName", "motherName", "dob", "email", "fatherPhone", "motherPhone", "address", "state", "pincode", "classApplied", "branch", "gender"
+      "branch",
+      "studentName",
+      "dob",
+      "gender",
+      "classApplied",
+      "fatherName",
+      "fatherPhone",
+      "address",
+      "city",
+      "state",
+      "pincode"
     ]);
     if (result) {
       setIsPreviewOpen(true);
@@ -636,10 +718,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="px-5 sm:px-7 py-4 sm:py-5 space-y-4 text-left"
+                      className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
                     >
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        {/* Provisional Student ID */}
+                        {/* Provisional Student ID (auto-generated) */}
                         <FormField
                           control={form.control}
                           name="studentId"
@@ -658,7 +740,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                     className="h-full border-0 bg-transparent text-[14px] sm:text-[15px] font-semibold text-[#102A68] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
                                   />
                                   <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md shrink-0 select-none">
-                                    Auto ID
+                                    Auto Generated
                                   </span>
                                 </div>
                               </FormControl>
@@ -666,37 +748,55 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
-                        {/* Preferred Branch */}
-                        <FormField
-                          control={form.control}
-                          name="branch"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Preferred Branch <span className="text-[#E11D48]">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
-                                      <SelectValue placeholder="Select Preferred Branch" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {branches.map(b => (
-                                        <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100">{b}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                            </FormItem>
-                          )}
-                        />
+                        {/* Admission Session: 2026–27 */}
+                        <FormItem className="space-y-1.5">
+                          <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                            <Calendar className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                            Admission Session
+                          </FormLabel>
+                          <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/75 dark:bg-slate-900/60 shadow-xs flex items-center justify-between px-3 h-10 sm:h-11">
+                            <Input 
+                              readOnly 
+                              value="2026–27" 
+                              className="h-full border-0 bg-transparent text-[14px] sm:text-[15px] font-semibold text-[#102A68] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
+                            />
+                            <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-md shrink-0 select-none">
+                              Active Session
+                            </span>
+                          </div>
+                        </FormItem>
                       </div>
 
-                      {/* Photo Upload Area */}
+                      {/* Preferred Branch * */}
+                      <FormField
+                        control={form.control}
+                        name="branch"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                              <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              Preferred Branch <span className="text-[#E11D48]">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                  <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectValue placeholder="Select Preferred Branch" />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-56 z-[200]">
+                                    {branches.map(b => (
+                                      <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100">{b}</SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Passport Size Photograph */}
                       <div className="space-y-1.5 pt-1">
                         <label className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                           <Camera className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
@@ -820,7 +920,6 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                   reader.onloadend = () => {
                                     const dataUrl = reader.result as string;
                                     setActiveCropImage(dataUrl);
-                                    // Open crop editor without directly finalizing
                                     setIsCropOpen(true);
                                   };
                                   reader.readAsDataURL(file);
@@ -843,9 +942,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       transition={{ duration: 0.2 }}
                       className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
                     >
-                      {/* Student Name & DOB in 2-column grid */}
+                      {/* Student Full Name & Date of Birth */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        {/* Student Full Name */}
+                        {/* Student Full Name * */}
                         <FormField
                           control={form.control}
                           name="studentName"
@@ -872,7 +971,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
-                        {/* Date of Birth 3-Part Selector */}
+                        {/* Date of Birth * (Day, Month, Year) */}
                         <FormField
                           control={form.control}
                           name="dob"
@@ -916,8 +1015,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         />
                       </div>
 
-                      {/* Gender & Blood Group in 2-column cell */}
+                      {/* Gender & Class / Course in 2-column grid */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Gender * */}
                         <FormField
                           control={form.control}
                           name="gender"
@@ -946,23 +1046,86 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
+                        {/* Class / Course * */}
                         <FormField
                           control={form.control}
-                          name="bloodGroup"
+                          name="classApplied"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Heart className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Blood Group
+                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Class / Course <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                   <Select onValueChange={field.onChange} value={field.value}>
                                     <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
-                                      <SelectValue placeholder="Select Blood Group" />
+                                      <SelectValue placeholder="Select Class / Course" />
                                     </SelectTrigger>
-                                    <SelectContent>
-                                      {bloodGroups.map(bg => <SelectItem key={bg} value={bg} className="text-[13px] sm:text-[14px]">{bg}</SelectItem>)}
+                                    <SelectContent className="max-h-56 z-[200]">
+                                      {classes.map((c, i) => (
+                                        <SelectItem key={`${c}-${i}`} value={c} className="text-[13px] sm:text-[14px]">{c}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Board & Applying For / Program */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Board */}
+                        <FormField
+                          control={form.control}
+                          name="board"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Board
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                      <SelectValue placeholder="Select Board (Optional)" />
+                                    </SelectTrigger>
+                                    <SelectContent className="max-h-56 z-[200]">
+                                      {boards.map(b => (
+                                        <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px]">{b}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Applying For / Program (Options: Foundation, JEE, NEET, CUET, Olympiad, School Classes) */}
+                        <FormField
+                          control={form.control}
+                          name="program"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Applying For / Program
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                      <SelectValue placeholder="Select Program (Optional)" />
+                                    </SelectTrigger>
+                                    <SelectContent className="max-h-56 z-[200]">
+                                      {programs.map(p => (
+                                        <SelectItem key={p} value={p} className="text-[13px] sm:text-[14px]">{p}</SelectItem>
+                                      ))}
                                     </SelectContent>
                                   </Select>
                                 </div>
@@ -972,55 +1135,32 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         />
                       </div>
 
-                      {/* Aadhar & APAAR ID in 2-column cell */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="aadharNumber"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <ShieldCheck className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Aadhar UID
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Input 
-                                    placeholder="12-Digit Aadhar UID" 
-                                    {...field} 
-                                    maxLength={12}
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3"
-                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="apaarId"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <FileText className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                APAAR / ABC ID
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Input 
-                                    placeholder="APAAR / ABC ID (Optional)" 
-                                    {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
-                                  />
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
+                      {/* Student Mobile Number (if applicable) */}
+                      <FormField
+                        control={form.control}
+                        name="studentPhone"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                              <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              Student Mobile Number <span className="text-slate-400 text-xs font-normal">(if applicable)</span>
+                            </FormLabel>
+                            <FormControl>
+                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <Input 
+                                  type="tel" 
+                                  placeholder="10-digit mobile number (Optional)" 
+                                  {...field} 
+                                  maxLength={10} 
+                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                  onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                          </FormItem>
+                        )}
+                      />
                     </motion.div>
                   )}
 
@@ -1033,8 +1173,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       transition={{ duration: 0.2 }}
                       className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
                     >
-                      {/* Father's Name & Occupation */}
+                      {/* Father / Guardian Name & Mother Name */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Father / Guardian Name * */}
                         <FormField
                           control={form.control}
                           name="fatherName"
@@ -1042,7 +1183,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                                 <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Father's Full Name <span className="text-[#E11D48]">*</span>
+                                Father / Guardian Name <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
@@ -1059,32 +1200,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
-                        <FormField
-                          control={form.control}
-                          name="fatherOccupation"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Briefcase className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Father's Occupation
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Input 
-                                    placeholder="e.g. Business / Service" 
-                                    {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* Mother's Name & Occupation */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Mother Name */}
                         <FormField
                           control={form.control}
                           name="motherName"
@@ -1092,36 +1208,12 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                                 <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Mother's Full Name <span className="text-[#E11D48]">*</span>
+                                Mother Name
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                   <Input 
-                                    placeholder="e.g. Sunita Sharma" 
-                                    {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="motherOccupation"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Briefcase className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Mother's Occupation
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Input 
-                                    placeholder="e.g. Homemaker / Professional" 
+                                    placeholder="e.g. Sunita Sharma (Optional)" 
                                     {...field} 
                                     className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
@@ -1132,73 +1224,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
                       </div>
-                    </motion.div>
-                  )}
 
-                  {currentStep === 4 && (
-                    <motion.div
-                      key="step-4"
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
-                    >
-                      {/* Email Address & Telephone */}
+                      {/* Parent Mobile Number & Parent Email */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Mail className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Email Address <span className="text-[#E11D48]">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Input 
-                                    type="email" 
-                                    placeholder="e.g. student@gmail.com" 
-                                    {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
-                                    onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="telephone"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Telephone / Landline
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Input 
-                                    type="tel" 
-                                    placeholder="e.g. 011 45035713 (Optional)" 
-                                    {...field} 
-                                    maxLength={15} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* Father's Mobile & Mother's Mobile */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Parent Mobile Number * */}
                         <FormField
                           control={form.control}
                           name="fatherPhone"
@@ -1206,7 +1235,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                                 <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Father's Mobile <span className="text-[#E11D48]">*</span>
+                                Parent Mobile Number <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
@@ -1225,20 +1254,111 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
+                        {/* Parent Email */}
                         <FormField
                           control={form.control}
-                          name="motherPhone"
+                          name="parentEmail"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <Mail className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Parent Email
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Input 
+                                    type="email" 
+                                    placeholder="e.g. parent@example.com (Optional)" 
+                                    {...field} 
+                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Occupation (optional) */}
+                      <FormField
+                        control={form.control}
+                        name="fatherOccupation"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                              <Briefcase className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              Occupation <span className="text-slate-400 text-xs font-normal">(optional)</span>
+                            </FormLabel>
+                            <FormControl>
+                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <Input 
+                                  placeholder="e.g. Business / Government / Service (Optional)" 
+                                  {...field} 
+                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
+                              </div>
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </motion.div>
+                  )}
+
+                  {currentStep === 4 && (
+                    <motion.div
+                      key="step-4"
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -10 }}
+                      transition={{ duration: 0.2 }}
+                      className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
+                    >
+                      {/* Student / Parent Email & Emergency Contact Number */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Student / Parent Email */}
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <Mail className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Student / Parent Email
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Input 
+                                    type="email" 
+                                    placeholder="e.g. contact@gmail.com (Optional)" 
+                                    {...field} 
+                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Emergency Contact Number */}
+                        <FormField
+                          control={form.control}
+                          name="emergencyContact"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                                 <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Mother's Mobile <span className="text-[#E11D48]">*</span>
+                                Emergency Contact Number
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                   <Input 
                                     type="tel" 
-                                    placeholder="e.g. 9876543211" 
+                                    placeholder="10-digit emergency number (Optional)" 
                                     {...field} 
                                     maxLength={10} 
                                     className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
@@ -1252,26 +1372,50 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         />
                       </div>
 
-                      {/* Student Mobile & State */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      {/* Full Address * */}
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem className="space-y-1.5">
+                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                              <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              Full Address <span className="text-[#E11D48]">*</span>
+                            </FormLabel>
+                            <FormControl>
+                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <Input 
+                                  placeholder="House / Flat No., Street, Area, Landmark" 
+                                  {...field} 
+                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
+                              </div>
+                            </FormControl>
+                            <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* City *, State *, Pincode * in 3-column grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
+                        {/* City * */}
                         <FormField
                           control={form.control}
-                          name="studentPhone"
+                          name="city"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Student Mobile
+                                <MapPin className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                City <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                   <Input 
-                                    type="tel" 
-                                    placeholder="e.g. 9876543212 (Optional)" 
+                                    placeholder="e.g. Delhi / Rohini" 
                                     {...field} 
-                                    maxLength={10} 
                                     className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
-                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                   />
                                 </div>
                               </FormControl>
@@ -1280,6 +1424,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
+                        {/* State * */}
                         <FormField
                           control={form.control}
                           name="state"
@@ -1287,15 +1432,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                                 <Globe className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                State / UT <span className="text-[#E11D48]">*</span>
+                                State <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                   <Select onValueChange={field.onChange} value={field.value}>
                                     <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
-                                      <SelectValue placeholder="Select State / UT" />
+                                      <SelectValue placeholder="Select State" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56">
+                                    <SelectContent className="max-h-56 z-[200]">
                                       {indianStates.map(st => <SelectItem key={st} value={st} className="text-[13px] sm:text-[14px]">{st}</SelectItem>)}
                                     </SelectContent>
                                   </Select>
@@ -1305,62 +1450,32 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             </FormItem>
                           )}
                         />
-                      </div>
 
-                      {/* Pincode & Residential Address */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
-                        <div className="sm:col-span-1">
-                          <FormField
-                            control={form.control}
-                            name="pincode"
-                            render={({ field }) => (
-                              <FormItem className="space-y-1.5">
-                                <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                  <MapPin className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                  Pincode <span className="text-[#E11D48]">*</span>
-                                </FormLabel>
-                                <FormControl>
-                                  <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                    <Input 
-                                      placeholder="6 Digits" 
-                                      {...field} 
-                                      maxLength={6} 
-                                      className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
-                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
-                                    />
-                                  </div>
-                                </FormControl>
-                                <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        <div className="sm:col-span-2">
-                          <FormField
-                            control={form.control}
-                            name="address"
-                            render={({ field }) => (
-                              <FormItem className="space-y-1.5">
-                                <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                  <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                  Full Residential Address <span className="text-[#E11D48]">*</span>
-                                </FormLabel>
-                                <FormControl>
-                                  <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                    <Input 
-                                      placeholder="House/Flat No., Street, Area, Landmark" 
-                                      {...field} 
-                                      className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
-                                      onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                    />
-                                  </div>
-                                </FormControl>
-                                <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
+                        {/* Pincode * */}
+                        <FormField
+                          control={form.control}
+                          name="pincode"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <MapPin className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Pincode <span className="text-[#E11D48]">*</span>
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Input 
+                                    placeholder="6 Digits" 
+                                    {...field} 
+                                    maxLength={6} 
+                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
                       </div>
                     </motion.div>
                   )}
@@ -1374,34 +1489,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       transition={{ duration: 0.2 }}
                       className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
                     >
-                      {/* Course / Program Applied & Previous School */}
+                      {/* Previous School Name & Previous Class */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="classApplied"
-                          render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Class / Program Applying For <span className="text-[#E11D48]">*</span>
-                              </FormLabel>
-                              <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
-                                      <SelectValue placeholder="Select Class / Program" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56">
-                                      {classes.map((c, i) => <SelectItem key={`${c}-${i}`} value={c} className="text-[13px] sm:text-[14px]">{c}</SelectItem>)}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
-                            </FormItem>
-                          )}
-                        />
-
+                        {/* Previous School Name */}
                         <FormField
                           control={form.control}
                           name="previousSchool"
@@ -1409,12 +1499,12 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             <FormItem className="space-y-1.5">
                               <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
                                 <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Previous School / College Name
+                                Previous School Name
                               </FormLabel>
                               <FormControl>
                                 <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                   <Input 
-                                    placeholder="e.g. St. Xavier's High School" 
+                                    placeholder="e.g. St. Xavier's High School (Optional)" 
                                     {...field} 
                                     className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
@@ -1424,25 +1514,102 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             </FormItem>
                           )}
                         />
+
+                        {/* Previous Class */}
+                        <FormField
+                          control={form.control}
+                          name="previousClass"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Previous Class
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Select onValueChange={field.onChange} value={field.value}>
+                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                      <SelectValue placeholder="Select Previous Class (Optional)" />
+                                    </SelectTrigger>
+                                    <SelectContent className="max-h-56 z-[200]">
+                                      {previousClasses.map(pc => (
+                                        <SelectItem key={pc} value={pc} className="text-[13px] sm:text-[14px]">{pc}</SelectItem>
+                                      ))}
+                                    </SelectContent>
+                                  </Select>
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
                       </div>
 
-                      {/* Special Remarks */}
+                      {/* Previous Percentage / Grade & Stream / Subjects */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        {/* Previous Percentage / Grade */}
+                        <FormField
+                          control={form.control}
+                          name="previousPercentage"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <FileText className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Previous Percentage / Grade
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Input 
+                                    placeholder="e.g. 88% or 8.8 CGPA / Grade A (Optional)" 
+                                    {...field} 
+                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                  />
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        {/* Stream / Subjects (where applicable) */}
+                        <FormField
+                          control={form.control}
+                          name="stream"
+                          render={({ field }) => (
+                            <FormItem className="space-y-1.5">
+                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
+                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                                Stream / Subjects <span className="text-slate-400 text-xs font-normal">(where applicable)</span>
+                              </FormLabel>
+                              <FormControl>
+                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <Input 
+                                    placeholder="e.g. Science / PCM / PCB / Commerce (Optional)" 
+                                    {...field} 
+                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  />
+                                </div>
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Scholarship / Entrance Test (if applicable) */}
                       <FormField
                         control={form.control}
-                        name="additionalInfo"
+                        name="scholarshipTest"
                         render={({ field }) => (
                           <FormItem className="space-y-1.5">
                             <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                              <FileText className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                              Special Notes / Learning Requirements
+                              <ShieldCheck className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              Scholarship / Entrance Test <span className="text-slate-400 text-xs font-normal">(if applicable)</span>
                             </FormLabel>
                             <FormControl>
                               <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
                                 <Input 
-                                  placeholder="Any specific learning needs or preferences (Optional)" 
+                                  placeholder="e.g. IDL Scholarship Exam / NSTSE (Optional)" 
                                   {...field} 
-                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
-                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
                                 />
                               </div>
                             </FormControl>
@@ -1457,9 +1624,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         </p>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-[12px] sm:text-[13px]">
                           <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Student</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('studentName') || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Center</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('branch')?.split(',')[0] || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Mobile</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('fatherPhone') || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Program</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('classApplied') || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Branch</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('branch')?.split(',')[0] || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Parent Mobile</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('fatherPhone') || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Course / Program</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('classApplied') || '—'}</strong></div>
                         </div>
                       </div>
                     </motion.div>
@@ -1639,7 +1806,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
 
                 {/* Grid Info Sections */}
                 <div className="space-y-3.5 text-left">
-                  {/* Section 1 */}
+                  {/* Section 1: Student Identity */}
                   <div>
                     <div className="bg-[#F5F7FA] border border-[#D7DFEA] border-l-[3px] border-l-[#0B2A6F] px-2.5 py-1 rounded-[3px] flex items-center mb-2">
                       <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#0B2A6F]">
@@ -1650,13 +1817,14 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       <div><span className="text-[#64748B] text-[10px] font-medium">Student Name:</span> <strong className="text-[#17213A] text-[11px] font-semibold uppercase ml-1">{form.getValues('studentName') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Date of Birth:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{formatDateForDisplay(form.getValues('dob')) || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Gender:</span> <strong className="text-[#17213A] text-[11px] font-semibold capitalize ml-1">{form.getValues('gender') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Blood Group:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('bloodGroup') || 'N/A'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Aadhar UID:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('aadharNumber') || 'N/A'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">APAAR / ABC ID:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('apaarId') || 'N/A'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Class / Course:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('classApplied') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Board:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('board') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Program / Target:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('program') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Student Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('studentPhone') || '—'}</strong></div>
                     </div>
                   </div>
 
-                  {/* Section 2 */}
+                  {/* Section 2: Parent / Guardian */}
                   <div>
                     <div className="bg-[#F5F7FA] border border-[#D7DFEA] border-l-[3px] border-l-[#0B2A6F] px-2.5 py-1 rounded-[3px] flex items-center mb-2">
                       <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#0B2A6F]">
@@ -1664,14 +1832,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 px-1">
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Father's Name:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherName') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Father's Occupation:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherOccupation') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Mother's Name:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherName') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Mother's Occupation:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherOccupation') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Father / Guardian:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherName') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Mother Name:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherName') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Parent Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherPhone') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Parent Email:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('parentEmail') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Occupation:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherOccupation') || '—'}</strong></div>
                     </div>
                   </div>
 
-                  {/* Section 3 */}
+                  {/* Section 3: Contact & Address */}
                   <div>
                     <div className="bg-[#F5F7FA] border border-[#D7DFEA] border-l-[3px] border-l-[#0B2A6F] px-2.5 py-1 rounded-[3px] flex items-center mb-2">
                       <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#0B2A6F]">
@@ -1680,25 +1849,25 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     </div>
                     <div className="grid grid-cols-3 gap-x-5 gap-y-2 px-1">
                       <div className="col-span-2"><span className="text-[#64748B] text-[10px] font-medium">Residential Address:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('address') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">State / Pincode:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('state') || '—'} - {form.getValues('pincode') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">City / State / Pin:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('city') || ''}{form.getValues('city') ? ', ' : ''}{form.getValues('state') || '—'} - {form.getValues('pincode') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Email:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('email') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Father's Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherPhone') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Mother's Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherPhone') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Student Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('studentPhone') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Telephone:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('telephone') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Emergency Contact:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('emergencyContact') || '—'}</strong></div>
                     </div>
                   </div>
 
-                  {/* Section 4 */}
+                  {/* Section 4: Academic Background */}
                   <div>
                     <div className="bg-[#F5F7FA] border border-[#D7DFEA] border-l-[3px] border-l-[#0B2A6F] px-2.5 py-1 rounded-[3px] flex items-center mb-2">
                       <h3 className="text-[10px] font-bold uppercase tracking-wider text-[#0B2A6F]">
-                        4. COURSE &amp; ACADEMIC PROFILE
+                        4. ACADEMIC BACKGROUND
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 px-1">
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Course / Class Enrolled:</span> <strong className="text-[#0B2A6F] text-[11.5px] font-bold ml-1">{form.getValues('classApplied') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Previous Institution:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousSchool') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Previous School:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousSchool') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Previous Class:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousClass') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Percentage / Grade:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousPercentage') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Stream / Subjects:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('stream') || '—'}</strong></div>
+                      <div className="col-span-2"><span className="text-[#64748B] text-[10px] font-medium">Scholarship / Entrance Test:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('scholarshipTest') || '—'}</strong></div>
                     </div>
                   </div>
                 </div>

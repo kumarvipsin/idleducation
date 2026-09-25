@@ -308,10 +308,20 @@ export function FreeCoursesClient({ courses }: FreeCoursesClientProps) {
   // Sync with searchParams if updated from external router
   useEffect(() => {
     const cls = searchParams.get('class');
+    const subj = searchParams.get('subject') || null;
+    const chap = searchParams.get('chapter') || null;
     if (cls && cls !== selectedClass) {
       setSelectedClass(cls);
+      setSelectedSubject(subj);
+      setSelectedChapter(chap);
+      try {
+        sessionStorage.setItem('idl_free_courses_class', cls);
+      } catch {}
+    } else if (subj !== selectedSubject) {
+      setSelectedSubject(subj);
+      setSelectedChapter(chap);
     }
-  }, [searchParams]);
+  }, [searchParams, selectedClass, selectedSubject]);
 
   // Navigation handlers that keep the URL query string updated so page reload stays on the same class
   const handleSelectClass = (cls: string) => {

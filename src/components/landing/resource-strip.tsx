@@ -9,7 +9,7 @@ const coursesOffer = [
     id: "cbse",
     label: "CBSE BOARD",
     description: "Classes 9–12",
-    href: "/school",
+    href: "/courses",
     cardBg: "bg-[#FFFDF5] hover:bg-[#FEF9E7] dark:bg-amber-950/25 dark:hover:bg-amber-950/45 border-[#FDE68A] dark:border-amber-900/50",
     iconBg: "bg-[#FEF3C7] dark:bg-amber-900/60",
     icon: (

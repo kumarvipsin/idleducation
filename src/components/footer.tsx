@@ -205,7 +205,7 @@ export function Footer() {
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-row justify-between items-center text-[12px] sm:text-[12.5px] font-normal text-slate-500 dark:text-slate-400">
             <p suppressHydrationWarning>
-              &copy; 2026 IDL Education. All Rights Reserved.
+              &copy; 2026 IDL All Rights Reserved.
             </p>
             <nav aria-label="Legal Links" className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 pr-14 sm:pr-0">
               <Link href="/terms" className="text-slate-500 hover:text-[#0A5CFF] dark:text-slate-400 dark:hover:text-white transition-colors duration-150">
