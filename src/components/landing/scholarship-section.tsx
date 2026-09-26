@@ -26,63 +26,6 @@ function useInView(threshold = 0.12) {
     return { ref, visible };
 }
 
-/* ── Repeated InView hook for re-triggering count animation on every scroll & refresh ── */
-function useInViewRepeat(threshold = 0.15, rootMargin = '0px 0px -20px 0px') {
-    const ref = useRef<HTMLDivElement>(null);
-    const [inView, setInView] = useState(false);
-
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-        const obs = new IntersectionObserver(
-            (entries) => {
-                const latest = entries[entries.length - 1];
-                setInView(latest.isIntersecting);
-            },
-            { threshold, rootMargin }
-        );
-        obs.observe(el);
-        return () => obs.disconnect();
-    }, [threshold, rootMargin]);
-
-    return { ref, inView };
-}
-
-/* ── Smooth Count Up Hook ── */
-function useCountUp(target: number, duration = 1500, active = false) {
-    const [count, setCount] = useState(0);
-
-    useEffect(() => {
-        if (!active) {
-            setCount(0);
-            return;
-        }
-
-        let startTimestamp: number | null = null;
-        let animationFrameId: number;
-
-        const step = (timestamp: number) => {
-            if (!startTimestamp) startTimestamp = timestamp;
-            const elapsed = timestamp - startTimestamp;
-            const progress = Math.min(elapsed / duration, 1);
-            // Ease-out cubic for a fast, punchy roll decelerating gracefully into the final milestone
-            const easeOut = 1 - Math.pow(1 - progress, 3);
-            setCount(Math.round(easeOut * target));
-
-            if (progress < 1) {
-                animationFrameId = requestAnimationFrame(step);
-            } else {
-                setCount(target);
-            }
-        };
-
-        animationFrameId = requestAnimationFrame(step);
-        return () => cancelAnimationFrame(animationFrameId);
-    }, [target, duration, active]);
-
-    return count;
-}
-
 /* ── Card data (CONTENT LOCKED) ── */
 const cards = [
     { num: '01', icon: User,          title: 'Student-Centric Approach',       desc: 'Every student is unique. We focus on individual learning needs, pace and goals.',                        accent: '#0A5CFF' },
@@ -93,16 +36,13 @@ const cards = [
 
 export function ScholarshipSection() {
     const section = useInView(0.08);
-    const trustStrip = useInViewRepeat(0.15, '0px 0px -20px 0px');
-    const studentsCount = useCountUp(1000, 1600, trustStrip.inView);
-    const branchesCount = useCountUp(5, 1100, trustStrip.inView);
 
-    /* ── Trust strip data with dynamic animated counts on scroll & refresh ── */
+    /* ── Trust strip data (Fixed numbers) ── */
     const trustStats = [
-        { icon: CalendarDays, value: '2016',                          label: 'Our Journey Began' },
-        { icon: Building2,    value: `${branchesCount}+`,             label: 'Branches in Delhi' },
-        { icon: Users,        value: `${studentsCount}+`,             label: 'Students Guided' },
-        { icon: Trophy,       value: 'Academic Growth',               label: 'Every Step Forward' },
+        { icon: CalendarDays, value: '2016',            label: 'Our Journey Began' },
+        { icon: Building2,    value: '5+',              label: 'Branches in Delhi' },
+        { icon: Users,        value: '1000+',           label: 'Students Guided' },
+        { icon: Trophy,       value: 'Academic Growth', label: 'Every Step Forward' },
     ];
 
     return (
@@ -354,7 +294,6 @@ export function ScholarshipSection() {
                 NAVY TRUST STRIP
             ═══════════════════════════════════════════════ */}
             <div
-                ref={trustStrip.ref}
                 className={`
                     bg-gradient-to-r from-[#081735] via-[#0B1D3F] to-[#081735]
                     dark:from-slate-950 dark:via-blue-950/80 dark:to-slate-950
