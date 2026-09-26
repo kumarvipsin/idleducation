@@ -49,7 +49,7 @@ export function GetAppSection() {
                 {/* Main Hero Visual (idlapp.png) */}
                 <div className="relative w-full h-full z-10 scale-[0.90] origin-bottom">
                   <Image
-                    src="/idlapp.png"
+                    src="/mobile.png"
                     alt="IDL Learning App on smartphone"
                     fill
                     className="object-contain drop-shadow-[0_10px_20px_rgba(6,43,103,0.08)]"
@@ -151,33 +151,8 @@ export function GetAppSection() {
               JEE | NEET | Foundation | Olympiad
             </p>
 
-            {/* 4. Hero Visual with Forward-Placed Pedestal */}
-            <div className="w-full flex items-center justify-center py-2">
-              <div className="relative w-full aspect-[3/2] max-w-[340px] sm:max-w-[400px] flex items-center justify-center">
-                
-                {/* 3D Pedestal on Mobile */}
-                <div className="absolute -bottom-1.5 left-[49%] -translate-x-1/2 w-[220px] sm:w-[250px] h-[32px] sm:h-[36px] pointer-events-none z-0">
-                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-[90%] h-[12px] rounded-[50%] bg-blue-900/12 dark:bg-black/40 blur-[6px]" />
-                  <div className="absolute inset-x-0 top-[10px] h-[14px] bg-gradient-to-b from-[#E2EEFC] to-[#D0E4FB] dark:from-slate-800 dark:to-slate-900 rounded-b-[50%] border-x border-b border-[#C8DFFA] dark:border-slate-700" />
-                  <div className="absolute inset-x-0 top-0 h-[20px] rounded-[50%] bg-gradient-to-b from-[#FFFFFF] via-[#F4F9FF] to-[#E5F1FD] dark:from-slate-800 dark:to-slate-900 border border-[#C8DFFA] dark:border-slate-700 shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_2px_6px_rgba(10,92,255,0.06)]" />
-                </div>
-
-                {/* Main Hero Visual (idlapp.png) */}
-                <div className="relative w-full h-full z-10 scale-[0.90] origin-bottom">
-                  <Image
-                    src="/idlapp.png"
-                    alt="IDL Learning App on smartphone"
-                    fill
-                    className="object-contain drop-shadow-[0_8px_16px_rgba(6,43,103,0.08)]"
-                    sizes="(max-width: 640px) 340px, 400px"
-                    priority
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* 5. Download Area with Badges */}
-            <div className="w-full pt-2.5 pb-0.5">
+            {/* 4. Download Area with Badges (Directly below subtitle on mobile) */}
+            <div className="w-full pt-1 pb-1">
               <p className="text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-left mb-2.5">
                 DOWNLOAD THE IDL LEARNING APP
               </p>
@@ -216,6 +191,31 @@ export function GetAppSection() {
                     className="h-[36px] w-auto object-contain"
                   />
                 </a>
+              </div>
+            </div>
+
+            {/* 5. Hero Visual with Forward-Placed Pedestal */}
+            <div className="w-full flex items-center justify-center pt-2 pb-1">
+              <div className="relative w-full aspect-[3/2] max-w-[340px] sm:max-w-[400px] flex items-center justify-center">
+                
+                {/* 3D Pedestal on Mobile */}
+                <div className="absolute -bottom-1.5 left-[49%] -translate-x-1/2 w-[220px] sm:w-[250px] h-[32px] sm:h-[36px] pointer-events-none z-0">
+                  <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-[90%] h-[12px] rounded-[50%] bg-blue-900/12 dark:bg-black/40 blur-[6px]" />
+                  <div className="absolute inset-x-0 top-[10px] h-[14px] bg-gradient-to-b from-[#E2EEFC] to-[#D0E4FB] dark:from-slate-800 dark:to-slate-900 rounded-b-[50%] border-x border-b border-[#C8DFFA] dark:border-slate-700" />
+                  <div className="absolute inset-x-0 top-0 h-[20px] rounded-[50%] bg-gradient-to-b from-[#FFFFFF] via-[#F4F9FF] to-[#E5F1FD] dark:from-slate-800 dark:to-slate-900 border border-[#C8DFFA] dark:border-slate-700 shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_2px_6px_rgba(10,92,255,0.06)]" />
+                </div>
+
+                {/* Main Hero Visual (mobile.png) */}
+                <div className="relative w-full h-full z-10 scale-[0.90] origin-bottom">
+                  <Image
+                    src="/mobile.png"
+                    alt="IDL Learning App on smartphone"
+                    fill
+                    className="object-contain drop-shadow-[0_8px_16px_rgba(6,43,103,0.08)]"
+                    sizes="(max-width: 640px) 340px, 400px"
+                    priority
+                  />
+                </div>
               </div>
             </div>
 

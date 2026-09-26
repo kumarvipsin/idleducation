@@ -71,8 +71,10 @@ function formatStudentClass(achievement?: string): string {
 }
 
 function cleanQuote(text: string): string {
+  if (!text) return "";
   let q = text.trim();
-  q = q.replace(/^[""']|[""']$/g, '').trim();
+  // Strip leading and trailing quotation marks / inverted commas
+  q = q.replace(/^["'“”„‟«»]+|["'“”„‟«»]+$/g, '').trim();
   return q;
 }
 
@@ -118,19 +120,19 @@ const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; 
 
           {/* Quote & Student identity */}
           <div className="relative z-10 min-w-0">
-            {/* Quote — strong readable navy tone, clamped to 3 lines */}
-            <blockquote className="mb-3 sm:mb-3.5">
-              <p className="text-[17px] sm:text-[18px] lg:text-[18.5px] xl:text-[19.5px] font-semibold text-[#0B1E48] dark:text-slate-100 leading-[1.45] tracking-tight line-clamp-3 antialiased">
-                &ldquo;{quoteText}&rdquo;
+            {/* Quote — balanced, readable tone, clamped to 3 lines */}
+            <blockquote className="mb-2.5 sm:mb-3">
+              <p className="text-[14.5px] sm:text-[15.5px] lg:text-[16px] font-medium text-[#1E293B] dark:text-slate-200 leading-[1.5] tracking-normal line-clamp-3 antialiased">
+                {quoteText}
               </p>
             </blockquote>
 
             {/* Student metadata positioned naturally below the quote */}
             <div className="min-w-0">
-              <h3 className="font-bold text-[16px] sm:text-[17px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+              <h3 className="font-bold text-[15px] sm:text-[15.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
                 {testimonial.name}
               </h3>
-              <p className="text-[12.5px] sm:text-[13px] text-[#3B4D66] dark:text-slate-300 font-medium mt-0.5 truncate">
+              <p className="text-[12px] sm:text-[12.5px] text-[#64748B] dark:text-slate-400 font-normal mt-0.5 truncate">
                 {classLabel}
               </p>
             </div>
@@ -218,18 +220,18 @@ const CompactStoryCard = ({
           </div>
         </div>
 
-        {/* Text content — stronger weight, deep navy color, balanced spacing */}
+        {/* Text content — balanced weight, readable color, natural spacing */}
         <div className="flex flex-col justify-center flex-1 py-2 pr-3.5 pl-0.5 min-w-0">
-          {/* Quote — stronger weight, deep navy color, balanced readability */}
-          <p className="text-[13.5px] sm:text-[14px] xl:text-[14.2px] text-[#0A1E42] dark:text-slate-100 font-semibold leading-[1.38] line-clamp-2 mb-1.5 antialiased">
-            &ldquo;{quoteText}&rdquo;
+          {/* Quote */}
+          <p className="text-[13px] sm:text-[13.5px] text-[#1E293B] dark:text-slate-200 font-medium leading-[1.4] line-clamp-2 mb-1 antialiased">
+            {quoteText}
           </p>
           {/* Identity */}
           <div className="min-w-0">
-            <p className="font-bold text-[13.5px] sm:text-[14px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+            <p className="font-bold text-[13px] sm:text-[13.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
               {testimonial.name}
             </p>
-            <p className="text-[11.5px] sm:text-[12px] text-[#3B4D66] dark:text-slate-300 font-medium leading-none truncate mt-0.5">
+            <p className="text-[11px] sm:text-[11.5px] text-[#64748B] dark:text-slate-400 font-normal leading-none truncate mt-0.5">
               {classLabel}
             </p>
           </div>
@@ -301,20 +303,20 @@ const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; in
           </svg>
           
           <div className="relative z-10 min-w-0 pr-3 sm:pr-4">
-            {/* Quote — approx 14.5-15.5px font with ~1.46 line-height, clamped to 3 lines */}
+            {/* Quote — approx 13.5-14px font with ~1.45 line-height, clamped to 3 lines */}
             <blockquote className="mb-2 sm:mb-2.5">
-              <p className="text-[14.5px] sm:text-[15.5px] font-semibold text-[#0B1E48] dark:text-slate-100 leading-[1.46] tracking-tight line-clamp-3 antialiased break-words">
-                &ldquo;{quoteText}&rdquo;
+              <p className="text-[13.5px] sm:text-[14px] font-medium text-[#1E293B] dark:text-slate-200 leading-[1.45] tracking-normal line-clamp-3 antialiased break-words">
+                {quoteText}
               </p>
             </blockquote>
 
             {/* Student info — single line: Name | Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[14.5px] sm:text-[15.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug">
+              <h3 className="font-bold text-[13.5px] sm:text-[14px] text-[#0A1E42] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[12px] sm:text-[12.5px] text-[#3B4D66] dark:text-slate-400 font-medium">
+              <span className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
                 {classLabel}
               </span>
             </div>
@@ -496,7 +498,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
 
         {/* ── Section Header ── */}
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0A1E42] dark:text-white leading-[1.15]">
+          <h2 className="text-2xl sm:text-[28px] md:text-[32px] font-bold tracking-tight text-[#0A1E42] dark:text-white leading-[1.2]">
             IDL{' '}
             <span className="text-[#1D4ED8] dark:text-blue-400">
               Stars
