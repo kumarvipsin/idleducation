@@ -41,7 +41,7 @@ export default async function Home() {
       {/* 5. Why Choose IDL Education */}
       <ScholarshipSection />
 
-      {/* 5b. Standalone Trust Stats Strip */}
+      {/* 5b. Standalone Trust Stats Strip (100% full width above IDL Stars) */}
       <TrustStatsSection />
 
       {/* 6. Student Testimonials */}

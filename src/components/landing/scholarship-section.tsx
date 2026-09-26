@@ -89,13 +89,13 @@ export function ScholarshipSection() {
           </div>
 
           {/* Main Heading */}
-          <h2 className="text-[26px] xs:text-[28px] sm:text-[34px] md:text-[40px] font-extrabold tracking-[-0.025em] text-[#062B67] dark:text-white leading-[1.18] max-w-2xl">
-            <span className="block sm:inline">Learn Better.{' '}</span>
+          <h2 className="text-[20px] xs:text-[22px] min-[400px]:text-[24px] sm:text-[34px] md:text-[42px] lg:text-[50px] xl:text-[54px] font-extrabold tracking-tight sm:tracking-[-0.025em] text-[#062B67] dark:text-white leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+            <span>Learn Better.{' '}</span>
             <span className="relative inline-block text-[#155EEF] dark:text-blue-400">
               Grow Stronger.
               {/* Subtle curved blue underline stroke matching reference */}
               <svg 
-                className="absolute -bottom-2 left-0 right-0 w-full h-[7px] text-[#155EEF] dark:text-blue-400 overflow-visible pointer-events-none" 
+                className="absolute -bottom-1.5 sm:-bottom-2 left-0 right-0 w-full h-[6px] sm:h-[8px] text-[#155EEF] dark:text-blue-400 overflow-visible pointer-events-none" 
                 viewBox="0 0 100 12" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
@@ -164,17 +164,16 @@ export function ScholarshipSection() {
                 
                 {/* ── Floating Icon Halo ── */}
                 <div className="relative z-20 transition-transform duration-300 group-hover:scale-105">
-                  <div className="w-[74px] h-[74px] sm:w-[82px] sm:h-[82px] lg:w-[88px] lg:h-[88px] rounded-full bg-gradient-to-b from-[#F2F7FF] via-[#E8F2FD] to-[#DFEEFC] dark:from-slate-800 dark:to-slate-900 border border-white/90 dark:border-slate-700/80 shadow-[0_6px_20px_-2px_rgba(6,43,103,0.08)] flex items-center justify-center p-2.5 relative">
-                    <div className="relative w-full h-full flex items-center justify-center">
-                      <Image
-                        src={item.iconSrc}
-                        alt={item.title}
-                        width={60}
-                        height={60}
-                        className="object-contain w-auto h-auto max-w-[85%] max-h-[85%] select-none pointer-events-none drop-shadow-xs"
-                        priority
-                      />
-                    </div>
+                  <div className="w-[72px] h-[72px] sm:w-[80px] sm:h-[80px] lg:w-[86px] lg:h-[86px] rounded-full bg-[#EDF4FD] dark:bg-slate-800 border border-white/90 dark:border-slate-700/80 shadow-[0_4px_16px_rgba(6,43,103,0.06)] flex items-center justify-center p-2.5 relative">
+                    <Image
+                      src={item.iconSrc}
+                      alt={item.title}
+                      width={64}
+                      height={64}
+                      unoptimized
+                      className="w-[46px] h-[46px] sm:w-[52px] sm:h-[52px] lg:w-[56px] lg:h-[56px] object-contain select-none pointer-events-none drop-shadow-xs"
+                      priority
+                    />
 
                     {/* Small Circular Number Badge */}
                     <div className="absolute -top-1 -right-1 sm:top-0 sm:-right-0.5 w-[21px] h-[21px] sm:w-[23px] sm:h-[23px] rounded-full bg-[#EBF3FF] dark:bg-slate-800 border border-[#CBDFFC] dark:border-slate-700 text-[#062B67] dark:text-blue-300 text-[10px] sm:text-[10.5px] font-bold flex items-center justify-center shadow-2xs">
@@ -184,18 +183,18 @@ export function ScholarshipSection() {
                 </div>
 
                 {/* ── Compact White Card Body ── */}
-                <div className="-mt-8 sm:-mt-9 w-full flex-1 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-[18px] sm:rounded-[22px] border border-[#E0EDFA] dark:border-slate-800 shadow-[0_4px_22px_-4px_rgba(6,43,103,0.05)] hover:shadow-[0_10px_28px_-6px_rgba(6,43,103,0.10)] transition-all duration-300 pt-10 sm:pt-11 pb-4 sm:pb-5 px-3 sm:px-4 flex flex-col items-center justify-center text-center">
+                <div className="-mt-8 sm:-mt-9 w-full flex-1 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm rounded-[18px] sm:rounded-[22px] border border-[#E0EDFA] dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(6,43,103,0.05)] hover:shadow-[0_10px_26px_-6px_rgba(6,43,103,0.09)] transition-all duration-300 pt-9 sm:pt-10 pb-3.5 sm:pb-4 px-2.5 sm:px-3.5 lg:px-4 flex flex-col items-center justify-center text-center">
                   
                   {/* Card Title */}
-                  <h3 className="text-[14px] sm:text-[15.5px] lg:text-[16px] font-bold text-[#062B67] dark:text-white tracking-tight leading-tight">
+                  <h3 className="text-[14px] sm:text-[16px] lg:text-[19px] xl:text-[20px] font-bold text-[#062B67] dark:text-white tracking-tight leading-tight whitespace-nowrap">
                     {item.title}
                   </h3>
 
-                  {/* Short Thin Blue Accent Line */}
-                  <div className="w-5 sm:w-6 h-[1.5px] bg-[#155EEF] dark:bg-blue-500 rounded-full my-2 sm:my-2.5" />
+                  {/* Subtle Underline Accent */}
+                  <div className="w-5 sm:w-6 h-[1.5px] bg-[#155EEF] dark:bg-blue-500 rounded-full my-1.5 sm:my-2" />
 
                   {/* Card Description */}
-                  <p className="text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-[#64748B] dark:text-slate-400 font-normal leading-[1.4] text-center">
+                  <p className="text-[12px] sm:text-[13px] lg:text-[14px] text-[#64748B] dark:text-slate-400 font-normal leading-[1.42] text-center">
                     <span className="block">{item.descLine1}</span>
                     <span className="block">{item.descLine2}</span>
                   </p>
@@ -209,22 +208,6 @@ export function ScholarshipSection() {
         </div>
 
       </div>
-
-      {/* ══════════════════════════════════════════════════
-          3. BOTTOM SECTION SHAPE (Subtle organic navy wave transitioning to Trust Stats)
-          ══════════════════════════════════════════════════ */}
-      <div className="absolute bottom-0 inset-x-0 overflow-hidden pointer-events-none z-10 leading-none">
-        <svg 
-          className="w-full h-6 sm:h-9 md:h-12 text-[#061C43] dark:text-slate-950 block" 
-          viewBox="0 0 1440 60" 
-          fill="currentColor" 
-          preserveAspectRatio="none"
-          aria-hidden="true"
-        >
-          <path d="M0,35 C280,62 520,58 720,58 C920,58 1160,62 1440,35 L1440,60 L0,60 Z" />
-        </svg>
-      </div>
-
     </section>
   );
 }

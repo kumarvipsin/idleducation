@@ -508,13 +508,13 @@ export function AcademicExcellence() {
         </div>
 
         {/* ===================== CATEGORY TABS ===================== */}
-        {/* Mobile: 3 compact pill buttons fitting cleanly. Desktop: Centered row */}
-        <div className="w-full mb-3.5 sm:mb-5 md:mb-6">
-          <div className="flex justify-center px-1">
+        {/* Minimal text-tab navigation */}
+        <div className="w-full mb-3 sm:mb-4 md:mb-5">
+          <div className="flex justify-center px-2">
             <div 
               role="tablist" 
               aria-label="Result Categories"
-              className="inline-flex items-center gap-1.5 sm:gap-2.5 select-none w-full max-w-xs sm:max-w-none sm:w-auto justify-center"
+              className="inline-flex items-center justify-center gap-7 sm:gap-8 md:gap-9 select-none"
             >
               {RESULTS_DATA.map((cat, idx) => {
                 const isActive = activeCategoryIndex === idx;
@@ -527,13 +527,19 @@ export function AcademicExcellence() {
                     aria-controls={`panel-${cat.id}`}
                     onClick={() => handleTabChange(idx)}
                     className={cn(
-                      "h-[36px] sm:h-[40px] flex-1 sm:flex-initial px-3 sm:px-5 rounded-[10px] text-[11.5px] sm:text-[13px] tracking-wide uppercase font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap active:scale-95 flex items-center justify-center border",
+                      "relative pb-1.5 sm:pb-2 text-[13.5px] sm:text-[15px] md:text-[16px] tracking-wide uppercase transition-colors duration-200 cursor-pointer whitespace-nowrap bg-transparent border-0 shadow-none rounded-none outline-none focus-visible:outline-none",
                       isActive
-                        ? "bg-[#062B67] text-white border-[#062B67] shadow-[0_2px_8px_rgba(6,43,103,0.14)] dark:bg-blue-600 dark:border-blue-500"
-                        : "bg-white dark:bg-slate-900 text-[#062B67]/70 dark:text-slate-300 border-[#DCE6F5] dark:border-slate-800 hover:border-[#155EEF]/40 hover:text-[#062B67] dark:hover:text-white"
+                        ? "text-[#062B67] dark:text-white font-[680]"
+                        : "text-[#5A6E85] dark:text-slate-400 font-[520] hover:text-[#062B67] dark:hover:text-white"
                     )}
                   >
-                    {cat.tabLabel}
+                    <span>{cat.tabLabel}</span>
+                    {isActive && (
+                      <span 
+                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#155EEF] dark:bg-blue-400 rounded-full transition-all duration-200" 
+                        aria-hidden="true"
+                      />
+                    )}
                   </button>
                 );
               })}
