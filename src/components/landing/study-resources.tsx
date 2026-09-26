@@ -33,11 +33,11 @@ const resources: ResourceItem[] = [
   },
   {
     id: "ncert-solutions",
-    title: "NCERT Solutions",
+    title: "Ncert Solutions",
     description: "Explore detailed NCERT solutions across subjects and classes.",
     href: "/resources/ncert-solutions",
     imageUrl: "/ncert.jpg",
-    imageAlt: "NCERT Solutions",
+    imageAlt: "Ncert Solutions",
     accentColor: "#F59E0B",
     lightBg: "bg-gradient-to-b from-[#FFF9EE] to-[#FFF1D6]",
     arrowBg: "bg-[#FFF7ED]",
@@ -45,11 +45,11 @@ const resources: ResourceItem[] = [
   },
   {
     id: "previous-year-papers",
-    title: "Previous year papers",
+    title: "Previous Year Papers",
     description: "Access past exam papers for practice and preparation.",
     href: "/resources/previous-year-questions",
     imageUrl: "/pyq.jpg",
-    imageAlt: "Previous year papers",
+    imageAlt: "Previous Year Papers",
     accentColor: "#10B981",
     lightBg: "bg-gradient-to-b from-[#EDFAF3] to-[#DBF5E7]",
     arrowBg: "bg-[#ECFDF5]",
@@ -62,17 +62,17 @@ export function StudyResources() {
     <section 
       id="free-learning-resources"
       aria-label="Study Resources"
-      className="w-full pt-14 sm:pt-16 md:pt-18 pb-10 sm:pb-12 md:pb-14 scroll-mt-24 bg-white dark:bg-slate-950 border-t border-[#E2ECF8] dark:border-slate-800/80 relative overflow-hidden"
+      className="w-full pt-2 sm:pt-3 md:pt-4 pb-10 sm:pb-12 md:pb-14 scroll-mt-24 bg-white dark:bg-slate-950 relative overflow-hidden"
     >
       <div className="container mx-auto px-4 sm:px-6 md:px-8 max-w-[1260px] relative z-10">
 
         {/* ══════════════════════════════════════════════════
-            HEADER AREA: "Study Resources" (Matched to IDL Stars scale & boldness)
+            HEADER AREA: "Study Resources" (Balanced 38px, weight 700-750, compact spacing)
             ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col items-center justify-center text-center mb-7 sm:mb-8 md:mb-9">
-          <h2 className="text-2xl sm:text-[28px] md:text-[32px] font-bold tracking-tight text-[#0A1E42] dark:text-white leading-[1.2] whitespace-nowrap">
+        <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-7 md:mb-8">
+          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15] whitespace-nowrap">
             Study{' '}
-            <span className="text-[#1D4ED8] dark:text-blue-400">
+            <span className="text-[#155EEF] dark:text-blue-400">
               Resources
             </span>
           </h2>

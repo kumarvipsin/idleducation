@@ -5,6 +5,7 @@ import { AcademicExcellence } from '@/components/landing/academic-excellence';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
+import { TrustStatsSection } from '@/components/landing/trust-stats-section';
 import { DiscoverCoursesSection } from '@/components/landing/discover-courses-section';
 import { getCollection, getTestimonials, getExpertTeachers } from '@/app/actions';
 import type { THeroSlide, TTestimonial, TExpertTeacher } from '@/app/actions/types';
@@ -39,6 +40,9 @@ export default async function Home() {
 
       {/* 5. Why Choose IDL Education */}
       <ScholarshipSection />
+
+      {/* 5b. Standalone Trust Stats Strip */}
+      <TrustStatsSection />
 
       {/* 6. Student Testimonials */}
       <StudentTestimonials testimonials={studentTestimonials.slice(0, 5)} />

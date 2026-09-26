@@ -103,6 +103,30 @@ const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; 
               fill
               className="object-cover object-top transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]"
             />
+
+            {/* Subtle bottom gradient */}
+            <div
+              className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
+              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
+            />
+
+            {/* ── PLAY BUTTON: bottom-right corner — matching Meet Our Educators style ── */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (videoId) setIsVideoOpen(true);
+              }}
+              disabled={!videoId}
+              aria-label={`Watch story of ${testimonial.name}`}
+              className={`absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 flex items-center justify-center transition-all duration-200 ${
+                videoId 
+                  ? 'cursor-pointer hover:bg-white/30 hover:scale-105 active:scale-95' 
+                  : 'cursor-default opacity-40'
+              }`}
+            >
+              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+            </button>
           </div>
         </div>
 
@@ -128,29 +152,15 @@ const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; 
             </blockquote>
 
             {/* Student metadata positioned naturally below the quote */}
-            <div className="min-w-0">
-              <h3 className="font-bold text-[15px] sm:text-[15.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+              <h3 className="font-bold text-[15px] sm:text-[15.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
-              <p className="text-[12px] sm:text-[12.5px] text-[#64748B] dark:text-slate-400 font-normal mt-0.5 truncate">
+              <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
+              <span className="text-[12.5px] sm:text-[13px] text-[#64748B] dark:text-slate-400 font-normal">
                 {classLabel}
-              </p>
-            </div>
-          </div>
-
-          {/* CTA Button */}
-          <div className="relative z-10 mt-3 lg:mt-4">
-            <button
-              type="button"
-              onClick={() => setIsVideoOpen(true)}
-              className="group inline-flex items-center justify-center gap-2 h-[44px] px-4 rounded-[12px] bg-[#062B67] hover:bg-[#0A3680] text-white text-[13px] font-medium tracking-normal shadow-[0_1px_3px_rgba(6,43,103,0.12)] hover:shadow-[0_3px_8px_-1px_rgba(6,43,103,0.20)] hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.99] transition-all duration-200 ease-out cursor-pointer shrink-0 select-none w-fit"
-            >
-              <span className="w-[19px] h-[19px] rounded-full bg-white/[0.14] flex items-center justify-center shrink-0">
-                <Play className="w-2 h-2 fill-white text-white ml-[1px]" />
               </span>
-              <span>Watch Story</span>
-              <ArrowRight className="w-3.5 h-3.5 stroke-[1.5] ml-0.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </button>
+            </div>
           </div>
         </div>
       </div>
@@ -217,6 +227,10 @@ const CompactStoryCard = ({
               fill
               className="object-cover object-top transition-transform duration-400 group-hover/compact:scale-[1.04]"
             />
+            {/* Play icon at bottom-right of compact thumbnail */}
+            <div className="absolute bottom-1.5 right-1.5 z-20 w-[22px] h-[22px] rounded-full bg-white/25 flex items-center justify-center pointer-events-none transition-transform group-hover/compact:scale-110">
+              <Play className="w-2.5 h-2.5 fill-white text-white ml-[1px]" />
+            </div>
           </div>
         </div>
 
@@ -227,13 +241,14 @@ const CompactStoryCard = ({
             {quoteText}
           </p>
           {/* Identity */}
-          <div className="min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap min-w-0">
             <p className="font-bold text-[13px] sm:text-[13.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
               {testimonial.name}
             </p>
-            <p className="text-[11px] sm:text-[11.5px] text-[#64748B] dark:text-slate-400 font-normal leading-none truncate mt-0.5">
+            <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
+            <span className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-400 font-normal truncate">
               {classLabel}
-            </p>
+            </span>
           </div>
         </div>
       </div>
@@ -286,7 +301,30 @@ const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; in
               fill
               className="object-cover object-top transition-transform duration-500 group-hover/mobile:scale-[1.02]"
             />
-            
+
+            {/* Subtle bottom gradient */}
+            <div
+              className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
+              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
+            />
+
+            {/* ── PLAY BUTTON: bottom-right corner — matching Meet Our Educators style ── */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (videoId) setIsVideoOpen(true);
+              }}
+              disabled={!videoId}
+              aria-label={`Watch story of ${testimonial.name}`}
+              className={`absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 flex items-center justify-center transition-all duration-200 ${
+                videoId 
+                  ? 'cursor-pointer hover:bg-white/30 hover:scale-105 active:scale-95' 
+                  : 'cursor-default opacity-40'
+              }`}
+            >
+              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+            </button>
           </div>
         </div>
 
@@ -320,21 +358,6 @@ const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; in
                 {classLabel}
               </span>
             </div>
-          </div>
-
-          {/* CTA Button — compact, elegant, and comfortably contained within the card */}
-          <div className="relative z-10 mt-3">
-            <button
-              type="button"
-              onClick={() => setIsVideoOpen(true)}
-              className="group inline-flex items-center justify-center gap-2 h-[38px] px-3.5 rounded-[10px] bg-[#062B67] hover:bg-[#0A3680] text-white text-[12px] font-medium tracking-normal shadow-[0_1px_3px_rgba(6,43,103,0.12)] hover:shadow-[0_3px_8px_-1px_rgba(6,43,103,0.20)] hover:-translate-y-[1px] active:translate-y-0 active:scale-[0.99] transition-all duration-200 ease-out cursor-pointer w-fit whitespace-nowrap select-none"
-            >
-              <span className="w-[17px] h-[17px] rounded-full bg-white/[0.14] flex items-center justify-center shrink-0">
-                <Play className="w-2 h-2 fill-white text-white ml-[1px]" />
-              </span>
-              <span>Watch Story</span>
-              <ArrowRight className="w-3 h-3 stroke-[1.75] ml-0.5 shrink-0 transition-transform duration-200 group-hover:translate-x-0.5" />
-            </button>
           </div>
         </div>
       </div>
@@ -490,7 +513,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   }, [loading, testimonialList.length, isDesktopHovered]);
 
   return (
-    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-10 sm:pb-14 md:pb-16 bg-white dark:bg-background overflow-hidden">
+    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-4 sm:pb-6 md:pb-8 bg-white dark:bg-background overflow-hidden">
       {/* Subtle ambient depth glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[350px] sm:h-[450px] bg-blue-500/[0.02] dark:bg-blue-500/[0.015] rounded-full blur-3xl pointer-events-none" />
 
@@ -498,9 +521,9 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
 
         {/* ── Section Header ── */}
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-2xl sm:text-[28px] md:text-[32px] font-bold tracking-tight text-[#0A1E42] dark:text-white leading-[1.2]">
+          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15]">
             IDL{' '}
-            <span className="text-[#1D4ED8] dark:text-blue-400">
+            <span className="text-[#155EEF] dark:text-blue-400">
               Stars
             </span>
           </h2>
@@ -562,7 +585,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
             </div>
 
             {/* Slide indicators (Desktop) */}
-            <div className="hidden lg:flex justify-center gap-1.5 mt-6">
+            <div className="hidden lg:flex justify-center gap-1.5 mt-4 sm:mt-5">
               {testimonialList.map((_, i) => (
                 <button
                   key={i}

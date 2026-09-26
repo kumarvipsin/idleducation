@@ -36,7 +36,7 @@ export function EducatorsHeader({
       )}
 
       {/* Main heading */}
-      <h2 className={`text-[26px] sm:text-[32px] md:text-[38px] font-extrabold tracking-[-0.025em] leading-[1.15] ${subtitle ? 'mb-2.5' : 'mb-0'}`}>
+      <h2 className={`text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] leading-[1.15] ${subtitle ? 'mb-2.5' : 'mb-0'}`}>
         <span className="text-[#062B67]">{titlePrefix}</span>
         <span className="text-[#155EEF]">{titleHighlight}</span>
       </h2>

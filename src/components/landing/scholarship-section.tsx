@@ -7,10 +7,6 @@ import {
   GraduationCap, 
   BookOpen, 
   BarChart3, 
-  Building2, 
-  Users, 
-  Trophy, 
-  CalendarDays, 
   CheckCircle2, 
   Sparkles,
   ArrowRight
@@ -74,14 +70,6 @@ const cards = [
   },
 ];
 
-/* ── Trust Stats Data ── */
-const trustStats = [
-  { icon: CalendarDays, value: '2016',            label: 'Our Journey Began' },
-  { icon: Building2,    value: '5+',              label: 'Branches in Delhi' },
-  { icon: Users,        value: '1000+',           label: 'Students Guided' },
-  { icon: Trophy,       value: 'Academic Growth', label: 'Every Step Forward' },
-];
-
 export function ScholarshipSection() {
   const section = useInView(0.06);
 
@@ -102,8 +90,8 @@ export function ScholarshipSection() {
             <span>The IDL Difference</span>
           </div>
 
-          <h2 className="text-2xl sm:text-[28px] md:text-[34px] font-bold tracking-tight text-[#0A1E42] dark:text-white leading-[1.2] mb-3">
-            Why <span className="text-[#1D4ED8] dark:text-blue-400">IDL Education?</span>
+          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15] mb-3">
+            Why <span className="text-[#155EEF] dark:text-blue-400">IDL Education?</span>
           </h2>
 
           <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 font-normal leading-relaxed max-w-xl mx-auto">
@@ -246,65 +234,6 @@ export function ScholarshipSection() {
             })}
           </div>
 
-        </div>
-
-        {/* ── 3. High-Trust Metrics Banner (Integrated within Container) ── */}
-        <div 
-          className={`
-            mt-8 sm:mt-10 lg:mt-12
-            rounded-2xl sm:rounded-[26px]
-            bg-gradient-to-r from-[#061C43] via-[#09265E] to-[#061C43]
-            dark:from-slate-900 dark:via-blue-950/80 dark:to-slate-900
-            border border-blue-900/50 dark:border-slate-800
-            shadow-[0_8px_24px_-6px_rgba(6,28,67,0.18)]
-            overflow-hidden
-            transition-all duration-700 delay-300
-            ${section.visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}
-          `}
-        >
-          {/* Desktop Layout: 4 columns in 1 line with clean dividers */}
-          <div className="hidden sm:grid sm:grid-cols-4 divide-x divide-white/[0.08]">
-            {trustStats.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <div key={i} className="flex items-center justify-center gap-3.5 py-5 sm:py-6 px-4">
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.08] border border-white/[0.1] flex items-center justify-center shrink-0">
-                    <Icon className="w-4.5 h-4.5 text-blue-200" />
-                  </div>
-                  <div>
-                    <div className="text-[18px] lg:text-[20px] font-extrabold text-white leading-none tracking-tight">
-                      {s.value}
-                    </div>
-                    <div className="text-[11px] font-medium text-blue-200/70 mt-1">
-                      {s.label}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Mobile Layout: 2x2 grid */}
-          <div className="grid grid-cols-2 gap-px sm:hidden bg-white/[0.08]">
-            {trustStats.map((s, i) => {
-              const Icon = s.icon;
-              return (
-                <div key={i} className="flex items-center gap-2.5 py-4 px-3.5 bg-[#081F4B]">
-                  <div className="w-8 h-8 rounded-lg bg-white/[0.08] border border-white/[0.1] flex items-center justify-center shrink-0">
-                    <Icon className="w-3.5 h-3.5 text-blue-200" />
-                  </div>
-                  <div>
-                    <div className="text-[14px] font-extrabold text-white leading-none tracking-tight">
-                      {s.value}
-                    </div>
-                    <div className="text-[10px] font-medium text-blue-200/65 mt-0.5">
-                      {s.label}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
         </div>
 
       </div>

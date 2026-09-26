@@ -494,14 +494,14 @@ export function AcademicExcellence() {
     <section 
       id="academic-results" 
       aria-label="Academic Results"
-      className="w-full pt-[34px] pb-8 sm:pt-[46px] sm:pb-10 md:pt-[64px] md:pb-12 bg-white dark:bg-background overflow-hidden relative"
+      className="w-full pt-6 pb-6 sm:pt-8 sm:pb-9 md:pt-12 md:pb-11 bg-white dark:bg-background overflow-hidden relative"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
         
         {/* ===================== HEADER SECTION ===================== */}
-        <div className="text-center max-w-2xl mx-auto mb-[12px] sm:mb-[16px]">
-          <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-extrabold tracking-[-0.025em] leading-[1.15]">
+        <div className="text-center max-w-2xl mx-auto mb-2 sm:mb-3">
+          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] leading-[1.15]">
             <span className="text-[#062B67] dark:text-white">Academic</span>{' '}
             <span className="text-[#155EEF] dark:text-blue-400">Results</span>
           </h2>
@@ -509,7 +509,7 @@ export function AcademicExcellence() {
 
         {/* ===================== CATEGORY TABS ===================== */}
         {/* Mobile: 3 compact pill buttons fitting cleanly. Desktop: Centered row */}
-        <div className="w-full mb-[16px] sm:mb-[22px] md:mb-[26px]">
+        <div className="w-full mb-3.5 sm:mb-5 md:mb-6">
           <div className="flex justify-center px-1">
             <div 
               role="tablist" 
@@ -527,7 +527,7 @@ export function AcademicExcellence() {
                     aria-controls={`panel-${cat.id}`}
                     onClick={() => handleTabChange(idx)}
                     className={cn(
-                      "h-[38px] sm:h-[42px] flex-1 sm:flex-initial px-3.5 sm:px-6 rounded-[10px] text-[12px] sm:text-[13.5px] tracking-wide uppercase font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap active:scale-95 flex items-center justify-center border",
+                      "h-[36px] sm:h-[40px] flex-1 sm:flex-initial px-3 sm:px-5 rounded-[10px] text-[11.5px] sm:text-[13px] tracking-wide uppercase font-semibold transition-all duration-200 cursor-pointer whitespace-nowrap active:scale-95 flex items-center justify-center border",
                       isActive
                         ? "bg-[#062B67] text-white border-[#062B67] shadow-[0_2px_8px_rgba(6,43,103,0.14)] dark:bg-blue-600 dark:border-blue-500"
                         : "bg-white dark:bg-slate-900 text-[#062B67]/70 dark:text-slate-300 border-[#DCE6F5] dark:border-slate-800 hover:border-[#155EEF]/40 hover:text-[#062B67] dark:hover:text-white"
@@ -542,14 +542,14 @@ export function AcademicExcellence() {
         </div>
 
         {/* ===================== RESULTS CONTAINER ===================== */}
-        {/* Large premium container with delicate borders, light cool surface and rounded corners */}
+        {/* Compact, premium container with delicate borders and soft surfaces */}
         <div 
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative rounded-[24px] sm:rounded-[30px] lg:rounded-[34px] bg-gradient-to-br from-[#F5F9FE] via-[#F8FBFF] to-[#EDF5FE] dark:from-slate-900/90 dark:via-slate-900/70 dark:to-slate-950 border border-[#DCE8F8] dark:border-slate-800 p-4 sm:p-6 lg:p-7 shadow-[0_8px_32px_-8px_rgba(6,43,103,0.05)] dark:shadow-none overflow-hidden"
+          className="relative rounded-[20px] sm:rounded-[28px] lg:rounded-[32px] bg-gradient-to-br from-[#F5F9FE] via-[#F8FBFF] to-[#EDF5FE] dark:from-slate-900/90 dark:via-slate-900/70 dark:to-slate-950 border border-[#DCE8F8] dark:border-slate-800 p-3 sm:p-5 lg:p-6 shadow-[0_8px_32px_-8px_rgba(6,43,103,0.05)] dark:shadow-none overflow-hidden"
         >
-          {/* Background Soft Fluid Organic Waves (matching reference screenshot design) */}
+          {/* Background Soft Fluid Organic Waves */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
             {/* Top-Right Organic Wave Accent */}
             <svg 
@@ -565,7 +565,7 @@ export function AcademicExcellence() {
               <path 
                 d="M260 0C400 130 520 80 680 260V0H260Z" 
                 fill="currentColor" 
-                opacity="0.45"
+                opacity="0.45" 
               />
             </svg>
 
@@ -583,104 +583,104 @@ export function AcademicExcellence() {
               <path 
                 d="M0 160C120 90 250 190 400 400H0V160Z" 
                 fill="currentColor" 
-                opacity="0.4"
+                opacity="0.4" 
               />
             </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6 items-stretch">
+          <div className="relative z-10 flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 items-stretch">
             
-            {/* ----------------- LEFT SIDE: SUMMARY CARD (Pixel-accurate to Reference) ----------------- */}
+            {/* ----------------- LEFT SIDE: SUMMARY CARD (Compact, Strong & Premium) ----------------- */}
             <div className="w-full lg:w-[35%] xl:w-[34%] shrink-0">
-              <div className="bg-white dark:bg-slate-900 rounded-[22px] sm:rounded-[26px] p-5 sm:p-6 lg:p-7 border border-[#DFEAF8] dark:border-slate-800 shadow-[0_4px_24px_-4px_rgba(6,43,103,0.05)] h-full flex flex-col justify-between relative z-10">
+              <div className="bg-white dark:bg-slate-900 rounded-[18px] sm:rounded-[24px] p-3.5 sm:p-4.5 lg:p-5 pb-3 sm:pb-3.5 lg:pb-4 border border-[#DFEAF8] dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(6,43,103,0.05)] h-full flex flex-col justify-between relative z-10">
                 
                 {/* Title & Description */}
                 <div>
-                  {/* Top orange accent bar */}
-                  <div className="w-11 h-1.5 rounded-full bg-[#FF5500] mb-3.5" />
+                  {/* Top orange accent bar - short & premium */}
+                  <div className="w-8 sm:w-10 h-1 sm:h-1.5 rounded-full bg-[#FF5500] mb-2 sm:mb-2.5" />
                   
                   {/* Category Title e.g. CLASS 12 • 2026 RESULTS */}
-                  <h3 className="text-[22px] sm:text-[26px] lg:text-[28px] font-black tracking-tight flex flex-wrap items-center gap-2 leading-tight">
-                    <span className="text-[#062B67] dark:text-white font-extrabold">
+                  <h3 className="text-[17px] xs:text-[19px] sm:text-[23px] lg:text-[25px] font-[750] tracking-tight flex items-center gap-1.5 sm:gap-2 leading-none">
+                    <span className="text-[#062B67] dark:text-white font-[750]">
                       {activeCategory.headlineTitle}
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-[#CBD5E1] dark:bg-slate-700 inline-block mx-0.5" />
-                    <span className="text-[#0A5CFF] dark:text-blue-400 font-extrabold">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#CBD5E1] dark:bg-slate-700 inline-block shrink-0" />
+                    <span className="text-[#155EEF] dark:text-blue-400 font-[750]">
                       {activeCategory.headlineHighlight}
                     </span>
                   </h3>
 
-                  <p className="text-[13.5px] sm:text-[14.5px] text-slate-500 dark:text-slate-400 mt-2 font-medium leading-relaxed">
+                  <p className="text-[12.5px] sm:text-[13.5px] lg:text-[14px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium leading-snug line-clamp-2">
                     {activeCategory.description}
                   </p>
                 </div>
 
-                {/* Divider Line */}
-                <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 my-4 sm:my-5" />
+                {/* Divider Line - tightened by ~8-10% */}
+                <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 my-2 sm:my-2.5" />
 
-                {/* 3 Key Statistics in 3 Columns with Clean Dividers */}
-                <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 py-1">
+                {/* 3 Key Statistics in 1 Tight Balanced Row with Clean Dividers */}
+                <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 py-0">
                   
                   {/* Stat 1: Highest Score */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-2 mx-auto shadow-2xs">
-                      <Trophy className="w-5 h-5 stroke-[2.2]" />
+                    <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-1 mx-auto">
+                      <Trophy className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-black text-2xl sm:text-[28px] lg:text-[30px] tracking-tight leading-none mb-1">
+                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[28px] tracking-tight leading-none mb-0.5">
                       {activeCategory.stats.highestScore.value}
                     </span>
-                    <span className="text-[11.5px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.highestScore.label}
                     </span>
                   </div>
 
                   {/* Stat 2: Students 90%+ */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-2 mx-auto shadow-2xs">
-                      <Users className="w-5 h-5 stroke-[2.2]" />
+                    <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-1 mx-auto">
+                      <Users className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-black text-2xl sm:text-[28px] lg:text-[30px] tracking-tight leading-none mb-1">
+                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[28px] tracking-tight leading-none mb-0.5">
                       {activeCategory.stats.students90Plus.value}
                     </span>
-                    <span className="text-[11.5px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students90Plus.label}
                     </span>
                   </div>
 
                   {/* Stat 3: Students 95%+ */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-2 mx-auto shadow-2xs">
-                      <TrendingUp className="w-5 h-5 stroke-[2.2]" />
+                    <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-1 mx-auto">
+                      <TrendingUp className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-black text-2xl sm:text-[28px] lg:text-[30px] tracking-tight leading-none mb-1">
+                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[28px] tracking-tight leading-none mb-0.5">
                       {activeCategory.stats.students95Plus.value}
                     </span>
-                    <span className="text-[11.5px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students95Plus.label}
                     </span>
                   </div>
                 </div>
 
-                {/* Motivational Quote at Bottom */}
-                <div className="mt-4 sm:mt-5 bg-[#F4F8FD] dark:bg-slate-800/60 rounded-2xl p-3.5 sm:p-4 border border-[#E2EDF8] dark:border-slate-800/80 text-[12.5px] sm:text-[13.5px] text-slate-600 dark:text-slate-300 leading-relaxed italic flex items-start gap-2.5">
-                  <span className="text-[#0A5CFF] text-2xl font-serif font-black leading-none shrink-0 mt-0.5">“</span>
-                  <div>
+                {/* Motivational Quote at Bottom - compact & neat */}
+                <div className="mt-2 sm:mt-2.5 bg-[#F4F8FD] dark:bg-slate-800/60 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 border border-[#E2EDF8] dark:border-slate-800/80 text-[11.5px] sm:text-[12.5px] text-slate-600 dark:text-slate-300 leading-snug italic flex items-center gap-2">
+                  <span className="text-[#0A5CFF] text-lg sm:text-xl font-serif font-black leading-none shrink-0">“</span>
+                  <p className="line-clamp-2">
                     {activeCategory.quote.text.trim()}{' '}
                     <strong className="text-[#0A5CFF] dark:text-blue-400 not-italic font-bold">
                       {activeCategory.quote.highlight}
                     </strong>
-                  </div>
+                  </p>
                 </div>
 
               </div>
             </div>
 
             {/* ----------------- RIGHT SIDE: TOP PERFORMERS CAROUSEL ----------------- */}
-            <div className="w-full lg:w-[65%] xl:w-[66%] flex flex-col justify-between mt-2 sm:mt-0">
+            <div className="w-full lg:w-[65%] xl:w-[66%] flex flex-col justify-between mt-1 sm:mt-0">
               
               {/* Top Performers Header + Navigation Arrows */}
-              <div className="flex items-center justify-between mb-2.5 sm:mb-3.5 px-0.5">
-                <h4 className="text-[#062B67] dark:text-white font-bold text-[15px] sm:text-lg tracking-tight">
+              <div className="flex items-center justify-between mb-2 sm:mb-2.5 px-0.5">
+                <h4 className="text-[#062B67] dark:text-white font-bold text-[14.5px] sm:text-lg tracking-tight">
                   Top Performers
                 </h4>
 
@@ -787,7 +787,7 @@ export function AcademicExcellence() {
               </div>
 
               {/* Small Carousel Dots (Fixed for 44px hit area) */}
-              <div className="flex justify-center items-center gap-2 mt-3 sm:mt-4">
+              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
                 {activeCategory.topPerformers.map((_, i) => (
                   <button
                     key={i}
@@ -811,11 +811,11 @@ export function AcademicExcellence() {
           </div>
 
           {/* ===================== VIEW ALL RESULTS CTA (TEXT ONLY) ===================== */}
-          <div className="mt-3 sm:mt-5 pt-1 flex justify-center">
+          <div className="mt-2.5 sm:mt-4 pt-0.5 flex justify-center">
             <button
               type="button"
               onClick={() => setShowAllResultsModal(true)}
-              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13.5px] sm:text-sm font-bold py-2 px-3 transition-colors cursor-pointer group bg-transparent border-0 shadow-none"
+              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13px] sm:text-sm font-bold py-1.5 sm:py-2 px-3 transition-colors cursor-pointer group bg-transparent border-0 shadow-none"
             >
               <span>View All Results</span>
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
