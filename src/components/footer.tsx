@@ -44,7 +44,7 @@ export function Footer() {
       <div className="absolute -bottom-20 left-[5%] w-[400px] h-[250px] bg-blue-50/40 dark:bg-blue-900/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Main Content Area */}
-      <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-12 pb-7 sm:pb-9 lg:pb-11">
+      <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 lg:pt-12 pb-6 sm:pb-8 lg:pb-10">
         
         {/* Responsive Grid:
             Mobile: 2-column layout with top brand, 2x2 link grid, full-width contact
@@ -201,13 +201,13 @@ export function Footer() {
       </div>
 
       {/* Subtle Divider & Bottom Copyright Bar */}
-      <div className="border-t border-[#E2ECF8] dark:border-white/[0.08] py-2.5 sm:py-3">
+      <div className="border-t border-[#E2ECF8] dark:border-white/[0.08] pt-3 sm:pt-3.5 pb-4 sm:pb-3.5">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-row justify-between items-center text-[12px] sm:text-[12.5px] font-normal text-slate-500 dark:text-slate-400">
+          <div className="flex flex-row justify-between items-center text-[11.5px] sm:text-[12px] font-normal text-slate-500 dark:text-slate-400">
             <p suppressHydrationWarning>
               &copy; 2026 IDL All Rights Reserved.
             </p>
-            <nav aria-label="Legal Links" className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 pr-14 sm:pr-0">
+            <nav aria-label="Legal Links" className="flex items-center gap-2.5 sm:gap-3.5 shrink-0 pr-16 sm:pr-0">
               <Link href="/terms" className="text-slate-500 hover:text-[#0A5CFF] dark:text-slate-400 dark:hover:text-white transition-colors duration-150">
                 Terms
               </Link>

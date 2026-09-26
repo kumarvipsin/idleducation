@@ -553,52 +553,47 @@ export function AcademicExcellence() {
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative rounded-[20px] sm:rounded-[28px] lg:rounded-[32px] bg-gradient-to-br from-[#F5F9FE] via-[#F8FBFF] to-[#EDF5FE] dark:from-slate-900/90 dark:via-slate-900/70 dark:to-slate-950 border border-[#DCE8F8] dark:border-slate-800 p-3 sm:p-5 lg:p-6 shadow-[0_8px_32px_-8px_rgba(6,43,103,0.05)] dark:shadow-none overflow-hidden"
+          className="relative rounded-[22px] sm:rounded-[28px] lg:rounded-[32px] bg-[#F6FAFE] dark:bg-slate-900/90 border border-[#DCE8F8] dark:border-slate-800 p-3.5 sm:p-5 lg:p-6 shadow-[0_6px_24px_-6px_rgba(6,43,103,0.04)] dark:shadow-none overflow-hidden"
         >
-          {/* Background Soft Fluid Organic Waves */}
+          {/* Background Soft Fluid Organic Waves Matching Reference */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
             {/* Top-Right Organic Wave Accent */}
             <svg 
-              className="absolute -top-12 -right-12 w-[380px] sm:w-[520px] lg:w-[640px] h-auto text-[#DCEAFB]/70 dark:text-blue-950/30" 
+              className="absolute -top-10 -right-10 w-[380px] sm:w-[500px] lg:w-[620px] h-auto text-[#E6F1FD]/80 dark:text-blue-950/30" 
               viewBox="0 0 680 440" 
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path 
-                d="M160 0C320 90 480 30 680 180V0H160Z" 
+                d="M140 0C300 110 460 40 680 200V0H140Z" 
                 fill="currentColor" 
               />
               <path 
-                d="M260 0C400 130 520 80 680 260V0H260Z" 
+                d="M260 0C400 140 520 90 680 270V0H260Z" 
                 fill="currentColor" 
-                opacity="0.45" 
+                opacity="0.5" 
               />
             </svg>
 
             {/* Bottom-Left Organic Wave Accent */}
             <svg 
-              className="absolute -bottom-16 -left-16 w-[340px] sm:w-[460px] lg:w-[580px] h-auto text-[#DCEAFB]/60 dark:text-blue-950/20" 
+              className="absolute -bottom-14 -left-14 w-[320px] sm:w-[440px] lg:w-[540px] h-auto text-[#E6F1FD]/70 dark:text-blue-950/20" 
               viewBox="0 0 620 400" 
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path 
-                d="M0 240C150 170 300 250 480 400H0V240Z" 
+                d="M0 220C150 160 300 240 480 380H0V220Z" 
                 fill="currentColor" 
-              />
-              <path 
-                d="M0 160C120 90 250 190 400 400H0V160Z" 
-                fill="currentColor" 
-                opacity="0.4" 
               />
             </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row gap-3 sm:gap-4 lg:gap-6 items-stretch">
+          <div className="relative z-10 flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6 items-stretch">
             
             {/* ----------------- LEFT SIDE: SUMMARY CARD (Compact, Strong & Premium) ----------------- */}
             <div className="w-full lg:w-[35%] xl:w-[34%] shrink-0">
-              <div className="bg-white dark:bg-slate-900 rounded-[18px] sm:rounded-[24px] p-3.5 sm:p-4.5 lg:p-5 pb-3 sm:pb-3.5 lg:pb-4 border border-[#DFEAF8] dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(6,43,103,0.05)] h-full flex flex-col justify-between relative z-10">
+              <div className="bg-white dark:bg-slate-900 rounded-[18px] sm:rounded-[22px] p-4 sm:p-5 pb-3.5 sm:pb-4 border border-[#DFEAF8] dark:border-slate-800 shadow-[0_2px_14px_rgba(6,43,103,0.03)] h-full flex flex-col justify-between relative z-10">
                 
                 {/* Title & Description */}
                 <div>
@@ -606,71 +601,71 @@ export function AcademicExcellence() {
                   <div className="w-8 sm:w-10 h-1 sm:h-1.5 rounded-full bg-[#FF5500] mb-2 sm:mb-2.5" />
                   
                   {/* Category Title e.g. CLASS 12 • 2026 RESULTS */}
-                  <h3 className="text-[17px] xs:text-[19px] sm:text-[23px] lg:text-[25px] font-[750] tracking-tight flex items-center gap-1.5 sm:gap-2 leading-none">
+                  <h3 className="text-[17px] xs:text-[19px] sm:text-[22px] lg:text-[24px] font-[750] tracking-tight flex items-center gap-1.5 sm:gap-2 leading-none">
                     <span className="text-[#062B67] dark:text-white font-[750]">
                       {activeCategory.headlineTitle}
                     </span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#CBD5E1] dark:bg-slate-700 inline-block shrink-0" />
+                    <span className="text-[#CBD5E1] dark:text-slate-700 font-normal">•</span>
                     <span className="text-[#155EEF] dark:text-blue-400 font-[750]">
                       {activeCategory.headlineHighlight}
                     </span>
                   </h3>
 
-                  <p className="text-[12.5px] sm:text-[13.5px] lg:text-[14px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium leading-snug line-clamp-2">
+                  <p className="text-[12px] sm:text-[13px] lg:text-[13.5px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium leading-relaxed">
                     {activeCategory.description}
                   </p>
                 </div>
 
-                {/* Divider Line - tightened by ~8-10% */}
-                <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 my-2 sm:my-2.5" />
+                {/* Divider Line */}
+                <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 my-3 sm:my-3.5" />
 
                 {/* 3 Key Statistics in 1 Tight Balanced Row with Clean Dividers */}
                 <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 py-0">
                   
                   {/* Stat 1: Highest Score */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-1 mx-auto">
-                      <Trophy className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
+                    <div className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-1 mx-auto">
+                      <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[28px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-0.5">
                       {activeCategory.stats.highestScore.value}
                     </span>
-                    <span className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.highestScore.label}
                     </span>
                   </div>
 
                   {/* Stat 2: Students 90%+ */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-1 mx-auto">
-                      <Users className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
+                    <div className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-1 mx-auto">
+                      <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[28px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-0.5">
                       {activeCategory.stats.students90Plus.value}
                     </span>
-                    <span className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students90Plus.label}
                     </span>
                   </div>
 
                   {/* Stat 3: Students 95%+ */}
                   <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-8 h-8 sm:w-9.5 sm:h-9.5 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-1 mx-auto">
-                      <TrendingUp className="w-4 h-4 sm:w-4.5 sm:h-4.5 stroke-[2.2]" />
+                    <div className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-1 mx-auto">
+                      <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[28px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-0.5">
                       {activeCategory.stats.students95Plus.value}
                     </span>
-                    <span className="text-[10.5px] sm:text-[11.5px] lg:text-[12px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students95Plus.label}
                     </span>
                   </div>
                 </div>
 
                 {/* Motivational Quote at Bottom - compact & neat */}
-                <div className="mt-2 sm:mt-2.5 bg-[#F4F8FD] dark:bg-slate-800/60 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 border border-[#E2EDF8] dark:border-slate-800/80 text-[11.5px] sm:text-[12.5px] text-slate-600 dark:text-slate-300 leading-snug italic flex items-center gap-2">
-                  <span className="text-[#0A5CFF] text-lg sm:text-xl font-serif font-black leading-none shrink-0">“</span>
-                  <p className="line-clamp-2">
+                <div className="mt-3 sm:mt-3.5 bg-[#F4F8FD] dark:bg-slate-800/60 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 border border-[#E2EDF8] dark:border-slate-800/80 text-[11px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-snug flex items-start gap-1.5 sm:gap-2">
+                  <span className="text-[#0A5CFF] text-base sm:text-lg font-serif font-black leading-none shrink-0 mt-0.5">“</span>
+                  <p className="italic">
                     {activeCategory.quote.text.trim()}{' '}
                     <strong className="text-[#0A5CFF] dark:text-blue-400 not-italic font-bold">
                       {activeCategory.quote.highlight}
@@ -686,7 +681,7 @@ export function AcademicExcellence() {
               
               {/* Top Performers Header + Navigation Arrows */}
               <div className="flex items-center justify-between mb-2 sm:mb-2.5 px-0.5">
-                <h4 className="text-[#062B67] dark:text-white font-bold text-[14.5px] sm:text-lg tracking-tight">
+                <h4 className="text-[#062B67] dark:text-white font-bold text-[15px] sm:text-[17px] tracking-tight">
                   Top Performers
                 </h4>
 
@@ -695,90 +690,78 @@ export function AcademicExcellence() {
                   <button
                     onClick={scrollPrev}
                     aria-label="Previous performer"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#DCE6F5] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
+                    className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE6F5] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
                   >
-                    <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <ChevronLeft className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={scrollNext}
                     aria-label="Next performer"
-                    className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-[#DCE6F5] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
+                    className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE6F5] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
                   >
-                    <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    <ChevronRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
 
               {/* Carousel Container */}
-              {/* Desktop: 4 cards visible at once. Mobile: Horizontal swipe carousel with center alignment & partial neighboring cards (peek effect) */}
-              <div
-                className="relative w-full overflow-hidden"
-                style={{
-                  maskImage: 'linear-gradient(to right, black calc(100% - 60px), transparent 100%)',
-                  WebkitMaskImage: 'linear-gradient(to right, black calc(100% - 60px), transparent 100%)',
-                }}
-              >
+              {/* Desktop: 4 cards visible at once. Mobile: Horizontal swipe carousel with partial neighboring cards (peek effect) */}
+              <div className="relative w-full overflow-hidden">
                 <Carousel
                   setApi={setCarouselApi}
                   opts={{
-                    align: 'center',
-                    loop: true,
+                    align: 'start',
+                    loop: false,
                     dragFree: false,
-                    breakpoints: {
-                      '(min-width: 1024px)': {
-                        align: 'start',
-                        loop: false,
-                        containScroll: 'trimSnaps'
-                      }
-                    }
+                    containScroll: 'trimSnaps'
                   }}
                   className="w-full"
                 >
-                  <CarouselContent className="-ml-2.5 sm:-ml-3.5">
+                  <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3">
                     {activeCategory.topPerformers.map((student) => (
                       <CarouselItem 
                         key={student.id} 
-                        className="pl-2.5 sm:pl-3.5 basis-[70%] xs:basis-[60%] sm:basis-[45%] md:basis-[32%] lg:basis-1/4"
+                        className="pl-2.5 sm:pl-3 lg:pl-3 basis-[80%] xs:basis-[75%] sm:basis-[45%] md:basis-[33%] lg:basis-1/4"
                       >
-                        {/* Student Card */}
-                        <div className="bg-white dark:bg-slate-900 rounded-[16px] sm:rounded-[20px] p-2 sm:p-2.5 border border-[#DCE6F5] dark:border-slate-800 shadow-[0_3px_12px_rgba(6,43,103,0.04)] hover:shadow-[0_8px_20px_rgba(6,43,103,0.08)] transition-all duration-300 flex flex-col group h-full select-none">
+                        {/* Student Card - Match Reference Screenshot */}
+                        <div className="bg-white dark:bg-slate-900 rounded-[16px] sm:rounded-[18px] border border-[#DCE6F5] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.03)] hover:shadow-[0_6px_18px_rgba(6,43,103,0.07)] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden">
                           
-                          {/* Inner Student Portrait Image */}
-                          <div className="relative w-full aspect-[1/1.05] rounded-[12px] sm:rounded-[14px] bg-[#E9F0FA] dark:bg-slate-800 overflow-hidden">
+                          {/* Student Portrait Image: Flush with top & sides */}
+                          <div className="relative w-full aspect-[4/4.3] bg-[#E9F0FA] dark:bg-slate-800 overflow-hidden">
                             <Image
                               src={student.image}
                               alt={student.name}
                               fill
                               unoptimized
-                              sizes="(max-width: 640px) 70vw, (max-width: 1024px) 33vw, 25vw"
+                              sizes="(max-width: 640px) 65vw, (max-width: 1024px) 30vw, 22vw"
                               className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                               priority={false}
                             />
                           </div>
 
-                          {/* Overlapping Orange Percentage Pill */}
+                          {/* Overlapping Orange Score Badge */}
                           <div className="relative -mt-3 sm:-mt-3.5 z-20 flex justify-center">
-                            <div className="bg-[#FF6B21] text-white text-[11.5px] sm:text-[12.5px] font-extrabold px-3 py-0.5 rounded-full shadow-[0_2px_8px_rgba(255,107,33,0.35)] whitespace-nowrap tracking-tight">
+                            <div className="bg-[#FF6B21] text-white text-[11px] sm:text-[11.5px] font-bold px-3 py-0.5 rounded-full shadow-[0_2px_6px_rgba(255,107,33,0.3)] whitespace-nowrap tracking-tight">
                               {student.score}
                             </div>
                           </div>
 
                           {/* Student Info Body */}
-                          <div className="pt-2 pb-1.5 sm:pb-2 px-1 text-center flex flex-col items-center flex-1 justify-between">
+                          <div className="pt-2 pb-2.5 sm:pb-3 px-1.5 text-center flex flex-col items-center flex-1 justify-between">
                             <div className="w-full">
-                              <h5 className="font-bold text-[13px] sm:text-[14.5px] text-[#062B67] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors truncate">
+                              <h5 className="font-bold text-[13px] sm:text-[14px] text-[#062B67] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors truncate">
                                 {student.name}
                               </h5>
-                              <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5" title={student.grade}>
+                              <p className="text-[11px] sm:text-[11.5px] text-slate-500 dark:text-slate-400 mt-0.5" title={student.grade}>
                                 {student.grade}
                               </p>
                             </div>
 
-                            {/* View Profile Action - Subtle text link, NOT a bulky button */}
+                            {/* View Profile Action - Subtle text link matching reference */}
                             <button
                               type="button"
                               onClick={() => setSelectedStudent(student)}
-                              className="text-[11px] sm:text-xs font-semibold text-[#155EEF] dark:text-blue-400 hover:text-[#062B67] dark:hover:text-white inline-flex items-center gap-1 mt-2 group/btn transition-colors cursor-pointer"
+                              className="text-[11px] sm:text-[11.5px] font-semibold text-[#155EEF] dark:text-blue-400 hover:text-[#062B67] dark:hover:text-white inline-flex items-center gap-1 mt-1.5 sm:mt-2 group/btn transition-colors cursor-pointer"
                             >
                               <span>View Profile</span>
                               <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -792,21 +775,21 @@ export function AcademicExcellence() {
                 </Carousel>
               </div>
 
-              {/* Small Carousel Dots (Fixed for 44px hit area) */}
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+              {/* Small Carousel Dots */}
+              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2 sm:mt-2.5">
                 {activeCategory.topPerformers.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => carouselApi?.scrollTo(i)}
                     aria-label={`Jump to performer ${i + 1}`}
-                    className="p-3 cursor-pointer group flex items-center justify-center min-w-[44px] min-h-[44px]"
+                    className="p-2 cursor-pointer group flex items-center justify-center min-w-[32px] min-h-[32px]"
                   >
                     <span
                       className={cn(
                         "rounded-full transition-all duration-300",
                         currentSlideIndex === i 
-                          ? "w-8 sm:w-10 h-2.5 bg-[#062B67] dark:bg-blue-400" 
-                          : "w-2.5 h-2.5 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
+                          ? "w-7 sm:w-8 h-2 bg-[#062B67] dark:bg-blue-400" 
+                          : "w-2 h-2 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
                       )}
                     />
                   </button>
@@ -817,14 +800,14 @@ export function AcademicExcellence() {
           </div>
 
           {/* ===================== VIEW ALL RESULTS CTA (TEXT ONLY) ===================== */}
-          <div className="mt-2.5 sm:mt-4 pt-0.5 flex justify-center">
+          <div className="mt-2.5 sm:mt-3.5 pt-0.5 flex justify-center">
             <button
               type="button"
               onClick={() => setShowAllResultsModal(true)}
-              className="inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13px] sm:text-sm font-bold py-1.5 sm:py-2 px-3 transition-colors cursor-pointer group bg-transparent border-0 shadow-none"
+              className="inline-flex items-center justify-center gap-1.5 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[12.5px] sm:text-[13px] font-bold py-1 px-3 transition-colors cursor-pointer group bg-transparent border-0 shadow-none"
             >
               <span>View All Results</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 

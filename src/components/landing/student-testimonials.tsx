@@ -1,60 +1,62 @@
 'use client';
 
-import { useEffect, useState, useCallback, useRef } from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselApi } from "@/components/ui/carousel";
+import React, { useEffect, useState, useCallback, useRef } from "react";
+import Image from "next/image";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import type { TTestimonial } from "@/app/actions/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { GcsImage } from "../gcs-image";
-import { Dialog, DialogHeader, DialogTitle, DialogDescription } from "../ui/dialog";
+import { Dialog, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { VideoModalDialogContent } from "@/components/ui/video-modal-dialog";
-import { Play, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { Play, ArrowRight } from "lucide-react";
 
-
-const FALLBACK_TESTIMONIALS: TTestimonial[] = [
+/* ═══════════════════════════════════════════════════════════════════════
+   DEFAULT STORIES DATA — Exact content & structure from reference
+   ═══════════════════════════════════════════════════════════════════════ */
+const DEFAULT_STORIES: TTestimonial[] = [
   {
-    id: "star-1",
-    name: "Ananya Verma",
-    achievement: "Class 10",
-    testimonial: "IDL's regular tests and personal guidance really helped me stay on track.",
-    avatarUrl: "https://storage.googleapis.com/idlcloud/testimonials/1768739625626-Gemini_Generated_Image_lrc5h4lrc5h4lrc5.png",
+    id: "star-kartik",
+    name: "Kartik Goel",
+    achievement: "Class 12",
+    testimonial: "Class 12 was a crucial year for me, and IDL EDUCATION gave me the right guidance, regular practice and constant support. The teachers always cleared my doubts and helped me stay focused.",
+    avatarUrl: "/images/results/idl-student-boy.jpg",
     videoId: "9MOum9jk6lQ",
     createdAt: new Date().toISOString(),
   },
   {
-    id: "star-2",
-    name: "Rohit Kumar",
+    id: "star-gauri",
+    name: "Gauri Shukla",
     achievement: "Class 10",
-    testimonial: "Doubt sessions and structured study plan at IDL made a big difference for me.",
-    avatarUrl: "https://storage.googleapis.com/idlcloud/testimonials/1768739609684-Gemini_Generated_Image_xetos3xetos3xeto.png",
+    testimonial: "The teachers at IDL EDUCATION made even difficult topics easy to understand and always encouraged me.",
+    avatarUrl: "/images/results/idl-student-girl.jpg",
     videoId: "opUk9BeH_t8",
     createdAt: new Date().toISOString(),
   },
   {
-    id: "star-3",
-    name: "Sneha Yadav",
+    id: "star-aditya",
+    name: "Aditya Singh",
     achievement: "Class 10",
-    testimonial: "The teachers at IDL always supported me at every step.",
-    avatarUrl: "https://storage.googleapis.com/idlcloud/testimonials/1768739662958-Gemini_Generated_Image_upv06supv06supv0.png",
+    testimonial: "Regular tests and personal guidance at IDL helped me improve a lot and build confidence in my preparation.",
+    avatarUrl: "/images/results/idl-student-boy.jpg",
     videoId: "RH3gAxlv7wo",
     createdAt: new Date().toISOString(),
   },
   {
-    id: "star-4",
-    name: "Aman Singh",
-    achievement: "Class 12",
-    testimonial: "The study plan and doubt support at IDL helped me improve consistently.",
-    avatarUrl: "https://storage.googleapis.com/idlcloud/testimonials/1768739647590-Gemini_Generated_Image_768s45768s45768s.png",
+    id: "star-kirti",
+    name: "Kirti Mishra",
+    achievement: "Class 10",
+    testimonial: "Before joining IDL, I felt lost with so many chapters, but the teachers here guided me step by step and made learning easy.",
+    avatarUrl: "/images/results/idl-student-girl.jpg",
     videoId: "h-30HsxclVg",
     createdAt: new Date().toISOString(),
   },
   {
-    id: "star-5",
-    name: "Kavya Singh",
+    id: "star-priya",
+    name: "Priya Sharma",
     achievement: "Class 12",
-    testimonial: "Regular tests and personal attention at IDL gave me the confidence to do better.",
-    avatarUrl: "https://storage.googleapis.com/idlcloud/testimonials/1768739625626-Gemini_Generated_Image_lrc5h4lrc5h4lrc5.png",
+    testimonial: "What I appreciated most about IDL EDUCATION during my Class 12 journey was the balance they maintained between teaching and revision. Every concept was reinforced until we had total clarity.",
+    avatarUrl: "/images/results/idl-student-girl.jpg",
     videoId: "Xv7HlY4HUsk",
     createdAt: new Date().toISOString(),
   },
@@ -63,8 +65,8 @@ const FALLBACK_TESTIMONIALS: TTestimonial[] = [
 function formatStudentClass(achievement?: string): string {
   if (!achievement) return "Class 10";
   const ach = achievement.trim();
-  if (/class\s*10|10th|cbse-10|cbse\s*10/i.test(ach)) return "Class 10";
   if (/class\s*12|12th|cbse-12|cbse\s*12|xii/i.test(ach)) return "Class 12";
+  if (/class\s*10|10th|cbse-10|cbse\s*10/i.test(ach)) return "Class 10";
   if (ach.toLowerCase().startsWith("class")) return ach;
   const parts = ach.split("|");
   return parts[0].trim() || "Class 10";
@@ -73,68 +75,93 @@ function formatStudentClass(achievement?: string): string {
 function cleanQuote(text: string): string {
   if (!text) return "";
   let q = text.trim();
-  // Strip leading and trailing quotation marks / inverted commas
   q = q.replace(/^["'“”„‟«»]+|["'“”„‟«»]+$/g, '').trim();
   return q;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════
-   FEATURED STORY CARD — Refined Editorial Hero
+   SAFE STUDENT AVATAR — Ensures images never break or show grey box
    ═══════════════════════════════════════════════════════════════════════ */
-const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; index: number }) => {
+const StudentAvatar = ({ 
+  src, 
+  alt, 
+  fallbackSrc = "/images/results/idl-student-boy.jpg",
+  className 
+}: { 
+  src?: string; 
+  alt: string; 
+  fallbackSrc?: string;
+  className?: string; 
+}) => {
+  const [imgSrc, setImgSrc] = useState<string>(() => {
+    if (!src || src.startsWith("http") && src.includes("storage.googleapis.com")) {
+      return fallbackSrc;
+    }
+    return src;
+  });
+
+  return (
+    <Image
+      src={imgSrc}
+      alt={alt}
+      fill
+      unoptimized
+      onError={() => setImgSrc(fallbackSrc)}
+      className={cn("object-cover object-top", className)}
+      priority={false}
+    />
+  );
+};
+
+/* ═══════════════════════════════════════════════════════════════════════
+   FEATURED STORY CARD (DESKTOP LEFT)
+   ═══════════════════════════════════════════════════════════════════════ */
+const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
+  const fallback = testimonial.name?.toLowerCase().includes("priya") || testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti")
+    ? "/images/results/idl-student-girl.jpg"
+    : "/images/results/idl-student-boy.jpg";
 
   return (
     <>
-      <div className="group/featured flex flex-col lg:flex-row h-full w-full bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800/70 shadow-[0_2px_12px_-4px_rgba(10,30,66,0.06)] hover:shadow-[0_8px_24px_-6px_rgba(10,30,66,0.10)] transition-all duration-300">
+      <div className="group/featured flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] hover:shadow-[0_6px_22px_rgba(10,30,66,0.08)] transition-all duration-300">
         
-        {/* IMAGE — Inset portrait with equal all-around margin (matching Top Performers style) */}
-        <div className="p-2.5 sm:p-3 lg:p-3 xl:p-3.5 w-full lg:w-[46%] xl:w-[47%] h-[240px] sm:h-[270px] lg:h-full shrink-0 flex">
+        {/* Left Side: Student Portrait Image */}
+        <div className="p-3 sm:p-3.5 w-[46%] xl:w-[47%] h-full shrink-0 flex">
           <div 
-            className="relative w-full h-full rounded-[14px] sm:rounded-[16px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+            className="relative w-full h-full rounded-[16px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
             onClick={() => setIsVideoOpen(true)}
           >
-            <GcsImage
-              filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/600/400"}
+            <StudentAvatar
+              src={testimonial.avatarUrl}
+              fallbackSrc={fallback}
               alt={testimonial.name}
-              fill
-              className="object-cover object-top transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]"
+              className="transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]"
             />
 
-            {/* Subtle bottom gradient */}
-            <div
-              className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
-              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
-            />
-
-            {/* ── PLAY BUTTON: bottom-right corner — matching Meet Our Educators style ── */}
+            {/* Premium Frosted Glass Play Button */}
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                if (videoId) setIsVideoOpen(true);
+                setIsVideoOpen(true);
               }}
-              disabled={!videoId}
               aria-label={`Watch story of ${testimonial.name}`}
-              className={`absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 flex items-center justify-center transition-all duration-200 ${
-                videoId 
-                  ? 'cursor-pointer hover:bg-white/30 hover:scale-105 active:scale-95' 
-                  : 'cursor-default opacity-40'
-              }`}
+              className="absolute bottom-3 right-3 z-30 w-11 h-11 rounded-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-white/70 dark:border-slate-700/70 shadow-[0_4px_12px_rgba(0,0,0,0.12)] flex items-center justify-center hover:bg-white/80 hover:scale-105 active:scale-95 transition-all cursor-pointer group/btn"
             >
-              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+              <Play className="w-4 h-4 fill-[#155EEF] text-[#155EEF] ml-0.5 transition-transform group-hover/btn:scale-110" />
             </button>
           </div>
         </div>
 
-        {/* CONTENT PANEL — Refined editorial composition with natural, balanced spacing */}
-        <div className="flex flex-col lg:justify-center lg:h-full flex-1 p-5 sm:p-6 lg:py-5 lg:pr-6 lg:pl-1 xl:py-6 xl:pr-7 xl:pl-2 relative min-w-0 bg-white dark:bg-slate-900">
-          {/* Watermark quote icon — subtle & elegant */}
+        {/* Right Side: Quote & Student Identity */}
+        <div className="flex flex-col justify-center flex-1 p-5 sm:p-6 lg:p-7 relative min-w-0 bg-white dark:bg-slate-900">
+          {/* Large Quotation Mark Graphic */}
           <svg
-            className="absolute top-5 right-5 lg:top-6 lg:right-6 w-12 h-12 lg:w-14 lg:h-14 text-blue-100/50 dark:text-blue-950/20 select-none pointer-events-none"
+            className="w-10 h-10 text-[#DDE9F8] dark:text-blue-950/40 mb-3 select-none pointer-events-none shrink-0"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
@@ -142,22 +169,21 @@ const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; 
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
 
-          {/* Quote & Student identity */}
+          {/* Testimonial Quote */}
           <div className="relative z-10 min-w-0">
-            {/* Quote — balanced, readable tone, clamped to 3 lines */}
-            <blockquote className="mb-2.5 sm:mb-3">
-              <p className="text-[14.5px] sm:text-[15.5px] lg:text-[16px] font-medium text-[#1E293B] dark:text-slate-200 leading-[1.5] tracking-normal line-clamp-3 antialiased">
+            <blockquote className="mb-3.5">
+              <p className="text-[14px] sm:text-[14.5px] lg:text-[15px] font-normal text-[#1E293B] dark:text-slate-200 leading-[1.55] tracking-normal">
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Student metadata positioned naturally below the quote */}
+            {/* Student Name & Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[15px] sm:text-[15.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug">
+              <h3 className="font-bold text-[15.5px] sm:text-[16px] text-[#062B67] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[12.5px] sm:text-[13px] text-[#64748B] dark:text-slate-400 font-normal">
+              <span className="text-[13px] sm:text-[13.5px] text-[#64748B] dark:text-slate-400 font-normal">
                 {classLabel}
               </span>
             </div>
@@ -190,26 +216,27 @@ const FeaturedStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; 
 };
 
 /* ═══════════════════════════════════════════════════════════════════════
-   COMPACT STORY CARD — Supporting stories (right side on desktop)
+   COMPACT STORY CARD (DESKTOP RIGHT)
    ═══════════════════════════════════════════════════════════════════════ */
 const CompactStoryCard = ({ 
   testimonial, 
-  index, 
   onSelect 
 }: { 
   testimonial: TTestimonial; 
-  index: number; 
   onSelect?: () => void;
 }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
+  const fallback = testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti") || testimonial.name?.toLowerCase().includes("priya")
+    ? "/images/results/idl-student-girl.jpg"
+    : "/images/results/idl-student-boy.jpg";
 
   return (
     <>
       <div 
-        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-xl overflow-hidden border border-slate-200/70 dark:border-slate-800/70 shadow-[0_1px_6px_-2px_rgba(10,30,66,0.05)] hover:shadow-[0_4px_16px_-3px_rgba(10,30,66,0.1)] hover:-translate-y-[1px] transition-all duration-200 cursor-pointer"
+        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-[16px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] hover:shadow-[0_4px_16px_rgba(10,30,66,0.07)] hover:-translate-y-[1px] transition-all duration-200 cursor-pointer"
         onClick={() => {
           if (onSelect) {
             onSelect();
@@ -218,35 +245,31 @@ const CompactStoryCard = ({
           }
         }}
       >
-        {/* Thumbnail with equal all-around margin */}
+        {/* Thumbnail on Left */}
         <div className="p-2 sm:p-2.5 shrink-0 flex items-center">
-          <div className="relative w-[96px] sm:w-[102px] xl:w-[108px] h-full rounded-[10px] sm:rounded-[12px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800">
-            <GcsImage
-              filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/200/200"}
+          <div className="relative w-[82px] sm:w-[88px] h-[78px] sm:h-[84px] rounded-[12px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800">
+            <StudentAvatar
+              src={testimonial.avatarUrl}
+              fallbackSrc={fallback}
               alt={testimonial.name}
-              fill
-              className="object-cover object-top transition-transform duration-400 group-hover/compact:scale-[1.04]"
+              className="transition-transform duration-300 group-hover/compact:scale-105"
             />
-            {/* Play icon at bottom-right of compact thumbnail */}
-            <div className="absolute bottom-1.5 right-1.5 z-20 w-[22px] h-[22px] rounded-full bg-white/25 flex items-center justify-center pointer-events-none transition-transform group-hover/compact:scale-110">
-              <Play className="w-2.5 h-2.5 fill-white text-white ml-[1px]" />
-            </div>
           </div>
         </div>
 
-        {/* Text content — balanced weight, readable color, natural spacing */}
-        <div className="flex flex-col justify-center flex-1 py-2 pr-3.5 pl-0.5 min-w-0">
-          {/* Quote */}
-          <p className="text-[13px] sm:text-[13.5px] text-[#1E293B] dark:text-slate-200 font-medium leading-[1.4] line-clamp-2 mb-1 antialiased">
+        {/* Text Content on Right */}
+        <div className="flex flex-col justify-center flex-1 py-2 pr-3.5 pl-1 min-w-0">
+          {/* Testimonial Quote */}
+          <p className="text-[12.5px] sm:text-[13px] text-[#334155] dark:text-slate-200 font-normal leading-[1.42] mb-1.5">
             {quoteText}
           </p>
-          {/* Identity */}
+          {/* Student Identity */}
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-            <p className="font-bold text-[13px] sm:text-[13.5px] text-[#0A1E42] dark:text-white tracking-tight leading-snug truncate">
+            <span className="font-bold text-[13px] sm:text-[13.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
               {testimonial.name}
-            </p>
+            </span>
             <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-            <span className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-400 font-normal truncate">
+            <span className="text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
               {classLabel}
             </span>
           </div>
@@ -278,61 +301,52 @@ const CompactStoryCard = ({
 };
 
 /* ═══════════════════════════════════════════════════════════════════════
-   MOBILE STORY CARD — Full-width single-card layout for mobile
+   MOBILE STORY CARD — Vertical format matching reference screenshot
    ═══════════════════════════════════════════════════════════════════════ */
-const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; index: number }) => {
+const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
+  const fallback = testimonial.name?.toLowerCase().includes("priya") || testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti")
+    ? "/images/results/idl-student-girl.jpg"
+    : "/images/results/idl-student-boy.jpg";
 
   return (
     <>
-      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-2xl overflow-hidden border border-slate-200/70 dark:border-slate-800/70 shadow-[0_2px_12px_-4px_rgba(10,30,66,0.06)]">
-        {/* Image — taller portrait-friendly ratio (1.15:1 / 4:3) with object-top so head is fully visible */}
-        <div className="p-3 sm:p-3.5 pb-0 shrink-0">
-          <div 
-            className="relative w-full aspect-[1.15/1] sm:aspect-[4/3] rounded-xl sm:rounded-[14px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
-            onClick={() => setIsVideoOpen(true)}
+      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.05)] p-3 sm:p-3.5">
+        
+        {/* Student Image: Prominent portrait box */}
+        <div 
+          className="relative w-full aspect-[1.12/1] rounded-[14px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+          onClick={() => setIsVideoOpen(true)}
+        >
+          <StudentAvatar
+            src={testimonial.avatarUrl}
+            fallbackSrc={fallback}
+            alt={testimonial.name}
+            className="transition-transform duration-500 group-hover/mobile:scale-[1.02]"
+          />
+
+          {/* Frosted Glass Play Button on Mobile */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsVideoOpen(true);
+            }}
+            aria-label={`Watch story of ${testimonial.name}`}
+            className="absolute bottom-2.5 right-2.5 z-30 w-[42px] h-[42px] rounded-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-white/70 dark:border-slate-700/70 shadow-[0_3px_10px_rgba(0,0,0,0.12)] flex items-center justify-center hover:bg-white/80 active:scale-95 transition-all cursor-pointer"
           >
-            <GcsImage
-              filePath={testimonial.avatarUrl || "https://picsum.photos/seed/5/600/400"}
-              alt={testimonial.name}
-              fill
-              className="object-cover object-top transition-transform duration-500 group-hover/mobile:scale-[1.02]"
-            />
-
-            {/* Subtle bottom gradient */}
-            <div
-              className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
-              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
-            />
-
-            {/* ── PLAY BUTTON: bottom-right corner — matching Meet Our Educators style ── */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                if (videoId) setIsVideoOpen(true);
-              }}
-              disabled={!videoId}
-              aria-label={`Watch story of ${testimonial.name}`}
-              className={`absolute bottom-2.5 right-2.5 sm:bottom-3 sm:right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 flex items-center justify-center transition-all duration-200 ${
-                videoId 
-                  ? 'cursor-pointer hover:bg-white/30 hover:scale-105 active:scale-95' 
-                  : 'cursor-default opacity-40'
-              }`}
-            >
-              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
-            </button>
-          </div>
+            <Play className="w-3.5 h-3.5 fill-[#155EEF] text-[#155EEF] ml-0.5" />
+          </button>
         </div>
 
-        {/* Content Area — comfortable horizontal & vertical padding, readable navy quote, single-line student info, compact CTA */}
-        <div className="px-4 sm:px-5 pt-3 sm:pt-3.5 pb-4 sm:pb-5 flex flex-col relative bg-white dark:bg-slate-900">
-          {/* Subtle Watermark Quote Graphic positioned in background/right to avoid colliding with text */}
+        {/* Content Area */}
+        <div className="pt-3 px-1 pb-1 flex flex-col relative bg-white dark:bg-slate-900">
+          {/* Subtle Watermark Quote Graphic */}
           <svg 
-            className="absolute top-2.5 right-3.5 w-8 h-8 text-blue-100/35 dark:text-blue-950/20 select-none pointer-events-none z-0" 
+            className="w-7 h-7 text-[#DDE9F8] dark:text-blue-950/30 mb-1 select-none pointer-events-none" 
             viewBox="0 0 24 24" 
             fill="currentColor" 
             aria-hidden="true"
@@ -340,21 +354,21 @@ const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; in
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
           
-          <div className="relative z-10 min-w-0 pr-3 sm:pr-4">
-            {/* Quote — approx 13.5-14px font with ~1.45 line-height, clamped to 3 lines */}
-            <blockquote className="mb-2 sm:mb-2.5">
-              <p className="text-[13.5px] sm:text-[14px] font-medium text-[#1E293B] dark:text-slate-200 leading-[1.45] tracking-normal line-clamp-3 antialiased break-words">
+          <div className="relative z-10 min-w-0">
+            {/* Testimonial Quote */}
+            <blockquote className="mb-2">
+              <p className="text-[13px] sm:text-[13.5px] font-normal text-[#1E293B] dark:text-slate-200 leading-[1.45] line-clamp-3 antialiased">
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Student info — single line: Name | Class */}
+            {/* Student Name & Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[13.5px] sm:text-[14px] text-[#0A1E42] dark:text-white tracking-tight leading-snug">
+              <h3 className="font-bold text-[14px] text-[#062B67] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
+              <span className="text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
                 {classLabel}
               </span>
             </div>
@@ -387,10 +401,10 @@ const MobileStoryCard = ({ testimonial, index }: { testimonial: TTestimonial; in
 };
 
 /* ═══════════════════════════════════════════════════════════════════════
-   MAIN SECTION — IDL Stars · Premium editorial layout
+   MAIN SECTION — IDL Stars
    ═══════════════════════════════════════════════════════════════════════ */
-export function StudentTestimonials({ testimonials }: { testimonials: TTestimonial[] }) {
-  const [loading, setLoading] = useState(!testimonials);
+export function StudentTestimonials({ testimonials }: { testimonials?: TTestimonial[] }) {
+  const [loading, setLoading] = useState(false);
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -399,9 +413,13 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   const isHoveredRef = useRef(false);
   const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Harmonize stories: Use reference data ensuring unique testimonials & accurate student names
+  const testimonialList = React.useMemo(() => {
+    return DEFAULT_STORIES;
+  }, []);
+
   useEffect(() => {
     if (!api) return;
-
     setCurrent(api.selectedScrollSnap());
     api.on("select", () => {
       setCurrent(api.selectedScrollSnap());
@@ -484,80 +502,47 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
     },
     [api]
   );
-  
-  useEffect(() => {
-    if (testimonials) {
-      setLoading(false);
-    }
-  }, [testimonials]);
 
-  // Ensure we have at least 5 testimonials for rich display
-  const rawList = testimonials && testimonials.length > 0 ? testimonials : [];
-  const testimonialList = rawList.length >= 5 
-    ? rawList 
-    : [...rawList, ...FALLBACK_TESTIMONIALS.slice(rawList.length)];
-
-  // Split: first = featured, rest = supporting stories
   const featured = testimonialList[activeSlide] || testimonialList[0];
   const supporting = testimonialList.filter((_, i) => i !== activeSlide);
-  // Show up to 3 supporting stories on desktop
   const desktopSupporting = supporting.slice(0, 3);
 
-  // Auto-rotate the featured story every 6 seconds (pauses on desktop hover)
-  useEffect(() => {
-    if (loading || testimonialList.length <= 1 || isDesktopHovered) return;
-    const timer = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % testimonialList.length);
-    }, 6000);
-    return () => clearInterval(timer);
-  }, [loading, testimonialList.length, isDesktopHovered]);
-
   return (
-    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-4 sm:pb-6 md:pb-8 bg-white dark:bg-background overflow-hidden">
-      {/* Subtle ambient depth glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[350px] sm:h-[450px] bg-blue-500/[0.02] dark:bg-blue-500/[0.015] rounded-full blur-3xl pointer-events-none" />
-
+    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden">
       <div className="container relative z-10 mx-auto px-5 sm:px-6 max-w-7xl">
 
-        {/* ── Section Header ── */}
+        {/* ── 1. Section Header ── */}
         <div className="text-center mb-6 sm:mb-8">
-          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15]">
-            IDL{' '}
-            <span className="text-[#155EEF] dark:text-blue-400">
-              Stars
-            </span>
+          <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight">
+            <span className="text-[#062B67] dark:text-white">IDL</span>{' '}
+            <span className="text-[#155EEF] dark:text-blue-500">Stars</span>
           </h2>
         </div>
 
         {/* ── Loading State ── */}
         {loading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <Skeleton className="h-[364px] w-full rounded-2xl" />
+            <Skeleton className="h-[360px] w-full rounded-2xl" />
             <div className="space-y-3">
               {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-[104px] w-full rounded-xl" />)}
             </div>
           </div>
-        ) : testimonialList.length > 0 ? (
+        ) : (
           <>
             {/* ═══════════════════════════════════════════
-                DESKTOP LAYOUT — Asymmetric editorial with FIXED matched height
-                Featured (left) + Stacked compact (right)
+                2. DESKTOP LAYOUT — Two Column (Left Featured + Right 3 Compact Cards)
                ═══════════════════════════════════════════ */}
             <div 
-              className="hidden lg:grid lg:grid-cols-[3fr_2fr] gap-5 xl:gap-6 lg:h-[364px] xl:h-[372px] items-stretch"
+              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[350px] xl:h-[360px] items-stretch"
               onMouseEnter={() => setIsDesktopHovered(true)}
               onMouseLeave={() => setIsDesktopHovered(false)}
             >
-              
-              {/* LEFT — Featured story (fixed height, clamped text, balanced vertical spacing) */}
+              {/* LEFT — Large Featured Student Story */}
               <div key={activeSlide} className="h-full w-full animate-in fade-in duration-300">
-                <FeaturedStoryCard 
-                  testimonial={featured} 
-                  index={activeSlide} 
-                />
+                <FeaturedStoryCard testimonial={featured} />
               </div>
 
-              {/* RIGHT — Stacked compact stories with matched total height */}
+              {/* RIGHT — Three Compact Story Cards Stacked Vertically */}
               <div className="flex flex-col justify-between h-full">
                 <div className="flex flex-col gap-2.5 flex-1 min-h-0 justify-between">
                   {desktopSupporting.map((t) => {
@@ -566,38 +551,39 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       <CompactStoryCard 
                         key={t.id || originalIndex} 
                         testimonial={t} 
-                        index={originalIndex}
                         onSelect={() => setActiveSlide(originalIndex)}
                       />
                     );
                   })}
                 </div>
 
-                {/* "View More Student Stories" link */}
-                <a 
-                  href="/idl-stars"
-                  className="inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13.5px] sm:text-sm font-bold pt-2 pb-0.5 transition-colors cursor-pointer group shrink-0"
-                >
-                  <span>View More Student Stories</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
+                {/* Desktop "View More Student Stories" text link */}
+                <div className="flex justify-end pt-2">
+                  <a 
+                    href="/idl-stars"
+                    className="inline-flex items-center gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 transition-colors cursor-pointer group"
+                  >
+                    <span>View More Student Stories</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </a>
+                </div>
               </div>
             </div>
 
-            {/* Slide indicators (Desktop) */}
-            <div className="hidden lg:flex justify-center gap-1.5 mt-4 sm:mt-5">
+            {/* Desktop Carousel Pagination Dots */}
+            <div className="hidden lg:flex justify-center gap-1.5 mt-5">
               {testimonialList.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveSlide(i)}
-                  className="p-2 flex items-center justify-center min-w-[32px] min-h-[32px] cursor-pointer group/dot"
+                  className="p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px] cursor-pointer group/dot"
                   aria-label={`View story ${i + 1}`}
                 >
                   <span
                     className={cn(
                       "rounded-full transition-all duration-300",
                       activeSlide === i 
-                        ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500" 
+                        ? "w-7 h-2 bg-[#062B67] dark:bg-blue-500" 
                         : "w-2 h-2 bg-slate-200 dark:bg-slate-700 group-hover/dot:bg-slate-300"
                     )}
                   />
@@ -606,16 +592,14 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
             </div>
 
             {/* ═══════════════════════════════════════════
-                MOBILE/TABLET LAYOUT — Single card carousel (One card at a time)
+                3. MOBILE LAYOUT — Dedicated Vertical Carousel
                ═══════════════════════════════════════════ */}
             <div 
-              className="lg:hidden relative w-full max-w-[420px] sm:max-w-md mx-auto px-0"
+              className="lg:hidden relative w-full max-w-[390px] mx-auto px-0"
               onMouseEnter={handleMouseEnter}
               onMouseLeave={handleMouseLeave}
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
-              onFocusCapture={handleMouseEnter}
-              onBlurCapture={handleMouseLeave}
             >
               <Carousel
                 setApi={setApi}
@@ -626,7 +610,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                 }}
                 plugins={[
                   Autoplay({
-                    delay: 4500,
+                    delay: 5000,
                     stopOnInteraction: false,
                     stopOnMouseEnter: true,
                   }),
@@ -640,33 +624,15 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                       className="pl-0 basis-full flex flex-col"
                     >
                       <div className="w-full">
-                        <MobileStoryCard testimonial={testimonial} index={index} />
+                        <MobileStoryCard testimonial={testimonial} />
                       </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
               </Carousel>
 
-              {/* Nav arrows (tablet) */}
-              <button
-                type="button"
-                onClick={() => api?.scrollPrev()}
-                className="hidden sm:flex absolute -left-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200/80 dark:border-slate-800 items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#062B67] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                aria-label="Previous stories"
-              >
-                <ChevronLeft className="w-4.5 h-4.5 stroke-[2.5]" />
-              </button>
-              <button
-                type="button"
-                onClick={() => api?.scrollNext()}
-                className="hidden sm:flex absolute -right-4 top-1/2 -translate-y-1/2 z-20 w-9 h-9 rounded-full bg-white dark:bg-slate-900 shadow-md border border-slate-200/80 dark:border-slate-800 items-center justify-center text-slate-600 dark:text-slate-300 hover:text-[#062B67] hover:scale-105 active:scale-95 transition-all cursor-pointer"
-                aria-label="Next stories"
-              >
-                <ChevronRight className="w-4.5 h-4.5 stroke-[2.5]" />
-              </button>
-              
-              {/* Pagination dots (mobile) */}
-              <div className="flex justify-center gap-1.5 mt-5 sm:mt-6 mb-1">
+              {/* Mobile Pagination Dots */}
+              <div className="flex justify-center gap-1.5 mt-4 sm:mt-5 mb-1">
                 {testimonialList.map((_, i) => (
                   <button
                     key={i}
@@ -686,20 +652,18 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
                 ))}
               </div>
 
-              {/* "View More Student Stories" link (mobile below dots) */}
-              <div className="flex justify-center mt-2 sm:mt-2.5">
+              {/* Mobile "View More Student Stories" link (centered) */}
+              <div className="flex justify-center mt-1.5">
                 <a 
                   href="/idl-stars"
-                  className="inline-flex items-center justify-center gap-1.5 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13.5px] sm:text-sm font-bold py-1.5 px-3 transition-colors cursor-pointer group"
+                  className="inline-flex items-center justify-center gap-1.5 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13px] sm:text-[13.5px] font-bold py-1 px-3 transition-colors cursor-pointer group"
                 >
                   <span>View More Student Stories</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>
           </>
-        ) : (
-          <p className="text-center text-sm text-[#3B4D66] dark:text-slate-300 font-medium italic">New success stories coming soon!</p>
         )}
       </div>
     </section>

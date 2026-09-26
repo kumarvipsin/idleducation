@@ -36,12 +36,12 @@ const courses: CourseItem[] = [
         title: 'JEE',
         subtitle: 'Main & Advanced',
         href: '#',
-        cardBg: 'bg-gradient-to-br from-[#F0F6FF] via-[#F8FBFF] to-[#E5F0FF] dark:from-blue-950/40 dark:via-slate-900 dark:to-blue-900/25',
-        cardBorder: 'border-[#CCE2FE] dark:border-blue-900/60',
-        hoverBorder: 'hover:border-blue-400 dark:hover:border-blue-500',
-        badgeBg: 'bg-white/95 dark:bg-blue-950/90',
-        badgeBorder: 'border-[#BFDBFE] dark:border-blue-800',
-        waveColor: '#D4E7FE',
+        cardBg: 'bg-gradient-to-b from-[#F9FBFF] to-[#F1F6FF] dark:from-blue-950/30 dark:to-blue-900/15',
+        cardBorder: 'border-[#E1EDFC] dark:border-blue-900/40',
+        hoverBorder: 'hover:border-[#93C5FD] dark:hover:border-blue-500',
+        badgeBg: 'bg-white dark:bg-blue-950/80',
+        badgeBorder: 'border-[#DBEAFE] dark:border-blue-800/50',
+        waveColor: '#BFDBFE',
         icon: Jee2DIcon,
     },
     {
@@ -49,12 +49,12 @@ const courses: CourseItem[] = [
         title: 'NEET',
         subtitle: 'Medical Entrance',
         href: '#',
-        cardBg: 'bg-gradient-to-br from-[#ECFDF5] via-[#F6FEFA] to-[#DCFCE7] dark:from-emerald-950/40 dark:via-slate-900 dark:to-emerald-900/25',
-        cardBorder: 'border-[#Bbf0d6] dark:border-emerald-900/60',
-        hoverBorder: 'hover:border-emerald-400 dark:hover:border-emerald-500',
-        badgeBg: 'bg-white/95 dark:bg-emerald-950/90',
-        badgeBorder: 'border-[#A7F3D0] dark:border-emerald-800',
-        waveColor: '#C4F3DC',
+        cardBg: 'bg-gradient-to-b from-[#F7FDF9] to-[#ECF9F2] dark:from-emerald-950/30 dark:to-emerald-900/15',
+        cardBorder: 'border-[#D1F4E2] dark:border-emerald-900/40',
+        hoverBorder: 'hover:border-[#86EFAC] dark:hover:border-emerald-500',
+        badgeBg: 'bg-white dark:bg-emerald-950/80',
+        badgeBorder: 'border-[#BBF7D0] dark:border-emerald-800/50',
+        waveColor: '#A7F3D0',
         icon: Neet2DIcon,
     },
     {
@@ -62,12 +62,12 @@ const courses: CourseItem[] = [
         title: 'CBSE',
         subtitle: 'Classes 9–12',
         href: '#',
-        cardBg: 'bg-gradient-to-br from-[#FFFDF5] via-[#FFFEFA] to-[#FEF3C7] dark:from-amber-950/40 dark:via-slate-900 dark:to-amber-900/25',
-        cardBorder: 'border-[#FDE2A7] dark:border-amber-900/60',
-        hoverBorder: 'hover:border-amber-400 dark:hover:border-amber-500',
-        badgeBg: 'bg-white/95 dark:bg-amber-950/90',
-        badgeBorder: 'border-[#FCD34D] dark:border-amber-800',
-        waveColor: '#FDE4B6',
+        cardBg: 'bg-gradient-to-b from-[#FFFDF7] to-[#FEF8EB] dark:from-amber-950/30 dark:to-amber-900/15',
+        cardBorder: 'border-[#FDEAC0] dark:border-amber-900/40',
+        hoverBorder: 'hover:border-[#FCD34D] dark:hover:border-amber-500',
+        badgeBg: 'bg-white dark:bg-amber-950/80',
+        badgeBorder: 'border-[#FDE68A] dark:border-amber-800/50',
+        waveColor: '#FDE68A',
         icon: Cbse2DIcon,
     },
     {
@@ -75,12 +75,12 @@ const courses: CourseItem[] = [
         title: 'CUET (UG)',
         subtitle: 'Classes 11–12',
         href: '#',
-        cardBg: 'bg-gradient-to-br from-[#F0FDFA] via-[#F7FEFD] to-[#CCFBF1] dark:from-teal-950/40 dark:via-slate-900 dark:to-teal-900/25',
-        cardBorder: 'border-[#B2F5EA] dark:border-teal-900/60',
-        hoverBorder: 'hover:border-teal-400 dark:hover:border-teal-500',
-        badgeBg: 'bg-white/95 dark:bg-teal-950/90',
-        badgeBorder: 'border-[#99F6E4] dark:border-teal-800',
-        waveColor: '#BEF2E7',
+        cardBg: 'bg-gradient-to-b from-[#F6FDFB] to-[#ECFAF6] dark:from-teal-950/30 dark:to-teal-900/15',
+        cardBorder: 'border-[#CCF3EA] dark:border-teal-900/40',
+        hoverBorder: 'hover:border-[#5EEAD4] dark:hover:border-teal-500',
+        badgeBg: 'bg-white dark:bg-teal-950/80',
+        badgeBorder: 'border-[#99F6E4] dark:border-teal-800/50',
+        waveColor: '#99F6E4',
         icon: Cuet2DIcon,
     },
     {
@@ -88,12 +88,12 @@ const courses: CourseItem[] = [
         title: 'OLYMPIAD',
         subtitle: 'Classes 6–10',
         href: '#',
-        cardBg: 'bg-gradient-to-br from-[#FFF5F5] via-[#FFFAFA] to-[#FEE2E2] dark:from-rose-950/40 dark:via-slate-900 dark:to-rose-900/25',
-        cardBorder: 'border-[#FDC7C7] dark:border-rose-900/60',
-        hoverBorder: 'hover:border-rose-400 dark:hover:border-rose-500',
-        badgeBg: 'bg-white/95 dark:bg-rose-950/90',
-        badgeBorder: 'border-[#FECACA] dark:border-rose-800',
-        waveColor: '#FCCC CC'.replace(' ', ''),
+        cardBg: 'bg-gradient-to-b from-[#FFF8F8] to-[#FDF0F0] dark:from-rose-950/30 dark:to-rose-900/15',
+        cardBorder: 'border-[#FDD5D5] dark:border-rose-900/40',
+        hoverBorder: 'hover:border-[#FDA4AF] dark:hover:border-rose-500',
+        badgeBg: 'bg-white dark:bg-rose-950/80',
+        badgeBorder: 'border-[#FECDD3] dark:border-rose-800/50',
+        waveColor: '#FECDD3',
         icon: Olympiad2DIcon,
     },
     {
@@ -101,12 +101,12 @@ const courses: CourseItem[] = [
         title: 'TEST SERIES',
         subtitle: 'Mock Tests & PYQs',
         href: '#',
-        cardBg: 'bg-gradient-to-br from-[#FAF5FF] via-[#FCF9FF] to-[#F3E8FF] dark:from-purple-950/40 dark:via-slate-900 dark:to-purple-900/25',
-        cardBorder: 'border-[#E5D0FD] dark:border-purple-900/60',
-        hoverBorder: 'hover:border-purple-400 dark:hover:border-purple-500',
-        badgeBg: 'bg-white/95 dark:bg-purple-950/90',
-        badgeBorder: 'border-[#D8B4FE] dark:border-purple-800',
-        waveColor: '#E6D0FC',
+        cardBg: 'bg-gradient-to-b from-[#FAF7FF] to-[#F4ECFF] dark:from-purple-950/30 dark:to-purple-900/15',
+        cardBorder: 'border-[#EBDCFF] dark:border-purple-900/40',
+        hoverBorder: 'hover:border-[#D8B4FE] dark:hover:border-purple-500',
+        badgeBg: 'bg-white dark:bg-purple-950/80',
+        badgeBorder: 'border-[#E9D5FF] dark:border-purple-800/50',
+        waveColor: '#E9D5FF',
         icon: TestSeries2DIcon,
     }
 ];
@@ -125,12 +125,12 @@ function CardWave({ waveColor }: { waveColor: string }) {
             <path
                 d="M0 44C18 44 36 28 68 14V44H0Z"
                 fill={waveColor}
-                opacity="0.45"
+                opacity="0.22"
             />
             <path
                 d="M18 44C34 44 46 32 68 21V44H18Z"
                 fill={waveColor}
-                opacity="0.75"
+                opacity="0.42"
             />
         </svg>
     );
@@ -779,7 +779,7 @@ export function DiscoverCoursesSection() {
                 
                 {/* Clean Centered Container with Generous Margins */}
                 <div className="container mx-auto px-0 max-w-[1360px] relative z-10">
-                    <div className="relative bg-white dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-[0_14px_38px_-6px_rgba(11,40,88,0.08),0_2px_8px_-2px_rgba(11,40,88,0.03)] p-3.5 sm:p-4 md:p-5 overflow-hidden">
+                    <div className="relative bg-white dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-[0_10px_30px_-6px_rgba(11,40,88,0.06),0_2px_6px_rgba(11,40,88,0.02)] p-3.5 sm:p-4 md:p-5 overflow-hidden">
                         
                         {/* Section Header / Eyebrow */}
                         <div className="relative z-10 flex items-center justify-center mb-4 sm:mb-5">
@@ -815,8 +815,9 @@ export function DiscoverCoursesSection() {
                                             }
                                         }}
                                         className={cn(
-                                            "group relative flex items-center justify-between rounded-[14px] border shadow-[0_4px_14px_-3px_rgba(11,40,88,0.06),0_1px_3px_rgba(11,40,88,0.03)]",
-                                            "hover:shadow-[0_10px_24px_-4px_rgba(11,40,88,0.13)] transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]",
+                                            "group relative flex items-center justify-between rounded-[14px] border",
+                                            "shadow-[0_2px_8px_-2px_rgba(11,40,88,0.04),0_1px_2px_rgba(11,40,88,0.02)]",
+                                            "hover:shadow-[0_6px_18px_-3px_rgba(11,40,88,0.08)] transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]",
                                             "h-[88px] min-[360px]:h-[92px] sm:h-[96px] lg:h-[90px] xl:h-[96px]",
                                             "px-3 py-3 sm:px-3.5 sm:py-3.5 lg:px-2.5 lg:py-3 xl:px-3 xl:py-3.5",
                                             "animate-fade-up overflow-hidden",
@@ -839,17 +840,17 @@ export function DiscoverCoursesSection() {
 
                                         {/* Middle: Course Title & Subtitle in IDL Navy (#0B2858) */}
                                         <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2.5 sm:ml-3 lg:ml-2.5 xl:ml-3">
-                                            <h4 className="text-[12px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-black text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                            <h4 className="text-[12px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-extrabold text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
                                                 {course.title}
                                             </h4>
-                                            <p className="text-[10px] min-[360px]:text-[10.5px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5 leading-tight">
+                                            <p className="text-[10px] min-[360px]:text-[10.5px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500/90 dark:text-slate-400 truncate mt-0.5 leading-tight">
                                                 {course.subtitle}
                                             </p>
                                         </div>
 
                                         {/* Right: Arrow Symbol Only (No Background) */}
-                                        <div className="relative z-10 flex items-center justify-center shrink-0 ml-1.5 sm:ml-2 text-[#0B2858] dark:text-blue-300 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
-                                            <ArrowRight className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 stroke-[2.2] group-hover:translate-x-1 transition-transform duration-200" />
+                                        <div className="relative z-10 flex items-center justify-center shrink-0 ml-1.5 sm:ml-2 text-[#0B2858]/65 dark:text-blue-300/80 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 stroke-[2.2] group-hover:translate-x-0.5 transition-transform duration-200" />
                                         </div>
                                     </Link>
                                 );

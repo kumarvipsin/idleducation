@@ -893,7 +893,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-8 items-start">
                     
                     {/* ── LEFT COLUMN: Course Header, Subjects & About ── */}
-                    <div className="lg:col-span-7 xl:col-span-8 space-y-6">
+                    <div className="lg:col-span-7 xl:col-span-7 2xl:col-span-8 space-y-6">
                         
                         {/* 1. Course Header */}
                         <div>
@@ -980,22 +980,22 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                     </div>
 
                     {/* ── RIGHT COLUMN: Sticky Course Preference & Enrollment Card ── */}
-                    <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-20">
-                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 shadow-[0_4px_24px_rgba(11,40,88,0.05)]">
+                    <div className="lg:col-span-5 xl:col-span-5 2xl:col-span-4 lg:sticky lg:top-20">
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 sm:p-5 shadow-[0_2px_16px_rgba(11,40,88,0.04)]">
                             
                             {/* Card Title */}
-                            <h3 className="text-[15.5px] sm:text-[16.5px] font-bold text-[#0B1F4B] dark:text-white mb-3.5 tracking-tight">
+                            <h3 className="text-[14.5px] sm:text-[15.5px] font-bold text-[#0B1F4B] dark:text-white mb-2.5 tracking-tight">
                                 Select your course preference
                             </h3>
 
                             {/* Preference Options Box */}
-                            <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl p-3.5 sm:p-4 space-y-3.5 bg-white dark:bg-slate-900">
+                            <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl p-3 sm:p-3.5 space-y-3 bg-white dark:bg-slate-900">
                                 
 
                                 {/* 1. SELECT LANGUAGE */}
                                 <div>
-                                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1.5">
-                                        SELECT LANGUAGE
+                                    <span className="text-[12px] sm:text-[12.5px] font-bold text-[#0B1F4B] dark:text-slate-200 block mb-1.5">
+                                        Language
                                     </span>
                                     <div className="flex items-center gap-2">
                                         <button
@@ -1022,8 +1022,8 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                                 {/* 2. SELECT START DATE */}
                                 <div>
-                                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1.5">
-                                        SELECT START DATE
+                                    <span className="text-[12px] sm:text-[12.5px] font-bold text-[#0B1F4B] dark:text-slate-200 block mb-1.5">
+                                        Start Date
                                     </span>
                                     <div className="flex flex-wrap gap-2">
                                         {course.startDates.map((date) => (
@@ -1048,8 +1048,8 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                                 {/* 3. DIRECT BRANCH DISPLAY WITH INLINE CHANGE OPTION */}
                                 <div>
                                     <div className="flex items-center justify-between mb-1.5">
-                                        <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                            PREFERRED BRANCH
+                                        <span className="text-[12px] sm:text-[12.5px] font-bold text-[#0B1F4B] dark:text-slate-200">
+                                            Preferred Branch
                                         </span>
                                         <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
@@ -1108,25 +1108,25 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                             </div>
 
-                            {/* Course Fee & Fee Structure - Exactly matching user screenshot */}
-                            <div className="mt-5 space-y-3.5">
-                                <div className="flex items-start justify-between">
-                                    <div>
-                                        <h4 className="text-xl sm:text-[23px] font-bold text-slate-900 dark:text-white leading-tight">
+                            {/* Course Fee & Fee Structure */}
+                            <div className="mt-3.5 sm:mt-4 space-y-2">
+                                <div className="flex items-baseline justify-between gap-2">
+                                    <div className="min-w-0">
+                                        <h4 className="text-[17px] sm:text-[18px] lg:text-[20px] xl:text-[21px] font-bold text-[#0B1F4B] dark:text-white leading-tight whitespace-nowrap">
                                             Course Fee
                                         </h4>
                                         <button
                                             type="button"
                                             id="view-fee-structure-btn"
                                             onClick={() => setFeeStructureOpen(!feeStructureOpen)}
-                                            className="mt-1 text-sm font-semibold text-[#0066FF] dark:text-blue-400 underline underline-offset-2 hover:text-[#0052CC] inline-flex items-center gap-1 cursor-pointer transition-colors"
+                                            className="mt-0.5 text-[12px] sm:text-[13px] lg:text-[13.5px] font-medium text-[#155EEF] dark:text-blue-400 hover:text-[#0052CC] inline-flex items-center gap-1 cursor-pointer transition-colors whitespace-nowrap"
                                         >
-                                            <span>View fee structure</span>
-                                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${feeStructureOpen ? 'rotate-180' : ''}`} />
+                                            <span className="underline underline-offset-2">View fee structure</span>
+                                            <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${feeStructureOpen ? 'rotate-180' : ''}`} />
                                         </button>
                                     </div>
-                                    <div className="text-right">
-                                        <span className="text-2xl sm:text-[28px] font-black text-slate-900 dark:text-white tracking-tight">
+                                    <div className="text-right shrink-0">
+                                        <span className="text-[22px] sm:text-[24px] lg:text-[26px] xl:text-[28px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-none whitespace-nowrap">
                                             ₹{currentFee.toLocaleString('en-IN')}
                                         </span>
                                     </div>
@@ -1134,7 +1134,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                                 {/* Expandable Fee Breakdown: Base Fee, GST (18%), and Total Fee */}
                                 {feeStructureOpen && (
-                                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-2 text-xs transition-all animate-in fade-in duration-200">
+                                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-1.5 text-xs transition-all animate-in fade-in duration-200">
                                         <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
                                             <span className="font-medium">Course Fee:</span>
                                             <span className="font-bold text-slate-900 dark:text-white">₹{baseFee.toLocaleString('en-IN')}</span>
@@ -1143,27 +1143,27 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                                             <span className="font-medium">GST (18% included):</span>
                                             <span className="font-bold text-slate-900 dark:text-white">₹{gstFee.toLocaleString('en-IN')}</span>
                                         </div>
-                                        <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white">
+                                        <div className="pt-1.5 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
                                             <span>Total Course Fee:</span>
-                                            <span className="text-[#0066FF] dark:text-blue-400 font-black text-base">₹{currentFee.toLocaleString('en-IN')}</span>
+                                            <span className="text-[#155EEF] dark:text-blue-400 font-extrabold text-sm sm:text-base">₹{currentFee.toLocaleString('en-IN')}</span>
                                         </div>
-                                        <div className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold pt-0.5">
+                                        <div className="text-[10px] sm:text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold pt-0.5">
                                             ✓ Single One-Time Payment • No Installments • No Hidden Charges
                                         </div>
                                     </div>
                                 )}
 
-                                {/* Enroll Now Button - Full width pill matching user screenshot */}
+                                {/* Enroll Now Button - Compact, sleek & premium */}
                                 <button
                                     type="button"
                                     id="enroll-now-button"
                                     disabled={isProcessingPayment}
                                     onClick={handleEnrollNow}
-                                    className="w-full bg-[#0066FF] hover:bg-[#0055DD] text-white font-bold py-3.5 px-6 rounded-full text-base sm:text-[17px] shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                                    className="w-full h-[44px] sm:h-[46px] lg:h-[48px] bg-[#155EEF] hover:bg-[#0052CC] text-white font-semibold rounded-full text-[14.5px] sm:text-[15px] lg:text-[15.5px] shadow-xs hover:shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
                                 >
                                     {isProcessingPayment ? (
                                         <>
-                                            <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                                            <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
                                             <span>Opening Payment Gateway...</span>
                                         </>
                                     ) : (
@@ -1173,10 +1173,10 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                             </div>
 
                             {/* Counselling Area - Subtle Support Row */}
-                            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-center">
+                            <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-center">
                                 <a 
                                     href="tel:+918860040010"
-                                    className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400 hover:text-blue-600 dark:text-slate-500 transition-colors"
+                                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-normal text-slate-400 hover:text-[#155EEF] dark:text-slate-500 transition-colors"
                                 >
                                     <Phone className="w-3 h-3 text-slate-400 shrink-0" />
                                     <span>Need Admission Counseling? Call +91 8860040010</span>

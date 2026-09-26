@@ -283,19 +283,19 @@ const DESKTOP_MENU_TOKENS = {
     panelRadius: "rounded-none",
     panelShadow: "shadow-xl",
     dropdownAnimation: "absolute top-full left-0 transition-all duration-200 ease-in-out z-50",
-    rowPadding: "px-4 py-1.5",
-    iconContainer: "w-5 h-5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-5 [&>svg]:h-5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
+    rowPadding: "px-3.5 py-1.5",
+    iconContainer: "w-4.5 h-4.5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-4.5 [&>svg]:h-4.5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
     iconColorDefault: "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400",
     iconColorActive: "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5",
-    rowGap: "gap-3.5",
-    rowBase: "group relative flex items-center rounded-none transition-all duration-150 text-left cursor-pointer w-full",
+    rowGap: "gap-3",
+    rowBase: "group relative flex items-center rounded-none transition-all duration-150 text-left cursor-pointer w-full min-h-[36px]",
     rowHover: "text-foreground hover:text-primary",
     rowActive: "text-primary",
-    textTypography: "font-bold text-[14px] leading-tight transition-colors",
-    arrowClass: "w-4 h-4 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100",
-    arrowActive: "w-4 h-4 transition-all shrink-0 text-primary translate-x-0.5 opacity-100",
-    groupHeading: "px-4 pt-2 pb-1 text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider",
-    divider: "my-1 border-t border-border",
+    textTypography: "font-semibold text-[13.5px] leading-tight transition-colors",
+    arrowClass: "w-3.5 h-3.5 transition-all shrink-0 text-muted-foreground/30 group-hover:text-primary group-hover:translate-x-0.5 group-hover:opacity-100",
+    arrowActive: "w-3.5 h-3.5 transition-all shrink-0 text-primary translate-x-0.5 opacity-100",
+    groupHeading: "px-3.5 pt-1.5 pb-1 text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider",
+    divider: "my-0.5 border-t border-border",
 };
 
 interface DesktopMenuRowProps {
@@ -557,7 +557,7 @@ export function Header() {
             clearTimeout(menuTimeoutRef.current);
         }
         if (menu === 'explore') {
-            setHoveredCourseCategory(null);
+            setHoveredCourseCategory(courseCategories[0]?.id || 'cat_jee');
             setHoveredSubItem(null);
         }
         setActiveMenu(menu);
@@ -712,14 +712,14 @@ export function Header() {
                                             activeMenu === 'explore' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                         )}>
                                             <div className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "flex flex-row divide-x divide-border")}>
-                                                {/* Left Column: Main Section (w-64, with shared DesktopMenuRow) */}
-                                                <div className="w-64 flex flex-col gap-0 p-2">
+                                                {/* Left Column: Main Course Categories */}
+                                                <div className="w-56 sm:w-60 flex flex-col gap-0 p-1.5">
                                                     {courseCategories.map(c => (
                                                         <DesktopMenuRow
                                                             key={c.id}
                                                             label={c.name}
                                                             href={c.href}
-                                                            isActive={hoveredCourseCategory === c.id}
+                                                            isActive={(hoveredCourseCategory || courseCategories[0]?.id) === c.id}
                                                             onMouseEnter={() => {
                                                                 setHoveredCourseCategory(c.id);
                                                                 setHoveredSubItem(null);
@@ -729,30 +729,33 @@ export function Header() {
                                                     ))}
                                                 </div>
 
-                                                {/* Middle Column: Sub-section 1 (Equal size - w-56) */}
+                                                {/* Right Column: Selected Category Submenu */}
                                                 {(() => {
-                                                    if (!hoveredCourseCategory) return null;
-                                                    const activeCategory = courseCategories.find(c => c.id === hoveredCourseCategory);
+                                                    const activeCatId = hoveredCourseCategory || courseCategories[0]?.id;
+                                                    if (!activeCatId) return null;
+                                                    const activeCategory = courseCategories.find(c => c.id === activeCatId);
                                                     if (!activeCategory || !activeCategory.subItems?.length) return null;
 
-                                                    const activeSubItem = hoveredSubItem ? activeCategory.subItems.find(s => s.id === hoveredSubItem) : null;
+                                                    const activeSubItem = hoveredSubItem 
+                                                        ? activeCategory.subItems.find(s => s.id === hoveredSubItem) 
+                                                        : (activeCategory.id === 'cat_cbse' ? activeCategory.subItems[0] : null);
                                                     const hasLeafItems = Boolean(activeSubItem && activeSubItem.items && activeSubItem.items.length > 0);
 
                                                     return (
-                                                        <>
-                                                            <div className="w-56 p-2 flex flex-col gap-0 animate-in fade-in duration-150">
+                                                        <div className="flex flex-row divide-x divide-border">
+                                                            <div className="w-52 sm:w-56 p-1.5 flex flex-col gap-0 animate-in fade-in duration-100">
                                                                 {activeCategory.subItems.map((sub) => {
-                                                                    const isSubActive = hoveredSubItem === sub.id;
+                                                                    const isSubActive = (hoveredSubItem === sub.id) || (!hoveredSubItem && activeSubItem?.id === sub.id);
                                                                     const isSubDisabled = !sub.href || sub.href === '#' || (sub as any).disabled;
 
                                                                     if (isSubDisabled) {
                                                                         return (
                                                                             <div
                                                                                 key={sub.id}
-                                                                                className="w-full flex items-center justify-between px-4 py-2 cursor-default select-none text-slate-700 dark:text-slate-300"
+                                                                                className="w-full flex items-center justify-between px-3.5 py-1.5 min-h-[36px] cursor-default select-none text-slate-700 dark:text-slate-300"
                                                                             >
                                                                                 <div className="text-left flex-1 min-w-0">
-                                                                                    <p className="text-[13.5px] leading-tight tracking-[-0.01em] font-semibold text-slate-700 dark:text-slate-300">
+                                                                                    <p className="text-[13px] leading-tight tracking-[-0.01em] font-semibold text-slate-700 dark:text-slate-300">
                                                                                         {sub.label}
                                                                                     </p>
                                                                                 </div>
@@ -770,7 +773,7 @@ export function Header() {
                                                                                 href={sub.href}
                                                                                 onClick={() => setActiveMenu(null)}
                                                                                 className={cn(
-                                                                                    "group relative flex items-center gap-3 px-4 py-2 rounded-none transition-all duration-150 text-left cursor-pointer",
+                                                                                    "group relative flex items-center gap-2.5 px-3.5 py-1.5 min-h-[36px] rounded-none transition-all duration-150 text-left cursor-pointer",
                                                                                     isSubActive
                                                                                         ? "text-primary"
                                                                                         : "text-foreground hover:text-primary"
@@ -778,14 +781,14 @@ export function Header() {
                                                                             >
                                                                                 <div className="text-left flex-1 min-w-0">
                                                                                     <p className={cn(
-                                                                                        "text-[13.5px] leading-tight tracking-[-0.01em] transition-colors",
+                                                                                        "text-[13px] leading-tight tracking-[-0.01em] transition-colors",
                                                                                         isSubActive ? "font-bold text-primary" : "font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary"
                                                                                     )}>
                                                                                         {sub.label}
                                                                                     </p>
                                                                                 </div>
                                                                                 <ChevronRight className={cn(
-                                                                                    "w-4 h-4 transition-all shrink-0",
+                                                                                    "w-3.5 h-3.5 transition-all shrink-0",
                                                                                     isSubActive
                                                                                         ? "text-primary translate-x-0.5 opacity-100"
                                                                                         : "text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5"
@@ -796,27 +799,27 @@ export function Header() {
                                                                 })}
                                                             </div>
 
-                                                            {/* Right Column: Sub-section 2 / Classes (Equal size - w-56) */}
+                                                            {/* Sub-section 2 / Classes (Equal size - w-48 to w-52) */}
                                                             {hasLeafItems && (
-                                                                <div className="w-56 p-2 flex flex-col gap-0">
+                                                                <div className="w-48 sm:w-52 p-1.5 flex flex-col gap-0 animate-in fade-in duration-100">
                                                                     {activeSubItem?.items?.map((item) => (
                                                                         <Link
                                                                             key={item.id}
                                                                             href={item.href}
                                                                             onClick={() => setActiveMenu(null)}
-                                                                            className="group relative flex items-center gap-2.5 px-4 py-2 rounded-none transition-all duration-150 text-left hover:text-primary cursor-pointer"
+                                                                            className="group relative flex items-center gap-2 px-3.5 py-1.5 min-h-[36px] rounded-none transition-all duration-150 text-left hover:text-primary cursor-pointer"
                                                                         >
                                                                             <div className="text-left flex-1 min-w-0">
-                                                                                <p className="font-semibold text-[13.5px] tracking-[-0.01em] text-slate-800 dark:text-slate-200 leading-tight group-hover:text-primary transition-colors">
+                                                                                <p className="font-semibold text-[13px] tracking-[-0.01em] text-slate-800 dark:text-slate-200 leading-tight group-hover:text-primary transition-colors">
                                                                                     {item.label}
                                                                                 </p>
                                                                             </div>
-                                                                            <ChevronRight className="w-4 h-4 text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
+                                                                            <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
                                                                         </Link>
                                                                     ))}
                                                                 </div>
                                                             )}
-                                                        </>
+                                                        </div>
                                                     );
                                                 })()}
                                             </div>
@@ -964,7 +967,7 @@ export function Header() {
                                 </SheetHeader>
 
                                 {/* Body - Scrollable Navigation Content */}
-                                <div className="flex-1 overflow-y-auto overscroll-contain relative z-10">
+                                <div className="flex-1 overflow-y-auto overflow-x-hidden overscroll-contain relative z-10">
                                     <nav aria-label="Mobile Navigation" className="divide-y divide-slate-100 dark:divide-slate-800/60 border-b border-slate-100 dark:border-slate-800/60 text-left">
                                         
                                         {/* 1. ALL COURSES ROW (Submenu with Chevron) */}
@@ -994,8 +997,8 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
-                                                    <div suppressHydrationWarning className="flex flex-col gap-0">
+                                                <div className="overflow-hidden min-h-0 pb-1.5 pt-0 px-3.5 sm:px-4">
+                                                    <div suppressHydrationWarning className="flex flex-col gap-0.5">
                                                         {courseCategories.map((cat) => {
                                                             const isSubOpen = openMobileSubAccordion === cat.id;
                                                             return (
@@ -1016,15 +1019,15 @@ export function Header() {
                                                                         }}
                                                                         aria-expanded={isSubOpen}
                                                                         aria-controls={`mobile-sub-${cat.id}`}
-                                                                        className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
+                                                                        className="touch-manipulation group relative flex items-center justify-between px-3 sm:px-3.5 min-h-[40px] rounded-md transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/40"
                                                                     >
-                                                                        <div className="flex items-center min-w-0 flex-1">
-                                                                            <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                        <div className="flex items-center min-w-0 flex-1 pr-2">
+                                                                            <span className="text-[13.5px] sm:text-[14px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                                 {cat.name}
                                                                             </span>
                                                                         </div>
                                                                         <ChevronDown className={cn(
-                                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
+                                                                            "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
                                                                             isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
                                                                         )} />
                                                                     </button>
@@ -1038,7 +1041,7 @@ export function Header() {
                                                                         className="mobile-accordion-grid"
                                                                     >
                                                                         <div className="overflow-hidden min-h-0">
-                                                                            <div className="border-l-[1.5px] border-slate-200 dark:border-slate-800 ml-5 pl-3 py-0.5 my-0 space-y-0">
+                                                                            <div className="border-l border-slate-200/90 dark:border-slate-800 ml-3.5 pl-2.5 py-0.5 my-0.5 space-y-0.5">
                                                                                 {cat.subItems.map((sub) => {
                                                                                     const hasLeafs = sub.items && sub.items.length > 0;
                                                                                     const isThirdOpen = openMobileThirdAccordion === sub.id;
@@ -1060,11 +1063,11 @@ export function Header() {
                                                                                                     }}
                                                                                                     aria-expanded={isThirdOpen}
                                                                                                     aria-controls={`mobile-third-${sub.id}`}
-                                                                                                    className="touch-manipulation w-full text-left font-bold text-[13px] sm:text-[13.5px] min-h-[38px] px-3 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200"
+                                                                                                    className="touch-manipulation w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[36px] px-2.5 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-blue-50/40 dark:hover:bg-blue-950/20"
                                                                                                 >
-                                                                                                    <span className="truncate">{sub.label}</span>
+                                                                                                    <span className="truncate pr-2">{sub.label}</span>
                                                                                                     <ChevronDown className={cn(
-                                                                                                        "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-2",
+                                                                                                        "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
                                                                                                         isThirdOpen && "rotate-180 text-primary"
                                                                                                     )} />
                                                                                                 </button>
@@ -1077,16 +1080,16 @@ export function Header() {
                                                                                                     className="mobile-accordion-grid"
                                                                                                 >
                                                                                                     <div className="overflow-hidden min-h-0">
-                                                                                                        <div className="border-l-[1.5px] border-slate-200/80 dark:border-slate-800/80 ml-3 pl-2.5 py-0.5 my-0.5 space-y-0.5">
+                                                                                                        <div className="border-l border-slate-200/80 dark:border-slate-800/80 ml-2.5 pl-2 py-0.5 my-0.5 space-y-0.5">
                                                                                                             {sub.items!.map((item) => (
                                                                                                                 <Link
                                                                                                                     key={item.id}
                                                                                                                     href={item.href}
                                                                                                                     onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                                    className="group flex items-center justify-between min-h-[36px] px-2.5 py-1 rounded-md text-[13px] font-semibold text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
+                                                                                                                    className="group flex items-center justify-between min-h-[34px] px-2 py-1 rounded-md text-[12.5px] sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
                                                                                                                 >
-                                                                                                                    <span className="truncate">{item.label}</span>
-                                                                                                                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-2" />
+                                                                                                                    <span className="truncate pr-2">{item.label}</span>
+                                                                                                                    <ChevronRight className="w-3 h-3 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-auto" />
                                                                                                                 </Link>
                                                                                                             ))}
                                                                                                         </div>
@@ -1101,7 +1104,7 @@ export function Header() {
                                                                                         return (
                                                                                             <div
                                                                                                 key={sub.id}
-                                                                                                className="w-full text-left font-bold text-[13px] sm:text-[13.5px] min-h-[38px] px-3 py-1 rounded-md text-slate-700 dark:text-slate-300 flex items-center select-none cursor-default"
+                                                                                                className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[36px] px-2.5 py-1 rounded-md text-slate-700 dark:text-slate-300 flex items-center select-none cursor-default"
                                                                                             >
                                                                                                 <span className="truncate">{sub.label}</span>
                                                                                             </div>
@@ -1113,10 +1116,10 @@ export function Header() {
                                                                                             key={sub.id}
                                                                                             href={sub.href}
                                                                                             onClick={() => setIsMobileMenuOpen(false)}
-                                                                                            className="w-full text-left font-bold text-[13px] sm:text-[13.5px] min-h-[38px] px-3 py-1 rounded-md text-slate-800 dark:text-slate-200 hover:text-primary transition-colors duration-100 flex items-center justify-between cursor-pointer"
+                                                                                            className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[36px] px-2.5 py-1 rounded-md text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-blue-50/40 dark:hover:bg-blue-950/20 transition-colors duration-100 flex items-center justify-between cursor-pointer"
                                                                                         >
-                                                                                            <span className="truncate">{sub.label}</span>
-                                                                                            <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                                            <span className="truncate pr-2">{sub.label}</span>
+                                                                                            <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-auto" />
                                                                                         </Link>
                                                                                     );
                                                                                 })}
@@ -1319,7 +1322,7 @@ export function Header() {
                                 </div>
 
                                 {/* Bottom Contact CTA: Sticky Phone Button */}
-                                <div className="px-4 sm:px-5 py-3 sm:py-3.5 border-t border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0 relative z-10 pb-[max(0.875rem,env(safe-area-inset-bottom))]">
+                                <div className="px-4 sm:px-5 pt-3 sm:pt-3.5 pb-4 border-t border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0 relative z-10 pb-[max(1rem,calc(env(safe-area-inset-bottom)+0.875rem))]">
                                     <a 
                                         href="tel:8860040010" 
                                         aria-label="Call IDL Education at 8860040010"

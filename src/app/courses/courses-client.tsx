@@ -361,24 +361,24 @@ export function CoursesClient() {
             <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 pt-6 sm:pt-8 md:pt-10">
                 
                 {/* ── 1. TOP HEADER SELECTOR BAR: STATE & CENTER (NO "Courses for:", NO STREAM) ── */}
-                <div className="flex flex-wrap items-center gap-3 sm:gap-4 pb-5 border-b border-slate-200/80 dark:border-slate-800">
+                <div className="flex items-center gap-2 sm:gap-4 pb-3.5 sm:pb-5 border-b border-slate-200/80 dark:border-slate-800">
                     {/* State Selector Dropdown - Delhi & Bihar */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <button 
                                 id="state-selector-dropdown"
-                                className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl px-3 sm:px-3.5 py-1.5 sm:py-2 flex items-center gap-2.5 sm:gap-3 shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all outline-none focus:ring-2 focus:ring-blue-500/20"
+                                className="h-[36px] sm:h-[40px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 rounded-xl px-2.5 sm:px-3.5 flex items-center gap-2 sm:gap-3 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 transition-all outline-none focus:ring-2 focus:ring-blue-500/20 shrink-0"
                             >
-                                <div className="flex items-center gap-1.5 text-[#2563EB] dark:text-blue-400 font-extrabold text-[11px] sm:text-[11.5px] tracking-wider uppercase shrink-0">
-                                    <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
+                                <div className="flex items-center gap-1.5 text-[#2563EB] dark:text-blue-400 font-extrabold text-[10px] sm:text-[11.5px] tracking-wider uppercase shrink-0">
+                                    <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
                                         <Building2 className="w-2.5 h-2.5 text-[#2563EB]" />
                                     </span>
                                     <span>STATE</span>
                                 </div>
-                                <span className="text-[13.5px] sm:text-[14.5px] font-bold text-slate-900 dark:text-white">
+                                <span className="text-[12.5px] sm:text-[14.5px] font-bold text-slate-900 dark:text-white">
                                     {selectedState}
                                 </span>
-                                <ChevronDown className="w-4 h-4 text-slate-400 ml-0.5 shrink-0" />
+                                <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 ml-0.5 shrink-0" />
                             </button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-1.5 shadow-xl rounded-xl z-50">
@@ -401,41 +401,41 @@ export function CoursesClient() {
                     {/* Center / Branch Selector: Shows Delhi branches if Delhi, Disabled if Bihar */}
                     {selectedState === 'Bihar' ? (
                         <div 
-                            className="bg-slate-100 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-800 rounded-xl px-3 sm:px-3.5 py-1.5 sm:py-2 flex items-center gap-2.5 sm:gap-3 opacity-60 cursor-not-allowed select-none"
+                            className="h-[36px] sm:h-[40px] bg-slate-100 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-800 rounded-xl px-2.5 sm:px-3.5 flex items-center gap-2 sm:gap-3 opacity-60 cursor-not-allowed select-none shrink-0"
                             title="Offline branches are currently not available in Bihar"
                         >
-                            <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 font-extrabold text-[11px] sm:text-[11.5px] tracking-wider uppercase shrink-0">
-                                <span className="w-4 h-4 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                            <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500 font-extrabold text-[10px] sm:text-[11.5px] tracking-wider uppercase shrink-0">
+                                <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
                                     <MapPin className="w-2.5 h-2.5 text-slate-400" />
                                 </span>
                                 <span>CENTER</span>
                             </div>
-                            <span className="text-[13px] sm:text-[14px] font-medium text-slate-400 dark:text-slate-500">
+                            <span className="text-[12px] sm:text-[14px] font-medium text-slate-400 dark:text-slate-500 truncate">
                                 No Branch Available
                             </span>
                         </div>
                     ) : (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <div className="relative inline-block">
+                                <div className="relative inline-block shrink-0 max-w-full">
                                     <button 
                                         id="center-selector-dropdown"
-                                        className={`bg-white dark:bg-slate-900 border rounded-xl px-3 sm:px-3.5 py-1.5 sm:py-2 flex items-center gap-2.5 sm:gap-3 shadow-xs hover:border-slate-300 dark:hover:border-slate-600 transition-all outline-none focus:ring-2 focus:ring-blue-500/20 ${
+                                        className={`h-[36px] sm:h-[40px] bg-white dark:bg-slate-900 border rounded-xl px-2.5 sm:px-3.5 flex items-center gap-2 sm:gap-3 shadow-2xs hover:border-slate-300 dark:hover:border-slate-600 transition-all outline-none focus:ring-2 focus:ring-blue-500/20 max-w-full ${
                                             !selectedCenter && centerRequiredNotice 
                                                 ? 'border-red-500 ring-4 ring-red-400/50 bg-red-50/70 dark:bg-red-950/40 shadow-lg shadow-red-500/20 animate-pulse' 
                                                 : 'border-slate-200 dark:border-slate-700/80'
                                         }`}
                                     >
-                                        <div className="flex items-center gap-1.5 text-[#2563EB] dark:text-blue-400 font-extrabold text-[11px] sm:text-[11.5px] tracking-wider uppercase shrink-0">
-                                            <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
+                                        <div className="flex items-center gap-1.5 text-[#2563EB] dark:text-blue-400 font-extrabold text-[10px] sm:text-[11.5px] tracking-wider uppercase shrink-0">
+                                            <span className="w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center">
                                                 <MapPin className="w-2.5 h-2.5 text-[#2563EB] fill-[#2563EB]" />
                                             </span>
                                             <span>CENTER</span>
                                         </div>
-                                        <span className={`text-[13.5px] sm:text-[14.5px] ${selectedCenter ? 'font-bold text-slate-900 dark:text-white' : 'font-semibold text-slate-500 dark:text-slate-400'}`}>
+                                        <span className={`text-[12.5px] sm:text-[14.5px] truncate max-w-[120px] xs:max-w-[170px] sm:max-w-none ${selectedCenter ? 'font-bold text-slate-900 dark:text-white' : 'font-semibold text-slate-500 dark:text-slate-400'}`}>
                                             {selectedCenter || 'Select Center'}
                                         </span>
-                                        <ChevronDown className="w-4 h-4 text-slate-400 ml-0.5 shrink-0" />
+                                        <ChevronDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 ml-0.5 shrink-0" />
                                     </button>
                                     {!selectedCenter && centerRequiredNotice && (
                                         <span className="absolute -top-2.5 -right-1 px-2 py-0.5 rounded-full bg-red-600 text-white text-[9px] font-bold tracking-wider uppercase shadow-md animate-bounce">
@@ -469,15 +469,164 @@ export function CoursesClient() {
                     )}
                 </div>
 
-                {/* ── 2. MAIN TITLE (Fixed for all classes & streams) ── */}
-                <div className="mt-5 sm:mt-6 mb-3 sm:mb-4">
-                    <h1 className="text-[22px] sm:text-[26px] md:text-[30px] lg:text-[32px] font-extrabold text-[#0F172A] dark:text-white tracking-tight leading-tight">
+                {/* ── 2. MAIN TITLE (Responsive: 21-24px on mobile, wrapped naturally into 2-3 lines) ── */}
+                <div className="mt-3.5 sm:mt-5 md:mt-6 mb-3 sm:mb-4">
+                    <h1 className="text-[20px] xs:text-[22px] min-[420px]:text-[24px] md:text-[30px] lg:text-[32px] font-bold md:font-extrabold text-[#0F172A] dark:text-white tracking-tight leading-[1.2] md:leading-tight">
                         Offline, Online, Hybrid + Class 9–12 + Science/Commerce/Arts
                     </h1>
                 </div>
 
-                {/* ── 3. FILTER BADGES ROW ── */}
-                <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-6 sm:mb-8">
+                {/* ── 3A. MOBILE FILTER CONTROLS (Clean 2-row layout) ── */}
+                <div className="flex md:hidden flex-col gap-2 mb-4">
+                    {/* Row 1: [ Filters ] [ Session: 2026–27 ] [ Class ] */}
+                    <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5">
+                        {/* Filters button */}
+                        <button 
+                            onClick={() => setFilterModalOpen(true)}
+                            id="mobile-filters-button"
+                            className="h-[34px] flex items-center gap-1.5 px-3 rounded-full border border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs font-semibold shrink-0 hover:bg-slate-50 transition-colors"
+                        >
+                            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                            <span>Filters</span>
+                        </button>
+
+                        {/* Session Selector */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button 
+                                    id="mobile-session-selector-pill"
+                                    className="h-[34px] px-3.5 rounded-full bg-[#E0F2FE]/80 dark:bg-blue-950/70 border border-[#BAE6FD] dark:border-blue-800 text-[#0369A1] dark:text-blue-300 font-bold text-xs flex items-center gap-1.5 shrink-0 hover:bg-[#D0EBFD] transition-colors outline-none"
+                                >
+                                    <span>Session: {session}</span>
+                                    <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
+                                <DropdownMenuItem onClick={() => setSession('2026–27')} className="cursor-pointer text-xs font-bold text-[#0369A1]">
+                                    Session: 2026–27
+                                </DropdownMenuItem>
+                                <DropdownMenuItem onClick={() => setSession('2027–28')} className="cursor-pointer text-xs text-slate-700 dark:text-slate-200">
+                                    Session: 2027–28
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        {/* Class Selector */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button 
+                                    id="mobile-class-selector-pill"
+                                    className={`h-[34px] px-3.5 rounded-full border text-xs flex items-center gap-1.5 shrink-0 transition-colors outline-none ${
+                                        selectedClass 
+                                            ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200/90 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold' 
+                                            : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50'
+                                    }`}
+                                >
+                                    <span>{selectedClass ? selectedClass : 'Class'}</span>
+                                    <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-44 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
+                                <DropdownMenuItem onClick={() => handleSelectClass(null)} className="cursor-pointer text-xs font-semibold">
+                                    All Classes
+                                </DropdownMenuItem>
+                                {AVAILABLE_CLASSES.map((cls) => (
+                                    <DropdownMenuItem 
+                                        key={cls} 
+                                        onClick={() => handleSelectClass(cls)}
+                                        className={`cursor-pointer text-xs ${selectedClass === cls ? 'font-bold text-[#2563EB] bg-blue-50 dark:bg-blue-950' : 'text-slate-700 dark:text-slate-200'}`}
+                                    >
+                                        {cls}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+
+                    {/* Row 2: [ Stream: Science ] [ Mode: Hybrid ] [ Reset ] */}
+                    <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5">
+                        {/* Stream Selector Pill - Shown for Class 11 & Class 12, or when stream is chosen */}
+                        {(selectedClass === 'Class 11' || selectedClass === 'Class 12' || selectedStream) && (
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <button 
+                                        id="mobile-stream-selector-pill"
+                                        className={`h-[34px] px-3.5 rounded-full border text-xs flex items-center gap-1.5 shrink-0 transition-colors outline-none ${
+                                            selectedStream 
+                                                ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200/90 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold' 
+                                                : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50'
+                                        }`}
+                                    >
+                                        <span>{selectedStream ? `Stream: ${selectedStream}` : 'Stream'}</span>
+                                        <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                                    </button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
+                                    <DropdownMenuItem onClick={() => setSelectedStream(null)} className="cursor-pointer text-xs font-semibold">
+                                        All Streams
+                                    </DropdownMenuItem>
+                                    {['Science', 'Commerce', 'Arts'].map((st) => (
+                                        <DropdownMenuItem 
+                                            key={st} 
+                                            onClick={() => setSelectedStream(st)}
+                                            className={`cursor-pointer text-xs ${selectedStream === st ? 'font-bold text-[#2563EB] bg-blue-50 dark:bg-blue-950' : 'text-slate-700 dark:text-slate-200'}`}
+                                        >
+                                            {st} Stream
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        )}
+
+                        {/* Mode Selector Pill */}
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button 
+                                    id="mobile-mode-selector-pill"
+                                    className={`h-[34px] px-3.5 rounded-full border text-xs flex items-center gap-1.5 shrink-0 transition-colors outline-none ${
+                                        selectedMode !== 'Offline Mode'
+                                            ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200/90 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold'
+                                            : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50'
+                                    }`}
+                                >
+                                    <span>Mode: {selectedMode.replace(' Mode', '')}</span>
+                                    <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-44 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
+                                {MODES.map((mode) => (
+                                    <DropdownMenuItem 
+                                        key={mode} 
+                                        onClick={() => setSelectedMode(mode)}
+                                        className={`cursor-pointer text-xs ${selectedMode === mode ? 'font-bold text-[#2563EB] bg-blue-50 dark:bg-blue-950' : 'text-slate-700 dark:text-slate-200'}`}
+                                    >
+                                        {mode}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+
+                        {/* Reset text action */}
+                        {(selectedClass || selectedStream || selectedMode !== 'Offline Mode' || selectedState !== 'Delhi' || selectedCenter !== null) && (
+                            <button 
+                                onClick={() => {
+                                    setSelectedClass(null);
+                                    setSelectedStream(null);
+                                    setSelectedMode('Offline Mode');
+                                    setSelectedState('Delhi');
+                                    setSelectedCenter(null);
+                                    setCenterRequiredNotice(false);
+                                }}
+                                className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold px-2 py-1 shrink-0"
+                            >
+                                Reset
+                            </button>
+                        )}
+                    </div>
+                </div>
+
+                {/* ── 3B. DESKTOP FILTER BADGES ROW (100% Exactly Preserved) ── */}
+                <div className="hidden md:flex flex-wrap items-center gap-2 sm:gap-2.5 mb-6 sm:mb-8">
                     {/* Filters button */}
                     <button 
                         onClick={() => setFilterModalOpen(true)}
