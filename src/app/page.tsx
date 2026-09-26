@@ -5,7 +5,6 @@ import { AcademicExcellence } from '@/components/landing/academic-excellence';
 import { BuildSkillsSection } from '@/components/landing/build-skills-section';
 import { GetAppSection } from '@/components/landing/get-app-section';
 import { ScholarshipSection } from '@/components/landing/scholarship-section';
-import { DailyChallengeSection } from '@/components/landing/daily-challenge-section';
 import { DiscoverCoursesSection } from '@/components/landing/discover-courses-section';
 import { getCollection, getTestimonials, getExpertTeachers } from '@/app/actions';
 import type { THeroSlide, TTestimonial, TExpertTeacher } from '@/app/actions/types';
@@ -38,19 +37,16 @@ export default async function Home() {
       {/* 4. Expert Teachers Carousel */}
       <ExpertTeachersSection teachers={expertTeachers} />
 
-      {/* 5. Scholarship & Admission Test Banner */}
+      {/* 5. Why Choose IDL Education */}
       <ScholarshipSection />
 
       {/* 6. Student Testimonials */}
       <StudentTestimonials testimonials={studentTestimonials.slice(0, 5)} />
 
-      {/* 7. Daily Quiz & Challenge Section */}
-      <DailyChallengeSection />
-
-      {/* 8. Study Resources (Notes, NCERT, PYQ) */}
+      {/* 7. Study Resources (Notes, NCERT, PYQ) */}
       <StudyResources />
 
-      {/* 9. IDL Learning App Showcase */}
+      {/* 8. IDL Learning App Showcase */}
       <GetAppSection />
     </div>
   );

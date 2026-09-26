@@ -47,7 +47,7 @@ export function GetAppSection() {
                 </div>
 
                 {/* Main Hero Visual (idlapp.png) */}
-                <div className="relative w-full h-full z-10">
+                <div className="relative w-full h-full z-10 scale-[0.90] origin-bottom">
                   <Image
                     src="/idlapp.png"
                     alt="IDL Learning App on smartphone"
@@ -163,7 +163,7 @@ export function GetAppSection() {
                 </div>
 
                 {/* Main Hero Visual (idlapp.png) */}
-                <div className="relative w-full h-full z-10">
+                <div className="relative w-full h-full z-10 scale-[0.90] origin-bottom">
                   <Image
                     src="/idlapp.png"
                     alt="IDL Learning App on smartphone"

@@ -488,7 +488,7 @@ export function StudentTestimonials({ testimonials }: { testimonials: TTestimoni
   }, [loading, testimonialList.length, isDesktopHovered]);
 
   return (
-    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-8 sm:pb-10 md:pb-12 bg-[#FAFBFE] dark:bg-background overflow-hidden">
+    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-10 sm:pb-14 md:pb-16 bg-white dark:bg-background overflow-hidden">
       {/* Subtle ambient depth glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[350px] sm:h-[450px] bg-blue-500/[0.02] dark:bg-blue-500/[0.015] rounded-full blur-3xl pointer-events-none" />
 

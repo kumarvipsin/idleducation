@@ -1,17 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel";
-import Autoplay from "embla-carousel-autoplay";
-import { cn } from "@/lib/utils";
 
 interface ResourceItem {
   id: string;
@@ -19,8 +11,11 @@ interface ResourceItem {
   description: string;
   href: string;
   imageUrl: string;
-  imageHint: string;
-  ctaText: string;
+  imageAlt: string;
+  accentColor: string; // Hex for badge, button & bottom stripe
+  lightBg: string;     // Tailwind class or style
+  arrowBg: string;
+  arrowText: string;
 }
 
 const resources: ResourceItem[] = [
@@ -29,159 +24,72 @@ const resources: ResourceItem[] = [
     title: "Revision Notes",
     description: "Concise notes for concepts and quick revision.",
     href: "/resources/notes",
-    imageUrl: "/notes.png",
-    imageHint: "revision notes illustration",
-    ctaText: "Explore Notes",
+    imageUrl: "/resources-ui/notes-visual.png",
+    imageAlt: "IDL Notes - Short notes, Chapterwise, Easy language, PDF format",
+    accentColor: "#0A5CFF",
+    lightBg: "bg-gradient-to-b from-[#EBF3FF] to-[#DFEEFF]",
+    arrowBg: "bg-[#EFF6FF]",
+    arrowText: "text-[#0A5CFF]",
   },
   {
     id: "ncert-solutions",
     title: "NCERT Solutions",
     description: "Step-by-step solutions for NCERT exercises.",
     href: "/resources/ncert-solutions",
-    imageUrl: "/ncert.png",
-    imageHint: "ncert solutions illustration",
-    ctaText: "Explore Solutions",
+    imageUrl: "/resources-ui/ncert-visual.png",
+    imageAlt: "NCERT Solutions - Step by step exercises solutions",
+    accentColor: "#F59E0B",
+    lightBg: "bg-gradient-to-b from-[#FFF9EE] to-[#FFF1D6]",
+    arrowBg: "bg-[#FFF7ED]",
+    arrowText: "text-[#F59E0B]",
   },
   {
     id: "previous-year-qp",
     title: "Previous Year QP",
     description: "Solved previous-year papers for better exam practice.",
     href: "/resources/previous-year-questions",
-    imageUrl: "/pyq.png",
-    imageHint: "previous year questions illustration",
-    ctaText: "Practice PYQs",
+    imageUrl: "/resources-ui/pyq-visual.png",
+    imageAlt: "Previous Year QP - Practice, Analyze, Improve",
+    accentColor: "#10B981",
+    lightBg: "bg-gradient-to-b from-[#EDFAF3] to-[#DBF5E7]",
+    arrowBg: "bg-[#ECFDF5]",
+    arrowText: "text-[#10B981]",
   },
 ];
 
-function ResourceCard({ resource }: { resource: ResourceItem }) {
-  return (
-    <Link href={resource.href} className="group block h-full select-none">
-      <div className="h-full flex flex-col bg-white dark:bg-slate-900 rounded-[22px] border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_12px_-4px_rgba(6,43,103,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(6,43,103,0.12)] hover:-translate-y-1.5 transition-all duration-300 overflow-hidden p-4 sm:p-5">
-        
-        {/* Consistent Top Image Container — unified light background, subtle border, rounded frame */}
-        <div className="relative w-full aspect-[16/11] sm:aspect-[16/10] rounded-[16px] overflow-hidden bg-[#F0F5FD] dark:bg-slate-800/80 border border-[#E0ECFB] dark:border-slate-700/60 p-3.5 flex items-center justify-center mb-4 sm:mb-4.5">
-          <div className="relative w-full h-full transition-transform duration-300 ease-out group-hover:scale-[1.04]">
-            <Image
-              src={resource.imageUrl}
-              alt={resource.title}
-              data-ai-hint={resource.imageHint}
-              fill
-              className="object-contain"
-              priority
-            />
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="flex flex-col flex-1 text-left">
-          {/* Title */}
-          <h3 className="font-bold text-[18px] sm:text-[19px] lg:text-[20px] tracking-tight text-[#0A1E42] dark:text-white mb-1.5 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400 transition-colors">
-            {resource.title}
-          </h3>
-
-          {/* Short, concise description */}
-          <p className="text-[13px] sm:text-[13.5px] text-[#4A5568] dark:text-slate-300 font-normal leading-relaxed mb-4 flex-1 line-clamp-2">
-            {resource.description}
-          </p>
-
-          {/* Clean CTA with arrow */}
-          <div className="pt-1 mt-auto">
-            <span className="inline-flex items-center gap-1.5 text-[13.5px] sm:text-[14px] font-semibold text-[#1D4ED8] dark:text-blue-400 group-hover:text-[#062B67] dark:group-hover:text-blue-300 transition-colors">
-              <span>{resource.ctaText}</span>
-              <ArrowRight className="w-4 h-4 stroke-[2.2] transition-transform duration-200 group-hover:translate-x-1" />
-            </span>
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
 export function StudyResources() {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-
-  const isHoveredRef = useRef(false);
-  const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  useEffect(() => {
-    if (!api) return;
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
-
-  // Reduced motion preference check
-  useEffect(() => {
-    if (!api || typeof window === "undefined") return;
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (mediaQuery.matches) {
-      api.plugins()?.autoplay?.stop();
-    }
-  }, [api]);
-
-  // Cleanup touch delay timer on unmount
-  useEffect(() => {
-    return () => {
-      if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    };
-  }, []);
-
-  const handleMouseEnter = useCallback(() => {
-    isHoveredRef.current = true;
-    try {
-      api?.plugins()?.autoplay?.stop();
-    } catch {
-      /* safe fallback */
-    }
-  }, [api]);
-
-  const handleMouseLeave = useCallback(() => {
-    isHoveredRef.current = false;
-    try {
-      api?.plugins()?.autoplay?.play();
-    } catch {
-      /* safe fallback */
-    }
-  }, [api]);
-
-  const handleTouchStart = useCallback(() => {
-    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    try {
-      api?.plugins()?.autoplay?.stop();
-    } catch {
-      /* safe fallback */
-    }
-  }, [api]);
-
-  const handleTouchEnd = useCallback(() => {
-    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    touchTimeoutRef.current = setTimeout(() => {
-      if (!isHoveredRef.current) {
-        try {
-          api?.plugins()?.autoplay?.play();
-        } catch {
-          /* safe fallback */
-        }
-      }
-    }, 1200);
-  }, [api]);
-
-  const scrollTo = useCallback(
-    (index: number) => {
-      api?.scrollTo(index);
-    },
-    [api]
-  );
-
   return (
-    <section className="w-full py-6 sm:py-8 md:py-10 bg-white dark:bg-background relative z-20">
-      <div className="container mx-auto px-4 sm:px-5 md:px-6 max-w-7xl">
-        
-        {/* Section Header */}
-        <div className="text-center mb-6 sm:mb-8 md:mb-10">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0A1E42] dark:text-white leading-[1.15]">
+    <section 
+      id="free-learning-resources"
+      aria-label="Free Learning Resources"
+      className="w-full pt-10 sm:pt-14 md:pt-16 pb-12 sm:pb-16 md:pb-20 bg-gradient-to-b from-[#F1F6FD] via-[#F6F9FE] to-[#EDF4FC] dark:from-slate-950 dark:via-slate-900/70 dark:to-slate-950 border-t border-[#E2ECF8] dark:border-slate-800/80 relative overflow-hidden select-none"
+    >
+      {/* ── Background Organic Ambient Wave Shapes (Matching Reference Design) ── */}
+      <div className="pointer-events-none absolute -top-12 -left-20 w-[420px] h-[340px] rounded-[50%] bg-[#EBF3FF]/60 dark:bg-blue-950/20 blur-3xl -z-10" />
+      <div className="pointer-events-none absolute -bottom-16 -right-16 w-[480px] h-[380px] rounded-[50%] bg-[#E8F2FD]/50 dark:bg-blue-950/20 blur-3xl -z-10" />
+
+      {/* Subtle background SVG flowing curve */}
+      <svg
+        className="pointer-events-none absolute inset-0 w-full h-full text-blue-100/35 dark:text-blue-950/20 -z-10"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1440 480"
+        fill="none"
+        preserveAspectRatio="none"
+      >
+        <path
+          d="M-50,180 C280,320 540,60 920,210 C1200,320 1350,140 1500,200 L1500,-50 L-50,-50 Z"
+          fill="currentColor"
+        />
+      </svg>
+
+      <div className="container mx-auto px-4 sm:px-5 md:px-6 max-w-7xl relative z-10">
+
+        {/* ══════════════════════════════════════════════════
+            HEADER AREA: Clean Heading
+            ══════════════════════════════════════════════════ */}
+        <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-8 md:mb-10">
+          {/* Main Heading — exact same font size & leading as IDL Stars, strictly single line */}
+          <h2 className="text-[20px] min-[360px]:text-[22px] min-[400px]:text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-[#0A1E42] dark:text-white leading-[1.15] whitespace-nowrap">
             Free Learning{' '}
             <span className="text-[#1D4ED8] dark:text-blue-400">
               Resources
@@ -189,68 +97,126 @@ export function StudyResources() {
           </h2>
         </div>
 
-        {/* ── DESKTOP: Equal 3-Column Grid ── */}
-        <div className="hidden md:grid md:grid-cols-3 gap-6 lg:gap-7 items-stretch">
-          {resources.map((resource) => (
-            <ResourceCard key={resource.id} resource={resource} />
+        {/* ══════════════════════════════════════════════════
+            DESKTOP VIEW: 3 Side-by-Side Equal Cards
+            ══════════════════════════════════════════════════ */}
+        <div className="hidden md:grid md:grid-cols-3 gap-5 lg:gap-6 xl:gap-7 items-stretch">
+          {resources.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="group block h-full focus:outline-none"
+            >
+              <div className="h-full flex flex-col bg-white dark:bg-slate-900 rounded-[24px] lg:rounded-[26px] border border-[#E9EFF7] dark:border-slate-800 shadow-[0_6px_24px_rgba(11,29,63,0.04)] hover:shadow-[0_14px_36px_rgba(11,29,63,0.09)] hover:-translate-y-1.5 transition-all duration-300 p-3.5 sm:p-4 lg:p-4.5 pb-4 sm:pb-4.5 lg:pb-5 relative overflow-hidden">
+                
+                {/* Top Illustration Box */}
+                <div className="relative w-full aspect-[16/10.5] rounded-[18px] lg:rounded-[20px] overflow-hidden mb-3.5 sm:mb-4 bg-[#F5F8FD] dark:bg-slate-800/80 border border-[#E5EEF9] dark:border-slate-700/60">
+                  <Image
+                    src={item.imageUrl}
+                    alt={item.imageAlt}
+                    fill
+                    className="object-cover object-center transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+                    sizes="(max-width: 1024px) 33vw, 380px"
+                    priority
+                  />
+                </div>
+
+                {/* Content: Title & Description on left, Circular Arrow Button on right */}
+                <div className="flex items-center justify-between gap-3 mt-auto pt-1">
+                  
+                  {/* Left: Title + Description */}
+                  <div className="flex flex-col text-left flex-1 min-w-0 pr-1">
+                    <h3 className="font-extrabold text-[17.5px] lg:text-[18.5px] xl:text-[19.5px] text-[#0B1D3F] dark:text-white leading-[1.2] tracking-tight mb-1 group-hover:text-[#0A5CFF] dark:group-hover:text-blue-400 transition-colors">
+                      {item.title}
+                    </h3>
+                    <p className="text-[12.5px] lg:text-[13px] text-[#64748B] dark:text-slate-300 font-normal leading-[1.45] line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {/* Right: Circular Arrow Action Button */}
+                  <div
+                    className={`w-10 h-10 lg:w-11 lg:h-11 rounded-full ${item.arrowBg} ${item.arrowText} dark:bg-slate-800 flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-105 shadow-sm`}
+                  >
+                    <ArrowRight className="w-4 h-4 lg:w-4.5 lg:h-4.5 stroke-[2.4] transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </div>
+
+                </div>
+
+                {/* Bottom Left Colored Accent Stripe (Matching Reference) */}
+                <div 
+                  className="w-11 sm:w-12 h-1 rounded-full mt-3 sm:mt-3.5 transition-all duration-300 group-hover:w-16"
+                  style={{ backgroundColor: item.accentColor }}
+                />
+
+              </div>
+            </Link>
           ))}
         </div>
 
-        {/* ── MOBILE: Proper Horizontal Carousel (1 Full Card visible at a time, zero clipping) ── */}
-        <div 
-          className="md:hidden w-full max-w-[380px] sm:max-w-md mx-auto"
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          onTouchStart={handleTouchStart}
-          onTouchEnd={handleTouchEnd}
-        >
-          <Carousel
-            setApi={setApi}
-            opts={{
-              align: "start",
-              loop: true,
-              duration: 25,
-            }}
-            plugins={[
-              Autoplay({
-                delay: 4000,
-                stopOnInteraction: false,
-                stopOnMouseEnter: true,
-              }),
-            ]}
-            className="w-full overflow-hidden"
-          >
-            <CarouselContent className="-ml-0 items-stretch">
-              {resources.map((resource) => (
-                <CarouselItem key={resource.id} className="pl-0 basis-full flex flex-col">
-                  <div className="w-full p-0.5">
-                    <ResourceCard resource={resource} />
+        {/* ══════════════════════════════════════════════════
+            MOBILE VIEW: 3 Horizontal Cards Stacked Vertically
+            ══════════════════════════════════════════════════ */}
+        <div className="flex flex-col md:hidden space-y-3.5 max-w-[440px] mx-auto w-full">
+          {resources.map((item) => (
+            <Link
+              key={item.id}
+              href={item.href}
+              className="group block w-full focus:outline-none"
+            >
+              <div className="bg-white dark:bg-slate-900 rounded-[20px] border border-[#E9EFF7] dark:border-slate-800 shadow-[0_4px_16px_rgba(11,29,63,0.04)] active:scale-[0.99] transition-all duration-200 p-3 sm:p-3.5 flex flex-col relative overflow-hidden">
+                
+                {/* Main Row: Thumbnail + Copy + Circular Arrow */}
+                <div className="flex items-center gap-3 sm:gap-3.5">
+                  
+                  {/* Left: Thumbnail Image Box */}
+                  <div className="relative w-[78px] h-[78px] sm:w-[86px] sm:h-[86px] rounded-[14px] sm:rounded-[16px] overflow-hidden shrink-0 bg-[#F5F8FD] dark:bg-slate-800/80 border border-[#E5EEF9] dark:border-slate-700/60">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.imageAlt}
+                      fill
+                      className="object-cover object-center"
+                      sizes="90px"
+                    />
                   </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-          </Carousel>
 
-          {/* Clean Pagination Dots */}
-          <div className="flex justify-center gap-1.5 mt-4 sm:mt-5">
-            {resources.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => scrollTo(i)}
-                className="p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px] cursor-pointer group/dot"
-                aria-label={`Go to resource ${i + 1}`}
-              >
-                <span
-                  className={cn(
-                    "rounded-full transition-all duration-300",
-                    (current % resources.length) === i
-                      ? "w-6 h-2 bg-[#1D4ED8]"
-                      : "w-2 h-2 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
-                  )}
+                  {/* Middle: Title & Description */}
+                  <div className="flex flex-col text-left flex-1 min-w-0 pr-1">
+                    <h3 className="font-extrabold text-[15px] sm:text-[16px] text-[#0B1D3F] dark:text-white leading-[1.2] tracking-tight mb-1">
+                      {item.title}
+                    </h3>
+                    <p className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-300 font-normal leading-[1.4] line-clamp-2">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {/* Right: Circular Arrow Action Button */}
+                  <div
+                    className={`w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full ${item.arrowBg} ${item.arrowText} dark:bg-slate-800 flex items-center justify-center shrink-0 shadow-sm`}
+                  >
+                    <ArrowRight className="w-4 h-4 stroke-[2.4]" />
+                  </div>
+
+                </div>
+
+                {/* Bottom Left Colored Accent Stripe */}
+                <div 
+                  className="w-10 h-1 rounded-full mt-2.5 ml-1"
+                  style={{ backgroundColor: item.accentColor }}
                 />
-              </button>
-            ))}
-          </div>
+
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        {/* ══════════════════════════════════════════════════
+            PAGINATION DOTS (Matching Reference: 1 Pill + 2 Dots)
+            ══════════════════════════════════════════════════ */}
+        <div className="flex items-center justify-center gap-1.5 mt-6 sm:mt-8 md:mt-10">
+          <div className="w-5 sm:w-6 h-2 rounded-full bg-[#0A5CFF]" />
+          <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
+          <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-700" />
         </div>
 
       </div>

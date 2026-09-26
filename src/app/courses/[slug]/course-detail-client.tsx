@@ -16,24 +16,36 @@ import {
     GraduationCap,
     Clock,
     Award,
-    CheckCircle2
+    CheckCircle2,
+    Users,
+    FileText
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { useAuth } from '@/context/auth-context';
 import { useToast } from '@/hooks/use-toast';
 import { createRazorpayOrder } from '@/app/actions/forms';
 
 // ── Course Catalog Data ────────────────────────────────────────────────
+interface AboutSection {
+    id: string;
+    title: string;
+    illustrationType: 'concept' | 'material' | 'test' | 'doubt';
+    points: string[];
+}
+
 interface CourseDetailData {
     slug: string;
-    programBadge: string;
     title: string;
     classMeta: string;
+    durationLabel: string;
     subjects: string;
-    offerings: string[];
-    conceptPoints: string[];
-    doubtPoints: string[];
-    testPoints: string[];
+    aboutSections: AboutSection[];
     feeAnnual: number;
     feeLumpSum: number;
     installment1: number;
@@ -44,133 +56,645 @@ interface CourseDetailData {
 const COURSES_CATALOG: Record<string, CourseDetailData> = {
     'class-9': {
         slug: 'class-9',
-        programBadge: 'CLASSROOM PROGRAM',
-        title: 'PRE-NURTURE CLASS IX',
-        classMeta: 'Class 9 • 1 Year',
-        subjects: 'Mental Ability, Physics, Social Science, Biology, Chemistry, English, Maths',
-        offerings: [
-            "Ideal for students preparing for competitive exams with a structured yearlong preparation plan.",
-            "Classroom Sessions by experienced IDL Education expert faculty.",
-            "Mentor Guidance & Performance Tracking throughout the academic session.",
-            "Printed study material, DPPs, and comprehensive All-India test series.",
+        title: 'Class 9 CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Maths, Science, English, Social Studies',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with advanced systems.',
+                    'Expert-Led Lectures: 90-mins sessions aligned with the exam pattern by experienced faculty.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Concept-driven exercises for speed and accuracy improvement.',
+                    'Topic-wise Booklets: Multi-level exercises, including PYQs and brain-teasers.',
+                    'GRP Sheets: Guided Revision Practice sheets post-course completion.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: On current topics for ongoing assessment.',
+                    'Cumulative Tests: Periodic syllabus review to identify learning gaps.',
+                    'Major Tests: Full-length tests aligned with CBSE board pattern with in-depth analytics.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: One-on-one sessions with senior faculty mentors after lectures.',
+                    'Faculty Mentorship: Continuous guidance and tracking to ensure zero concept backlogs.',
+                    'Remedial Practice: Customized problem sheets targeting challenging chapters and topics.',
+                ],
+            },
         ],
-        conceptPoints: [
-            "Air-conditioned, modern lecture halls with smart audio-visual teaching systems.",
-            "Deep conceptual foundation building to ensure effortless understanding of school & Olympiad topics.",
-        ],
-        doubtPoints: [
-            "Dedicated one-on-one doubt removal desks after every classroom session.",
-            "Continuous faculty guidance so no student is left behind on any chapter.",
-        ],
-        testPoints: [
-            "Weekly minor tests, periodic major exams & full-length mock tests on latest CBSE pattern.",
-            "In-depth performance analytics reports shared with students and parents.",
-        ],
-        feeAnnual: 36000,
-        feeLumpSum: 32000,
-        installment1: 18000,
-        installment2: 14000,
-        startDates: ['06 April, 2026', '21 April, 2026', '12 May, 2026'],
+        feeAnnual: 39999,
+        feeLumpSum: 39999,
+        installment1: 39999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
     },
     'class-10': {
         slug: 'class-10',
-        programBadge: 'CLASSROOM PROGRAM',
-        title: 'PRE-NURTURE CLASS X',
-        classMeta: 'Class 10 • 1 Year',
-        subjects: 'Mental Ability, Physics, Social Science, Biology, Chemistry, English, Maths, IT',
-        offerings: [
-            "Targeted 95%+ CBSE Board strategy with rigorous concept coverage.",
-            "Classroom Sessions by veteran IDL Education top faculty with proven board results.",
-            "Previous 10 Years Question Papers (PYQs) solving drills & marking scheme guidance.",
-            "Mentor Guidance & Performance Tracking throughout the session.",
+        title: 'Class 10 CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Maths, Science, English, Social Studies',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with advanced digital whiteboards.',
+                    'Expert-Led Lectures: 90-mins comprehensive sessions targeting 95%+ in CBSE Boards.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Concept-driven exercises for speed and accuracy improvement.',
+                    'Topic-wise Booklets: Last 10 years solved CBSE board papers (PYQs) & exemplar drills.',
+                    'GRP Sheets: Guided Revision Practice sheets post-course completion.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: On current topics for ongoing assessment.',
+                    'Cumulative Tests: Periodic syllabus review to identify and plug learning gaps.',
+                    'Pre-Board Simulations: Real exam environment test series evaluated strictly on CBSE marking schemes.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: One-on-one sessions with senior faculty mentors after lectures.',
+                    'Faculty Mentorship: Continuous guidance and tracking to ensure zero concept backlogs.',
+                    'Remedial Practice: Customized problem sheets targeting challenging chapters and topics.',
+                ],
+            },
         ],
-        conceptPoints: [
-            "100% NCERT line-by-line coverage combined with higher-order application problems.",
-            "Modern air-conditioned classrooms with interactive digital whiteboards.",
-        ],
-        doubtPoints: [
-            "Personalized daily doubt clearance sessions with senior subject experts.",
-            "Special answer-writing masterclasses to maximize board theory presentation marks.",
-        ],
-        testPoints: [
-            "Real exam environment pre-board simulation series with detailed paper evaluation.",
-            "Personalized diagnostic reports identifying weak areas with customized remedial sheets.",
-        ],
-        feeAnnual: 40000,
-        feeLumpSum: 36000,
-        installment1: 20000,
-        installment2: 16000,
-        startDates: ['06 April, 2026', '21 April, 2026', '12 May, 2026'],
+        feeAnnual: 39999,
+        feeLumpSum: 39999,
+        installment1: 39999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
     },
     'class-11': {
         slug: 'class-11',
-        programBadge: 'CLASSROOM PROGRAM',
-        title: 'CAREER FOUNDATION CLASS XI',
-        classMeta: 'Class 11 • 2 Years',
-        subjects: 'Physics, Chemistry, Mathematics / Biology, English (or Accounts, Economics, BST)',
-        offerings: [
-            "Seamless bridge from Class 10 to higher secondary CBSE & competitive foundation.",
-            "Integrated curriculum preparing students simultaneously for CBSE Boards & Entrance (JEE/NEET/CUET).",
-            "Classroom Sessions by veteran faculties from top educational hubs.",
-            "Mentor Guidance & Performance Tracking throughout the session.",
+        title: 'Class 11 CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with advanced smart audio-visual systems.',
+                    'Expert-Led Lectures: Rigorous theoretical foundations integrated with competitive entrance depth.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Concept-driven exercises for speed and accuracy improvement.',
+                    'Topic-wise Booklets: 3-tier graded problem sets from board fundamentals to advanced application.',
+                    'GRP Sheets: Guided Revision Practice sheets post-course completion.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Chapter-wise tests for continuous concept tracking.',
+                    'Cumulative Tests: Periodic review exams measuring time management and accuracy.',
+                    'Major Tests: Comprehensive simulated tests with national percentile and diagnostic error analysis.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: Full-time faculty available for instant conceptual doubt resolution.',
+                    'Academic Mentorship: One-on-one sessions balancing school exams and foundation preparation.',
+                    'Remedial Practice: Customized problem sets reinforcing difficult mathematical and scientific concepts.',
+                ],
+            },
         ],
-        conceptPoints: [
-            "In-depth physical and mathematical derivations with real-world applications.",
-            "Graded problem sheets taking students from basic concepts to advanced problem solving.",
-        ],
-        doubtPoints: [
-            "Dedicated doubt counters with senior professors open throughout center working hours.",
-            "One-on-one mentorship sessions to manage board and entrance preparation balance.",
-        ],
-        testPoints: [
-            "Weekly chapter-wise tests and cumulative terminal exams matching CBSE and competitive patterns.",
-            "National percentile ranking and time-management analytics for every test.",
-        ],
-        feeAnnual: 55000,
-        feeLumpSum: 49000,
-        installment1: 28000,
-        installment2: 21000,
-        startDates: ['10 April, 2026', '28 April, 2026', '15 May, 2026'],
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
     },
     'class-12': {
         slug: 'class-12',
-        programBadge: 'CLASSROOM PROGRAM',
-        title: 'BOARD & ENTRANCE CLASS XII',
-        classMeta: 'Class 12 • 1 Year',
-        subjects: 'Physics, Chemistry, Mathematics / Biology, English (or Accounts, Economics, BST)',
-        offerings: [
-            "Complete Class 12 CBSE Board syllabus mastery with comprehensive revision cycles.",
-            "High-impact entrance score booster modules for JEE, NEET, and CUET (UG).",
-            "Classroom Sessions by veteran IDL Education master teachers.",
-            "Mentor Guidance & Performance Tracking throughout the session.",
+        title: 'Class 12 CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with advanced systems.',
+                    'Expert-Led Lectures: Intensive board-focused sessions covering 100% NCERT theory and derivations.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Concept-driven exercises for speed and accuracy improvement.',
+                    'Topic-wise Booklets: Exhaustive 10-year board paper question bank and quick formula handbooks.',
+                    'GRP Sheets: Guided Revision Practice sheets post-course completion.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: On current topics for ongoing assessment.',
+                    'Cumulative Tests: Periodic syllabus review to identify learning gaps.',
+                    'Pre-Board Simulations: Full-length mock board tests with detailed scoring feedback and error analysis.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: Immediate post-lecture faculty sessions for zero backlog.',
+                    'Answer Presentation Mentorship: Special guidance from veteran examiners to maximize board marks.',
+                    'Remedial Practice: Targeted revision sets for numericals, reactions, and lengthy derivations.',
+                ],
+            },
         ],
-        conceptPoints: [
-            "Fast-track concept revision and high-yield formula recap booklets.",
-            "Comprehensive printed modules with previous board questions and entrance level questions.",
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
+    },
+    'class-11-science': {
+        slug: 'class-11-science',
+        title: 'Class 11 Science CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with advanced smart audio-visual systems.',
+                    'Expert-Led Lectures: Rigorous theoretical foundations integrated with competitive entrance depth.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Concept-driven exercises for speed and accuracy improvement.',
+                    'Topic-wise Booklets: 3-tier graded problem sets from board fundamentals to advanced application.',
+                    'GRP Sheets: Guided Revision Practice sheets post-course completion.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Chapter-wise tests for continuous concept tracking.',
+                    'Cumulative Tests: Periodic review exams measuring time management and accuracy.',
+                    'Major Tests: Comprehensive simulated tests with national percentile and diagnostic error analysis.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: Full-time faculty available for instant conceptual doubt resolution.',
+                    'Academic Mentorship: One-on-one sessions balancing school exams and foundation preparation.',
+                    'Remedial Practice: Customized problem sets reinforcing difficult mathematical and scientific concepts.',
+                ],
+            },
         ],
-        doubtPoints: [
-            "Immediate doubt clearance during and after lectures by faculty mentors.",
-            "Special remedial batches for students needing reinforcement in difficult chapters.",
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
+    },
+    'class-11-commerce': {
+        slug: 'class-11-commerce',
+        title: 'Class 11 Commerce CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Accountancy, Business Studies, Economics, English / Maths',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with interactive multimedia systems.',
+                    'Expert-Led Lectures: Real-world business cases, ledger mechanics, and macroeconomics analysis.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Practical problem drills for financial accounting balance sheets and journals.',
+                    'Topic-wise Booklets: NCERT & reference exemplar problem sets graded by difficulty.',
+                    'GRP Sheets: Guided Revision Practice sheets for quarterly and annual exams.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Subject-wise objective and subjective tests aligned with CBSE guidelines.',
+                    'Cumulative Tests: Terminal exam practice simulating actual school board testing patterns.',
+                    'Major Tests: Comprehensive diagnostic evaluations with step-marking feedback.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: On-desk faculty available for accounting entries and numerical doubts.',
+                    'Academic Mentorship: Career counseling for CUET, CA Foundation, and commerce degrees.',
+                    'Remedial Practice: Targeted worksheets for complex economic curves and ledger balancing.',
+                ],
+            },
         ],
-        testPoints: [
-            "Strict CBSE board pattern mock examinations with step-by-step scoring feedback.",
-            "All India Computer Based Test (CBT) series with detailed error analysis.",
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
+    },
+    'class-11-arts': {
+        slug: 'class-11-arts',
+        title: 'Class 11 Arts CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'History, Political Science, Geography, Economics, English',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Spacious lecture rooms with visual timeline and cartographic projection tools.',
+                    'Expert-Led Lectures: In-depth analytical discussions linking historical events with contemporary politics.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Source-based questions, map-work exercises, and data interpretation sheets.',
+                    'Topic-wise Booklets: High-scoring essay frameworks and structured chapter summaries.',
+                    'GRP Sheets: Guided Revision Practice booklets for mid-term and annual exams.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Chapter-wise tests emphasizing analytical and evaluative questions.',
+                    'Cumulative Tests: Periodic exam series assessing answer presentation and time management.',
+                    'Major Tests: Full-length CBSE pattern mock tests with detailed subjective grading.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: One-on-one sessions for answer refinement and theoretical queries.',
+                    'Academic Mentorship: Strategic planning for CUET humanities preparation and top universities.',
+                    'Remedial Practice: Writing clinics to improve flow, vocabulary, and thesis arguments.',
+                ],
+            },
         ],
-        feeAnnual: 60000,
-        feeLumpSum: 54000,
-        installment1: 30000,
-        installment2: 24000,
-        startDates: ['08 April, 2026', '24 April, 2026', '10 May, 2026'],
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
+    },
+    'class-12-science': {
+        slug: 'class-12-science',
+        title: 'Class 12 Science CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Air-conditioned, spacious lecture halls with advanced systems.',
+                    'Expert-Led Lectures: Intensive board-focused sessions covering 100% NCERT theory and derivations.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Daily question sets designed to master application, formulas, and diagrams.',
+                    'Topic-wise Booklets: Last 10 years solved CBSE board papers (PYQs) & exemplar drills.',
+                    'GRP Sheets: Comprehensive final revision modules and formula handbooks.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Chapter-wise subjective tests strictly mirroring CBSE marking schemes.',
+                    'Cumulative Tests: Complete syllabus revision cycles ahead of board pre-boards.',
+                    'Pre-Board Simulations: Real exam environment test series evaluated strictly on CBSE marking schemes.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: Immediate post-lecture faculty sessions for zero backlog.',
+                    'Answer Presentation Mentorship: Special guidance from veteran examiners to maximize board marks.',
+                    'Remedial Practice: Targeted revision sets for numericals, reactions, and lengthy derivations.',
+                ],
+            },
+        ],
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
+    },
+    'class-12-commerce': {
+        slug: 'class-12-commerce',
+        title: 'Class 12 Commerce CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'Accountancy, Business Studies, Economics, English / Maths',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: Modern interactive lecture halls optimized for commerce and calculations.',
+                    'Expert-Led Lectures: Partnership accounts, company accounts, macroeconomic policies, and BST case studies.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Target drills for cash flow statements, ratio analysis, and national income.',
+                    'Topic-wise Booklets: 10-year solved CBSE questions, model papers, and presentation blueprints.',
+                    'GRP Sheets: Quick recap booklets and key formulas before terminal and board exams.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Weekly timed chapter exams for accurate numerical and theoretical mastery.',
+                    'Pre-Board Simulations: Full-length 80-mark mock papers with strict step-wise evaluation.',
+                    'Major Tests: All-India rank benchmarking with comprehensive diagnostic breakdown.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: Dedicated faculty support for complex ledger accounts and BST cases.',
+                    'Examiner Mentorship: Answer presentation strategies to avoid common board marking deductions.',
+                    'Remedial Practice: Step-by-step problem sessions for students aiming for 95%+ in boards.',
+                ],
+            },
+        ],
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
+    },
+    'class-12-arts': {
+        slug: 'class-12-arts',
+        title: 'Class 12 Arts CBSE — Session 2026–27',
+        classMeta: 'Course Duration | 1 Year',
+        durationLabel: '1 Year',
+        subjects: 'History, Political Science, Geography, Economics, English',
+        aboutSections: [
+            {
+                id: 'concept-building',
+                title: 'Concept Building',
+                illustrationType: 'concept',
+                points: [
+                    'Modern Classrooms: State-of-the-art multimedia lecture spaces for humanities learning.',
+                    'Expert-Led Lectures: Comprehensive syllabus coverage with deep source analysis and critical historiography.',
+                ],
+            },
+            {
+                id: 'smart-study-material',
+                title: 'Smart Study Material',
+                illustrationType: 'material',
+                points: [
+                    'RACE Sheets: Source analysis exercises, map plotting drills, and timeline flowcharts.',
+                    'Topic-wise Booklets: CBSE board PYQs categorized by weightage with model answers.',
+                    'GRP Sheets: Final sprint revision booklets summarizing all key events, treaties, and concepts.',
+                ],
+            },
+            {
+                id: 'intelligent-test-system',
+                title: 'Intelligent Test System',
+                illustrationType: 'test',
+                points: [
+                    'Unit Tests: Regular subjective tests to build speed and stamina for long-answer writing.',
+                    'Pre-Board Simulations: Complete 3-hour board simulations evaluated on CBSE marking guidelines.',
+                    'Major Tests: In-depth personalized feedback on argument structuring and conclusion quality.',
+                ],
+            },
+            {
+                id: 'doubt-resolution',
+                title: 'Doubt Resolution Desks',
+                illustrationType: 'doubt',
+                points: [
+                    'Daily Doubt Counters: Full-time faculty desks for individual question reviews.',
+                    'CUET & Board Guidance: Dedicated mentorship bridging CBSE Class 12 and university entrances.',
+                    'Remedial Practice: Specialized sessions on high-weightage topics and map evaluation.',
+                ],
+            },
+        ],
+        feeAnnual: 49999,
+        feeLumpSum: 49999,
+        installment1: 49999,
+        installment2: 0,
+        startDates: ['06 April, 2026', '12 May, 2026'],
     },
 };
 
-// ── 4 IDL Learning Campuses ────────────────────────────────────────────
-const CAMPUSES = [
-    { id: 'mukherjee-nagar', label: 'Mukherjee Nagar, Delhi', address: 'Mukherjee Nagar, Delhi-110009' },
-    { id: 'mangol-puri', label: 'Mangol Puri, Delhi', address: 'Mangol Puri, Delhi-110083' },
-    { id: 'budh-vihar', label: 'Budh Vihar, Delhi', address: 'Budh Vihar, Delhi-110086' },
-    { id: 'krishan-vihar', label: 'Krishan Vihar, Delhi', address: 'Krishan Vihar, Delhi-110086' },
+// ── Mode-wise Fee Calculator (Including GST) ───────────────────────────
+// Class 9 & 10: Online ₹29,999 | Offline ₹39,999 | Hybrid ₹49,999
+// Class 11 & 12: Online ₹39,999 | Offline ₹49,999 | Hybrid ₹59,999
+export function calculateCourseFee(slugOrClass: string, mode: string = 'Offline Mode'): number {
+    const s = slugOrClass.toLowerCase();
+    const isJunior = s.includes('9') || s.includes('10');
+    const m = mode.toLowerCase();
+    if (m.includes('online')) {
+        return isJunior ? 29999 : 39999;
+    }
+    if (m.includes('hybrid')) {
+        return isJunior ? 49999 : 59999;
+    }
+    // Offline Mode (default)
+    return isJunior ? 39999 : 49999;
+}
+
+// ── 4 IDL Learning Branches ────────────────────────────────────────────
+const BRANCHES = [
+    { id: 'mukherjee-nagar', label: 'Mukherjee Nagar, Delhi', address: 'Commercial Complex, Mukherjee Nagar, Delhi-110009' },
+    { id: 'mangol-puri', label: 'Mangol Puri, Delhi', address: 'Main Road, Mangol Puri, Delhi-110083' },
+    { id: 'budh-vihar', label: 'Budh Vihar, Delhi', address: 'Phase 1, Budh Vihar, Delhi-110086' },
+    { id: 'krishan-vihar', label: 'Krishan Vihar, Delhi', address: 'Main Kanjhawala Road, Krishan Vihar, Delhi-110086' },
 ];
+
+// ── Illustrations matching user reference screenshot ───────────────────
+function ConceptBuildingIllustration() {
+    return (
+        <svg width="112" height="96" viewBox="0 0 112 96" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto max-w-[110px]">
+            {/* Back light blue card */}
+            <rect x="42" y="28" width="58" height="38" rx="6" fill="#93C5FD" fillOpacity="0.75" />
+            {/* Middle teal card */}
+            <rect x="32" y="18" width="58" height="38" rx="6" fill="#0D9488" />
+            <rect x="38" y="24" width="20" height="4" rx="2" fill="white" fillOpacity="0.8" />
+            {/* Front royal blue card */}
+            <rect x="14" y="6" width="58" height="38" rx="6" fill="#2563EB" />
+            <circle cx="23" cy="15" r="3.5" fill="#FCD34D" />
+            <rect x="32" y="13" width="28" height="5" rx="2.5" fill="white" />
+            {/* Green connection flow lines and arrow heads */}
+            <path d="M14 26H5V58H30" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M27 55L31 58L27 61" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5 42H30" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" />
+            <path d="M27 39L31 42L27 45" stroke="#10B981" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    );
+}
+
+function SmartStudyMaterialIllustration() {
+    return (
+        <svg width="124" height="96" viewBox="0 0 124 96" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto max-w-[120px]">
+            {/* Blue device outer body */}
+            <rect x="8" y="20" width="108" height="66" rx="14" fill="#3B82F6" />
+            <rect x="12" y="24" width="100" height="58" rx="10" fill="white" />
+            {/* Quizzes card (Blue) */}
+            <rect x="18" y="30" width="42" height="46" rx="6" fill="#2563EB" />
+            <text x="39" y="41" fill="white" fontSize="7.5" fontWeight="bold" textAnchor="middle" fontFamily="system-ui, sans-serif">Quizzes</text>
+            <rect x="25" y="47" width="8" height="8" rx="2" fill="white" fillOpacity="0.9" />
+            <rect x="37" y="47" width="8" height="8" rx="2" fill="white" fillOpacity="0.9" />
+            <rect x="25" y="58" width="8" height="8" rx="2" fill="white" fillOpacity="0.9" />
+            <rect x="37" y="58" width="8" height="8" rx="2" fill="white" fillOpacity="0.9" />
+            {/* Revision Byte card (Yellow) */}
+            <rect x="64" y="30" width="42" height="30" rx="6" fill="#FBBF24" />
+            <text x="85" y="41" fill="#78350F" fontSize="7" fontWeight="bold" textAnchor="middle" fontFamily="system-ui, sans-serif">Revision</text>
+            <text x="85" y="49" fill="#78350F" fontSize="7" fontWeight="bold" textAnchor="middle" fontFamily="system-ui, sans-serif">Byte</text>
+            <rect x="70" y="53" width="30" height="2" rx="1" fill="#78350F" fillOpacity="0.4" />
+            {/* Homework card (Emerald) */}
+            <rect x="26" y="66" width="64" height="15" rx="5" fill="#10B981" />
+            <text x="58" y="77" fill="white" fontSize="7.5" fontWeight="bold" textAnchor="middle" fontFamily="system-ui, sans-serif">Home work</text>
+        </svg>
+    );
+}
+
+function IntelligentTestSystemIllustration() {
+    return (
+        <svg width="112" height="96" viewBox="0 0 112 96" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto max-w-[110px]">
+            {/* Yellow Sparkle at top */}
+            <path d="M16 12L17.5 17L22.5 18.5L17.5 20L16 25L14.5 20L9.5 18.5L14.5 17L16 12Z" fill="#F59E0B" />
+            {/* Blue device casing */}
+            <rect x="14" y="24" width="84" height="54" rx="12" fill="#2563EB" />
+            <rect x="18" y="28" width="76" height="46" rx="8" fill="white" />
+            {/* Slider / toggle */}
+            <rect x="25" y="36" width="30" height="14" rx="7" fill="#E2E8F0" />
+            <circle cx="32" cy="43" r="5" fill="#3B82F6" />
+            {/* Test progress score circle */}
+            <circle cx="70" cy="48" r="14" stroke="#E2E8F0" strokeWidth="3" />
+            <circle cx="70" cy="48" r="14" stroke="#10B981" strokeWidth="3" strokeDasharray="60 30" strokeLinecap="round" />
+            <text x="70" y="51" fill="#1E293B" fontSize="8" fontWeight="bold" textAnchor="middle" fontFamily="system-ui, sans-serif">95%</text>
+            {/* Check lines */}
+            <path d="M25 58H45" stroke="#94A3B8" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+    );
+}
+
+function DoubtResolutionIllustration() {
+    return (
+        <svg width="112" height="96" viewBox="0 0 112 96" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-auto max-w-[110px]">
+            {/* Sparkle */}
+            <path d="M96 14L97.5 18L101.5 19.5L97.5 21L96 25L94.5 21L90.5 19.5L94.5 18L96 14Z" fill="#6366F1" />
+            {/* Mentor Bubble */}
+            <rect x="12" y="18" width="50" height="36" rx="10" fill="#4F46E5" />
+            <circle cx="26" cy="33" r="5" fill="#C7D2FE" />
+            <rect x="35" y="31" width="18" height="4" rx="2" fill="white" />
+            {/* Student Bubble with Checkmark */}
+            <rect x="46" y="38" width="52" height="38" rx="10" fill="#10B981" />
+            <circle cx="61" cy="54" r="5" fill="#A7F3D0" />
+            <path d="M72 54L75 57L83 49" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+    );
+}
 
 export function CourseDetailClient({ slug }: { slug: string }) {
     const router = useRouter();
@@ -183,17 +707,34 @@ export function CourseDetailClient({ slug }: { slug: string }) {
     const normalizedSlug = (slug || 'class-9').toLowerCase();
     const course = COURSES_CATALOG[normalizedSlug] || COURSES_CATALOG['class-9'];
 
-    // Campus selection (defaults to search param or Mukherjee Nagar)
+    // Read Mode from search params or default to student's selection
+    const modeParam = searchParams.get('mode');
+    const [selectedMode, setSelectedMode] = useState<string>(() => {
+        if (modeParam) {
+            const lower = modeParam.toLowerCase();
+            if (lower.includes('online')) return 'Online Mode';
+            if (lower.includes('hybrid')) return 'Hybrid Mode';
+            return 'Offline Mode';
+        }
+        return 'Offline Mode';
+    });
+
+    // Dynamically calculate course fee based on class and mode (Including GST)
+    const currentFee = calculateCourseFee(course.slug, selectedMode);
+    const baseFee = Math.round(currentFee / 1.18);
+    const gstFee = currentFee - baseFee;
+    const [feeStructureOpen, setFeeStructureOpen] = useState(false);
+
+    // Branch selection (defaults to search param or Mukherjee Nagar)
     const centerParam = searchParams.get('center') || 'Mukherjee Nagar';
-    const [selectedCampus, setSelectedCampus] = useState<string>(() => {
-        const found = CAMPUSES.find(c => c.label.toLowerCase().includes(centerParam.toLowerCase()) || c.id === centerParam.toLowerCase());
-        return found ? found.label : CAMPUSES[0].label;
+    const [selectedBranch, setSelectedBranch] = useState<string>(() => {
+        const found = BRANCHES.find(b => b.label.toLowerCase().includes(centerParam.toLowerCase()) || b.id === centerParam.toLowerCase());
+        return found ? found.label : BRANCHES[0].label;
     });
 
     // Preferences
-    const [selectedLanguage, setSelectedLanguage] = useState<'English' | 'Hinglish'>('English');
+    const [selectedLanguage, setSelectedLanguage] = useState<'English'>('English');
     const [selectedStartDate, setSelectedStartDate] = useState<string>(course.startDates[0]);
-    const [feeStructureOpen, setFeeStructureOpen] = useState(false);
     const [isProcessingPayment, setIsProcessingPayment] = useState(false);
     const [paymentSuccessData, setPaymentSuccessData] = useState<{
         paymentId: string;
@@ -247,8 +788,8 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                 return;
             }
 
-            // Create Order on Server
-            const amountInPaise = course.feeAnnual * 100;
+            // Create Order on Server with dynamically computed mode fee
+            const amountInPaise = currentFee * 100;
             const orderResult = await createRazorpayOrder({ amount: amountInPaise, currency: 'INR' });
 
             if (!orderResult.success || !orderResult.orderId) {
@@ -268,7 +809,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                 amount: orderResult.amount,
                 currency: orderResult.currency || 'INR',
                 name: 'IDL Education',
-                description: `${course.title} Enrollment - ${selectedCampus}`,
+                description: `${course.title} (${selectedMode}) - ${selectedBranch}`,
                 order_id: orderResult.orderId,
                 prefill: {
                     name: user.name || (user as any).displayName || 'Student',
@@ -283,7 +824,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                     setPaymentSuccessData({
                         paymentId: response.razorpay_payment_id,
                         orderId: response.razorpay_order_id,
-                        amount: course.feeAnnual,
+                        amount: currentFee,
                     });
                     toast({
                         title: "Payment Successful!",
@@ -318,162 +859,162 @@ export function CourseDetailClient({ slug }: { slug: string }) {
         }
     };
 
+    // Helper for rendering section illustrations
+    const renderIllustration = (type: AboutSection['illustrationType']) => {
+        switch (type) {
+            case 'concept':
+                return <ConceptBuildingIllustration />;
+            case 'material':
+                return <SmartStudyMaterialIllustration />;
+            case 'test':
+                return <IntelligentTestSystemIllustration />;
+            case 'doubt':
+                return <DoubtResolutionIllustration />;
+            default:
+                return <ConceptBuildingIllustration />;
+        }
+    };
+
     return (
-        <div className="min-h-screen bg-[#F4F8FC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 py-6 sm:py-10">
-            <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 py-5 sm:py-8">
+            <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
                 
                 {/* Back to Courses Link */}
-                <div className="mb-6">
+                <div className="mb-5">
                     <Link 
                         href="/courses"
-                        className="inline-flex items-center gap-2 text-xs font-bold text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-400 transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-400 transition-colors"
                     >
-                        <ArrowLeft className="w-4 h-4" />
+                        <ArrowLeft className="w-3.5 h-3.5" />
                         <span>Back to All Courses</span>
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-8 items-start">
                     
-                    {/* ── LEFT COLUMN: Course Header & Details (Matching Screenshot) ── */}
-                    <div className="lg:col-span-7 xl:col-span-8 space-y-7">
+                    {/* ── LEFT COLUMN: Course Header, Subjects & About ── */}
+                    <div className="lg:col-span-7 xl:col-span-8 space-y-6">
                         
-                        {/* 1. Header Section */}
+                        {/* 1. Course Header */}
                         <div>
-                            {/* Green Badge: CLASSROOM PROGRAM */}
-                            <div className="inline-flex items-center px-4 py-1.5 rounded-full bg-[#10B981] text-white text-[11px] font-extrabold uppercase tracking-wider shadow-xs mb-3">
-                                {course.programBadge}
+                            {/* Dynamic Mode Badge */}
+                            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#10B981] text-white text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider shadow-xs mb-2.5">
+                                {selectedMode.toUpperCase()}
                             </div>
 
-                            {/* Main Title: PRE-NURTURE CLASS IX */}
-                            <h1 className="text-2xl sm:text-3xl lg:text-[36px] font-black text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
+                            {/* Main Heading: Clear, refined weight */}
+                            <h1 className="text-2xl sm:text-[28px] lg:text-[32px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
                                 {course.title}
                             </h1>
 
-                            {/* Class & Duration Meta */}
-                            <p className="text-slate-500 dark:text-slate-400 font-semibold text-sm sm:text-base mt-1.5">
-                                {course.classMeta}
-                            </p>
+                            {/* Secondary Information: Course Duration | 1 Year */}
+                            <div className="flex items-center gap-2 mt-2 text-slate-500 dark:text-slate-400 text-xs sm:text-[13px] font-medium">
+                                <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                <span>Course Duration</span>
+                                <span className="text-slate-300 dark:text-slate-600">|</span>
+                                <span className="text-slate-700 dark:text-slate-300 font-semibold">{course.durationLabel}</span>
+                            </div>
                         </div>
 
-                        {/* 2. Subjects Box (Exact Design from Screenshot) */}
-                        <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-xs flex items-center gap-4">
+                        {/* 2. Subjects Card - Full Width & Cleanly Integrated */}
+                        <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-[0_2px_10px_rgba(11,40,88,0.03)] flex items-center gap-4 w-full">
                             <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200/60 dark:border-slate-700 text-slate-700 dark:text-slate-300">
-                                <BookOpen className="w-5 h-5 stroke-[2]" />
+                                <BookOpen className="w-5 h-5 stroke-[1.75]" />
                             </div>
-                            <div>
-                                <span className="text-[11.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-0.5">
+                            <div className="flex-1 min-w-0">
+                                <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-0.5">
                                     Subjects
                                 </span>
-                                <p className="text-[13.5px] sm:text-[14px] font-bold text-slate-800 dark:text-slate-200 leading-snug">
+                                <p className="text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-slate-100 leading-snug">
                                     {course.subjects}
                                 </p>
                             </div>
                         </div>
 
-                        {/* 3. Course Offerings (Exact Bullet List from Screenshot) */}
-                        <div>
-                            <h2 className="text-lg sm:text-[20px] font-black text-[#0B1F4B] dark:text-white mb-3 tracking-tight">
-                                Course Offerings
-                            </h2>
-                            <ul className="space-y-2.5 text-[13.5px] sm:text-[14px] text-slate-700 dark:text-slate-300 font-normal leading-relaxed">
-                                {course.offerings.map((offering, idx) => (
-                                    <li key={idx} className="flex items-start gap-2.5">
-                                        <span className="w-1.5 h-1.5 rounded-full bg-slate-500 dark:bg-slate-400 shrink-0 mt-2" />
-                                        <span>{offering}</span>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* 4. About the Course (Concept Building Cards from Screenshot) */}
+                        {/* 3. About the Course Section (Exact style from Reference Screenshot) */}
                         <div className="pt-2">
-                            <h2 className="text-lg sm:text-[20px] font-black text-[#0B1F4B] dark:text-white mb-4 tracking-tight">
+                            {/* Section Heading matching screenshot */}
+                            <h2 className="text-xl sm:text-[22px] font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
                                 About the Course
                             </h2>
 
-                            <div className="space-y-4">
-                                {/* Card 1: Concept Building */}
-                                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 shadow-xs">
-                                    <h3 className="text-base font-black text-slate-900 dark:text-white mb-2.5">
-                                        Concept Building
-                                    </h3>
-                                    <ul className="space-y-2 text-[13px] sm:text-[13.5px] text-slate-600 dark:text-slate-300">
-                                        {course.conceptPoints.map((p, i) => (
-                                            <li key={i} className="flex items-start gap-2.5">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
-                                                <span>{p}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                            {/* Single Large White Card enclosing all sections with dashed dividers */}
+                            <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[24px] p-6 sm:p-8 shadow-[0_2px_12px_rgba(11,40,88,0.03)]">
+                                {course.aboutSections.map((sec, idx) => (
+                                    <React.Fragment key={sec.id}>
+                                        {idx > 0 && (
+                                            <div className="border-t border-dashed border-slate-200 dark:border-slate-800 my-6" />
+                                        )}
+                                        <div className="flex items-center justify-between gap-4 sm:gap-6">
+                                            <div className="flex-1 min-w-0 pr-1">
+                                                <h3 className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white mb-3">
+                                                    {sec.title}
+                                                </h3>
+                                                <ul className="space-y-2.5 text-[13px] sm:text-[13.5px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                    {sec.points.map((pt, pIdx) => {
+                                                        const colonIndex = pt.indexOf(': ');
+                                                        const label = colonIndex !== -1 ? pt.slice(0, colonIndex + 1) : '';
+                                                        const text = colonIndex !== -1 ? pt.slice(colonIndex + 2) : pt;
 
-                                {/* Card 2: Doubt Resolution */}
-                                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 shadow-xs">
-                                    <h3 className="text-base font-black text-slate-900 dark:text-white mb-2.5">
-                                        Doubt Resolution Desks
-                                    </h3>
-                                    <ul className="space-y-2 text-[13px] sm:text-[13.5px] text-slate-600 dark:text-slate-300">
-                                        {course.doubtPoints.map((p, i) => (
-                                            <li key={i} className="flex items-start gap-2.5">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
-                                                <span>{p}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-
-                                {/* Card 3: Test Series & Assessment */}
-                                <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-5 shadow-xs">
-                                    <h3 className="text-base font-black text-slate-900 dark:text-white mb-2.5">
-                                        Periodic Testing & Diagnostics
-                                    </h3>
-                                    <ul className="space-y-2 text-[13px] sm:text-[13.5px] text-slate-600 dark:text-slate-300">
-                                        {course.testPoints.map((p, i) => (
-                                            <li key={i} className="flex items-start gap-2.5">
-                                                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0 mt-2" />
-                                                <span>{p}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                                        return (
+                                                            <li key={pIdx} className="flex items-start gap-2.5">
+                                                                <span className="text-slate-700 dark:text-slate-300 text-sm leading-none mt-1 shrink-0">•</span>
+                                                                <span className="leading-relaxed">
+                                                                    {label && <strong className="font-semibold text-slate-800 dark:text-slate-200">{label} </strong>}
+                                                                    {text}
+                                                                </span>
+                                                            </li>
+                                                        );
+                                                    })}
+                                                </ul>
+                                            </div>
+                                            <div className="shrink-0 w-24 sm:w-28 flex items-center justify-center">
+                                                {renderIllustration(sec.illustrationType)}
+                                            </div>
+                                        </div>
+                                    </React.Fragment>
+                                ))}
                             </div>
                         </div>
 
                     </div>
 
                     {/* ── RIGHT COLUMN: Sticky Course Preference & Enrollment Card ── */}
-                    <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-24">
-                        <div className="bg-white dark:bg-slate-900 rounded-[26px] border border-slate-200/90 dark:border-slate-800 p-6 sm:p-7 shadow-[0_12px_36px_rgba(11,40,88,0.06)]">
+                    <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-20">
+                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6 shadow-[0_4px_24px_rgba(11,40,88,0.05)]">
                             
                             {/* Card Title */}
-                            <h3 className="text-[17px] sm:text-[18px] font-black text-[#0B1F4B] dark:text-white mb-5 tracking-tight">
+                            <h3 className="text-[15.5px] sm:text-[16.5px] font-bold text-[#0B1F4B] dark:text-white mb-3.5 tracking-tight">
                                 Select your course preference
                             </h3>
 
-                            {/* Preference Options Box (Bordered box matching screenshot) */}
-                            <div className="border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 sm:p-5 space-y-4 bg-white dark:bg-slate-900">
+                            {/* Preference Options Box */}
+                            <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl p-3.5 sm:p-4 space-y-3.5 bg-white dark:bg-slate-900">
                                 
+
                                 {/* 1. SELECT LANGUAGE */}
                                 <div>
-                                    <span className="text-[10.5px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-2">
+                                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1.5">
                                         SELECT LANGUAGE
                                     </span>
                                     <div className="flex items-center gap-2">
-                                        {(['English', 'Hinglish'] as const).map((lang) => (
-                                            <button
-                                                key={lang}
-                                                type="button"
-                                                onClick={() => setSelectedLanguage(lang)}
-                                                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-                                                    selectedLanguage === lang
-                                                        ? 'bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-xs'
-                                                        : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
-                                                }`}
-                                            >
-                                                {lang}
-                                            </button>
-                                        ))}
+                                        <button
+                                            type="button"
+                                            id="select-lang-english"
+                                            onClick={() => setSelectedLanguage('English')}
+                                            className="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-xs cursor-pointer"
+                                        >
+                                            English
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            id="select-lang-hindi"
+                                            disabled
+                                            className="px-4 py-1.5 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-60"
+                                        >
+                                            Hindi
+                                        </button>
                                     </div>
                                 </div>
 
@@ -481,7 +1022,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                                 {/* 2. SELECT START DATE */}
                                 <div>
-                                    <span className="text-[10.5px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-2">
+                                    <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1.5">
                                         SELECT START DATE
                                     </span>
                                     <div className="flex flex-wrap gap-2">
@@ -490,7 +1031,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                                                 key={date}
                                                 type="button"
                                                 onClick={() => setSelectedStartDate(date)}
-                                                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                                                     selectedStartDate === date
                                                         ? 'bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-xs'
                                                         : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
@@ -504,125 +1045,141 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                                 <div className="border-t border-slate-100 dark:border-slate-800" />
 
-                                {/* 3. SELECT CAMPUS (4 IDL Centers) */}
+                                {/* 3. DIRECT BRANCH DISPLAY WITH INLINE CHANGE OPTION */}
                                 <div>
-                                    <span className="text-[10.5px] font-extrabold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-2">
-                                        SELECT CAMPUS
-                                    </span>
-                                    <div className="space-y-1.5">
-                                        {CAMPUSES.map((campus) => (
-                                            <button
-                                                key={campus.id}
-                                                type="button"
-                                                onClick={() => setSelectedCampus(campus.label)}
-                                                className={`w-full px-3.5 py-2.5 rounded-xl text-left text-xs font-bold transition-all flex items-center justify-between ${
-                                                    selectedCampus === campus.label
-                                                        ? 'bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-xs'
-                                                        : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
-                                                }`}
+                                    <div className="flex items-center justify-between mb-1.5">
+                                        <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                            PREFERRED BRANCH
+                                        </span>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <button
+                                                    type="button"
+                                                    id="change-branch-link"
+                                                    className="text-[11.5px] font-semibold text-[#1D4ED8] dark:text-blue-400 hover:underline cursor-pointer inline-flex items-center gap-0.5"
+                                                >
+                                                    <span>Change</span>
+                                                    <ChevronDown className="w-3 h-3 text-[#1D4ED8] dark:text-blue-400" />
+                                                </button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent 
+                                                align="end" 
+                                                className="w-[calc(100vw-3rem)] sm:w-[300px] max-w-sm bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-1.5 shadow-xl rounded-xl z-50"
                                             >
-                                                <span>{campus.label}</span>
-                                                {selectedCampus === campus.label && (
-                                                    <Check className="w-3.5 h-3.5 text-[#0369A1] shrink-0" />
-                                                )}
-                                            </button>
-                                        ))}
+                                                <div className="px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-wider text-slate-400">
+                                                    Change Learning Branch
+                                                </div>
+                                                {BRANCHES.map((b) => (
+                                                    <DropdownMenuItem
+                                                        key={b.id}
+                                                        onClick={() => setSelectedBranch(b.label)}
+                                                        className={`flex items-center justify-between px-2.5 py-2 rounded-lg cursor-pointer text-xs my-0.5 ${
+                                                            selectedBranch === b.label 
+                                                                ? 'bg-blue-50 dark:bg-blue-950/60 text-[#2563EB] dark:text-blue-400 font-bold' 
+                                                                : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium'
+                                                        }`}
+                                                    >
+                                                        <div>
+                                                            <div className="font-semibold text-xs">{b.label}</div>
+                                                            <div className="text-[10px] text-slate-400 font-normal">{b.address}</div>
+                                                        </div>
+                                                        {selectedBranch === b.label && (
+                                                            <Check className="w-3.5 h-3.5 text-[#2563EB] shrink-0 ml-2" />
+                                                        )}
+                                                    </DropdownMenuItem>
+                                                ))}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                    <div className="px-3 py-2 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 flex items-center justify-between">
+                                        <div className="flex items-center gap-2 truncate">
+                                            <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center shrink-0">
+                                                <MapPin className="w-2.5 h-2.5 text-[#2563EB]" />
+                                            </span>
+                                            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                                                {selectedBranch}
+                                            </span>
+                                        </div>
+                                        <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider shrink-0 bg-emerald-50 dark:bg-emerald-950/50 px-1.5 py-0.5 rounded">
+                                            Selected
+                                        </span>
                                     </div>
                                 </div>
 
                             </div>
 
-                            {/* Fee Row: Left = Course Fee + View fee structure; Right = ₹Price */}
-                            <div className="mt-5 pt-1">
-                                <div className="flex items-center justify-between">
+                            {/* Course Fee & Fee Structure - Exactly matching user screenshot */}
+                            <div className="mt-5 space-y-3.5">
+                                <div className="flex items-start justify-between">
                                     <div>
-                                        <span className="text-sm font-bold text-slate-900 dark:text-white block">
+                                        <h4 className="text-xl sm:text-[23px] font-bold text-slate-900 dark:text-white leading-tight">
                                             Course Fee
-                                        </span>
+                                        </h4>
                                         <button
                                             type="button"
+                                            id="view-fee-structure-btn"
                                             onClick={() => setFeeStructureOpen(!feeStructureOpen)}
-                                            className="text-xs font-bold text-[#1D4ED8] dark:text-blue-400 hover:underline inline-flex items-center gap-0.5 mt-0.5"
+                                            className="mt-1 text-sm font-semibold text-[#0066FF] dark:text-blue-400 underline underline-offset-2 hover:text-[#0052CC] inline-flex items-center gap-1 cursor-pointer transition-colors"
                                         >
                                             <span>View fee structure</span>
-                                            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${feeStructureOpen ? 'rotate-180' : ''}`} />
+                                            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${feeStructureOpen ? 'rotate-180' : ''}`} />
                                         </button>
                                     </div>
-                                    <div className="text-2xl sm:text-[28px] font-black text-slate-900 dark:text-white tracking-tight">
-                                        ₹{course.feeAnnual.toLocaleString('en-IN')}
+                                    <div className="text-right">
+                                        <span className="text-2xl sm:text-[28px] font-black text-slate-900 dark:text-white tracking-tight">
+                                            ₹{currentFee.toLocaleString('en-IN')}
+                                        </span>
                                     </div>
                                 </div>
 
-                                {/* Expandable Fee Structure */}
+                                {/* Expandable Fee Breakdown: Base Fee, GST (18%), and Total Fee */}
                                 {feeStructureOpen && (
-                                    <div className="mt-3 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700 text-xs space-y-2">
-                                        <div className="flex justify-between text-slate-600 dark:text-slate-300">
-                                            <span>Standard Annual Fee:</span>
-                                            <strong className="text-slate-900 dark:text-white">₹{course.feeAnnual.toLocaleString('en-IN')}</strong>
+                                    <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-2 text-xs transition-all animate-in fade-in duration-200">
+                                        <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                                            <span className="font-medium">Course Fee:</span>
+                                            <span className="font-bold text-slate-900 dark:text-white">₹{baseFee.toLocaleString('en-IN')}</span>
                                         </div>
-                                        <div className="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
-                                            <span>One-Time Lump Sum:</span>
-                                            <strong>₹{course.feeLumpSum.toLocaleString('en-IN')} (Save ₹{(course.feeAnnual - course.feeLumpSum).toLocaleString('en-IN')})</strong>
+                                        <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                                            <span className="font-medium">GST (18% included):</span>
+                                            <span className="font-bold text-slate-900 dark:text-white">₹{gstFee.toLocaleString('en-IN')}</span>
                                         </div>
-                                        <div className="flex justify-between text-slate-500 dark:text-slate-400 pt-1 border-t border-slate-200 dark:border-slate-700">
-                                            <span>1st Installment (At Admission):</span>
-                                            <strong className="text-slate-800 dark:text-slate-200">₹{course.installment1.toLocaleString('en-IN')}</strong>
+                                        <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white">
+                                            <span>Total Course Fee:</span>
+                                            <span className="text-[#0066FF] dark:text-blue-400 font-black text-base">₹{currentFee.toLocaleString('en-IN')}</span>
                                         </div>
-                                        <div className="flex justify-between text-slate-500 dark:text-slate-400">
-                                            <span>2nd Installment (After 60 Days):</span>
-                                            <strong className="text-slate-800 dark:text-slate-200">₹{course.installment2.toLocaleString('en-IN')}</strong>
-                                        </div>
-                                        <div className="pt-1.5 text-[11px] text-amber-700 dark:text-amber-300">
-                                            ★ <strong>IDL Scholarship:</strong> Up to 90% fee waiver applicable via admission test.
+                                        <div className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold pt-0.5">
+                                            ✓ Single One-Time Payment • No Installments • No Hidden Charges
                                         </div>
                                     </div>
                                 )}
+
+                                {/* Enroll Now Button - Full width pill matching user screenshot */}
+                                <button
+                                    type="button"
+                                    id="enroll-now-button"
+                                    disabled={isProcessingPayment}
+                                    onClick={handleEnrollNow}
+                                    className="w-full bg-[#0066FF] hover:bg-[#0055DD] text-white font-bold py-3.5 px-6 rounded-full text-base sm:text-[17px] shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/30 transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                                >
+                                    {isProcessingPayment ? (
+                                        <>
+                                            <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                                            <span>Opening Payment Gateway...</span>
+                                        </>
+                                    ) : (
+                                        <span>Enroll Now</span>
+                                    )}
+                                </button>
                             </div>
 
-                            {/* User Authentication Status Banner */}
-                            {user ? (
-                                <div className="mt-4 p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs flex items-center justify-between text-emerald-800 dark:text-emerald-300">
-                                    <span className="flex items-center gap-1.5 font-bold truncate">
-                                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                                        <span className="truncate">Logged in: {user.name || user.email}</span>
-                                    </span>
-                                    <span className="text-[10.5px] uppercase font-extrabold tracking-wider bg-emerald-100 dark:bg-emerald-900 px-2 py-0.5 rounded-md">
-                                        Verified
-                                    </span>
-                                </div>
-                            ) : (
-                                <div className="mt-4 p-2.5 rounded-xl bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-800 text-[11.5px] text-blue-800 dark:text-blue-300 flex items-center gap-2">
-                                    <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
-                                    <span>Student login required before proceeding with online payment.</span>
-                                </div>
-                            )}
-
-                            {/* Enroll Now Button (Exact Vibrant Blue Button from Screenshot) */}
-                            <button
-                                type="button"
-                                id="enroll-now-button"
-                                disabled={isProcessingPayment}
-                                onClick={handleEnrollNow}
-                                className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white font-black py-3.5 px-6 rounded-2xl text-[15px] shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all active:scale-[0.98] mt-4 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
-                            >
-                                {isProcessingPayment ? (
-                                    <>
-                                        <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                                        <span>Opening Payment Gateway...</span>
-                                    </>
-                                ) : (
-                                    <span>Enroll Now</span>
-                                )}
-                            </button>
-
-                            {/* Helpline */}
-                            <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-center">
+                            {/* Counselling Area - Subtle Support Row */}
+                            <div className="mt-3 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-center">
                                 <a 
-                                    href="tel:+919997177141"
-                                    className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-blue-600 dark:text-slate-400"
+                                    href="tel:+918860040010"
+                                    className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400 hover:text-blue-600 dark:text-slate-500 transition-colors"
                                 >
-                                    <Phone className="w-3.5 h-3.5 text-blue-600" />
-                                    <span>Need Admission Counseling? Call +91 99971 77141</span>
+                                    <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                                    <span>Need Admission Counseling? Call +91 8860040010</span>
                                 </a>
                             </div>
 
@@ -636,25 +1193,25 @@ export function CourseDetailClient({ slug }: { slug: string }) {
             {/* ── PAYMENT SUCCESS CONFIRMATION MODAL ── */}
             {paymentSuccessData && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white dark:bg-slate-900 rounded-3xl max-w-md w-full p-6 text-center shadow-2xl border border-emerald-200">
-                        <div className="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
-                            <CheckCircle2 className="w-10 h-10" />
+                    <div className="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 text-center shadow-2xl border border-emerald-200">
+                        <div className="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-3.5">
+                            <CheckCircle2 className="w-8 h-8" />
                         </div>
-                        <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-1">
+                        <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
                             Enrollment Successful!
                         </h3>
                         <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
                             Thank you for enrolling with IDL Education. Your payment has been received and your batch seat is reserved.
                         </p>
 
-                        <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-4 text-xs text-left space-y-2 mb-5">
+                        <div className="bg-slate-50 dark:bg-slate-800/60 rounded-xl p-3.5 text-xs text-left space-y-2 mb-4">
                             <div className="flex justify-between">
                                 <span className="text-slate-500">Course:</span>
                                 <strong className="text-slate-900 dark:text-white font-bold">{course.title}</strong>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-slate-500">Center:</span>
-                                <strong className="text-slate-900 dark:text-white font-bold">{selectedCampus}</strong>
+                                <span className="text-slate-500">Branch:</span>
+                                <strong className="text-slate-900 dark:text-white font-bold">{selectedBranch}</strong>
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-slate-500">Batch Start:</span>
@@ -674,12 +1231,12 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                             <Button 
                                 onClick={() => setPaymentSuccessData(null)}
                                 variant="outline"
-                                className="flex-1 rounded-xl text-xs font-bold"
+                                className="flex-1 rounded-xl text-xs font-semibold cursor-pointer"
                             >
                                 Close
                             </Button>
                             <Link href="/student/dashboard" className="flex-1">
-                                <Button className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white rounded-xl text-xs font-bold">
+                                <Button className="w-full bg-[#1D4ED8] hover:bg-[#1E40AF] text-white rounded-xl text-xs font-semibold cursor-pointer">
                                     Go to Dashboard
                                 </Button>
                             </Link>

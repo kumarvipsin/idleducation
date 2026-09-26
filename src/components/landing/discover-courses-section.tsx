@@ -169,9 +169,16 @@ function CbseModal({ onClose }: { onClose: () => void }) {
         };
         const modeParam = modeMap[id] || 'Offline Mode';
 
+        const streamMap: Record<string, string> = {
+            science: 'Science',
+            commerce: 'Commerce',
+            arts: 'Arts',
+        };
+        const streamParam = selectedStream ? (streamMap[selectedStream] || 'All') : 'All';
+
         setTimeout(() => {
             onClose();
-            router.push(`/courses?center=Mukherjee%20Nagar&stream=Grade%209-12&class=${encodeURIComponent(selectedClass || 'Class 9')}&mode=${encodeURIComponent(modeParam)}&session=2026-27`);
+            router.push(`/courses?stream=${encodeURIComponent(streamParam)}&class=${encodeURIComponent(selectedClass || 'Class 9')}&mode=${encodeURIComponent(modeParam)}&session=2026-27`);
         }, 150);
     };
 
@@ -421,7 +428,7 @@ function JeeModal({ onClose }: { onClose: () => void }) {
         const modeMap: Record<string, string> = { offline: 'Classroom', online: 'Online', hybrid: 'Hybrid' };
         setTimeout(() => {
             onClose();
-            router.push(`/courses?center=Agra&stream=JEE&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
+            router.push(`/courses?stream=JEE&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
         }, 150);
     };
 
@@ -606,7 +613,7 @@ function NeetModal({ onClose }: { onClose: () => void }) {
         const modeMap: Record<string, string> = { offline: 'Classroom', online: 'Online', hybrid: 'Hybrid' };
         setTimeout(() => {
             onClose();
-            router.push(`/courses?center=Agra&stream=NEET&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
+            router.push(`/courses?stream=NEET&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
         }, 150);
     };
 
