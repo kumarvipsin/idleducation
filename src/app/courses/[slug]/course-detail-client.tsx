@@ -8,13 +8,10 @@ import {
     Check, 
     Calendar, 
     MapPin, 
-    ArrowLeft, 
     ChevronDown, 
     Sparkles, 
     ShieldCheck, 
     Phone, 
-    GraduationCap,
-    Clock,
     Award,
     CheckCircle2,
     Users,
@@ -696,6 +693,241 @@ function DoubtResolutionIllustration() {
     );
 }
 
+// ── Reusable Course Enrollment Card ──────────────────────────────────────
+function CourseEnrollmentCard({
+    course,
+    selectedLanguage,
+    setSelectedLanguage,
+    selectedStartDate,
+    setSelectedStartDate,
+    selectedBranch,
+    setSelectedBranch,
+    currentFee,
+    baseFee,
+    gstFee,
+    feeStructureOpen,
+    setFeeStructureOpen,
+    isProcessingPayment,
+    onEnrollNow,
+}: {
+    course: CourseDetailData;
+    selectedLanguage: 'English';
+    setSelectedLanguage: (lang: 'English') => void;
+    selectedStartDate: string;
+    setSelectedStartDate: (date: string) => void;
+    selectedBranch: string;
+    setSelectedBranch: (branch: string) => void;
+    currentFee: number;
+    baseFee: number;
+    gstFee: number;
+    feeStructureOpen: boolean;
+    setFeeStructureOpen: (open: boolean) => void;
+    isProcessingPayment: boolean;
+    onEnrollNow: () => void;
+}) {
+    return (
+        <div className="bg-white dark:bg-slate-900 rounded-[20px] sm:rounded-[22px] border border-[#DCE7F6] dark:border-slate-800 p-4 sm:p-5 shadow-[0_2px_16px_rgba(6,43,103,0.04)]">
+            
+            {/* Card Title */}
+            <h3 className="text-[14.5px] sm:text-[15.5px] font-bold text-[#062B67] dark:text-white mb-2.5 tracking-tight">
+                Select your course preference
+            </h3>
+
+            {/* Preference Options Box */}
+            <div className="border border-[#E2E8F0] dark:border-slate-800 rounded-xl p-3 sm:p-3.5 space-y-3 bg-[#FAFBFD] dark:bg-slate-900/60">
+                
+                {/* 1. SELECT LANGUAGE */}
+                <div>
+                    <span className="text-[12px] sm:text-[12.5px] font-bold text-[#062B67] dark:text-slate-200 block mb-1.5">
+                        Language
+                    </span>
+                    <div className="flex items-center gap-2">
+                        <button
+                            type="button"
+                            id="select-lang-english"
+                            onClick={() => setSelectedLanguage('English')}
+                            className="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-2xs cursor-pointer"
+                        >
+                            English
+                        </button>
+
+                        <button
+                            type="button"
+                            id="select-lang-hindi"
+                            disabled
+                            className="px-4 py-1.5 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-60"
+                        >
+                            Hindi
+                        </button>
+                    </div>
+                </div>
+
+                <div className="border-t border-[#E2E8F0] dark:border-slate-800" />
+
+                {/* 2. SELECT START DATE */}
+                <div>
+                    <span className="text-[12px] sm:text-[12.5px] font-bold text-[#062B67] dark:text-slate-200 block mb-1.5">
+                        Start Date
+                    </span>
+                    <div className="flex flex-wrap gap-2">
+                        {course.startDates.map((date) => (
+                            <button
+                                key={date}
+                                type="button"
+                                onClick={() => setSelectedStartDate(date)}
+                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                                    selectedStartDate === date
+                                        ? 'bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-2xs'
+                                        : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+                                }`}
+                            >
+                                {date}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                <div className="border-t border-[#E2E8F0] dark:border-slate-800" />
+
+                {/* 3. DIRECT BRANCH DISPLAY WITH INLINE CHANGE OPTION */}
+                <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                        <span className="text-[12px] sm:text-[12.5px] font-bold text-[#062B67] dark:text-slate-200">
+                            Preferred Branch
+                        </span>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <button
+                                    type="button"
+                                    id="change-branch-link"
+                                    className="text-[11.5px] font-semibold text-[#155EEF] dark:text-blue-400 hover:underline cursor-pointer inline-flex items-center gap-0.5"
+                                >
+                                    <span>Change</span>
+                                    <ChevronDown className="w-3 h-3 text-[#155EEF] dark:text-blue-400" />
+                                </button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent 
+                                align="end" 
+                                className="w-[calc(100vw-3rem)] sm:w-[300px] max-w-sm bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-1.5 shadow-xl rounded-xl z-50"
+                            >
+                                <div className="px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-wider text-slate-400">
+                                    Change Learning Branch
+                                </div>
+                                {BRANCHES.map((b) => (
+                                    <DropdownMenuItem
+                                        key={b.id}
+                                        onClick={() => setSelectedBranch(b.label)}
+                                        className={`flex items-center justify-between px-2.5 py-2 rounded-lg cursor-pointer text-xs my-0.5 ${
+                                            selectedBranch === b.label 
+                                                ? 'bg-blue-50 dark:bg-blue-950/60 text-[#155EEF] dark:text-blue-400 font-bold' 
+                                                : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium'
+                                        }`}
+                                    >
+                                        <div>
+                                            <div className="font-semibold text-xs">{b.label}</div>
+                                            <div className="text-[10px] text-slate-400 font-normal">{b.address}</div>
+                                        </div>
+                                        {selectedBranch === b.label && (
+                                            <Check className="w-3.5 h-3.5 text-[#155EEF] shrink-0 ml-2" />
+                                        )}
+                                    </DropdownMenuItem>
+                                ))}
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </div>
+                    <div className="px-3 py-2 rounded-lg border border-[#DCE7F6] dark:border-slate-800 bg-white dark:bg-slate-800/60 flex items-center justify-between">
+                        <div className="flex items-center gap-2 truncate">
+                            <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center shrink-0">
+                                <MapPin className="w-2.5 h-2.5 text-[#155EEF]" />
+                            </span>
+                            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
+                                {selectedBranch}
+                            </span>
+                        </div>
+                        <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider shrink-0 bg-emerald-50 dark:bg-emerald-950/50 px-1.5 py-0.5 rounded">
+                            Selected
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            {/* Course Fee & Fee Structure */}
+            <div className="mt-3.5 sm:mt-4 space-y-2.5">
+                <div className="flex items-baseline justify-between gap-2">
+                    <div className="min-w-0">
+                        <h4 className="text-[17px] sm:text-[18px] lg:text-[19px] font-bold text-[#062B67] dark:text-white leading-tight whitespace-nowrap">
+                            Course Fee
+                        </h4>
+                        <button
+                            type="button"
+                            id="view-fee-structure-btn"
+                            onClick={() => setFeeStructureOpen(!feeStructureOpen)}
+                            className="mt-0.5 text-[12px] sm:text-[13px] font-medium text-[#155EEF] dark:text-blue-400 hover:text-[#0052CC] inline-flex items-center gap-1 cursor-pointer transition-colors whitespace-nowrap"
+                        >
+                            <span className="underline underline-offset-2">View fee structure</span>
+                            <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${feeStructureOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                    </div>
+                    <div className="text-right shrink-0">
+                        <span className="text-[22px] sm:text-[24px] lg:text-[26px] font-extrabold text-[#062B67] dark:text-white tracking-tight leading-none whitespace-nowrap">
+                            ₹{currentFee.toLocaleString('en-IN')}
+                        </span>
+                    </div>
+                </div>
+
+                {/* Expandable Fee Breakdown: Base Fee, GST (18%), and Total Fee */}
+                {feeStructureOpen && (
+                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-1.5 text-xs transition-all animate-in fade-in duration-200">
+                        <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                            <span className="font-medium">Course Fee:</span>
+                            <span className="font-bold text-slate-900 dark:text-white">₹{baseFee.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
+                            <span className="font-medium">GST (18% included):</span>
+                            <span className="font-bold text-slate-900 dark:text-white">₹{gstFee.toLocaleString('en-IN')}</span>
+                        </div>
+                        <div className="pt-1.5 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
+                            <span>Total Course Fee:</span>
+                            <span className="text-[#155EEF] dark:text-blue-400 font-extrabold text-sm sm:text-base">₹{currentFee.toLocaleString('en-IN')}</span>
+                        </div>
+                    </div>
+                )}
+
+                {/* Enroll Now Button - Prominent brand blue action */}
+                <button
+                    type="button"
+                    id="enroll-now-button"
+                    disabled={isProcessingPayment}
+                    onClick={onEnrollNow}
+                    className="w-full h-[46px] sm:h-[48px] bg-[#155EEF] hover:bg-[#0052CC] text-white font-bold rounded-lg text-[15px] shadow-[0_2px_8px_rgba(21,94,239,0.2)] hover:shadow-md transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
+                >
+                    {isProcessingPayment ? (
+                        <>
+                            <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
+                            <span>Opening Payment Gateway...</span>
+                        </>
+                    ) : (
+                        <span>Enroll Now</span>
+                    )}
+                </button>
+            </div>
+
+            {/* Counselling Area - Subtle Support Row */}
+            <div className="mt-2.5 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-center">
+                <a 
+                    href="tel:+918860040010"
+                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-normal text-slate-500 hover:text-[#155EEF] dark:text-slate-400 transition-colors"
+                >
+                    <Phone className="w-3 h-3 text-slate-400 shrink-0" />
+                    <span>Need Admission Counseling? Call +91 8860040010</span>
+                </a>
+            </div>
+
+        </div>
+    );
+}
+
 export function CourseDetailClient({ slug }: { slug: string }) {
     const router = useRouter();
     const pathname = usePathname();
@@ -718,6 +950,10 @@ export function CourseDetailClient({ slug }: { slug: string }) {
         }
         return 'Offline Mode';
     });
+
+    const displayMode = useMemo(() => {
+        return selectedMode.replace(/\s*mode\s*/i, '').trim();
+    }, [selectedMode]);
 
     // Dynamically calculate course fee based on class and mode (Including GST)
     const currentFee = calculateCourseFee(course.slug, selectedMode);
@@ -760,6 +996,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
     const courseTitleSegments = useMemo(() => {
         return courseTitle.split('|').map(s => s.trim());
     }, [courseTitle]);
+
 
     // Format subjects cleanly with interpuncts ' · '
     const formattedSubjects = useMemo(() => {
@@ -904,101 +1141,132 @@ export function CourseDetailClient({ slug }: { slug: string }) {
         }
     };
 
+    const enrollmentCardProps = {
+        course,
+        selectedLanguage,
+        setSelectedLanguage,
+        selectedStartDate,
+        setSelectedStartDate,
+        selectedBranch,
+        setSelectedBranch,
+        currentFee,
+        baseFee,
+        gstFee,
+        feeStructureOpen,
+        setFeeStructureOpen,
+        isProcessingPayment,
+        onEnrollNow: handleEnrollNow,
+    };
+
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 pt-3 pb-8 sm:pt-4 sm:pb-12">
-            <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
-                
-                {/* Back to Courses Link */}
-                <div className="mb-3 sm:mb-3.5">
-                    <Link 
-                        href="/courses"
-                        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-400 transition-colors"
-                    >
-                        <ArrowLeft className="w-3.5 h-3.5" />
-                        <span>Back to All Courses</span>
-                    </Link>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
+        <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 pt-3 sm:pt-6 pb-20 sm:pb-24">
+            <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 lg:gap-8 items-start">
                     
-                    {/* ── LEFT COLUMN: Course Header, Subjects & About ── */}
-                    <div className="lg:col-span-7 xl:col-span-7 2xl:col-span-8 space-y-4 sm:space-y-5">
+                    {/* ── LEFT COLUMN: Course Overview Hero, Mobile Enrollment, & About the Course ── */}
+                    <div className="lg:col-span-7 xl:col-span-7 2xl:col-span-8 space-y-4 sm:space-y-6">
                         
-                        {/* 1. Course Header & Information */}
-                        <div>
-                            {/* Dynamic Mode Badge */}
-                            <div className="inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#10B981] text-white text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider shadow-xs mb-2 sm:mb-2.5">
-                                {selectedMode.toUpperCase()}
-                            </div>
+                        {/* 1. Course Overview Hero Card */}
+                        <div className="rounded-[18px] sm:rounded-[22px] bg-white dark:bg-slate-900 border border-[#DCE7F6] dark:border-slate-800 p-4 sm:p-5 md:p-6 shadow-[0_2px_14px_rgba(6,43,103,0.03)] space-y-3 sm:space-y-3.5">
+                            
+                            {/* Main Course Title */}
+                            <h1 className="text-[17px] min-[360px]:text-[18px] sm:text-[20px] md:text-[21px] lg:text-[22px] font-bold text-[#062B67] dark:text-white tracking-tight leading-snug flex items-center flex-wrap gap-x-2 sm:gap-x-2.5">
+                                {courseTitleSegments.map((segment, index) => {
+                                    const isSession = /^\d{4}[–-]\d{2,4}$/.test(segment.trim());
+                                    const containsSession = segment.match(/^(.*?)\s*(\d{4}[–-]\d{2,4})$/);
 
-                            {/* Unified Compact Primary Course Title */}
-                            <h1 className="text-[17px] sm:text-[19px] md:text-xl lg:text-[21px] xl:text-[22px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug">
-                                {courseTitleSegments.map((segment, index) => (
-                                    <React.Fragment key={index}>
-                                        {index > 0 && (
-                                            <>
-                                                {" "}
-                                                <span className="text-slate-300 dark:text-slate-600 font-light mx-1.5 sm:mx-2 select-none">|</span>
-                                                {" "}
-                                            </>
-                                        )}
-                                        <span>{segment}</span>
-                                    </React.Fragment>
-                                ))}
+                                    if (isSession) {
+                                        return (
+                                            <span key={index} className="text-slate-500 dark:text-slate-400 font-medium">
+                                                {segment}
+                                            </span>
+                                        );
+                                    }
+
+                                    if (containsSession && index === courseTitleSegments.length - 1) {
+                                        const prefix = containsSession[1];
+                                        const year = containsSession[2];
+                                        return (
+                                            <span key={index} className="inline-flex items-center gap-1.5 sm:gap-2">
+                                                {prefix && <span>{prefix}</span>}
+                                                <span className="text-slate-500 dark:text-slate-400 font-medium">{year}</span>
+                                            </span>
+                                        );
+                                    }
+
+                                    return (
+                                        <span key={index}>
+                                            {segment}
+                                        </span>
+                                    );
+                                })}
                             </h1>
 
-                            {/* Course Duration */}
-                            <div className="flex items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2 text-slate-500 dark:text-slate-400 text-xs sm:text-[12.5px] font-medium">
-                                <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
-                                <span>Course Duration</span>
-                                <span className="text-slate-300 dark:text-slate-600 font-light">|</span>
-                                <span className="text-slate-700 dark:text-slate-300 font-semibold">{course.durationLabel}</span>
-                            </div>
-
-                            {/* Compact Subjects Information Block */}
-                            {formattedSubjects && (
-                                <div className="mt-2.5 sm:mt-3">
-                                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
-                                        <GraduationCap className="w-3.5 h-3.5 text-[#155EEF] dark:text-blue-400 stroke-[2.2] shrink-0" />
-                                        <span>Subjects</span>
+                            {/* Course Metadata (Duration, Mode, Subjects) */}
+                            <div className="pt-2.5 sm:pt-3 border-t border-slate-100 dark:border-slate-800 space-y-2 sm:space-y-2.5">
+                                {/* Row 1: Course Duration & Mode */}
+                                <div className="flex items-center flex-wrap text-[12px] sm:text-[13px] lg:text-[13.5px] leading-normal">
+                                    <div className="flex items-center gap-1.5 shrink-0">
+                                        <span className="text-[#5B6B86] dark:text-slate-400 font-medium">Course Duration:</span>
+                                        <span className="text-[#062B67] dark:text-slate-100 font-semibold">{course.durationLabel}</span>
                                     </div>
-                                    <p className="text-[13px] sm:text-[13.5px] font-semibold text-[#0B1F4B] dark:text-slate-100 mt-0.5 leading-snug sm:leading-relaxed">
-                                        {formattedSubjects}
-                                    </p>
+
+                                    <span className="text-slate-300 dark:text-slate-700 font-light select-none mx-2 sm:mx-2.5 lg:mx-3" aria-hidden="true">|</span>
+
+                                    <div className="flex items-center gap-1.5 shrink-0">
+                                        <span className="text-[#5B6B86] dark:text-slate-400 font-medium">Mode:</span>
+                                        <span className="text-[#062B67] dark:text-slate-100 font-semibold">{displayMode}</span>
+                                    </div>
                                 </div>
-                            )}
+
+                                {/* Row 2: Subjects placed below Course Duration & Mode */}
+                                {formattedSubjects && (
+                                    <div className="pt-2 sm:pt-2.5 border-t border-dashed border-slate-100 dark:border-slate-800 text-[12px] sm:text-[13px] lg:text-[13.5px] leading-snug sm:leading-relaxed">
+                                        <span className="text-[#5B6B86] dark:text-slate-400 font-medium block sm:inline sm:mr-1.5">
+                                            Subjects:
+                                        </span>
+                                        <span className="font-semibold text-[#062B67] dark:text-slate-100 mt-0.5 sm:mt-0 block sm:inline">
+                                            {formattedSubjects}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
                         </div>
 
-                        {/* 2. About the Course Section */}
-                        <div>
-                            {/* Section Heading */}
-                            <h2 className="text-[17px] sm:text-lg font-bold text-[#0B1F4B] dark:text-white mb-2.5 sm:mb-3 tracking-tight">
-                                About the Course
-                            </h2>
+                        {/* 2. Mobile Enrollment Card (Visible on mobile/tablet, hidden on desktop lg:hidden) */}
+                        <div className="block lg:hidden">
+                            <CourseEnrollmentCard {...enrollmentCardProps} />
+                        </div>
 
-                            {/* Single Large White Card enclosing all sections with dashed dividers */}
-                            <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 shadow-[0_2px_12px_rgba(11,40,88,0.03)]">
+                        {/* 3. About the Course Section */}
+                        <div className="bg-white dark:bg-slate-900 border border-[#DCE7F6] dark:border-slate-800 rounded-[20px] sm:rounded-[22px] p-4 sm:p-6 md:p-7 shadow-[0_2px_14px_rgba(6,43,103,0.03)]">
+                            <div className="pb-3 sm:pb-3.5 border-b border-slate-100 dark:border-slate-800 mb-4 sm:mb-5">
+                                <h2 className="text-[16.5px] sm:text-[18px] font-bold text-[#062B67] dark:text-white tracking-tight">
+                                    About the Course
+                                </h2>
+                            </div>
+                            <div>
                                 {course.aboutSections.map((sec, idx) => (
                                     <React.Fragment key={sec.id}>
                                         {idx > 0 && (
-                                            <div className="border-t border-dashed border-slate-200 dark:border-slate-800 my-6" />
+                                            <div className="border-t border-slate-100 dark:border-slate-800 my-4 sm:my-5" />
                                         )}
-                                        <div className="flex items-center justify-between gap-4 sm:gap-6">
+                                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-6">
                                             <div className="flex-1 min-w-0 pr-1">
-                                                <h3 className="text-[16px] sm:text-[17.5px] font-bold text-[#0B1F4B] dark:text-white mb-2.5 tracking-tight">
+                                                <h3 className="text-[15.5px] sm:text-[17px] font-bold text-[#062B67] dark:text-white mb-2 sm:mb-2.5 tracking-tight">
                                                     {sec.title}
                                                 </h3>
-                                                <ul className="space-y-2.5 text-[13.5px] sm:text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed">
+                                                <ul className="space-y-2 sm:space-y-2.5 text-[13px] sm:text-[13.5px] text-slate-700 dark:text-slate-200 leading-relaxed">
                                                     {sec.points.map((pt, pIdx) => {
                                                         const colonIndex = pt.indexOf(': ');
                                                         const label = colonIndex !== -1 ? pt.slice(0, colonIndex + 1) : '';
                                                         const text = colonIndex !== -1 ? pt.slice(colonIndex + 2) : pt;
 
                                                         return (
-                                                            <li key={pIdx} className="flex items-start gap-2.5">
+                                                            <li key={pIdx} className="flex items-start gap-2 sm:gap-2.5">
                                                                 <span className="text-[#155EEF] dark:text-blue-400 text-sm leading-none mt-1 shrink-0 font-bold">•</span>
                                                                 <span className="leading-relaxed">
-                                                                    {label && <strong className="font-bold text-[#0B1F4B] dark:text-white">{label} </strong>}
+                                                                    {label && <strong className="font-bold text-[#062B67] dark:text-white">{label} </strong>}
                                                                     <span className="text-slate-700 dark:text-slate-200 font-normal">{text}</span>
                                                                 </span>
                                                             </li>
@@ -1006,7 +1274,7 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                                                     })}
                                                 </ul>
                                             </div>
-                                            <div className="shrink-0 w-24 sm:w-28 flex items-center justify-center">
+                                            <div className="shrink-0 self-end sm:self-center w-20 sm:w-28 flex items-center justify-center pt-1 sm:pt-0">
                                                 {renderIllustration(sec.illustrationType)}
                                             </div>
                                         </div>
@@ -1017,211 +1285,9 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                     </div>
 
-                    {/* ── RIGHT COLUMN: Sticky Course Preference & Enrollment Card ── */}
-                    <div className="lg:col-span-5 xl:col-span-5 2xl:col-span-4 lg:sticky lg:top-20">
-                        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-4 sm:p-5 shadow-[0_2px_16px_rgba(11,40,88,0.04)]">
-                            
-                            {/* Card Title */}
-                            <h3 className="text-[14.5px] sm:text-[15.5px] font-bold text-[#0B1F4B] dark:text-white mb-2.5 tracking-tight">
-                                Select your course preference
-                            </h3>
-
-                            {/* Preference Options Box */}
-                            <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl p-3 sm:p-3.5 space-y-3 bg-white dark:bg-slate-900">
-                                
-
-                                {/* 1. SELECT LANGUAGE */}
-                                <div>
-                                    <span className="text-[12px] sm:text-[12.5px] font-bold text-[#0B1F4B] dark:text-slate-200 block mb-1.5">
-                                        Language
-                                    </span>
-                                    <div className="flex items-center gap-2">
-                                        <button
-                                            type="button"
-                                            id="select-lang-english"
-                                            onClick={() => setSelectedLanguage('English')}
-                                            className="px-4 py-1.5 rounded-lg text-xs font-semibold transition-all bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-xs cursor-pointer"
-                                        >
-                                            English
-                                        </button>
-
-                                        <button
-                                            type="button"
-                                            id="select-lang-hindi"
-                                            disabled
-                                            className="px-4 py-1.5 rounded-lg text-xs font-medium border border-slate-200 dark:border-slate-800 bg-slate-100/80 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 cursor-not-allowed opacity-60"
-                                        >
-                                            Hindi
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div className="border-t border-slate-100 dark:border-slate-800" />
-
-                                {/* 2. SELECT START DATE */}
-                                <div>
-                                    <span className="text-[12px] sm:text-[12.5px] font-bold text-[#0B1F4B] dark:text-slate-200 block mb-1.5">
-                                        Start Date
-                                    </span>
-                                    <div className="flex flex-wrap gap-2">
-                                        {course.startDates.map((date) => (
-                                            <button
-                                                key={date}
-                                                type="button"
-                                                onClick={() => setSelectedStartDate(date)}
-                                                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                                                    selectedStartDate === date
-                                                        ? 'bg-[#E0F2FE] border border-[#38BDF8] text-[#0369A1] shadow-xs'
-                                                        : 'border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
-                                                }`}
-                                            >
-                                                {date}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                <div className="border-t border-slate-100 dark:border-slate-800" />
-
-                                {/* 3. DIRECT BRANCH DISPLAY WITH INLINE CHANGE OPTION */}
-                                <div>
-                                    <div className="flex items-center justify-between mb-1.5">
-                                        <span className="text-[12px] sm:text-[12.5px] font-bold text-[#0B1F4B] dark:text-slate-200">
-                                            Preferred Branch
-                                        </span>
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <button
-                                                    type="button"
-                                                    id="change-branch-link"
-                                                    className="text-[11.5px] font-semibold text-[#1D4ED8] dark:text-blue-400 hover:underline cursor-pointer inline-flex items-center gap-0.5"
-                                                >
-                                                    <span>Change</span>
-                                                    <ChevronDown className="w-3 h-3 text-[#1D4ED8] dark:text-blue-400" />
-                                                </button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent 
-                                                align="end" 
-                                                className="w-[calc(100vw-3rem)] sm:w-[300px] max-w-sm bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 p-1.5 shadow-xl rounded-xl z-50"
-                                            >
-                                                <div className="px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-wider text-slate-400">
-                                                    Change Learning Branch
-                                                </div>
-                                                {BRANCHES.map((b) => (
-                                                    <DropdownMenuItem
-                                                        key={b.id}
-                                                        onClick={() => setSelectedBranch(b.label)}
-                                                        className={`flex items-center justify-between px-2.5 py-2 rounded-lg cursor-pointer text-xs my-0.5 ${
-                                                            selectedBranch === b.label 
-                                                                ? 'bg-blue-50 dark:bg-blue-950/60 text-[#2563EB] dark:text-blue-400 font-bold' 
-                                                                : 'text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium'
-                                                        }`}
-                                                    >
-                                                        <div>
-                                                            <div className="font-semibold text-xs">{b.label}</div>
-                                                            <div className="text-[10px] text-slate-400 font-normal">{b.address}</div>
-                                                        </div>
-                                                        {selectedBranch === b.label && (
-                                                            <Check className="w-3.5 h-3.5 text-[#2563EB] shrink-0 ml-2" />
-                                                        )}
-                                                    </DropdownMenuItem>
-                                                ))}
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </div>
-                                    <div className="px-3 py-2 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-800/40 flex items-center justify-between">
-                                        <div className="flex items-center gap-2 truncate">
-                                            <span className="w-4 h-4 rounded-full bg-blue-100 dark:bg-blue-950 flex items-center justify-center shrink-0">
-                                                <MapPin className="w-2.5 h-2.5 text-[#2563EB]" />
-                                            </span>
-                                            <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate">
-                                                {selectedBranch}
-                                            </span>
-                                        </div>
-                                        <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider shrink-0 bg-emerald-50 dark:bg-emerald-950/50 px-1.5 py-0.5 rounded">
-                                            Selected
-                                        </span>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                            {/* Course Fee & Fee Structure */}
-                            <div className="mt-3.5 sm:mt-4 space-y-2">
-                                <div className="flex items-baseline justify-between gap-2">
-                                    <div className="min-w-0">
-                                        <h4 className="text-[17px] sm:text-[18px] lg:text-[20px] xl:text-[21px] font-bold text-[#0B1F4B] dark:text-white leading-tight whitespace-nowrap">
-                                            Course Fee
-                                        </h4>
-                                        <button
-                                            type="button"
-                                            id="view-fee-structure-btn"
-                                            onClick={() => setFeeStructureOpen(!feeStructureOpen)}
-                                            className="mt-0.5 text-[12px] sm:text-[13px] lg:text-[13.5px] font-medium text-[#155EEF] dark:text-blue-400 hover:text-[#0052CC] inline-flex items-center gap-1 cursor-pointer transition-colors whitespace-nowrap"
-                                        >
-                                            <span className="underline underline-offset-2">View fee structure</span>
-                                            <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${feeStructureOpen ? 'rotate-180' : ''}`} />
-                                        </button>
-                                    </div>
-                                    <div className="text-right shrink-0">
-                                        <span className="text-[22px] sm:text-[24px] lg:text-[26px] xl:text-[28px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-none whitespace-nowrap">
-                                            ₹{currentFee.toLocaleString('en-IN')}
-                                        </span>
-                                    </div>
-                                </div>
-
-                                {/* Expandable Fee Breakdown: Base Fee, GST (18%), and Total Fee */}
-                                {feeStructureOpen && (
-                                    <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/90 dark:border-slate-700 space-y-1.5 text-xs transition-all animate-in fade-in duration-200">
-                                        <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
-                                            <span className="font-medium">Course Fee:</span>
-                                            <span className="font-bold text-slate-900 dark:text-white">₹{baseFee.toLocaleString('en-IN')}</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-slate-600 dark:text-slate-300">
-                                            <span className="font-medium">GST (18% included):</span>
-                                            <span className="font-bold text-slate-900 dark:text-white">₹{gstFee.toLocaleString('en-IN')}</span>
-                                        </div>
-                                        <div className="pt-1.5 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between font-bold text-xs sm:text-sm text-slate-900 dark:text-white">
-                                            <span>Total Course Fee:</span>
-                                            <span className="text-[#155EEF] dark:text-blue-400 font-extrabold text-sm sm:text-base">₹{currentFee.toLocaleString('en-IN')}</span>
-                                        </div>
-                                        <div className="text-[10px] sm:text-[10.5px] text-emerald-600 dark:text-emerald-400 font-semibold pt-0.5">
-                                            ✓ Single One-Time Payment • No Installments • No Hidden Charges
-                                        </div>
-                                    </div>
-                                )}
-
-                                {/* Enroll Now Button - Compact, sleek & premium */}
-                                <button
-                                    type="button"
-                                    id="enroll-now-button"
-                                    disabled={isProcessingPayment}
-                                    onClick={handleEnrollNow}
-                                    className="w-full h-[44px] sm:h-[46px] lg:h-[48px] bg-[#155EEF] hover:bg-[#0052CC] text-white font-semibold rounded-full text-[14.5px] sm:text-[15px] lg:text-[15.5px] shadow-xs hover:shadow-sm transition-all active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer disabled:opacity-75 disabled:cursor-not-allowed"
-                                >
-                                    {isProcessingPayment ? (
-                                        <>
-                                            <div className="w-3.5 h-3.5 rounded-full border-2 border-white border-t-transparent animate-spin" />
-                                            <span>Opening Payment Gateway...</span>
-                                        </>
-                                    ) : (
-                                        <span>Enroll Now</span>
-                                    )}
-                                </button>
-                            </div>
-
-                            {/* Counselling Area - Subtle Support Row */}
-                            <div className="mt-2.5 pt-2 border-t border-slate-100 dark:border-slate-800 text-center">
-                                <a 
-                                    href="tel:+918860040010"
-                                    className="inline-flex items-center gap-1.5 text-[11px] sm:text-[11.5px] font-normal text-slate-400 hover:text-[#155EEF] dark:text-slate-500 transition-colors"
-                                >
-                                    <Phone className="w-3 h-3 text-slate-400 shrink-0" />
-                                    <span>Need Admission Counseling? Call +91 8860040010</span>
-                                </a>
-                            </div>
-
-                        </div>
+                    {/* ── RIGHT COLUMN: Sticky Course Preference & Enrollment Card (Desktop) ── */}
+                    <div className="hidden lg:block lg:col-span-5 xl:col-span-5 2xl:col-span-4 lg:sticky lg:top-20">
+                        <CourseEnrollmentCard {...enrollmentCardProps} />
                     </div>
 
                 </div>

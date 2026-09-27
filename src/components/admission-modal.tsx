@@ -633,13 +633,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
         <FormModalDialogContent 
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
+          maxWidthClass="max-w-[700px] sm:max-w-[720px]"
+          className="w-[94vw] sm:w-[92vw]"
         >
-          {/* Modal Header: Trustworthy, clean and concise */}
-          <DialogHeader className="px-5 sm:px-7 pt-5 pb-3 text-left shrink-0 border-b border-slate-100 dark:border-slate-800/80">
-            <DialogTitle className="text-left text-xl sm:text-2xl font-bold text-[#102A68] dark:text-white tracking-tight leading-snug">
+          {/* Modal Header */}
+          <DialogHeader className="px-6 sm:px-8 pt-6 sm:pt-7 pb-1 text-left shrink-0 pr-14">
+            <DialogTitle className="text-left text-[24px] sm:text-[27px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
               Admission Form 2026–27
             </DialogTitle>
-            <DialogDescription className="text-left text-[13px] sm:text-[14px] font-normal text-slate-500 dark:text-slate-400 mt-0.5 leading-normal">
+            <DialogDescription className="text-left text-[13.5px] sm:text-[14.5px] font-medium text-slate-600 dark:text-slate-300 mt-1 leading-normal">
               Complete the steps below to apply for admission.
             </DialogDescription>
           </DialogHeader>
@@ -648,12 +650,12 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden">
 
               {/* Progress Stepper: Clean visual hierarchy */}
-              <div className="px-5 sm:px-7 pt-3.5 pb-2.5 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 shrink-0">
-                <div className="max-w-[560px] mx-auto flex items-center justify-between relative">
+              <div className="px-6 sm:px-8 pt-2.5 pb-2.5 bg-white dark:bg-slate-950 shrink-0">
+                <div className="max-w-[540px] mx-auto flex items-center justify-between relative">
                   {/* Background Progress Bar Line */}
-                  <div className="absolute left-4 right-4 sm:left-6 sm:right-6 top-3.5 sm:top-4 h-[2px] bg-slate-200 dark:bg-slate-800 -translate-y-1/2 z-0" />
+                  <div className="absolute left-4 right-4 sm:left-6 sm:right-6 top-3.5 sm:top-4 h-[2px] bg-[#E2EAF4] dark:bg-slate-800 -translate-y-1/2 z-0" />
                   <div 
-                    className="absolute left-4 sm:left-6 top-3.5 sm:top-4 h-[2px] bg-[#102A68] dark:bg-blue-500 -translate-y-1/2 z-0 transition-all duration-300"
+                    className="absolute left-4 sm:left-6 top-3.5 sm:top-4 h-[2px] bg-[#0B1F4B] dark:bg-blue-400 -translate-y-1/2 z-0 transition-all duration-300"
                     style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
                   />
 
@@ -672,10 +674,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           className={cn(
                             "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300",
                             isCompleted 
-                              ? "bg-[#102A68] text-white shadow-xs" 
+                              ? "bg-[#0B1F4B] text-white shadow-xs" 
                               : isActive 
-                                ? "bg-[#102A68] text-white ring-4 ring-[#102A68]/15" 
-                                : "bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 group-hover:border-[#102A68]/40"
+                                ? "bg-[#0B1F4B] text-white ring-4 ring-[#0B1F4B]/15" 
+                                : "bg-white dark:bg-slate-900 border border-[#DCE7F6] dark:border-slate-700 text-slate-400 dark:text-slate-500 group-hover:border-[#0B1F4B]/40"
                           )}
                         >
                           {isCompleted ? (
@@ -687,7 +689,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         <span
                           className={cn(
                             "text-[11px] sm:text-[12px] font-medium mt-1 transition-colors",
-                            isActive ? "text-[#102A68] dark:text-blue-400 font-semibold" : isCompleted ? "text-slate-800 dark:text-slate-200" : "text-slate-400 dark:text-slate-500"
+                            isActive ? "text-[#0B1F4B] dark:text-blue-400 font-semibold" : isCompleted ? "text-slate-800 dark:text-slate-200" : "text-slate-400 dark:text-slate-500"
                           )}
                         >
                           {s.title}
@@ -698,12 +700,12 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                 </div>
               </div>
 
-              {/* Step Summary: Compact single horizontal information row */}
-              <div className="px-5 sm:px-7 py-2.5 bg-slate-50/80 dark:bg-slate-900/60 border-b border-slate-200/80 dark:border-slate-800 flex items-center justify-between shrink-0">
-                <span className="text-[12px] sm:text-[13px] font-medium text-slate-600 dark:text-slate-300">
-                  Step {currentStep} of 5 · <span className="font-semibold text-slate-900 dark:text-white">{STEPS[currentStep - 1].subtitle}</span>
+              {/* Step Header */}
+              <div className="px-6 sm:px-8 py-2.5 bg-[#F8FAFD] dark:bg-slate-900/60 border-y border-[#DCE7F6] dark:border-slate-800 flex items-center justify-between shrink-0">
+                <span className="text-[12px] sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium">
+                  Step {currentStep} of 5 · <span className="font-semibold text-[#0B1F4B] dark:text-white">{STEPS[currentStep - 1].subtitle}</span>
                 </span>
-                <span className="text-[11px] sm:text-[12px] font-semibold text-[#102A68] dark:text-blue-400 bg-[#102A68]/8 dark:bg-blue-500/15 px-2.5 py-0.5 rounded-full">
+                <span className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-blue-400 bg-[#0B1F4B]/8 dark:bg-blue-500/15 px-2.5 py-0.5 rounded-full">
                   {Math.round((currentStep / 5) * 100)}%
                 </span>
               </div>
@@ -718,7 +720,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
+                      className="px-6 sm:px-8 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left"
                     >
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                         {/* Provisional Student ID (auto-generated) */}
@@ -726,20 +728,19 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           control={form.control}
                           name="studentId"
                           render={({ field }) => (
-                            <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <FileText className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                            <FormItem className="space-y-1.5 text-left">
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Provisional Student ID
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/75 dark:bg-slate-900/60 shadow-xs flex items-center justify-between px-3 h-10 sm:h-11">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex items-center justify-between px-3.5 sm:px-4 h-11 sm:h-12">
                                   <Input 
                                     {...field} 
                                     readOnly 
                                     placeholder="Provisional Student ID"
-                                    className="h-full border-0 bg-transparent text-[14px] sm:text-[15px] font-semibold text-[#102A68] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
+                                    className="h-full border-0 bg-transparent text-[14px] sm:text-[14.5px] font-semibold text-[#0B1F4B] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
                                   />
-                                  <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md shrink-0 select-none">
+                                  <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-[#DCE7F6] dark:border-slate-700 px-2 py-0.5 rounded-md shrink-0 select-none">
                                     Auto Generated
                                   </span>
                                 </div>
@@ -749,18 +750,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         />
 
                         {/* Admission Session: 2026–27 */}
-                        <FormItem className="space-y-1.5">
-                          <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                            <Calendar className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                        <FormItem className="space-y-1.5 text-left">
+                          <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                             Admission Session
                           </FormLabel>
-                          <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100/75 dark:bg-slate-900/60 shadow-xs flex items-center justify-between px-3 h-10 sm:h-11">
+                          <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex items-center justify-between px-3.5 sm:px-4 h-11 sm:h-12">
                             <Input 
                               readOnly 
                               value="2026–27" 
-                              className="h-full border-0 bg-transparent text-[14px] sm:text-[15px] font-semibold text-[#102A68] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
+                              className="h-full border-0 bg-transparent text-[14px] sm:text-[14.5px] font-semibold text-[#0B1F4B] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
                             />
-                            <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-md shrink-0 select-none">
+                            <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-[#0B1F4B] dark:text-blue-400 bg-[#0B1F4B]/8 dark:bg-blue-400/10 border border-[#DCE7F6] dark:border-slate-700 px-2 py-0.5 rounded-md shrink-0 select-none">
                               Active Session
                             </span>
                           </div>
@@ -772,39 +772,40 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         control={form.control}
                         name="branch"
                         render={({ field }) => (
-                          <FormItem className="space-y-1.5">
-                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                              <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                          <FormItem className="space-y-1.5 text-left">
+                            <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                               Preferred Branch <span className="text-[#E11D48]">*</span>
                             </FormLabel>
                             <FormControl>
-                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                 <Select onValueChange={field.onChange} value={field.value}>
-                                  <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                  <SelectTrigger 
+                                    style={{ outline: 'none', boxShadow: 'none' }}
+                                    className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400"
+                                  >
                                     <SelectValue placeholder="Select Preferred Branch" />
                                   </SelectTrigger>
                                   <SelectContent className="max-h-56 z-[200]">
                                     {branches.map(b => (
-                                      <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100">{b}</SelectItem>
+                                      <SelectItem key={b} value={b} className="text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100">{b}</SelectItem>
                                     ))}
                                   </SelectContent>
                                 </Select>
                               </div>
                             </FormControl>
-                            <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                           </FormItem>
                         )}
                       />
 
                       {/* Passport Size Photograph */}
-                      <div className="space-y-1.5 pt-1">
-                        <label className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                          <Camera className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                      <div className="space-y-1.5 text-left pt-1">
+                        <label className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                           Passport Size Photograph
                         </label>
-                        <div className="p-3 sm:p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 shadow-xs flex items-center justify-between gap-3">
+                        <div className="p-3 sm:p-3.5 rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex items-center justify-between gap-3">
                           <div className="flex items-center gap-3.5 min-w-0 flex-1">
-                            {/* Rigid Passport Box (w: 58px, h: 74px -> ~3.5:4.5 passport ratio) */}
+                            {/* Passport Box */}
                             <div 
                               onClick={() => {
                                 if (photoPreview) {
@@ -814,7 +815,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                   fileInputRef.current?.click();
                                 }
                               }}
-                              className="w-[58px] h-[74px] rounded-lg bg-white dark:bg-slate-900 border border-dashed border-slate-300 dark:border-slate-700 hover:border-[#102A68] dark:hover:border-blue-400 transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer shadow-xs aspect-[35/45]"
+                              className="w-[52px] h-[66px] sm:w-[56px] sm:h-[72px] rounded-lg bg-white dark:bg-slate-900 border border-dashed border-[#C5D7EF] dark:border-slate-700 hover:border-[#0B1F4B] dark:hover:border-blue-400 transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer shadow-xs aspect-[35/45]"
                               title={photoPreview ? "Click to crop & adjust position" : "Click to upload photo"}
                             >
                               {photoPreview ? (
@@ -827,17 +828,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                 </>
                               ) : (
                                 <div className="flex flex-col items-center justify-center gap-1 p-1 text-center">
-                                  <Camera className="w-4 h-4 text-slate-400 group-hover:text-[#102A68] transition-colors" />
+                                  <Upload className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0B1F4B] transition-colors" />
                                   <span className="text-[9px] text-slate-400 font-medium leading-none">35×45mm</span>
                                 </div>
                               )}
                             </div>
                             <div className="text-left min-w-0 flex-1">
                               <div className="flex items-center gap-2">
-                                <p className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-white truncate">
+                                <p className="text-[13.5px] sm:text-[14px] font-semibold text-[#0B1F4B] dark:text-white truncate">
                                   {photoPreview ? "Photo Uploaded" : "Passport Size Photograph"}
                                 </p>
-                                <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#102A68]/8 text-[#102A68] dark:text-blue-400 dark:bg-blue-400/10 shrink-0">
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#0B1F4B]/8 text-[#0B1F4B] dark:text-blue-400 dark:bg-blue-400/10 shrink-0">
                                   3.5 × 4.5 cm
                                 </span>
                               </div>
@@ -860,7 +861,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                       setIsCropOpen(true);
                                     }
                                   }}
-                                  className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-slate-200 dark:border-slate-700 text-[#102A68] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
+                                  className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-[#DCE7F6] dark:border-slate-700 text-[#0B1F4B] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
                                 >
                                   <Crop className="w-3 h-3" />
                                   Adjust
@@ -870,7 +871,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                   variant="outline" 
                                   size="sm" 
                                   onClick={() => fileInputRef.current?.click()}
-                                  className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
+                                  className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-[#DCE7F6] dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
                                 >
                                   Change
                                 </Button>
@@ -881,9 +882,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                 variant="outline" 
                                 size="sm" 
                                 onClick={() => fileInputRef.current?.click()}
-                                className="rounded-lg h-9 px-3 text-[12px] sm:text-[13px] font-semibold border border-slate-200 dark:border-slate-700 text-[#102A68] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1.5 focus:ring-0 focus:outline-none"
+                                className="rounded-xl h-9 px-3.5 text-[12.5px] sm:text-[13px] font-semibold border border-[#DCE7F6] dark:border-slate-700 text-[#0B1F4B] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-[#F8FAFD] cursor-pointer shadow-xs flex items-center gap-1.5 focus:ring-0 focus:outline-none"
                               >
-                                <Upload className="w-3.5 h-3.5 text-[#102A68] dark:text-blue-400" />
+                                <Upload className="w-3.5 h-3.5 text-[#0B1F4B] dark:text-blue-400" />
                                 Choose Photo
                               </Button>
                             )}
@@ -950,18 +951,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="studentName"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Student Full Name <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. Rahul Sharma" 
                                     {...field} 
                                     autoFocus={false}
                                     value={field.value}
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize"
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize"
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
                                   />
                                 </div>
@@ -977,34 +977,39 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="dob"
                           render={() => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Calendar className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Date of Birth <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
                                 <div className="grid grid-cols-3 gap-2">
-                                  <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                     <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
-                                      <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-2.5">
+                                      <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-2.5 sm:px-3 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                         <SelectValue placeholder="Day" />
                                       </SelectTrigger>
-                                      <SelectContent className="max-h-56">{availableDays.map(day => <SelectItem key={day} value={String(day)} className="text-[13px]">{day}</SelectItem>)}</SelectContent>
+                                      <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
+                                        {availableDays.map(day => <SelectItem key={day} value={String(day)} className="text-[13px] sm:text-[13.5px]">{day}</SelectItem>)}
+                                      </SelectContent>
                                     </Select>
                                   </div>
-                                  <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                     <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
-                                      <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-2.5">
+                                      <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-2.5 sm:px-3 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                         <SelectValue placeholder="Month" />
                                       </SelectTrigger>
-                                      <SelectContent className="max-h-56">{months.map(m => <SelectItem key={m} value={m} className="text-[13px]">{m}</SelectItem>)}</SelectContent>
+                                      <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
+                                        {months.map(m => <SelectItem key={m} value={m} className="text-[13px] sm:text-[13.5px]">{m}</SelectItem>)}
+                                      </SelectContent>
                                     </Select>
                                   </div>
-                                  <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                  <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                     <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
-                                      <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-2.5">
+                                      <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-2.5 sm:px-3 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                         <SelectValue placeholder="Year" />
                                       </SelectTrigger>
-                                      <SelectContent className="max-h-56">{years.map(y => <SelectItem key={y} value={String(y)} className="text-[13px]">{y}</SelectItem>)}</SelectContent>
+                                      <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
+                                        {years.map(y => <SelectItem key={y} value={String(y)} className="text-[13px] sm:text-[13.5px]">{y}</SelectItem>)}
+                                      </SelectContent>
                                     </Select>
                                   </div>
                                 </div>
@@ -1023,20 +1028,19 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="gender"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Gender <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                       <SelectValue placeholder="Select Gender" />
                                     </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="male" className="text-[13px] sm:text-[14px]">Male</SelectItem>
-                                      <SelectItem value="female" className="text-[13px] sm:text-[14px]">Female</SelectItem>
-                                      <SelectItem value="other" className="text-[13px] sm:text-[14px]">Other</SelectItem>
+                                    <SelectContent className="z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
+                                      <SelectItem value="male" className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">Male</SelectItem>
+                                      <SelectItem value="female" className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">Female</SelectItem>
+                                      <SelectItem value="other" className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">Other</SelectItem>
                                     </SelectContent>
                                   </Select>
                                 </div>
@@ -1052,19 +1056,18 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="classApplied"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Class / Course <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                       <SelectValue placeholder="Select Class / Course" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
+                                    <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
                                       {classes.map((c, i) => (
-                                        <SelectItem key={`${c}-${i}`} value={c} className="text-[13px] sm:text-[14px]">{c}</SelectItem>
+                                        <SelectItem key={`${c}-${i}`} value={c} className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">{c}</SelectItem>
                                       ))}
                                     </SelectContent>
                                   </Select>
@@ -1084,19 +1087,18 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="board"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Board
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Board <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                       <SelectValue placeholder="Select Board (Optional)" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
+                                    <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
                                       {boards.map(b => (
-                                        <SelectItem key={b} value={b} className="text-[13px] sm:text-[14px]">{b}</SelectItem>
+                                        <SelectItem key={b} value={b} className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">{b}</SelectItem>
                                       ))}
                                     </SelectContent>
                                   </Select>
@@ -1106,25 +1108,24 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           )}
                         />
 
-                        {/* Applying For / Program (Options: Foundation, JEE, NEET, CUET, Olympiad, School Classes) */}
+                        {/* Applying For / Program */}
                         <FormField
                           control={form.control}
                           name="program"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Applying For / Program
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Applying For / Program <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:ring-offset-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                       <SelectValue placeholder="Select Program (Optional)" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
+                                    <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
                                       {programs.map(p => (
-                                        <SelectItem key={p} value={p} className="text-[13px] sm:text-[14px]">{p}</SelectItem>
+                                        <SelectItem key={p} value={p} className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">{p}</SelectItem>
                                       ))}
                                     </SelectContent>
                                   </Select>
@@ -1141,18 +1142,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         name="studentPhone"
                         render={({ field }) => (
                           <FormItem className="space-y-1.5">
-                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                              <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                            <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                               Student Mobile Number <span className="text-slate-400 text-xs font-normal">(if applicable)</span>
                             </FormLabel>
                             <FormControl>
-                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                              <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                 <Input 
                                   type="tel" 
                                   placeholder="10-digit mobile number (Optional)" 
                                   {...field} 
                                   maxLength={10} 
-                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                   onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
                                 />
                               </div>
@@ -1181,16 +1181,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="fatherName"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Father / Guardian Name <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. Rajesh Sharma" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                   />
                                 </div>
@@ -1206,16 +1205,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="motherName"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Mother Name
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Mother Name <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. Sunita Sharma (Optional)" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                   />
                                 </div>
@@ -1233,18 +1231,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="fatherPhone"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Parent Mobile Number <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     type="tel" 
                                     placeholder="e.g. 9876543210" 
                                     {...field} 
                                     maxLength={10} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                     onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
                                   />
                                 </div>
@@ -1260,17 +1257,16 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="parentEmail"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Mail className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Parent Email
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Parent Email <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     type="email" 
                                     placeholder="e.g. parent@example.com (Optional)" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                     onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
                                   />
                                 </div>
@@ -1287,16 +1283,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         name="fatherOccupation"
                         render={({ field }) => (
                           <FormItem className="space-y-1.5">
-                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                              <Briefcase className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                              Occupation <span className="text-slate-400 text-xs font-normal">(optional)</span>
+                            <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                              Occupation <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                             </FormLabel>
                             <FormControl>
-                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                              <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                 <Input 
                                   placeholder="e.g. Business / Government / Service (Optional)" 
                                   {...field} 
-                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
+                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
                                   onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                 />
                               </div>
@@ -1324,17 +1319,16 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="email"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Mail className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Student / Parent Email
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Student / Parent Email <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     type="email" 
                                     placeholder="e.g. contact@gmail.com (Optional)" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                     onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
                                   />
                                 </div>
@@ -1350,18 +1344,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="emergencyContact"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Emergency Contact Number
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Emergency Contact Number <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     type="tel" 
                                     placeholder="10-digit emergency number (Optional)" 
                                     {...field} 
                                     maxLength={10} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                     onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
                                   />
                                 </div>
@@ -1378,16 +1371,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         name="address"
                         render={({ field }) => (
                           <FormItem className="space-y-1.5">
-                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                              <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                            <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                               Full Address <span className="text-[#E11D48]">*</span>
                             </FormLabel>
                             <FormControl>
-                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                              <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                 <Input 
                                   placeholder="House / Flat No., Street, Area, Landmark" 
                                   {...field} 
-                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                   onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                 />
                               </div>
@@ -1405,16 +1397,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="city"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <MapPin className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 City <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. Delhi / Rohini" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                   />
                                 </div>
@@ -1430,18 +1421,17 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="state"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Globe className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 State <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                       <SelectValue placeholder="Select State" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {indianStates.map(st => <SelectItem key={st} value={st} className="text-[13px] sm:text-[14px]">{st}</SelectItem>)}
+                                    <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
+                                      {indianStates.map(st => <SelectItem key={st} value={st} className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">{st}</SelectItem>)}
                                     </SelectContent>
                                   </Select>
                                 </div>
@@ -1457,17 +1447,16 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="pincode"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <MapPin className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Pincode <span className="text-[#E11D48]">*</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="6 Digits" 
                                     {...field} 
                                     maxLength={6} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                     onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
                                   />
                                 </div>
@@ -1497,16 +1486,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="previousSchool"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <Building className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Previous School Name
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Previous School Name <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. St. Xavier's High School (Optional)" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                   />
                                 </div>
@@ -1521,19 +1509,18 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="previousClass"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Previous Class
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Previous Class <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
+                                    <SelectTrigger className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
                                       <SelectValue placeholder="Select Previous Class (Optional)" />
                                     </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
+                                    <SelectContent className="max-h-56 z-[200] border-[#DCE7F6] dark:border-slate-800 rounded-xl shadow-lg">
                                       {previousClasses.map(pc => (
-                                        <SelectItem key={pc} value={pc} className="text-[13px] sm:text-[14px]">{pc}</SelectItem>
+                                        <SelectItem key={pc} value={pc} className="text-[13.5px] sm:text-[14px] py-2 sm:py-2.5 font-medium cursor-pointer focus:bg-[#F8FAFD] focus:text-[#0B1F4B]">{pc}</SelectItem>
                                       ))}
                                     </SelectContent>
                                   </Select>
@@ -1552,16 +1539,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="previousPercentage"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <FileText className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                                Previous Percentage / Grade
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
+                                Previous Percentage / Grade <span className="text-slate-400 text-xs font-normal">(Optional)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. 88% or 8.8 CGPA / Grade A (Optional)" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                   />
                                 </div>
                               </FormControl>
@@ -1575,16 +1561,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           name="stream"
                           render={({ field }) => (
                             <FormItem className="space-y-1.5">
-                              <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                                <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                              <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                                 Stream / Subjects <span className="text-slate-400 text-xs font-normal">(where applicable)</span>
                               </FormLabel>
                               <FormControl>
-                                <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                                <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                   <Input 
                                     placeholder="e.g. Science / PCM / PCB / Commerce (Optional)" 
                                     {...field} 
-                                    className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
                                     onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                   />
                                 </div>
@@ -1600,16 +1585,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         name="scholarshipTest"
                         render={({ field }) => (
                           <FormItem className="space-y-1.5">
-                            <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                              <ShieldCheck className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
+                            <FormLabel className="text-[12.5px] sm:text-[13px] font-semibold text-[#0B1F4B] dark:text-slate-200">
                               Scholarship / Entrance Test <span className="text-slate-400 text-xs font-normal">(if applicable)</span>
                             </FormLabel>
                             <FormControl>
-                              <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                              <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                                 <Input 
                                   placeholder="e.g. IDL Scholarship Exam / NSTSE (Optional)" 
                                   {...field} 
-                                  className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3" 
+                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
                                 />
                               </div>
                             </FormControl>
@@ -1618,15 +1602,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       />
 
                       {/* Review Summary Box */}
-                      <div className="p-3.5 sm:p-4 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/90 dark:border-slate-800 text-left">
-                        <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
+                      <div className="p-3.5 sm:p-4 rounded-xl bg-[#F8FAFD] dark:bg-slate-900/60 border border-[#DCE7F6] dark:border-slate-800 text-left">
+                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#0B1F4B]/70 dark:text-slate-400 mb-2">
                           Application Snapshot
                         </p>
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-[12px] sm:text-[13px]">
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Student</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('studentName') || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Branch</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('branch')?.split(',')[0] || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Parent Mobile</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('fatherPhone') || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Course / Program</span><strong className="font-semibold text-slate-900 dark:text-slate-100 truncate block">{form.watch('classApplied') || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Student</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('studentName') || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Branch</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('branch')?.split(',')[0] || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Parent Mobile</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('fatherPhone') || '—'}</strong></div>
+                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Course / Program</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('classApplied') || '—'}</strong></div>
                         </div>
                       </div>
                     </motion.div>
@@ -1635,13 +1619,13 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
               </div>
 
               {/* Sticky Footer Action */}
-              <div className="px-5 sm:px-7 py-3 sm:py-3.5 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+              <div className="px-5 sm:px-7 py-3.5 sm:py-4 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-t border-[#DCE7F6] dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20 pb-[max(0.85rem,env(safe-area-inset-bottom))]">
                 {currentStep > 1 ? (
                   <Button
                     type="button"
                     variant="outline"
                     onClick={handleBack}
-                    className="h-10 sm:h-11 px-4 sm:px-5 rounded-[8px] text-[13px] sm:text-[14px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5"
+                    className="h-11 sm:h-12 px-4 sm:px-5 rounded-xl text-[13.5px] sm:text-[14px] font-semibold border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900 text-[#0B1F4B] dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5 transition-all"
                   >
                     <ArrowLeft className="w-4 h-4" /> Back
                   </Button>
@@ -1653,7 +1637,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                   <Button
                     type="button"
                     onClick={handleNext}
-                    className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer ml-auto w-full sm:w-auto justify-center"
+                    className="h-11 sm:h-12 px-7 sm:px-8 rounded-xl text-[14px] sm:text-[14.5px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer ml-auto w-full sm:w-auto justify-center"
                   >
                     <span>Next Step</span>
                     <ArrowRight className="w-4 h-4" />
@@ -1664,9 +1648,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       type="button"
                       variant="outline"
                       onClick={handlePreview}
-                      className="h-10 sm:h-11 px-4 sm:px-5 rounded-[8px] text-[13px] sm:text-[14px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5"
+                      className="h-11 sm:h-12 px-4 sm:px-5 rounded-xl text-[13.5px] sm:text-[14px] font-semibold border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900 text-[#0B1F4B] dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5 transition-all"
                     >
-                      <FileText className="h-4 w-4 text-[#102A68] dark:text-blue-400" /> Preview A4
+                      <FileText className="h-4 w-4 text-[#0B1F4B] dark:text-blue-400" /> Preview A4
                     </Button>
                     <Button
                       type="button"
@@ -1685,7 +1669,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           });
                         }
                       }}
-                      className="h-10 sm:h-11 px-5 sm:px-6 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer justify-center"
+                      className="h-11 sm:h-12 px-6 sm:px-7 rounded-xl text-[14px] sm:text-[14.5px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow transition-all flex items-center gap-2 cursor-pointer justify-center"
                     >
                       <span>Submit (₹10)</span>
                       <Send className="h-3.5 w-3.5" />

@@ -182,7 +182,7 @@ export default function ScholarshipPage() {
           <Card className="shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 overflow-hidden animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="px-6 py-4 text-left border-b border-slate-100 dark:border-slate-800 space-y-0.5">
               <h2 className="text-2xl font-extrabold text-primary tracking-tighter text-left">
-                Scholarship Registration
+                Apply for Scholarship
               </h2>
               <p className="text-[13px] font-extrabold text-muted-foreground text-left">
                 IDL National Talent Reward Exam • Up to 100% Scholarship

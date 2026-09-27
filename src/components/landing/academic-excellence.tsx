@@ -10,11 +10,8 @@ import {
   ChevronLeft, 
   ChevronRight, 
   ArrowRight, 
-  Quote, 
   Sparkles, 
-  Award, 
   CheckCircle2, 
-  X,
   ExternalLink
 } from 'lucide-react';
 import { 
@@ -30,6 +27,7 @@ import {
   DialogTitle,
   DialogDescription,
 } from '@/components/ui/dialog';
+import { FormModalDialogContent } from '@/components/ui/form-modal-dialog';
 
 // Structured data interfaces for future Admin / CMS integration
 export interface StudentPerformer {
@@ -569,13 +567,13 @@ export function AcademicExcellence() {
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative rounded-[22px] sm:rounded-[28px] lg:rounded-[32px] bg-[#F6FAFE] dark:bg-slate-900/90 border border-[#DCE8F8] dark:border-slate-800 p-3.5 sm:p-5 lg:p-6 shadow-[0_6px_24px_-6px_rgba(6,43,103,0.04)] dark:shadow-none overflow-hidden"
+          className="relative rounded-[22px] sm:rounded-[28px] lg:rounded-[32px] bg-[#F8FBFF] dark:bg-slate-900/90 border border-[#DCE7F6] dark:border-slate-800 p-3.5 sm:p-5 lg:p-6 shadow-[0_6px_24px_-6px_rgba(6,43,103,0.04)] dark:shadow-none overflow-hidden"
         >
           {/* Background Soft Fluid Organic Waves Matching Reference */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
             {/* Top-Right Organic Wave Accent */}
             <svg 
-              className="absolute -top-10 -right-10 w-[380px] sm:w-[500px] lg:w-[620px] h-auto text-[#E6F1FD]/80 dark:text-blue-950/30" 
+              className="absolute -top-10 -right-10 w-[380px] sm:w-[500px] lg:w-[620px] h-auto text-[#E2EDFA]/30 dark:text-blue-950/20" 
               viewBox="0 0 680 440" 
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -587,13 +585,13 @@ export function AcademicExcellence() {
               <path 
                 d="M260 0C400 140 520 90 680 270V0H260Z" 
                 fill="currentColor" 
-                opacity="0.5" 
+                opacity="0.4" 
               />
             </svg>
 
             {/* Bottom-Left Organic Wave Accent */}
             <svg 
-              className="absolute -bottom-14 -left-14 w-[320px] sm:w-[440px] lg:w-[540px] h-auto text-[#E6F1FD]/70 dark:text-blue-950/20" 
+              className="absolute -bottom-14 -left-14 w-[320px] sm:w-[440px] lg:w-[540px] h-auto text-[#E2EDFA]/25 dark:text-blue-950/15" 
               viewBox="0 0 620 400" 
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -605,85 +603,85 @@ export function AcademicExcellence() {
             </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row gap-4 sm:gap-5 lg:gap-6 items-stretch">
+          <div className="relative z-10 flex flex-col lg:flex-row gap-5 sm:gap-5 lg:gap-6 items-stretch">
             
             {/* ----------------- LEFT SIDE: SUMMARY CARD (Compact, Strong & Premium) ----------------- */}
             <div className="w-full lg:w-[35%] xl:w-[34%] shrink-0">
-              <div className="bg-white dark:bg-slate-900 rounded-[18px] sm:rounded-[22px] p-4 sm:p-5 pb-3.5 sm:pb-4 border border-[#DFEAF8] dark:border-slate-800 shadow-[0_2px_14px_rgba(6,43,103,0.03)] h-full flex flex-col justify-between relative z-10">
+              <div className="bg-white dark:bg-slate-900 rounded-[18px] sm:rounded-[22px] p-4 sm:p-5 pb-3.5 sm:pb-4 border border-[#DCE7F6] dark:border-slate-800 shadow-[0_4px_16px_rgba(6,43,103,0.05)] sm:shadow-[0_2px_14px_rgba(6,43,103,0.03)] h-full flex flex-col justify-between relative z-10">
                 
                 {/* Title & Description */}
                 <div>
                   {/* Top orange accent bar - short & premium */}
-                  <div className="w-8 sm:w-10 h-1 sm:h-1.5 rounded-full bg-[#FF5500] mb-2 sm:mb-2.5" />
+                  <div className="w-9 sm:w-10 h-1.5 rounded-full bg-[#FF5500] mb-2 sm:mb-2.5" />
                   
                   {/* Category Title e.g. CLASS 12 • 2026 RESULTS */}
-                  <h3 className="text-[17px] xs:text-[19px] sm:text-[22px] lg:text-[24px] font-[750] tracking-tight flex items-center gap-1.5 sm:gap-2 leading-none">
-                    <span className="text-[#062B67] dark:text-white font-[750]">
+                  <h3 className="text-[19px] xs:text-[20.5px] sm:text-[22px] lg:text-[24px] font-extrabold sm:font-[750] tracking-tight flex items-center gap-1.5 sm:gap-2 leading-none">
+                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750]">
                       {activeCategory.headlineTitle}
                     </span>
-                    <span className="text-[#CBD5E1] dark:text-slate-700 font-normal">•</span>
-                    <span className="text-[#155EEF] dark:text-blue-400 font-[750]">
+                    <span className="text-[#94A3B8] dark:text-slate-600 font-medium px-0.5">•</span>
+                    <span className="text-[#5B78A5] dark:text-blue-400 font-extrabold sm:font-[750]">
                       {activeCategory.headlineHighlight}
                     </span>
                   </h3>
 
-                  <p className="text-[12px] sm:text-[13px] lg:text-[13.5px] text-slate-500 dark:text-slate-400 mt-1.5 font-medium leading-relaxed">
+                  <p className="text-[12.5px] sm:text-[13px] lg:text-[13.5px] text-slate-600 dark:text-slate-400 mt-1.5 font-medium leading-[1.4] sm:leading-relaxed">
                     {activeCategory.description}
                   </p>
                 </div>
 
                 {/* Divider Line */}
-                <div className="w-full h-px bg-slate-100 dark:bg-slate-800/80 my-3 sm:my-3.5" />
+                <div className="w-full h-px bg-[#DCE7F6]/80 dark:bg-slate-800/80 my-2.5 sm:my-3.5" />
 
                 {/* 3 Key Statistics in 1 Tight Balanced Row with Clean Dividers */}
-                <div className="grid grid-cols-3 divide-x divide-slate-100 dark:divide-slate-800 py-0">
+                <div className="grid grid-cols-3 divide-x divide-[#DCE7F6]/80 dark:divide-slate-800 py-1 sm:py-0 -mx-1 sm:mx-0">
                   
                   {/* Stat 1: Highest Score */}
-                  <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-1 mx-auto">
+                  <div className="flex flex-col items-center text-center px-1.5 sm:px-2">
+                    <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-1.5 sm:mb-1 mx-auto">
                       <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750] text-[21px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-1 sm:mb-0.5">
                       {activeCategory.stats.highestScore.value}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10.5px] sm:text-[11px] lg:text-[11.5px] font-semibold sm:font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.highestScore.label}
                     </span>
                   </div>
 
                   {/* Stat 2: Students 90%+ */}
-                  <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-1 mx-auto">
+                  <div className="flex flex-col items-center text-center px-1.5 sm:px-2">
+                    <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-1.5 sm:mb-1 mx-auto">
                       <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750] text-[21px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-1 sm:mb-0.5">
                       {activeCategory.stats.students90Plus.value}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10.5px] sm:text-[11px] lg:text-[11.5px] font-semibold sm:font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students90Plus.label}
                     </span>
                   </div>
 
                   {/* Stat 3: Students 95%+ */}
-                  <div className="flex flex-col items-center text-center px-1 sm:px-2">
-                    <div className="w-7.5 h-7.5 sm:w-8.5 sm:h-8.5 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-1 mx-auto">
+                  <div className="flex flex-col items-center text-center px-1.5 sm:px-2">
+                    <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-1.5 sm:mb-1 mx-auto">
                       <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
                     </div>
-                    <span className="text-[#062B67] dark:text-white font-[750] text-[20px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-0.5">
+                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750] text-[21px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-1 sm:mb-0.5">
                       {activeCategory.stats.students95Plus.value}
                     </span>
-                    <span className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 leading-tight">
+                    <span className="text-[10.5px] sm:text-[11px] lg:text-[11.5px] font-semibold sm:font-medium text-slate-500 dark:text-slate-400 leading-tight">
                       {activeCategory.stats.students95Plus.label}
                     </span>
                   </div>
                 </div>
 
                 {/* Motivational Quote at Bottom - compact & neat */}
-                <div className="mt-3 sm:mt-3.5 bg-[#F4F8FD] dark:bg-slate-800/60 rounded-xl sm:rounded-2xl p-2 sm:p-2.5 border border-[#E2EDF8] dark:border-slate-800/80 text-[11px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-snug flex items-start gap-1.5 sm:gap-2">
-                  <span className="text-[#0A5CFF] text-base sm:text-lg font-serif font-black leading-none shrink-0 mt-0.5">“</span>
+                <div className="mt-2.5 sm:mt-3.5 bg-[#F8FAFD] dark:bg-slate-800/60 rounded-xl sm:rounded-2xl p-2.5 sm:p-2.5 border border-[#DCE7F6] dark:border-slate-800/80 text-[11.5px] sm:text-[12px] text-slate-700 dark:text-slate-300 leading-[1.38] sm:leading-snug flex items-start gap-1.5 sm:gap-2">
+                  <span className="text-[#155EEF] text-base sm:text-lg font-serif font-black leading-none shrink-0 mt-0.5">“</span>
                   <p className="italic">
                     {activeCategory.quote.text.trim()}{' '}
-                    <strong className="text-[#0A5CFF] dark:text-blue-400 not-italic font-bold">
+                    <strong className="text-[#155EEF] dark:text-blue-400 not-italic font-bold">
                       {activeCategory.quote.highlight}
                     </strong>
                   </p>
@@ -693,11 +691,11 @@ export function AcademicExcellence() {
             </div>
 
             {/* ----------------- RIGHT SIDE: TOP PERFORMERS CAROUSEL ----------------- */}
-            <div className="w-full lg:w-[65%] xl:w-[66%] flex flex-col justify-between mt-1 sm:mt-0">
+            <div className="w-full lg:w-[65%] xl:w-[66%] flex flex-col justify-between mt-0.5 sm:mt-0">
               
               {/* Top Performers Header + Navigation Arrows */}
               <div className="flex items-center justify-between mb-2 sm:mb-2.5 px-0.5">
-                <h4 className="text-[#062B67] dark:text-white font-bold text-[15px] sm:text-[17px] tracking-tight">
+                <h4 className="text-[#062B67] dark:text-white font-extrabold sm:font-bold text-[16px] sm:text-[17px] tracking-tight">
                   Top Performers
                 </h4>
 
@@ -706,14 +704,14 @@ export function AcademicExcellence() {
                   <button
                     onClick={scrollPrev}
                     aria-label="Previous performer"
-                    className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE6F5] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
+                    className="w-7.5 h-7.5 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE7F6] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
                   >
                     <ChevronLeft className="w-3.5 h-3.5" />
                   </button>
                   <button
                     onClick={scrollNext}
                     aria-label="Next performer"
-                    className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE6F5] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
+                    className="w-7.5 h-7.5 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE7F6] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
                   >
                     <ChevronRight className="w-3.5 h-3.5" />
                   </button>
@@ -737,13 +735,13 @@ export function AcademicExcellence() {
                     {activeCategory.topPerformers.map((student) => (
                       <CarouselItem 
                         key={student.id} 
-                        className="pl-2.5 sm:pl-3 lg:pl-3 basis-[80%] xs:basis-[75%] sm:basis-[45%] md:basis-[33%] lg:basis-1/4"
+                        className="pl-2 sm:pl-3 lg:pl-3 basis-[72%] xs:basis-[68%] sm:basis-[45%] md:basis-[33%] lg:basis-1/4"
                       >
                         {/* Student Card - Match Reference Screenshot */}
-                        <div className="bg-white dark:bg-slate-900 rounded-[16px] sm:rounded-[18px] border border-[#DCE6F5] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.03)] hover:shadow-[0_6px_18px_rgba(6,43,103,0.07)] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden">
+                        <div className="bg-white dark:bg-slate-900 rounded-[16px] sm:rounded-[18px] border border-[#DCE7F6] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.03)] hover:shadow-[0_6px_18px_rgba(6,43,103,0.07)] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden">
                           
                           {/* Student Portrait Image: Flush with top & sides */}
-                          <div className="relative w-full aspect-[4/4.3] bg-[#E9F0FA] dark:bg-slate-800 overflow-hidden">
+                          <div className="relative w-full aspect-[4/3.85] sm:aspect-[4/4.3] bg-[#E9F0FA] dark:bg-slate-800 overflow-hidden">
                             <Image
                               src={student.image}
                               alt={student.name}
@@ -756,14 +754,14 @@ export function AcademicExcellence() {
                           </div>
 
                           {/* Overlapping Orange Score Badge */}
-                          <div className="relative -mt-3 sm:-mt-3.5 z-20 flex justify-center">
+                          <div className="relative -mt-2.5 sm:-mt-3.5 z-20 flex justify-center">
                             <div className="bg-[#FF6B21] text-white text-[11px] sm:text-[11.5px] font-bold px-3 py-0.5 rounded-full shadow-[0_2px_6px_rgba(255,107,33,0.3)] whitespace-nowrap tracking-tight">
                               {student.score}
                             </div>
                           </div>
 
                           {/* Student Info Body */}
-                          <div className="pt-2 pb-2.5 sm:pb-3 px-1.5 text-center flex flex-col items-center flex-1 justify-between">
+                          <div className="pt-1.5 sm:pt-2 pb-2 sm:pb-3 px-1.5 text-center flex flex-col items-center flex-1 justify-between">
                             <div className="w-full">
                               <h5 className="font-bold text-[13px] sm:text-[14px] text-[#062B67] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors truncate">
                                 {student.name}
@@ -777,7 +775,7 @@ export function AcademicExcellence() {
                             <button
                               type="button"
                               onClick={() => setSelectedStudent(student)}
-                              className="text-[11px] sm:text-[11.5px] font-semibold text-[#155EEF] dark:text-blue-400 hover:text-[#062B67] dark:hover:text-white inline-flex items-center gap-1 mt-1.5 sm:mt-2 group/btn transition-colors cursor-pointer"
+                              className="text-[11px] sm:text-[11.5px] font-semibold text-[#155EEF] dark:text-blue-400 hover:text-[#062B67] dark:hover:text-white inline-flex items-center gap-1 mt-1 sm:mt-2 group/btn transition-colors cursor-pointer"
                             >
                               <span>View Profile</span>
                               <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
@@ -792,7 +790,7 @@ export function AcademicExcellence() {
               </div>
 
               {/* Small Carousel Dots */}
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2 sm:mt-2.5">
+              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2.5">
                 {activeCategory.topPerformers.map((_, i) => (
                   <button
                     key={i}
@@ -816,7 +814,7 @@ export function AcademicExcellence() {
           </div>
 
           {/* ===================== VIEW ALL RESULTS CTA (TEXT ONLY) ===================== */}
-          <div className="mt-2.5 sm:mt-3.5 pt-0.5 flex justify-center">
+          <div className="mt-2 sm:mt-3.5 pt-0.5 flex justify-center">
             <button
               type="button"
               onClick={() => setShowAllResultsModal(true)}
@@ -834,34 +832,34 @@ export function AcademicExcellence() {
       {/* ===================== STUDENT PROFILE FLOATING POPUP (CBSE POPUP DESIGN SYSTEM) ===================== */}
       {selectedStudent && (
         <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center p-3.5 sm:p-5 md:p-6" 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-3.5 sm:p-5 md:p-6" 
           role="dialog" 
           aria-modal="true"
           aria-labelledby="student-profile-title"
         >
           {/* Dimmed & Blurred Backdrop with comfortable margins on all 4 sides */}
           <div 
-            className="absolute inset-0 bg-slate-950/45 backdrop-blur-xs transition-opacity" 
+            className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] transition-opacity" 
             onClick={() => setSelectedStudent(null)} 
           />
           
           {/* Centered Floating Modal Card */}
           <div
-            className="relative w-[92vw] max-w-[430px] sm:max-w-[440px] bg-white dark:bg-slate-900 rounded-[22px] sm:rounded-[24px] shadow-2xl shadow-slate-950/15 border border-[#DCE7F6] dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col pointer-events-auto"
-            style={{ animation: 'studentModalIn 0.22s cubic-bezier(0.16,1,0.3,1) forwards' }}
+            className="relative w-[92vw] max-w-[460px] sm:max-w-[480px] bg-white dark:bg-slate-950 rounded-[22px] sm:rounded-[24px] shadow-[0_20px_60px_-15px_rgba(11,31,75,0.15)] border border-[#DCE7F6] dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col pointer-events-auto my-auto"
+            style={{ animation: 'studentModalIn 0.2s ease-out forwards' }}
           >
             <style dangerouslySetInnerHTML={{ __html: `
               @keyframes studentModalIn {
-                from { opacity: 0; transform: scale(0.96) translateY(6px); }
+                from { opacity: 0; transform: scale(0.97) translateY(4px); }
                 to   { opacity: 1; transform: scale(1) translateY(0); }
               }
             ` }} />
 
-            {/* Header: Hero Area */}
-            <div className="flex items-center justify-between px-4 py-3.5 sm:px-5 sm:py-4 bg-white dark:bg-slate-900 border-b border-[#E8EFF8] dark:border-slate-800/90 shrink-0">
-              <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
-                {/* Circular Profile Photo */}
-                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-[#E0EBF9] dark:border-slate-700 overflow-hidden shadow-sm shrink-0 bg-slate-100 dark:bg-slate-800">
+            {/* Header: Student Identity */}
+            <div className="flex items-center px-5 sm:px-6 py-4 sm:py-4.5 bg-white dark:bg-slate-950 border-b border-[#DCE7F6] dark:border-slate-800 shrink-0">
+              <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
+                {/* Circular Profile Photo with subtle border */}
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-[#DCE7F6] dark:border-slate-700 overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 shadow-xs">
                   <Image
                     src={selectedStudent.image}
                     alt={selectedStudent.name}
@@ -873,49 +871,38 @@ export function AcademicExcellence() {
                 </div>
                 
                 {/* Info */}
-                <div className="min-w-0">
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className="inline-flex items-center text-[11px] sm:text-[11.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/50 text-[#C2410C] dark:text-amber-400 border border-amber-300/80 dark:border-amber-800/60 tracking-wide shadow-2xs leading-none">
-                      {selectedStudent.score}
-                    </span>
-                  </div>
-                  <h4 id="student-profile-title" className="text-[16px] sm:text-[18px] font-bold text-[#0B1F4B] dark:text-white leading-tight truncate">
+                <div className="min-w-0 text-left">
+                  <span className="inline-flex items-center text-[11px] sm:text-[11.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFF6ED] dark:bg-orange-950/30 text-[#FF6B21] border border-[#FFD8B2]/80 dark:border-orange-900/40 tracking-wide leading-none mb-1">
+                    {selectedStudent.score}
+                  </span>
+                  <h4 id="student-profile-title" className="text-[17px] sm:text-[18.5px] font-bold text-[#0B1F4B] dark:text-white leading-tight truncate">
                     {selectedStudent.name}
                   </h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11.5px] sm:text-[12.5px] font-medium leading-normal truncate mt-0.5">
+                  <p className="text-slate-500 dark:text-slate-400 text-[11.5px] sm:text-[12px] font-medium leading-normal truncate mt-0.5">
                     {selectedStudent.grade}
                   </p>
                 </div>
               </div>
-
-              {/* Close Button */}
-              <button 
-                onClick={() => setSelectedStudent(null)} 
-                className="w-8 h-8 -mr-1 -mt-1 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0" 
-                aria-label="Close"
-              >
-                <X className="w-4 h-4" />
-              </button>
             </div>
 
             {/* Modal Body */}
-            <div className="p-3.5 sm:p-4.5 space-y-3 sm:space-y-3.5 overflow-y-auto overscroll-contain">
+            <div className="p-3.5 sm:p-5 space-y-3.5 sm:space-y-4 overflow-y-auto overscroll-contain text-left">
               {/* Subject Scores / Breakdown */}
               {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
                 <div>
-                  <h6 className="text-[11px] sm:text-[11.5px] font-bold text-[#0B1F4B] dark:text-slate-200 uppercase tracking-wider mb-2">
+                  <h6 className="text-[10.5px] sm:text-[11px] font-bold text-[#0B1F4B]/80 dark:text-slate-300 uppercase tracking-wider mb-2">
                     SUBJECT PERFORMANCE
                   </h6>
-                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+                  <div className="grid grid-cols-2 gap-1.5 sm:gap-2.5">
                     {selectedStudent.subjects.map((sub, i) => (
                       <div 
                         key={i} 
-                        className="bg-[#F8FAFD] dark:bg-slate-800/80 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border border-[#E2EDF9] dark:border-slate-700/80 flex items-center justify-between gap-1.5 shadow-2xs min-h-[38px] sm:min-h-[40px]"
+                        className="bg-[#F8FAFD] dark:bg-slate-900/60 px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#DCE7F6] dark:border-slate-800 flex items-center justify-between gap-1 sm:gap-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] min-h-[40px] sm:min-h-[42px] transition-all hover:border-[#B9D0ED] dark:hover:border-slate-700"
                       >
-                        <span className="text-[11.5px] sm:text-[12.5px] text-[#0B1F4B] dark:text-slate-200 font-semibold leading-tight truncate">
+                        <span className="text-[11px] min-[380px]:text-[11.5px] sm:text-[12.5px] text-[#0B1F4B] dark:text-slate-200 font-semibold leading-[1.2] tracking-tight">
                           {sub.name}
                         </span>
-                        <span className="text-[12px] sm:text-[13px] font-extrabold text-[#2563EB] dark:text-blue-400 shrink-0 text-right ml-1">
+                        <span className="text-[11.5px] sm:text-[13px] font-extrabold text-[#155EEF] dark:text-blue-400 shrink-0 text-right ml-0.5 sm:ml-1">
                           {sub.marks}
                         </span>
                       </div>
@@ -924,37 +911,27 @@ export function AcademicExcellence() {
                 </div>
               )}
 
-              {/* Target / Destination */}
+              {/* Target / Accomplishment */}
               {selectedStudent.dreamCollege && (
-                <div className="bg-[#FFFBF5] dark:bg-amber-950/20 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-[#FDE5CA] dark:border-amber-900/40 flex items-center gap-2.5 shadow-2xs">
-                  <div className="w-6.5 h-6.5 rounded-lg bg-amber-100/80 dark:bg-amber-900/50 border border-amber-300/70 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
-                    <Award className="w-3.5 h-3.5" />
+                <div className="bg-[#FFFBF6] dark:bg-amber-950/20 px-4 py-3 rounded-xl border border-[#FDEBD2] dark:border-amber-900/40 text-left">
+                  <div className="text-[10px] sm:text-[10.5px] font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider leading-none mb-1">
+                    Target / Accomplishment
                   </div>
-                  <div className="min-w-0">
-                    <div className="text-[9.5px] sm:text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-wider leading-none">
-                      Target / Accomplishment
-                    </div>
-                    <div className="text-[12.5px] sm:text-[13.5px] text-[#0B1F4B] dark:text-slate-100 font-bold mt-0.5 truncate">
-                      {selectedStudent.dreamCollege}
-                    </div>
+                  <div className="text-[13px] sm:text-[14px] text-[#0B1F4B] dark:text-slate-100 font-bold leading-snug truncate">
+                    {selectedStudent.dreamCollege}
                   </div>
                 </div>
               )}
 
-              {/* Testimonial Quote */}
+              {/* Student Experience */}
               {selectedStudent.testimonial && (
-                <div className="bg-[#F4F8FE] dark:bg-blue-950/30 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-[#DCE8F8] dark:border-blue-900/40 flex items-start gap-2.5 shadow-2xs">
-                  <div className="w-6.5 h-6.5 rounded-lg bg-blue-100/80 dark:bg-blue-900/50 border border-blue-200/80 text-[#2563EB] dark:text-blue-300 flex items-center justify-center shrink-0 mt-0.5">
-                    <Quote className="w-3.5 h-3.5" />
+                <div className="bg-[#F8FAFD] dark:bg-blue-950/20 px-4 py-3 rounded-xl border border-[#DCE7F6] dark:border-blue-900/40 text-left">
+                  <div className="text-[10px] sm:text-[10.5px] font-bold text-[#155EEF] dark:text-blue-400 uppercase tracking-wider leading-none mb-1.5">
+                    Student Experience
                   </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[9.5px] sm:text-[10px] font-extrabold text-[#2563EB] dark:text-blue-400 uppercase tracking-wider leading-none mb-1">
-                      Student Experience
-                    </div>
-                    <p className="text-[11.5px] sm:text-[12.5px] text-slate-700 dark:text-slate-300 leading-relaxed italic font-normal">
-                      “{selectedStudent.testimonial}”
-                    </p>
-                  </div>
+                  <p className="text-[12px] sm:text-[12.5px] text-slate-700 dark:text-slate-300 leading-relaxed italic font-normal">
+                    “{selectedStudent.testimonial}”
+                  </p>
                 </div>
               )}
             </div>
@@ -964,39 +941,44 @@ export function AcademicExcellence() {
 
       {/* ===================== VIEW ALL RESULTS MODAL ===================== */}
       <Dialog open={showAllResultsModal} onOpenChange={setShowAllResultsModal}>
-        <DialogContent className="max-w-3xl w-[92vw] sm:w-[94vw] max-h-[62vh] sm:max-h-[85vh] overflow-y-auto p-0 bg-white dark:bg-slate-900 border border-[#DCE6F5] dark:border-slate-800 rounded-[20px] sm:rounded-[22px] shadow-2xl">
-          <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-[#DCE6F5] dark:border-slate-800 px-4 sm:px-5 py-3 sm:py-3.5 z-20 flex items-center justify-between">
-            <div>
-              <DialogTitle className="text-[14px] sm:text-[16px] md:text-[17px] font-extrabold leading-tight whitespace-nowrap">
-                <span className="text-[#0B1F4B] dark:text-white">Bright Minds.</span>{' '}
-                <span className="text-[#2563EB] dark:text-blue-400">Brighter Futures.</span>
-              </DialogTitle>
-              <DialogDescription className="sr-only">
-                Bright Minds. Brighter Futures.
-              </DialogDescription>
-            </div>
-          </div>
+        <FormModalDialogContent
+          maxWidthClass="max-w-4xl"
+          className="w-[94vw] sm:w-[92vw] md:w-[90vw]"
+        >
+          {/* Modal Header: Pinned with subtle bottom border */}
+          <DialogHeader className="px-6 sm:px-8 py-4 sm:py-5 border-b border-[#DCE7F6] dark:border-slate-800 text-left shrink-0 pr-14 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm">
+            <DialogTitle className="text-[19px] sm:text-[22px] font-bold tracking-tight leading-tight">
+              <span className="text-[#0B1F4B] dark:text-white">Bright Minds.</span>{' '}
+              <span className="text-[#155EEF] dark:text-blue-400">Brighter Futures.</span>
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Academic results and topper achievements of IDL Education students.
+            </DialogDescription>
+          </DialogHeader>
 
-          <div className="p-3.5 sm:p-5 space-y-4 sm:space-y-5">
+          {/* Modal Body: Scrollable Results Content */}
+          <div className="flex-1 overflow-y-auto p-5 sm:p-7 md:p-8 space-y-6 sm:space-y-7 text-left overscroll-contain">
             {RESULTS_DATA.map((category) => (
-              <div key={category.id} className="space-y-2.5 sm:space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
-                  <h5 className="font-extrabold text-[#062B67] dark:text-blue-400 text-sm sm:text-base flex items-center gap-2">
-                    <span className="w-1.5 h-4 rounded-full bg-[#FF6B21]" />
+              <div key={category.id} className="space-y-3 sm:space-y-3.5">
+                {/* Result Section Header: Clean title on left, Highest score on right */}
+                <div className="flex items-center justify-between border-b border-[#DCE7F6] dark:border-slate-800/80 pb-2.5">
+                  <h5 className="font-bold text-[13px] sm:text-[14px] text-[#0B1F4B] dark:text-slate-100 tracking-wide uppercase">
                     {category.headlineTitle} {category.headlineHighlight}
                   </h5>
-                  <span className="text-xs font-medium text-slate-500">
-                    Highest: <strong className="text-[#FF6B21]">{category.stats.highestScore.value}</strong>
+                  <span className="text-[12px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400">
+                    Highest: <strong className="font-bold text-[#FF6B21] ml-1 text-[13px] sm:text-[13.5px]">{category.stats.highestScore.value}</strong>
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
+                {/* Result Cards Grid: 1 col on mobile, 2 on sm, 3 on lg */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-3.5">
                   {category.topPerformers.map((performer) => (
                     <div 
                       key={performer.id}
-                      className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl border border-[#DCE6F5] dark:border-slate-800 bg-[#F9FBFE] dark:bg-slate-800/60"
+                      className="flex items-center gap-3 sm:gap-3.5 p-3 sm:p-3.5 rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] transition-all hover:border-[#B9D0ED] dark:hover:border-slate-700"
                     >
-                      <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg overflow-hidden shrink-0 bg-slate-200">
+                      {/* Student Photo */}
+                      <div className="relative w-12 h-12 sm:w-[50px] sm:h-[50px] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-[#DCE7F6]/80 dark:border-slate-700">
                         <Image
                           src={performer.image}
                           alt={performer.name}
@@ -1005,16 +987,18 @@ export function AcademicExcellence() {
                           className="object-cover object-top"
                         />
                       </div>
+
+                      {/* Student Details */}
                       <div className="min-w-0 flex-1">
-                        <div className="flex items-center justify-between gap-1">
-                          <h6 className="font-bold text-[12.5px] sm:text-xs text-[#062B67] dark:text-white truncate">
+                        <div className="flex items-center justify-between gap-2">
+                          <h6 className="font-bold text-[13.5px] sm:text-[14px] text-[#0B1F4B] dark:text-slate-100 truncate">
                             {performer.name}
                           </h6>
-                          <span className="text-[11px] font-extrabold text-[#FF6B21] shrink-0">
+                          <span className="font-bold text-[13px] sm:text-[13.5px] text-[#FF6B21] shrink-0">
                             {performer.score}
                           </span>
                         </div>
-                        <p className="text-[10.5px] sm:text-[11px] text-slate-500 truncate mt-0.5">
+                        <p className="text-[11.5px] sm:text-[12px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
                           {performer.grade}
                         </p>
                       </div>
@@ -1024,7 +1008,7 @@ export function AcademicExcellence() {
               </div>
             ))}
           </div>
-        </DialogContent>
+        </FormModalDialogContent>
       </Dialog>
 
     </section>

@@ -12,6 +12,7 @@ interface ResourceItem {
   href: string;
   imageUrl: string;
   imageAlt: string;
+  glowGradient: string;
 }
 
 const resources: ResourceItem[] = [
@@ -22,6 +23,7 @@ const resources: ResourceItem[] = [
     href: "/resources/notes",
     imageUrl: "/notes.jpg",
     imageAlt: "Revision Notes",
+    glowGradient: "radial-gradient(ellipse at 50% 85%, rgba(199,210,254,0.45) 0%, rgba(214,255,228,0.2) 60%, transparent 80%)",
   },
   {
     id: "ncert-solutions",
@@ -30,6 +32,7 @@ const resources: ResourceItem[] = [
     href: "/resources/ncert-solutions",
     imageUrl: "/ncert.jpg",
     imageAlt: "Ncert Solutions",
+    glowGradient: "radial-gradient(ellipse at 50% 85%, rgba(186,230,253,0.5) 0%, rgba(214,255,228,0.2) 60%, transparent 80%)",
   },
   {
     id: "previous-year-papers",
@@ -38,6 +41,7 @@ const resources: ResourceItem[] = [
     href: "/resources/previous-year-questions",
     imageUrl: "/pyq.jpg",
     imageAlt: "Previous Year Papers",
+    glowGradient: "radial-gradient(ellipse at 50% 85%, rgba(167,243,208,0.5) 0%, rgba(214,255,228,0.2) 60%, transparent 80%)",
   },
 ];
 
@@ -93,16 +97,42 @@ export function StudyResources() {
                   </div>
                 </div>
 
-                {/* Illustration — 100% left, 100% right, 100% bottom */}
-                <div className="relative w-full h-[170px] lg:h-[185px] mt-auto">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.imageAlt}
-                    fill
-                    className="object-contain object-bottom transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-                    sizes="(max-width: 1280px) 33vw, 420px"
-                    priority
-                  />
+                {/* Dedicated Illustration Visual Area — Retains exact full-width footprint */}
+                <div className="relative w-full h-[170px] lg:h-[185px] mt-auto overflow-hidden">
+                  
+                  {/* Layer 1: Dedicated Full-Width Soft Colored Background & Atmospheric Glow */}
+                  <div 
+                    aria-hidden="true" 
+                    className="absolute inset-0 pointer-events-none"
+                  >
+                    {/* Base subtle white-to-light-mint vertical gradient matching illustration artwork */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#D6FFE4]/90 via-[#EDFAF2]/60 to-transparent" />
+                    
+                    {/* Card-specific soft atmospheric glow */}
+                    <div 
+                      className="absolute inset-0 opacity-80 dark:opacity-30" 
+                      style={{ background: item.glowGradient }} 
+                    />
+                  </div>
+
+                  {/* Layer 2: Scaled-Down Illustration (approx 22% smaller on desktop) */}
+                  <div 
+                    className="relative w-full h-full flex items-end justify-center transform origin-bottom md:scale-[0.78] group-hover:md:scale-[0.80] transition-transform duration-300 ease-out"
+                    style={{
+                      maskImage: 'radial-gradient(ellipse 90% 90% at 50% 90%, black 65%, rgba(0,0,0,0.85) 80%, transparent 100%)',
+                      WebkitMaskImage: 'radial-gradient(ellipse 90% 90% at 50% 90%, black 65%, rgba(0,0,0,0.85) 80%, transparent 100%)',
+                    }}
+                  >
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.imageAlt}
+                      fill
+                      className="object-contain object-bottom"
+                      sizes="(max-width: 1280px) 33vw, 420px"
+                      priority
+                    />
+                  </div>
+
                 </div>
 
               </div>

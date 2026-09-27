@@ -3,11 +3,11 @@ import type { Metadata } from 'next';
 import { StudyResourcesView } from '@/components/study-resources/study-resources-view';
 
 export const metadata: Metadata = {
-  title: 'Revision Notes & Study Resources | IDL Education',
+  title: 'Study Resources | IDL Education',
   description: 'Chapter-wise notes and study material for better preparation. Choose your class to explore revision notes.',
 };
 
-export default function NotesPage() {
+export default function StudyResourcesPage() {
   return (
     <Suspense
       fallback={

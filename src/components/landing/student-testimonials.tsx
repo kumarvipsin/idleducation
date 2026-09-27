@@ -28,7 +28,7 @@ const DEFAULT_STORIES: TTestimonial[] = [
     id: "star-gauri",
     name: "Gauri Shukla",
     achievement: "Class 10",
-    testimonial: "The teachers at IDL EDUCATION made even difficult topics easy to understand and always encouraged me.",
+    testimonial: "The teachers at IDL EDUCATION made even difficult topics easy to understand and always encouraged me. Their constant mentorship and doubt sessions gave me total confidence in my preparation.",
     avatarUrl: "/images/results/idl-student-girl.jpg",
     videoId: "opUk9BeH_t8",
     createdAt: new Date().toISOString(),
@@ -37,7 +37,7 @@ const DEFAULT_STORIES: TTestimonial[] = [
     id: "star-aditya",
     name: "Aditya Singh",
     achievement: "Class 10",
-    testimonial: "Regular tests and personal guidance at IDL helped me improve a lot and build confidence in my preparation.",
+    testimonial: "Regular tests and personal guidance at IDL helped me improve a lot and build confidence in my preparation. The structured approach and teachers' personal feedback made all the difference.",
     avatarUrl: "/images/results/idl-student-boy.jpg",
     videoId: "RH3gAxlv7wo",
     createdAt: new Date().toISOString(),
@@ -46,7 +46,7 @@ const DEFAULT_STORIES: TTestimonial[] = [
     id: "star-kirti",
     name: "Kirti Mishra",
     achievement: "Class 10",
-    testimonial: "Before joining IDL, I felt lost with so many chapters, but the teachers here guided me step by step and made learning easy.",
+    testimonial: "Before joining IDL, I felt lost with so many chapters, but the teachers here guided me step by step and made learning easy. Regular revision and mock tests gave me total clarity.",
     avatarUrl: "/images/results/idl-student-girl.jpg",
     videoId: "h-30HsxclVg",
     createdAt: new Date().toISOString(),
@@ -121,7 +121,8 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
-  const fallback = testimonial.name?.toLowerCase().includes("priya") || testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti")
+  const isGirl = testimonial.name?.toLowerCase().includes("priya") || testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti");
+  const fallback = isGirl
     ? "/images/results/idl-student-girl.jpg"
     : "/images/results/idl-student-boy.jpg";
 
@@ -130,7 +131,7 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       <div className="group/featured flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] hover:shadow-[0_6px_22px_rgba(10,30,66,0.08)] transition-all duration-300">
         
         {/* Left Side: Student Portrait Image */}
-        <div className="p-3 sm:p-3.5 w-[46%] xl:w-[47%] h-full shrink-0 flex">
+        <div className="p-3 sm:p-3.5 w-[46%] xl:w-[46.5%] h-full shrink-0 flex">
           <div 
             className="relative w-full h-full rounded-[16px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
             onClick={() => setIsVideoOpen(true)}
@@ -139,7 +140,10 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               src={testimonial.avatarUrl}
               fallbackSrc={fallback}
               alt={testimonial.name}
-              className="transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]"
+              className={cn(
+                "transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]",
+                isGirl && "scale-[0.93] object-[center_10%]"
+              )}
             />
 
             {/* Premium Frosted Glass Play Button */}
@@ -158,10 +162,10 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
         </div>
 
         {/* Right Side: Quote & Student Identity */}
-        <div className="flex flex-col justify-center flex-1 p-5 sm:p-6 lg:p-7 relative min-w-0 bg-white dark:bg-slate-900">
-          {/* Large Quotation Mark Graphic */}
+        <div className="flex flex-col justify-center flex-1 py-5 px-5 lg:py-6 lg:px-6 xl:px-7 relative min-w-0 bg-white dark:bg-slate-900">
+          {/* Large Quotation Mark Graphic — Subtle, light blue editorial detail */}
           <svg
-            className="w-10 h-10 text-[#DDE9F8] dark:text-blue-950/40 mb-3 select-none pointer-events-none shrink-0"
+            className="w-9 h-9 text-[#BFD7F5] dark:text-blue-900/60 mb-2.5 select-none pointer-events-none shrink-0"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
@@ -170,16 +174,16 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           </svg>
 
           {/* Testimonial Quote */}
-          <div className="relative z-10 min-w-0">
+          <div className="relative z-10 min-w-0 max-w-[360px] xl:max-w-[390px]">
             <blockquote className="mb-3.5">
-              <p className="text-[14px] sm:text-[14.5px] lg:text-[15px] font-normal text-[#1E293B] dark:text-slate-200 leading-[1.55] tracking-normal">
+              <p className="text-[15px] sm:text-[15.5px] lg:text-[16px] font-normal text-[#0F172A] dark:text-slate-100 leading-[1.6] tracking-normal">
                 {quoteText}
               </p>
             </blockquote>
 
             {/* Student Name & Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[15.5px] sm:text-[16px] text-[#062B67] dark:text-white tracking-tight leading-snug">
+              <h3 className="font-bold text-[16px] sm:text-[16.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
@@ -260,7 +264,7 @@ const CompactStoryCard = ({
         {/* Text Content on Right */}
         <div className="flex flex-col justify-center flex-1 py-2 pr-3.5 pl-1 min-w-0">
           {/* Testimonial Quote */}
-          <p className="text-[12.5px] sm:text-[13px] text-[#334155] dark:text-slate-200 font-normal leading-[1.42] mb-1.5">
+          <p className="text-[12.5px] sm:text-[13px] text-[#334155] dark:text-slate-200 font-normal leading-[1.42] mb-1.5 line-clamp-2">
             {quoteText}
           </p>
           {/* Student Identity */}
@@ -512,7 +516,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
       <div className="container relative z-10 mx-auto px-5 sm:px-6 max-w-7xl">
 
         {/* ── 1. Section Header ── */}
-        <div className="text-center mb-6 sm:mb-8">
+        <div className="text-center mb-5 sm:mb-6">
           <h2 className="text-[26px] sm:text-[32px] md:text-[38px] font-extrabold tracking-tight leading-tight">
             <span className="text-[#062B67] dark:text-white">IDL</span>{' '}
             <span className="text-[#155EEF] dark:text-blue-500">Stars</span>
@@ -533,7 +537,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 2. DESKTOP LAYOUT — Two Column (Left Featured + Right 3 Compact Cards)
                ═══════════════════════════════════════════ */}
             <div 
-              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[350px] xl:h-[360px] items-stretch"
+              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[340px] xl:h-[350px] items-stretch"
               onMouseEnter={() => setIsDesktopHovered(true)}
               onMouseLeave={() => setIsDesktopHovered(false)}
             >
@@ -571,7 +575,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
             </div>
 
             {/* Desktop Carousel Pagination Dots */}
-            <div className="hidden lg:flex justify-center gap-1.5 mt-5">
+            <div className="hidden lg:flex justify-center gap-1.5 mt-4 lg:mt-4.5">
               {testimonialList.map((_, i) => (
                 <button
                   key={i}

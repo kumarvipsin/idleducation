@@ -11,7 +11,7 @@ export default function ContactPage() {
             <span className="block max-w-0 group-hover:max-w-full transition-all duration-500 h-0.5 bg-primary mx-auto"></span>
         </h1>
         <p className="mt-2 text-sm text-muted-foreground font-normal max-w-md mx-auto">
-            Have questions about admissions, courses, or offline centres? Connect with our team and we’ll get back to you shortly.
+            We’re here to help. Get in touch with our team.
         </p>
       </div>
       <div className="w-full max-w-lg mx-auto animate-fade-in-up" style={{animationDelay: '0.2s'}}>

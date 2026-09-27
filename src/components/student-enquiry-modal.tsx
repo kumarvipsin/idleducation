@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { User, Users, MessageSquare, CheckCircle2, GraduationCap, Phone, MapPin, ShieldCheck, ArrowRight } from "lucide-react";
+import { CheckCircle2, ArrowRight } from "lucide-react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -16,12 +16,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const indianStates = [
-  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-  "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-  "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-  "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-  "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  "Delhi",
+  "Bihar"
 ];
 
 const courseOptions = [
@@ -120,44 +116,44 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
         <FormModalDialogContent
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
+          maxWidthClass="max-w-[500px] sm:max-w-[530px]"
+          className="w-[92vw] sm:w-[94vw]"
         >
-          {/* Modal Header: Exact Admission Form visual standard */}
-          <DialogHeader className="px-5 sm:px-7 pt-5 pb-3 text-left shrink-0 border-b border-slate-100 dark:border-slate-800/80">
-            <DialogTitle className="text-left text-xl sm:text-2xl font-bold text-[#102A68] dark:text-white tracking-tight leading-snug">
+          {/* Modal Header */}
+          <DialogHeader className="px-6 sm:px-8 pt-6 sm:pt-7 pb-1 text-left shrink-0 pr-14">
+            <DialogTitle className="text-left text-[24px] sm:text-[27px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
               Student Enquiry
             </DialogTitle>
-            <DialogDescription className="text-left text-[13px] sm:text-[14px] font-normal text-slate-500 dark:text-slate-400 mt-0.5 leading-normal">
-              Have questions regarding admissions, batches or fees? Connect directly with our counsellors.
+            <DialogDescription className="text-left text-[13.5px] sm:text-[14.5px] font-medium text-slate-600 dark:text-slate-300 mt-1 leading-normal">
+              Have questions? We’re here to help.
             </DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden" autoComplete="off">
-              <div className="px-5 sm:px-7 py-4 sm:py-5 space-y-3.5 sm:space-y-4 text-left overflow-y-auto flex-1 min-h-0 overscroll-contain">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
+              {/* Form Body & CTA Flow */}
+              <div className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left">
                 {/* Row 1: Student Name & Guardian Name */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="studentName"
                     render={({ field }) => (
-                      <FormItem className="space-y-1.5">
-                        <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                          <User className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                          Student Full Name <span className="text-[#E11D48]">*</span>
-                        </FormLabel>
+                      <FormItem className="text-left">
+                        <FormLabel className="sr-only">Student Full Name</FormLabel>
                         <FormControl>
-                          <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
                             <Input
-                              placeholder="e.g. Rahul Sharma"
+                              placeholder="Student Full Name *"
                               {...field}
                               autoFocus={false}
                               value={field.value}
                               onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                              className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize"
+                              className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize"
                             />
                           </div>
                         </FormControl>
-                        <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
                       </FormItem>
                     )}
                   />
@@ -166,24 +162,21 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                     control={form.control}
                     name="guardianName"
                     render={({ field }) => (
-                      <FormItem className="space-y-1.5">
-                        <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                          <Users className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                          Parent / Guardian <span className="text-[#E11D48]">*</span>
-                        </FormLabel>
+                      <FormItem className="text-left">
+                        <FormLabel className="sr-only">Parent / Guardian</FormLabel>
                         <FormControl>
-                          <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
                             <Input
-                              placeholder="e.g. Rajesh Sharma"
+                              placeholder="Parent / Guardian *"
                               {...field}
                               autoFocus={false}
                               value={field.value}
                               onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                              className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3 capitalize"
+                              className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize"
                             />
                           </div>
                         </FormControl>
-                        <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
                       </FormItem>
                     )}
                   />
@@ -195,20 +188,20 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                     control={form.control}
                     name="classCourse"
                     render={({ field }) => (
-                      <FormItem className="space-y-1.5">
-                        <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                          <GraduationCap className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                          Target Class/Course <span className="text-[#E11D48]">*</span>
-                        </FormLabel>
+                      <FormItem className="text-left">
+                        <FormLabel className="sr-only">Class / Exam</FormLabel>
                         <FormControl>
-                          <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                             <Select onValueChange={field.onChange} value={field.value}>
-                              <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
-                                <SelectValue placeholder="Select Course" />
+                              <SelectTrigger 
+                                style={{ outline: 'none', boxShadow: 'none' }}
+                                className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400"
+                              >
+                                <SelectValue placeholder="Class / Exam *" />
                               </SelectTrigger>
                               <SelectContent className="max-h-56">
                                 {courseOptions.map((c) => (
-                                  <SelectItem key={c} value={c} className="text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100">
+                                  <SelectItem key={c} value={c} className="text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100">
                                     {c}
                                   </SelectItem>
                                 ))}
@@ -216,7 +209,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                             </Select>
                           </div>
                         </FormControl>
-                        <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
                       </FormItem>
                     )}
                   />
@@ -225,20 +218,20 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                     control={form.control}
                     name="state"
                     render={({ field }) => (
-                      <FormItem className="space-y-1.5">
-                        <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                          <MapPin className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                          State / Location <span className="text-[#E11D48]">*</span>
-                        </FormLabel>
+                      <FormItem className="text-left">
+                        <FormLabel className="sr-only">State / Location</FormLabel>
                         <FormControl>
-                          <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
                             <Select onValueChange={field.onChange} value={field.value}>
-                              <SelectTrigger className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none ring-0 ring-offset-0 px-3">
-                                <SelectValue placeholder="Select State" />
+                              <SelectTrigger 
+                                style={{ outline: 'none', boxShadow: 'none' }}
+                                className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400"
+                              >
+                                <SelectValue placeholder="State / Location *" />
                               </SelectTrigger>
                               <SelectContent className="max-h-56">
                                 {indianStates.map((s) => (
-                                  <SelectItem key={s} value={s} className="text-[13px] sm:text-[14px] font-medium text-[#18233A] dark:text-slate-100">
+                                  <SelectItem key={s} value={s} className="text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100">
                                     {s}
                                   </SelectItem>
                                 ))}
@@ -246,7 +239,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                             </Select>
                           </div>
                         </FormControl>
-                        <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
                       </FormItem>
                     )}
                   />
@@ -257,24 +250,21 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                   control={form.control}
                   name="mobile"
                   render={({ field }) => (
-                    <FormItem className="space-y-1.5">
-                      <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                        <Phone className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                        Mobile Number <span className="text-[#E11D48]">*</span>
-                      </FormLabel>
+                    <FormItem className="text-left">
+                      <FormLabel className="sr-only">Mobile Number</FormLabel>
                       <FormControl>
-                        <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                        <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
                           <Input
                             type="tel"
                             maxLength={10}
-                            placeholder="e.g. 9876543210"
+                            placeholder="Mobile Number *"
                             {...field}
                             autoFocus={false}
-                            className="h-10 sm:h-11 border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3"
+                            className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4"
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
@@ -284,16 +274,13 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                   control={form.control}
                   name="message"
                   render={({ field }) => (
-                    <FormItem className="space-y-1.5">
-                      <FormLabel className="text-[13px] sm:text-[14px] font-semibold text-[#18233A] dark:text-slate-200 flex items-center gap-1.5">
-                        <MessageSquare className="h-3.5 w-3.5 text-[#102A68] dark:text-blue-400" />
-                        Questions / Specific Enquiry
-                      </FormLabel>
+                    <FormItem className="text-left">
+                      <FormLabel className="sr-only">Questions / Specific Enquiry</FormLabel>
                       <FormControl>
-                        <div className="relative rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs focus-within:border-[#1F4FA3] focus-within:ring-2 focus-within:ring-[#1F4FA3]/15 transition-all">
+                        <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
                           <Textarea
-                            placeholder="Ask about fees, timing, batches, study materials..."
-                            className="min-h-[85px] border-0 bg-transparent text-[14px] sm:text-[15px] font-medium text-[#18233A] dark:text-slate-100 placeholder:text-[13px] sm:placeholder:text-[14px] placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none p-3 resize-none leading-relaxed"
+                            placeholder="Questions / Specific Enquiry"
+                            className="min-h-[85px] sm:min-h-[90px] max-h-[130px] border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 pt-3 pb-3 resize-none leading-relaxed"
                             {...field}
                             autoFocus={false}
                             value={field.value || ''}
@@ -301,27 +288,31 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                           />
                         </div>
                       </FormControl>
-                      <FormMessage className="text-[12px] font-medium text-rose-500 pt-0.5" />
+                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
                     </FormItem>
                   )}
                 />
-              </div>
 
-              {/* Sticky Footer: Unified CTA & Trust Line */}
-              <div className="px-5 sm:px-7 py-3 sm:py-3.5 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-t border-slate-200/80 dark:border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-                <div className="flex items-center justify-center sm:justify-start gap-1.5 text-[11px] sm:text-[12px] text-slate-500 dark:text-slate-400 font-medium order-2 sm:order-1">
-                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
-                  <span>Verified academic support. Direct counselor response.</span>
+                {/* Row 5: Submit Student Enquiry Button */}
+                <div className="pt-1.5 sm:pt-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full h-11 sm:h-12 rounded-xl text-[15px] sm:text-[15.5px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99] disabled:opacity-70 group outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1F4B]/30"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                        <span>Sending Enquiry...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Send Enquiry</span>
+                        <ArrowRight className="w-4.5 h-4.5 stroke-[2.2] transition-transform group-hover:translate-x-1" />
+                      </>
+                    )}
+                  </Button>
                 </div>
-
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="h-10 sm:h-11 px-6 sm:px-7 rounded-[8px] text-[13px] sm:text-[14px] font-semibold bg-[#102A68] hover:bg-[#0C1E4A] text-white shadow-sm hover:shadow transition-all flex items-center justify-center gap-2 cursor-pointer w-full sm:w-auto order-1 sm:order-2"
-                >
-                  <span>{isSubmitting ? 'Submitting Enquiry...' : 'Submit Student Enquiry'}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Button>
               </div>
             </form>
           </Form>

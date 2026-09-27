@@ -12,31 +12,9 @@ import {
 import {
   Award,
   Clock,
-  Sparkles,
-  Calculator,
-  BookOpen,
-  BarChart3,
   Users,
 } from "lucide-react";
 import type { TExpertTeacher } from "@/app/actions/types";
-
-function getSubjectBadgeIcon(subject?: string | null) {
-  if (!subject) return <BookOpen className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  const s = subject.toLowerCase();
-  if (s.includes("econ") || s.includes("commerce")) {
-    return <BarChart3 className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  if (s.includes("math") || s.includes("quant")) {
-    return <Calculator className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  if (s.includes("social") || s.includes("history") || s.includes("geo") || s.includes("civics")) {
-    return <BookOpen className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  if (s.includes("sci") || s.includes("phys") || s.includes("chem") || s.includes("bio")) {
-    return <Sparkles className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-  }
-  return <BookOpen className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2.2]" />;
-}
 
 interface EducatorProfileModalProps {
   isOpen: boolean;
@@ -67,7 +45,7 @@ export function EducatorProfileModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="w-[92vw] sm:max-w-lg md:max-w-[560px] p-0 rounded-2xl bg-white dark:bg-slate-950 border border-slate-200/80 dark:border-slate-800 shadow-2xl max-h-[88vh] overflow-hidden flex flex-col [&>button]:hidden">
+      <DialogContent className="w-[92vw] sm:max-w-lg md:max-w-[560px] p-0 rounded-[22px] sm:rounded-[24px] bg-white dark:bg-slate-950 border border-[#DCE7F6] dark:border-slate-800 shadow-[0_20px_60px_-15px_rgba(11,31,75,0.15)] max-h-[calc(100dvh-2.5rem)] sm:max-h-[85vh] overflow-hidden flex flex-col [&>button]:hidden">
         
         {/* Hidden Accessibility Header */}
         <DialogHeader className="sr-only">
@@ -76,12 +54,12 @@ export function EducatorProfileModal({
         </DialogHeader>
 
         {/* Modal Scrollable Body */}
-        <div className="overflow-y-auto p-4 sm:p-5 flex flex-col sm:flex-row gap-4 sm:gap-4.5 items-start">
+        <div className="overflow-y-auto overscroll-contain p-3.5 sm:p-5 flex flex-col sm:flex-row gap-3.5 sm:gap-4.5 items-start">
           
           {/* ── LEFT: COMPACT BALANCED PHOTO CONTAINER ── */}
-          <div className="w-full sm:w-[145px] shrink-0">
+          <div className="w-full sm:w-[145px] shrink-0 sm:self-start">
             <div
-              className="relative w-full aspect-[4/3.5] sm:aspect-[3/3.7] rounded-xl overflow-hidden bg-black border border-slate-200/80 dark:border-slate-800 shadow-xs"
+              className="relative w-full aspect-[4/3] sm:aspect-[3/3.7] rounded-xl overflow-hidden bg-black border border-[#DCE7F6]/80 dark:border-slate-800 shadow-xs"
               style={{
                 background: "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)",
               }}
@@ -107,7 +85,7 @@ export function EducatorProfileModal({
 
               {/* Subtle bottom fade */}
               <div
-                className="absolute inset-x-0 bottom-0 h-8 z-20 pointer-events-none"
+                className="absolute inset-x-0 bottom-0 h-6 sm:h-8 z-20 pointer-events-none"
                 style={{
                   background: "linear-gradient(to top, rgba(0,0,0,0.35) 0%, transparent 100%)",
                 }}
@@ -116,14 +94,13 @@ export function EducatorProfileModal({
           </div>
 
           {/* ── RIGHT: DETAILS & STATS ── */}
-          <div className="flex-1 min-w-0 flex flex-col space-y-3 text-left w-full">
+          <div className="flex-1 min-w-0 flex flex-col space-y-2.5 sm:space-y-3 text-left w-full">
             
             {/* Header: Subject Badge + Name + Designation */}
-            <div className="border-b border-slate-100 dark:border-slate-800 pb-2.5">
+            <div className="border-b border-[#DCE7F6]/70 dark:border-slate-800 pb-2 sm:pb-2.5">
               {specializationBadge && (
-                <div className="inline-flex items-center gap-1.5 w-fit px-2 py-0.5 rounded-md bg-blue-50/90 text-[#155EEF] text-[10px] font-bold tracking-[0.03em] uppercase border border-blue-100/90 mb-1.5">
-                  {getSubjectBadgeIcon(specializationBadge)}
-                  <span className="truncate max-w-[180px]">{specializationBadge}</span>
+                <div className="inline-flex items-center w-fit px-2.5 py-0.5 rounded-md bg-blue-50/90 text-[#155EEF] text-[10px] sm:text-[10.5px] font-bold tracking-[0.03em] uppercase border border-blue-100/90 mb-1 sm:mb-1.5">
+                  <span className="truncate max-w-[240px]">{specializationBadge}</span>
                 </div>
               )}
               <h3 className="font-extrabold text-[17px] sm:text-[18px] text-[#062B67] dark:text-blue-50 tracking-tight leading-snug truncate">
@@ -138,9 +115,9 @@ export function EducatorProfileModal({
 
             {/* Stats Row: Qualification (Left) + Experience (Right) */}
             {(hasQual || hasExp) && (
-              <div className="grid grid-cols-2 gap-2 text-xs">
+              <div className="grid grid-cols-2 gap-1.5 sm:gap-2 text-xs">
                 {hasQual && (
-                  <div className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/80 border-l-2 border-l-[#155EEF]">
+                  <div className="px-2.5 py-1.5 rounded-lg bg-[#F8FAFD] dark:bg-slate-900/60 border border-[#DCE7F6]/80 dark:border-slate-800/80 border-l-2 border-l-[#155EEF]">
                     <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1 mb-0.5">
                       <Award className="w-2.5 h-2.5 text-[#155EEF] shrink-0 stroke-[2.2]" />
                       Qualification
@@ -151,7 +128,7 @@ export function EducatorProfileModal({
                   </div>
                 )}
                 {hasExp && (
-                  <div className="px-2.5 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800/80 border-l-2 border-l-[#155EEF]">
+                  <div className="px-2.5 py-1.5 rounded-lg bg-[#F8FAFD] dark:bg-slate-900/60 border border-[#DCE7F6]/80 dark:border-slate-800/80 border-l-2 border-l-[#155EEF]">
                     <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400 flex items-center gap-1 mb-0.5">
                       <Clock className="w-2.5 h-2.5 text-[#155EEF] shrink-0 stroke-[2.2]" />
                       Experience
@@ -166,30 +143,30 @@ export function EducatorProfileModal({
 
             {/* Approach & About Educator Blocks */}
             {(teacher.teachingFocus || bioText) && (
-              <div className="space-y-2.5 pt-0.5">
+              <div className="space-y-2 sm:space-y-2.5 pt-0.5">
                 {teacher.teachingFocus && (
-                  <div className="rounded-lg bg-slate-50/80 dark:bg-slate-900/40 p-2.5 sm:p-3 border border-slate-200/60 dark:border-slate-800/70">
+                  <div className="rounded-lg bg-[#F8FAFD]/90 dark:bg-slate-900/40 px-3 py-2 sm:p-2.5 sm:px-3 border border-[#DCE7F6]/70 dark:border-slate-800/70">
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className="w-1 h-3 rounded-full bg-[#155EEF] shrink-0" />
                       <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-[#062B67] dark:text-blue-200">
                         Teaching Approach
                       </span>
                     </div>
-                    <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-[1.42] sm:leading-[1.5]">
                       {teacher.teachingFocus}
                     </p>
                   </div>
                 )}
 
                 {bioText && (
-                  <div className="rounded-lg bg-slate-50/80 dark:bg-slate-900/40 p-2.5 sm:p-3 border border-slate-200/60 dark:border-slate-800/70">
+                  <div className="rounded-lg bg-[#F8FAFD]/90 dark:bg-slate-900/40 px-3 py-2 sm:p-2.5 sm:px-3 border border-[#DCE7F6]/70 dark:border-slate-800/70">
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className="w-1 h-3 rounded-full bg-[#155EEF] shrink-0" />
                       <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-[#062B67] dark:text-blue-200">
                         About Educator
                       </span>
                     </div>
-                    <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                    <p className="text-[11.5px] sm:text-[12px] text-slate-600 dark:text-slate-300 leading-[1.42] sm:leading-[1.5]">
                       {bioText}
                     </p>
                   </div>

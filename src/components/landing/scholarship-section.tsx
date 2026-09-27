@@ -89,7 +89,7 @@ export function ScholarshipSection() {
           </div>
 
           {/* Main Heading */}
-          <h2 className="text-[20px] xs:text-[22px] min-[400px]:text-[24px] sm:text-[34px] md:text-[42px] lg:text-[48px] xl:text-[52px] font-extrabold tracking-tight sm:tracking-[-0.025em] text-[#062B67] dark:text-white leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15] max-w-4xl mx-auto whitespace-nowrap">
             <span>Learn Better.{' '}</span>
             <span className="relative inline-block text-[#155EEF] dark:text-blue-400">
               Grow Stronger.

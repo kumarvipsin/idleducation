@@ -10,11 +10,14 @@ import { uploadFileToGCS } from '@/lib/gcs';
 
 const freeSessionSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  guardianName: z.string().optional(),
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  email: z.string().email({ message: "Please enter a valid email address." }),
+  email: z.string().email().optional().or(z.literal('')),
   state: z.string().optional(),
-  nearestBranch: z.string().min(1, { message: "Please select your nearest branch." }),
+  branch: z.string().optional(),
+  nearestBranch: z.string().optional().or(z.literal('')),
+  mode: z.string().optional(),
 });
 type FreeSessionValues = z.infer<typeof freeSessionSchema>;
 
