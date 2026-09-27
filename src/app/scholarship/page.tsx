@@ -28,15 +28,22 @@ const scholarshipSchema = z.object({
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 
-const scholarshipClasses = ["Class 4", "Class 5", "Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12"];
+const scholarshipClasses = [
+  "JEE",
+  "NEET",
+  "Class 9",
+  "Class 10",
+  "Class 11 - Science",
+  "Class 11 - Commerce",
+  "Class 11 - Arts",
+  "Class 12 - Science",
+  "Class 12 - Commerce",
+  "Class 12 - Arts"
+];
 
 const indianStates = [
-  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-  "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-  "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-  "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-  "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  "Delhi",
+  "Bihar"
 ];
 
 const countries = [

@@ -474,6 +474,22 @@ export function AcademicExcellence() {
     };
   }, [carouselApi, onCarouselSelect]);
 
+  // Lock body scroll and handle Escape key for student profile popup
+  useEffect(() => {
+    if (selectedStudent) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setSelectedStudent(null);
+      };
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [selectedStudent]);
+
   // Reset carousel to first card when category tab changes
   const handleTabChange = (index: number) => {
     setActiveCategoryIndex(index);
@@ -815,118 +831,155 @@ export function AcademicExcellence() {
 
       </div>
 
-      {/* ===================== STUDENT PROFILE MODAL ===================== */}
-      <Dialog open={!!selectedStudent} onOpenChange={(open) => !open && setSelectedStudent(null)}>
-        <DialogContent className="max-w-md w-[92vw] sm:w-full p-0 overflow-hidden bg-white dark:bg-slate-900 border border-[#DCE6F5] dark:border-slate-800 rounded-[22px] shadow-2xl [&>button:last-child]:hidden">
-          {selectedStudent && (
-            <div>
-              {/* Header Gradient Banner */}
-              <div className="relative bg-gradient-to-r from-[#062B67] to-[#155EEF] p-5 text-white">
-                <div className="flex items-center gap-4">
-                  <div className="relative w-16 h-16 rounded-full border-2 border-white/80 overflow-hidden shadow-md shrink-0 bg-slate-100">
-                    <Image
-                      src={selectedStudent.image}
-                      alt={selectedStudent.name}
-                      fill
-                      unoptimized
-                      className="object-cover object-top"
-                    />
-                  </div>
-                  <div>
-                    <div className="inline-block bg-[#FF6B21] text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full mb-1">
+      {/* ===================== STUDENT PROFILE FLOATING POPUP (CBSE POPUP DESIGN SYSTEM) ===================== */}
+      {selectedStudent && (
+        <div 
+          className="fixed inset-0 z-[9999] flex items-center justify-center p-3.5 sm:p-5 md:p-6" 
+          role="dialog" 
+          aria-modal="true"
+          aria-labelledby="student-profile-title"
+        >
+          {/* Dimmed & Blurred Backdrop with comfortable margins on all 4 sides */}
+          <div 
+            className="absolute inset-0 bg-slate-950/45 backdrop-blur-xs transition-opacity" 
+            onClick={() => setSelectedStudent(null)} 
+          />
+          
+          {/* Centered Floating Modal Card */}
+          <div
+            className="relative w-[92vw] max-w-[430px] sm:max-w-[440px] bg-white dark:bg-slate-900 rounded-[22px] sm:rounded-[24px] shadow-2xl shadow-slate-950/15 border border-[#DCE7F6] dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col pointer-events-auto"
+            style={{ animation: 'studentModalIn 0.22s cubic-bezier(0.16,1,0.3,1) forwards' }}
+          >
+            <style dangerouslySetInnerHTML={{ __html: `
+              @keyframes studentModalIn {
+                from { opacity: 0; transform: scale(0.96) translateY(6px); }
+                to   { opacity: 1; transform: scale(1) translateY(0); }
+              }
+            ` }} />
+
+            {/* Header: Hero Area */}
+            <div className="flex items-center justify-between px-4 py-3.5 sm:px-5 sm:py-4 bg-white dark:bg-slate-900 border-b border-[#E8EFF8] dark:border-slate-800/90 shrink-0">
+              <div className="flex items-center gap-3 sm:gap-3.5 min-w-0">
+                {/* Circular Profile Photo */}
+                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-[#E0EBF9] dark:border-slate-700 overflow-hidden shadow-sm shrink-0 bg-slate-100 dark:bg-slate-800">
+                  <Image
+                    src={selectedStudent.image}
+                    alt={selectedStudent.name}
+                    fill
+                    unoptimized
+                    sizes="64px"
+                    className="object-cover object-top"
+                  />
+                </div>
+                
+                {/* Info */}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5 mb-1">
+                    <span className="inline-flex items-center text-[11px] sm:text-[11.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/50 text-[#C2410C] dark:text-amber-400 border border-amber-300/80 dark:border-amber-800/60 tracking-wide shadow-2xs leading-none">
                       {selectedStudent.score}
-                    </div>
-                    <DialogTitle className="text-lg font-bold text-white leading-tight">
-                      {selectedStudent.name}
-                    </DialogTitle>
-                    <DialogDescription className="text-white/80 text-xs">
-                      {selectedStudent.grade}
-                    </DialogDescription>
+                    </span>
                   </div>
+                  <h4 id="student-profile-title" className="text-[16px] sm:text-[18px] font-bold text-[#0B1F4B] dark:text-white leading-tight truncate">
+                    {selectedStudent.name}
+                  </h4>
+                  <p className="text-slate-500 dark:text-slate-400 text-[11.5px] sm:text-[12.5px] font-medium leading-normal truncate mt-0.5">
+                    {selectedStudent.grade}
+                  </p>
                 </div>
               </div>
 
-              {/* Modal Body */}
-              <div className="p-5 space-y-4">
-                {/* Subject Scores / Breakdown */}
-                {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
-                  <div>
-                    <h6 className="text-xs font-bold text-[#062B67] dark:text-slate-200 uppercase tracking-wider mb-2">
-                      Subject Performance
-                    </h6>
-                    <div className="grid grid-cols-2 gap-2">
-                      {selectedStudent.subjects.map((sub, i) => (
-                        <div 
-                          key={i} 
-                          className="bg-[#F8FAFF] dark:bg-slate-800/80 p-2.5 rounded-lg border border-[#E8EFFB] dark:border-slate-700/60 flex items-center justify-between"
-                        >
-                          <span className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                            {sub.name}
-                          </span>
-                          <span className="text-xs font-bold text-[#155EEF] dark:text-blue-400">
-                            {sub.marks}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Target / Destination */}
-                {selectedStudent.dreamCollege && (
-                  <div className="bg-amber-50/70 dark:bg-amber-950/20 p-3 rounded-xl border border-amber-200/60 dark:border-amber-900/40 flex items-center gap-2.5">
-                    <Award className="w-5 h-5 text-[#FF6B21] shrink-0" />
-                    <div>
-                      <div className="text-[11px] text-amber-800 dark:text-amber-300 font-semibold">
-                        Target / Accomplishment
-                      </div>
-                      <div className="text-xs text-slate-800 dark:text-slate-200 font-bold">
-                        {selectedStudent.dreamCollege}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Testimonial Quote */}
-                {selectedStudent.testimonial && (
-                  <div className="bg-[#F8FAFF] dark:bg-slate-800/50 p-3.5 rounded-xl border border-[#E8EFFB] dark:border-slate-700/60 text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic">
-                    <span className="font-semibold text-[#155EEF] dark:text-blue-400 not-italic block mb-0.5">
-                      Student Experience:
-                    </span>
-                    “{selectedStudent.testimonial}”
-                  </div>
-                )}
-
-
-              </div>
+              {/* Close Button */}
+              <button 
+                onClick={() => setSelectedStudent(null)} 
+                className="w-8 h-8 -mr-1 -mt-1 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer shrink-0" 
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+
+            {/* Modal Body */}
+            <div className="p-3.5 sm:p-4.5 space-y-3 sm:space-y-3.5 overflow-y-auto overscroll-contain">
+              {/* Subject Scores / Breakdown */}
+              {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
+                <div>
+                  <h6 className="text-[11px] sm:text-[11.5px] font-bold text-[#0B1F4B] dark:text-slate-200 uppercase tracking-wider mb-2">
+                    SUBJECT PERFORMANCE
+                  </h6>
+                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+                    {selectedStudent.subjects.map((sub, i) => (
+                      <div 
+                        key={i} 
+                        className="bg-[#F8FAFD] dark:bg-slate-800/80 px-3 py-2 sm:px-3.5 sm:py-2.5 rounded-xl border border-[#E2EDF9] dark:border-slate-700/80 flex items-center justify-between gap-1.5 shadow-2xs min-h-[38px] sm:min-h-[40px]"
+                      >
+                        <span className="text-[11.5px] sm:text-[12.5px] text-[#0B1F4B] dark:text-slate-200 font-semibold leading-tight truncate">
+                          {sub.name}
+                        </span>
+                        <span className="text-[12px] sm:text-[13px] font-extrabold text-[#2563EB] dark:text-blue-400 shrink-0 text-right ml-1">
+                          {sub.marks}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Target / Destination */}
+              {selectedStudent.dreamCollege && (
+                <div className="bg-[#FFFBF5] dark:bg-amber-950/20 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-[#FDE5CA] dark:border-amber-900/40 flex items-center gap-2.5 shadow-2xs">
+                  <div className="w-6.5 h-6.5 rounded-lg bg-amber-100/80 dark:bg-amber-900/50 border border-amber-300/70 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0">
+                    <Award className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[9.5px] sm:text-[10px] font-extrabold text-amber-700 dark:text-amber-400 uppercase tracking-wider leading-none">
+                      Target / Accomplishment
+                    </div>
+                    <div className="text-[12.5px] sm:text-[13.5px] text-[#0B1F4B] dark:text-slate-100 font-bold mt-0.5 truncate">
+                      {selectedStudent.dreamCollege}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Testimonial Quote */}
+              {selectedStudent.testimonial && (
+                <div className="bg-[#F4F8FE] dark:bg-blue-950/30 px-3.5 py-2.5 sm:px-4 sm:py-3 rounded-xl border border-[#DCE8F8] dark:border-blue-900/40 flex items-start gap-2.5 shadow-2xs">
+                  <div className="w-6.5 h-6.5 rounded-lg bg-blue-100/80 dark:bg-blue-900/50 border border-blue-200/80 text-[#2563EB] dark:text-blue-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <Quote className="w-3.5 h-3.5" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="text-[9.5px] sm:text-[10px] font-extrabold text-[#2563EB] dark:text-blue-400 uppercase tracking-wider leading-none mb-1">
+                      Student Experience
+                    </div>
+                    <p className="text-[11.5px] sm:text-[12.5px] text-slate-700 dark:text-slate-300 leading-relaxed italic font-normal">
+                      “{selectedStudent.testimonial}”
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ===================== VIEW ALL RESULTS MODAL ===================== */}
       <Dialog open={showAllResultsModal} onOpenChange={setShowAllResultsModal}>
-        <DialogContent className="max-w-3xl w-[94vw] max-h-[88vh] overflow-y-auto p-0 bg-white dark:bg-slate-900 border border-[#DCE6F5] dark:border-slate-800 rounded-[22px] shadow-2xl">
+        <DialogContent className="max-w-3xl w-[92vw] sm:w-[94vw] max-h-[62vh] sm:max-h-[85vh] overflow-y-auto p-0 bg-white dark:bg-slate-900 border border-[#DCE6F5] dark:border-slate-800 rounded-[20px] sm:rounded-[22px] shadow-2xl">
           <div className="sticky top-0 bg-white dark:bg-slate-900 border-b border-[#DCE6F5] dark:border-slate-800 px-4 sm:px-5 py-3 sm:py-3.5 z-20 flex items-center justify-between">
             <div>
-              <div className="inline-flex items-center gap-1.5 mb-0.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#FF6B21]" />
-                <span className="text-[11px] font-bold text-[#155EEF] uppercase tracking-wider">
-                  Roll of Honour • 2026
-                </span>
-              </div>
-              <DialogTitle className="text-[13.5px] sm:text-[15px] font-extrabold text-slate-500 dark:text-slate-400 leading-tight">
-                All Academic Results & Top Performers
+              <DialogTitle className="text-[14px] sm:text-[16px] md:text-[17px] font-extrabold leading-tight whitespace-nowrap">
+                <span className="text-[#0B1F4B] dark:text-white">Bright Minds.</span>{' '}
+                <span className="text-[#2563EB] dark:text-blue-400">Brighter Futures.</span>
               </DialogTitle>
               <DialogDescription className="sr-only">
-                All Academic Results & Top Performers
+                Bright Minds. Brighter Futures.
               </DialogDescription>
             </div>
           </div>
 
-          <div className="p-4 sm:p-5 space-y-5">
+          <div className="p-3.5 sm:p-5 space-y-4 sm:space-y-5">
             {RESULTS_DATA.map((category) => (
-              <div key={category.id} className="space-y-3">
+              <div key={category.id} className="space-y-2.5 sm:space-y-3">
                 <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
                   <h5 className="font-extrabold text-[#062B67] dark:text-blue-400 text-sm sm:text-base flex items-center gap-2">
                     <span className="w-1.5 h-4 rounded-full bg-[#FF6B21]" />
@@ -937,13 +990,13 @@ export function AcademicExcellence() {
                   </span>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3">
                   {category.topPerformers.map((performer) => (
                     <div 
                       key={performer.id}
-                      className="flex items-center gap-3 p-3 rounded-xl border border-[#DCE6F5] dark:border-slate-800 bg-[#F9FBFE] dark:bg-slate-800/60"
+                      className="flex items-center gap-2.5 sm:gap-3 p-2.5 sm:p-3 rounded-xl border border-[#DCE6F5] dark:border-slate-800 bg-[#F9FBFE] dark:bg-slate-800/60"
                     >
-                      <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 bg-slate-200">
+                      <div className="relative w-11 h-11 sm:w-12 sm:h-12 rounded-lg overflow-hidden shrink-0 bg-slate-200">
                         <Image
                           src={performer.image}
                           alt={performer.name}
@@ -954,14 +1007,14 @@ export function AcademicExcellence() {
                       </div>
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-1">
-                          <h6 className="font-bold text-xs text-[#062B67] dark:text-white truncate">
+                          <h6 className="font-bold text-[12.5px] sm:text-xs text-[#062B67] dark:text-white truncate">
                             {performer.name}
                           </h6>
                           <span className="text-[11px] font-extrabold text-[#FF6B21] shrink-0">
                             {performer.score}
                           </span>
                         </div>
-                        <p className="text-[11px] text-slate-500 truncate mt-0.5">
+                        <p className="text-[10.5px] sm:text-[11px] text-slate-500 truncate mt-0.5">
                           {performer.grade}
                         </p>
                       </div>

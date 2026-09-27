@@ -13,7 +13,6 @@ import {
   Award,
   Clock,
   Sparkles,
-  UserCheck,
   Calculator,
   BookOpen,
   BarChart3,
@@ -172,7 +171,6 @@ export function EducatorProfileModal({
                   <div className="rounded-lg bg-slate-50/80 dark:bg-slate-900/40 p-2.5 sm:p-3 border border-slate-200/60 dark:border-slate-800/70">
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className="w-1 h-3 rounded-full bg-[#155EEF] shrink-0" />
-                      <Sparkles className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2]" />
                       <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-[#062B67] dark:text-blue-200">
                         Teaching Approach
                       </span>
@@ -187,7 +185,6 @@ export function EducatorProfileModal({
                   <div className="rounded-lg bg-slate-50/80 dark:bg-slate-900/40 p-2.5 sm:p-3 border border-slate-200/60 dark:border-slate-800/70">
                     <div className="flex items-center gap-1.5 mb-1">
                       <div className="w-1 h-3 rounded-full bg-[#155EEF] shrink-0" />
-                      <UserCheck className="w-3 h-3 text-[#155EEF] shrink-0 stroke-[2]" />
                       <span className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider text-[#062B67] dark:text-blue-200">
                         About Educator
                       </span>

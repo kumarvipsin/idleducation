@@ -469,183 +469,34 @@ export function CoursesClient() {
                     )}
                 </div>
 
-                {/* ── 2. MAIN TITLE (Responsive: 21-24px on mobile, wrapped naturally into 2-3 lines) ── */}
-                <div className="mt-3.5 sm:mt-5 md:mt-6 mb-3 sm:mb-4">
-                    <h1 className="text-[20px] xs:text-[22px] min-[420px]:text-[24px] md:text-[30px] lg:text-[32px] font-bold md:font-extrabold text-[#0F172A] dark:text-white tracking-tight leading-[1.2] md:leading-tight">
-                        Offline, Online, Hybrid + Class 9–12 + Science/Commerce/Arts
+                {/* ── 2. MAIN HEADING ── */}
+                <div className="mt-4 sm:mt-5 mb-3.5 sm:mb-4">
+                    <h1 className="text-[21px] sm:text-[24px] md:text-[28px] font-extrabold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
+                        Courses for Class 9–12
                     </h1>
                 </div>
 
-                {/* ── 3A. MOBILE FILTER CONTROLS (Clean 2-row layout) ── */}
-                <div className="flex md:hidden flex-col gap-2 mb-4">
-                    {/* Row 1: [ Filters ] [ Session: 2026–27 ] [ Class ] */}
-                    <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5">
-                        {/* Filters button */}
-                        <button 
-                            onClick={() => setFilterModalOpen(true)}
-                            id="mobile-filters-button"
-                            className="h-[34px] flex items-center gap-1.5 px-3 rounded-full border border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs font-semibold shrink-0 hover:bg-slate-50 transition-colors"
-                        >
-                            <SlidersHorizontal className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
-                            <span>Filters</span>
-                        </button>
-
-                        {/* Session Selector */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <button 
-                                    id="mobile-session-selector-pill"
-                                    className="h-[34px] px-3.5 rounded-full bg-[#E0F2FE]/80 dark:bg-blue-950/70 border border-[#BAE6FD] dark:border-blue-800 text-[#0369A1] dark:text-blue-300 font-bold text-xs flex items-center gap-1.5 shrink-0 hover:bg-[#D0EBFD] transition-colors outline-none"
-                                >
-                                    <span>Session: {session}</span>
-                                    <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
-                                </button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
-                                <DropdownMenuItem onClick={() => setSession('2026–27')} className="cursor-pointer text-xs font-bold text-[#0369A1]">
-                                    Session: 2026–27
-                                </DropdownMenuItem>
-                                <DropdownMenuItem onClick={() => setSession('2027–28')} className="cursor-pointer text-xs text-slate-700 dark:text-slate-200">
-                                    Session: 2027–28
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        {/* Class Selector */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <button 
-                                    id="mobile-class-selector-pill"
-                                    className={`h-[34px] px-3.5 rounded-full border text-xs flex items-center gap-1.5 shrink-0 transition-colors outline-none ${
-                                        selectedClass 
-                                            ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200/90 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold' 
-                                            : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50'
-                                    }`}
-                                >
-                                    <span>{selectedClass ? selectedClass : 'Class'}</span>
-                                    <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-                                </button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="w-44 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
-                                <DropdownMenuItem onClick={() => handleSelectClass(null)} className="cursor-pointer text-xs font-semibold">
-                                    All Classes
-                                </DropdownMenuItem>
-                                {AVAILABLE_CLASSES.map((cls) => (
-                                    <DropdownMenuItem 
-                                        key={cls} 
-                                        onClick={() => handleSelectClass(cls)}
-                                        className={`cursor-pointer text-xs ${selectedClass === cls ? 'font-bold text-[#2563EB] bg-blue-50 dark:bg-blue-950' : 'text-slate-700 dark:text-slate-200'}`}
-                                    >
-                                        {cls}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-                    </div>
-
-                    {/* Row 2: [ Stream: Science ] [ Mode: Hybrid ] [ Reset ] */}
-                    <div className="flex items-center gap-2 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-0.5">
-                        {/* Stream Selector Pill - Shown for Class 11 & Class 12, or when stream is chosen */}
-                        {(selectedClass === 'Class 11' || selectedClass === 'Class 12' || selectedStream) && (
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <button 
-                                        id="mobile-stream-selector-pill"
-                                        className={`h-[34px] px-3.5 rounded-full border text-xs flex items-center gap-1.5 shrink-0 transition-colors outline-none ${
-                                            selectedStream 
-                                                ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200/90 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold' 
-                                                : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50'
-                                        }`}
-                                    >
-                                        <span>{selectedStream ? `Stream: ${selectedStream}` : 'Stream'}</span>
-                                        <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-                                    </button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="start" className="w-48 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
-                                    <DropdownMenuItem onClick={() => setSelectedStream(null)} className="cursor-pointer text-xs font-semibold">
-                                        All Streams
-                                    </DropdownMenuItem>
-                                    {['Science', 'Commerce', 'Arts'].map((st) => (
-                                        <DropdownMenuItem 
-                                            key={st} 
-                                            onClick={() => setSelectedStream(st)}
-                                            className={`cursor-pointer text-xs ${selectedStream === st ? 'font-bold text-[#2563EB] bg-blue-50 dark:bg-blue-950' : 'text-slate-700 dark:text-slate-200'}`}
-                                        >
-                                            {st} Stream
-                                        </DropdownMenuItem>
-                                    ))}
-                                </DropdownMenuContent>
-                            </DropdownMenu>
-                        )}
-
-                        {/* Mode Selector Pill */}
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <button 
-                                    id="mobile-mode-selector-pill"
-                                    className={`h-[34px] px-3.5 rounded-full border text-xs flex items-center gap-1.5 shrink-0 transition-colors outline-none ${
-                                        selectedMode !== 'Offline Mode'
-                                            ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-200/90 dark:border-blue-800 text-blue-700 dark:text-blue-300 font-bold'
-                                            : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50'
-                                    }`}
-                                >
-                                    <span>Mode: {selectedMode.replace(' Mode', '')}</span>
-                                    <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
-                                </button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="start" className="w-44 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-xl p-1 z-50">
-                                {MODES.map((mode) => (
-                                    <DropdownMenuItem 
-                                        key={mode} 
-                                        onClick={() => setSelectedMode(mode)}
-                                        className={`cursor-pointer text-xs ${selectedMode === mode ? 'font-bold text-[#2563EB] bg-blue-50 dark:bg-blue-950' : 'text-slate-700 dark:text-slate-200'}`}
-                                    >
-                                        {mode}
-                                    </DropdownMenuItem>
-                                ))}
-                            </DropdownMenuContent>
-                        </DropdownMenu>
-
-                        {/* Reset text action */}
-                        {(selectedClass || selectedStream || selectedMode !== 'Offline Mode' || selectedState !== 'Delhi' || selectedCenter !== null) && (
-                            <button 
-                                onClick={() => {
-                                    setSelectedClass(null);
-                                    setSelectedStream(null);
-                                    setSelectedMode('Offline Mode');
-                                    setSelectedState('Delhi');
-                                    setSelectedCenter(null);
-                                    setCenterRequiredNotice(false);
-                                }}
-                                className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold px-2 py-1 shrink-0"
-                            >
-                                Reset
-                            </button>
-                        )}
-                    </div>
-                </div>
-
-                {/* ── 3B. DESKTOP FILTER BADGES ROW (100% Exactly Preserved) ── */}
-                <div className="hidden md:flex flex-wrap items-center gap-2 sm:gap-2.5 mb-6 sm:mb-8">
-                    {/* Filters button */}
+                {/* ── 3. FILTER CONTROLS (Clean horizontal row on desktop, natural 2-row wrap on mobile) ── */}
+                <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-5 sm:mb-6">
+                    {/* Filters modal button */}
                     <button 
                         onClick={() => setFilterModalOpen(true)}
                         id="filters-button"
-                        className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                        className="h-[34px] sm:h-[36px] flex items-center gap-1.5 px-3 sm:px-3.5 rounded-full border border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 text-xs font-semibold shadow-2xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors shrink-0"
                     >
                         <SlidersHorizontal className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
                         <span>Filters</span>
                     </button>
 
                     {/* Subtle Vertical Divider */}
-                    <div className="h-4 w-[1px] bg-slate-300 dark:bg-slate-700 mx-0.5 hidden sm:block" />
+                    <div className="h-4 w-[1px] bg-slate-300 dark:bg-slate-700 mx-0.5 hidden sm:block shrink-0" />
 
-                    {/* Session Selector (Active Pill) */}
+                    {/* Session Selector */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <button 
                                 id="session-selector-pill"
-                                className="px-4 py-1.5 rounded-full bg-[#E0F2FE] dark:bg-blue-950/70 border border-[#BAE6FD] dark:border-blue-800 text-[#0369A1] dark:text-blue-300 font-bold text-xs flex items-center gap-1.5 shadow-xs hover:bg-[#D0EBFD] dark:hover:bg-blue-900/60 transition-colors outline-none"
+                                className="h-[34px] sm:h-[36px] px-3.5 sm:px-4 rounded-full bg-[#E0F2FE]/80 dark:bg-blue-950/70 border border-[#BAE6FD] dark:border-blue-800 text-[#0369A1] dark:text-blue-300 font-bold text-xs flex items-center gap-1.5 shadow-2xs hover:bg-[#D0EBFD] dark:hover:bg-blue-900/60 transition-colors outline-none shrink-0"
                             >
                                 <span>Session: {session}</span>
                                 <ChevronDown className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -661,12 +512,16 @@ export function CoursesClient() {
                         </DropdownMenuContent>
                     </DropdownMenu>
 
-                    {/* Class Selector Dropdown - Only Class 9, 10, 11, 12 */}
+                    {/* Class Selector */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <button 
                                 id="class-selector-pill"
-                                className={`px-4 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors outline-none ${selectedClass ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-300 text-blue-700 dark:text-blue-300 font-bold' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50'}`}
+                                className={`h-[34px] sm:h-[36px] px-3.5 sm:px-4 rounded-full border text-xs flex items-center gap-1.5 shadow-2xs transition-colors outline-none shrink-0 ${
+                                    selectedClass 
+                                        ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-300 text-blue-700 dark:text-blue-300 font-bold' 
+                                        : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800'
+                                }`}
                             >
                                 <span>{selectedClass ? selectedClass : 'Class'}</span>
                                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -689,12 +544,16 @@ export function CoursesClient() {
                     </DropdownMenu>
 
                     {/* Stream Selector Pill - Shown ONLY for Class 11 and Class 12 */}
-                    {(selectedClass === 'Class 11' || selectedClass === 'Class 12') && (
+                    {(selectedClass === 'Class 11' || selectedClass === 'Class 12' || selectedStream) && (
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <button 
                                     id="stream-selector-pill"
-                                    className={`px-4 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors outline-none ${selectedStream ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-300 text-blue-700 dark:text-blue-300 font-bold' : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50'}`}
+                                    className={`h-[34px] sm:h-[36px] px-3.5 sm:px-4 rounded-full border text-xs flex items-center gap-1.5 shadow-2xs transition-colors outline-none shrink-0 ${
+                                        selectedStream 
+                                            ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-300 text-blue-700 dark:text-blue-300 font-bold' 
+                                            : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800'
+                                    }`}
                                 >
                                     <span>{selectedStream ? `Stream: ${selectedStream}` : 'Stream'}</span>
                                     <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
@@ -717,14 +576,18 @@ export function CoursesClient() {
                         </DropdownMenu>
                     )}
 
-                    {/* Mode Selector Pill - 3 Modes Only: Offline Mode, Online Mode, Hybrid Mode */}
+                    {/* Mode Selector Pill */}
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <button 
                                 id="mode-selector-pill"
-                                className="px-4 py-1.5 rounded-full border text-xs font-semibold flex items-center gap-1.5 shadow-xs transition-colors outline-none border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:bg-slate-50"
+                                className={`h-[34px] sm:h-[36px] px-3.5 sm:px-4 rounded-full border text-xs flex items-center gap-1.5 shadow-2xs transition-colors outline-none shrink-0 ${
+                                    selectedMode !== 'Offline Mode'
+                                        ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-300 text-blue-700 dark:text-blue-300 font-bold'
+                                        : 'border-slate-200/90 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 font-semibold hover:bg-slate-50 dark:hover:bg-slate-800'
+                                }`}
                             >
-                                <span>Mode: {selectedMode}</span>
+                                <span>Mode: {selectedMode.replace(' Mode', '')}</span>
                                 <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                             </button>
                         </DropdownMenuTrigger>
@@ -752,7 +615,7 @@ export function CoursesClient() {
                                 setSelectedCenter(null);
                                 setCenterRequiredNotice(false);
                             }}
-                            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-bold px-2 py-1"
+                            className="text-xs text-blue-600 dark:text-blue-400 hover:underline font-bold px-2 py-1 shrink-0"
                         >
                             Reset
                         </button>

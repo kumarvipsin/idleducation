@@ -3,7 +3,20 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { ArrowRight } from 'lucide-react';
+import { 
+    ArrowRight, 
+    ChevronLeft, 
+    X, 
+    GraduationCap, 
+    Atom, 
+    TrendingUp, 
+    Palette, 
+    Building2, 
+    Globe, 
+    Layers,
+    Sparkles,
+    Stethoscope
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
     Jee2DIcon,
@@ -139,24 +152,60 @@ function CardWave({ waveColor }: { waveColor: string }) {
 // ── CBSE Class Selector Modal ──────────────────────────────────────────
 const CLASSES = ['Class 9', 'Class 10', 'Class 11', 'Class 12'] as const;
 
+const STREAM_DATA = [
+    {
+        id: 'science', 
+        label: 'Science Stream (PCM / PCB)',
+        icon: Atom,
+    },
+    {
+        id: 'commerce', 
+        label: 'Commerce Stream',
+        icon: TrendingUp,
+    },
+    {
+        id: 'arts', 
+        label: 'Arts Stream',
+        icon: Palette,
+    },
+];
+
+const MODES = [
+    {
+        id: 'offline', 
+        label: 'Offline Mode',
+        icon: Building2,
+    },
+    {
+        id: 'online', 
+        label: 'Online Mode',
+        icon: Globe,
+    },
+    {
+        id: 'hybrid', 
+        label: 'Hybrid Mode',
+        icon: Layers,
+    },
+];
+
 function CbseModal({ onClose }: { onClose: () => void }) {
     const router = useRouter();
     const [step, setStep] = React.useState<'class' | 'stream' | 'mode'>('class');
     const [selectedClass, setSelectedClass] = React.useState<string | null>(null);
     const [selectedStream, setSelectedStream] = React.useState<string | null>(null);
-    const [, setSelectedMode] = React.useState<string | null>(null);
+    const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
 
     const handleClassClick = (cls: string) => {
         setSelectedClass(cls);
         setSelectedStream(null);
         setSelectedMode(null);
         const is11_12 = cls === 'Class 11' || cls === 'Class 12';
-        setTimeout(() => setStep(is11_12 ? 'stream' : 'mode'), 150);
+        setTimeout(() => setStep(is11_12 ? 'stream' : 'mode'), 120);
     };
 
     const handleStreamClick = (id: string) => {
         setSelectedStream(id);
-        setTimeout(() => setStep('mode'), 150);
+        setTimeout(() => setStep('mode'), 120);
     };
 
     const handleModeClick = (id: string) => {
@@ -179,107 +228,38 @@ function CbseModal({ onClose }: { onClose: () => void }) {
         setTimeout(() => {
             onClose();
             router.push(`/courses?stream=${encodeURIComponent(streamParam)}&class=${encodeURIComponent(selectedClass || 'Class 9')}&mode=${encodeURIComponent(modeParam)}&session=2026-27`);
-        }, 150);
+        }, 120);
     };
-
-    const MODES = [
-        {
-            id: 'offline', 
-            label: 'Offline Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-amber-500 transition-colors" aria-hidden="true">
-                    <rect x="2" y="4" width="14" height="10" rx="2" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.2"/>
-                    <circle cx="9" cy="9" r="2.5" fill="currentColor"/>
-                    <path d="M2 14h14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'online', 
-            label: 'Online Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-amber-500 transition-colors" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                    <path d="M2.5 9h13M9 2.5C7 5 6 7 6 9s1 4 3 6.5M9 2.5C11 5 12 7 12 9s-1 4-3 6.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'hybrid', 
-            label: 'Hybrid Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-amber-500 transition-colors" aria-hidden="true">
-                    <circle cx="7" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                    <circle cx="11" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                </svg>
-            ),
-        },
-    ];
-
-    const STREAM_DATA = [
-        {
-            id: 'science', label: 'Science Stream (PCM / PCB)',
-            color: 'border-blue-400 dark:border-blue-600 bg-blue-50 dark:bg-blue-950/30 text-blue-700 dark:text-blue-300 hover:bg-blue-100',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0" aria-hidden="true">
-                    <circle cx="9" cy="9" r="3" fill="#3B82F6" opacity="0.8"/>
-                    <ellipse cx="9" cy="9" rx="8" ry="3" stroke="#3B82F6" strokeWidth="1" opacity="0.6"/>
-                    <ellipse cx="9" cy="9" rx="8" ry="3" transform="rotate(60 9 9)" stroke="#3B82F6" strokeWidth="1" opacity="0.6"/>
-                    <ellipse cx="9" cy="9" rx="8" ry="3" transform="rotate(120 9 9)" stroke="#3B82F6" strokeWidth="1" opacity="0.6"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'commerce', label: 'Commerce Stream',
-            color: 'border-green-400 dark:border-green-600 bg-green-50 dark:bg-green-950/30 text-green-700 dark:text-green-300 hover:bg-green-100',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0" aria-hidden="true">
-                    <rect x="2" y="10" width="3" height="6" rx="1" fill="#10B981"/>
-                    <rect x="7" y="7" width="3" height="9" rx="1" fill="#10B981" opacity="0.7"/>
-                    <rect x="12" y="4" width="3" height="12" rx="1" fill="#10B981" opacity="0.5"/>
-                    <path d="M3.5 9L8.5 6L13.5 3" stroke="#10B981" strokeWidth="1.2" strokeLinecap="round" strokeDasharray="1.5 1"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'arts', label: 'Arts Stream',
-            color: 'border-purple-400 dark:border-purple-600 bg-purple-50 dark:bg-purple-950/30 text-purple-700 dark:text-purple-300 hover:bg-purple-100',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0" aria-hidden="true">
-                    <path d="M4 14C4 14 6 8 9 6C12 4 15 7 14 10C13 13 9 13 9 13" stroke="#A855F7" strokeWidth="1.3" strokeLinecap="round"/>
-                    <circle cx="5" cy="13" r="2" fill="#A855F7" opacity="0.5"/>
-                    <circle cx="9" cy="5" r="1.5" fill="#EC4899" opacity="0.6"/>
-                </svg>
-            ),
-        },
-    ];
 
     const stepTitle = step === 'class' ? 'Select Your Class'
         : step === 'stream' ? 'Select Your Stream'
         : 'Select Course Mode';
 
     return (
-        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4" role="dialog" aria-modal="true">
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true">
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity" onClick={onClose} />
+            
+            {/* Modal Container */}
             <div
-                className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-amber-200/60 dark:border-amber-800/40 overflow-hidden"
-                style={{ animation: 'cbseModalIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards' }}
+                className="relative w-full max-w-[380px] bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200/80 dark:border-slate-800 overflow-hidden"
+                style={{ animation: 'cbseModalIn 0.22s cubic-bezier(0.16,1,0.3,1) forwards' }}
             >
                 <style dangerouslySetInnerHTML={{ __html: `
                     @keyframes cbseModalIn {
-                        from { opacity: 0; transform: scale(0.92) translateY(12px); }
+                        from { opacity: 0; transform: scale(0.96) translateY(6px); }
                         to   { opacity: 1; transform: scale(1) translateY(0); }
                     }
                     @keyframes slideUp {
-                        from { opacity: 0; transform: translateY(10px); }
+                        from { opacity: 0; transform: translateY(6px); }
                         to   { opacity: 1; transform: translateY(0); }
                     }
-                    .slide-up { animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both; }
+                    .slide-up { animation: slideUp 0.18s cubic-bezier(0.16, 1, 0.3, 1) both; }
                 ` }} />
 
                 {/* Header */}
-                <div className="flex items-center justify-between px-4 py-3.5 bg-gradient-to-r from-amber-50 to-yellow-50 dark:from-amber-950/40 dark:to-yellow-950/30 border-b border-amber-100 dark:border-amber-800/30">
-                    <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between px-4 py-3 sm:px-5 sm:py-3.5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80">
+                    <div className="flex items-center gap-2.5 min-w-0">
                         {step !== 'class' && (
                             <button
                                 onClick={() => {
@@ -290,77 +270,158 @@ function CbseModal({ onClose }: { onClose: () => void }) {
                                         setStep('class');
                                     }
                                 }}
-                                className="w-6 h-6 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 hover:bg-amber-200 transition-colors"
+                                className="w-7 h-7 -ml-1 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0 outline-none"
                                 aria-label="Back"
                             >
-                                <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3"><path d="M7.5 2L4 6L7.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+                                <ChevronLeft className="w-4 h-4" />
                             </button>
                         )}
-                        <div className="w-7 h-7 rounded-full bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden="true">
-                                <path d="M12 3L2 8.5L12 14L22 8.5L12 3Z" fill="#F59E0B" stroke="#B45309" strokeWidth="1.2" strokeLinejoin="round"/>
-                                <path d="M7 11.5V17C7 17 9 19 12 19C15 19 17 17 17 17V11.5" stroke="#D97706" strokeWidth="1.2" strokeLinecap="round"/>
-                            </svg>
+                        <div className="w-7 h-7 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center shrink-0">
+                            <GraduationCap className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                         </div>
-                        <div>
-                            <p className="text-[10px] font-semibold text-amber-600 dark:text-amber-400 tracking-widest uppercase">CBSE</p>
-                            <h3 className="text-[13.5px] font-bold text-slate-800 dark:text-white leading-tight">{stepTitle}</h3>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] font-extrabold tracking-wider text-amber-600 dark:text-amber-400 uppercase leading-none">CBSE</span>
+                            <h3 className="text-[14px] sm:text-[15px] font-bold text-[#0B1F4B] dark:text-white leading-tight mt-1 truncate">{stepTitle}</h3>
                         </div>
                     </div>
-                    <button onClick={onClose} className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-700 hover:bg-slate-200 transition-colors" aria-label="Close">
-                        <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5"><path d="M3 3L13 13M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/></svg>
+                    <button 
+                        onClick={onClose} 
+                        className="w-7 h-7 -mr-1 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors outline-none cursor-pointer shrink-0" 
+                        aria-label="Close"
+                    >
+                        <X className="w-4 h-4" />
                     </button>
                 </div>
 
                 {/* Body */}
-                <div className="p-4">
+                <div className="p-4 sm:p-5">
+                    {/* Step 1: Select Your Class */}
                     {step === 'class' && (
                         <div className="slide-up grid grid-cols-2 gap-2.5">
-                            {CLASSES.map((cls) => (
-                                <button
-                                    key={cls}
-                                    onClick={() => handleClassClick(cls)}
-                                    className="relative flex items-center justify-center py-3.5 px-4 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-[14px] transition-all duration-200 hover:border-amber-400 hover:bg-amber-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97] group"
-                                >
-                                    <span>{cls}</span>
-                                    <ArrowRight className="absolute right-3 w-4 h-4 text-slate-300 group-hover:text-amber-500 transition-transform group-hover:translate-x-0.5" />
-                                </button>
-                            ))}
+                            {CLASSES.map((cls) => {
+                                const isSelected = selectedClass === cls;
+                                return (
+                                    <button
+                                        key={cls}
+                                        onClick={() => handleClassClick(cls)}
+                                        className={cn(
+                                            "group relative flex items-center justify-between py-3.5 px-4 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <span className={cn(
+                                            "text-[14px] font-bold transition-colors",
+                                            isSelected
+                                                ? "text-[#0B1F4B] dark:text-blue-200"
+                                                : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                        )}>
+                                            {cls}
+                                        </span>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
 
+                    {/* Step 2: Select Your Stream */}
                     {step === 'stream' && (
-                        <div className="slide-up flex flex-col gap-2">
-                            {STREAM_DATA.map((s) => (
-                                <button
-                                    key={s.id}
-                                    onClick={() => handleStreamClick(s.id)}
-                                    className={cn(
-                                        "flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 font-bold text-[13px] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]",
-                                        s.color
-                                    )}
-                                >
-                                    {s.icon}
-                                    <span>{s.label}</span>
-                                    <ArrowRight className="ml-auto w-3.5 h-3.5 opacity-60" />
-                                </button>
-                            ))}
+                        <div className="slide-up flex flex-col gap-2.5">
+                            {STREAM_DATA.map((s) => {
+                                const isSelected = selectedStream === s.id;
+                                const Icon = s.icon;
+                                return (
+                                    <button
+                                        key={s.id}
+                                        onClick={() => handleStreamClick(s.id)}
+                                        className={cn(
+                                            "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-blue-100 dark:bg-blue-900/50 text-[#2563EB] dark:text-blue-300"
+                                                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-[#2563EB] group-hover:bg-blue-50 dark:group-hover:bg-blue-950/40"
+                                            )}>
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+                                            <span className={cn(
+                                                "text-[13.5px] sm:text-[14px] font-bold truncate transition-colors",
+                                                isSelected
+                                                    ? "text-[#0B1F4B] dark:text-blue-200"
+                                                    : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                            )}>
+                                                {s.label}
+                                            </span>
+                                        </div>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all ml-2",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
 
+                    {/* Step 3: Select Course Mode */}
                     {step === 'mode' && (
-                        <div className="slide-up flex flex-col gap-2">
-                            {MODES.map((mode) => (
-                                <button
-                                    key={mode.id}
-                                    onClick={() => handleModeClick(mode.id)}
-                                    className="group flex items-center gap-3 w-full px-4 py-3.5 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold text-[13.5px] text-left transition-all duration-200 hover:border-amber-400 hover:bg-amber-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
-                                >
-                                    {mode.icon}
-                                    <span className="flex-1">{mode.label}</span>
-                                    <ArrowRight className="ml-auto w-4 h-4 opacity-50 shrink-0 group-hover:text-amber-500 transition-colors" />
-                                </button>
-                            ))}
+                        <div className="slide-up flex flex-col gap-2.5">
+                            {MODES.map((mode) => {
+                                const isSelected = selectedMode === mode.id;
+                                const Icon = mode.icon;
+                                return (
+                                    <button
+                                        key={mode.id}
+                                        onClick={() => handleModeClick(mode.id)}
+                                        className={cn(
+                                            "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-blue-100 dark:bg-blue-900/50 text-[#2563EB] dark:text-blue-300"
+                                                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-[#2563EB] group-hover:bg-blue-50 dark:group-hover:bg-blue-950/40"
+                                            )}>
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+                                            <span className={cn(
+                                                "text-[13.5px] sm:text-[14px] font-bold truncate transition-colors",
+                                                isSelected
+                                                    ? "text-[#0B1F4B] dark:text-blue-200"
+                                                    : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                            )}>
+                                                {mode.label}
+                                            </span>
+                                        </div>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all ml-2",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -375,39 +436,37 @@ const JEE_OPTIONS = [
         id: 'jee-main',
         label: 'JEE Main',
         desc: 'Paper 1 & 2 · NTA Conducted',
-        color: 'group border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-indigo-400 hover:bg-indigo-50/60',
-        icon: (
-            <svg viewBox="0 0 18 18" fill="none" className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-indigo-500 transition-colors" aria-hidden="true">
-                <rect x="2" y="2" width="14" height="14" rx="3" fill="currentColor" opacity="0.15" stroke="currentColor" strokeWidth="1.2"/>
-                <path d="M5 9h8M9 5v8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-            </svg>
-        ),
+        icon: Atom,
     },
     {
         id: 'jee-advanced',
         label: 'JEE Advanced',
         desc: 'IIT Entrance · Top 2.5 Lakh',
-        color: 'group border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-violet-400 hover:bg-violet-50/60',
-        icon: (
-            <svg viewBox="0 0 18 18" fill="none" className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-violet-500 transition-colors" aria-hidden="true">
-                <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                <ellipse cx="9" cy="9" rx="7" ry="2.5" stroke="currentColor" strokeWidth="1" opacity="0.6"/>
-                <ellipse cx="9" cy="9" rx="7" ry="2.5" transform="rotate(60 9 9)" stroke="currentColor" strokeWidth="1" opacity="0.6"/>
-                <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
-            </svg>
-        ),
+        icon: Sparkles,
     },
     {
         id: 'jee-both',
         label: 'JEE Main + Advanced',
         desc: 'Complete Preparation Bundle',
-        color: 'group border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-cyan-400 hover:bg-cyan-50/60',
-        icon: (
-            <svg viewBox="0 0 18 18" fill="none" className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-cyan-500 transition-colors" aria-hidden="true">
-                <path d="M2 9L6 5L9 9L12 5L16 9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M2 13L6 9L9 13L12 9L16 13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" opacity="0.6"/>
-            </svg>
-        ),
+        icon: Layers,
+    },
+];
+
+const JEE_MODES = [
+    {
+        id: 'offline', 
+        label: 'Offline Mode',
+        icon: Building2,
+    },
+    {
+        id: 'online', 
+        label: 'Online Mode',
+        icon: Globe,
+    },
+    {
+        id: 'hybrid', 
+        label: 'Hybrid Mode',
+        icon: Layers,
     },
 ];
 
@@ -415,12 +474,12 @@ function JeeModal({ onClose }: { onClose: () => void }) {
     const router = useRouter();
     const [step, setStep] = React.useState<'course' | 'mode'>('course');
     const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
-    const [, setSelectedMode] = React.useState<string | null>(null);
+    const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
 
     const handleCourseClick = (id: string) => {
         setSelectedCourse(id);
         setSelectedMode(null);
-        setTimeout(() => setStep('mode'), 150);
+        setTimeout(() => setStep('mode'), 120);
     };
 
     const handleModeClick = (id: string) => {
@@ -429,127 +488,146 @@ function JeeModal({ onClose }: { onClose: () => void }) {
         setTimeout(() => {
             onClose();
             router.push(`/courses?stream=JEE&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
-        }, 150);
+        }, 120);
     };
-
-    const JEE_MODES = [
-        {
-            id: 'offline', label: 'Offline Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-indigo-500 transition-colors" aria-hidden="true">
-                    <rect x="2" y="4" width="14" height="10" rx="2" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.2"/>
-                    <circle cx="9" cy="9" r="2.5" fill="currentColor"/>
-                    <path d="M2 14h14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'online', label: 'Online Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-indigo-500 transition-colors" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                    <path d="M2.5 9h13M9 2.5C7 5 6 7 6 9s1 4 3 6.5M9 2.5C11 5 12 7 12 9s-1 4-3 6.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'hybrid', label: 'Hybrid Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-indigo-500 transition-colors" aria-hidden="true">
-                    <circle cx="7" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                    <circle cx="11" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                </svg>
-            ),
-        },
-    ];
 
     const stepTitle = step === 'course' ? 'Select Your Course' : 'Select Course Mode';
 
     return (
-        <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Select JEE Exam Type"
-        >
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Select JEE Exam Type">
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity" onClick={onClose} />
+            
+            {/* Modal Container */}
             <div
-                className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-indigo-200/60 dark:border-indigo-800/40 overflow-hidden"
-                style={{ animation: 'cbseModalIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards' }}
+                className="relative w-full max-w-[380px] bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200/80 dark:border-slate-800 overflow-hidden"
+                style={{ animation: 'cbseModalIn 0.22s cubic-bezier(0.16,1,0.3,1) forwards' }}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-indigo-50 to-violet-50 dark:from-indigo-950/40 dark:to-violet-950/30 border-b border-indigo-100 dark:border-indigo-800/30">
-                    <div className="flex items-center gap-2.5">
-                        {step === 'mode' && (
+                <div className="flex items-center justify-between px-4 py-3 sm:px-5 sm:py-3.5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                        {step !== 'course' && (
                             <button
                                 onClick={() => setStep('course')}
-                                className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center text-indigo-600 hover:bg-indigo-200 transition-colors mr-0.5"
+                                className="w-7 h-7 -ml-1 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0 outline-none"
                                 aria-label="Back"
                             >
-                                <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3" aria-hidden="true">
-                                    <path d="M7.5 2L4 6L7.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
+                                <ChevronLeft className="w-4 h-4" />
                             </button>
                         )}
-                        <div className="w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden="true">
-                                <circle cx="12" cy="12" r="10" stroke="#6366F1" strokeWidth="1.4" fill="#6366F1" fillOpacity="0.1"/>
-                                <ellipse cx="12" cy="12" rx="10" ry="3.5" stroke="#6366F1" strokeWidth="1" opacity="0.6"/>
-                                <ellipse cx="12" cy="12" rx="10" ry="3.5" transform="rotate(60 12 12)" stroke="#6366F1" strokeWidth="1" opacity="0.6"/>
-                                <circle cx="12" cy="12" r="2.5" fill="#6366F1"/>
-                            </svg>
+                        <div className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/40 flex items-center justify-center shrink-0">
+                            <Atom className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                         </div>
-                        <div>
-                            <p className="text-[11px] font-semibold text-indigo-600 dark:text-indigo-400 tracking-wide uppercase">JEE</p>
-                            <h3 className="text-[15px] font-bold text-slate-800 dark:text-white leading-tight">{stepTitle}</h3>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] font-extrabold tracking-wider text-indigo-600 dark:text-indigo-400 uppercase leading-none">JEE</span>
+                            <h3 className="text-[14px] sm:text-[15px] font-bold text-[#0B1F4B] dark:text-white leading-tight mt-1 truncate">{stepTitle}</h3>
                         </div>
                     </div>
-                    <button
-                        onClick={onClose}
-                        className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    <button 
+                        onClick={onClose} 
+                        className="w-7 h-7 -mr-1 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors outline-none cursor-pointer shrink-0" 
                         aria-label="Close"
                     >
-                        <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
-                            <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                        </svg>
+                        <X className="w-4 h-4" />
                     </button>
                 </div>
 
                 {/* Body */}
-                <div className="px-4 pb-4 pt-3 flex flex-col gap-2">
+                <div className="p-4 sm:p-5">
                     {step === 'course' && (
-                        <div className="slide-up flex flex-col gap-2">
-                            {JEE_OPTIONS.map((opt, i) => (
-                                <button
-                                    key={opt.id}
-                                    onClick={() => handleCourseClick(opt.id)}
-                                    style={{ animationDelay: `${i * 60}ms` }}
-                                    className={cn(
-                                        "streams-enter flex items-center gap-3 px-4 py-3 rounded-xl border-2 font-bold text-[13px] w-full text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98]",
-                                        opt.color
-                                    )}
-                                >
-                                    {opt.icon}
-                                    <span>{opt.label}</span>
-                                    <ArrowRight className="ml-auto w-4 h-4 opacity-50 shrink-0" />
-                                </button>
-                            ))}
+                        <div className="slide-up flex flex-col gap-2.5">
+                            {JEE_OPTIONS.map((opt) => {
+                                const isSelected = selectedCourse === opt.id;
+                                const Icon = opt.icon;
+                                return (
+                                    <button
+                                        key={opt.id}
+                                        onClick={() => handleCourseClick(opt.id)}
+                                        className={cn(
+                                            "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-blue-100 dark:bg-blue-900/50 text-[#2563EB] dark:text-blue-300"
+                                                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-[#2563EB] group-hover:bg-blue-50 dark:group-hover:bg-blue-950/40"
+                                            )}>
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+                                            <div className="flex flex-col min-w-0">
+                                                <span className={cn(
+                                                    "text-[13.5px] sm:text-[14px] font-bold truncate transition-colors",
+                                                    isSelected
+                                                        ? "text-[#0B1F4B] dark:text-blue-200"
+                                                        : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                                )}>
+                                                    {opt.label}
+                                                </span>
+                                                <span className="text-[11px] text-slate-400 font-normal truncate mt-0.5">
+                                                    {opt.desc}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all ml-2",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
 
                     {step === 'mode' && (
-                        <div className="slide-up flex flex-col gap-2 mt-1">
-                            {JEE_MODES.map((mode) => (
-                                <button
-                                    key={mode.id}
-                                    onClick={() => handleModeClick(mode.id)}
-                                    className="group flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-[13px] text-left transition-all duration-200 hover:border-indigo-400 hover:bg-indigo-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
-                                >
-                                    {mode.icon}
-                                    <span>{mode.label}</span>
-                                    <ArrowRight className="ml-auto w-4 h-4 opacity-50 shrink-0 group-hover:text-indigo-500 transition-colors" />
-                                </button>
-                            ))}
+                        <div className="slide-up flex flex-col gap-2.5">
+                            {JEE_MODES.map((mode) => {
+                                const isSelected = selectedMode === mode.id;
+                                const Icon = mode.icon;
+                                return (
+                                    <button
+                                        key={mode.id}
+                                        onClick={() => handleModeClick(mode.id)}
+                                        className={cn(
+                                            "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-blue-100 dark:bg-blue-900/50 text-[#2563EB] dark:text-blue-300"
+                                                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-[#2563EB] group-hover:bg-blue-50 dark:group-hover:bg-blue-950/40"
+                                            )}>
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+                                            <span className={cn(
+                                                "text-[13.5px] sm:text-[14px] font-bold truncate transition-colors",
+                                                isSelected
+                                                    ? "text-[#0B1F4B] dark:text-blue-200"
+                                                    : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                            )}>
+                                                {mode.label}
+                                            </span>
+                                        </div>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all ml-2",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
                 </div>
@@ -564,35 +642,37 @@ const NEET_OPTIONS = [
         id: 'neet-11',
         label: 'For Class 11th',
         desc: '2 Year Foundation Course',
-        color: 'group border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-emerald-400 hover:bg-emerald-50/60',
-        icon: (
-            <svg viewBox="0 0 18 18" fill="none" className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-emerald-500 transition-colors" aria-hidden="true">
-                <path d="M4 14h10M4 10h10M9 4v10" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-        ),
+        icon: GraduationCap,
     },
     {
         id: 'neet-12',
         label: 'For Class 12th',
         desc: '1 Year Target Course',
-        color: 'group border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-emerald-400 hover:bg-emerald-50/60',
-        icon: (
-            <svg viewBox="0 0 18 18" fill="none" className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-emerald-500 transition-colors" aria-hidden="true">
-                <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                <path d="M9 5v8M5 9h8" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-            </svg>
-        ),
+        icon: GraduationCap,
     },
     {
         id: 'neet-pass',
         label: 'For Class 12th Pass',
         desc: 'Dropper/Repeater Batch',
-        color: 'group border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:border-emerald-400 hover:bg-emerald-50/60',
-        icon: (
-            <svg viewBox="0 0 18 18" fill="none" className="w-5 h-5 shrink-0 text-slate-400 group-hover:text-emerald-500 transition-colors" aria-hidden="true">
-                <path d="M3 9l3.5 3.5L15 4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-        ),
+        icon: Sparkles,
+    },
+];
+
+const NEET_MODES = [
+    {
+        id: 'offline', 
+        label: 'Offline Mode',
+        icon: Building2,
+    },
+    {
+        id: 'online', 
+        label: 'Online Mode',
+        icon: Globe,
+    },
+    {
+        id: 'hybrid', 
+        label: 'Hybrid Mode',
+        icon: Layers,
     },
 ];
 
@@ -600,12 +680,12 @@ function NeetModal({ onClose }: { onClose: () => void }) {
     const router = useRouter();
     const [step, setStep] = React.useState<'course' | 'mode'>('course');
     const [selectedCourse, setSelectedCourse] = React.useState<string | null>(null);
-    const [, setSelectedMode] = React.useState<string | null>(null);
+    const [selectedMode, setSelectedMode] = React.useState<string | null>(null);
 
     const handleCourseClick = (id: string) => {
         setSelectedCourse(id);
         setSelectedMode(null);
-        setTimeout(() => setStep('mode'), 150);
+        setTimeout(() => setStep('mode'), 120);
     };
 
     const handleModeClick = (id: string) => {
@@ -614,124 +694,146 @@ function NeetModal({ onClose }: { onClose: () => void }) {
         setTimeout(() => {
             onClose();
             router.push(`/courses?stream=NEET&mode=${encodeURIComponent(modeMap[id] || 'Classroom')}&session=2026-27`);
-        }, 150);
+        }, 120);
     };
-
-    const NEET_MODES = [
-        {
-            id: 'offline', label: 'Offline Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-emerald-500 transition-colors" aria-hidden="true">
-                    <rect x="2" y="4" width="14" height="10" rx="2" fill="currentColor" fillOpacity="0.15" stroke="currentColor" strokeWidth="1.2"/>
-                    <circle cx="9" cy="9" r="2.5" fill="currentColor"/>
-                    <path d="M2 14h14" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'online', label: 'Online Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-emerald-500 transition-colors" aria-hidden="true">
-                    <circle cx="9" cy="9" r="7" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                    <path d="M2.5 9h13M9 2.5C7 5 6 7 6 9s1 4 3 6.5M9 2.5C11 5 12 7 12 9s-1 4-3 6.5" stroke="currentColor" strokeWidth="1" strokeLinecap="round"/>
-                </svg>
-            ),
-        },
-        {
-            id: 'hybrid', label: 'Hybrid Mode',
-            icon: (
-                <svg viewBox="0 0 18 18" fill="none" className="w-4 h-4 shrink-0 text-slate-400 group-hover:text-emerald-500 transition-colors" aria-hidden="true">
-                    <circle cx="7" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                    <circle cx="11" cy="9" r="4.5" stroke="currentColor" strokeWidth="1.2" fill="currentColor" fillOpacity="0.1"/>
-                </svg>
-            ),
-        },
-    ];
 
     const stepTitle = step === 'course' ? 'Select Your Course' : 'Select Course Mode';
 
     return (
-        <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Select NEET Exam Type"
-        >
-            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-label="Select NEET Exam Type">
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-xs transition-opacity" onClick={onClose} />
+            
+            {/* Modal Container */}
             <div
-                className="relative w-full max-w-sm bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-emerald-200/60 dark:border-emerald-800/40 overflow-hidden"
-                style={{ animation: 'cbseModalIn 0.35s cubic-bezier(0.16,1,0.3,1) forwards' }}
+                className="relative w-full max-w-[380px] bg-white dark:bg-slate-900 rounded-2xl shadow-xl shadow-slate-900/10 border border-slate-200/80 dark:border-slate-800 overflow-hidden"
+                style={{ animation: 'cbseModalIn 0.22s cubic-bezier(0.16,1,0.3,1) forwards' }}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-5 py-4 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/30 border-b border-emerald-100 dark:border-emerald-800/30">
-                    <div className="flex items-center gap-2.5">
-                        {step === 'mode' && (
+                <div className="flex items-center justify-between px-4 py-3 sm:px-5 sm:py-3.5 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800/80">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                        {step !== 'course' && (
                             <button
                                 onClick={() => setStep('course')}
-                                className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 hover:bg-emerald-200 transition-colors mr-0.5"
+                                className="w-7 h-7 -ml-1 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors shrink-0 outline-none"
                                 aria-label="Back"
                             >
-                                <svg viewBox="0 0 12 12" fill="none" className="w-3 h-3" aria-hidden="true">
-                                    <path d="M7.5 2L4 6L7.5 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                                </svg>
+                                <ChevronLeft className="w-4 h-4" />
                             </button>
                         )}
-                        <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center">
-                            <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4" aria-hidden="true">
-                                <path d="M12 21.5C12 21.5 4 16.5 4 9.5C4 6.5 6.5 4 9.5 4C11.5 4 12 5.5 12 5.5C12 5.5 12.5 4 14.5 4C17.5 4 20 6.5 20 9.5C20 16.5 12 21.5 12 21.5Z" stroke="#10B981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="#10B981" fillOpacity="0.1"/>
-                            </svg>
+                        <div className="w-7 h-7 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/40 flex items-center justify-center shrink-0">
+                            <Stethoscope className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                         </div>
-                        <div>
-                            <p className="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 tracking-wide uppercase">NEET</p>
-                            <h3 className="text-[15px] font-bold text-slate-800 dark:text-white leading-tight">{stepTitle}</h3>
+                        <div className="flex flex-col min-w-0">
+                            <span className="text-[10px] font-extrabold tracking-wider text-emerald-600 dark:text-emerald-400 uppercase leading-none">NEET</span>
+                            <h3 className="text-[14px] sm:text-[15px] font-bold text-[#0B1F4B] dark:text-white leading-tight mt-1 truncate">{stepTitle}</h3>
                         </div>
                     </div>
-                    <button
-                        onClick={onClose}
-                        className="w-7 h-7 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                    <button 
+                        onClick={onClose} 
+                        className="w-7 h-7 -mr-1 flex items-center justify-center text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors outline-none cursor-pointer shrink-0" 
                         aria-label="Close"
                     >
-                        <svg viewBox="0 0 16 16" fill="none" className="w-3.5 h-3.5" aria-hidden="true">
-                            <path d="M3 3L13 13M13 3L3 13" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"/>
-                        </svg>
+                        <X className="w-4 h-4" />
                     </button>
                 </div>
 
                 {/* Body */}
-                <div className="px-4 pb-4 pt-3 flex flex-col gap-2">
+                <div className="p-4 sm:p-5">
                     {step === 'course' && (
-                        <div className="slide-up flex flex-col gap-2">
-                            {NEET_OPTIONS.map((opt, i) => (
-                                <button
-                                    key={opt.id}
-                                    onClick={() => handleCourseClick(opt.id)}
-                                    style={{ animationDelay: `${i * 60}ms` }}
-                                    className={cn(
-                                        "streams-enter flex items-center gap-3 px-4 py-3 rounded-xl border-2 font-bold text-[13px] w-full text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.98]",
-                                        opt.color
-                                    )}
-                                >
-                                    {opt.icon}
-                                    <span>{opt.label}</span>
-                                    <ArrowRight className="ml-auto w-4 h-4 opacity-50 shrink-0" />
-                                </button>
-                            ))}
+                        <div className="slide-up flex flex-col gap-2.5">
+                            {NEET_OPTIONS.map((opt) => {
+                                const isSelected = selectedCourse === opt.id;
+                                const Icon = opt.icon;
+                                return (
+                                    <button
+                                        key={opt.id}
+                                        onClick={() => handleCourseClick(opt.id)}
+                                        className={cn(
+                                            "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-blue-100 dark:bg-blue-900/50 text-[#2563EB] dark:text-blue-300"
+                                                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-[#2563EB] group-hover:bg-blue-50 dark:group-hover:bg-blue-950/40"
+                                            )}>
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+                                            <div className="flex flex-col min-w-0">
+                                                <span className={cn(
+                                                    "text-[13.5px] sm:text-[14px] font-bold truncate transition-colors",
+                                                    isSelected
+                                                        ? "text-[#0B1F4B] dark:text-blue-200"
+                                                        : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                                )}>
+                                                    {opt.label}
+                                                </span>
+                                                <span className="text-[11px] text-slate-400 font-normal truncate mt-0.5">
+                                                    {opt.desc}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all ml-2",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
 
                     {step === 'mode' && (
-                        <div className="slide-up flex flex-col gap-2 mt-1">
-                            {NEET_MODES.map((mode) => (
-                                <button
-                                    key={mode.id}
-                                    onClick={() => handleModeClick(mode.id)}
-                                    className="group flex items-center gap-3 w-full px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-[13px] text-left transition-all duration-200 hover:border-emerald-400 hover:bg-emerald-50/60 hover:-translate-y-0.5 hover:shadow-md active:scale-[0.97]"
-                                >
-                                    {mode.icon}
-                                    <span>{mode.label}</span>
-                                    <ArrowRight className="ml-auto w-4 h-4 opacity-50 shrink-0 group-hover:text-emerald-500 transition-colors" />
-                                </button>
-                            ))}
+                        <div className="slide-up flex flex-col gap-2.5">
+                            {NEET_MODES.map((mode) => {
+                                const isSelected = selectedMode === mode.id;
+                                const Icon = mode.icon;
+                                return (
+                                    <button
+                                        key={mode.id}
+                                        onClick={() => handleModeClick(mode.id)}
+                                        className={cn(
+                                            "group flex items-center justify-between w-full px-4 py-3.5 rounded-xl border text-left transition-all duration-150 active:scale-[0.98] cursor-pointer shadow-2xs",
+                                            isSelected
+                                                ? "bg-[#EFF6FF] dark:bg-blue-950/40 border-[#2563EB] dark:border-blue-500"
+                                                : "bg-white dark:bg-slate-800/90 border-slate-200/90 dark:border-slate-700/80 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-slate-50/80 dark:hover:bg-slate-800"
+                                        )}
+                                    >
+                                        <div className="flex items-center gap-3 min-w-0">
+                                            <div className={cn(
+                                                "w-8 h-8 rounded-lg flex items-center justify-center shrink-0 transition-colors",
+                                                isSelected
+                                                    ? "bg-blue-100 dark:bg-blue-900/50 text-[#2563EB] dark:text-blue-300"
+                                                    : "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:text-[#2563EB] group-hover:bg-blue-50 dark:group-hover:bg-blue-950/40"
+                                            )}>
+                                                <Icon className="w-4 h-4" />
+                                            </div>
+                                            <span className={cn(
+                                                "text-[13.5px] sm:text-[14px] font-bold truncate transition-colors",
+                                                isSelected
+                                                    ? "text-[#0B1F4B] dark:text-blue-200"
+                                                    : "text-[#0F172A] dark:text-slate-100 group-hover:text-[#0B1F4B]"
+                                            )}>
+                                                {mode.label}
+                                            </span>
+                                        </div>
+                                        <ArrowRight className={cn(
+                                            "w-4 h-4 shrink-0 transition-all ml-2",
+                                            isSelected
+                                                ? "text-[#2563EB] dark:text-blue-400 translate-x-0.5"
+                                                : "text-slate-300 dark:text-slate-600 group-hover:text-[#2563EB] group-hover:translate-x-0.5"
+                                        )} />
+                                    </button>
+                                );
+                            })}
                         </div>
                     )}
                 </div>

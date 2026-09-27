@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { 
@@ -56,7 +56,7 @@ interface CourseDetailData {
 const COURSES_CATALOG: Record<string, CourseDetailData> = {
     'class-9': {
         slug: 'class-9',
-        title: 'Class 9 CBSE — Session 2026–27',
+        title: 'Class 9 | CBSE | 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
         subjects: 'Maths, Science, English, Social Studies',
@@ -109,7 +109,7 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-10': {
         slug: 'class-10',
-        title: 'Class 10 CBSE — Session 2026–27',
+        title: 'Class 10 | CBSE | 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
         subjects: 'Maths, Science, English, Social Studies',
@@ -162,10 +162,10 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-11': {
         slug: 'class-11',
-        title: 'Class 11 CBSE — Session 2026–27',
+        title: 'Class 11 | Science Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
-        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        subjects: 'Physics, Chemistry, Mathematics / Biology, English',
         aboutSections: [
             {
                 id: 'concept-building',
@@ -215,10 +215,10 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-12': {
         slug: 'class-12',
-        title: 'Class 12 CBSE — Session 2026–27',
+        title: 'Class 12 | Science Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
-        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        subjects: 'Physics, Chemistry, Mathematics / Biology, English',
         aboutSections: [
             {
                 id: 'concept-building',
@@ -268,10 +268,10 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-11-science': {
         slug: 'class-11-science',
-        title: 'Class 11 Science CBSE — Session 2026–27',
+        title: 'Class 11 | Science Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
-        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        subjects: 'Physics, Chemistry, Mathematics / Biology, English',
         aboutSections: [
             {
                 id: 'concept-building',
@@ -321,7 +321,7 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-11-commerce': {
         slug: 'class-11-commerce',
-        title: 'Class 11 Commerce CBSE — Session 2026–27',
+        title: 'Class 11 | Commerce Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
         subjects: 'Accountancy, Business Studies, Economics, English / Maths',
@@ -374,7 +374,7 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-11-arts': {
         slug: 'class-11-arts',
-        title: 'Class 11 Arts CBSE — Session 2026–27',
+        title: 'Class 11 | Arts Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
         subjects: 'History, Political Science, Geography, Economics, English',
@@ -427,10 +427,10 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-12-science': {
         slug: 'class-12-science',
-        title: 'Class 12 Science CBSE — Session 2026–27',
+        title: 'Class 12 | Science Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
-        subjects: 'Physics, Chemistry, Maths / Biology, English',
+        subjects: 'Physics, Chemistry, Mathematics / Biology, English',
         aboutSections: [
             {
                 id: 'concept-building',
@@ -480,7 +480,7 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-12-commerce': {
         slug: 'class-12-commerce',
-        title: 'Class 12 Commerce CBSE — Session 2026–27',
+        title: 'Class 12 | Commerce Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
         subjects: 'Accountancy, Business Studies, Economics, English / Maths',
@@ -533,7 +533,7 @@ const COURSES_CATALOG: Record<string, CourseDetailData> = {
     },
     'class-12-arts': {
         slug: 'class-12-arts',
-        title: 'Class 12 Arts CBSE — Session 2026–27',
+        title: 'Class 12 | Arts Stream | CBSE 2026–27',
         classMeta: 'Course Duration | 1 Year',
         durationLabel: '1 Year',
         subjects: 'History, Political Science, Geography, Economics, English',
@@ -742,6 +742,35 @@ export function CourseDetailClient({ slug }: { slug: string }) {
         amount: number;
     } | null>(null);
 
+    // Unified compact course title based on class & stream
+    const courseTitle = useMemo(() => {
+        const streamParam = searchParams.get('stream');
+        if (streamParam && (normalizedSlug === 'class-11' || normalizedSlug === 'class-12')) {
+            const classNum = normalizedSlug === 'class-11' ? 'Class 11' : 'Class 12';
+            const streamName = streamParam.toLowerCase().includes('commerce')
+                ? 'Commerce Stream'
+                : streamParam.toLowerCase().includes('arts')
+                ? 'Arts Stream'
+                : 'Science Stream';
+            return `${classNum} | ${streamName} | CBSE 2026–27`;
+        }
+        return course.title;
+    }, [course.title, normalizedSlug, searchParams]);
+
+    const courseTitleSegments = useMemo(() => {
+        return courseTitle.split('|').map(s => s.trim());
+    }, [courseTitle]);
+
+    // Format subjects cleanly with interpuncts ' · '
+    const formattedSubjects = useMemo(() => {
+        if (!course.subjects) return '';
+        if (course.subjects.includes(' · ')) return course.subjects;
+        return course.subjects
+            .split(',')
+            .map(s => s.trim())
+            .join(' · ');
+    }, [course.subjects]);
+
     // Sync start date on course change
     useEffect(() => {
         if (course.startDates.length > 0) {
@@ -876,11 +905,11 @@ export function CourseDetailClient({ slug }: { slug: string }) {
     };
 
     return (
-        <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 py-5 sm:py-8">
+        <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-blue-100 selection:text-blue-900 pt-3 pb-8 sm:pt-4 sm:pb-12">
             <div className="max-w-[1220px] mx-auto px-4 sm:px-6 lg:px-8">
                 
                 {/* Back to Courses Link */}
-                <div className="mb-5">
+                <div className="mb-3 sm:mb-3.5">
                     <Link 
                         href="/courses"
                         className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-[#1D4ED8] dark:text-slate-400 dark:hover:text-blue-400 transition-colors"
@@ -890,56 +919,65 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                     </Link>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7 lg:gap-8 items-start">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
                     
                     {/* ── LEFT COLUMN: Course Header, Subjects & About ── */}
-                    <div className="lg:col-span-7 xl:col-span-7 2xl:col-span-8 space-y-6">
+                    <div className="lg:col-span-7 xl:col-span-7 2xl:col-span-8 space-y-4 sm:space-y-5">
                         
-                        {/* 1. Course Header */}
+                        {/* 1. Course Header & Information */}
                         <div>
                             {/* Dynamic Mode Badge */}
-                            <div className="inline-flex items-center px-3 py-1 rounded-full bg-[#10B981] text-white text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider shadow-xs mb-2.5">
+                            <div className="inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#10B981] text-white text-[10px] sm:text-[10.5px] font-bold uppercase tracking-wider shadow-xs mb-2 sm:mb-2.5">
                                 {selectedMode.toUpperCase()}
                             </div>
 
-                            {/* Main Heading: Clear, refined weight */}
-                            <h1 className="text-2xl sm:text-[28px] lg:text-[32px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
-                                {course.title}
+                            {/* Unified Compact Primary Course Title */}
+                            <h1 className="text-[17px] sm:text-[19px] md:text-xl lg:text-[21px] xl:text-[22px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-snug">
+                                {courseTitleSegments.map((segment, index) => (
+                                    <React.Fragment key={index}>
+                                        {index > 0 && (
+                                            <>
+                                                {" "}
+                                                <span className="text-slate-300 dark:text-slate-600 font-light mx-1.5 sm:mx-2 select-none">|</span>
+                                                {" "}
+                                            </>
+                                        )}
+                                        <span>{segment}</span>
+                                    </React.Fragment>
+                                ))}
                             </h1>
 
-                            {/* Secondary Information: Course Duration | 1 Year */}
-                            <div className="flex items-center gap-2 mt-2 text-slate-500 dark:text-slate-400 text-xs sm:text-[13px] font-medium">
-                                <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                            {/* Course Duration */}
+                            <div className="flex items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2 text-slate-500 dark:text-slate-400 text-xs sm:text-[12.5px] font-medium">
+                                <Clock className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0" />
                                 <span>Course Duration</span>
-                                <span className="text-slate-300 dark:text-slate-600">|</span>
+                                <span className="text-slate-300 dark:text-slate-600 font-light">|</span>
                                 <span className="text-slate-700 dark:text-slate-300 font-semibold">{course.durationLabel}</span>
                             </div>
+
+                            {/* Compact Subjects Information Block */}
+                            {formattedSubjects && (
+                                <div className="mt-2.5 sm:mt-3">
+                                    <div className="flex items-center gap-1.5 text-[10px] sm:text-[10.5px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider">
+                                        <GraduationCap className="w-3.5 h-3.5 text-[#155EEF] dark:text-blue-400 stroke-[2.2] shrink-0" />
+                                        <span>Subjects</span>
+                                    </div>
+                                    <p className="text-[13px] sm:text-[13.5px] font-semibold text-[#0B1F4B] dark:text-slate-100 mt-0.5 leading-snug sm:leading-relaxed">
+                                        {formattedSubjects}
+                                    </p>
+                                </div>
+                            )}
                         </div>
 
-                        {/* 2. Subjects Card - Full Width & Cleanly Integrated */}
-                        <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-4 sm:p-5 shadow-[0_2px_10px_rgba(11,40,88,0.03)] flex items-center gap-4 w-full">
-                            <div className="w-11 h-11 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center shrink-0 border border-slate-200/60 dark:border-slate-700 text-slate-700 dark:text-slate-300">
-                                <BookOpen className="w-5 h-5 stroke-[1.75]" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                                <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-0.5">
-                                    Subjects
-                                </span>
-                                <p className="text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-slate-100 leading-snug">
-                                    {course.subjects}
-                                </p>
-                            </div>
-                        </div>
-
-                        {/* 3. About the Course Section (Exact style from Reference Screenshot) */}
-                        <div className="pt-2">
-                            {/* Section Heading matching screenshot */}
-                            <h2 className="text-xl sm:text-[22px] font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
+                        {/* 2. About the Course Section */}
+                        <div>
+                            {/* Section Heading */}
+                            <h2 className="text-[17px] sm:text-lg font-bold text-[#0B1F4B] dark:text-white mb-2.5 sm:mb-3 tracking-tight">
                                 About the Course
                             </h2>
 
                             {/* Single Large White Card enclosing all sections with dashed dividers */}
-                            <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[24px] p-6 sm:p-8 shadow-[0_2px_12px_rgba(11,40,88,0.03)]">
+                            <div className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-[20px] sm:rounded-[24px] p-5 sm:p-7 shadow-[0_2px_12px_rgba(11,40,88,0.03)]">
                                 {course.aboutSections.map((sec, idx) => (
                                     <React.Fragment key={sec.id}>
                                         {idx > 0 && (
@@ -947,10 +985,10 @@ export function CourseDetailClient({ slug }: { slug: string }) {
                                         )}
                                         <div className="flex items-center justify-between gap-4 sm:gap-6">
                                             <div className="flex-1 min-w-0 pr-1">
-                                                <h3 className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white mb-3">
+                                                <h3 className="text-[16px] sm:text-[17.5px] font-bold text-[#0B1F4B] dark:text-white mb-2.5 tracking-tight">
                                                     {sec.title}
                                                 </h3>
-                                                <ul className="space-y-2.5 text-[13px] sm:text-[13.5px] text-slate-600 dark:text-slate-300 leading-relaxed">
+                                                <ul className="space-y-2.5 text-[13.5px] sm:text-[14px] text-slate-700 dark:text-slate-200 leading-relaxed">
                                                     {sec.points.map((pt, pIdx) => {
                                                         const colonIndex = pt.indexOf(': ');
                                                         const label = colonIndex !== -1 ? pt.slice(0, colonIndex + 1) : '';
@@ -958,10 +996,10 @@ export function CourseDetailClient({ slug }: { slug: string }) {
 
                                                         return (
                                                             <li key={pIdx} className="flex items-start gap-2.5">
-                                                                <span className="text-slate-700 dark:text-slate-300 text-sm leading-none mt-1 shrink-0">•</span>
+                                                                <span className="text-[#155EEF] dark:text-blue-400 text-sm leading-none mt-1 shrink-0 font-bold">•</span>
                                                                 <span className="leading-relaxed">
-                                                                    {label && <strong className="font-semibold text-slate-800 dark:text-slate-200">{label} </strong>}
-                                                                    {text}
+                                                                    {label && <strong className="font-bold text-[#0B1F4B] dark:text-white">{label} </strong>}
+                                                                    <span className="text-slate-700 dark:text-slate-200 font-normal">{text}</span>
                                                                 </span>
                                                             </li>
                                                         );
