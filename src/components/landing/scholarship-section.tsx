@@ -64,8 +64,8 @@ export function ScholarshipSection() {
   return (
     <section
       id="why-idl-education"
-      aria-label="Why IDL Education"
-      className="relative w-full pt-10 sm:pt-14 md:pt-16 pb-10 sm:pb-14 md:pb-16 bg-gradient-to-b from-[#FAFDFE] via-[#F4F8FE] to-[#EEF5FD] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden"
+      aria-label="Why Choose IDL"
+      className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-12 sm:pb-16 md:pb-20 bg-gradient-to-b from-white via-[#F8FBFE] to-[#EEF5FD] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* Subtle ambient light glow in background */}
@@ -80,22 +80,23 @@ export function ScholarshipSection() {
             1. HEADER AREA
             ══════════════════════════════════════════════════ */}
         <div className="flex flex-col items-center justify-center text-center mb-8 sm:mb-11 md:mb-12">
-          
-          {/* Eyebrow Pill */}
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-[#EBF3FF] dark:bg-blue-950/70 border border-[#D0E2FC] dark:border-blue-900/60 shadow-[0_1px_3px_rgba(6,43,103,0.03)] mb-3 sm:mb-3.5">
-            <span className="text-[11px] sm:text-[12px] font-bold tracking-[0.16em] uppercase text-[#062B67] dark:text-blue-300">
-              WHY IDL EDUCATION?
+          {/* Eyebrow — clean text with bullet point */}
+          <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5">
+            <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+            <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
+              <span className="text-[#062B67] dark:text-blue-200">Why think </span>
+              <span className="text-[#155EEF] dark:text-blue-400">IDL ?</span>
             </span>
           </div>
 
-          {/* Main Heading */}
-          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15] max-w-4xl mx-auto whitespace-nowrap">
-            <span>Learn Better.{' '}</span>
+          {/* Main Heading — exact style, size, and curved underline from screenshot, single line on all screens */}
+          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] tracking-[-0.02em] leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+            <span className="text-[#062B67] dark:text-white">Learn Better.{' '}</span>
             <span className="relative inline-block text-[#155EEF] dark:text-blue-400">
               Grow Stronger.
-              {/* Subtle curved blue underline stroke matching reference */}
+              {/* Subtle curved blue underline stroke matching reference screenshot */}
               <svg 
-                className="absolute -bottom-1.5 sm:-bottom-2 left-0 right-0 w-full h-[6px] sm:h-[8px] text-[#155EEF] dark:text-blue-400 overflow-visible pointer-events-none" 
+                className="absolute -bottom-1 sm:-bottom-1.5 md:-bottom-2 left-0 right-0 w-full h-[5px] sm:h-[7px] md:h-[8px] text-[#155EEF] dark:text-blue-400 overflow-visible pointer-events-none" 
                 viewBox="0 0 100 12" 
                 fill="none" 
                 xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +111,6 @@ export function ScholarshipSection() {
               </svg>
             </span>
           </h2>
-
         </div>
 
         {/* ══════════════════════════════════════════════════

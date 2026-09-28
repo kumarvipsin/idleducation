@@ -24,29 +24,20 @@ export function EducatorsHeader({
 }: EducatorsHeaderProps) {
   return (
     <div className="text-center mb-5 sm:mb-7 relative">
-      {/* Eyebrow */}
-      {eyebrow && (
-        <div className="flex items-center justify-center gap-3 mb-3">
-          <span className="h-px w-6 sm:w-8 bg-[#155EEF]/30" />
-          <span className="text-[11px] sm:text-[11.5px] font-bold tracking-[0.16em] uppercase text-[#155EEF]">
-            {eyebrow}
-          </span>
-          <span className="h-px w-6 sm:w-8 bg-[#155EEF]/30" />
-        </div>
-      )}
+      {/* Eyebrow — bullet point */}
+      <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5">
+        <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+        <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
+          <span className="text-[#062B67] dark:text-blue-200">{titlePrefix}</span>
+          <span className="text-[#155EEF] dark:text-blue-400">{titleHighlight}</span>
+        </span>
+      </div>
 
-      {/* Main heading */}
-      <h2 className={`text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] leading-[1.15] ${subtitle ? 'mb-2.5' : 'mb-0'}`}>
-        <span className="text-[#062B67]">{titlePrefix}</span>
-        <span className="text-[#155EEF]">{titleHighlight}</span>
+      {/* Description heading */}
+      <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] tracking-[-0.02em] leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+        <span className="text-[#062B67] dark:text-white">Expert Guidance.{' '}</span>
+        <span className="text-[#155EEF] dark:text-blue-400">Meaningful Learning.</span>
       </h2>
-
-      {/* Subtitle */}
-      {subtitle && (
-        <p className="text-[13px] sm:text-[14px] text-slate-500 font-medium leading-relaxed max-w-md mx-auto">
-          {subtitle}
-        </p>
-      )}
 
       {/* Navigation arrows — desktop top right */}
       {showNavigation && (

@@ -42,7 +42,7 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
   return (
     <section
       id="expert-teachers"
-      className="relative w-full py-10 sm:py-12 md:py-16 bg-[#FAFBFE] overflow-hidden"
+      className="relative w-full pt-10 sm:pt-12 md:pt-16 pb-8 sm:pb-10 md:pb-12 bg-white overflow-hidden"
     >
       {/* Subtle decorative background ambient glow */}
       <div

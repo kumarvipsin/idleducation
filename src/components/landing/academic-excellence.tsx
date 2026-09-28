@@ -51,8 +51,10 @@ export interface CategoryResultData {
   categoryName: string;
   tabLabel: string;
   year: string;
+  badge: string;
   headlineTitle: string;
   headlineHighlight: string;
+  subheading: string;
   description: string;
   stats: {
     highestScore: {
@@ -82,9 +84,11 @@ const RESULTS_DATA: CategoryResultData[] = [
     categoryName: 'CLASS 10',
     tabLabel: 'CLASS 10',
     year: '2026',
+    badge: 'BOARD EXAMINATION',
     headlineTitle: 'CLASS 10',
     headlineHighlight: '2026 RESULTS',
-    description: 'Celebrating extraordinary foundation milestones and high-scoring board accomplishments.',
+    subheading: 'Outstanding Board Performance',
+    description: 'Our students continue to achieve strong results through focused preparation and consistent guidance.',
     stats: {
       highestScore: {
         value: '99.4%',
@@ -108,7 +112,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c10-1',
         name: 'Aman Singh',
         score: '99.4%',
-        grade: 'Class 10 | All Subjects',
+        grade: 'Class 10 | CBSE',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'School Topper',
         subjects: [
@@ -124,7 +128,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c10-2',
         name: 'Ishita Verma',
         score: '98.6%',
-        grade: 'Class 10 | All Subjects',
+        grade: 'Class 10 | CBSE',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Star Achiever',
         subjects: [
@@ -140,7 +144,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c10-3',
         name: 'Raghav Sharma',
         score: '98.2%',
-        grade: 'Class 10 | All Subjects',
+        grade: 'Class 10 | CBSE',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'Merit Scholar',
         subjects: [
@@ -156,7 +160,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c10-4',
         name: 'Mehak Jain',
         score: '97.6%',
-        grade: 'Class 10 | All Subjects',
+        grade: 'Class 10 | CBSE',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Excellence Award',
         subjects: [
@@ -172,7 +176,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c10-5',
         name: 'Kavya Patel',
         score: '97.0%',
-        grade: 'Class 10 | All Subjects',
+        grade: 'Class 10 | CBSE',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'High Performer',
         subjects: [
@@ -186,7 +190,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c10-6',
         name: 'Aditya Sharma',
         score: '96.4%',
-        grade: 'Class 10 | All Subjects',
+        grade: 'Class 10 | CBSE',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'Top Scorer',
         subjects: [
@@ -203,9 +207,11 @@ const RESULTS_DATA: CategoryResultData[] = [
     categoryName: 'CLASS 12',
     tabLabel: 'CLASS 12',
     year: '2026',
+    badge: 'BOARD EXAMINATION',
     headlineTitle: 'CLASS 12',
     headlineHighlight: '2026 RESULTS',
-    description: 'Our students continue to achieve outstanding results in board examinations.',
+    subheading: 'Outstanding Board Performance',
+    description: 'Our students continue to achieve strong results through focused preparation and consistent guidance.',
     stats: {
       highestScore: {
         value: '99.2%',
@@ -229,7 +235,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c12-1',
         name: 'Aman Singh',
         score: '98.6%',
-        grade: 'Class 12 | Science',
+        grade: 'Class 12 | CBSE',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'State Topper Rank 4',
         subjects: [
@@ -245,7 +251,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c12-2',
         name: 'Ishita Verma',
         score: '97.8%',
-        grade: 'Class 12 | Commerce',
+        grade: 'Class 12 | CBSE',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Stream Topper',
         subjects: [
@@ -261,7 +267,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c12-3',
         name: 'Raghav Sharma',
         score: '97.4%',
-        grade: 'Class 12 | Science',
+        grade: 'Class 12 | CBSE',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'Physics Centum',
         subjects: [
@@ -277,7 +283,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c12-4',
         name: 'Mehak Jain',
         score: '96.8%',
-        grade: 'Class 12 | Humanities',
+        grade: 'Class 12 | CBSE',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Merit Scholar',
         subjects: [
@@ -293,7 +299,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c12-5',
         name: 'Kavya Patel',
         score: '96.2%',
-        grade: 'Class 12 | Science',
+        grade: 'Class 12 | CBSE',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Bio Gold Medalist',
         subjects: [
@@ -308,7 +314,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'c12-6',
         name: 'Aditya Sharma',
         score: '95.8%',
-        grade: 'Class 12 | Commerce',
+        grade: 'Class 12 | CBSE',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'Honor Roll',
         subjects: [
@@ -326,9 +332,11 @@ const RESULTS_DATA: CategoryResultData[] = [
     categoryName: 'CUET (UG)',
     tabLabel: 'CUET (UG)',
     year: '2026',
+    badge: 'ENTRANCE EXAMINATION',
     headlineTitle: 'CUET (UG)',
     headlineHighlight: '2026 RESULTS',
-    description: '100 Percentilers securing dream colleges across Delhi University and premier central universities.',
+    subheading: 'Outstanding NTA CUET Performance',
+    description: 'Our students continue to achieve strong results through focused preparation and consistent guidance.',
     stats: {
       highestScore: {
         value: '100%ile',
@@ -352,7 +360,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'cuet-1',
         name: 'Mehak Jain',
         score: '100%ile',
-        grade: 'CUET UG | SRCC DU',
+        grade: 'CUET (UG)',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Triple 100%iler',
         subjects: [
@@ -368,7 +376,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'cuet-2',
         name: 'Ishita Verma',
         score: '99.9%ile',
-        grade: 'CUET UG | Hindu College',
+        grade: 'CUET (UG)',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Dual 100%iler',
         subjects: [
@@ -383,7 +391,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'cuet-3',
         name: 'Aman Singh',
         score: '99.7%ile',
-        grade: 'CUET UG | Hansraj College',
+        grade: 'CUET (UG)',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'Top Scorer',
         subjects: [
@@ -398,7 +406,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'cuet-4',
         name: 'Raghav Sharma',
         score: '99.4%ile',
-        grade: 'CUET UG | BHU Campus',
+        grade: 'CUET (UG)',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'Merit List',
         subjects: [
@@ -412,7 +420,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'cuet-5',
         name: 'Aditya Sharma',
         score: '99.1%ile',
-        grade: 'CUET UG | Jamia Millia',
+        grade: 'CUET (UG)',
         image: '/images/results/idl-student-boy.jpg',
         badge: 'High Performer',
         subjects: [
@@ -426,7 +434,7 @@ const RESULTS_DATA: CategoryResultData[] = [
         id: 'cuet-6',
         name: 'Kavya Patel',
         score: '98.8%ile',
-        grade: 'CUET UG | KMC DU',
+        grade: 'CUET (UG)',
         image: '/images/results/idl-student-girl.jpg',
         badge: 'Honor Roll',
         subjects: [
@@ -440,17 +448,30 @@ const RESULTS_DATA: CategoryResultData[] = [
   }
 ];
 
+function BarChartIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} width="18" height="18" viewBox="0 0 16 16" fill="currentColor">
+      <rect x="1.5" y="8" width="3" height="8" rx="1" />
+      <rect x="6.5" y="2" width="3" height="14" rx="1" />
+      <rect x="11.5" y="5" width="3" height="11" rx="1" />
+    </svg>
+  );
+}
+
 export function AcademicExcellence() {
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(1); // Default to CLASS 12 matching reference
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0); // Starts at CLASS 10 -> CLASS 12 -> CUET (UG) -> repeat
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [selectedStudent, setSelectedStudent] = useState<StudentPerformer | null>(null);
+  const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
   const [showAllResultsModal, setShowAllResultsModal] = useState(false);
   const [canScrollPrev, setCanScrollPrev] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(true);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
 
   const activeCategory = useMemo(() => {
-    return RESULTS_DATA[activeCategoryIndex] || RESULTS_DATA[1];
+    return RESULTS_DATA[activeCategoryIndex] || RESULTS_DATA[0];
   }, [activeCategoryIndex]);
 
   // Synchronize carousel events
@@ -463,14 +484,40 @@ export function AcademicExcellence() {
 
   useEffect(() => {
     if (!carouselApi) return;
-    onCarouselSelect();
+    const updateSnaps = () => {
+      const snaps = carouselApi.scrollSnapList();
+      setScrollSnaps(snaps && snaps.length > 0 ? snaps : [0, 1, 2, 3, 4]);
+      onCarouselSelect();
+    };
+    updateSnaps();
     carouselApi.on('select', onCarouselSelect);
-    carouselApi.on('reInit', onCarouselSelect);
+    carouselApi.on('reInit', updateSnaps);
     return () => {
       carouselApi.off('select', onCarouselSelect);
-      carouselApi.off('reInit', onCarouselSelect);
+      carouselApi.off('reInit', updateSnaps);
     };
   }, [carouselApi, onCarouselSelect]);
+
+  // Reset selected card when active category changes
+  useEffect(() => {
+    setSelectedCardId(null);
+  }, [activeCategoryIndex]);
+
+  // Auto-switch tabs periodically (Class 10 -> Class 12 -> CUET (UG) -> repeat)
+  useEffect(() => {
+    if (isPaused) return;
+    const timer = setInterval(() => {
+      setActiveCategoryIndex((prev) => (prev + 1) % RESULTS_DATA.length);
+    }, 2500);
+    return () => clearInterval(timer);
+  }, [isPaused]);
+
+  // Reset carousel snap without elastic bounce whenever active category changes
+  useEffect(() => {
+    if (carouselApi && carouselApi.selectedScrollSnap() !== 0) {
+      carouselApi.scrollTo(0, true);
+    }
+  }, [activeCategoryIndex, carouselApi]);
 
   // Lock body scroll and handle Escape key for student profile popup
   useEffect(() => {
@@ -491,8 +538,8 @@ export function AcademicExcellence() {
   // Reset carousel to first card when category tab changes
   const handleTabChange = (index: number) => {
     setActiveCategoryIndex(index);
-    if (carouselApi) {
-      carouselApi.scrollTo(0);
+    if (carouselApi && carouselApi.selectedScrollSnap() !== 0) {
+      carouselApi.scrollTo(0, true);
     }
   };
 
@@ -508,27 +555,39 @@ export function AcademicExcellence() {
     <section 
       id="academic-results" 
       aria-label="Academic Results"
-      className="w-full pt-6 pb-6 sm:pt-8 sm:pb-9 md:pt-12 md:pb-11 bg-white dark:bg-background overflow-hidden relative"
+      className="w-full pt-2.5 pb-4 sm:pt-3 sm:pb-5 md:pt-4 md:pb-6 bg-white dark:bg-background overflow-hidden relative"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
+      {/* Container aligned with Courses We Offer width (max-w-[1360px]) */}
+      <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-4 md:px-6">
         
         {/* ===================== HEADER SECTION ===================== */}
-        <div className="text-center max-w-2xl mx-auto mb-2 sm:mb-3">
-          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] leading-[1.15]">
-            <span className="text-[#062B67] dark:text-white">Academic</span>{' '}
-            <span className="text-[#155EEF] dark:text-blue-400">Results</span>
+        <div className="flex flex-col items-center justify-center text-center mb-2 sm:mb-2.5">
+          {/* Eyebrow — bullet point */}
+          <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5">
+            <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+            <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
+              <span className="text-[#062B67] dark:text-blue-200">Academic </span>
+              <span className="text-[#155EEF] dark:text-blue-400">Results</span>
+            </span>
+          </div>
+
+          {/* Description heading */}
+          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] tracking-[-0.02em] leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+            <span className="text-[#062B67] dark:text-white">Results That Reflect.{' '}</span>
+            <span className="text-[#155EEF] dark:text-blue-400">Excellence That Inspires.</span>
           </h2>
         </div>
 
-        {/* ===================== CATEGORY TABS ===================== */}
-        {/* Minimal text-tab navigation */}
-        <div className="w-full mb-3 sm:mb-4 md:mb-5">
+        {/* ===================== CATEGORY TABS (TEXT ONLY WITH UNDERLINE, NO BUTTON SHAPE) ===================== */}
+        <div className="w-full mb-3 sm:mb-4">
           <div className="flex justify-center px-2">
             <div 
               role="tablist" 
               aria-label="Result Categories"
-              className="inline-flex items-center justify-center gap-7 sm:gap-8 md:gap-9 select-none"
+              onMouseEnter={() => setIsPaused(true)}
+              onMouseLeave={() => setIsPaused(false)}
+              className="inline-flex items-center justify-center gap-6 sm:gap-8 select-none"
             >
               {RESULTS_DATA.map((cat, idx) => {
                 const isActive = activeCategoryIndex === idx;
@@ -541,19 +600,13 @@ export function AcademicExcellence() {
                     aria-controls={`panel-${cat.id}`}
                     onClick={() => handleTabChange(idx)}
                     className={cn(
-                      "relative pb-1.5 sm:pb-2 text-[13.5px] sm:text-[15px] md:text-[16px] tracking-wide uppercase transition-colors duration-200 cursor-pointer whitespace-nowrap bg-transparent border-0 shadow-none rounded-none outline-none focus-visible:outline-none",
+                      "pb-1 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-2",
                       isActive
-                        ? "text-[#062B67] dark:text-white font-[680]"
-                        : "text-[#5A6E85] dark:text-slate-400 font-[520] hover:text-[#062B67] dark:hover:text-white"
+                        ? "border-[#246BFF] text-[#246BFF] dark:border-blue-400 dark:text-blue-300"
+                        : "border-transparent text-[#64748B] hover:text-[#0B2E6B] dark:text-slate-400 dark:hover:text-white"
                     )}
                   >
                     <span>{cat.tabLabel}</span>
-                    {isActive && (
-                      <span 
-                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#155EEF] dark:bg-blue-400 rounded-full transition-all duration-200" 
-                        aria-hidden="true"
-                      />
-                    )}
                   </button>
                 );
               })}
@@ -561,19 +614,20 @@ export function AcademicExcellence() {
           </div>
         </div>
 
-        {/* ===================== RESULTS CONTAINER ===================== */}
-        {/* Compact, premium container with delicate borders and soft surfaces */}
+        {/* ===================== MAIN RESULTS CONTAINER ===================== */}
+        {/* Premium rounded container with crisp cool-blue border, top accent, and subtle shadow */}
         <div 
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative rounded-[22px] sm:rounded-[28px] lg:rounded-[32px] bg-[#F8FBFF] dark:bg-slate-900/90 border border-[#DCE7F6] dark:border-slate-800 p-3.5 sm:p-5 lg:p-6 shadow-[0_6px_24px_-6px_rgba(6,43,103,0.04)] dark:shadow-none overflow-hidden"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="relative w-full rounded-[20px] sm:rounded-[24px] bg-white dark:bg-slate-900 border border-[#D0E2FF] border-t-[3px] border-t-[#246BFF] dark:border-slate-800 p-3.5 sm:p-5 lg:p-6 shadow-[0_12px_36px_-8px_rgba(11,46,107,0.06),0_2px_8px_rgba(11,46,107,0.02)] overflow-hidden transition-all duration-300"
         >
-          {/* Background Soft Fluid Organic Waves Matching Reference */}
+          {/* Background Soft Fluid Organic Curves */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-            {/* Top-Right Organic Wave Accent */}
             <svg 
-              className="absolute -top-10 -right-10 w-[380px] sm:w-[500px] lg:w-[620px] h-auto text-[#E2EDFA]/30 dark:text-blue-950/20" 
+              className="absolute -top-12 -right-12 w-[340px] sm:w-[480px] lg:w-[580px] h-auto text-[#EAF3FF]/80 dark:text-blue-950/20" 
               viewBox="0 0 680 440" 
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -588,321 +642,356 @@ export function AcademicExcellence() {
                 opacity="0.4" 
               />
             </svg>
-
-            {/* Bottom-Left Organic Wave Accent */}
-            <svg 
-              className="absolute -bottom-14 -left-14 w-[320px] sm:w-[440px] lg:w-[540px] h-auto text-[#E2EDFA]/25 dark:text-blue-950/15" 
-              viewBox="0 0 620 400" 
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path 
-                d="M0 220C150 160 300 240 480 380H0V220Z" 
-                fill="currentColor" 
-              />
-            </svg>
           </div>
 
-          <div className="relative z-10 flex flex-col lg:flex-row gap-5 sm:gap-5 lg:gap-6 items-stretch">
+          {/* ----------------- TOP SECTION: SUMMARY + 3 STATS ----------------- */}
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5 sm:gap-5 lg:gap-8 pb-2.5 sm:pb-3.5">
             
-            {/* ----------------- LEFT SIDE: SUMMARY CARD (Compact, Strong & Premium) ----------------- */}
-            <div className="w-full lg:w-[35%] xl:w-[34%] shrink-0">
-              <div className="bg-white dark:bg-slate-900 rounded-[18px] sm:rounded-[22px] p-4 sm:p-5 pb-3.5 sm:pb-4 border border-[#DCE7F6] dark:border-slate-800 shadow-[0_4px_16px_rgba(6,43,103,0.05)] sm:shadow-[0_2px_14px_rgba(6,43,103,0.03)] h-full flex flex-col justify-between relative z-10">
+            {/* Left: Heading + Refined Description */}
+            <div className="w-full min-w-0 lg:w-[48%] xl:w-[50%] flex flex-col justify-center">
+              <h3 className="text-[20px] xs:text-[22px] sm:text-[24px] lg:text-[26px] font-[950] tracking-tight flex items-center gap-2 leading-tight text-[#0B2E6B] dark:text-white">
+                <span>
+                  {activeCategory.headlineTitle}
+                </span>
+                <span className="text-[#64748B] font-bold">•</span>
+                <span>
+                  {activeCategory.headlineHighlight}
+                </span>
+              </h3>
+
+              <p className="text-[13px] sm:text-[14px] text-slate-700 dark:text-slate-200 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-xl break-words">
+                {activeCategory.description}
+              </p>
+            </div>
+
+            {/* Right: 3 Typographic Data Displays with Subtle Strategic Color Accents */}
+            <div className="w-full min-w-0 pt-2.5 lg:pt-0 border-t border-[#D0E2FF]/60 lg:border-t-0 lg:border-l lg:border-[#D0E2FF]/60 dark:border-slate-800 lg:pl-5 xl:pl-6">
+              <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 w-full">
                 
-                {/* Title & Description */}
-                <div>
-                  {/* Top orange accent bar - short & premium */}
-                  <div className="w-9 sm:w-10 h-1.5 rounded-full bg-[#FF5500] mb-2 sm:mb-2.5" />
-                  
-                  {/* Category Title e.g. CLASS 12 • 2026 RESULTS */}
-                  <h3 className="text-[19px] xs:text-[20.5px] sm:text-[22px] lg:text-[24px] font-extrabold sm:font-[750] tracking-tight flex items-center gap-1.5 sm:gap-2 leading-none">
-                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750]">
-                      {activeCategory.headlineTitle}
-                    </span>
-                    <span className="text-[#94A3B8] dark:text-slate-600 font-medium px-0.5">•</span>
-                    <span className="text-[#5B78A5] dark:text-blue-400 font-extrabold sm:font-[750]">
-                      {activeCategory.headlineHighlight}
-                    </span>
-                  </h3>
-
-                  <p className="text-[12.5px] sm:text-[13px] lg:text-[13.5px] text-slate-600 dark:text-slate-400 mt-1.5 font-medium leading-[1.4] sm:leading-relaxed">
-                    {activeCategory.description}
-                  </p>
-                </div>
-
-                {/* Divider Line */}
-                <div className="w-full h-px bg-[#DCE7F6]/80 dark:bg-slate-800/80 my-2.5 sm:my-3.5" />
-
-                {/* 3 Key Statistics in 1 Tight Balanced Row with Clean Dividers */}
-                <div className="grid grid-cols-3 divide-x divide-[#DCE7F6]/80 dark:divide-slate-800 py-1 sm:py-0 -mx-1 sm:mx-0">
-                  
-                  {/* Stat 1: Highest Score */}
-                  <div className="flex flex-col items-center text-center px-1.5 sm:px-2">
-                    <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#FFF5EA] dark:bg-amber-950/40 text-[#FF7A00] flex items-center justify-center mb-1.5 sm:mb-1 mx-auto">
-                      <Trophy className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
-                    </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750] text-[21px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-1 sm:mb-0.5">
+                {/* Stat 1: Highest Score (Subtle Achievement Orange Accent) */}
+                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#FFF7ED]/90 via-[#FFF7ED]/40 to-white dark:from-amber-950/20 dark:via-transparent dark:to-transparent border border-[#FF7A00]/25 dark:border-amber-500/25 shadow-[0_2px_10px_rgba(255,122,0,0.05)] overflow-hidden">
+                  {/* Subtle oversized typographic watermark */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-0">
+                    <span className="text-[42px] sm:text-[52px] lg:text-[58px] font-[950] text-[#FF7A00]/[0.08] dark:text-amber-400/[0.08] tracking-tight leading-none select-none">
                       {activeCategory.stats.highestScore.value}
                     </span>
-                    <span className="text-[10.5px] sm:text-[11px] lg:text-[11.5px] font-semibold sm:font-medium text-slate-500 dark:text-slate-400 leading-tight">
-                      {activeCategory.stats.highestScore.label}
-                    </span>
                   </div>
-
-                  {/* Stat 2: Students 90%+ */}
-                  <div className="flex flex-col items-center text-center px-1.5 sm:px-2">
-                    <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#EBF3FE] dark:bg-blue-950/40 text-[#0A5CFF] dark:text-blue-400 flex items-center justify-center mb-1.5 sm:mb-1 mx-auto">
-                      <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
-                    </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750] text-[21px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-1 sm:mb-0.5">
-                      {activeCategory.stats.students90Plus.value}
-                    </span>
-                    <span className="text-[10.5px] sm:text-[11px] lg:text-[11.5px] font-semibold sm:font-medium text-slate-500 dark:text-slate-400 leading-tight">
-                      {activeCategory.stats.students90Plus.label}
-                    </span>
-                  </div>
-
-                  {/* Stat 3: Students 95%+ */}
-                  <div className="flex flex-col items-center text-center px-1.5 sm:px-2">
-                    <div className="w-8 h-8 sm:w-8.5 sm:h-8.5 rounded-full bg-[#E8F8EE] dark:bg-emerald-950/40 text-[#10B981] dark:text-emerald-400 flex items-center justify-center mb-1.5 sm:mb-1 mx-auto">
-                      <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.2]" />
-                    </div>
-                    <span className="text-[#062B67] dark:text-white font-extrabold sm:font-[750] text-[21px] xs:text-[22px] sm:text-[25px] lg:text-[27px] tracking-tight leading-none mb-1 sm:mb-0.5">
-                      {activeCategory.stats.students95Plus.value}
-                    </span>
-                    <span className="text-[10.5px] sm:text-[11px] lg:text-[11.5px] font-semibold sm:font-medium text-slate-500 dark:text-slate-400 leading-tight">
-                      {activeCategory.stats.students95Plus.label}
-                    </span>
-                  </div>
+                  <span className="relative z-10 text-[#0B2E6B] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
+                    {activeCategory.stats.highestScore.value}
+                  </span>
+                  <span className="relative z-10 text-[10.5px] sm:text-[11.5px] font-semibold text-[#64748B] dark:text-slate-300 tracking-wide mt-1 h-[24px] sm:h-[26px] flex items-center justify-center text-center leading-tight">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF7A00] mr-1.5 shrink-0" />
+                    {activeCategory.stats.highestScore.label}
+                  </span>
                 </div>
 
-                {/* Motivational Quote at Bottom - compact & neat */}
-                <div className="mt-2.5 sm:mt-3.5 bg-[#F8FAFD] dark:bg-slate-800/60 rounded-xl sm:rounded-2xl p-2.5 sm:p-2.5 border border-[#DCE7F6] dark:border-slate-800/80 text-[11.5px] sm:text-[12px] text-slate-700 dark:text-slate-300 leading-[1.38] sm:leading-snug flex items-start gap-1.5 sm:gap-2">
-                  <span className="text-[#155EEF] text-base sm:text-lg font-serif font-black leading-none shrink-0 mt-0.5">“</span>
-                  <p className="italic">
-                    {activeCategory.quote.text.trim()}{' '}
-                    <strong className="text-[#155EEF] dark:text-blue-400 not-italic font-bold">
-                      {activeCategory.quote.highlight}
-                    </strong>
-                  </p>
+                {/* Stat 2: Students 90%+ (Subtle Primary Blue Accent) */}
+                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#EAF3FF]/90 via-[#EAF3FF]/40 to-white dark:from-blue-950/20 dark:via-transparent dark:to-transparent border border-[#246BFF]/25 dark:border-blue-500/25 shadow-[0_2px_10px_rgba(36,107,255,0.05)] overflow-hidden">
+                  {/* Subtle oversized typographic watermark */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-0">
+                    <span className="text-[42px] sm:text-[52px] lg:text-[58px] font-[950] text-[#246BFF]/[0.08] dark:text-blue-400/[0.08] tracking-tight leading-none select-none">
+                      {activeCategory.stats.students90Plus.value}
+                    </span>
+                  </div>
+                  <span className="relative z-10 text-[#0B2E6B] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
+                    {activeCategory.stats.students90Plus.value}
+                  </span>
+                  <span className="relative z-10 text-[10.5px] sm:text-[11.5px] font-semibold text-[#64748B] dark:text-slate-300 tracking-wide mt-1 h-[24px] sm:h-[26px] flex items-center justify-center text-center leading-tight">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#246BFF] mr-1.5 shrink-0" />
+                    {activeCategory.stats.students90Plus.label}
+                  </span>
+                </div>
+
+                {/* Stat 3: Students 95%+ (Subtle Achievement Green Accent) */}
+                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#ECFDF5]/90 via-[#ECFDF5]/40 to-white dark:from-emerald-950/20 dark:via-transparent dark:to-transparent border border-[#16A66A]/25 dark:border-emerald-500/25 shadow-[0_2px_10px_rgba(22,166,106,0.05)] overflow-hidden">
+                  {/* Subtle oversized typographic watermark */}
+                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-0">
+                    <span className="text-[42px] sm:text-[52px] lg:text-[58px] font-[950] text-[#16A66A]/[0.08] dark:text-emerald-400/[0.08] tracking-tight leading-none select-none">
+                      {activeCategory.stats.students95Plus.value}
+                    </span>
+                  </div>
+                  <span className="relative z-10 text-[#0B2E6B] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
+                    {activeCategory.stats.students95Plus.value}
+                  </span>
+                  <span className="relative z-10 text-[10.5px] sm:text-[11.5px] font-semibold text-[#64748B] dark:text-slate-300 tracking-wide mt-1 h-[24px] sm:h-[26px] flex items-center justify-center text-center leading-tight">
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#16A66A] mr-1.5 shrink-0" />
+                    {activeCategory.stats.students95Plus.label}
+                  </span>
                 </div>
 
               </div>
             </div>
 
-            {/* ----------------- RIGHT SIDE: TOP PERFORMERS CAROUSEL ----------------- */}
-            <div className="w-full lg:w-[65%] xl:w-[66%] flex flex-col justify-between mt-0.5 sm:mt-0">
-              
-              {/* Top Performers Header + Navigation Arrows */}
-              <div className="flex items-center justify-between mb-2 sm:mb-2.5 px-0.5">
-                <h4 className="text-[#062B67] dark:text-white font-extrabold sm:font-bold text-[16px] sm:text-[17px] tracking-tight">
-                  Top Performers
-                </h4>
+          </div>
 
-                {/* Small, subtle circular arrows beside heading */}
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                  <button
-                    onClick={scrollPrev}
-                    aria-label="Previous performer"
-                    className="w-7.5 h-7.5 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE7F6] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
-                  >
-                    <ChevronLeft className="w-3.5 h-3.5" />
-                  </button>
-                  <button
-                    onClick={scrollNext}
-                    aria-label="Next performer"
-                    className="w-7.5 h-7.5 sm:w-7.5 sm:h-7.5 rounded-full border border-[#DCE7F6] dark:border-slate-800 bg-white dark:bg-slate-900 text-[#062B67] dark:text-white flex items-center justify-center hover:bg-[#F0F5FF] dark:hover:bg-slate-800 hover:border-[#155EEF]/40 active:scale-95 transition-all shadow-2xs cursor-pointer"
-                  >
-                    <ChevronRight className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </div>
+          {/* ----------------- MIDDLE ROW: TOP PERFORMERS HEADER ----------------- */}
+          <div className="relative z-10 flex items-center justify-between mt-2.5 sm:mt-3 mb-2 sm:mb-2.5 px-0.5 w-full">
+            {/* Left: Bar Chart Icon + Title */}
+            <div className="flex items-center gap-2 shrink-0">
+              <BarChartIcon className="w-[18px] h-[18px] text-[#246BFF] shrink-0" />
+              <h4 className="text-[#0B2E6B] dark:text-white font-[950] text-[16px] sm:text-[17.5px] tracking-tight">
+                Top Performers
+              </h4>
+            </div>
+          </div>
 
-              {/* Carousel Container */}
-              {/* Desktop: 4 cards visible at once. Mobile: Horizontal swipe carousel with partial neighboring cards (peek effect) */}
-              <div className="relative w-full overflow-hidden">
-                <Carousel
-                  setApi={setCarouselApi}
-                  opts={{
-                    align: 'start',
-                    loop: false,
-                    dragFree: false,
-                    containScroll: 'trimSnaps'
-                  }}
-                  className="w-full"
-                >
-                  <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3">
-                    {activeCategory.topPerformers.map((student) => (
-                      <CarouselItem 
-                        key={student.id} 
-                        className="pl-2 sm:pl-3 lg:pl-3 basis-[72%] xs:basis-[68%] sm:basis-[45%] md:basis-[33%] lg:basis-1/4"
+          {/* ----------------- CAROUSEL OF STUDENT CARDS ----------------- */}
+          <div className="relative z-10 w-full overflow-hidden">
+            <Carousel
+              setApi={setCarouselApi}
+              opts={{
+                align: 'start',
+                loop: false,
+                dragFree: false,
+                containScroll: 'trimSnaps'
+              }}
+              className="w-full"
+            >
+              <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3">
+                {activeCategory.topPerformers.map((student, studentIndex) => {
+                  const isSelected = selectedCardId === student.id;
+                  const isPercentile = student.score.includes('%ile');
+                  const scoreValue = isPercentile ? student.score.replace('%ile', '') : student.score.replace('%', '');
+
+                  return (
+                    <CarouselItem 
+                      key={student.id} 
+                      className="pl-2 sm:pl-2.5 lg:pl-3 basis-[47%] xs:basis-[44%] sm:basis-[32%] md:basis-[24%] lg:basis-1/5"
+                    >
+                      {/* Student Card */}
+                      <div 
+                        onClick={() => setSelectedCardId(student.id)}
+                        className={cn(
+                          "bg-white dark:bg-slate-900 rounded-[16px] border-[1.5px] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer",
+                          isSelected
+                            ? "border-[#D0E2FF] border-t-2 border-t-[#FF7A00] dark:border-slate-700/80 dark:border-t-[#FF7A00] shadow-[0_2px_10px_rgba(11,46,107,0.06)]"
+                            : "border-[#D0E2FF] dark:border-slate-700/80 shadow-[0_2px_8px_rgba(11,46,107,0.03)] hover:border-[#246BFF]/50"
+                        )}
                       >
-                        {/* Student Card - Match Reference Screenshot */}
-                        <div className="bg-white dark:bg-slate-900 rounded-[16px] sm:rounded-[18px] border border-[#DCE7F6] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.03)] hover:shadow-[0_6px_18px_rgba(6,43,103,0.07)] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden">
+                        
+                        {/* Full Uncropped Photo (1:1 Aspect Ratio matching source image) */}
+                        <div className="relative w-full aspect-square bg-[#EAF3FF] dark:bg-slate-800 overflow-hidden">
+                          <Image
+                            src={student.image}
+                            alt={student.name}
+                            fill
+                            unoptimized
+                            sizes="(max-width: 640px) 48vw, (max-width: 1024px) 25vw, 20vw"
+                            className="object-cover object-top group-hover:scale-103 transition-transform duration-500"
+                            priority={false}
+                          />
+                        </div>
+
+                        {/* Lower Information Area: Two-Column Composition + Clean Bottom Action Area */}
+                        <div className="relative pt-2 sm:pt-2.5 pb-2 sm:pb-2.5 px-2 xs:px-2.5 sm:px-3 lg:px-3.5 flex flex-col flex-1 justify-between overflow-hidden">
                           
-                          {/* Student Portrait Image: Flush with top & sides */}
-                          <div className="relative w-full aspect-[4/3.85] sm:aspect-[4/4.3] bg-[#E9F0FA] dark:bg-slate-800 overflow-hidden">
-                            <Image
-                              src={student.image}
-                              alt={student.name}
-                              fill
-                              unoptimized
-                              sizes="(max-width: 640px) 65vw, (max-width: 1024px) 30vw, 22vw"
-                              className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
-                              priority={false}
-                            />
-                          </div>
-
-                          {/* Overlapping Orange Score Badge */}
-                          <div className="relative -mt-2.5 sm:-mt-3.5 z-20 flex justify-center">
-                            <div className="bg-[#FF6B21] text-white text-[11px] sm:text-[11.5px] font-bold px-3 py-0.5 rounded-full shadow-[0_2px_6px_rgba(255,107,33,0.3)] whitespace-nowrap tracking-tight">
-                              {student.score}
-                            </div>
-                          </div>
-
-                          {/* Student Info Body */}
-                          <div className="pt-1.5 sm:pt-2 pb-2 sm:pb-3 px-1.5 text-center flex flex-col items-center flex-1 justify-between">
-                            <div className="w-full">
-                              <h5 className="font-bold text-[13px] sm:text-[14px] text-[#062B67] dark:text-white group-hover:text-[#155EEF] dark:group-hover:text-blue-400 transition-colors truncate">
+                          {/* Two-Column Composition: Left = Student Identity, Right = Large Standalone Navy Percentage */}
+                          <div className="relative z-10 flex items-center justify-between gap-1 sm:gap-2 min-h-[48px] sm:min-h-[54px]">
+                            
+                            {/* Left Column: Student Name + Class/Stream/College (Never clipped on mobile, complete visibility on one line) */}
+                            <div className="min-w-0 flex-1 text-left flex flex-col justify-center pr-1 sm:pr-1.5">
+                              <h5 
+                                className={cn(
+                                  "font-[900] text-[12px] xs:text-[13px] sm:text-[14px] lg:text-[15px] tracking-tight leading-[1.2] transition-colors break-words",
+                                  isSelected
+                                    ? "text-[#246BFF] dark:text-blue-400"
+                                    : "text-[#0B2E6B] dark:text-white group-hover:text-[#246BFF]"
+                                )}
+                              >
                                 {student.name}
                               </h5>
-                              <p className="text-[11px] sm:text-[11.5px] text-slate-500 dark:text-slate-400 mt-0.5" title={student.grade}>
+                              <p className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-[#64748B] dark:text-slate-400 mt-0.5 leading-[1.2] break-words" title={student.grade}>
                                 {student.grade}
                               </p>
                             </div>
 
-                            {/* View Profile Action - Subtle text link matching reference */}
+                            {/* Right Column: Large Standalone Deep Navy-Blue Percentage with Contained Subtle Watermark */}
+                            <div className="relative shrink-0 text-right flex flex-col items-end justify-center min-w-[38px] sm:min-w-[46px]">
+                              {/* Subtle Understated Academic Watermark (reduced to 40-50% strength) */}
+                              <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none -z-0">
+                                <span className={cn(
+                                  "text-[28px] sm:text-[36px] lg:text-[42px] font-[950] leading-none",
+                                  isPercentile
+                                    ? "text-[#16A66A]/[0.04] dark:text-emerald-400/[0.04]"
+                                    : "text-[#246BFF]/[0.04] dark:text-blue-400/[0.04]"
+                                )}>
+                                  %
+                                </span>
+                              </div>
+
+                              {isPercentile ? (
+                                <div className="relative z-10 flex flex-col items-end">
+                                  <span className="text-[18px] sm:text-[21px] lg:text-[24px] font-[950] text-[#F26500] dark:text-orange-400 tracking-tight leading-none">
+                                    {scoreValue}
+                                  </span>
+                                  <span className="text-[8.5px] sm:text-[9.5px] lg:text-[10px] font-[800] text-[#16A66A] dark:text-emerald-400 tracking-wider uppercase mt-0.5 leading-none">
+                                    %ile
+                                  </span>
+                                </div>
+                              ) : (
+                                <div className="relative z-10 flex items-baseline">
+                                  <span className="text-[18px] sm:text-[21px] lg:text-[24px] font-[950] text-[#F26500] dark:text-orange-400 tracking-tight leading-none">
+                                    {scoreValue}
+                                  </span>
+                                  <span className="text-[10.5px] sm:text-[12px] lg:text-[13px] font-[950] text-[#F26500] dark:text-orange-400 ml-0.5 leading-none">
+                                    %
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+
+                          </div>
+
+                          {/* Bottom Action Area: Clean View Profile with Subtle Top Divider */}
+                          <div className="relative z-10 w-full pt-1.5 sm:pt-2 mt-auto border-t border-[#EAF3FF] dark:border-slate-800/80 flex items-center">
                             <button
                               type="button"
-                              onClick={() => setSelectedStudent(student)}
-                              className="text-[11px] sm:text-[11.5px] font-semibold text-[#155EEF] dark:text-blue-400 hover:text-[#062B67] dark:hover:text-white inline-flex items-center gap-1 mt-1 sm:mt-2 group/btn transition-colors cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCardId(student.id);
+                                setSelectedStudent(student);
+                              }}
+                              className={cn(
+                                "text-[11px] sm:text-[12px] lg:text-[12.5px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-semibold",
+                                isSelected
+                                  ? "text-[#246BFF] dark:text-blue-400"
+                                  : "text-[#246BFF] hover:text-[#0B2E6B] dark:text-blue-400 dark:hover:text-white"
+                              )}
                             >
                               <span>View Profile</span>
-                              <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-0.5 transition-transform" />
+                              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                             </button>
                           </div>
 
                         </div>
-                      </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                </Carousel>
-              </div>
 
-              {/* Small Carousel Dots */}
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2.5">
-                {activeCategory.topPerformers.map((_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => carouselApi?.scrollTo(i)}
-                    aria-label={`Jump to performer ${i + 1}`}
-                    className="p-2 cursor-pointer group flex items-center justify-center min-w-[32px] min-h-[32px]"
-                  >
-                    <span
-                      className={cn(
-                        "rounded-full transition-all duration-300",
-                        currentSlideIndex === i 
-                          ? "w-7 sm:w-8 h-2 bg-[#062B67] dark:bg-blue-400" 
-                          : "w-2 h-2 bg-slate-300 dark:bg-slate-700 group-hover:bg-slate-400"
-                      )}
-                    />
-                  </button>
-                ))}
-              </div>
-
-            </div>
+                      </div>
+                    </CarouselItem>
+                  );
+                })}
+              </CarouselContent>
+            </Carousel>
           </div>
 
-          {/* ===================== VIEW ALL RESULTS CTA (TEXT ONLY) ===================== */}
-          <div className="mt-2 sm:mt-3.5 pt-0.5 flex justify-center">
-            <button
-              type="button"
-              onClick={() => setShowAllResultsModal(true)}
-              className="inline-flex items-center justify-center gap-1.5 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[12.5px] sm:text-[13px] font-bold py-1 px-3 transition-colors cursor-pointer group bg-transparent border-0 shadow-none"
-            >
-              <span>View All Results</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </button>
+          {/* ----------------- PAGINATION INDICATORS ----------------- */}
+          <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-1.5 sm:mt-2.5">
+            {activeCategory.topPerformers.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => carouselApi?.scrollTo(i)}
+                aria-label={`Jump to slide ${i + 1}`}
+                className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
+              >
+                <span
+                  className={cn(
+                    "rounded-full transition-all duration-300",
+                    currentSlideIndex === i 
+                      ? "w-5 sm:w-6 h-1.5 bg-[#246BFF] dark:bg-blue-400" 
+                      : "w-1.5 h-1.5 bg-[#D0E2FF] dark:bg-slate-700 hover:bg-[#246BFF]/50"
+                  )}
+                />
+              </button>
+            ))}
           </div>
 
         </div>
 
       </div>
 
-      {/* ===================== STUDENT PROFILE FLOATING POPUP (CBSE POPUP DESIGN SYSTEM) ===================== */}
+      {/* ===================== STUDENT PROFILE FLOATING POPUP (PREMIUM IDL DESIGN) ===================== */}
       {selectedStudent && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-3.5 sm:p-5 md:p-6" 
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-5 md:p-6" 
           role="dialog" 
           aria-modal="true"
           aria-labelledby="student-profile-title"
         >
-          {/* Dimmed & Blurred Backdrop with comfortable margins on all 4 sides */}
+          {/* Dimmed & Blurred Backdrop */}
           <div 
-            className="absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] transition-opacity" 
+            className="absolute inset-0 bg-slate-950/45 backdrop-blur-[3px] transition-opacity" 
             onClick={() => setSelectedStudent(null)} 
           />
           
           {/* Centered Floating Modal Card */}
           <div
-            className="relative w-[92vw] max-w-[460px] sm:max-w-[480px] bg-white dark:bg-slate-950 rounded-[22px] sm:rounded-[24px] shadow-[0_20px_60px_-15px_rgba(11,31,75,0.15)] border border-[#DCE7F6] dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col pointer-events-auto my-auto"
-            style={{ animation: 'studentModalIn 0.2s ease-out forwards' }}
+            className="relative w-[92vw] max-w-[460px] sm:max-w-[480px] bg-white dark:bg-slate-950 rounded-[24px] sm:rounded-[26px] shadow-[0_8px_24px_-6px_rgba(11,46,107,0.08),0_20px_56px_-12px_rgba(11,46,107,0.13)] border border-[#D7E4F5] dark:border-slate-800 overflow-hidden max-h-[calc(100dvh-2.5rem)] sm:max-h-[calc(100dvh-4rem)] flex flex-col pointer-events-auto my-auto"
+            style={{ animation: 'studentModalIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
           >
             <style dangerouslySetInnerHTML={{ __html: `
               @keyframes studentModalIn {
-                from { opacity: 0; transform: scale(0.97) translateY(4px); }
+                from { opacity: 0; transform: scale(0.96) translateY(6px); }
                 to   { opacity: 1; transform: scale(1) translateY(0); }
               }
             ` }} />
 
+            {/* Close button */}
+            <button
+              type="button"
+              onClick={() => setSelectedStudent(null)}
+              className="absolute top-3 right-3.5 sm:top-4 sm:right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:text-[#0B2E6B] hover:bg-[#F5F8FD] dark:text-slate-500 dark:hover:text-white dark:hover:bg-slate-800 transition-all duration-200 cursor-pointer"
+              aria-label="Close"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+
             {/* Header: Student Identity */}
-            <div className="flex items-center px-5 sm:px-6 py-4 sm:py-4.5 bg-white dark:bg-slate-950 border-b border-[#DCE7F6] dark:border-slate-800 shrink-0">
-              <div className="flex items-center gap-3.5 sm:gap-4 min-w-0">
-                {/* Circular Profile Photo with subtle border */}
-                <div className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-[#DCE7F6] dark:border-slate-700 overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 shadow-xs">
-                  <Image
-                    src={selectedStudent.image}
-                    alt={selectedStudent.name}
-                    fill
-                    unoptimized
-                    sizes="64px"
-                    className="object-cover object-top"
-                  />
+            <div className="flex items-center justify-between px-5 sm:px-6 pt-5 sm:pt-6 pb-4 sm:pb-5 bg-white dark:bg-slate-950 border-b border-[#E8EFF8] dark:border-slate-800/80 shrink-0 pr-12 sm:pr-14">
+              <div className="flex items-center gap-3.5 sm:gap-4 min-w-0 flex-1">
+                {/* Circular Profile Photo with brand accent ring */}
+                <div className="relative w-[60px] h-[60px] sm:w-[68px] sm:h-[68px] rounded-full shrink-0">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#246BFF]/20 to-[#246BFF]/5 dark:from-blue-500/20 dark:to-blue-500/5 p-[2.5px]">
+                    <div className="w-full h-full rounded-full overflow-hidden bg-[#F5F8FD] dark:bg-slate-800">
+                      <Image
+                        src={selectedStudent.image}
+                        alt={selectedStudent.name}
+                        fill
+                        unoptimized
+                        sizes="68px"
+                        className="object-cover object-top"
+                      />
+                    </div>
+                  </div>
                 </div>
                 
-                {/* Info */}
+                {/* Name & Class */}
                 <div className="min-w-0 text-left">
-                  <span className="inline-flex items-center text-[11px] sm:text-[11.5px] font-extrabold px-2.5 py-0.5 rounded-full bg-[#FFF6ED] dark:bg-orange-950/30 text-[#FF6B21] border border-[#FFD8B2]/80 dark:border-orange-900/40 tracking-wide leading-none mb-1">
-                    {selectedStudent.score}
-                  </span>
-                  <h4 id="student-profile-title" className="text-[17px] sm:text-[18.5px] font-bold text-[#0B1F4B] dark:text-white leading-tight truncate">
+                  <h4 id="student-profile-title" className="text-[18px] sm:text-[19px] font-[800] text-[#0B2E6B] dark:text-white leading-tight tracking-[-0.01em]" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                     {selectedStudent.name}
                   </h4>
-                  <p className="text-slate-500 dark:text-slate-400 text-[11.5px] sm:text-[12px] font-medium leading-normal truncate mt-0.5">
+                  <p className="text-[#64748B] dark:text-slate-400 text-[11.5px] sm:text-[12px] font-medium leading-normal mt-0.5 tracking-[0.01em]">
                     {selectedStudent.grade}
                   </p>
                 </div>
               </div>
+
+              {/* Percentage on the right */}
+              <div className="shrink-0 ml-3 text-right">
+                <span className="text-[22px] sm:text-[24px] font-[900] text-[#F26500] leading-none tracking-tight">
+                  {selectedStudent.score}
+                </span>
+              </div>
             </div>
 
             {/* Modal Body */}
-            <div className="p-3.5 sm:p-5 space-y-3.5 sm:space-y-4 overflow-y-auto overscroll-contain text-left">
+            <div className="px-5 sm:px-6 py-4 sm:py-5 space-y-3.5 sm:space-y-4 overflow-y-auto overscroll-contain text-left">
               {/* Subject Scores / Breakdown */}
               {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
                 <div>
-                  <h6 className="text-[10.5px] sm:text-[11px] font-bold text-[#0B1F4B]/80 dark:text-slate-300 uppercase tracking-wider mb-2">
-                    SUBJECT PERFORMANCE
+                  <h6 className="text-[10px] sm:text-[10.5px] font-bold text-[#0B2E6B]/70 dark:text-slate-400 uppercase tracking-[0.08em] mb-2 sm:mb-2.5">
+                    Subject Performance
                   </h6>
-                  <div className="grid grid-cols-2 gap-1.5 sm:gap-2.5">
+                  <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                     {selectedStudent.subjects.map((sub, i) => (
                       <div 
                         key={i} 
-                        className="bg-[#F8FAFD] dark:bg-slate-900/60 px-2.5 sm:px-3.5 py-2 sm:py-2.5 rounded-xl border border-[#DCE7F6] dark:border-slate-800 flex items-center justify-between gap-1 sm:gap-1.5 shadow-[0_1px_2px_rgba(0,0,0,0.02)] min-h-[40px] sm:min-h-[42px] transition-all hover:border-[#B9D0ED] dark:hover:border-slate-700"
+                        className="bg-[#F5F8FD] dark:bg-slate-900/60 px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-[14px] sm:rounded-[15px] border border-[#D7E4F5] dark:border-slate-800 flex items-center justify-between gap-1.5 sm:gap-2 min-h-[44px] sm:min-h-[46px] transition-colors duration-200 hover:border-[#B4CCE8] dark:hover:border-slate-700"
                       >
-                        <span className="text-[11px] min-[380px]:text-[11.5px] sm:text-[12.5px] text-[#0B1F4B] dark:text-slate-200 font-semibold leading-[1.2] tracking-tight">
+                        <span className="text-[11px] min-[380px]:text-[11.5px] sm:text-[12.5px] text-[#0B2E6B] dark:text-slate-200 font-semibold leading-[1.2] tracking-tight">
                           {sub.name}
                         </span>
-                        <span className="text-[11.5px] sm:text-[13px] font-extrabold text-[#155EEF] dark:text-blue-400 shrink-0 text-right ml-0.5 sm:ml-1">
+                        <span className="text-[12px] sm:text-[13.5px] font-extrabold text-[#246BFF] dark:text-blue-400 shrink-0 text-right tabular-nums tracking-tight">
                           {sub.marks}
                         </span>
                       </div>
@@ -913,11 +1002,11 @@ export function AcademicExcellence() {
 
               {/* Target / Accomplishment */}
               {selectedStudent.dreamCollege && (
-                <div className="bg-[#FFFBF6] dark:bg-amber-950/20 px-4 py-3 rounded-xl border border-[#FDEBD2] dark:border-amber-900/40 text-left">
-                  <div className="text-[10px] sm:text-[10.5px] font-bold text-amber-800 dark:text-amber-400 uppercase tracking-wider leading-none mb-1">
+                <div className="bg-[#FFFAF3] dark:bg-amber-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#FBE5C8] dark:border-amber-900/40 text-left">
+                  <div className="text-[9.5px] sm:text-[10px] font-bold text-[#C26500] dark:text-amber-400 uppercase tracking-[0.1em] leading-none mb-1.5">
                     Target / Accomplishment
                   </div>
-                  <div className="text-[13px] sm:text-[14px] text-[#0B1F4B] dark:text-slate-100 font-bold leading-snug truncate">
+                  <div className="text-[13.5px] sm:text-[14.5px] text-[#0B2E6B] dark:text-slate-100 font-bold leading-snug" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                     {selectedStudent.dreamCollege}
                   </div>
                 </div>
@@ -925,13 +1014,19 @@ export function AcademicExcellence() {
 
               {/* Student Experience */}
               {selectedStudent.testimonial && (
-                <div className="bg-[#F8FAFD] dark:bg-blue-950/20 px-4 py-3 rounded-xl border border-[#DCE7F6] dark:border-blue-900/40 text-left">
-                  <div className="text-[10px] sm:text-[10.5px] font-bold text-[#155EEF] dark:text-blue-400 uppercase tracking-wider leading-none mb-1.5">
-                    Student Experience
+                <div className="relative bg-[#F5F8FD] dark:bg-blue-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#D7E4F5] dark:border-blue-900/40 text-left overflow-hidden">
+                  {/* Oversized quotation watermark */}
+                  <div className="absolute top-1 right-2 text-[52px] sm:text-[60px] leading-none font-serif text-[#0B2E6B]/[0.04] dark:text-white/[0.04] select-none pointer-events-none" aria-hidden="true">
+                    &ldquo;
                   </div>
-                  <p className="text-[12px] sm:text-[12.5px] text-slate-700 dark:text-slate-300 leading-relaxed italic font-normal">
-                    “{selectedStudent.testimonial}”
-                  </p>
+                  <div className="relative z-[1]">
+                    <div className="text-[9.5px] sm:text-[10px] font-bold text-[#246BFF] dark:text-blue-400 uppercase tracking-[0.1em] leading-none mb-2">
+                      Student Experience
+                    </div>
+                    <p className="text-[12px] sm:text-[13px] text-slate-600 dark:text-slate-300 leading-[1.65] italic font-normal">
+                      &ldquo;{selectedStudent.testimonial}&rdquo;
+                    </p>
+                  </div>
                 </div>
               )}
             </div>

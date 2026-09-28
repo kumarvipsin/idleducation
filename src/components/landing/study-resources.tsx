@@ -58,11 +58,19 @@ export function StudyResources() {
             HEADER: "Study Resources"
             ══════════════════════════════════════════════════ */}
         <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-7 md:mb-8">
-          <h2 className="text-[24px] sm:text-[30px] md:text-[38px] font-[720] tracking-[-0.02em] text-[#062B67] dark:text-white leading-[1.15] whitespace-nowrap">
-            Study{' '}
-            <span className="text-[#155EEF] dark:text-blue-400">
-              Resources
+          {/* Eyebrow — bullet point */}
+          <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5">
+            <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+            <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
+              <span className="text-[#062B67] dark:text-blue-200">Study </span>
+              <span className="text-[#155EEF] dark:text-blue-400">Resources</span>
             </span>
+          </div>
+
+          {/* Description heading */}
+          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] tracking-[-0.02em] leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+            <span className="text-[#062B67] dark:text-white">Everything You Need.{' '}</span>
+            <span className="text-[#155EEF] dark:text-blue-400">All in One Place.</span>
           </h2>
         </div>
 

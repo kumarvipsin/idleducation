@@ -134,20 +134,20 @@ export function EducatorsCarousel({
       </Carousel>
 
       {/* Pagination dots */}
-      <div className="flex justify-center items-center gap-2 mt-3 sm:mt-4">
+      <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
         {Array.from({ length: count }).map((_, i) => (
           <button
             key={i}
             onClick={() => scrollTo(i)}
             aria-label={`Go to educator slide ${i + 1}`}
-            className="p-3 flex items-center justify-center min-w-[44px] min-h-[44px] cursor-pointer group"
+            className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
           >
             <span
               className={cn(
                 "rounded-full transition-all duration-300",
                 current === i
-                  ? "w-8 sm:w-10 h-2.5 bg-[#062B67]"
-                  : "w-2.5 h-2.5 bg-slate-300/70 group-hover:bg-slate-400"
+                  ? "w-5 sm:w-6 h-1.5 bg-[#246BFF]"
+                  : "w-1.5 h-1.5 bg-[#D0E2FF] hover:bg-[#246BFF]/50"
               )}
             />
           </button>

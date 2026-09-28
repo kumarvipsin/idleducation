@@ -38,6 +38,8 @@ export default async function Home() {
       {/* 4. Expert Teachers Carousel */}
       <ExpertTeachersSection teachers={expertTeachers} />
 
+
+
       {/* 5. Why Choose IDL Education */}
       <ScholarshipSection />
 
