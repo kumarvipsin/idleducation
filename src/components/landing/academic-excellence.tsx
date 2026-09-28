@@ -468,7 +468,6 @@ export function AcademicExcellence() {
   const [canScrollNext, setCanScrollNext] = useState(true);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState<number[]>([]);
-  const [isPaused, setIsPaused] = useState(false);
 
   const activeCategory = useMemo(() => {
     return RESULTS_DATA[activeCategoryIndex] || RESULTS_DATA[0];
@@ -502,15 +501,6 @@ export function AcademicExcellence() {
   useEffect(() => {
     setSelectedCardId(null);
   }, [activeCategoryIndex]);
-
-  // Auto-switch tabs periodically (Class 10 -> Class 12 -> CUET (UG) -> repeat)
-  useEffect(() => {
-    if (isPaused) return;
-    const timer = setInterval(() => {
-      setActiveCategoryIndex((prev) => (prev + 1) % RESULTS_DATA.length);
-    }, 2500);
-    return () => clearInterval(timer);
-  }, [isPaused]);
 
   // Reset carousel snap without elastic bounce whenever active category changes
   useEffect(() => {
@@ -585,8 +575,6 @@ export function AcademicExcellence() {
             <div 
               role="tablist" 
               aria-label="Result Categories"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={() => setIsPaused(false)}
               className="inline-flex items-center justify-center gap-6 sm:gap-8 select-none"
             >
               {RESULTS_DATA.map((cat, idx) => {
@@ -602,8 +590,8 @@ export function AcademicExcellence() {
                     className={cn(
                       "pb-1 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-2",
                       isActive
-                        ? "border-[#246BFF] text-[#246BFF] dark:border-blue-400 dark:text-blue-300"
-                        : "border-transparent text-[#64748B] hover:text-[#0B2E6B] dark:text-slate-400 dark:hover:text-white"
+                        ? "border-[#155EEF] text-[#155EEF] dark:border-blue-400 dark:text-blue-300"
+                        : "border-transparent text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white"
                     )}
                   >
                     <span>{cat.tabLabel}</span>
@@ -615,19 +603,17 @@ export function AcademicExcellence() {
         </div>
 
         {/* ===================== MAIN RESULTS CONTAINER ===================== */}
-        {/* Premium rounded container with crisp cool-blue border, top accent, and subtle shadow */}
+        {/* Premium rounded container with subtle border and refined shadow */}
         <div 
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          className="relative w-full rounded-[20px] sm:rounded-[24px] bg-white dark:bg-slate-900 border border-[#D0E2FF] border-t-[3px] border-t-[#246BFF] dark:border-slate-800 p-3.5 sm:p-5 lg:p-6 shadow-[0_12px_36px_-8px_rgba(11,46,107,0.06),0_2px_8px_rgba(11,46,107,0.02)] overflow-hidden transition-all duration-300"
+          className="relative w-full rounded-[20px] sm:rounded-[24px] bg-white dark:bg-slate-900 border border-slate-200 border-t-2 sm:border-t-[3px] border-t-[#FF6B21] dark:border-slate-800 dark:border-t-[#FF6B21] p-3.5 sm:p-5 lg:p-6 shadow-[0_4px_24px_-4px_rgba(6,43,103,0.06),0_2px_6px_rgba(6,43,103,0.02)] overflow-hidden transition-all duration-300"
         >
-          {/* Background Soft Fluid Organic Curves */}
+          {/* Background Soft Fluid Organic Curves — neutral subtle tint */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden select-none">
             <svg 
-              className="absolute -top-12 -right-12 w-[340px] sm:w-[480px] lg:w-[580px] h-auto text-[#EAF3FF]/80 dark:text-blue-950/20" 
+              className="absolute -top-12 -right-12 w-[340px] sm:w-[480px] lg:w-[580px] h-auto text-slate-100/60 dark:text-slate-900/15" 
               viewBox="0 0 680 440" 
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -639,7 +625,7 @@ export function AcademicExcellence() {
               <path 
                 d="M260 0C400 140 520 90 680 270V0H260Z" 
                 fill="currentColor" 
-                opacity="0.4" 
+                opacity="0.3" 
               />
             </svg>
           </div>
@@ -649,72 +635,57 @@ export function AcademicExcellence() {
             
             {/* Left: Heading + Refined Description */}
             <div className="w-full min-w-0 lg:w-[48%] xl:w-[50%] flex flex-col justify-center">
-              <h3 className="text-[20px] xs:text-[22px] sm:text-[24px] lg:text-[26px] font-[950] tracking-tight flex items-center gap-2 leading-tight text-[#0B2E6B] dark:text-white">
+              <h3 className="text-[20px] xs:text-[22px] sm:text-[24px] lg:text-[26px] font-[950] tracking-tight flex items-center gap-2 leading-tight text-[#062B67] dark:text-white">
                 <span>
                   {activeCategory.headlineTitle}
                 </span>
-                <span className="text-[#64748B] font-bold">•</span>
+                <span className="text-slate-400 font-bold">•</span>
                 <span>
                   {activeCategory.headlineHighlight}
                 </span>
               </h3>
 
-              <p className="text-[13px] sm:text-[14px] text-slate-700 dark:text-slate-200 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-xl break-words">
+              <p className="text-[13px] sm:text-[14px] text-slate-600 dark:text-slate-300 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-xl break-words">
                 {activeCategory.description}
               </p>
             </div>
 
-            {/* Right: 3 Typographic Data Displays with Subtle Strategic Color Accents */}
-            <div className="w-full min-w-0 pt-2.5 lg:pt-0 border-t border-[#D0E2FF]/60 lg:border-t-0 lg:border-l lg:border-[#D0E2FF]/60 dark:border-slate-800 lg:pl-5 xl:pl-6">
+            {/* Right: 3 Typographic Data Displays with Purposeful Semantic Color Hierarchy */}
+            <div className="w-full min-w-0 pt-2.5 lg:pt-0 border-t border-slate-200/80 lg:border-t-0 lg:border-l lg:border-slate-200/80 dark:border-slate-800 lg:pl-5 xl:pl-6">
               <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 w-full">
                 
-                {/* Stat 1: Highest Score (Subtle Achievement Orange Accent) */}
-                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#FFF7ED]/90 via-[#FFF7ED]/40 to-white dark:from-amber-950/20 dark:via-transparent dark:to-transparent border border-[#FF7A00]/25 dark:border-amber-500/25 shadow-[0_2px_10px_rgba(255,122,0,0.05)] overflow-hidden">
-                  {/* Subtle oversized typographic watermark */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-0">
-                    <span className="text-[42px] sm:text-[52px] lg:text-[58px] font-[950] text-[#FF7A00]/[0.08] dark:text-amber-400/[0.08] tracking-tight leading-none select-none">
-                      {activeCategory.stats.highestScore.value}
-                    </span>
-                  </div>
-                  <span className="relative z-10 text-[#0B2E6B] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
+                {/* Stat 1: Highest Score (Subtle Warm Peach/Cream + Orange Accent) */}
+                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#FFF8F3] via-[#FFFBF8] to-white dark:from-orange-950/15 dark:via-transparent dark:to-transparent border border-[#FCE6D6] dark:border-orange-900/30 shadow-[0_2px_10px_rgba(234,88,12,0.04)] overflow-hidden">
+                  {/* Strong Navy Number */}
+                  <span className="relative z-10 text-[#062B67] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
                     {activeCategory.stats.highestScore.value}
                   </span>
                   <span className="relative z-10 text-[10.5px] sm:text-[11.5px] font-semibold text-[#64748B] dark:text-slate-300 tracking-wide mt-1 h-[24px] sm:h-[26px] flex items-center justify-center text-center leading-tight">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FF7A00] mr-1.5 shrink-0" />
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#EA580C] mr-1.5 shrink-0" />
                     {activeCategory.stats.highestScore.label}
                   </span>
                 </div>
 
-                {/* Stat 2: Students 90%+ (Subtle Primary Blue Accent) */}
-                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#EAF3FF]/90 via-[#EAF3FF]/40 to-white dark:from-blue-950/20 dark:via-transparent dark:to-transparent border border-[#246BFF]/25 dark:border-blue-500/25 shadow-[0_2px_10px_rgba(36,107,255,0.05)] overflow-hidden">
-                  {/* Subtle oversized typographic watermark */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-0">
-                    <span className="text-[42px] sm:text-[52px] lg:text-[58px] font-[950] text-[#246BFF]/[0.08] dark:text-blue-400/[0.08] tracking-tight leading-none select-none">
-                      {activeCategory.stats.students90Plus.value}
-                    </span>
-                  </div>
-                  <span className="relative z-10 text-[#0B2E6B] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
+                {/* Stat 2: Students 90%+ (Subtle Light Blue + Blue Accent) */}
+                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#F2F7FD] via-[#F8FAFE] to-white dark:from-blue-950/20 dark:via-transparent dark:to-transparent border border-[#D7E6FA] dark:border-blue-900/30 shadow-[0_2px_10px_rgba(21,94,239,0.04)] overflow-hidden">
+                  {/* Strong Navy Number */}
+                  <span className="relative z-10 text-[#062B67] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
                     {activeCategory.stats.students90Plus.value}
                   </span>
                   <span className="relative z-10 text-[10.5px] sm:text-[11.5px] font-semibold text-[#64748B] dark:text-slate-300 tracking-wide mt-1 h-[24px] sm:h-[26px] flex items-center justify-center text-center leading-tight">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#246BFF] mr-1.5 shrink-0" />
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#155EEF] mr-1.5 shrink-0" />
                     {activeCategory.stats.students90Plus.label}
                   </span>
                 </div>
 
-                {/* Stat 3: Students 95%+ (Subtle Achievement Green Accent) */}
-                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#ECFDF5]/90 via-[#ECFDF5]/40 to-white dark:from-emerald-950/20 dark:via-transparent dark:to-transparent border border-[#16A66A]/25 dark:border-emerald-500/25 shadow-[0_2px_10px_rgba(22,166,106,0.05)] overflow-hidden">
-                  {/* Subtle oversized typographic watermark */}
-                  <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none -z-0">
-                    <span className="text-[42px] sm:text-[52px] lg:text-[58px] font-[950] text-[#16A66A]/[0.08] dark:text-emerald-400/[0.08] tracking-tight leading-none select-none">
-                      {activeCategory.stats.students95Plus.value}
-                    </span>
-                  </div>
-                  <span className="relative z-10 text-[#0B2E6B] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
+                {/* Stat 3: Students 95%+ (Subtle Pale Mint/Green + Green Accent) */}
+                <div className="relative flex flex-col items-center justify-center text-center p-2 sm:p-2.5 lg:p-3 rounded-xl sm:rounded-2xl bg-gradient-to-b from-[#F0FDF6] via-[#F7FEFA] to-white dark:from-emerald-950/15 dark:via-transparent dark:to-transparent border border-[#D1F2E0] dark:border-emerald-900/30 shadow-[0_2px_10px_rgba(16,185,129,0.04)] overflow-hidden">
+                  {/* Strong Navy Number */}
+                  <span className="relative z-10 text-[#062B67] dark:text-white font-[950] text-[24px] xs:text-[26px] sm:text-[30px] lg:text-[34px] tracking-tight leading-none h-[32px] sm:h-[38px] lg:h-[42px] flex items-center justify-center">
                     {activeCategory.stats.students95Plus.value}
                   </span>
                   <span className="relative z-10 text-[10.5px] sm:text-[11.5px] font-semibold text-[#64748B] dark:text-slate-300 tracking-wide mt-1 h-[24px] sm:h-[26px] flex items-center justify-center text-center leading-tight">
-                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#16A66A] mr-1.5 shrink-0" />
+                    <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#10B981] mr-1.5 shrink-0" />
                     {activeCategory.stats.students95Plus.label}
                   </span>
                 </div>
@@ -728,8 +699,8 @@ export function AcademicExcellence() {
           <div className="relative z-10 flex items-center justify-between mt-2.5 sm:mt-3 mb-2 sm:mb-2.5 px-0.5 w-full">
             {/* Left: Bar Chart Icon + Title */}
             <div className="flex items-center gap-2 shrink-0">
-              <BarChartIcon className="w-[18px] h-[18px] text-[#246BFF] shrink-0" />
-              <h4 className="text-[#0B2E6B] dark:text-white font-[950] text-[16px] sm:text-[17.5px] tracking-tight">
+              <BarChartIcon className="w-[18px] h-[18px] text-[#062B67] dark:text-blue-400 shrink-0" />
+              <h4 className="text-[#062B67] dark:text-white font-[950] text-[16px] sm:text-[17.5px] tracking-tight">
                 Top Performers
               </h4>
             </div>
@@ -749,7 +720,6 @@ export function AcademicExcellence() {
             >
               <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3">
                 {activeCategory.topPerformers.map((student, studentIndex) => {
-                  const isSelected = selectedCardId === student.id;
                   const isPercentile = student.score.includes('%ile');
                   const scoreValue = isPercentile ? student.score.replace('%ile', '') : student.score.replace('%', '');
 
@@ -758,19 +728,14 @@ export function AcademicExcellence() {
                       key={student.id} 
                       className="pl-2 sm:pl-2.5 lg:pl-3 basis-[47%] xs:basis-[44%] sm:basis-[32%] md:basis-[24%] lg:basis-1/5"
                     >
-                      {/* Student Card */}
+                      {/* Student Card (No selection outline) */}
                       <div 
                         onClick={() => setSelectedCardId(student.id)}
-                        className={cn(
-                          "bg-white dark:bg-slate-900 rounded-[16px] border-[1.5px] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer",
-                          isSelected
-                            ? "border-[#D0E2FF] border-t-2 border-t-[#FF7A00] dark:border-slate-700/80 dark:border-t-[#FF7A00] shadow-[0_2px_10px_rgba(11,46,107,0.06)]"
-                            : "border-[#D0E2FF] dark:border-slate-700/80 shadow-[0_2px_8px_rgba(11,46,107,0.03)] hover:border-[#246BFF]/50"
-                        )}
+                        className="bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/90 dark:border-slate-800 shadow-[0_2px_8px_rgba(6,43,103,0.02)] transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer"
                       >
                         
                         {/* Full Uncropped Photo (1:1 Aspect Ratio matching source image) */}
-                        <div className="relative w-full aspect-square bg-[#EAF3FF] dark:bg-slate-800 overflow-hidden">
+                        <div className="relative w-full aspect-square bg-slate-100 dark:bg-slate-800 overflow-hidden">
                           <Image
                             src={student.image}
                             alt={student.name}
@@ -785,55 +750,36 @@ export function AcademicExcellence() {
                         {/* Lower Information Area: Two-Column Composition + Clean Bottom Action Area */}
                         <div className="relative pt-2 sm:pt-2.5 pb-2 sm:pb-2.5 px-2 xs:px-2.5 sm:px-3 lg:px-3.5 flex flex-col flex-1 justify-between overflow-hidden">
                           
-                          {/* Two-Column Composition: Left = Student Identity, Right = Large Standalone Navy Percentage */}
+                          {/* Two-Column Composition: Left = Student Identity, Right = Large Standalone Orange Percentage */}
                           <div className="relative z-10 flex items-center justify-between gap-1 sm:gap-2 min-h-[48px] sm:min-h-[54px]">
                             
-                            {/* Left Column: Student Name + Class/Stream/College (Never clipped on mobile, complete visibility on one line) */}
+                            {/* Left Column: Student Name + Class/Stream/College */}
                             <div className="min-w-0 flex-1 text-left flex flex-col justify-center pr-1 sm:pr-1.5">
-                              <h5 
-                                className={cn(
-                                  "font-[900] text-[12px] xs:text-[13px] sm:text-[14px] lg:text-[15px] tracking-tight leading-[1.2] transition-colors break-words",
-                                  isSelected
-                                    ? "text-[#246BFF] dark:text-blue-400"
-                                    : "text-[#0B2E6B] dark:text-white group-hover:text-[#246BFF]"
-                                )}
-                              >
+                              <h5 className="font-[900] text-[12px] xs:text-[13px] sm:text-[14px] lg:text-[15px] tracking-tight leading-[1.2] transition-colors break-words text-[#062B67] dark:text-white group-hover:text-[#155EEF]">
                                 {student.name}
                               </h5>
-                              <p className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-[#64748B] dark:text-slate-400 mt-0.5 leading-[1.2] break-words" title={student.grade}>
+                              <p className="text-[10px] sm:text-[11px] lg:text-[11.5px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 leading-[1.2] break-words" title={student.grade}>
                                 {student.grade}
                               </p>
                             </div>
 
-                            {/* Right Column: Large Standalone Deep Navy-Blue Percentage with Contained Subtle Watermark */}
+                            {/* Right Column: Only Student Marks Number in Orange */}
                             <div className="relative shrink-0 text-right flex flex-col items-end justify-center min-w-[38px] sm:min-w-[46px]">
-                              {/* Subtle Understated Academic Watermark (reduced to 40-50% strength) */}
-                              <div className="absolute right-0 top-1/2 -translate-y-1/2 select-none pointer-events-none -z-0">
-                                <span className={cn(
-                                  "text-[28px] sm:text-[36px] lg:text-[42px] font-[950] leading-none",
-                                  isPercentile
-                                    ? "text-[#16A66A]/[0.04] dark:text-emerald-400/[0.04]"
-                                    : "text-[#246BFF]/[0.04] dark:text-blue-400/[0.04]"
-                                )}>
-                                  %
-                                </span>
-                              </div>
-
                               {isPercentile ? (
                                 <div className="relative z-10 flex flex-col items-end">
-                                  <span className="text-[18px] sm:text-[21px] lg:text-[24px] font-[950] text-[#F26500] dark:text-orange-400 tracking-tight leading-none">
+                                  <span className="text-[18px] sm:text-[21px] lg:text-[24px] font-[950] text-[#EA580C] dark:text-orange-400 tracking-tight leading-none">
                                     {scoreValue}
                                   </span>
-                                  <span className="text-[8.5px] sm:text-[9.5px] lg:text-[10px] font-[800] text-[#16A66A] dark:text-emerald-400 tracking-wider uppercase mt-0.5 leading-none">
+                                  <span className="text-[8.5px] sm:text-[9.5px] lg:text-[10px] font-[800] text-[#10B981] dark:text-emerald-400 tracking-wider uppercase mt-0.5 leading-none">
                                     %ile
                                   </span>
                                 </div>
                               ) : (
                                 <div className="relative z-10 flex items-baseline">
-                                  <span className="text-[18px] sm:text-[21px] lg:text-[24px] font-[950] text-[#F26500] dark:text-orange-400 tracking-tight leading-none">
+                                  <span className="text-[18px] sm:text-[21px] lg:text-[24px] font-[950] text-[#EA580C] dark:text-orange-400 tracking-tight leading-none">
                                     {scoreValue}
                                   </span>
-                                  <span className="text-[10.5px] sm:text-[12px] lg:text-[13px] font-[950] text-[#F26500] dark:text-orange-400 ml-0.5 leading-none">
+                                  <span className="text-[10.5px] sm:text-[12px] lg:text-[13px] font-[950] text-[#EA580C] dark:text-orange-400 ml-0.5 leading-none">
                                     %
                                   </span>
                                 </div>
@@ -843,7 +789,7 @@ export function AcademicExcellence() {
                           </div>
 
                           {/* Bottom Action Area: Clean View Profile with Subtle Top Divider */}
-                          <div className="relative z-10 w-full pt-1.5 sm:pt-2 mt-auto border-t border-[#EAF3FF] dark:border-slate-800/80 flex items-center">
+                          <div className="relative z-10 w-full pt-1.5 sm:pt-2 mt-auto border-t border-slate-100 dark:border-slate-800 flex items-center">
                             <button
                               type="button"
                               onClick={(e) => {
@@ -851,12 +797,7 @@ export function AcademicExcellence() {
                                 setSelectedCardId(student.id);
                                 setSelectedStudent(student);
                               }}
-                              className={cn(
-                                "text-[11px] sm:text-[12px] lg:text-[12.5px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-semibold",
-                                isSelected
-                                  ? "text-[#246BFF] dark:text-blue-400"
-                                  : "text-[#246BFF] hover:text-[#0B2E6B] dark:text-blue-400 dark:hover:text-white"
-                              )}
+                              className="text-[11px] sm:text-[12px] lg:text-[12.5px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-semibold text-[#155EEF] hover:text-[#062B67] dark:text-blue-400 dark:hover:text-white"
                             >
                               <span>View Profile</span>
                               <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform shrink-0" />
@@ -886,8 +827,8 @@ export function AcademicExcellence() {
                   className={cn(
                     "rounded-full transition-all duration-300",
                     currentSlideIndex === i 
-                      ? "w-5 sm:w-6 h-1.5 bg-[#246BFF] dark:bg-blue-400" 
-                      : "w-1.5 h-1.5 bg-[#D0E2FF] dark:bg-slate-700 hover:bg-[#246BFF]/50"
+                      ? "w-5 sm:w-6 h-1.5 bg-[#155EEF] dark:bg-blue-400" 
+                      : "w-1.5 h-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-[#155EEF]/50"
                   )}
                 />
               </button>

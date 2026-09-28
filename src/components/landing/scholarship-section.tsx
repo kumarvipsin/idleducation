@@ -21,8 +21,7 @@ interface PillarItem {
   badge: string;
   iconSrc: string;
   title: string;
-  descLine1: string;
-  descLine2: string;
+  description: string;
 }
 
 const pillars: PillarItem[] = [
@@ -31,32 +30,28 @@ const pillars: PillarItem[] = [
     badge: '01',
     iconSrc: '/01.png',
     title: 'Focused Learning',
-    descLine1: 'Clear concepts,',
-    descLine2: 'focused guidance.',
+    description: 'Learn with clarity.',
   },
   {
     id: '02',
     badge: '02',
     iconSrc: '/02.png',
     title: 'Expert Teachers',
-    descLine1: 'Learn from',
-    descLine2: 'experienced educators.',
+    description: 'Learn from experts.',
   },
   {
     id: '03',
     badge: '03',
     iconSrc: '/03.png',
     title: 'Proven Progress',
-    descLine1: 'Regular practice,',
-    descLine2: 'measurable growth.',
+    description: 'Progress you can measure.',
   },
   {
     id: '04',
     badge: '04',
     iconSrc: '/04.png',
     title: 'Future Ready',
-    descLine1: 'Build skills for',
-    descLine2: 'the next step.',
+    description: 'Ready for what’s next.',
   },
 ];
 
@@ -65,7 +60,7 @@ export function ScholarshipSection() {
     <section
       id="why-idl-education"
       aria-label="Why Choose IDL"
-      className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-12 sm:pb-16 md:pb-20 bg-gradient-to-b from-white via-[#F8FBFE] to-[#EEF5FD] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden"
+      className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-12 sm:pb-16 md:pb-20 bg-gradient-to-b from-[#FAFBFD] via-[#F4F8FD] to-[#EEF5FD] dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 overflow-hidden"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* Subtle ambient light glow in background */}
@@ -194,9 +189,8 @@ export function ScholarshipSection() {
                   <div className="w-5 sm:w-6 h-[1.5px] bg-[#155EEF] dark:bg-blue-500 rounded-full my-1.5 sm:my-2" />
 
                   {/* Card Description */}
-                  <p className="text-[11.5px] min-[360px]:text-[12px] sm:text-[13px] lg:text-[13.5px] text-[#64748B] dark:text-slate-400 font-normal leading-[1.42] text-center">
-                    <span className="block">{item.descLine1}</span>
-                    <span className="block">{item.descLine2}</span>
+                  <p className="text-[12.5px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[14.5px] text-[#344054] dark:text-slate-200 font-semibold leading-[1.4] text-center max-w-[185px] sm:max-w-[210px] mx-auto">
+                    {item.description}
                   </p>
 
                 </div>

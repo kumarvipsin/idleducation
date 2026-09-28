@@ -99,20 +99,20 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
           
           {/* Carousel Indicators: Positioned cleanly above overlapping course shelf */}
           {displaySlides.length > 1 && (
-            <div className="absolute bottom-8 min-[390px]:bottom-10 sm:bottom-11 md:bottom-13 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 flex justify-center gap-1.5 sm:gap-2 pointer-events-auto bg-black/25 backdrop-blur-xs px-2.5 py-1 rounded-full">
+            <div className="absolute bottom-8 min-[390px]:bottom-10 sm:bottom-11 md:bottom-13 lg:bottom-16 left-1/2 -translate-x-1/2 z-20 flex justify-center items-center gap-1.5 sm:gap-2 pointer-events-auto bg-black/25 backdrop-blur-xs px-2 py-0.5 rounded-full">
               {displaySlides.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => scrollTo(i)}
-                  className="p-3 flex items-center justify-center min-w-[44px] min-h-[44px] group"
+                  className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
                   aria-label={`Go to slide ${i + 1}`}
                 >
                   <span
                     className={cn(
                       "rounded-full transition-all duration-300 shadow-sm",
                       current === i 
-                        ? "h-2 w-8 sm:w-10 lg:w-12 bg-white" 
-                        : "h-2 w-2 bg-white/40 group-hover:bg-white/60"
+                        ? "w-5 sm:w-6 h-1.5 bg-white" 
+                        : "w-1.5 h-1.5 bg-white/40 hover:bg-white/60"
                     )}
                   />
                 </button>

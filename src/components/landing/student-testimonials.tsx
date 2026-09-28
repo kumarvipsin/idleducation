@@ -131,7 +131,7 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
       <div className="group/featured flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] hover:shadow-[0_6px_22px_rgba(10,30,66,0.08)] transition-all duration-300">
         
         {/* Left Side: Student Portrait Image */}
-        <div className="p-3 sm:p-3.5 w-[46%] xl:w-[46.5%] h-full shrink-0 flex">
+        <div className="p-2.5 sm:p-3 w-[45%] xl:w-[45.5%] h-full shrink-0 flex">
           <div 
             className="relative w-full h-full rounded-[16px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
             onClick={() => setIsVideoOpen(true)}
@@ -146,7 +146,13 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               )}
             />
 
-            {/* Premium Frosted Glass Play Button */}
+            {/* Subtle bottom gradient matching educators card */}
+            <div
+              className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
+              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%)" }}
+            />
+
+            {/* Play Button — matching Meet Our Educators */}
             <button
               type="button"
               onClick={(e) => {
@@ -154,18 +160,18 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
                 setIsVideoOpen(true);
               }}
               aria-label={`Watch story of ${testimonial.name}`}
-              className="absolute bottom-3 right-3 z-30 w-11 h-11 rounded-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-white/70 dark:border-slate-700/70 shadow-[0_4px_12px_rgba(0,0,0,0.12)] flex items-center justify-center hover:bg-white/80 hover:scale-105 active:scale-95 transition-all cursor-pointer group/btn"
+              className="absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center hover:bg-white/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
             >
-              <Play className="w-4 h-4 fill-[#155EEF] text-[#155EEF] ml-0.5 transition-transform group-hover/btn:scale-110" />
+              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
             </button>
           </div>
         </div>
 
         {/* Right Side: Quote & Student Identity */}
-        <div className="flex flex-col justify-center flex-1 py-5 px-5 lg:py-6 lg:px-6 xl:px-7 relative min-w-0 bg-white dark:bg-slate-900">
+        <div className="flex flex-col justify-center flex-1 py-3 px-4 lg:py-3.5 lg:px-5 xl:px-6 relative min-w-0 bg-white dark:bg-slate-900">
           {/* Large Quotation Mark Graphic — Subtle, light blue editorial detail */}
           <svg
-            className="w-9 h-9 text-[#BFD7F5] dark:text-blue-900/60 mb-2.5 select-none pointer-events-none shrink-0"
+            className="w-7 h-7 text-[#BFD7F5] dark:text-blue-900/60 mb-1.5 select-none pointer-events-none shrink-0"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
@@ -175,19 +181,19 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
           {/* Testimonial Quote */}
           <div className="relative z-10 min-w-0 max-w-[360px] xl:max-w-[390px]">
-            <blockquote className="mb-3.5">
-              <p className="text-[15px] sm:text-[15.5px] lg:text-[16px] font-normal text-[#0F172A] dark:text-slate-100 leading-[1.6] tracking-normal">
+            <blockquote className="mb-2.5">
+              <p className="text-[13.5px] sm:text-[14px] lg:text-[14.5px] font-normal text-[#0F172A] dark:text-slate-100 leading-[1.5] tracking-normal">
                 {quoteText}
               </p>
             </blockquote>
 
             {/* Student Name & Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[16px] sm:text-[16.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
+              <h3 className="font-bold text-[15px] sm:text-[15.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[13px] sm:text-[13.5px] text-[#64748B] dark:text-slate-400 font-normal">
+              <span className="text-[12.5px] sm:text-[13px] text-[#64748B] dark:text-slate-400 font-normal">
                 {classLabel}
               </span>
             </div>
@@ -240,7 +246,7 @@ const CompactStoryCard = ({
   return (
     <>
       <div 
-        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-[16px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] hover:shadow-[0_4px_16px_rgba(10,30,66,0.07)] hover:-translate-y-[1px] transition-all duration-200 cursor-pointer"
+        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-[14px] sm:rounded-[16px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] hover:shadow-[0_4px_16px_rgba(10,30,66,0.07)] hover:-translate-y-[1px] transition-all duration-200 cursor-pointer"
         onClick={() => {
           if (onSelect) {
             onSelect();
@@ -250,8 +256,8 @@ const CompactStoryCard = ({
         }}
       >
         {/* Thumbnail on Left */}
-        <div className="p-2 sm:p-2.5 shrink-0 flex items-center">
-          <div className="relative w-[82px] sm:w-[88px] h-[78px] sm:h-[84px] rounded-[12px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800">
+        <div className="p-1.5 sm:p-2 shrink-0 flex items-center">
+          <div className="relative w-[72px] sm:w-[76px] h-[68px] sm:h-[72px] rounded-[10px] sm:rounded-[12px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800">
             <StudentAvatar
               src={testimonial.avatarUrl}
               fallbackSrc={fallback}
@@ -262,18 +268,18 @@ const CompactStoryCard = ({
         </div>
 
         {/* Text Content on Right */}
-        <div className="flex flex-col justify-center flex-1 py-2 pr-3.5 pl-1 min-w-0">
+        <div className="flex flex-col justify-center flex-1 py-1.5 pr-3 pl-1 min-w-0">
           {/* Testimonial Quote */}
-          <p className="text-[12.5px] sm:text-[13px] text-[#334155] dark:text-slate-200 font-normal leading-[1.42] mb-1.5 line-clamp-2">
+          <p className="text-[12px] sm:text-[12.5px] text-[#334155] dark:text-slate-200 font-normal leading-[1.38] mb-1 line-clamp-2">
             {quoteText}
           </p>
           {/* Student Identity */}
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-            <span className="font-bold text-[13px] sm:text-[13.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
+            <span className="font-bold text-[12.5px] sm:text-[13px] text-[#062B67] dark:text-white tracking-tight leading-snug">
               {testimonial.name}
             </span>
             <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-            <span className="text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
+            <span className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
               {classLabel}
             </span>
           </div>
@@ -332,7 +338,13 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
             className="transition-transform duration-500 group-hover/mobile:scale-[1.02]"
           />
 
-          {/* Frosted Glass Play Button on Mobile */}
+          {/* Subtle bottom gradient matching educators card */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-14 z-20 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%)" }}
+          />
+
+          {/* Play Button — matching Meet Our Educators */}
           <button
             type="button"
             onClick={(e) => {
@@ -340,9 +352,9 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               setIsVideoOpen(true);
             }}
             aria-label={`Watch story of ${testimonial.name}`}
-            className="absolute bottom-2.5 right-2.5 z-30 w-[42px] h-[42px] rounded-full bg-white/60 dark:bg-slate-900/60 backdrop-blur-md border border-white/70 dark:border-slate-700/70 shadow-[0_3px_10px_rgba(0,0,0,0.12)] flex items-center justify-center hover:bg-white/80 active:scale-95 transition-all cursor-pointer"
+            className="absolute bottom-2.5 right-2.5 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center hover:bg-white/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
           >
-            <Play className="w-3.5 h-3.5 fill-[#155EEF] text-[#155EEF] ml-0.5" />
+            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
           </button>
         </div>
 
@@ -547,7 +559,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 2. DESKTOP LAYOUT — Two Column (Left Featured + Right 3 Compact Cards)
                ═══════════════════════════════════════════ */}
             <div 
-              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[340px] xl:h-[350px] items-stretch"
+              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[295px] xl:h-[305px] items-stretch"
               onMouseEnter={() => setIsDesktopHovered(true)}
               onMouseLeave={() => setIsDesktopHovered(false)}
             >
@@ -585,20 +597,20 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
             </div>
 
             {/* Desktop Carousel Pagination Dots */}
-            <div className="hidden lg:flex justify-center gap-1.5 mt-4 lg:mt-4.5">
+            <div className="hidden lg:flex justify-center items-center gap-1.5 sm:gap-2 mt-6 lg:mt-7">
               {testimonialList.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setActiveSlide(i)}
-                  className="p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px] cursor-pointer group/dot"
+                  className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
                   aria-label={`View story ${i + 1}`}
                 >
                   <span
                     className={cn(
                       "rounded-full transition-all duration-300",
                       activeSlide === i 
-                        ? "w-7 h-2 bg-[#062B67] dark:bg-blue-500" 
-                        : "w-2 h-2 bg-slate-200 dark:bg-slate-700 group-hover/dot:bg-slate-300"
+                        ? "w-5 sm:w-6 h-1.5 bg-[#062B67] dark:bg-blue-500" 
+                        : "w-1.5 h-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-[#062B67]/50"
                     )}
                   />
                 </button>
@@ -646,20 +658,20 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
               </Carousel>
 
               {/* Mobile Pagination Dots */}
-              <div className="flex justify-center gap-1.5 mt-4 sm:mt-5 mb-1">
+              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5 mb-1">
                 {testimonialList.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => scrollTo(i)}
-                    className="p-1.5 flex items-center justify-center min-w-[28px] min-h-[28px] cursor-pointer group/dot"
+                    className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
                     aria-label={`Go to slide ${i + 1}`}
                   >
                     <span
                       className={cn(
                         "rounded-full transition-all duration-300",
                         current === i 
-                          ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500" 
-                          : "w-2 h-2 bg-slate-200 dark:bg-slate-700 group-hover/dot:bg-slate-300"
+                          ? "w-5 sm:w-6 h-1.5 bg-[#062B67] dark:bg-blue-500" 
+                          : "w-1.5 h-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-[#062B67]/50"
                       )}
                     />
                   </button>
