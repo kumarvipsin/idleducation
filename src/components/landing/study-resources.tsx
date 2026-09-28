@@ -97,25 +97,22 @@ export function StudyResources() {
                   </div>
                 </div>
 
-                {/* Dedicated Illustration Visual Area — Retains exact full-width footprint */}
+                {/* Dedicated Illustration Visual Area */}
                 <div className="relative w-full h-[170px] lg:h-[185px] mt-auto overflow-hidden">
                   
-                  {/* Layer 1: Dedicated Full-Width Soft Colored Background & Atmospheric Glow */}
+                  {/* Layer 1: Soft Colored Background & Atmospheric Glow */}
                   <div 
                     aria-hidden="true" 
                     className="absolute inset-0 pointer-events-none"
                   >
-                    {/* Base subtle white-to-light-mint vertical gradient matching illustration artwork */}
                     <div className="absolute inset-0 bg-gradient-to-t from-[#D6FFE4]/90 via-[#EDFAF2]/60 to-transparent" />
-                    
-                    {/* Card-specific soft atmospheric glow */}
                     <div 
                       className="absolute inset-0 opacity-80 dark:opacity-30" 
                       style={{ background: item.glowGradient }} 
                     />
                   </div>
 
-                  {/* Layer 2: Scaled-Down Illustration (approx 22% smaller on desktop) */}
+                  {/* Layer 2: Illustration */}
                   <div 
                     className="relative w-full h-full flex items-end justify-center transform origin-bottom md:scale-[0.78] group-hover:md:scale-[0.80] transition-transform duration-300 ease-out"
                     style={{
@@ -168,7 +165,7 @@ export function StudyResources() {
                   </div>
                 </div>
 
-                {/* Right: Illustration — 100% right, 100% bottom */}
+                {/* Right: Illustration */}
                 <div className="absolute right-0 bottom-0 w-[120px] min-[390px]:w-[135px] h-[95px] min-[390px]:h-[100px] pointer-events-none z-0">
                   <Image
                     src={item.imageUrl}

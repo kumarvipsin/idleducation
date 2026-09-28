@@ -9,112 +9,71 @@ import {
   Download, 
   Sparkles, 
   Check, 
-  CheckCircle2,
+  Bookmark, 
   BookOpen,
   HelpCircle,
   Clock,
   Layers,
-  ChevronDown,
-  ListOrdered,
   Search,
-  X,
-  Lightbulb
+  Quote,
+  AlertTriangle,
+  Lightbulb,
+  CheckCircle2,
+  ListOrdered,
+  ChevronDown,
+  X
 } from 'lucide-react';
 import { type ChapterItem } from '@/lib/study-resources-data';
-import { 
-  getClass9ChapterData, 
-  type UniversalChapterNotesData,
-  type ChapterTopic 
-} from '@/lib/class-9-notes-data';
+import { CLASS_12_POLSCI_CH1_DATA, type PolSciTopic } from '@/lib/class-12-polsci-ch1-data';
 import { useToast } from '@/hooks/use-toast';
 
-export interface ChapterNotesReaderProps {
-  classId?: string;
-  className?: string;
-  subjectId?: string;
-  subjectName?: string;
+export interface PoliticalScienceChapterReaderProps {
   currentChapter: ChapterItem;
   chapterIndex: number;
   previousChapter: ChapterItem | null;
   nextChapter: ChapterItem | null;
-  chapterListUrl?: string;
-  chapterData?: UniversalChapterNotesData;
 }
 
-export function ChapterNotesReader({
-  classId = '9',
-  className = 'Class 9',
-  subjectId = 'science',
-  subjectName = 'Science',
+export function PoliticalScienceChapterReader({
   currentChapter,
   chapterIndex: _chapterIndex,
   previousChapter,
   nextChapter,
-  chapterListUrl = '/study-resources?class=9&subject=science',
-  chapterData,
-}: ChapterNotesReaderProps) {
+}: PoliticalScienceChapterReaderProps) {
   const { toast } = useToast();
-  const [language, setLanguage] = useState<'english' | 'hindi'>('hindi');
+  const [language, setLanguage] = useState<'hindi' | 'english'>('hindi');
   const [activeSection, setActiveSection] = useState<string>('chapter-overview');
-  const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  
-  // Interactive Questions state: expand first question by default
+  const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const [expandedQuestions, setExpandedQuestions] = useState<Record<string, boolean>>({
     q1: true,
-    'm-q1': true,
-    'eng-q1': true,
-    'sst-q1': true,
+    q3: true,
   });
 
   const isHindi = language === 'hindi';
-  const data: UniversalChapterNotesData = chapterData || getClass9ChapterData(subjectId, currentChapter.slug);
+  const data = CLASS_12_POLSCI_CH1_DATA;
 
-  // Build Table of Contents list
-  const baseTocItems = [
-    {
-      id: 'chapter-overview',
-      labelHi: 'अध्याय परिचय',
-      labelEn: 'Chapter Overview',
-    },
+  // Build TOC items from topics
+  const tocItems = [
+    { id: 'chapter-overview', labelHi: 'अध्याय परिचय', labelEn: 'Chapter Overview' },
     ...data.topics.map((t) => ({
       id: t.id,
-      labelHi: `${t.number}. ${t.titleHi}`,
-      labelEn: `${t.number}. ${t.titleEn}`,
+      labelHi: `${t.number}. ${t.titleHi.split('(')[0].trim()}`,
+      labelEn: `${t.number}. ${t.titleEn.split('—')[0].trim()}`,
     })),
-    {
-      id: 'quick-revision',
-      labelHi: 'त्वरित पुनरीक्षण',
-      labelEn: 'Quick Revision',
-    },
-    {
-      id: 'board-questions',
-      labelHi: 'महत्वपूर्ण परीक्षा प्रश्न',
-      labelEn: 'Important Questions',
-    },
-    {
-      id: 'download-notes',
-      labelHi: 'नोट्स डाउनलोड (PDF)',
-      labelEn: 'Download Notes (PDF)',
-    },
+    { id: 'quick-revision', labelHi: 'त्वरित पुनरीक्षण', labelEn: 'Quick Revision' },
+    { id: 'board-questions', labelHi: 'बोर्ड परीक्षा प्रश्न', labelEn: 'Board Exam Questions' },
+    { id: 'download-notes', labelHi: 'नोट्स डाउनलोड (PDF)', labelEn: 'Download Notes' },
   ];
 
-  const tocItems = searchQuery
-    ? baseTocItems.filter((item) =>
-        (isHindi ? item.labelHi : item.labelEn)
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      )
-    : baseTocItems;
-
-  // Active section scroll spy
+  // Scroll spy
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + 180;
-      for (let i = baseTocItems.length - 1; i >= 0; i--) {
-        const el = document.getElementById(baseTocItems[i].id);
+      const scrollPosition = window.scrollY + 160;
+      for (let i = tocItems.length - 1; i >= 0; i--) {
+        const el = document.getElementById(tocItems[i].id);
         if (el && el.offsetTop <= scrollPosition) {
-          setActiveSection(baseTocItems[i].id);
+          setActiveSection(tocItems[i].id);
           break;
         }
       }
@@ -122,12 +81,13 @@ export function ChapterNotesReader({
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [baseTocItems]);
+  }, [tocItems]);
 
   const scrollToSection = (id: string) => {
+    setMobileTocOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const headerOffset = 100;
+      const headerOffset = 90;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
 
@@ -136,22 +96,18 @@ export function ChapterNotesReader({
         behavior: 'smooth',
       });
       setActiveSection(id);
-      setMobileTocOpen(false);
     }
   };
 
-  const handleDownloadClick = (type: 'free' | 'premium') => {
-    if (type === 'free') {
-      toast({
-        title: 'Free Revision PDF Preview Ready',
-        description: `Official printable PDF for ${className} ${subjectName} Chapter ${currentChapter.number} will download automatically upon syllabus release.`,
-      });
-    } else {
-      toast({
-        title: 'Premium Full Study Kit',
-        description: `Complete study kit for Chapter ${currentChapter.number} with diagrams & formula sheets is verified and ready.`,
-      });
-    }
+  const handleDownloadClick = (type: 'free' | 'premium' = 'free') => {
+    toast({
+      title: type === 'premium'
+        ? (isHindi ? 'प्रीमियम नोट्स किट तैयार हो रहा है' : 'Preparing Premium Study Kit')
+        : (isHindi ? 'निःशुल्क रिवीज़न नोट्स पीडीएफ' : 'Free Revision Notes PDF'),
+      description: isHindi
+        ? 'कक्षा 12वीं राजनीति विज्ञान अध्याय 1 का आधिकारिक पीडीएफ संस्करण डाउनलोड के लिए तैयार किया जा रहा है।'
+        : 'Official downloadable PDF for Class 12 Political Science Chapter 1 is being generated.',
+    });
   };
 
   const toggleQuestion = (id: string) => {
@@ -170,17 +126,27 @@ export function ChapterNotesReader({
     setExpandedQuestions(nextState);
   };
 
-  const filteredTopics = searchQuery
+  // Filter topics if search query is entered
+  const filteredTopics = searchQuery.trim()
     ? data.topics.filter(
         (t) =>
-          (isHindi ? t.titleHi : t.titleEn).toLowerCase().includes(searchQuery.toLowerCase()) ||
-          t.number.includes(searchQuery)
+          t.titleHi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          t.titleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          t.bulletPointsHi?.some((p) => p.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          t.bulletPointsEn?.some((p) => p.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          t.subTopics?.some(
+            (st) =>
+              st.subtitleHi.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              st.subtitleEn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+              st.pointsHi.some((p) => p.toLowerCase().includes(searchQuery.toLowerCase())) ||
+              st.pointsEn.some((p) => p.toLowerCase().includes(searchQuery.toLowerCase()))
+          )
       )
     : data.topics;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 font-sans pb-20">
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 text-slate-900 dark:text-slate-100 selection:bg-purple-100 selection:text-purple-900 pt-3 pb-28 sm:pt-5 sm:pb-32">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* ── 1. BREADCRUMBS ── */}
         <nav aria-label="Breadcrumb" className="mb-4">
@@ -198,14 +164,14 @@ export function ChapterNotesReader({
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <li>
-              <Link href={`/study-resources?class=${classId}`} className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                {className}
+              <Link href="/study-resources?class=12" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                Class 12
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <li>
-              <Link href={chapterListUrl} className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
-                {subjectName}
+              <Link href="/study-resources?class=12&subject=political-science" className="hover:text-purple-600 dark:hover:text-purple-400 transition-colors">
+                Political Science
               </Link>
             </li>
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
@@ -282,13 +248,11 @@ export function ChapterNotesReader({
             </div>
             <div className="flex items-center gap-1.5">
               <BookOpen className="w-4 h-4 text-[#155EEF]" />
-              <span>
-                {data.topics.length} {isHindi ? 'विस्तृत विषय एवं उप-विषय' : 'Detailed Topics'}
-              </span>
+              <span>{isHindi ? '13 विस्तृत विषय एवं उप-विषय' : '13 Detailed Topics'}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <HelpCircle className="w-4 h-4 text-emerald-600" />
-              <span>{isHindi ? 'परीक्षा उपयोगी मॉडल प्रश्न व उत्तर' : 'Exam Model Q&A'}</span>
+              <span>{isHindi ? 'बोर्ड परीक्षा मॉडल प्रश्न व उत्तर' : 'Board Exam Q&A'}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <Sparkles className="w-4 h-4 text-amber-500" />
@@ -317,7 +281,7 @@ export function ChapterNotesReader({
                 </span>
               </div>
               <h2 className="text-xl sm:text-2xl font-bold text-[#062B67] dark:text-white mb-4 font-hindi tracking-tight leading-[1.35]">
-                {isHindi ? 'अध्याय का संक्षिप्त परिचय एवं पृष्ठभूमि' : 'Chapter Summary & Overview'}
+                {isHindi ? 'अध्याय का संक्षिप्त परिचय एवं पृष्ठभूमि' : 'Chapter Summary & Historical Context'}
               </h2>
               <div className="space-y-3.5 text-slate-700 dark:text-slate-300 text-[15px] sm:text-base font-hindi leading-[1.82]">
                 {(isHindi ? data.overviewHi : data.overviewEn).map((para, i) => (
@@ -327,7 +291,7 @@ export function ChapterNotesReader({
             </section>
 
             {/* 2. DYNAMIC TOPICS (UNIFIED VISUAL DESIGN SYSTEM - MINIMAL CONTINUOUS VIEW) */}
-            {filteredTopics.map((topic: ChapterTopic) => (
+            {filteredTopics.map((topic: PolSciTopic) => (
               <article
                 key={topic.id}
                 id={topic.id}
@@ -468,7 +432,7 @@ export function ChapterNotesReader({
               </div>
             </section>
 
-            {/* 4. BOARD / EXAM QUESTIONS SECTION */}
+            {/* 4. BOARD EXAM QUESTIONS SECTION */}
             <section
               id="board-questions"
               className="py-10"
@@ -479,10 +443,10 @@ export function ChapterNotesReader({
                     Practice
                   </span>
                   <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-50 text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50 font-hindi">
-                    परीक्षा तैयारी
+                    बोर्ड परीक्षा तैयारी
                   </span>
                   <h3 className="text-xl sm:text-2xl font-bold text-[#062B67] dark:text-white font-hindi tracking-tight">
-                    {isHindi ? 'परीक्षा उपयोगी महत्वपूर्ण प्रश्न' : 'Important Examination Questions'}
+                    {isHindi ? 'बोर्ड परीक्षा उपयोगी महत्वपूर्ण प्रश्न' : 'Important Board Examination Questions'}
                   </h3>
                 </div>
                 <button
@@ -552,7 +516,7 @@ export function ChapterNotesReader({
               {/* Eyebrow & Title */}
               <div className="text-center max-w-xl mx-auto">
                 <div className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#155EEF] dark:text-blue-400 mb-1">
-                  STUDY KIT &amp; PDF DOWNLOADS
+                  8. STUDY KIT &amp; PDF DOWNLOADS
                 </div>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-[#062B67] dark:text-white tracking-tight">
                   Download Notes
@@ -685,7 +649,7 @@ export function ChapterNotesReader({
             <div className="flex items-center justify-between gap-4 pt-10 border-t border-slate-100 dark:border-slate-800">
               {previousChapter ? (
                 <Link
-                  href={`/study-resources/class-${classId}/${subjectId}/${previousChapter.slug}`}
+                  href={`/study-resources/class-12/political-science/${previousChapter.slug}`}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-purple-400 transition-all shadow-none"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -693,7 +657,7 @@ export function ChapterNotesReader({
                 </Link>
               ) : (
                 <Link
-                  href={chapterListUrl}
+                  href="/study-resources?class=12&subject=political-science"
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-purple-400 transition-all shadow-none"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -703,7 +667,7 @@ export function ChapterNotesReader({
 
               {nextChapter ? (
                 <Link
-                  href={`/study-resources/class-${classId}/${subjectId}/${nextChapter.slug}`}
+                  href={`/study-resources/class-12/political-science/${nextChapter.slug}`}
                   className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-semibold shadow-none transition-all"
                 >
                   <span>{isHindi ? `अगला: ${nextChapter.name}` : `Next: ${nextChapter.name}`}</span>
@@ -783,12 +747,12 @@ export function ChapterNotesReader({
           </aside>
         </div>
 
-        {/* ── 4. MOBILE FLOATING TOC TRIGGER ── */}
+        {/* ── 4. MOBILE FLOATING TOC TRIGGER (POSITIONED BOTTOM-LEFT TO NEVER OVERLAP WHATSAPP / AI ASSISTANT) ── */}
         <div className="lg:hidden fixed bottom-6 left-6 z-40">
           <button
             type="button"
             onClick={() => setMobileTocOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 bg-[#062B67] hover:bg-[#0A3A8A] text-white rounded-full shadow-md font-semibold text-xs transition-all active:scale-95 border border-blue-400/30 font-hindi"
+            className="flex items-center gap-2 px-4 py-2.5 bg-[#062B67] hover:bg-[#0A3A8A] text-white rounded-full shadow-lg hover:shadow-xl font-semibold text-xs transition-all active:scale-95 border border-blue-400/30 font-hindi"
           >
             <ListOrdered className="w-4 h-4 text-blue-300" />
             <span>{isHindi ? 'विषय सूची' : 'Topics'} ({tocItems.length})</span>

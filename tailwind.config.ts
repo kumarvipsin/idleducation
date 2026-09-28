@@ -11,7 +11,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-sans)', 'Inter', 'Plus Jakarta Sans', ...fontFamily.sans],
+        sans: ['var(--font-sans)', "'Noto Sans Devanagari'", 'Inter', 'Plus Jakarta Sans', ...fontFamily.sans],
+        hindi: ["'Noto Sans Devanagari'", "'Kohinoor Devanagari'", "'Nirmala UI'", 'var(--font-sans)', ...fontFamily.sans],
       },
       colors: {
         // Shadcn UI theme tokens

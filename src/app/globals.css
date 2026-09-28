@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -610,5 +612,22 @@ body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
     animation: none !important;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Devanagari & Study Notes Typography System
+   ───────────────────────────────────────────────────────────── */
+.font-hindi {
+  font-family: 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Nirmala UI', var(--font-sans), sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.notes-body {
+  font-family: 'Noto Sans Devanagari', 'Kohinoor Devanagari', 'Nirmala UI', var(--font-sans), sans-serif;
+  line-height: 1.82;
+  letter-spacing: 0.008em;
+}
+
 
 
