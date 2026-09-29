@@ -286,23 +286,29 @@ export function PhotoCropModal({
       ctx.rotate((rotation * Math.PI) / 180);
       ctx.scale(scale, scale);
 
+      // High-quality bicubic smoothing for crisp high-resolution output
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
+
       const drawW = baseW * multiplier;
       const drawH = baseH * multiplier;
       ctx.drawImage(imgRef.current, -drawW / 2, -drawH / 2, drawW, drawH);
       ctx.restore();
 
-      const mimeType = preserveTransparency ? "image/png" : "image/jpeg";
-      const croppedDataUrl = canvas.toDataURL(mimeType, 0.95);
+      const isPng = preserveTransparency || (fileName && fileName.toLowerCase().endsWith('.png'));
+      const mimeType = isPng ? "image/png" : "image/jpeg";
+      const quality = isPng ? undefined : 0.98;
+      const croppedDataUrl = canvas.toDataURL(mimeType, quality);
 
       const blob = await new Promise<Blob | null>((resolve) =>
-        canvas.toBlob((b) => resolve(b), mimeType, 0.95)
+        canvas.toBlob((b) => resolve(b), mimeType, quality)
       );
 
       if (!blob) {
         throw new Error("Failed to generate cropped image blob");
       }
 
-      const outFileName = preserveTransparency && fileName.endsWith(".jpg")
+      const outFileName = isPng && fileName.endsWith(".jpg")
         ? fileName.replace(/\.jpg$/i, ".png")
         : fileName;
 

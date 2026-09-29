@@ -44,16 +44,6 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
       id="expert-teachers"
       className="relative w-full pt-10 sm:pt-12 md:pt-16 pb-8 sm:pb-10 md:pb-12 bg-white overflow-hidden"
     >
-      {/* Subtle decorative background ambient glow */}
-      <div
-        className="absolute top-12 left-0 w-[300px] h-[300px] rounded-full bg-[#E8EEFF]/40 blur-[100px] pointer-events-none -translate-x-1/3"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-8 right-0 w-[280px] h-[280px] rounded-full bg-[#E8EEFF]/35 blur-[100px] pointer-events-none translate-x-1/4"
-        aria-hidden="true"
-      />
-
       <div className="container relative z-10 mx-auto px-4 sm:px-6 max-w-[1280px]">
         {/* ── 1. HEADER ELEMENT ── */}
         <EducatorsHeader

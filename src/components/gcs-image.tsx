@@ -55,6 +55,8 @@ export function GcsImage({ filePath, alt, className, width, height, fill, style,
           alt={alt}
           className={className}
           style={style}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
         />
       );
     }

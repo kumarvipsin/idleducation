@@ -84,11 +84,11 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
   return (
     <>
       {/* ── CARD CONTAINER ── */}
-      <div className="group/card h-full w-full flex flex-col bg-white rounded-2xl border border-slate-200/60 shadow-[0_2px_12px_-3px_rgba(6,43,103,0.08)] hover:shadow-[0_8px_32px_-6px_rgba(6,43,103,0.14)] hover:-translate-y-[3px] transition-all duration-200 ease-out overflow-hidden">
+      <div className="group/card h-full w-full flex flex-col bg-white rounded-[18px] sm:rounded-[20px] border border-[#DCE7F6] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(6,43,103,0.09)] hover:border-[#BFDBFE] dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 ease-out overflow-hidden">
 
         {/* ── IMAGE BLOCK ── */}
         <div
-          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden"
+          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden border-b border-slate-100 dark:border-slate-800"
           style={{ background: "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)" }}
         >
           {/* Teacher Photo */}
@@ -132,59 +132,64 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             onClick={() => videoId ? setIsVideoOpen(true) : undefined}
             disabled={!videoId}
             aria-label={`Watch introduction of ${teacher.name}`}
-            className={`absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 flex items-center justify-center transition-all duration-200 ${
+            className={`absolute bottom-2.5 right-2.5 z-30 w-8 h-8 sm:w-[34px] sm:h-[34px] rounded-full bg-black/45 backdrop-blur-md border border-white/20 flex items-center justify-center transition-all duration-200 ${
               videoId 
-                ? 'cursor-pointer hover:bg-white/30 hover:scale-105 active:scale-95' 
-                : 'cursor-default opacity-40'
+                ? 'cursor-pointer hover:bg-black/65 hover:scale-105 active:scale-95 text-white' 
+                : 'cursor-default opacity-40 text-white'
             }`}
           >
-            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+            <Play className="w-3.5 h-3.5 fill-white text-white ml-[1px]" />
           </button>
         </div>
 
         {/* ── CARD BODY — Premium lower section ── */}
-        <div className="flex flex-col flex-1 px-4 pt-3 pb-3">
+        <div className="flex flex-col flex-1 p-3.5 sm:p-4 text-center justify-between">
 
-          {/* NAME — Dominant anchor, bold geometric sans, dark navy */}
-          <h3 className="font-extrabold text-[17px] sm:text-[18px] text-[#0A1E42] tracking-[-0.025em] leading-[1.15] text-center w-full">
-            {teacher.name}
-          </h3>
+          <div>
+            {/* NAME — Dominant anchor, bold geometric sans, dark navy */}
+            <h3 
+              onClick={() => setIsProfileOpen(true)}
+              className="font-extrabold sm:font-[900] text-[16.5px] sm:text-[17.5px] text-[#0A1E4A] dark:text-white tracking-[-0.02em] leading-snug text-center w-full truncate cursor-pointer hover:text-[#155EEF] transition-colors"
+            >
+              {teacher.name}
+            </h3>
 
-          {/* METADATA ROW — Experience • Subject in one elegant line */}
-          <div className="flex items-center justify-center gap-1.5 mt-2 mb-0.5">
-            {hasExp && (
-              <>
-                <span className="inline-flex items-center gap-[4px] text-[11px] font-semibold text-[#2D5BA9] tracking-[0.01em]">
-                  <Clock className="w-[10px] h-[10px] shrink-0 stroke-[2.5] text-[#3B6FCF]" />
-                  {expDisplay}
-                </span>
-                {(subjectLabel || designation) && (
-                  <span className="text-[10px] text-slate-300 select-none" aria-hidden="true">•</span>
+            {/* METADATA PILL BADGE — Refined, softer background, thinner border, compact height */}
+            <div className="flex items-center justify-center mt-1.5 mb-0.5">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#F5F8FE] border border-[#E0ECFA] max-w-full text-center h-[22px] sm:h-[23px]">
+                {hasExp && (
+                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#155EEF] shrink-0 leading-none">
+                    <Clock className="w-2.5 h-2.5 stroke-[2.5]" />
+                    {expDisplay}
+                  </span>
                 )}
-              </>
-            )}
-            {(subjectLabel || designation) && (
-              <span className="text-[11px] font-medium text-[#3D506F] tracking-[0.005em]">
-                {(subjectLabel || designation || '').replace(/^Maths$/i, 'Mathematics').replace(/^Phy$/i, 'Physics').replace(/^Chem$/i, 'Chemistry').replace(/^Bio$/i, 'Biology').replace(/^Eng$/i, 'English')}
-              </span>
-            )}
+                {hasExp && (subjectLabel || designation) && (
+                  <span className="w-1 h-1 rounded-full bg-[#93C5FD] shrink-0" aria-hidden="true" />
+                )}
+                {(subjectLabel || designation) && (
+                  <span className="text-[11px] font-medium text-[#0A1E4A]/80 dark:text-slate-300 truncate leading-none">
+                    {(subjectLabel || designation || '')
+                      .replace(/^Maths$/i, 'Mathematics')
+                      .replace(/^Phy$/i, 'Physics')
+                      .replace(/^Chem$/i, 'Chemistry')
+                      .replace(/^Bio$/i, 'Biology')
+                      .replace(/^Eng$/i, 'English')}
+                  </span>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* SUBTLE SHORT DIVIDER — barely visible accent separator */}
-          <div className="mt-auto pt-2">
-            <div className="w-10 h-[0.5px] bg-slate-200/80 mx-auto mb-2.5" />
-
-            {/* VIEW PROFILE CTA — clean text-based, IDL blue, refined arrow */}
+          {/* VIEW PROFILE CTA — Perfectly balanced & aligned */}
+          <div className="mt-3 pt-2.5 border-t border-slate-100/90 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsProfileOpen(true)}
               aria-label={`View profile of ${teacher.name}`}
-              className="w-full flex items-center justify-center gap-1 bg-transparent border-none p-0 cursor-pointer group/cta"
+              className="w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-pointer group/cta text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] hover:text-[#0A1E4A] transition-colors py-0.5"
             >
-              <span className="text-[12px] font-bold text-[#1A56DB] group-hover/cta:text-[#0D3B9E] transition-colors duration-150 tracking-[0.015em]">
-                View Profile
-              </span>
-              <ArrowRight className="w-[11px] h-[11px] stroke-[2.8] text-[#1A56DB] group-hover/cta:text-[#0D3B9E] group-hover/cta:translate-x-0.5 transition-all duration-150" />
+              <span>View Profile</span>
+              <ArrowRight className="w-3 h-3 stroke-[2.4] text-[#155EEF] group-hover/cta:text-[#0A1E4A] group-hover/cta:translate-x-0.5 transition-all duration-150" />
             </button>
           </div>
         </div>

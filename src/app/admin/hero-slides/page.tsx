@@ -48,10 +48,10 @@ const HeroSlideForm = ({
       return {
         frameWidth: 480,
         frameHeight: 200,
-        canvasExportWidth: 1920,
-        canvasExportHeight: 800,
-        title: "Adjust Desktop Banner",
-        subtitle: "Desktop Banner (Landscape 16:6.7) • Zoom in/out and drag to frame",
+        canvasExportWidth: 2560,
+        canvasExportHeight: 1067,
+        title: "Adjust Desktop Banner (Ultra-HQ)",
+        subtitle: "Desktop Banner (2.5K Ultra-HQ / 2560×1067) • Zoom in/out and drag to frame",
         fileName: "desktop-banner.jpg",
       };
     }
@@ -59,10 +59,10 @@ const HeroSlideForm = ({
       return {
         frameWidth: 216,
         frameHeight: 384,
-        canvasExportWidth: 1080,
-        canvasExportHeight: 1920,
+        canvasExportWidth: 1440,
+        canvasExportHeight: 2560,
         title: "Adjust Mobile Banner (9:16 Story)",
-        subtitle: "Vertical Mobile Banner (Tall 9:16) • Zoom in/out and drag to frame",
+        subtitle: "Vertical Mobile Banner (Ultra-HQ 1440×2560) • Zoom in/out and drag to frame",
         fileName: "mobile-banner.jpg",
       };
     }
@@ -70,10 +70,10 @@ const HeroSlideForm = ({
       return {
         frameWidth: 360,
         frameHeight: 202,
-        canvasExportWidth: 1280,
-        canvasExportHeight: 720,
+        canvasExportWidth: 1920,
+        canvasExportHeight: 1080,
         title: "Adjust Mobile Banner (16:9)",
-        subtitle: "Horizontal Mobile Banner (16:9) • Zoom in/out and drag to frame",
+        subtitle: "Horizontal Mobile Banner (Full HD 1920×1080) • Zoom in/out and drag to frame",
         fileName: "mobile-banner.jpg",
       };
     }
@@ -81,10 +81,10 @@ const HeroSlideForm = ({
     return {
       frameWidth: 280,
       frameHeight: 350,
-      canvasExportWidth: 1080,
-      canvasExportHeight: 1350,
+      canvasExportWidth: 1440,
+      canvasExportHeight: 1800,
       title: "Adjust Mobile Vertical Banner (4:5)",
-      subtitle: "Mobile Vertical Banner (Portrait 4:5 / 1080×1350) • Zoom in/out and drag to frame",
+      subtitle: "Mobile Vertical Banner (Ultra-HQ 1440×1800) • Zoom in/out and drag to frame",
       fileName: "mobile-banner.jpg",
     };
   }, [cropTarget, mobileCropRatio]);
@@ -125,10 +125,13 @@ const HeroSlideForm = ({
       reader.onload = () => {
         const dataUrl = reader.result as string;
         setDesktopPreview(dataUrl);
-        setDesktopFileName(file.name);
+        const sizeKb = Math.round(file.size / 1024);
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+        const sizeStr = file.size > 1024 * 1024 ? `${sizeMb} MB` : `${sizeKb} KB`;
+        setDesktopFileName(`${file.name} (${sizeStr}) • Original HQ`);
         setActiveCropImage(dataUrl);
         setCropTarget('desktop');
-        setIsCropOpen(true);
+        setCroppedDesktopFile(null); // Keep original untouched file by default for 100% HQ
       };
       reader.readAsDataURL(file);
     }
@@ -141,10 +144,13 @@ const HeroSlideForm = ({
       reader.onload = () => {
         const dataUrl = reader.result as string;
         setMobilePreview(dataUrl);
-        setMobileFileName(file.name);
+        const sizeKb = Math.round(file.size / 1024);
+        const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+        const sizeStr = file.size > 1024 * 1024 ? `${sizeMb} MB` : `${sizeKb} KB`;
+        setMobileFileName(`${file.name} (${sizeStr}) • Original HQ`);
         setActiveCropImage(dataUrl);
         setCropTarget('mobile');
-        setIsCropOpen(true);
+        setCroppedMobileFile(null); // Keep original untouched file by default for 100% HQ
       };
       reader.readAsDataURL(file);
     }
@@ -284,21 +290,48 @@ const HeroSlideForm = ({
                       className="cursor-pointer file:cursor-pointer text-xs h-8 file:py-0.5 file:px-2.5 file:rounded-md file:bg-blue-600 file:text-white file:border-0 hover:file:bg-blue-700"
                     />
 
-                    <div className="flex items-center justify-between gap-1">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleOpenCrop('desktop')}
-                        disabled={!desktopPreview && !slide?.imageUrl}
-                        className="h-7 text-xs border-blue-300 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950 font-semibold gap-1 px-2.5"
-                      >
-                        <Crop className="w-3.5 h-3.5 text-blue-600" />
-                        Zoom & Crop
-                      </Button>
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
+                      <div className="flex items-center gap-1.5">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleOpenCrop('desktop')}
+                          disabled={!desktopPreview && !slide?.imageUrl}
+                          className="h-7 text-xs border-blue-300 dark:border-blue-800 text-blue-700 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950 font-semibold gap-1 px-2.5"
+                        >
+                          <Crop className="w-3.5 h-3.5 text-blue-600" />
+                          Zoom & Crop
+                        </Button>
+                        {croppedDesktopFile && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => {
+                              setCroppedDesktopFile(null);
+                              const fileInput = document.getElementById('image') as HTMLInputElement | null;
+                              if (fileInput?.files?.[0]) {
+                                const file = fileInput.files[0];
+                                const sizeKb = Math.round(file.size / 1024);
+                                const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+                                const sizeStr = file.size > 1024 * 1024 ? `${sizeMb} MB` : `${sizeKb} KB`;
+                                setDesktopFileName(`${file.name} (${sizeStr}) • Original HQ`);
+                                const reader = new FileReader();
+                                reader.onload = () => setDesktopPreview(reader.result as string);
+                                reader.readAsDataURL(file);
+                              }
+                              toast({ title: "Reverted", description: "Original untouched HQ file will be uploaded." });
+                            }}
+                            className="h-7 text-[11px] text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 px-2"
+                          >
+                            Use Original File
+                          </Button>
+                        )}
+                      </div>
 
                       {desktopFileName && (
-                        <p className="text-[10.5px] text-blue-600 dark:text-blue-400 font-medium truncate flex-1 text-right">
+                        <p className="text-[10.5px] text-blue-600 dark:text-blue-400 font-medium truncate max-w-[200px] text-right">
                           ✓ {desktopFileName}
                         </p>
                       )}
@@ -404,21 +437,48 @@ const HeroSlideForm = ({
                       className="cursor-pointer file:cursor-pointer text-xs h-8 file:py-0.5 file:px-2.5 file:rounded-md file:bg-emerald-600 file:text-white file:border-0 hover:file:bg-emerald-700"
                     />
 
-                    <div className="flex items-center justify-between gap-1">
-                      <Button
-                        type="button"
-                        size="sm"
-                        variant="outline"
-                        onClick={() => handleOpenCrop('mobile')}
-                        disabled={!mobilePreview && !slide?.mobileImageUrl}
-                        className="h-7 text-xs border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950 font-semibold gap-1 px-2.5"
-                      >
-                        <Crop className="w-3.5 h-3.5 text-emerald-600" />
-                        Zoom & Crop
-                      </Button>
+                    <div className="flex items-center justify-between gap-1 flex-wrap">
+                      <div className="flex items-center gap-1.5">
+                        <Button
+                          type="button"
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleOpenCrop('mobile')}
+                          disabled={!mobilePreview && !slide?.mobileImageUrl}
+                          className="h-7 text-xs border-emerald-300 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-50 dark:hover:bg-emerald-950 font-semibold gap-1 px-2.5"
+                        >
+                          <Crop className="w-3.5 h-3.5 text-emerald-600" />
+                          Zoom & Crop
+                        </Button>
+                        {croppedMobileFile && (
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => {
+                              setCroppedMobileFile(null);
+                              const fileInput = document.getElementById('mobileImage') as HTMLInputElement | null;
+                              if (fileInput?.files?.[0]) {
+                                const file = fileInput.files[0];
+                                const sizeKb = Math.round(file.size / 1024);
+                                const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+                                const sizeStr = file.size > 1024 * 1024 ? `${sizeMb} MB` : `${sizeKb} KB`;
+                                setMobileFileName(`${file.name} (${sizeStr}) • Original HQ`);
+                                const reader = new FileReader();
+                                reader.onload = () => setMobilePreview(reader.result as string);
+                                reader.readAsDataURL(file);
+                              }
+                              toast({ title: "Reverted", description: "Original untouched HQ file will be uploaded." });
+                            }}
+                            className="h-7 text-[11px] text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 px-2"
+                          >
+                            Use Original File
+                          </Button>
+                        )}
+                      </div>
 
                       {mobileFileName && (
-                        <p className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-medium truncate flex-1 text-right">
+                        <p className="text-[10.5px] text-emerald-600 dark:text-emerald-400 font-medium truncate max-w-[200px] text-right">
                           ✓ {mobileFileName}
                         </p>
                       )}
@@ -456,16 +516,16 @@ const HeroSlideForm = ({
           if (cropTarget === 'desktop') {
             setDesktopPreview(croppedDataUrl);
             setCroppedDesktopFile(fileBlob);
-            setDesktopFileName(`Adjusted Desktop (${Math.round(fileBlob.size / 1024)} KB)`);
+            setDesktopFileName(`Adjusted Desktop (${Math.round(fileBlob.size / 1024)} KB) • Ultra HQ`);
           } else {
             setMobilePreview(croppedDataUrl);
             setCroppedMobileFile(fileBlob);
-            setMobileFileName(`Adjusted Mobile (${Math.round(fileBlob.size / 1024)} KB)`);
+            setMobileFileName(`Adjusted Mobile (${Math.round(fileBlob.size / 1024)} KB) • Ultra HQ`);
           }
           setIsCropOpen(false);
           toast({
-            title: "Image Adjusted & Cropped",
-            description: `${cropTarget === 'desktop' ? 'Desktop' : 'Mobile'} banner crop applied successfully.`,
+            title: "Ultra-HQ Crop Applied",
+            description: `${cropTarget === 'desktop' ? 'Desktop' : 'Mobile'} banner crop saved in ultra-high resolution.`,
           });
         }}
       />

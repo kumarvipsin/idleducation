@@ -50,7 +50,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
   return (
     <section suppressHydrationWarning className="w-full pt-0 pb-0 bg-white dark:bg-background">
       <div className="w-full px-0">
-        <div className="relative w-full rounded-none overflow-hidden bg-[#06122E] [transform:translateZ(0)]">
+        <div className="relative w-full rounded-none overflow-hidden bg-[#06122E]">
           <Carousel 
             setApi={setApi}
             opts={{ loop: true }}
@@ -65,7 +65,7 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                   <CarouselItem key={slide.id} className="rounded-none overflow-hidden">
                     <Link
                       href={link}
-                      className="block relative w-full select-none cursor-pointer overflow-hidden rounded-none [transform:translateZ(0)]"
+                      className="block relative w-full select-none cursor-pointer overflow-hidden rounded-none"
                     >
                       {/* Mobile View (< 768px): Uses slide.mobileImageUrl if uploaded, else falls back to slide.imageUrl. Shows full-size vertical/mobile banner without cropping */}
                       <div className="block md:hidden relative w-full bg-[#06122E] overflow-hidden">
@@ -79,15 +79,15 @@ export function BuildSkillsSection({ slides: initialSlides }: { slides: THeroSli
                         />
                       </div>
 
-                      {/* Desktop View (>= 768px): Uses slide.imageUrl - static image with no zoom on mouse hover */}
+                      {/* Desktop View (>= 768px): Uses slide.imageUrl in 100% full HQ with direct native rendering */}
                       <div className="hidden md:block relative w-full aspect-[16/6] min-h-[360px] lg:min-h-[400px] xl:min-h-[440px] bg-[#06122E] overflow-hidden">
                         <GcsImage
                           filePath={slide.imageUrl}
                           alt={slide.title || 'Educational Excellence'}
-                          fill
+                          asImgTag={true}
                           priority={index === 0}
-                          className="object-cover object-center rounded-none"
-                          sizes="(max-width: 1024px) 100vw, 1920px"
+                          className="w-full h-full object-cover object-center rounded-none"
+                          sizes="(max-width: 1024px) 100vw, 2560px"
                         />
                       </div>
                     </Link>

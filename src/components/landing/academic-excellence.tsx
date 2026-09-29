@@ -4,8 +4,6 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { 
-  Trophy, 
-  Users, 
   TrendingUp, 
   ChevronLeft, 
   ChevronRight, 
@@ -340,7 +338,7 @@ const RESULTS_DATA: CategoryResultData[] = [
     stats: {
       highestScore: {
         value: '100%ile',
-        label: 'Highest Percentile'
+        label: 'Highest Score'
       },
       students90Plus: {
         value: '52',
@@ -545,11 +543,11 @@ export function AcademicExcellence() {
     <section 
       id="academic-results" 
       aria-label="Academic Results"
-      className="w-full pt-7 pb-9 sm:pt-9 sm:pb-12 md:pt-11 md:pb-14 bg-gradient-to-b from-white via-[#F4F8FD] to-white dark:from-slate-950 dark:via-slate-900/50 dark:to-slate-950 overflow-hidden relative"
+      className="w-full pt-7 pb-9 sm:pt-9 sm:pb-12 md:pt-11 md:pb-14 bg-white dark:bg-slate-950 overflow-hidden relative"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* Container aligned with Courses We Offer width (max-w-[1360px]) */}
-      <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-4 md:px-6">
+      <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-4 md:px-6 relative z-10">
         
         {/* ===================== HEADER SECTION ===================== */}
         <div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-4">
@@ -602,67 +600,64 @@ export function AcademicExcellence() {
           </div>
         </div>
 
-        {/* ===================== MAIN RESULTS CONTAINER ===================== */}
-        {/* Premium pure-white rounded container elevated with soft shadow and thin blue top border */}
+        {/* ===================== MAIN RESULTS CONTAINER (EXACT MATCH TO SCREENSHOT) ===================== */}
         <div 
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative w-full rounded-[20px] sm:rounded-[24px] bg-[#F0F6FE] dark:bg-slate-900 border border-[#CCE0FB] border-t-2 border-t-[#155EEF] dark:border-slate-800 dark:border-t-[#155EEF] p-3.5 sm:p-5 lg:p-6 shadow-[0_4px_24px_-4px_rgba(6,43,103,0.06),0_1px_3px_rgba(6,43,103,0.02)] overflow-hidden transition-all duration-300"
+          className="relative w-full rounded-[24px] sm:rounded-[28px] bg-[#F0F6FE] border border-[#CCE3FB] p-4 sm:p-5 lg:p-6 pb-5 sm:pb-6 lg:pb-7 shadow-[0_4px_24px_rgba(6,43,103,0.04)] overflow-hidden transition-all duration-300"
         >
-          {/* Background Soft Ambient Light - subtle glow in bottom left */}
-          <div className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full bg-blue-400/5 dark:bg-blue-500/5 blur-3xl pointer-events-none" />
-
           {/* ----------------- TOP SECTION: SUMMARY + 3 STATS ----------------- */}
-          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3.5 sm:gap-5 lg:gap-8 pb-2.5 sm:pb-3.5">
+          <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 lg:gap-5 pb-2 sm:pb-2.5">
             
             {/* Left: Heading + Refined Description */}
-            <div className="w-full min-w-0 lg:w-[48%] xl:w-[50%] flex flex-col justify-center">
-              <h3 className="text-[20px] xs:text-[22px] sm:text-[24px] lg:text-[26px] font-[950] tracking-tight flex items-center gap-2 leading-tight text-[#062B67] dark:text-white">
-                <span>
+            <div className="w-full lg:w-[32%] xl:w-[30%] shrink-0 flex flex-col justify-center">
+              <h3 className="text-[22px] sm:text-[25px] lg:text-[27px] font-[950] tracking-tight flex items-center gap-2 leading-tight">
+                <span className="text-[#062B67] dark:text-white">
                   {activeCategory.headlineTitle}
                 </span>
-                <span className="text-slate-400 font-bold">•</span>
-                <span>
+                <span className="text-[#F59E0B] font-bold">•</span>
+                <span className="text-[#D97706] dark:text-amber-400">
                   {activeCategory.headlineHighlight}
                 </span>
               </h3>
 
-              <p className="text-[13px] sm:text-[14px] text-slate-600 dark:text-slate-300 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-xl break-words">
+              <p className="text-[13px] sm:text-[13.5px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-relaxed font-normal max-w-sm break-words">
                 {activeCategory.description}
               </p>
             </div>
 
-            {/* Right: 3 Typographic Data Displays */}
-            <div className="w-full min-w-0 pt-2.5 lg:pt-0 border-t border-[#CCE0FB] lg:border-t-0 lg:border-l lg:border-[#CCE0FB] dark:border-slate-800 lg:pl-5 xl:pl-6">
-              <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 w-full">
+            {/* Right: 3 Typographic Data Displays in 1 Horizontal Row (Icons Removed, 3 in 1 line on all screens) */}
+            <div className="w-full lg:flex-1 min-w-0 pt-3 lg:pt-0 border-t border-[#D5E4F7] lg:border-t-0 lg:border-l lg:border-[#D5E4F7] lg:pl-6 xl:pl-7">
+              <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full">
                 
-                {/* Stat 1: Highest Score (Modern Premium Card) */}
-                <div className="group relative flex flex-col items-center justify-center text-center p-2.5 sm:p-3 lg:p-3.5 min-h-[76px] sm:min-h-[84px] h-full rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 border-t-[2.5px] border-t-[#EA580C] shadow-[0_2px_8px_-2px_rgba(234,88,12,0.08),0_1px_2px_rgba(6,43,103,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                  {/* Strong Navy Number with colored symbol */}
+                {/* Stat 1: Highest Score */}
+                <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 xl:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#FFFDF5] border border-[#FDE68A] shadow-[0_2px_8px_rgba(245,158,11,0.05)] hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 min-w-0 text-center">
                   {(() => {
                     const raw = activeCategory.stats.highestScore.value;
                     const isPercentile = raw.includes('%ile');
                     const isPercent = raw.includes('%');
                     const num = raw.replace('%ile', '').replace('%', '');
                     return (
-                      <div className="text-[#062B67] dark:text-white font-[950] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[30px] tracking-tight leading-none h-[28px] xs:h-[30px] sm:h-[34px] flex items-baseline justify-center">
-                        <span>{num}</span>
-                        {isPercentile ? (
-                          <span className="text-[10px] xs:text-[11px] sm:text-[13px] font-extrabold text-[#EA580C] dark:text-orange-400 ml-0.5">%ile</span>
-                        ) : isPercent ? (
-                          <span className="text-[11px] xs:text-[12px] sm:text-[14px] font-extrabold text-[#EA580C] dark:text-orange-400 ml-0.5">%</span>
-                        ) : null}
-                      </div>
+                      <>
+                        <div className="flex items-baseline justify-center">
+                          <span className="text-[18px] min-[360px]:text-[21px] sm:text-[24px] lg:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
+                            {num}
+                          </span>
+                          <span className="text-[11px] sm:text-[13px] font-bold text-[#64748B] ml-0.5">
+                            {isPercentile ? '%ile' : isPercent ? '%' : ''}
+                          </span>
+                        </div>
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[8px] min-[360px]:text-[9px] sm:text-[10px] font-bold bg-[#FEF08A] text-[#92400E] max-w-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0" />
+                          <span className="truncate">{activeCategory.stats.highestScore.label}</span>
+                        </div>
+                      </>
                     );
                   })()}
-                  <div className="mt-1.5 sm:mt-2 inline-flex items-center gap-1 sm:gap-1.5 px-2 xs:px-2.5 py-0.5 rounded-full text-[9.5px] xs:text-[10px] sm:text-[11px] font-bold bg-[#FFF7ED] dark:bg-orange-950/30 text-[#C2410C] dark:text-orange-300 border border-[#FFEDD5] dark:border-orange-900/40">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#EA580C] shrink-0" />
-                    <span className="truncate">{activeCategory.stats.highestScore.label}</span>
-                  </div>
                 </div>
 
-                {/* Stat 2: Students 95%+ (Top: 95%+, Bottom: Student Count) */}
+                {/* Stat 2: Students 95%+ */}
                 {(() => {
                   const isCuet = activeCategory.id === 'cuet';
                   const topNumber = isCuet ? '100%ile' : '95%+';
@@ -671,20 +666,24 @@ export function AcademicExcellence() {
                   const symbol = topNumber.includes('%ile') ? '%ile' : topNumber.includes('%+') ? '%+' : '%';
 
                   return (
-                    <div className="group relative flex flex-col items-center justify-center text-center p-2.5 sm:p-3 lg:p-3.5 min-h-[76px] sm:min-h-[84px] h-full rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 border-t-[2.5px] border-t-[#10B981] shadow-[0_2px_8px_-2px_rgba(16,185,129,0.08),0_1px_2px_rgba(6,43,103,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                      <div className="text-[#062B67] dark:text-white font-[950] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[30px] tracking-tight leading-none h-[28px] xs:h-[30px] sm:h-[34px] flex items-baseline justify-center">
-                        <span>{numOnly}</span>
-                        <span className="text-[11px] xs:text-[12px] sm:text-[14px] font-extrabold text-[#10B981] dark:text-emerald-400 ml-0.5">{symbol}</span>
+                    <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 xl:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#F2FBF7] border border-[#BBF7D0] shadow-[0_2px_8px_rgba(16,185,129,0.05)] hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 min-w-0 text-center">
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-[18px] min-[360px]:text-[21px] sm:text-[24px] lg:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
+                          {numOnly}
+                        </span>
+                        <span className="text-[11px] sm:text-[13px] font-bold text-[#059669] ml-0.5">
+                          {symbol}
+                        </span>
                       </div>
-                      <div className="mt-1.5 sm:mt-2 inline-flex items-center gap-1 sm:gap-1.5 px-2 xs:px-2.5 py-0.5 rounded-full text-[9.5px] xs:text-[10px] sm:text-[11px] font-bold bg-[#ECFDF5] dark:bg-emerald-950/30 text-[#059669] dark:text-emerald-300 border border-[#D1FAE5] dark:border-emerald-900/40">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] shrink-0" />
+                      <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[8px] min-[360px]:text-[9px] sm:text-[10px] font-bold bg-[#DCFCE7] text-[#065F46] max-w-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#059669] shrink-0" />
                         <span className="truncate">{bottomLabel}</span>
                       </div>
                     </div>
                   );
                 })()}
 
-                {/* Stat 3: Students 90%+ (Top: 90%+, Bottom: Student Count) */}
+                {/* Stat 3: Students 90%+ */}
                 {(() => {
                   const isCuet = activeCategory.id === 'cuet';
                   const topNumber = isCuet ? '98%+' : '90%+';
@@ -693,13 +692,17 @@ export function AcademicExcellence() {
                   const symbol = topNumber.includes('%+') ? '%+' : '%';
 
                   return (
-                    <div className="group relative flex flex-col items-center justify-center text-center p-2.5 sm:p-3 lg:p-3.5 min-h-[76px] sm:min-h-[84px] h-full rounded-xl sm:rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 border-t-[2.5px] border-t-[#155EEF] shadow-[0_2px_8px_-2px_rgba(21,94,239,0.08),0_1px_2px_rgba(6,43,103,0.02)] hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
-                      <div className="text-[#062B67] dark:text-white font-[950] text-[20px] xs:text-[22px] sm:text-[26px] lg:text-[30px] tracking-tight leading-none h-[28px] xs:h-[30px] sm:h-[34px] flex items-baseline justify-center">
-                        <span>{numOnly}</span>
-                        <span className="text-[11px] xs:text-[12px] sm:text-[14px] font-extrabold text-[#155EEF] dark:text-blue-400 ml-0.5">{symbol}</span>
+                    <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 xl:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#F0F6FE] border border-[#BFDBFE] shadow-[0_2px_8px_rgba(37,99,235,0.05)] hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 min-w-0 text-center">
+                      <div className="flex items-baseline justify-center">
+                        <span className="text-[18px] min-[360px]:text-[21px] sm:text-[24px] lg:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
+                          {numOnly}
+                        </span>
+                        <span className="text-[11px] sm:text-[13px] font-bold text-[#2563EB] ml-0.5">
+                          {symbol}
+                        </span>
                       </div>
-                      <div className="mt-1.5 sm:mt-2 inline-flex items-center gap-1 sm:gap-1.5 px-2 xs:px-2.5 py-0.5 rounded-full text-[9.5px] xs:text-[10px] sm:text-[11px] font-bold bg-[#EFF6FF] dark:bg-blue-950/30 text-[#155EEF] dark:text-blue-300 border border-[#DBEAFE] dark:border-blue-900/40">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#155EEF] shrink-0" />
+                      <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[8px] min-[360px]:text-[9px] sm:text-[10px] font-bold bg-[#DBEAFE] text-[#1E40AF] max-w-full">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" />
                         <span className="truncate">{bottomLabel}</span>
                       </div>
                     </div>
@@ -711,30 +714,48 @@ export function AcademicExcellence() {
 
           </div>
 
-          {/* ----------------- MIDDLE ROW: TOP PERFORMERS HEADER ----------------- */}
-          <div className="relative z-10 flex items-center justify-between mt-2.5 sm:mt-3 mb-3 sm:mb-3.5 px-0.5 w-full">
+          {/* ----------------- MIDDLE ROW: TOP PERFORMERS HEADER + NAV ARROWS ----------------- */}
+          <div className="relative z-10 flex items-center justify-between mt-2 sm:mt-2.5 mb-1.5 sm:mb-2 px-0.5 w-full">
             {/* Left: Bar Chart Icon + Title */}
-            <div className="flex items-center gap-2 shrink-0">
-              <BarChartIcon className="w-[18px] h-[18px] text-[#062B67] dark:text-blue-400 shrink-0" />
-              <h4 className="text-[#062B67] dark:text-white font-[950] text-[16px] sm:text-[17.5px] tracking-tight">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+              <BarChartIcon className="w-[18px] h-[18px] text-[#F59E0B] shrink-0" />
+              <h4 className="text-[#0A1E4A] dark:text-white font-[950] text-[16px] sm:text-[17.5px] tracking-tight">
                 Top Performers
               </h4>
+            </div>
+
+            {/* Right: Circular Navigation Chevron Buttons matching screenshot (Endless loop enabled) */}
+            <div className="flex items-center gap-1.5">
+              <button 
+                type="button"
+                onClick={scrollPrev} 
+                aria-label="Previous slide" 
+                className="w-7 h-7 rounded-full border border-slate-200/90 bg-white flex items-center justify-center text-slate-500 hover:text-[#0A1E4A] hover:border-slate-300 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.04)] cursor-pointer active:scale-95"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </button>
+              <button 
+                type="button"
+                onClick={scrollNext} 
+                aria-label="Next slide" 
+                className="w-7 h-7 rounded-full bg-[#155EEF] hover:bg-[#124bbf] text-white flex items-center justify-center shadow-[0_1px_2px_rgba(21,94,239,0.2)] transition-all cursor-pointer active:scale-95"
+              >
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
             </div>
           </div>
 
           {/* ----------------- CAROUSEL OF STUDENT CARDS ----------------- */}
-          <div className="relative z-10 w-full overflow-hidden">
+          <div className="relative z-10 w-full">
             <Carousel
               setApi={setCarouselApi}
               opts={{
                 align: 'start',
-                loop: false,
-                dragFree: false,
-                containScroll: 'trimSnaps'
+                loop: true,
               }}
               className="w-full"
             >
-              <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3">
+              <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3 py-1">
                 {activeCategory.topPerformers.map((student) => {
                   const isPercentile = student.score.includes('%ile');
                   const scoreValue = isPercentile ? student.score.replace('%ile', '') : student.score.replace('%', '');
@@ -742,70 +763,57 @@ export function AcademicExcellence() {
                   return (
                     <CarouselItem 
                       key={student.id} 
-                      className="pl-2 sm:pl-2.5 lg:pl-3 basis-[47%] xs:basis-[44%] sm:basis-[32%] md:basis-[24%] lg:basis-1/5"
+                      className="pl-2 sm:pl-2.5 lg:pl-3 basis-full sm:basis-[32%] md:basis-[24%] lg:basis-1/5"
                     >
-                      {/* Student Card (Clean, uniform, no highlighted border) */}
+                      {/* Student Card: Pure white card with visible neutral outline (no extra color effects) */}
                       <div 
                         onClick={() => setSelectedCardId(student.id)}
-                        className="bg-white dark:bg-slate-900 rounded-[16px] border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_4px_rgba(10,30,66,0.02)] hover:shadow-[0_4px_16px_rgba(10,30,66,0.06)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer"
+                        className="bg-white rounded-[20px] sm:rounded-[22px] border-[1.5px] border-slate-300 dark:border-slate-700 shadow-[0_3px_12px_rgba(10,30,74,0.05),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_rgba(10,30,74,0.08)] hover:border-slate-300 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-[340px] mx-auto sm:max-w-none outline-none focus:outline-none focus:ring-0 active:outline-none"
                       >
                         
-                        {/* Student image: subtle 5-8% reduction on mobile (aspect-[1/0.93]) for ideal text balance */}
-                        <div className="relative w-full aspect-[1/0.93] sm:aspect-square bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden">
+                        {/* Student image: soft light blue studio background with bottom divider */}
+                        <div className="relative w-full aspect-square bg-[#EAF2FC] overflow-hidden border-b border-slate-100 dark:border-slate-800">
                           <Image
                             src={student.image}
                             alt={student.name}
                             fill
                             unoptimized
-                            sizes="(max-width: 640px) 48vw, (max-width: 1024px) 25vw, 20vw"
+                            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 25vw, 20vw"
                             className="object-cover object-top group-hover:scale-103 transition-transform duration-500"
                             priority={false}
                           />
                         </div>
 
-                        {/* Lower Information Area: Two-Column Composition + Clean Bottom Action Area */}
-                        <div className="relative pt-2.5 sm:pt-3 pb-2.5 sm:pb-3 px-2.5 sm:px-3 lg:px-3.5 flex flex-col flex-1 justify-between overflow-hidden">
+                        {/* Lower Information Area: Structured Layout eliminating empty gaps */}
+                        <div className="relative p-3.5 sm:p-3 flex flex-col justify-between">
                           
-                          {/* Two-Column Composition: Left = Student Identity, Right = Percentage */}
-                          <div className="relative z-10 flex items-center justify-between gap-1.5 sm:gap-2 min-h-[48px] sm:min-h-[52px]">
+                          {/* Top Row: Name + Grade on Left, Big Bold Yellow Marks on Right */}
+                          <div className="flex items-center justify-between gap-2.5">
                             
-                            {/* Left Column: Student Name + Class/Stream/College with comfortable breathing room */}
-                            <div className="min-w-0 flex-1 text-left flex flex-col justify-center pr-1 sm:pr-1.5">
-                              <h5 className="font-[800] text-[12.5px] xs:text-[13px] sm:text-[14px] lg:text-[14.5px] tracking-tight leading-[1.22] transition-colors break-words text-[#062B67] dark:text-white group-hover:text-[#155EEF]">
+                            {/* Left: Name and Grade */}
+                            <div className="min-w-0 flex-1 text-left">
+                              <h5 className="font-[950] text-[18px] min-[360px]:text-[19.5px] sm:text-[14px] lg:text-[14.5px] tracking-tight leading-tight truncate text-[#0A1E4A] dark:text-white">
                                 {student.name}
                               </h5>
-                              <p className="text-[10px] sm:text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 leading-[1.2] break-words" title={student.grade}>
+                              <p className="text-[13px] min-[360px]:text-[13.5px] sm:text-[11.5px] font-semibold text-slate-500 dark:text-slate-400 mt-1 truncate" title={student.grade}>
                                 {student.grade}
                               </p>
                             </div>
 
-                            {/* Right Column: Visually strong percentage with slightly secondary % symbol */}
-                            <div className="relative shrink-0 text-right flex flex-col items-end justify-center min-w-[36px] sm:min-w-[44px]">
-                              {isPercentile ? (
-                                <div className="relative z-10 flex flex-col items-end">
-                                  <span className="text-[18px] sm:text-[20px] lg:text-[22px] font-[950] text-[#EA580C] dark:text-orange-400 tracking-tight leading-none">
-                                    {scoreValue}
-                                  </span>
-                                  <span className="text-[8.5px] sm:text-[9.5px] font-bold text-[#10B981] dark:text-emerald-400 tracking-wider uppercase mt-0.5 leading-none">
-                                    %ile
-                                  </span>
-                                </div>
-                              ) : (
-                                <div className="relative z-10 flex items-baseline">
-                                  <span className="text-[18px] sm:text-[20px] lg:text-[22px] font-[950] text-[#EA580C] dark:text-orange-400 tracking-tight leading-none">
-                                    {scoreValue}
-                                  </span>
-                                  <span className="text-[10.5px] sm:text-[11.5px] font-bold text-[#EA580C]/75 dark:text-orange-400/80 ml-0.5 leading-none">
-                                    %
-                                  </span>
-                                </div>
-                              )}
+                            {/* Right: Big Prominent Yellow Marks */}
+                            <div className="shrink-0 flex items-baseline justify-end text-right">
+                              <span className="text-[28px] min-[360px]:text-[32px] sm:text-[22px] lg:text-[24px] font-[950] text-[#E5A000] dark:text-[#FACC15] leading-none tracking-tight">
+                                {scoreValue}
+                              </span>
+                              <span className="text-[15px] min-[360px]:text-[16px] sm:text-[12.5px] font-[950] text-[#E5A000] dark:text-[#FACC15] ml-0.5">
+                                {isPercentile ? '%ile' : '%'}
+                              </span>
                             </div>
 
                           </div>
 
-                          {/* Bottom Action Area: Clean View Profile with Subtle Top Divider */}
-                          <div className="relative z-10 w-full pt-2 sm:pt-2.5 mt-auto border-t border-slate-100 dark:border-slate-800 flex items-center">
+                          {/* Bottom Row: View Profile Action + Achievement Badge */}
+                          <div className="mt-2.5 sm:mt-2 pt-2.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                             <button
                               type="button"
                               onClick={(e) => {
@@ -813,11 +821,17 @@ export function AcademicExcellence() {
                                 setSelectedCardId(student.id);
                                 setSelectedStudent(student);
                               }}
-                              className="text-[11px] sm:text-[11.5px] lg:text-[12px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-semibold text-[#155EEF] hover:text-[#062B67] dark:text-blue-400 dark:hover:text-white"
+                              className="text-[13px] min-[360px]:text-[13.5px] sm:text-[11.5px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-bold text-[#155EEF] hover:text-[#0A1E4A]"
                             >
                               <span>View Profile</span>
-                              <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform shrink-0" />
+                              <ArrowRight className="w-3.5 h-3.5 sm:w-3 sm:h-3 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                             </button>
+
+                            {student.badge && (
+                              <span className="text-[11px] sm:text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] dark:bg-amber-900/30 dark:text-amber-300 shrink-0 truncate max-w-[130px]">
+                                {student.badge}
+                              </span>
+                            )}
                           </div>
 
                         </div>
@@ -830,8 +844,8 @@ export function AcademicExcellence() {
             </Carousel>
           </div>
 
-          {/* ----------------- PAGINATION INDICATORS WITH COMFORTABLE SPACING ----------------- */}
-          <div className="w-full flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5 mb-0.5">
+          {/* ----------------- PAGINATION INDICATORS (BLUE ACTIVE PILL) ----------------- */}
+          <div className="w-full flex justify-center items-center gap-1.5 sm:gap-2 mt-3.5 sm:mt-4 mb-0.5">
             {activeCategory.topPerformers.map((_, i) => (
               <button
                 key={i}
@@ -842,9 +856,9 @@ export function AcademicExcellence() {
                 <span
                   className={cn(
                     "rounded-full transition-all duration-300",
-                    currentSlideIndex === i 
-                      ? "w-5 sm:w-6 h-1.5 bg-[#155EEF] dark:bg-blue-400" 
-                      : "w-1.5 h-1.5 bg-[#CCE0FB] dark:bg-slate-700 hover:bg-[#155EEF]/50"
+                    (currentSlideIndex % activeCategory.topPerformers.length) === i 
+                      ? "w-6 sm:w-7 h-1.5 bg-[#155EEF]" 
+                      : "w-1.5 h-1.5 bg-slate-300 dark:bg-slate-700 hover:bg-slate-400"
                   )}
                 />
               </button>
@@ -896,10 +910,10 @@ export function AcademicExcellence() {
             {/* Header: Student Identity */}
             <div className="flex items-center justify-between px-5 sm:px-6 pt-5 sm:pt-6 pb-4 sm:pb-5 bg-white dark:bg-slate-950 border-b border-[#E8EFF8] dark:border-slate-800/80 shrink-0 pr-12 sm:pr-14">
               <div className="flex items-center gap-3.5 sm:gap-4 min-w-0 flex-1">
-                {/* Circular Profile Photo with brand accent ring */}
+                {/* Circular Profile Photo */}
                 <div className="relative w-[60px] h-[60px] sm:w-[68px] sm:h-[68px] rounded-full shrink-0">
-                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#246BFF]/20 to-[#246BFF]/5 dark:from-blue-500/20 dark:to-blue-500/5 p-[2.5px]">
-                    <div className="w-full h-full rounded-full overflow-hidden bg-[#F5F8FD] dark:bg-slate-800">
+                  <div className="absolute inset-0 rounded-full bg-gradient-to-br from-[#155EEF]/20 to-[#155EEF]/5 p-[2.5px]">
+                    <div className="w-full h-full rounded-full overflow-hidden bg-[#EAF2FC]">
                       <Image
                         src={selectedStudent.image}
                         alt={selectedStudent.name}
@@ -914,20 +928,20 @@ export function AcademicExcellence() {
                 
                 {/* Name & Class */}
                 <div className="min-w-0 text-left">
-                  <h4 id="student-profile-title" className="text-[18px] sm:text-[19px] font-[800] text-[#0B2E6B] dark:text-white leading-tight tracking-[-0.01em]" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+                  <h4 id="student-profile-title" className="text-[18px] sm:text-[19px] font-[800] text-[#0A1E4A] dark:text-white leading-tight tracking-[-0.01em]" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                     {selectedStudent.name}
                   </h4>
-                  <p className="text-[#64748B] dark:text-slate-400 text-[11.5px] sm:text-[12px] font-medium leading-normal mt-0.5 tracking-[0.01em]">
+                  <p className="text-slate-500 dark:text-slate-400 text-[11.5px] sm:text-[12px] font-medium leading-normal mt-0.5 tracking-[0.01em]">
                     {selectedStudent.grade}
                   </p>
                 </div>
               </div>
 
-              {/* Percentage on the right */}
+              {/* Percentage on the right in warm yellow badge */}
               <div className="shrink-0 ml-3 text-right">
-                <span className="text-[22px] sm:text-[24px] font-[900] text-[#F26500] leading-none tracking-tight">
+                <div className="px-3 py-1.5 rounded-full bg-[#FEF08A] text-[#0A1E4A] font-[900] text-[16px] sm:text-[18px] leading-none inline-flex items-baseline">
                   {selectedStudent.score}
-                </span>
+                </div>
               </div>
             </div>
 
@@ -936,19 +950,19 @@ export function AcademicExcellence() {
               {/* Subject Scores / Breakdown */}
               {selectedStudent.subjects && selectedStudent.subjects.length > 0 && (
                 <div>
-                  <h6 className="text-[10px] sm:text-[10.5px] font-bold text-[#0B2E6B]/70 dark:text-slate-400 uppercase tracking-[0.08em] mb-2 sm:mb-2.5">
+                  <h6 className="text-[10px] sm:text-[10.5px] font-bold text-[#0A1E4A]/70 dark:text-slate-400 uppercase tracking-[0.08em] mb-2 sm:mb-2.5">
                     Subject Performance
                   </h6>
                   <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
                     {selectedStudent.subjects.map((sub, i) => (
                       <div 
                         key={i} 
-                        className="bg-[#F5F8FD] dark:bg-slate-900/60 px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-[14px] sm:rounded-[15px] border border-[#D7E4F5] dark:border-slate-800 flex items-center justify-between gap-1.5 sm:gap-2 min-h-[44px] sm:min-h-[46px] transition-colors duration-200 hover:border-[#B4CCE8] dark:hover:border-slate-700"
+                        className="bg-[#F8FAFD] dark:bg-slate-900/60 px-3 sm:px-3.5 py-2.5 sm:py-3 rounded-[14px] sm:rounded-[15px] border border-[#D7E4F5] dark:border-slate-800 flex items-center justify-between gap-1.5 sm:gap-2 min-h-[44px] sm:min-h-[46px] transition-colors duration-200 hover:border-[#B4CCE8]"
                       >
-                        <span className="text-[11px] min-[380px]:text-[11.5px] sm:text-[12.5px] text-[#0B2E6B] dark:text-slate-200 font-semibold leading-[1.2] tracking-tight">
+                        <span className="text-[11px] min-[380px]:text-[11.5px] sm:text-[12.5px] text-[#0A1E4A] dark:text-slate-200 font-semibold leading-[1.2] tracking-tight">
                           {sub.name}
                         </span>
-                        <span className="text-[12px] sm:text-[13.5px] font-extrabold text-[#246BFF] dark:text-blue-400 shrink-0 text-right tabular-nums tracking-tight">
+                        <span className="text-[12px] sm:text-[13.5px] font-extrabold text-[#155EEF] shrink-0 text-right tabular-nums tracking-tight">
                           {sub.marks}
                         </span>
                       </div>
@@ -959,11 +973,11 @@ export function AcademicExcellence() {
 
               {/* Target / Accomplishment */}
               {selectedStudent.dreamCollege && (
-                <div className="bg-[#FFFAF3] dark:bg-amber-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#FBE5C8] dark:border-amber-900/40 text-left">
-                  <div className="text-[9.5px] sm:text-[10px] font-bold text-[#C26500] dark:text-amber-400 uppercase tracking-[0.1em] leading-none mb-1.5">
+                <div className="bg-[#FFFDF5] dark:bg-amber-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#FDE68A] text-left">
+                  <div className="text-[9.5px] sm:text-[10px] font-bold text-[#D97706] uppercase tracking-[0.1em] leading-none mb-1.5">
                     Target / Accomplishment
                   </div>
-                  <div className="text-[13.5px] sm:text-[14.5px] text-[#0B2E6B] dark:text-slate-100 font-bold leading-snug" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
+                  <div className="text-[13.5px] sm:text-[14.5px] text-[#0A1E4A] dark:text-slate-100 font-bold leading-snug" style={{ wordBreak: 'break-word', overflowWrap: 'break-word' }}>
                     {selectedStudent.dreamCollege}
                   </div>
                 </div>
@@ -971,13 +985,13 @@ export function AcademicExcellence() {
 
               {/* Student Experience */}
               {selectedStudent.testimonial && (
-                <div className="relative bg-[#F5F8FD] dark:bg-blue-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#D7E4F5] dark:border-blue-900/40 text-left overflow-hidden">
+                <div className="relative bg-[#F0F6FE] dark:bg-blue-950/20 px-4 sm:px-4.5 py-3 sm:py-3.5 rounded-[14px] sm:rounded-[15px] border border-[#CCE3FB] text-left overflow-hidden">
                   {/* Oversized quotation watermark */}
-                  <div className="absolute top-1 right-2 text-[52px] sm:text-[60px] leading-none font-serif text-[#0B2E6B]/[0.04] dark:text-white/[0.04] select-none pointer-events-none" aria-hidden="true">
+                  <div className="absolute top-1 right-2 text-[52px] sm:text-[60px] leading-none font-serif text-[#0A1E4A]/[0.04] select-none pointer-events-none" aria-hidden="true">
                     &ldquo;
                   </div>
                   <div className="relative z-[1]">
-                    <div className="text-[9.5px] sm:text-[10px] font-bold text-[#246BFF] dark:text-blue-400 uppercase tracking-[0.1em] leading-none mb-2">
+                    <div className="text-[9.5px] sm:text-[10px] font-bold text-[#155EEF] uppercase tracking-[0.1em] leading-none mb-2">
                       Student Experience
                     </div>
                     <p className="text-[12px] sm:text-[13px] text-slate-600 dark:text-slate-300 leading-[1.65] italic font-normal">
@@ -995,12 +1009,12 @@ export function AcademicExcellence() {
       <Dialog open={showAllResultsModal} onOpenChange={setShowAllResultsModal}>
         <FormModalDialogContent
           maxWidthClass="max-w-4xl"
-          className="w-[94vw] sm:w-[92vw] md:w-[90vw]"
+          className="w-[94vw] sm:w-[92vw] md:w-[90vw] bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800"
         >
           {/* Modal Header: Pinned with subtle bottom border */}
-          <DialogHeader className="px-6 sm:px-8 py-4 sm:py-5 border-b border-[#DCE7F6] dark:border-slate-800 text-left shrink-0 pr-14 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm">
+          <DialogHeader className="px-6 sm:px-8 py-4 sm:py-5 border-b border-slate-200 dark:border-slate-800 text-left shrink-0 pr-14 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm">
             <DialogTitle className="text-[19px] sm:text-[22px] font-bold tracking-tight leading-tight">
-              <span className="text-[#0B1F4B] dark:text-white">Bright Minds.</span>{' '}
+              <span className="text-[#0A1E4A] dark:text-white">Bright Minds.</span>{' '}
               <span className="text-[#155EEF] dark:text-blue-400">Brighter Futures.</span>
             </DialogTitle>
             <DialogDescription className="sr-only">
@@ -1012,13 +1026,13 @@ export function AcademicExcellence() {
           <div className="flex-1 overflow-y-auto p-5 sm:p-7 md:p-8 space-y-6 sm:space-y-7 text-left overscroll-contain">
             {RESULTS_DATA.map((category) => (
               <div key={category.id} className="space-y-3 sm:space-y-3.5">
-                {/* Result Section Header: Clean title on left, Highest score on right */}
-                <div className="flex items-center justify-between border-b border-[#DCE7F6] dark:border-slate-800/80 pb-2.5">
-                  <h5 className="font-bold text-[13px] sm:text-[14px] text-[#0B1F4B] dark:text-slate-100 tracking-wide uppercase">
+                {/* Result Section Header */}
+                <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2.5">
+                  <h5 className="font-bold text-[13px] sm:text-[14px] text-[#0A1E4A] dark:text-slate-100 tracking-wide uppercase">
                     {category.headlineTitle} {category.headlineHighlight}
                   </h5>
-                  <span className="text-[12px] sm:text-[12.5px] font-medium text-slate-500 dark:text-slate-400">
-                    Highest: <strong className="font-bold text-[#FF6B21] ml-1 text-[13px] sm:text-[13.5px]">{category.stats.highestScore.value}</strong>
+                  <span className="text-[12px] sm:text-[12.5px] font-medium text-slate-500">
+                    Highest: <strong className="font-bold text-[#155EEF] ml-1 text-[13px] sm:text-[13.5px]">{category.stats.highestScore.value}</strong>
                   </span>
                 </div>
 
@@ -1027,10 +1041,10 @@ export function AcademicExcellence() {
                   {category.topPerformers.map((performer) => (
                     <div 
                       key={performer.id}
-                      className="flex items-center gap-3 sm:gap-3.5 p-3 sm:p-3.5 rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] transition-all hover:border-[#B9D0ED] dark:hover:border-slate-700"
+                      className="flex items-center gap-3 sm:gap-3.5 p-3 sm:p-3.5 rounded-xl border border-slate-200 bg-[#F8FAFD] shadow-[0_1px_2px_rgba(0,0,0,0.02)] transition-all hover:border-slate-300"
                     >
                       {/* Student Photo */}
-                      <div className="relative w-12 h-12 sm:w-[50px] sm:h-[50px] rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800 border border-[#DCE7F6]/80 dark:border-slate-700">
+                      <div className="relative w-12 h-12 sm:w-[50px] sm:h-[50px] rounded-lg overflow-hidden shrink-0 bg-[#EAF2FC] border border-slate-200">
                         <Image
                           src={performer.image}
                           alt={performer.name}
@@ -1043,14 +1057,14 @@ export function AcademicExcellence() {
                       {/* Student Details */}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-2">
-                          <h6 className="font-bold text-[13.5px] sm:text-[14px] text-[#0B1F4B] dark:text-slate-100 truncate">
+                          <h6 className="font-bold text-[13.5px] sm:text-[14px] text-[#0A1E4A] truncate">
                             {performer.name}
                           </h6>
-                          <span className="font-bold text-[13px] sm:text-[13.5px] text-[#FF6B21] shrink-0">
+                          <span className="px-2 py-0.5 rounded-full bg-[#FEF08A] text-[#0A1E4A] font-bold text-[12px] shrink-0">
                             {performer.score}
                           </span>
                         </div>
-                        <p className="text-[11.5px] sm:text-[12px] font-medium text-slate-500 dark:text-slate-400 truncate mt-0.5">
+                        <p className="text-[11.5px] sm:text-[12px] font-medium text-slate-400 truncate mt-0.5">
                           {performer.grade}
                         </p>
                       </div>

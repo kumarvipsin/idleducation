@@ -119,7 +119,7 @@ export function EducatorsCarousel({
         plugins={[Autoplay({ delay: 4500, stopOnInteraction: false, stopOnMouseEnter: true })]}
         className="w-full"
       >
-        <CarouselContent className="-ml-3 sm:-ml-4 items-stretch">
+        <CarouselContent className="-ml-3 sm:-ml-4 items-stretch py-1.5">
           {teachers.map((teacher, index) => (
             <CarouselItem
               key={teacher.id || index}
