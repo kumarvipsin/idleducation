@@ -128,43 +128,62 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
   return (
     <>
-      <div className="group/featured flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] hover:shadow-[0_6px_22px_rgba(10,30,66,0.08)] transition-all duration-300">
+      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden shadow-[0_2px_14px_rgba(10,30,66,0.04)] hover:shadow-[0_6px_22px_rgba(10,30,66,0.08)] transition-all duration-300">
         
-        {/* Left Side: Student Portrait Image */}
-        <div className="p-2.5 sm:p-3 w-[45%] xl:w-[45.5%] h-full shrink-0 flex">
-          <div 
-            className="relative w-full h-full rounded-[16px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
-            onClick={() => setIsVideoOpen(true)}
+        {/* Outline Gradient: Left side same solid, middle to right lighter, right 5% removed completely */}
+        <div 
+          aria-hidden="true"
+          className="absolute inset-0 rounded-[22px] pointer-events-none z-20 dark:hidden"
+          style={{
+            padding: '1px',
+            background: 'linear-gradient(to right, rgba(226, 232, 240, 0.85) 0%, rgba(226, 232, 240, 0.85) 45%, rgba(226, 232, 240, 0.3) 72%, rgba(226, 232, 240, 0.1) 88%, transparent 95%, transparent 100%)',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+          }}
+        />
+        <div 
+          aria-hidden="true"
+          className="absolute inset-0 rounded-[22px] pointer-events-none z-20 hidden dark:block"
+          style={{
+            padding: '1px',
+            background: 'linear-gradient(to right, rgba(51, 65, 85, 0.85) 0%, rgba(51, 65, 85, 0.85) 45%, rgba(51, 65, 85, 0.3) 72%, rgba(51, 65, 85, 0.1) 88%, transparent 95%, transparent 100%)',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+          }}
+        />
+
+        {/* Left Side: Student Portrait Image (No outer frame/box outline, no hover zoom) */}
+        <div 
+          className="relative w-[45%] xl:w-[45.5%] h-full shrink-0 overflow-hidden rounded-l-[22px] bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+          onClick={() => setIsVideoOpen(true)}
+        >
+          <StudentAvatar
+            src={testimonial.avatarUrl}
+            fallbackSrc={fallback}
+            alt={testimonial.name}
+            className="object-cover object-[center_12%]"
+          />
+
+          {/* Subtle bottom gradient for play button readability */}
+          <div
+            className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%)" }}
+          />
+
+          {/* Play Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsVideoOpen(true);
+            }}
+            aria-label={`Watch story of ${testimonial.name}`}
+            className="absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-black/35 backdrop-blur-xs flex items-center justify-center hover:bg-black/50 active:scale-95 transition-all duration-200 cursor-pointer"
           >
-            <StudentAvatar
-              src={testimonial.avatarUrl}
-              fallbackSrc={fallback}
-              alt={testimonial.name}
-              className={cn(
-                "transition-transform duration-500 ease-out group-hover/featured:scale-[1.03]",
-                isGirl && "scale-[0.93] object-[center_10%]"
-              )}
-            />
-
-            {/* Subtle bottom gradient matching educators card */}
-            <div
-              className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
-              style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%)" }}
-            />
-
-            {/* Play Button — matching Meet Our Educators */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsVideoOpen(true);
-              }}
-              aria-label={`Watch story of ${testimonial.name}`}
-              className="absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center hover:bg-white/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
-            >
-              <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
-            </button>
-          </div>
+            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+          </button>
         </div>
 
         {/* Right Side: Quote & Student Identity */}
@@ -182,18 +201,18 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           {/* Testimonial Quote */}
           <div className="relative z-10 min-w-0 max-w-[360px] xl:max-w-[390px]">
             <blockquote className="mb-2.5">
-              <p className="text-[13.5px] sm:text-[14px] lg:text-[14.5px] font-normal text-[#0F172A] dark:text-slate-100 leading-[1.5] tracking-normal">
+              <p className="text-[14.2px] sm:text-[14.7px] lg:text-[15.2px] text-[#64748B] dark:text-slate-300 leading-[1.5] tracking-normal" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                 {quoteText}
               </p>
             </blockquote>
 
             {/* Student Name & Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[15px] sm:text-[15.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
+              <h3 className="text-[15.8px] sm:text-[16.3px] text-[#062B67] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 750, WebkitTextStroke: '0.15px currentColor' }}>
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[12.5px] sm:text-[13px] text-[#64748B] dark:text-slate-400 font-normal">
+              <span className="text-[13.1px] sm:text-[13.7px] text-[#64748B] dark:text-slate-400" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                 {classLabel}
               </span>
             </div>
@@ -270,16 +289,16 @@ const CompactStoryCard = ({
         {/* Text Content on Right */}
         <div className="flex flex-col justify-center flex-1 py-1.5 pr-3 pl-1 min-w-0">
           {/* Testimonial Quote */}
-          <p className="text-[12px] sm:text-[12.5px] text-[#334155] dark:text-slate-200 font-normal leading-[1.38] mb-1 line-clamp-2">
+          <p className="text-[12.6px] sm:text-[13.1px] text-[#64748B] dark:text-slate-300 leading-[1.38] mb-1 line-clamp-2" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
             {quoteText}
           </p>
           {/* Student Identity */}
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-            <span className="font-bold text-[12.5px] sm:text-[13px] text-[#062B67] dark:text-white tracking-tight leading-snug">
+            <span className="text-[13.1px] sm:text-[13.7px] text-[#062B67] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 750, WebkitTextStroke: '0.15px currentColor' }}>
               {testimonial.name}
             </span>
             <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-            <span className="text-[11.5px] sm:text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
+            <span className="text-[12.1px] sm:text-[12.6px] text-[#64748B] dark:text-slate-400" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
               {classLabel}
             </span>
           </div>
@@ -324,7 +343,7 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
   return (
     <>
-      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.05)] p-3 sm:p-3.5">
+      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] p-3 sm:p-3.5">
         
         {/* Student Image: Prominent portrait box */}
         <div 
@@ -373,18 +392,18 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           <div className="relative z-10 min-w-0">
             {/* Testimonial Quote */}
             <blockquote className="mb-2">
-              <p className="text-[13px] sm:text-[13.5px] font-normal text-[#1E293B] dark:text-slate-200 leading-[1.45] line-clamp-3 antialiased">
+              <p className="text-[13.7px] sm:text-[14.2px] text-[#64748B] dark:text-slate-300 leading-[1.45] line-clamp-3 antialiased" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                 {quoteText}
               </p>
             </blockquote>
 
             {/* Student Name & Class */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-bold text-[14px] text-[#062B67] dark:text-white tracking-tight leading-snug">
+              <h3 className="text-[14.7px] text-[#062B67] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 750, WebkitTextStroke: '0.15px currentColor' }}>
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[12px] text-[#64748B] dark:text-slate-400 font-normal">
+              <span className="text-[12.6px] text-[#64748B] dark:text-slate-400" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                 {classLabel}
               </span>
             </div>
@@ -597,7 +616,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
             </div>
 
             {/* Desktop Carousel Pagination Dots */}
-            <div className="hidden lg:flex justify-center items-center gap-1.5 sm:gap-2 mt-6 lg:mt-7">
+            <div className="hidden lg:flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5">
               {testimonialList.map((_, i) => (
                 <button
                   key={i}

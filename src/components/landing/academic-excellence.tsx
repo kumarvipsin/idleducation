@@ -622,7 +622,10 @@ export function AcademicExcellence() {
                 </span>
               </h3>
 
-              <p className="text-[13px] sm:text-[13.5px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-relaxed font-normal max-w-sm break-words">
+              <p 
+                className="text-[13.7px] sm:text-[14.2px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-sm break-words"
+                style={{ fontWeight: 620, WebkitTextStroke: '0.12px currentColor' }}
+              >
                 {activeCategory.description}
               </p>
             </div>

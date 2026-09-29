@@ -629,5 +629,59 @@ body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
   letter-spacing: 0.008em;
 }
 
+/* ─────────────────────────────────────────────────────────────
+   Hemisphere / 3D Convex Dome Circle Card Effect
+   Center raised/embossed, edges smoothly sloped downward
+   ───────────────────────────────────────────────────────────── */
+.idl-hemisphere-pod {
+  background: radial-gradient(circle at 50% 42%, #FFFFFF 22%, #F8FBFE 48%, #EAF2FC 76%, #DCE8F8 100%);
+  box-shadow: 
+    0 18px 40px -8px rgba(6, 43, 103, 0.08),
+    0 4px 14px rgba(6, 43, 103, 0.02),
+    inset 0 3px 6px rgba(255, 255, 255, 0.95),
+    inset 0 -7px 16px rgba(6, 43, 103, 0.05),
+    inset 0 0 18px rgba(21, 94, 239, 0.045);
+}
 
+.dark .idl-hemisphere-pod {
+  background: radial-gradient(circle at 50% 42%, #1e293b 25%, #151f30 52%, #0f172a 80%, #090e1a 100%);
+  box-shadow: 
+    0 18px 40px -8px rgba(0, 0, 0, 0.5),
+    0 4px 14px rgba(0, 0, 0, 0.3),
+    inset 0 2px 5px rgba(255, 255, 255, 0.08),
+    inset 0 -7px 16px rgba(0, 0, 0, 0.35);
+}
 
+.idl-hemisphere-pod:hover {
+  box-shadow: 
+    0 26px 54px -8px rgba(6, 43, 103, 0.12),
+    0 6px 20px rgba(6, 43, 103, 0.04),
+    inset 0 3px 6px rgba(255, 255, 255, 1),
+    inset 0 -7px 16px rgba(6, 43, 103, 0.06),
+    inset 0 0 20px rgba(21, 94, 239, 0.06);
+}
+
+.dark .idl-hemisphere-pod:hover {
+  box-shadow: 
+    0 26px 54px -8px rgba(0, 0, 0, 0.65),
+    0 6px 20px rgba(0, 0, 0, 0.4),
+    inset 0 2px 5px rgba(255, 255, 255, 0.12),
+    inset 0 -7px 16px rgba(0, 0, 0, 0.45);
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Continuous Vertical Marquee (Bottom-to-Top, Non-stop Always)
+   ───────────────────────────────────────────────────────────── */
+@keyframes idlMarqueeUp {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-idl-marquee-up {
+  animation: idlMarqueeUp 18s linear infinite;
+  will-change: transform;
+}

@@ -1,18 +1,45 @@
 'use client';
 
 import React from 'react';
-import { CalendarDays, Building2, Users, Trophy } from 'lucide-react';
 
 /* ══════════════════════════════════════════════════════════════════
-   TRUST STATS SECTION — Standalone 100% Full-Width Rectangular Strip
-   Independent section displaying key IDL Education trust metrics.
+   TRUST STATS SECTION — Exact Match to Reference Mockup
+   
+   • Desktop (>= sm): Full-length 100% left-to-right dark navy strip
+     4 columns in 1 row with clean vertical dividers
+     Number/Title -> Line with Center Dot (──●──) -> Label
+   
+   • Mobile (< sm): Compact 2x2 rounded dark navy card
+     Cross dividers (1 vertical, 1 horizontal)
+     Centered on page, matching exact right-hand mobile mockup
    ══════════════════════════════════════════════════════════════════ */
 
-const trustStats = [
-  { icon: CalendarDays, value: '2021',            label: 'Our Journey Began' },
-  { icon: Building2,    value: '5+',              label: 'Branches in Delhi' },
-  { icon: Users,        value: '1000+',           label: 'Students Guided' },
-  { icon: Trophy,       value: 'Academic Growth', label: 'Every Step Forward' },
+interface StatItem {
+  value: string;
+  label: string;
+  mobileLine1?: string;
+  mobileLine2?: string;
+}
+
+const stats: StatItem[] = [
+  {
+    value: '2021',
+    label: 'Our Journey Began',
+  },
+  {
+    value: '5+',
+    label: 'Branches in Delhi',
+  },
+  {
+    value: '10,000+',
+    label: 'Students Guided',
+  },
+  {
+    value: 'Academic Growth',
+    label: 'Every Step Forward',
+    mobileLine1: 'Academic',
+    mobileLine2: 'Growth',
+  },
 ];
 
 export function TrustStatsSection() {
@@ -20,51 +47,144 @@ export function TrustStatsSection() {
     <section 
       id="trust-stats"
       aria-label="IDL Education Milestones"
-      className="w-full bg-gradient-to-r from-[#061C43] via-[#09265E] to-[#061C43] dark:from-slate-950 dark:via-blue-950/80 dark:to-slate-950 border-y border-white/[0.08] dark:border-white/[0.06] shadow-[0_4px_20px_rgba(6,28,67,0.14)] relative z-20"
+      className="w-full bg-[#041A4D] dark:bg-[#020B1E] border-y border-white/[0.08] relative z-20"
+      style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6">
-        {/* Desktop Layout: 4 columns in 1 line with clean dividers & balanced 92–98px height */}
-        <div className="hidden sm:grid sm:grid-cols-4 divide-x divide-white/[0.07] min-h-[92px] lg:min-h-[98px]">
-          {trustStats.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={i} className="flex items-center justify-center gap-3.5 lg:gap-4 py-6 lg:py-7 px-4 lg:px-6">
-                <div className="w-11 h-11 lg:w-12 lg:h-12 rounded-xl bg-white/[0.08] border border-white/[0.1] flex items-center justify-center shrink-0">
-                  <Icon className="w-5 h-5 text-blue-200" />
-                </div>
-                <div>
-                  <div className="text-[19px] lg:text-[21px] xl:text-[22px] font-bold text-white leading-tight tracking-tight">
-                    {s.value}
-                  </div>
-                  <div className="text-[11.5px] lg:text-[12px] font-medium text-[#94B5E6] leading-snug mt-1">
-                    {s.label}
-                  </div>
-                </div>
+      {/* ══════════════════════════════════════════════════
+          1. DESKTOP VIEW (>= sm): 100% Full-Length Left to Right Strip
+          Slim, compact height with 100% preserved text size
+          ══════════════════════════════════════════════════ */}
+      <div className="hidden sm:block w-full py-3.5 sm:py-4 lg:py-4.5 px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20">
+        <div className="grid grid-cols-4 divide-x divide-white/[0.12] items-center w-full">
+          {stats.map((item, idx) => (
+            <div 
+              key={idx} 
+              className="flex flex-col items-center justify-center text-center px-2 sm:px-3 md:px-4 lg:px-6"
+            >
+              {/* Stat Value — Preserved Size */}
+              <div className="text-[22px] md:text-[25px] lg:text-[28px] xl:text-[30px] font-[800] text-white tracking-tight leading-none">
+                {item.value}
               </div>
-            );
-          })}
-        </div>
 
-        {/* Mobile Layout: 2x2 grid with equal widths, preserved compact height */}
-        <div className="grid grid-cols-2 gap-px sm:hidden bg-white/[0.07]">
-          {trustStats.map((s, i) => {
-            const Icon = s.icon;
-            return (
-              <div key={i} className="flex items-center gap-2.5 py-3.5 px-3 min-[380px]:px-4 bg-[#081F4B]">
-                <div className="w-8 h-8 rounded-lg bg-white/[0.08] border border-white/[0.1] flex items-center justify-center shrink-0">
-                  <Icon className="w-4 h-4 text-blue-200" />
-                </div>
-                <div className="min-w-0 flex-1">
-                  <div className="text-[13.5px] min-[380px]:text-[14px] font-bold text-white leading-tight tracking-tight truncate">
-                    {s.value}
-                  </div>
-                  <div className="text-[10px] min-[380px]:text-[10.5px] font-medium text-[#94B5E6] leading-snug mt-0.5 truncate">
-                    {s.label}
-                  </div>
-                </div>
+              {/* Accent Line with Center Dot (──●──) */}
+              <div className="flex items-center justify-center my-1.5 sm:my-1.5">
+                <svg 
+                  width="44" 
+                  height="6" 
+                  viewBox="0 0 44 6" 
+                  fill="none" 
+                  className="overflow-visible"
+                  aria-hidden="true"
+                >
+                  <line 
+                    x1="0" 
+                    y1="3" 
+                    x2="44" 
+                    y2="3" 
+                    stroke="#1D64EC" 
+                    strokeWidth="1.5" 
+                    strokeLinecap="round" 
+                  />
+                  <circle 
+                    cx="22" 
+                    cy="3" 
+                    r="2.5" 
+                    fill="#38BDF8" 
+                    stroke="#041A4D" 
+                    strokeWidth="1" 
+                  />
+                </svg>
               </div>
-            );
-          })}
+
+              {/* Stat Label — Preserved Size */}
+              <div className="text-[12px] md:text-[13px] lg:text-[14px] font-medium text-[#BAC7D5] leading-tight tracking-normal">
+                {item.label}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* ══════════════════════════════════════════════════
+          2. MOBILE VIEW (< sm): 2x2 Rounded Dark Navy Card
+          Slim, compact height with 100% preserved text size
+          ══════════════════════════════════════════════════ */}
+      <div className="block sm:hidden w-full px-3 py-3">
+        <div className="w-full max-w-[420px] mx-auto bg-[#041A4D] rounded-[20px] border border-white/[0.12] shadow-xl overflow-hidden p-1">
+          
+          {/* Top Row: 2021 & 5+ */}
+          <div className="grid grid-cols-2 divide-x divide-white/[0.12]">
+            {/* Cell 1: 2021 */}
+            <div className="flex flex-col items-center justify-center text-center py-2.5 px-2">
+              <span className="text-[20px] font-[800] text-white tracking-tight leading-none">
+                {stats[0].value}
+              </span>
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+                </svg>
+              </div>
+              <span className="text-[11px] min-[360px]:text-[11.5px] font-medium text-[#BAC7D5] leading-tight">
+                {stats[0].label}
+              </span>
+            </div>
+
+            {/* Cell 2: 5+ */}
+            <div className="flex flex-col items-center justify-center text-center py-2.5 px-2">
+              <span className="text-[20px] font-[800] text-white tracking-tight leading-none">
+                {stats[1].value}
+              </span>
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+                </svg>
+              </div>
+              <span className="text-[11px] min-[360px]:text-[11.5px] font-medium text-[#BAC7D5] leading-tight">
+                {stats[1].label}
+              </span>
+            </div>
+          </div>
+
+          {/* Horizontal cross divider between Row 1 and Row 2 */}
+          <div className="w-full h-px bg-white/[0.12]" />
+
+          {/* Bottom Row: 1000+ & Academic Growth */}
+          <div className="grid grid-cols-2 divide-x divide-white/[0.12]">
+            {/* Cell 3: 1000+ */}
+            <div className="flex flex-col items-center justify-center text-center py-2.5 px-2">
+              <span className="text-[20px] font-[800] text-white tracking-tight leading-none">
+                {stats[2].value}
+              </span>
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+                </svg>
+              </div>
+              <span className="text-[11px] min-[360px]:text-[11.5px] font-medium text-[#BAC7D5] leading-tight">
+                {stats[2].label}
+              </span>
+            </div>
+
+            {/* Cell 4: Academic Growth */}
+            <div className="flex flex-col items-center justify-center text-center py-2.5 px-2">
+              <span className="text-[20px] font-[800] text-white tracking-tight leading-none whitespace-nowrap">
+                {stats[3].value}
+              </span>
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+                </svg>
+              </div>
+              <span className="text-[11px] min-[360px]:text-[11.5px] font-medium text-[#BAC7D5] leading-tight">
+                {stats[3].label}
+              </span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

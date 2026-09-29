@@ -18,29 +18,29 @@ interface ResourceItem {
 const resources: ResourceItem[] = [
   {
     id: "revision-notes",
-    title: "Revision Notes",
+    title: "NCERT Notes",
     description: "Get easy-to-revise notes for important topics and concepts.",
     href: "/resources/notes",
     imageUrl: "/notes.jpg",
-    imageAlt: "Revision Notes",
+    imageAlt: "NCERT Notes",
     glowGradient: "radial-gradient(ellipse at 50% 85%, rgba(199,210,254,0.45) 0%, rgba(214,255,228,0.2) 60%, transparent 80%)",
   },
   {
     id: "ncert-solutions",
-    title: "Ncert Solutions",
+    title: "NCERT Solutions",
     description: "Explore detailed NCERT solutions across subjects and classes.",
     href: "/resources/ncert-solutions",
     imageUrl: "/ncert.jpg",
-    imageAlt: "Ncert Solutions",
+    imageAlt: "NCERT Solutions",
     glowGradient: "radial-gradient(ellipse at 50% 85%, rgba(186,230,253,0.5) 0%, rgba(214,255,228,0.2) 60%, transparent 80%)",
   },
   {
     id: "previous-year-papers",
-    title: "Previous Year Papers",
+    title: "Previous Year Papers (PYQ)",
     description: "Access past exam papers for practice and preparation.",
     href: "/resources/previous-year-questions",
     imageUrl: "/pyq.jpg",
-    imageAlt: "Previous Year Papers",
+    imageAlt: "Previous Year Papers (PYQ)",
     glowGradient: "radial-gradient(ellipse at 50% 85%, rgba(167,243,208,0.5) 0%, rgba(214,255,228,0.2) 60%, transparent 80%)",
   },
 ];
@@ -89,12 +89,12 @@ export function StudyResources() {
                 {/* Text Content — top left */}
                 <div className="pt-6 px-6 lg:pt-7 lg:px-7 pb-0 flex flex-col items-start text-left z-10 relative">
                   {/* Heading */}
-                  <h3 className="text-[20px] lg:text-[22px] font-bold text-[#062B67] dark:text-white leading-[1.2] tracking-tight">
+                  <h3 className="text-[20px] lg:text-[22px] font-[800] text-[#062B67] dark:text-white leading-[1.2] tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[13.5px] lg:text-[14px] text-[#64748B] dark:text-slate-400 font-normal leading-[1.5] mt-2 max-w-[85%]">
+                  <p className="text-[14.2px] lg:text-[14.7px] text-[#64748B] dark:text-slate-400 leading-[1.5] mt-2 max-w-[88%]" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                     {item.description}
                   </p>
 
@@ -159,10 +159,10 @@ export function StudyResources() {
 
                 {/* Left: Text & CTA */}
                 <div className="flex flex-col items-start text-left max-w-[60%] sm:max-w-[65%] z-10 relative">
-                  <h3 className="font-bold text-[16px] sm:text-[17px] text-[#062B67] dark:text-white leading-tight tracking-tight">
+                  <h3 className="font-[800] text-[16px] sm:text-[17px] text-[#062B67] dark:text-white leading-tight tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
                     {item.title}
                   </h3>
-                  <p className="text-[12.5px] sm:text-[13px] text-[#64748B] dark:text-slate-400 font-normal leading-[1.4] mt-1 line-clamp-2">
+                  <p className="text-[13.1px] sm:text-[13.7px] text-[#64748B] dark:text-slate-400 leading-[1.4] mt-1 line-clamp-2" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                     {item.description}
                   </p>
 
