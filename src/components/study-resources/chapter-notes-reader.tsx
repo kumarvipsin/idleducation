@@ -48,13 +48,13 @@ export function ChapterNotesReader({
   subjectName = 'Science',
   currentChapter,
   chapterIndex: _chapterIndex,
-  previousChapter,
-  nextChapter,
+  previousChapter: _previousChapter,
+  nextChapter: _nextChapter,
   chapterListUrl = '/study-resources?class=9&subject=science',
   chapterData,
 }: ChapterNotesReaderProps) {
   const { toast } = useToast();
-  const [language, setLanguage] = useState<'english' | 'hindi'>('hindi');
+  const [language, setLanguage] = useState<'english' | 'hindi'>('english');
   const [activeSection, setActiveSection] = useState<string>('chapter-overview');
   const [mobileTocOpen, setMobileTocOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -69,6 +69,22 @@ export function ChapterNotesReader({
 
   const isHindi = language === 'hindi';
   const data: UniversalChapterNotesData = chapterData || getClass9ChapterData(subjectId, currentChapter.slug);
+
+  // Language-specific class and subject labels (clean separation, no mixed text)
+  const classLabel = isHindi ? `कक्षा ${classId}` : `Class ${classId}`;
+  const getSubjectHi = (id: string, defName: string) => {
+    switch (id.toLowerCase()) {
+      case 'science': return 'विज्ञान';
+      case 'maths':
+      case 'mathematics': return 'गणित';
+      case 'english': return 'अंग्रेज़ी';
+      case 'social-science':
+      case 'sst': return 'सामाजिक विज्ञान';
+      case 'political-science': return 'राजनीति विज्ञान';
+      default: return defName;
+    }
+  };
+  const subjectLabel = isHindi ? getSubjectHi(subjectId, subjectName) : subjectName;
 
   // Build Table of Contents list
   const baseTocItems = [
@@ -222,25 +238,25 @@ export function ChapterNotesReader({
 
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
             <div>
-              <div className="flex items-center flex-wrap gap-2 mb-2.5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-100 text-[#062B67] dark:bg-slate-800 dark:text-blue-300 font-sans">
-                  <BookOpen className="w-3.5 h-3.5 text-[#155EEF]" />
-                  {data.classText} • {data.subjectText}
+              <div className="flex items-center flex-wrap gap-2 mb-3">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F0F5FF] text-[#062B67] dark:bg-blue-950/60 dark:text-blue-300 border border-[#D5E3F9] dark:border-blue-900/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#155EEF] shrink-0" />
+                  <span>{classLabel} • {subjectLabel}</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-blue-50 text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50 font-hindi">
-                  <Layers className="w-3.5 h-3.5" />
-                  अध्याय {data.chapterNumber} (Chapter {data.chapterNumber})
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F0F5FF] text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-[#D5E3F9] dark:border-blue-900/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#155EEF] shrink-0" />
+                  <span>{isHindi ? `अध्याय ${data.chapterNumber}` : `Chapter ${data.chapterNumber}`}</span>
                 </span>
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-50 text-slate-700 dark:bg-slate-800/80 dark:text-slate-300 border border-slate-200/70 dark:border-slate-700 font-hindi">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  NCERT पाठ्यक्रम अनुसार (Complete Notes)
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-[#F4FAF6] text-[#16A34A] dark:bg-emerald-950/40 dark:text-emerald-300 border border-[#E2F5E8] dark:border-emerald-800/40">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] shrink-0" />
+                  <span>{isHindi ? 'NCERT पाठ्यक्रम अनुसार' : 'NCERT Syllabus (Complete Notes)'}</span>
                 </span>
               </div>
 
-              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-extrabold text-[#062B67] dark:text-white tracking-tight mb-2 font-hindi leading-[1.3]">
+              <h1 className="text-2xl sm:text-3xl lg:text-[34px] font-[800] text-[#062B67] dark:text-white tracking-tight mb-2 leading-[1.3]">
                 {isHindi ? data.titleHi : data.titleEn}
               </h1>
-              <p className="text-sm sm:text-base text-[#5B6B86] dark:text-slate-300 max-w-3xl leading-relaxed font-hindi">
+              <p className="text-[14.5px] sm:text-[15.5px] text-[#475569] dark:text-slate-300 max-w-3xl leading-relaxed font-semibold mt-1">
                 {isHindi ? data.subtitleHi : data.subtitleEn}
               </p>
             </div>
@@ -290,67 +306,59 @@ export function ChapterNotesReader({
               <HelpCircle className="w-4 h-4 text-emerald-600" />
               <span>{isHindi ? 'परीक्षा उपयोगी मॉडल प्रश्न व उत्तर' : 'Exam Model Q&A'}</span>
             </div>
-            <div className="flex items-center gap-1.5">
-              <Sparkles className="w-4 h-4 text-amber-500" />
-              <span>{isHindi ? '100% विज्ञापन-मुक्त एवं स्पष्ट' : '100% Ad-Free Format'}</span>
-            </div>
           </div>
         </div>
 
         {/* ── 3. MAIN CONTENT LAYOUT (NOTES ON LEFT, TOPIC TOC ON RIGHT) ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           
-          {/* ── 3A. UNIFIED CHAPTER READING DOCUMENT (ONE CONTINUOUS MINIMAL PAGE VIEW) ── */}
-          <main className="lg:col-span-8 xl:col-span-9 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/60 dark:border-slate-800 p-6 sm:p-10 lg:p-12 shadow-none divide-y divide-slate-100 dark:divide-slate-800/80 pb-16">
+          {/* ── 3A. UNIFIED CHAPTER READING DOCUMENT (DISTINCT SECTIONS WITH SUBTLE LIGHT COLORS) ── */}
+          <main className="lg:col-span-8 xl:col-span-9 space-y-6">
 
             {/* 1. OVERVIEW SECTION */}
             <section
               id="chapter-overview"
-              className="pb-10 pt-2 first:pt-0"
+              className="bg-[#F8FBFE] dark:bg-slate-900/90 border border-[#E2ECF8] dark:border-slate-800 rounded-2xl p-6 sm:p-8 lg:p-9 shadow-[0_1px_3px_rgba(6,43,103,0.02)]"
             >
               <div className="flex items-center gap-2 mb-3">
-                <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] sm:text-xs font-bold text-[#062B67] dark:text-blue-300 font-sans tracking-wide">
-                  Overview
-                </span>
-                <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-50 text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50 font-hindi">
-                  अध्याय अवलोकन
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-[#D5E3F9] dark:border-slate-700 text-xs font-bold text-[#155EEF] dark:text-blue-300 tracking-wide">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#155EEF] shrink-0" />
+                  <span>{isHindi ? 'अध्याय अवलोकन' : 'Chapter Overview'}</span>
                 </span>
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-[#062B67] dark:text-white mb-4 font-hindi tracking-tight leading-[1.35]">
+              <h2 className="text-xl sm:text-2xl md:text-[26px] font-[800] text-[#062B67] dark:text-white mb-4 tracking-tight leading-snug">
                 {isHindi ? 'अध्याय का संक्षिप्त परिचय एवं पृष्ठभूमि' : 'Chapter Summary & Overview'}
               </h2>
-              <div className="space-y-3.5 text-slate-700 dark:text-slate-300 text-[15px] sm:text-base font-hindi leading-[1.82]">
+              <div className="space-y-4 text-slate-900 dark:text-slate-100 text-[15.5px] sm:text-[16.5px] leading-[1.85] font-semibold">
                 {(isHindi ? data.overviewHi : data.overviewEn).map((para, i) => (
                   <p key={i}>{para}</p>
                 ))}
               </div>
             </section>
 
-            {/* 2. DYNAMIC TOPICS (UNIFIED VISUAL DESIGN SYSTEM - MINIMAL CONTINUOUS VIEW) */}
+            {/* 2. DYNAMIC TOPICS */}
             {filteredTopics.map((topic: ChapterTopic) => (
               <article
                 key={topic.id}
                 id={topic.id}
-                className="py-10 first:pt-0"
+                className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-2xl p-6 sm:p-8 lg:p-9 shadow-[0_1px_3px_rgba(6,43,103,0.02)]"
               >
-                {/* 2A. Topic Header: Section Number + Consistent Tag */}
+                {/* 2A. Topic Header */}
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] sm:text-xs font-bold text-[#062B67] dark:text-blue-300 font-sans tracking-wide">
-                    Topic {topic.number}
-                  </span>
-                  <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-50 text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50 font-hindi">
-                    {topic.badge}
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F0F5FF] dark:bg-blue-950/60 border border-[#D5E3F9] dark:border-blue-900/40 text-xs font-bold text-[#155EEF] dark:text-blue-300 tracking-wide">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#155EEF] shrink-0" />
+                    <span>{isHindi ? `विषय ${topic.number} • ${topic.badge}` : `Topic ${topic.number} • ${topic.badge}`}</span>
                   </span>
                 </div>
 
                 {/* 2B. Topic Heading */}
-                <h3 className="text-xl sm:text-2xl font-bold text-[#062B67] dark:text-white mb-2 font-hindi tracking-tight leading-[1.35]">
+                <h3 className="text-xl sm:text-2xl md:text-[24px] font-[800] text-[#062B67] dark:text-white mb-3 tracking-tight leading-snug">
                   {isHindi ? topic.titleHi : topic.titleEn}
                 </h3>
 
                 {/* 2C. Optional Topic Summary / Quote */}
                 {topic.summaryHi && (
-                  <p className="text-[14.5px] sm:text-[15.5px] text-slate-600 dark:text-slate-300 italic font-hindi leading-[1.75] mb-5 border-l-2 border-[#155EEF] pl-3.5 py-1 bg-slate-50/50 dark:bg-slate-800/30 rounded-r-lg">
+                  <p className="text-[15px] sm:text-[16px] text-slate-900 dark:text-slate-100 font-semibold leading-[1.8] mb-5 border-l-4 border-l-[#155EEF] pl-4 py-2.5 bg-[#F8FAFD] dark:bg-slate-800/40 rounded-r-xl border border-l-0 border-[#E2ECF8] dark:border-slate-800">
                     {isHindi ? topic.summaryHi : topic.summaryEn}
                   </p>
                 )}
@@ -361,9 +369,9 @@ export function ChapterNotesReader({
                     {topic.keyStats.map((stat, i) => (
                       <div
                         key={i}
-                        className="bg-slate-50/80 dark:bg-slate-800/50 rounded-xl p-3 border border-slate-100 dark:border-slate-800 text-center shadow-none"
+                        className="bg-[#F8FBFE] dark:bg-slate-800/50 rounded-xl p-3 border border-[#E5EFFB] dark:border-slate-800 text-center shadow-none"
                       >
-                        <span className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1 font-hindi">
+                        <span className="block text-[11px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wide mb-1 font-hindi">
                           {isHindi ? stat.labelHi : stat.labelEn}
                         </span>
                         <span className="block text-base sm:text-lg font-bold text-[#062B67] dark:text-blue-400 font-sans">
@@ -374,15 +382,15 @@ export function ChapterNotesReader({
                   </div>
                 )}
 
-                {/* 2E. Bullet Points List */}
+                {/* 2E. Bullet Points List with exact IDL Blog bullet style */}
                 {((isHindi ? topic.bulletPointsHi : topic.bulletPointsEn) || []).length > 0 && (
-                  <div className="space-y-3 mt-4">
+                  <div className="space-y-3.5 mt-4">
                     {((isHindi ? topic.bulletPointsHi : topic.bulletPointsEn) || []).map((point, idx) => (
-                      <div key={idx} className="flex items-start gap-3">
-                        <div className="w-5 h-5 rounded-full bg-blue-50 dark:bg-blue-950 text-[#155EEF] dark:text-blue-400 flex items-center justify-center shrink-0 mt-1 border border-blue-100 dark:border-blue-900/50">
-                          <Check className="w-3 h-3 stroke-[2.5]" />
+                      <div key={idx} className="flex items-start gap-3 py-0.5 group">
+                        <div className="bg-[#155EEF]/10 dark:bg-blue-900/40 p-1 rounded-full mt-1.5 shrink-0 group-hover:bg-[#155EEF] transition-colors">
+                          <div className="w-1.5 h-1.5 bg-[#155EEF] dark:bg-blue-400 rounded-full group-hover:bg-white transition-colors" />
                         </div>
-                        <p className="text-[15px] sm:text-base text-slate-700 dark:text-slate-300 font-hindi leading-[1.82] flex-1">
+                        <p className="text-[15.5px] sm:text-[16.5px] text-slate-900 dark:text-slate-100 leading-[1.85] font-semibold flex-1">
                           {point}
                         </p>
                       </div>
@@ -390,20 +398,19 @@ export function ChapterNotesReader({
                   </div>
                 )}
 
-                {/* 2F. Sub-topics: Flowing cleanly like a digital textbook without nested box cards */}
+                {/* 2F. Sub-topics: Clean nested cards with arrow indicators */}
                 {topic.subTopics && topic.subTopics.length > 0 && (
-                  <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 space-y-6">
+                  <div className="mt-6 pt-5 border-t border-slate-100 dark:border-slate-800 space-y-4">
                     {topic.subTopics.map((sub, sIdx) => (
-                      <div key={sIdx}>
-                        <h4 className="text-base sm:text-lg font-bold text-[#062B67] dark:text-white font-hindi flex items-center gap-2 mb-3">
-                          <span className="w-1.5 h-4 rounded-full bg-[#155EEF] shrink-0" />
+                      <div key={sIdx} className="bg-[#F9FBFE] dark:bg-slate-800/40 border border-[#E4EEF8] dark:border-slate-800 rounded-xl p-4 sm:p-5">
+                        <h4 className="text-base sm:text-[17px] font-[800] text-[#062B67] dark:text-white flex items-center gap-2 mb-3 border-l-3 border-[#155EEF] pl-3">
                           <span>{isHindi ? sub.subtitleHi : sub.subtitleEn}</span>
                         </h4>
-                        <div className="space-y-2.5 pl-3.5">
+                        <div className="space-y-2.5 pl-2">
                           {(isHindi ? sub.pointsHi : sub.pointsEn).map((p, pIdx) => (
                             <div key={pIdx} className="flex items-start gap-2.5">
-                              <span className="text-[#155EEF] font-bold text-sm leading-relaxed mt-0.5">•</span>
-                              <p className="text-[14.5px] sm:text-[15.5px] text-slate-700 dark:text-slate-300 font-hindi leading-[1.8] flex-1">
+                              <ArrowRight className="w-4 h-4 text-[#155EEF] shrink-0 mt-1" />
+                              <p className="text-[15px] sm:text-[16px] text-slate-900 dark:text-slate-100 leading-[1.8] flex-1 font-semibold">
                                 {p}
                               </p>
                             </div>
@@ -416,12 +423,12 @@ export function ChapterNotesReader({
 
                 {/* 2G. Callout Box (Academic highlight) */}
                 {topic.calloutBox && (
-                  <div className="mt-6 rounded-xl border border-slate-200/80 dark:border-slate-700 border-l-4 border-l-[#155EEF] bg-slate-50/70 dark:bg-slate-800/40 p-4 sm:p-5 shadow-none">
-                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#062B67] dark:text-blue-300 mb-1.5">
-                      <Lightbulb className="w-4 h-4 text-[#155EEF]" />
-                      <span className="font-hindi">{isHindi ? topic.calloutBox.titleHi : topic.calloutBox.titleEn}</span>
+                  <div className="mt-6 rounded-xl border border-[#FDE8C5] dark:border-amber-900/30 border-l-4 border-l-[#D97706] bg-[#FFFBF5] dark:bg-amber-950/20 p-4 sm:p-5 shadow-none">
+                    <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#D97706] dark:text-amber-400 mb-1.5">
+                      <Lightbulb className="w-4 h-4 text-[#D97706]" />
+                      <span>{isHindi ? topic.calloutBox.titleHi : topic.calloutBox.titleEn}</span>
                     </div>
-                    <p className="text-sm sm:text-[15px] text-slate-700 dark:text-slate-300 font-hindi leading-[1.75]">
+                    <p className="text-[15px] sm:text-[15.5px] text-slate-900 dark:text-slate-100 leading-[1.8] font-semibold">
                       {isHindi ? topic.calloutBox.contentHi : topic.calloutBox.contentEn}
                     </p>
                   </div>
@@ -432,21 +439,19 @@ export function ChapterNotesReader({
             {/* 3. QUICK REVISION POINTS */}
             <section
               id="quick-revision"
-              className="py-10"
+              className="bg-[#F6FAF8] dark:bg-emerald-950/20 border border-[#D8EFE2] dark:border-emerald-900/30 rounded-2xl p-6 sm:p-8 lg:p-9 shadow-[0_1px_3px_rgba(6,43,103,0.02)]"
             >
-              <div className="flex items-center justify-between flex-wrap gap-2 mb-5 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-between flex-wrap gap-2 mb-5 pb-3 border-b border-[#E2F2E8] dark:border-emerald-900/30">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] sm:text-xs font-bold text-[#062B67] dark:text-blue-300 font-sans tracking-wide">
-                    Summary
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-[#CDEBD8] dark:border-emerald-800/40 text-xs font-bold text-[#16A34A] dark:text-emerald-400 tracking-wide">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] shrink-0" />
+                    <span>{isHindi ? 'त्वरित पुनरीक्षण' : 'Quick Revision'}</span>
                   </span>
-                  <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-50 text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50 font-hindi">
-                    त्वरित पुनरीक्षण
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#062B67] dark:text-white font-hindi tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-[800] text-[#062B67] dark:text-white tracking-tight">
                     {isHindi ? 'त्वरित पुनरीक्षण बिंदु' : 'Quick Revision Key Takeaways'}
                   </h3>
                 </div>
-                <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300 font-hindi">
+                <span className="px-3 py-1 rounded-full text-xs font-bold bg-white dark:bg-slate-800 text-[#16A34A] dark:text-emerald-400 border border-[#D0F0D9] dark:border-emerald-800/40">
                   {data.quickRevisionPointsHi.length} {isHindi ? 'मुख्य बिंदु' : 'Key Points'}
                 </span>
               </div>
@@ -455,12 +460,12 @@ export function ChapterNotesReader({
                 {(isHindi ? data.quickRevisionPointsHi : data.quickRevisionPointsEn).map((point, idx) => (
                   <div
                     key={idx}
-                    className="flex items-start gap-3 p-3 rounded-xl bg-slate-50/60 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80 shadow-none"
+                    className="flex items-start gap-3 p-3.5 sm:p-4 rounded-xl bg-white dark:bg-slate-900 border border-[#E2F0E7] dark:border-emerald-900/30 shadow-2xs"
                   >
-                    <span className="w-6 h-6 rounded-full bg-blue-50 text-[#155EEF] dark:bg-blue-950 dark:text-blue-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 font-sans">
+                    <span className="w-6 h-6 rounded-full bg-[#ECF8F0] text-[#16A34A] dark:bg-emerald-950 dark:text-emerald-300 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 border border-[#D0F0D9] dark:border-emerald-800/40 font-sans">
                       {idx + 1}
                     </span>
-                    <p className="text-[14.5px] sm:text-[15.5px] text-slate-700 dark:text-slate-300 font-hindi leading-[1.8] flex-1">
+                    <p className="text-[15px] sm:text-[16px] text-slate-900 dark:text-slate-100 leading-[1.8] font-semibold flex-1">
                       {point}
                     </p>
                   </div>
@@ -471,24 +476,22 @@ export function ChapterNotesReader({
             {/* 4. BOARD / EXAM QUESTIONS SECTION */}
             <section
               id="board-questions"
-              className="py-10"
+              className="bg-[#F8FAFD] dark:bg-blue-950/20 border border-[#DCE7F6] dark:border-blue-900/30 rounded-2xl p-6 sm:p-8 lg:p-9 shadow-[0_1px_3px_rgba(6,43,103,0.02)]"
             >
-              <div className="flex items-center justify-between flex-wrap gap-3 mb-6 pb-3 border-b border-slate-100 dark:border-slate-800">
+              <div className="flex items-center justify-between flex-wrap gap-3 mb-6 pb-3 border-b border-[#D5E4F7] dark:border-blue-900/30">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] sm:text-xs font-bold text-[#062B67] dark:text-blue-300 font-sans tracking-wide">
-                    Practice
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-slate-800 border border-[#D5E3F9] dark:border-blue-900/40 text-xs font-bold text-[#155EEF] dark:text-blue-400 tracking-wide">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#155EEF] shrink-0" />
+                    <span>{isHindi ? 'परीक्षा तैयारी' : 'Exam Practice'}</span>
                   </span>
-                  <span className="text-[11px] sm:text-xs font-semibold px-2.5 py-0.5 rounded-md bg-blue-50 text-[#155EEF] dark:bg-blue-950/60 dark:text-blue-300 border border-blue-100 dark:border-blue-900/50 font-hindi">
-                    परीक्षा तैयारी
-                  </span>
-                  <h3 className="text-xl sm:text-2xl font-bold text-[#062B67] dark:text-white font-hindi tracking-tight">
+                  <h3 className="text-xl sm:text-2xl font-[800] text-[#062B67] dark:text-white tracking-tight">
                     {isHindi ? 'परीक्षा उपयोगी महत्वपूर्ण प्रश्न' : 'Important Examination Questions'}
                   </h3>
                 </div>
                 <button
                   type="button"
                   onClick={toggleAllQuestions}
-                  className="text-xs font-semibold text-[#155EEF] dark:text-blue-400 hover:text-[#0052CC] underline underline-offset-2 font-hindi cursor-pointer"
+                  className="text-xs font-bold text-[#155EEF] dark:text-blue-400 hover:text-[#0052CC] underline underline-offset-2 cursor-pointer"
                 >
                   {isHindi ? 'सभी खोलें / बंद करें' : 'Expand / Collapse All'}
                 </button>
@@ -500,7 +503,7 @@ export function ChapterNotesReader({
                   return (
                     <div
                       key={q.id}
-                      className="rounded-xl border border-slate-200/80 dark:border-slate-700/80 overflow-hidden transition-all bg-white dark:bg-slate-900 shadow-none"
+                      className="rounded-xl border border-slate-200/90 dark:border-slate-800 overflow-hidden transition-all bg-white dark:bg-slate-900 shadow-2xs"
                     >
                       <button
                         type="button"
@@ -512,10 +515,10 @@ export function ChapterNotesReader({
                             {q.marks}
                           </span>
                           <div>
-                            <span className="block text-[11px] font-semibold text-slate-500 dark:text-slate-400 mb-0.5 font-hindi">
+                            <span className="block text-[11px] font-bold text-slate-500 dark:text-slate-400 mb-0.5">
                               {isHindi ? q.typeHi : q.typeEn}
                             </span>
-                            <span className="block text-sm sm:text-base font-bold text-[#062B67] dark:text-slate-100 font-hindi leading-snug">
+                            <span className="block text-base font-[800] text-[#062B67] dark:text-white leading-snug">
                               {isHindi ? q.questionHi : q.questionEn}
                             </span>
                           </div>
@@ -528,12 +531,12 @@ export function ChapterNotesReader({
                       </button>
 
                       {isExpanded && (
-                        <div className="px-4 sm:px-5 pb-5 pt-2 border-t border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/20 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line font-hindi">
-                          <div className="font-semibold text-[#155EEF] dark:text-blue-400 mb-1.5 flex items-center gap-1.5 font-hindi">
+                        <div className="px-4 sm:px-5 pb-5 pt-3 border-t border-slate-100 dark:border-slate-800 bg-[#F9FBFE] dark:bg-slate-800/20 text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+                          <div className="font-bold text-[#155EEF] dark:text-blue-400 mb-1.5 flex items-center gap-1.5 text-xs uppercase tracking-wider">
                             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                             <span>{isHindi ? 'आदर्श उत्तर (Model Answer):' : 'Model Answer:'}</span>
                           </div>
-                          <div className="text-[14px] sm:text-[15px] leading-[1.8] text-slate-700 dark:text-slate-300">
+                          <div className="text-[15px] sm:text-[16px] leading-[1.85] text-slate-900 dark:text-slate-100 font-semibold">
                             {isHindi ? q.answerHi : q.answerEn}
                           </div>
                         </div>
@@ -547,7 +550,7 @@ export function ChapterNotesReader({
             {/* 5. STUDY KIT & PDF DOWNLOADS */}
             <section
               id="download-notes"
-              className="py-10 space-y-6"
+              className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-2xl p-6 sm:p-8 lg:p-9 shadow-[0_1px_3px_rgba(6,43,103,0.02)] space-y-6"
             >
               {/* Eyebrow & Title */}
               <div className="text-center max-w-xl mx-auto">
@@ -568,9 +571,9 @@ export function ChapterNotesReader({
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 pt-2 items-stretch">
                 
                 {/* ── CARD 1: Free Revision Notes ── */}
-                <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-none flex flex-col justify-between hover:border-blue-300 transition-all">
+                <div className="bg-[#F9FBFE] dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-5 sm:p-6 shadow-none flex flex-col justify-between hover:border-blue-300 transition-all">
                   <div>
-                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs mb-3">
+                    <div className="inline-flex items-center px-2.5 py-0.5 rounded-md bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold text-xs mb-3 border border-slate-200/70 dark:border-slate-700">
                       Quick Revision
                     </div>
                     
@@ -680,46 +683,6 @@ export function ChapterNotesReader({
 
               </div>
             </section>
-
-            {/* 6. CHAPTER NAVIGATION FOOTER */}
-            <div className="flex items-center justify-between gap-4 pt-10 border-t border-slate-100 dark:border-slate-800">
-              {previousChapter ? (
-                <Link
-                  href={`/study-resources/class-${classId}/${subjectId}/${previousChapter.slug}`}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-purple-400 transition-all shadow-none"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>{isHindi ? 'पिछला अध्याय' : 'Previous Chapter'}</span>
-                </Link>
-              ) : (
-                <Link
-                  href={chapterListUrl}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 hover:border-purple-400 transition-all shadow-none"
-                >
-                  <ArrowLeft className="w-4 h-4" />
-                  <span>{isHindi ? 'अध्याय सूची' : 'Chapter List'}</span>
-                </Link>
-              )}
-
-              {nextChapter ? (
-                <Link
-                  href={`/study-resources/class-${classId}/${subjectId}/${nextChapter.slug}`}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs sm:text-sm font-semibold shadow-none transition-all"
-                >
-                  <span>{isHindi ? `अगला: ${nextChapter.name}` : `Next: ${nextChapter.name}`}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              ) : (
-                <button
-                  type="button"
-                  onClick={() => scrollToSection('download-notes')}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#155EEF] hover:bg-[#0052CC] text-white text-xs sm:text-sm font-semibold shadow-none transition-all cursor-pointer font-hindi"
-                >
-                  <Download className="w-4 h-4" />
-                  <span>{isHindi ? 'नोट्स डाउनलोड करें' : 'Download Complete Notes'}</span>
-                </button>
-              )}
-            </div>
 
           </main>
 

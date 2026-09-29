@@ -180,15 +180,6 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
             },
         ],
     },
-    {
-        id: "cat_premium_courses",
-        name: "PREMIUM COURSES",
-        slug: "premium-courses",
-        href: "#",
-        order: 5,
-        status: "active",
-        subItems: [],
-    },
 ];
 
 const getCategoryIcon = (id: string, name: string) => {
@@ -429,7 +420,7 @@ export function Header() {
                     return c;
                 });
                 const staticExtras = DEFAULT_COURSE_CATEGORIES.filter(c => 
-                    c.id === 'cat_free_courses' || c.id === 'cat_premium_courses'
+                    c.id === 'cat_free_courses'
                 );
 
                 const getCategoryRank = (c: CourseCategory) => {
@@ -438,7 +429,6 @@ export function Header() {
                     if (key.includes('neet') || key.includes('medical')) return 2;
                     if (key.includes('cbse') || key.includes('school')) return 3;
                     if (key.includes('free')) return 4;
-                    if (key.includes('premium')) return 5;
                     return c.order ?? 99;
                 };
 

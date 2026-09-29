@@ -27,7 +27,7 @@ export interface ChapterTopic {
     titleHi: string;
     titleEn: string;
     contentHi: string;
-    contentEn: string;
+    contentEn?: string;
   };
 }
 

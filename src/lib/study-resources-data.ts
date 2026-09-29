@@ -209,6 +209,7 @@ export const CLASS_9_SOCIAL_SCIENCE_CHAPTERS: ChapterItem[] = [
 export const CLASS_12_POLITICAL_SCIENCE_CHAPTERS: ChapterItem[] = [
   { id: '1', number: '01', name: 'The End of Bipolarity', slug: 'the-end-of-bipolarity', supportingText: 'Chapter Notes • English / Hindi' },
   { id: '2', number: '02', name: 'Contemporary Centres of Power', slug: 'contemporary-centres-of-power', supportingText: 'Chapter Notes • English / Hindi' },
+  { id: '3', number: '03', name: 'Contemporary South Asia', slug: 'contemporary-south-asia', supportingText: 'Chapter Notes • English / Hindi' },
 ];
 
 export function getChaptersForSubject(classId: string, subjectId: string): ChapterItem[] {

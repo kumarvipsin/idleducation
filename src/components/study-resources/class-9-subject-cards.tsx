@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import {
@@ -84,14 +83,14 @@ export function Class9SubjectCards({
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 w-full">
                 {subjects.map((subj) => {
                   const cardInner = (
-                    <div className="group relative flex flex-col justify-between h-full bg-white dark:bg-slate-900 border border-[#E8EEF5] dark:border-slate-800 rounded-[20px] sm:rounded-[24px] p-4 sm:p-6 shadow-[0_2px_10px_rgba(11,43,99,0.03)] hover:shadow-[0_12px_28px_rgba(11,43,99,0.08)] hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer overflow-hidden">
+                    <div className="group relative flex flex-col justify-between h-full flex-1 bg-white dark:bg-slate-900 border border-[#E8EEF5] dark:border-slate-800 rounded-[20px] sm:rounded-[24px] p-4 sm:p-5 lg:p-[22px] shadow-[0_2px_10px_rgba(11,43,99,0.03)] hover:shadow-[0_12px_28px_rgba(11,43,99,0.08)] hover:-translate-y-1 transition-all duration-300 ease-out cursor-pointer overflow-hidden">
 
                       {/* Watermark */}
                       <span
                         aria-hidden="true"
-                        className="absolute top-3.5 right-4 sm:top-5 sm:right-6 text-[44px] sm:text-[52px] font-black leading-none text-[#E2E8F0] dark:text-slate-800/40 select-none pointer-events-none tracking-tight font-sans"
+                        className="absolute top-3.5 right-4 sm:top-4 sm:right-5 lg:top-4 lg:right-5 text-[26px] sm:text-[30px] lg:text-[32px] font-black leading-none text-[#CBD5E1] dark:text-slate-700/60 select-none pointer-events-none tracking-tight font-sans z-0"
                       >
-                        {subj.badgeNumber || classPad}
+                        {`${(subj.badgeNumber || classPad).replace(/th$/i, '')}th`}
                       </span>
 
                       {/* Header: Title + Accent Line */}
@@ -101,79 +100,25 @@ export function Class9SubjectCards({
                             {subj.name}
                           </h3>
                         </div>
-                        <div className={`h-[3px] w-7 rounded-full mt-2 sm:mt-2.5 mb-2.5 sm:mb-3 ${subj.accentBarClass || 'bg-[#155EEF]'}`} />
+                        <div
+                          className="h-[3px] w-7 rounded-full mt-2 sm:mt-2.5 mb-2 sm:mb-2.5"
+                          style={{ backgroundColor: subj.accentColor || '#155EEF' }}
+                        />
                       </div>
 
-                      {/* Desktop Middle Content (Strict vertical alignment: Description -> Book Area) */}
-                      <div className="relative z-10 hidden sm:flex flex-col flex-1">
-                        <p className="h-[62px] text-[13px] leading-[1.55] text-[#64748B] dark:text-slate-400 font-normal">
+                      {/* Middle Content: Description */}
+                      <div className="relative z-10 flex-1 flex flex-col justify-start my-1 sm:my-1.5">
+                        <p className="text-[13px] sm:text-[14px] lg:text-[15px] leading-[1.5] sm:leading-[1.45] text-[#64748B] dark:text-slate-400 font-medium">
                           {subj.description}
                         </p>
-
-                        <div className="relative w-full h-[180px] shrink-0 flex items-center justify-center my-2">
-                          {/* Pastel Glow Aura Circle */}
-                          <div
-                            aria-hidden="true"
-                            className="absolute w-[140px] h-[140px] rounded-full pointer-events-none"
-                            style={{ background: subj.glowBg }}
-                          />
-
-                          {subj.image && (
-                            <div className="relative w-full h-full flex items-center justify-center transform group-hover:scale-[1.03] transition-transform duration-300 ease-out">
-                              <Image
-                                src={subj.image}
-                                alt={`Class ${classNum} ${subj.name} Textbook`}
-                                fill
-                                className="object-contain object-center"
-                                sizes="(max-width: 1024px) 240px, 280px"
-                                priority
-                              />
-                            </div>
-                          )}
-                        </div>
                       </div>
 
-                      {/* Mobile Middle Content (Horizontal split: Description left, Book right per reference) */}
-                      <div className="relative z-10 flex sm:hidden flex-row items-center justify-between gap-3 my-2 flex-1">
-                        <p className="flex-1 text-[12px] min-[360px]:text-[12.5px] leading-[1.5] text-[#64748B] dark:text-slate-400 font-normal pr-1">
-                          {subj.description}
-                        </p>
-
-                        <div className="relative w-[96px] h-[108px] shrink-0 flex items-center justify-center">
-                          {/* Pastel Glow Aura Circle */}
-                          <div
-                            aria-hidden="true"
-                            className="absolute w-[82px] h-[82px] rounded-full pointer-events-none"
-                            style={{ background: subj.glowBg }}
-                          />
-
-                          {subj.image && (
-                            <div className="relative w-full h-full flex items-center justify-center transform group-hover:scale-[1.03] transition-transform duration-300 ease-out">
-                              <Image
-                                src={subj.image}
-                                alt={`Class ${classNum} ${subj.name} Textbook`}
-                                fill
-                                className="object-contain object-center"
-                                sizes="96px"
-                                priority
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-
-                      {/* Bottom CTA Pill Container */}
-                      <div className="relative z-10 mt-auto pt-2">
-                        <div className="w-full h-[38px] sm:h-[44px] bg-[#F0F6FE] dark:bg-slate-800/80 border border-[#E0ECFD] dark:border-slate-700/60 group-hover:bg-[#E5F0FD] dark:group-hover:bg-slate-800 rounded-full px-3.5 sm:px-4 flex items-center justify-between transition-colors duration-200">
-                          <span className="text-[12.5px] sm:text-[13.5px] font-bold text-[#155EEF] dark:text-blue-400 inline-flex items-center gap-1.5 tracking-tight">
-                            View Chapters &rarr;
-                          </span>
-
-                          {/* Solid Circular Blue Button */}
-                          <div className="w-[28px] h-[28px] sm:w-[32px] sm:h-[32px] rounded-full bg-[#155EEF] text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 group-hover:bg-[#0047CC] transition-all duration-200">
-                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 stroke-[2.5]" />
-                          </div>
-                        </div>
+                      {/* Bottom CTA: Text with Arrow */}
+                      <div className="relative z-10 mt-auto pt-2.5 sm:pt-3">
+                        <span className="inline-flex items-center gap-1.5 text-[13.5px] sm:text-[14px] font-bold text-[#155EEF] dark:text-blue-400 group-hover:text-[#0047CC] transition-colors">
+                          <span>View Chapters</span>
+                          <ArrowRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1.5 transition-transform duration-200" />
+                        </span>
                       </div>
 
                     </div>
@@ -192,7 +137,7 @@ export function Class9SubjectCards({
                             handleSubjectClick(subj.id);
                           }
                         }}
-                        className="h-full focus:outline-none"
+                        className="h-full focus:outline-none flex flex-col"
                       >
                         {cardInner}
                       </div>
@@ -203,7 +148,7 @@ export function Class9SubjectCards({
                     <Link
                       key={subj.id}
                       href={linkPattern ? linkPattern(subj.id) : `/study-resources?class=${classNum}&subject=${subj.id}`}
-                      className="h-full focus:outline-none block"
+                      className="h-full focus:outline-none flex flex-col"
                     >
                       {cardInner}
                     </Link>
