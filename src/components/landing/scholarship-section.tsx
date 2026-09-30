@@ -125,22 +125,22 @@ export function ScholarshipSection() {
             “● Why think IDL ?”
             “Learn Better. Grow Stronger.” with smile underline
             ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col items-center justify-center text-center mb-9 sm:mb-12 md:mb-14">
+        <div className="flex flex-col items-center justify-center text-center mb-8 sm:mb-12 md:mb-14">
           {/* Eyebrow: "● Why think IDL ?" */}
           <div className="inline-flex items-center justify-center gap-2 sm:gap-2.5 mb-2.5 sm:mb-3 select-none">
-            <span className="w-[8.5px] h-[8.5px] sm:w-[9.5px] sm:h-[9.5px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+            <span className="w-[8.5px] h-[8.5px] sm:w-[9.5px] sm:h-[9.5px] rounded-full bg-[#1E65E6] sm:bg-[#155EEF] dark:bg-blue-400 shrink-0" />
             <span className="text-[14px] sm:text-[16px] font-[800] sm:font-[900] tracking-tight">
               <span className="text-[#062B67] dark:text-blue-200">Why think </span>
-              <span className="text-[#155EEF] dark:text-blue-400 font-extrabold">IDL ?</span>
+              <span className="text-[#1E65E6] sm:text-[#155EEF] dark:text-blue-400 font-extrabold">IDL ?</span>
             </span>
           </div>
 
           {/* Main Heading: Matches exact size of "Expert Guidance. Meaningful Learning." */}
-          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] sm:font-[800] tracking-[-0.02em] leading-[1.2] max-w-4xl mx-auto">
+          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] sm:font-[800] tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.26] sm:leading-[1.2] max-w-4xl mx-auto">
             <span className="text-[#062B67] dark:text-white">
               Learn Better.{' '}
             </span>
-            <span className="text-[#155EEF] dark:text-blue-400 inline-block">
+            <span className="text-[#1E65E6] sm:text-[#155EEF] dark:text-blue-400 inline-block">
               Grow{' '}
               <span className="relative inline-block">
                 Stronger.
@@ -153,10 +153,10 @@ export function ScholarshipSection() {
                 >
                   <path 
                     d="M 2 3 Q 50 13, 98 3" 
-                    stroke="#155EEF" 
+                    stroke="currentColor" 
                     strokeWidth="3" 
                     strokeLinecap="round" 
-                    className="dark:stroke-blue-400"
+                    className="text-[#1E65E6] sm:text-[#155EEF] dark:stroke-blue-400"
                   />
                 </svg>
               </span>
@@ -246,7 +246,7 @@ export function ScholarshipSection() {
           {pillars.map((item) => (
             <div 
               key={item.id}
-              className="w-full bg-white dark:bg-slate-900 rounded-[22px] border border-[#E6F0FA] dark:border-slate-800 shadow-[0_4px_16px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] p-3.5 sm:p-4 flex items-center gap-3.5 sm:gap-4 transition-all duration-300"
+              className="w-full bg-white dark:bg-slate-900 rounded-[22px] border border-[#E6F0FA] dark:border-slate-800 shadow-[0_4px_16px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] px-4 py-3.5 sm:px-4.5 sm:py-4 flex items-center gap-3.5 min-[380px]:gap-4 transition-all duration-300"
             >
               {/* Left Icon Disc with Number Badge at bottom-right */}
               <div className="relative shrink-0">
@@ -265,38 +265,36 @@ export function ScholarshipSection() {
                   />
                 </div>
 
-                {/* Badge at bottom-right of icon disc */}
-                <div className={`absolute -bottom-1 -right-1 w-[24px] h-[24px] rounded-full flex items-center justify-center text-white text-[11px] font-black border-2 border-white dark:border-slate-900 shadow-sm ${
-                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
+                {/* Badge at bottom-right of icon disc - refined size/spacing by a few pixels */}
+                <div className={`absolute -bottom-0.5 -right-0.5 w-[23px] h-[23px] rounded-full flex items-center justify-center text-white text-[11px] font-black leading-none border-2 border-white dark:border-slate-900 shadow-sm ${
+                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#1E65E6]'
                 }`}>
                   {item.badge}
                 </div>
               </div>
 
-              {/* Right Text Column */}
-              <div className="flex-1 min-w-0 text-left">
+              {/* Right Text Column - vertically balanced */}
+              <div className="flex-1 min-w-0 text-left flex flex-col justify-center">
                 <h3 
-                  className="text-[17px] min-[380px]:text-[18px] font-black tracking-[-0.02em] leading-snug"
+                  className="text-[17px] min-[380px]:text-[18px] font-black tracking-[-0.005em] leading-[1.28]"
                   style={{ 
                     fontWeight: 900,
-                    WebkitTextStroke: '0.45px currentColor',
                   }}
                 >
                   <span className="text-[#062B67] dark:text-white" style={{ fontWeight: 900 }}>{item.titleDark} </span>
-                  <span className="text-[#155EEF] dark:text-blue-400" style={{ fontWeight: 900 }}>{item.titleBlue}</span>
+                  <span className="text-[#1E65E6] dark:text-blue-400" style={{ fontWeight: 900 }}>{item.titleBlue}</span>
                 </h3>
 
-                {/* Accent Dash Under Title */}
-                <div className={`w-6 h-[2.5px] rounded-full mt-1 mb-1.5 ${
-                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
+                {/* Accent Dash Under Title with subtle gap */}
+                <div className={`w-6 h-[2.5px] rounded-full mt-1.5 mb-2 ${
+                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#1E65E6]'
                 }`} />
 
-                {/* Description */}
+                {/* Description with comfortable line-height, muted navy/blue-gray tone, and natural wrap */}
                 <p 
-                  className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.45]"
+                  className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.54] tracking-[-0.005em] max-w-[290px] text-pretty"
                   style={{ 
                     fontWeight: 700,
-                    WebkitTextStroke: '0.22px currentColor',
                   }}
                 >
                   {item.descriptionMobile}

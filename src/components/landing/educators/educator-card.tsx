@@ -84,11 +84,11 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
   return (
     <>
       {/* ── CARD CONTAINER ── */}
-      <div className="group/card h-full w-full flex flex-col bg-white rounded-[18px] sm:rounded-[20px] border border-[#DCE7F6] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(6,43,103,0.09)] hover:border-[#BFDBFE] dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 ease-out overflow-hidden">
+      <div className="group/card h-full w-full flex flex-col bg-[#FAFCFF] dark:bg-slate-900 rounded-[18px] sm:rounded-[20px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.03),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(6,43,103,0.07)] hover:border-[#BFDBFE]/60 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 ease-out overflow-hidden">
 
         {/* ── IMAGE BLOCK ── */}
         <div
-          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden border-b border-slate-100 dark:border-slate-800"
+          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden border-b border-[#E2ECF8]/50 dark:border-slate-800"
           style={{ background: "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)" }}
         >
           {/* Teacher Photo */}
@@ -142,10 +142,34 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </button>
         </div>
 
-        {/* ── CARD BODY — Premium lower section ── */}
-        <div className="flex flex-col flex-1 p-3.5 sm:p-4 text-center justify-between">
+        {/* ── CARD BODY — Ultra-light background matching "Best Exam Prep App for" section ── */}
+        <div className="relative flex flex-col flex-1 p-3.5 sm:p-4 text-center justify-between bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/95 dark:to-slate-900/90 overflow-hidden">
 
-          <div>
+          {/* Top-Left Soft Light Blue Curved Shape */}
+          <div 
+            aria-hidden="true" 
+            className="absolute -top-10 -left-10 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-blue-100/35 dark:bg-blue-900/15 pointer-events-none"
+          />
+
+          {/* Bottom-Right Soft Light Blue Curved Shape */}
+          <div 
+            aria-hidden="true" 
+            className="absolute -bottom-8 -right-8 w-28 h-28 sm:w-32 sm:h-32 rounded-full bg-blue-100/35 dark:bg-blue-900/15 pointer-events-none"
+          />
+
+          {/* Top-Right Dotted Matrix Pattern */}
+          <div
+            aria-hidden="true"
+            className="absolute top-1.5 right-1.5 w-20 h-16 pointer-events-none opacity-25 dark:opacity-15"
+            style={{
+              backgroundImage: 'radial-gradient(#93C5FD 1px, transparent 1px)',
+              backgroundSize: '8px 8px',
+              maskImage: 'radial-gradient(ellipse at top right, black 65%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at top right, black 65%, transparent 100%)',
+            }}
+          />
+
+          <div className="relative z-10">
             {/* NAME — Dominant anchor, bold geometric sans, dark navy */}
             <h3 
               onClick={() => setIsProfileOpen(true)}
@@ -154,12 +178,12 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
               {teacher.name}
             </h3>
 
-            {/* METADATA PILL BADGE — Refined, softer background, thinner border, compact height */}
-            <div className="flex items-center justify-center mt-1.5 mb-0.5">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#F5F8FE] border border-[#E0ECFA] max-w-full text-center h-[22px] sm:h-[23px]">
+            {/* METADATA PILL BADGE — Uniform font size & boldness for both experience and subject */}
+            <div className="flex items-center justify-center mt-2 mb-0.5">
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full border border-[#BFDBFE]/40 dark:border-blue-900/40 bg-transparent max-w-full text-center h-[23px] sm:h-[24px]">
                 {hasExp && (
-                  <span className="inline-flex items-center gap-1 text-[11px] font-bold text-[#155EEF] shrink-0 leading-none">
-                    <Clock className="w-2.5 h-2.5 stroke-[2.5]" />
+                  <span className="inline-flex items-center gap-1 text-[11.5px] sm:text-[12px] font-bold text-[#155EEF] shrink-0 leading-none">
+                    <Clock className="w-2.5 h-2.5 stroke-[2.2]" />
                     {expDisplay}
                   </span>
                 )}
@@ -167,7 +191,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
                   <span className="w-1 h-1 rounded-full bg-[#93C5FD] shrink-0" aria-hidden="true" />
                 )}
                 {(subjectLabel || designation) && (
-                  <span className="text-[11px] font-medium text-[#0A1E4A]/80 dark:text-slate-300 truncate leading-none">
+                  <span className="text-[11.5px] sm:text-[12px] font-bold text-[#4A5E78] dark:text-slate-300 truncate leading-none">
                     {(subjectLabel || designation || '')
                       .replace(/^Maths$/i, 'Mathematics')
                       .replace(/^Phy$/i, 'Physics')
@@ -181,12 +205,12 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </div>
 
           {/* VIEW PROFILE CTA — Perfectly balanced & aligned */}
-          <div className="mt-3 pt-2.5 border-t border-slate-100/90 dark:border-slate-800">
+          <div className="relative z-10 mt-3 pt-2.5 border-t border-[#E8F0FA] dark:border-slate-800">
             <button
               type="button"
               onClick={() => setIsProfileOpen(true)}
               aria-label={`View profile of ${teacher.name}`}
-              className="w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-pointer group/cta text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] hover:text-[#0A1E4A] transition-colors py-0.5"
+              className="w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-pointer group/cta text-[12.5px] sm:text-[13px] font-bold text-[#155EEF] hover:text-[#0A1E4A] transition-colors py-0.5"
             >
               <span>View Profile</span>
               <ArrowRight className="w-3 h-3 stroke-[2.4] text-[#155EEF] group-hover/cta:text-[#0A1E4A] group-hover/cta:translate-x-0.5 transition-all duration-150" />

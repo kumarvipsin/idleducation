@@ -600,12 +600,12 @@ export function AcademicExcellence() {
           </div>
         </div>
 
-        {/* ===================== MAIN RESULTS CONTAINER (EXACT MATCH TO SCREENSHOT) ===================== */}
+        {/* ===================== MAIN RESULTS CONTAINER (EXACT MATCH TO BEST EXAM PREP APP SECTION) ===================== */}
         <div 
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative w-full rounded-[24px] sm:rounded-[28px] bg-[#F0F6FE] border border-[#CCE3FB] p-4 sm:p-5 lg:p-6 pb-5 sm:pb-6 lg:pb-7 shadow-[0_4px_24px_rgba(6,43,103,0.04)] overflow-hidden transition-all duration-300"
+          className="relative w-full rounded-[24px] sm:rounded-[28px] bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-800/60 border border-[#E2ECF8] dark:border-slate-800/80 p-4 sm:p-5 lg:p-6 pb-5 sm:pb-6 lg:pb-7 shadow-[0_4px_24px_rgba(6,43,103,0.03)] overflow-hidden transition-all duration-300"
         >
           {/* ----------------- TOP SECTION: SUMMARY + 3 STATS ----------------- */}
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 lg:gap-5 pb-2 sm:pb-2.5">
@@ -630,12 +630,12 @@ export function AcademicExcellence() {
               </p>
             </div>
 
-            {/* Right: 3 Typographic Data Displays in 1 Horizontal Row (Icons Removed, 3 in 1 line on all screens) */}
-            <div className="w-full lg:flex-1 min-w-0 pt-3 lg:pt-0 border-t border-[#D5E4F7] lg:border-t-0 lg:border-l lg:border-[#D5E4F7] lg:pl-6 xl:pl-7">
+            {/* Right: 3 Typographic Data Displays in 1 Horizontal Row with 3D Icons */}
+            <div className="w-full lg:flex-1 min-w-0 pt-3 lg:pt-0 border-t border-[#E2ECF8] lg:border-t-0 lg:border-l lg:border-[#E2ECF8] lg:pl-6 xl:pl-7">
               <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full">
                 
-                {/* Stat 1: Highest Score */}
-                <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 xl:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#FFFDF5] border border-[#FDE68A] shadow-[0_2px_8px_rgba(245,158,11,0.05)] hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 min-w-0 text-center">
+                {/* Stat 1: Highest Score (Trophy Cup) */}
+                <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 md:gap-2.5 lg:gap-2.5 xl:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#FFFDF5] dark:bg-amber-950/20 border border-[#FDE68A]/35 dark:border-amber-500/20 transition-colors duration-200 min-w-0">
                   {(() => {
                     const raw = activeCategory.stats.highestScore.value;
                     const isPercentile = raw.includes('%ile');
@@ -643,24 +643,36 @@ export function AcademicExcellence() {
                     const num = raw.replace('%ile', '').replace('%', '');
                     return (
                       <>
-                        <div className="flex items-baseline justify-center">
-                          <span className="text-[18px] min-[360px]:text-[21px] sm:text-[24px] lg:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
-                            {num}
-                          </span>
-                          <span className="text-[11px] sm:text-[13px] font-bold text-[#64748B] ml-0.5">
-                            {isPercentile ? '%ile' : isPercent ? '%' : ''}
-                          </span>
+                        <div className="relative w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-13 lg:h-13 xl:w-14 xl:h-14 shrink-0 flex items-center justify-center">
+                          <Image
+                            src="/cup.png"
+                            alt="Highest Score Trophy"
+                            width={56}
+                            height={56}
+                            className="w-full h-full object-contain"
+                            priority
+                          />
                         </div>
-                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[8px] min-[360px]:text-[9px] sm:text-[10px] font-bold bg-[#FEF08A] text-[#92400E] max-w-full">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0" />
-                          <span className="truncate">{activeCategory.stats.highestScore.label}</span>
+                        <div className="flex flex-col items-center sm:items-start min-w-0 text-center sm:text-left">
+                          <div className="flex items-baseline justify-center sm:justify-start">
+                            <span className="text-[16px] min-[360px]:text-[17.5px] sm:text-[22px] md:text-[23px] lg:text-[25px] xl:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
+                              {num}
+                            </span>
+                            <span className="text-[11px] min-[360px]:text-[12px] sm:text-[13px] lg:text-[14px] font-bold text-[#0A1E4A]/80 dark:text-white/80 ml-0.5 leading-none">
+                              {isPercentile ? '%ile' : isPercent ? '%' : ''}
+                            </span>
+                          </div>
+                          <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#FEF08A] dark:bg-amber-900/40 text-[#92400E] dark:text-amber-300 max-w-full">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0" />
+                            <span className="truncate">{activeCategory.stats.highestScore.label}</span>
+                          </div>
                         </div>
                       </>
                     );
                   })()}
                 </div>
 
-                {/* Stat 2: Students 95%+ */}
+                {/* Stat 2: Students 95%+ (Gold Medal) */}
                 {(() => {
                   const isCuet = activeCategory.id === 'cuet';
                   const topNumber = isCuet ? '100%ile' : '95%+';
@@ -669,24 +681,36 @@ export function AcademicExcellence() {
                   const symbol = topNumber.includes('%ile') ? '%ile' : topNumber.includes('%+') ? '%+' : '%';
 
                   return (
-                    <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 xl:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#F2FBF7] border border-[#BBF7D0] shadow-[0_2px_8px_rgba(16,185,129,0.05)] hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 min-w-0 text-center">
-                      <div className="flex items-baseline justify-center">
-                        <span className="text-[18px] min-[360px]:text-[21px] sm:text-[24px] lg:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
-                          {numOnly}
-                        </span>
-                        <span className="text-[11px] sm:text-[13px] font-bold text-[#059669] ml-0.5">
-                          {symbol}
-                        </span>
+                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 md:gap-2.5 lg:gap-2.5 xl:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#F2FBF7] dark:bg-emerald-950/20 border border-[#BBF7D0]/35 dark:border-emerald-500/20 transition-colors duration-200 min-w-0">
+                      <div className="relative w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-13 lg:h-13 xl:w-14 xl:h-14 shrink-0 flex items-center justify-center">
+                        <Image
+                          src="/gold.png"
+                          alt="Gold Medal"
+                          width={56}
+                          height={56}
+                          className="w-full h-full object-contain"
+                          priority
+                        />
                       </div>
-                      <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[8px] min-[360px]:text-[9px] sm:text-[10px] font-bold bg-[#DCFCE7] text-[#065F46] max-w-full">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#059669] shrink-0" />
-                        <span className="truncate">{bottomLabel}</span>
+                      <div className="flex flex-col items-center sm:items-start min-w-0 text-center sm:text-left">
+                        <div className="flex items-baseline justify-center sm:justify-start">
+                          <span className="text-[16px] min-[360px]:text-[17.5px] sm:text-[22px] md:text-[23px] lg:text-[25px] xl:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
+                            {numOnly}
+                          </span>
+                          <span className="text-[11px] min-[360px]:text-[12px] sm:text-[13px] lg:text-[14px] font-bold text-[#059669] dark:text-emerald-400 ml-0.5 leading-none">
+                            {symbol}
+                          </span>
+                        </div>
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DCFCE7] dark:bg-emerald-900/40 text-[#065F46] dark:text-emerald-300 max-w-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#059669] shrink-0" />
+                          <span className="truncate">{bottomLabel}</span>
+                        </div>
                       </div>
                     </div>
                   );
                 })()}
 
-                {/* Stat 3: Students 90%+ */}
+                {/* Stat 3: Students 90%+ (Silver Medal) */}
                 {(() => {
                   const isCuet = activeCategory.id === 'cuet';
                   const topNumber = isCuet ? '98%+' : '90%+';
@@ -695,18 +719,30 @@ export function AcademicExcellence() {
                   const symbol = topNumber.includes('%+') ? '%+' : '%';
 
                   return (
-                    <div className="flex flex-col items-center justify-center p-2.5 sm:p-3 xl:p-3.5 rounded-[16px] sm:rounded-[18px] bg-[#F0F6FE] border border-[#BFDBFE] shadow-[0_2px_8px_rgba(37,99,235,0.05)] hover:shadow-sm hover:-translate-y-0.5 transition-all duration-300 min-w-0 text-center">
-                      <div className="flex items-baseline justify-center">
-                        <span className="text-[18px] min-[360px]:text-[21px] sm:text-[24px] lg:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
-                          {numOnly}
-                        </span>
-                        <span className="text-[11px] sm:text-[13px] font-bold text-[#2563EB] ml-0.5">
-                          {symbol}
-                        </span>
+                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 md:gap-2.5 lg:gap-2.5 xl:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#F0F6FE] dark:bg-blue-950/20 border border-[#BFDBFE]/35 dark:border-blue-500/20 transition-colors duration-200 min-w-0">
+                      <div className="relative w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-13 lg:h-13 xl:w-14 xl:h-14 shrink-0 flex items-center justify-center">
+                        <Image
+                          src="/silver.png"
+                          alt="Silver Medal"
+                          width={56}
+                          height={56}
+                          className="w-full h-full object-contain"
+                          priority
+                        />
                       </div>
-                      <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-0.5 rounded-full text-[8px] min-[360px]:text-[9px] sm:text-[10px] font-bold bg-[#DBEAFE] text-[#1E40AF] max-w-full">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" />
-                        <span className="truncate">{bottomLabel}</span>
+                      <div className="flex flex-col items-center sm:items-start min-w-0 text-center sm:text-left">
+                        <div className="flex items-baseline justify-center sm:justify-start">
+                          <span className="text-[16px] min-[360px]:text-[17.5px] sm:text-[22px] md:text-[23px] lg:text-[25px] xl:text-[26px] font-[950] text-[#0A1E4A] dark:text-white leading-none tracking-tight">
+                            {numOnly}
+                          </span>
+                          <span className="text-[11px] min-[360px]:text-[12px] sm:text-[13px] lg:text-[14px] font-bold text-[#2563EB] dark:text-blue-400 ml-0.5 leading-none">
+                            {symbol}
+                          </span>
+                        </div>
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DBEAFE] dark:bg-blue-900/40 text-[#1E40AF] dark:text-blue-300 max-w-full">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" />
+                          <span className="truncate">{bottomLabel}</span>
+                        </div>
                       </div>
                     </div>
                   );

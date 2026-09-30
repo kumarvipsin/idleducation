@@ -89,12 +89,12 @@ export function StudyResources() {
                 {/* Text Content — top left */}
                 <div className="pt-6 px-6 lg:pt-7 lg:px-7 pb-0 flex flex-col items-start text-left z-10 relative">
                   {/* Heading */}
-                  <h3 className="text-[20px] lg:text-[22px] font-[800] text-[#062B67] dark:text-white leading-[1.2] tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
+                  <h3 className="text-[19.4px] lg:text-[21.3px] font-[800] text-[#062B67] dark:text-white leading-[1.2] tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
                     {item.title}
                   </h3>
 
                   {/* Description */}
-                  <p className="text-[14.2px] lg:text-[14.7px] text-[#64748B] dark:text-slate-400 leading-[1.5] mt-2 max-w-[88%]" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+                  <p className="text-[13.8px] lg:text-[14.3px] text-[#64748B] dark:text-slate-400 leading-[1.5] mt-2 max-w-[88%]" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                     {item.description}
                   </p>
 
@@ -159,10 +159,10 @@ export function StudyResources() {
 
                 {/* Left: Text & CTA */}
                 <div className="flex flex-col items-start text-left max-w-[60%] sm:max-w-[65%] z-10 relative">
-                  <h3 className="font-[800] text-[16px] sm:text-[17px] text-[#062B67] dark:text-white leading-tight tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
+                  <h3 className="font-[800] text-[15.5px] sm:text-[16.5px] text-[#062B67] dark:text-white leading-tight tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
                     {item.title}
                   </h3>
-                  <p className="text-[13.1px] sm:text-[13.7px] text-[#64748B] dark:text-slate-400 leading-[1.4] mt-1 line-clamp-2" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+                  <p className="text-[12.7px] sm:text-[13.3px] text-[#64748B] dark:text-slate-400 leading-[1.4] mt-1 line-clamp-2" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
                     {item.description}
                   </p>
 

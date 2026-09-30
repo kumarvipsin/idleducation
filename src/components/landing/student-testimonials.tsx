@@ -128,7 +128,7 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
   return (
     <>
-      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden shadow-[0_2px_14px_rgba(10,30,66,0.04)] hover:shadow-[0_6px_22px_rgba(10,30,66,0.08)] transition-all duration-300">
+      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden shadow-[0_2px_14px_rgba(10,30,66,0.04)]">
         
         {/* Outline Gradient: Left side same solid, middle to right lighter, right 5% removed completely */}
         <div 
@@ -265,7 +265,7 @@ const CompactStoryCard = ({
   return (
     <>
       <div 
-        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-[14px] sm:rounded-[16px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] hover:shadow-[0_4px_16px_rgba(10,30,66,0.07)] hover:-translate-y-[1px] transition-all duration-200 cursor-pointer"
+        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-[14px] sm:rounded-[16px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] cursor-pointer"
         onClick={() => {
           if (onSelect) {
             onSelect();
@@ -281,7 +281,6 @@ const CompactStoryCard = ({
               src={testimonial.avatarUrl}
               fallbackSrc={fallback}
               alt={testimonial.name}
-              className="transition-transform duration-300 group-hover/compact:scale-105"
             />
           </div>
         </div>
@@ -343,27 +342,26 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
   return (
     <>
-      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] p-3 sm:p-3.5">
+      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-[#DCE9F6] dark:border-slate-800 shadow-[0_4px_18px_rgba(6,43,103,0.05),0_1px_3px_rgba(0,0,0,0.02)] p-3 sm:p-3.5 transition-all duration-300">
         
-        {/* Student Image: Prominent portrait box */}
+        {/* Student Image: Prominent portrait box with refined subtle inner border */}
         <div 
-          className="relative w-full aspect-[1.12/1] rounded-[14px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+          className="relative w-full aspect-[1.14/1] rounded-[15px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer border border-[#E2EEF8]/80 dark:border-slate-700/50"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
             src={testimonial.avatarUrl}
             fallbackSrc={fallback}
             alt={testimonial.name}
-            className="transition-transform duration-500 group-hover/mobile:scale-[1.02]"
           />
 
-          {/* Subtle bottom gradient matching educators card */}
+          {/* Smooth, refined photographic bottom gradient */}
           <div
-            className="absolute inset-x-0 bottom-0 h-14 z-20 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%)" }}
+            className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(6,35,84,0.32) 0%, rgba(6,35,84,0.08) 50%, transparent 100%)" }}
           />
 
-          {/* Play Button — matching Meet Our Educators */}
+          {/* Play Button — refined glassmorphic button integrated with image */}
           <button
             type="button"
             onClick={(e) => {
@@ -371,41 +369,69 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               setIsVideoOpen(true);
             }}
             aria-label={`Watch story of ${testimonial.name}`}
-            className="absolute bottom-2.5 right-2.5 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center hover:bg-white/30 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
+            className="absolute bottom-2.5 right-2.5 z-30 w-[35px] h-[35px] rounded-full bg-white/25 hover:bg-white/40 active:scale-95 backdrop-blur-md border border-white/60 shadow-[0_2px_8px_rgba(6,43,103,0.22)] flex items-center justify-center transition-all duration-200 cursor-pointer"
           >
-            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+            <Play className="w-3.5 h-3.5 fill-white text-white ml-[1.5px] drop-shadow-xs" />
           </button>
         </div>
 
-        {/* Content Area */}
-        <div className="pt-3 px-1 pb-1 flex flex-col relative bg-white dark:bg-slate-900">
-          {/* Subtle Watermark Quote Graphic */}
-          <svg 
-            className="w-7 h-7 text-[#DDE9F8] dark:text-blue-950/30 mb-1 select-none pointer-events-none" 
-            viewBox="0 0 24 24" 
-            fill="currentColor" 
-            aria-hidden="true"
-          >
-            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-          </svg>
-          
+        {/* Content Area — Subtle premium light-blue background treatment with delicate pattern */}
+        <div className="relative mt-2.5 rounded-[15px] p-3 sm:p-3.5 bg-gradient-to-b from-[#F6F9FE] via-[#F1F6FD] to-[#EDF4FC] dark:from-slate-800/80 dark:via-slate-800/60 dark:to-slate-900/90 border border-[#E3EDF8] dark:border-slate-700/60 overflow-hidden">
+          {/* Extremely subtle soft curved blue line pattern in background (very low opacity, premium texture) */}
+          <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden select-none">
+            <svg 
+              className="absolute -right-8 -bottom-8 w-40 h-40 text-[#155EEF]/[0.05] dark:text-blue-400/[0.04]" 
+              viewBox="0 0 160 160" 
+              fill="none"
+            >
+              <circle cx="140" cy="140" r="120" stroke="currentColor" strokeWidth="1" />
+              <circle cx="140" cy="140" r="95" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
+              <circle cx="140" cy="140" r="70" stroke="currentColor" strokeWidth="1" />
+              <circle cx="140" cy="140" r="45" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
+            </svg>
+            <div className="absolute -top-8 -left-8 w-24 h-24 rounded-full bg-blue-100/50 dark:bg-blue-900/10 blur-lg pointer-events-none" />
+          </div>
+
           <div className="relative z-10 min-w-0">
-            {/* Testimonial Quote */}
-            <blockquote className="mb-2">
-              <p className="text-[13.7px] sm:text-[14.2px] text-[#64748B] dark:text-slate-300 leading-[1.45] line-clamp-3 antialiased" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+            {/* Refined Quotation Mark Graphic */}
+            <div className="flex items-center justify-between mb-1.5">
+              <svg 
+                className="w-5 h-5 text-[#8CB6EB]/70 dark:text-blue-400/40 select-none pointer-events-none shrink-0" 
+                viewBox="0 0 24 24" 
+                fill="currentColor" 
+                aria-hidden="true"
+              >
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+            </div>
+            
+            {/* Testimonial Quote — Clean typography, improved line-height & breathing room */}
+            <blockquote className="mb-2.5">
+              <p 
+                className="text-[13.7px] sm:text-[14.2px] text-[#475A72] dark:text-slate-200 leading-[1.54] tracking-[-0.005em] line-clamp-3 antialiased text-pretty" 
+                style={{ fontWeight: 520 }}
+              >
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Student Name & Class */}
-            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="text-[14.7px] text-[#062B67] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 750, WebkitTextStroke: '0.15px currentColor' }}>
-                {testimonial.name}
-              </h3>
-              <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[12.6px] text-[#64748B] dark:text-slate-400" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
-                {classLabel}
-              </span>
+            {/* Subtle Divider Treatment */}
+            <div className="w-full h-px bg-gradient-to-r from-[#D6E6F8] via-[#E2EEFA] to-transparent dark:from-slate-700 dark:via-slate-800 dark:to-transparent mb-2.5" />
+
+            {/* Student Identity: Name prominent + Class 10 visually secondary */}
+            <div className="flex items-center justify-between gap-2 flex-wrap min-w-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <h3 
+                  className="text-[14.7px] text-[#062B67] dark:text-white tracking-tight leading-snug font-extrabold"
+                  style={{ fontWeight: 800 }}
+                >
+                  {testimonial.name}
+                </h3>
+                <span className="text-slate-300 dark:text-slate-600 font-light select-none">|</span>
+                <span className="text-[12px] sm:text-[12.4px] text-[#647894] dark:text-slate-400 font-semibold tracking-wide">
+                  {classLabel}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -676,8 +702,8 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 </CarouselContent>
               </Carousel>
 
-              {/* Mobile Pagination Dots */}
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5 mb-1">
+              {/* Mobile Pagination Dots — Stronger active dot, subtle inactive dots */}
+              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3.5 sm:mt-5 mb-1">
                 {testimonialList.map((_, i) => (
                   <button
                     key={i}
@@ -689,8 +715,8 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                       className={cn(
                         "rounded-full transition-all duration-300",
                         current === i 
-                          ? "w-5 sm:w-6 h-1.5 bg-[#062B67] dark:bg-blue-500" 
-                          : "w-1.5 h-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-[#062B67]/50"
+                          ? "w-6 h-1.5 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.28)]" 
+                          : "w-1.5 h-1.5 bg-[#D5E3F5]/80 dark:bg-slate-700/50 hover:bg-[#062B67]/40"
                       )}
                     />
                   </button>
