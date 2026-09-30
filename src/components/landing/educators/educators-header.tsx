@@ -23,9 +23,9 @@ export function EducatorsHeader({
   onNext,
 }: EducatorsHeaderProps) {
   return (
-    <div className="text-center mb-5 sm:mb-7 relative">
+    <div className="text-center mb-4 sm:mb-7 relative">
       {/* Eyebrow — bullet point */}
-      <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5">
+      <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-2.5 sm:mb-3.5">
         <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
         <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
           <span className="text-[#062B67] dark:text-blue-200">{titlePrefix}</span>

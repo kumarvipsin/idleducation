@@ -157,7 +157,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
         </div>
 
         {/* ── CARD BODY ── */}
-        <div className="relative flex flex-col flex-1 pt-3.5 sm:pt-4 pb-0.5 text-center justify-between">
+        <div className="relative flex flex-col flex-1 pt-3 sm:pt-4 pb-0.5 text-center justify-between">
 
           {/* Teacher Info: Centered Name & Centered Exp / Subject */}
           <div className="relative z-10 w-full text-center">
@@ -171,7 +171,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             </h3>
 
             {/* Metadata Line (Experience • Subject) — Centered, visually compact & comfortable */}
-            <div className="mt-2 sm:mt-2.5 flex items-center justify-center">
+            <div className="mt-1.5 sm:mt-2.5 flex items-center justify-center">
               <div className="inline-flex items-center justify-center gap-1.5 px-1 py-0.5 max-w-full text-center">
                 {hasExp && (
                   <span className="inline-flex items-center gap-1 text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] shrink-0 leading-normal">
@@ -192,7 +192,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </div>
 
           {/* ── CARD FOOTER: View Profile CTA ── */}
-          <div className="relative mt-3.5 sm:mt-4 pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
+          <div className="relative mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
             {/* View Profile Action */}
             <button
               type="button"

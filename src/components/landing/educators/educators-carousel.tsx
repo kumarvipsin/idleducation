@@ -130,7 +130,7 @@ export function EducatorsCarousel({
           {teachers.map((teacher, index) => (
             <CarouselItem
               key={teacher.id || index}
-              className="pl-3 sm:pl-4 basis-[76%] min-[380px]:basis-[74%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex flex-col"
+              className="pl-3 sm:pl-4 basis-[82%] min-[380px]:basis-[80%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex flex-col"
             >
               <div className="h-full flex flex-col flex-1">
                 <EducatorCard teacher={teacher} />
@@ -141,7 +141,7 @@ export function EducatorsCarousel({
       </Carousel>
 
       {/* Pagination dots */}
-      <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2 sm:mt-3">
+      <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3 sm:mt-3.5">
         {Array.from({ length: count }).map((_, i) => (
           <button
             key={i}
