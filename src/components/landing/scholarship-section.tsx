@@ -177,10 +177,10 @@ export function ScholarshipSection() {
               >
                 {/* Floating Icon Medallion: 40% above circle top, 60% on white circle surface */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 z-20 transition-transform duration-300 group-hover:scale-105 group-hover:-translate-y-1 pointer-events-none">
-                  <div className={`w-[84px] h-[84px] rounded-full flex items-center justify-center p-2.5 relative border-2 border-white dark:border-slate-800 shadow-md ${
+                  <div className={`w-[84px] h-[84px] rounded-full flex items-center justify-center p-2.5 relative border-2 border-white dark:border-slate-800 shadow-sm ${
                     item.iconGlow === 'yellow'
-                      ? 'bg-gradient-to-b from-[#FEF9E7] to-[#FDE8B3] ring-4 ring-amber-50/80 dark:ring-amber-900/30 shadow-[0_6px_20px_rgba(245,158,11,0.22)]'
-                      : 'bg-gradient-to-b from-[#EBF4FE] to-[#D7E9FD] ring-4 ring-blue-50/80 dark:ring-blue-900/30 shadow-[0_6px_20px_rgba(21,94,239,0.18)]'
+                      ? 'bg-gradient-to-b from-[#FEF9E7] to-[#FDE8B3] ring-3 ring-amber-50/70 dark:ring-amber-900/30 shadow-[0_4px_16px_rgba(245,158,11,0.14)]'
+                      : 'bg-gradient-to-b from-[#EBF4FE] to-[#D7E9FD] ring-3 ring-blue-50/70 dark:ring-blue-900/30 shadow-[0_4px_16px_rgba(21,94,239,0.12)]'
                   }`}>
                     <Image
                       src={item.iconSrc}
@@ -201,30 +201,28 @@ export function ScholarshipSection() {
                 </div>
 
                 {/* Large White Circle Card Body — 3D Convex Dome / Hemisphere Shape */}
-                <div className="idl-hemisphere-pod w-full aspect-square rounded-full border border-[#DCE8F7] dark:border-slate-800 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center pt-[66px] pb-6 px-5 text-center relative z-10">
-                  {/* Two-Tone Title — Extra Bold */}
+                <div className="idl-hemisphere-pod w-full aspect-square rounded-full border border-[#DCE6F5]/80 dark:border-slate-800/80 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center pt-[64px] pb-5 px-5 text-center relative z-10">
+                  {/* Two-Tone Title — Preserved exact font size & weight, smooth natural typography */}
                   <h3 
-                    className="text-[18px] sm:text-[18.9px] font-black tracking-[-0.02em] text-center leading-snug"
+                    className="text-[18px] sm:text-[18.9px] font-black tracking-[-0.01em] text-center leading-snug"
                     style={{ 
                       fontWeight: 900,
-                      WebkitTextStroke: '0.45px currentColor',
                     }}
                   >
                     <span className="text-[#062B67] dark:text-white" style={{ fontWeight: 900 }}>{item.titleDark} </span>
                     <span className="text-[#155EEF] dark:text-blue-400" style={{ fontWeight: 900 }}>{item.titleBlue}</span>
                   </h3>
 
-                  {/* Accent Dash Bar */}
-                  <div className={`w-7 h-[2.5px] rounded-full mx-auto mt-1.5 mb-2.5 ${
+                  {/* Accent Dash Bar with refined separation */}
+                  <div className={`w-6 sm:w-7 h-[2px] rounded-full mx-auto mt-2 mb-2.5 ${
                     item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                   }`} />
 
-                  {/* Centered Description: EXACT 3 Lines */}
+                  {/* Centered Description: Preserved exact font size & weight, breathable line-height & softer secondary dark-gray */}
                   <p 
-                    className="text-[13.6px] sm:text-[13.8px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.5] text-center"
+                    className="text-[13.6px] sm:text-[13.8px] text-[#4A5872] dark:text-slate-300 font-bold leading-[1.58] text-center"
                     style={{ 
                       fontWeight: 700,
-                      WebkitTextStroke: '0.22px currentColor',
                     }}
                   >
                     <span className="block">{item.descriptionLine1}</span>
@@ -246,7 +244,7 @@ export function ScholarshipSection() {
           {pillars.map((item) => (
             <div 
               key={item.id}
-              className="w-full bg-white dark:bg-slate-900 rounded-[16px] border border-[#E0EAFF] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.04)] px-4 py-4 flex items-center gap-3.5 min-[380px]:gap-4 active:scale-[0.99] transition-all duration-200"
+              className="w-full bg-white dark:bg-slate-900 rounded-[16px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.03)] px-4 py-3.5 flex items-center gap-3.5 min-[380px]:gap-4 active:scale-[0.99] transition-all duration-200"
             >
               {/* Left Icon Disc with Number Badge at bottom-right */}
               <div className="relative shrink-0">
@@ -267,7 +265,7 @@ export function ScholarshipSection() {
 
                 {/* Badge at bottom-right of icon disc */}
                 <div className={`absolute -bottom-0.5 -right-0.5 w-[22px] h-[22px] rounded-full flex items-center justify-center text-white text-[11px] font-black leading-none border-2 border-white dark:border-slate-900 shadow-sm ${
-                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#1E65E6]'
+                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                 }`}>
                   {item.badge}
                 </div>
@@ -276,23 +274,23 @@ export function ScholarshipSection() {
               {/* Right Text Column - vertically balanced */}
               <div className="flex-1 min-w-0 text-left flex flex-col justify-center">
                 <h3 
-                  className="text-[16.5px] min-[380px]:text-[17.5px] font-black leading-tight tracking-tight"
+                  className="text-[16.5px] min-[380px]:text-[17.5px] font-black leading-snug tracking-[-0.01em]"
                   style={{ 
                     fontWeight: 900,
                   }}
                 >
                   <span className="text-[#062B67] dark:text-white" style={{ fontWeight: 900 }}>{item.titleDark} </span>
-                  <span className="text-[#1E65E6] dark:text-blue-400" style={{ fontWeight: 900 }}>{item.titleBlue}</span>
+                  <span className="text-[#155EEF] dark:text-blue-400" style={{ fontWeight: 900 }}>{item.titleBlue}</span>
                 </h3>
 
                 {/* Accent Dash Under Title with subtle gap */}
-                <div className={`w-6 h-[2.5px] rounded-full mt-1.5 mb-1.5 ${
-                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#1E65E6]'
+                <div className={`w-6 h-[2px] rounded-full mt-1.5 mb-1.5 ${
+                  item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                 }`} />
 
                 {/* Description with comfortable line-height matching Study Resources, keeping colors intact */}
                 <p 
-                  className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.45] text-pretty"
+                  className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4A5872] dark:text-slate-300 font-bold leading-[1.52] text-pretty"
                   style={{ 
                     fontWeight: 700,
                   }}

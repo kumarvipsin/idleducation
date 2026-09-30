@@ -631,42 +631,40 @@ body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
 
 /* ─────────────────────────────────────────────────────────────
    Hemisphere / 3D Convex Dome Circle Card Effect
-   Center raised/embossed, edges smoothly sloped downward
+   Soft blue-white appearance, subtle premium shadow on lower edges
    ───────────────────────────────────────────────────────────── */
 .idl-hemisphere-pod {
-  background: radial-gradient(circle at 50% 42%, #FFFFFF 22%, #F8FBFE 48%, #EAF2FC 76%, #DCE8F8 100%);
+  background: radial-gradient(circle at 50% 40%, #FFFFFF 30%, #F8FBFE 55%, #EDF4FD 80%, #DFEAF8 100%);
   box-shadow: 
-    0 18px 40px -8px rgba(6, 43, 103, 0.08),
-    0 4px 14px rgba(6, 43, 103, 0.02),
-    inset 0 3px 6px rgba(255, 255, 255, 0.95),
-    inset 0 -7px 16px rgba(6, 43, 103, 0.05),
-    inset 0 0 18px rgba(21, 94, 239, 0.045);
+    0 14px 28px -6px rgba(6, 43, 103, 0.05),
+    0 4px 12px rgba(6, 43, 103, 0.015),
+    inset 0 2px 5px rgba(255, 255, 255, 0.95),
+    inset 0 -4px 10px rgba(6, 43, 103, 0.025);
 }
 
 .dark .idl-hemisphere-pod {
-  background: radial-gradient(circle at 50% 42%, #1e293b 25%, #151f30 52%, #0f172a 80%, #090e1a 100%);
+  background: radial-gradient(circle at 50% 40%, #1e293b 25%, #151f30 52%, #0f172a 80%, #090e1a 100%);
   box-shadow: 
-    0 18px 40px -8px rgba(0, 0, 0, 0.5),
-    0 4px 14px rgba(0, 0, 0, 0.3),
+    0 14px 28px -6px rgba(0, 0, 0, 0.45),
+    0 4px 12px rgba(0, 0, 0, 0.2),
     inset 0 2px 5px rgba(255, 255, 255, 0.08),
-    inset 0 -7px 16px rgba(0, 0, 0, 0.35);
+    inset 0 -4px 10px rgba(0, 0, 0, 0.25);
 }
 
 .idl-hemisphere-pod:hover {
   box-shadow: 
-    0 26px 54px -8px rgba(6, 43, 103, 0.12),
-    0 6px 20px rgba(6, 43, 103, 0.04),
-    inset 0 3px 6px rgba(255, 255, 255, 1),
-    inset 0 -7px 16px rgba(6, 43, 103, 0.06),
-    inset 0 0 20px rgba(21, 94, 239, 0.06);
+    0 20px 38px -6px rgba(6, 43, 103, 0.08),
+    0 6px 16px rgba(6, 43, 103, 0.025),
+    inset 0 2px 5px rgba(255, 255, 255, 1),
+    inset 0 -4px 10px rgba(6, 43, 103, 0.035);
 }
 
 .dark .idl-hemisphere-pod:hover {
   box-shadow: 
-    0 26px 54px -8px rgba(0, 0, 0, 0.65),
-    0 6px 20px rgba(0, 0, 0, 0.4),
+    0 20px 38px -6px rgba(0, 0, 0, 0.55),
+    0 6px 16px rgba(0, 0, 0, 0.3),
     inset 0 2px 5px rgba(255, 255, 255, 0.12),
-    inset 0 -7px 16px rgba(0, 0, 0, 0.45);
+    inset 0 -4px 10px rgba(0, 0, 0, 0.35);
 }
 
 /* ─────────────────────────────────────────────────────────────
