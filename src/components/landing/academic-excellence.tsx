@@ -616,8 +616,8 @@ export function AcademicExcellence() {
                 <span className="text-[#062B67] dark:text-white">
                   {activeCategory.headlineTitle}
                 </span>
-                <span className="text-[#F59E0B] font-bold">•</span>
-                <span className="text-[#D97706] dark:text-amber-400">
+                <span className="text-[#B45309] font-bold">•</span>
+                <span className="text-[#B45309] dark:text-amber-400">
                   {activeCategory.headlineHighlight}
                 </span>
               </h3>
