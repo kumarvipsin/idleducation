@@ -550,7 +550,7 @@ export function AcademicExcellence() {
       <div className="w-full max-w-[1360px] mx-auto px-3 sm:px-4 md:px-6 relative z-10">
         
         {/* ===================== HEADER SECTION ===================== */}
-        <div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-4">
+        <div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-5">
           {/* Eyebrow — small section label in Title Case */}
           <div className="inline-flex items-center justify-center gap-2 sm:gap-2.5 mb-2 sm:mb-2.5">
             <span className="w-2 h-2 rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
@@ -568,7 +568,7 @@ export function AcademicExcellence() {
         </div>
 
         {/* ===================== CATEGORY TABS (TEXT ONLY WITH UNDERLINE, NO BUTTON SHAPE) ===================== */}
-        <div className="w-full mb-[22px] sm:mb-[26px]">
+        <div className="w-full mb-5 sm:mb-6">
           <div className="flex justify-center px-2">
             <div 
               role="tablist" 
@@ -586,9 +586,9 @@ export function AcademicExcellence() {
                     aria-controls={`panel-${cat.id}`}
                     onClick={() => handleTabChange(idx)}
                     className={cn(
-                      "pb-0.5 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-[1.5px] text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white",
+                      "pb-1.5 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-[1.5px] text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white",
                       isActive
-                        ? "border-[#155EEF] dark:border-blue-400"
+                        ? "border-[#155EEF] dark:border-blue-400 text-[#062B67] dark:text-white"
                         : "border-transparent"
                     )}
                   >
@@ -600,13 +600,22 @@ export function AcademicExcellence() {
           </div>
         </div>
 
-        {/* ===================== MAIN RESULTS CONTAINER (EXACT MATCH TO BEST EXAM PREP APP SECTION) ===================== */}
+        {/* ===================== MAIN RESULTS CONTAINER (PREMIUM POLISHED CONTAINER) ===================== */}
         <div 
           id={`panel-${activeCategory.id}`}
           role="tabpanel"
           aria-labelledby={`tab-${activeCategory.id}`}
-          className="relative w-full rounded-[24px] sm:rounded-[28px] bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-800/60 border border-[#E2ECF8] dark:border-slate-800/80 p-4 sm:p-5 lg:p-6 pb-5 sm:pb-6 lg:pb-7 shadow-[0_4px_24px_rgba(6,43,103,0.03)] overflow-hidden transition-all duration-300"
+          className="relative w-full rounded-[24px] sm:rounded-[28px] bg-gradient-to-b from-[#FAFCFF] via-[#F6FAFE] to-[#EFF5FC] dark:from-slate-900/90 dark:via-slate-900/70 dark:to-slate-800/70 border border-[#DFEAF7] dark:border-slate-800/80 p-4 sm:p-5 lg:p-6 pb-5 sm:pb-6 lg:pb-7 shadow-[0_4px_28px_-6px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] overflow-hidden transition-all duration-300"
         >
+          {/* Subtle atmospheric cool-blue gradient toward the bottom & faint understated curved shape behind cards */}
+          <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden rounded-[24px] sm:rounded-[28px]">
+            {/* Soft atmospheric gradient wash toward the bottom */}
+            <div className="absolute inset-x-0 bottom-0 h-52 sm:h-64 bg-gradient-to-t from-[#E4EFFB]/50 via-[#EDF4FD]/25 to-transparent dark:from-blue-950/20 dark:via-transparent pointer-events-none" />
+            
+            {/* Faint understated organic curved blue glow in bottom-right corner behind cards */}
+            <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-[#E0ECFC]/40 dark:bg-blue-900/10 blur-3xl pointer-events-none" />
+          </div>
+
           {/* ----------------- TOP SECTION: SUMMARY + 3 STATS ----------------- */}
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4 lg:gap-5 pb-2 sm:pb-2.5">
             
@@ -623,7 +632,7 @@ export function AcademicExcellence() {
               </h3>
 
               <p 
-                className="text-[13.7px] sm:text-[14.2px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-sm break-words"
+                className="text-[13.7px] sm:text-[14.2px] text-slate-500 dark:text-slate-400 mt-2.5 sm:mt-3 leading-relaxed font-semibold max-w-sm break-words"
                 style={{ fontWeight: 620, WebkitTextStroke: '0.12px currentColor' }}
               >
                 {activeCategory.description}
@@ -631,11 +640,11 @@ export function AcademicExcellence() {
             </div>
 
             {/* Right: 3 Typographic Data Displays in 1 Horizontal Row with 3D Icons */}
-            <div className="w-full lg:flex-1 min-w-0 pt-3 lg:pt-0 border-t border-[#E2ECF8] lg:border-t-0 lg:border-l lg:border-[#E2ECF8] lg:pl-6 xl:pl-7">
-              <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full">
+            <div className="w-full lg:flex-1 min-w-0 pt-3 lg:pt-0 border-t border-[#E4EEF8] lg:border-t-0 lg:border-l lg:border-[#E2ECF7] lg:pl-6 xl:pl-7">
+              <div className="grid grid-cols-3 gap-2 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full">
                 
                 {/* Stat 1: Highest Score (Trophy Cup) */}
-                <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 md:gap-2.5 lg:gap-2.5 xl:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#FFFDF5] dark:bg-amber-950/20 border border-[#FDE68A]/35 dark:border-amber-500/20 transition-colors duration-200 min-w-0">
+                <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2.5 md:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#FFFDF7] dark:bg-amber-950/20 border border-[#FDE68A]/45 dark:border-amber-500/20 shadow-[0_1px_4px_rgba(217,119,6,0.03)] transition-colors duration-200 min-w-0">
                   {(() => {
                     const raw = activeCategory.stats.highestScore.value;
                     const isPercentile = raw.includes('%ile');
@@ -662,7 +671,7 @@ export function AcademicExcellence() {
                               {isPercentile ? '%ile' : isPercent ? '%' : ''}
                             </span>
                           </div>
-                          <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#FEF08A] dark:bg-amber-900/40 text-[#92400E] dark:text-amber-300 max-w-full">
+                          <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[20px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#FEF3C7] dark:bg-amber-900/40 text-[#92400E] dark:text-amber-300 border border-[#FDE68A]/60 max-w-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0" />
                             <span className="truncate">{activeCategory.stats.highestScore.label}</span>
                           </div>
@@ -681,7 +690,7 @@ export function AcademicExcellence() {
                   const symbol = topNumber.includes('%ile') ? '%ile' : topNumber.includes('%+') ? '%+' : '%';
 
                   return (
-                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 md:gap-2.5 lg:gap-2.5 xl:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#F2FBF7] dark:bg-emerald-950/20 border border-[#BBF7D0]/35 dark:border-emerald-500/20 transition-colors duration-200 min-w-0">
+                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2.5 md:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#F4FBF7] dark:bg-emerald-950/20 border border-[#BBF7D0]/45 dark:border-emerald-500/20 shadow-[0_1px_4px_rgba(5,150,105,0.03)] transition-colors duration-200 min-w-0">
                       <div className="relative w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-13 lg:h-13 xl:w-14 xl:h-14 shrink-0 flex items-center justify-center">
                         <Image
                           src="/gold.png"
@@ -701,7 +710,7 @@ export function AcademicExcellence() {
                             {symbol}
                           </span>
                         </div>
-                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DCFCE7] dark:bg-emerald-900/40 text-[#065F46] dark:text-emerald-300 max-w-full">
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[20px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DCFCE7] dark:bg-emerald-900/40 text-[#065F46] dark:text-emerald-300 border border-[#A7F3D0]/60 max-w-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#059669] shrink-0" />
                           <span className="truncate">{bottomLabel}</span>
                         </div>
@@ -719,7 +728,7 @@ export function AcademicExcellence() {
                   const symbol = topNumber.includes('%+') ? '%+' : '%';
 
                   return (
-                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1 sm:gap-2 md:gap-2.5 lg:gap-2.5 xl:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#F0F6FE] dark:bg-blue-950/20 border border-[#BFDBFE]/35 dark:border-blue-500/20 transition-colors duration-200 min-w-0">
+                    <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-2.5 md:gap-3 p-2 min-[360px]:p-2.5 sm:p-2.5 md:p-3 xl:p-3.5 rounded-[14px] sm:rounded-[18px] xl:rounded-[20px] bg-[#F2F7FE] dark:bg-blue-950/20 border border-[#BFDBFE]/45 dark:border-blue-500/20 shadow-[0_1px_4px_rgba(37,99,235,0.03)] transition-colors duration-200 min-w-0">
                       <div className="relative w-6 h-6 min-[360px]:w-7 min-[360px]:h-7 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-13 lg:h-13 xl:w-14 xl:h-14 shrink-0 flex items-center justify-center">
                         <Image
                           src="/silver.png"
@@ -739,7 +748,7 @@ export function AcademicExcellence() {
                             {symbol}
                           </span>
                         </div>
-                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DBEAFE] dark:bg-blue-900/40 text-[#1E40AF] dark:text-blue-300 max-w-full">
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[20px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DBEAFE] dark:bg-blue-900/40 text-[#1E40AF] dark:text-blue-300 border border-[#BFDBFE]/60 max-w-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" />
                           <span className="truncate">{bottomLabel}</span>
                         </div>
@@ -754,7 +763,7 @@ export function AcademicExcellence() {
           </div>
 
           {/* ----------------- MIDDLE ROW: TOP PERFORMERS HEADER + NAV ARROWS ----------------- */}
-          <div className="relative z-10 flex items-center justify-between mt-2 sm:mt-2.5 mb-1.5 sm:mb-2 px-0.5 w-full">
+          <div className="relative z-10 flex items-center justify-between mt-3.5 sm:mt-4 mb-2.5 sm:mb-3 px-0.5 w-full">
             {/* Left: Bar Chart Icon + Title */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <BarChartIcon className="w-[18px] h-[18px] text-[#F59E0B] shrink-0" />
@@ -769,7 +778,7 @@ export function AcademicExcellence() {
                 type="button"
                 onClick={scrollPrev} 
                 aria-label="Previous slide" 
-                className="w-7 h-7 rounded-full border border-slate-200/90 bg-white flex items-center justify-center text-slate-500 hover:text-[#0A1E4A] hover:border-slate-300 transition-all shadow-[0_1px_2px_rgba(0,0,0,0.04)] cursor-pointer active:scale-95"
+                className="w-7 h-7 rounded-full border border-[#DCE7F5] bg-white flex items-center justify-center text-slate-600 hover:text-[#0A1E4A] hover:border-[#155EEF]/40 hover:bg-[#F8FAFD] transition-all shadow-[0_1px_2px_rgba(0,0,0,0.03)] cursor-pointer active:scale-95"
               >
                 <ChevronLeft className="w-3.5 h-3.5" />
               </button>
@@ -777,7 +786,7 @@ export function AcademicExcellence() {
                 type="button"
                 onClick={scrollNext} 
                 aria-label="Next slide" 
-                className="w-7 h-7 rounded-full bg-[#155EEF] hover:bg-[#124bbf] text-white flex items-center justify-center shadow-[0_1px_2px_rgba(21,94,239,0.2)] transition-all cursor-pointer active:scale-95"
+                className="w-7 h-7 rounded-full bg-[#155EEF] hover:bg-[#0E4FD4] text-white flex items-center justify-center shadow-[0_2px_6px_rgba(21,94,239,0.22)] transition-all cursor-pointer active:scale-95"
               >
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
@@ -794,7 +803,7 @@ export function AcademicExcellence() {
               }}
               className="w-full"
             >
-              <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3 py-1">
+              <CarouselContent className="-ml-2 sm:-ml-2.5 lg:-ml-3 items-stretch py-1">
                 {activeCategory.topPerformers.map((student) => {
                   const isPercentile = student.score.includes('%ile');
                   const scoreValue = isPercentile ? student.score.replace('%ile', '') : student.score.replace('%', '');
@@ -802,16 +811,16 @@ export function AcademicExcellence() {
                   return (
                     <CarouselItem 
                       key={student.id} 
-                      className="pl-2 sm:pl-2.5 lg:pl-3 basis-full sm:basis-[32%] md:basis-[24%] lg:basis-1/5"
+                      className="pl-2 sm:pl-2.5 lg:pl-3 basis-full sm:basis-[32%] md:basis-[24%] lg:basis-1/5 flex flex-col"
                     >
                       {/* Student Card: Clean, balanced card with subtle soft border (not harsh or prominently visible) */}
                       <div 
                         onClick={() => setSelectedCardId(student.id)}
-                        className="bg-white rounded-[20px] sm:rounded-[22px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_rgba(10,30,74,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(10,30,74,0.08)] hover:border-[#BFDBFE]/70 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-[340px] mx-auto sm:max-w-none outline-none focus:outline-none focus:ring-0 active:outline-none p-3 sm:p-2.5"
+                        className="bg-white dark:bg-slate-900 rounded-[20px] sm:rounded-[22px] border border-[#DFEBF7] dark:border-slate-800 shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_-4px_rgba(6,43,103,0.08)] hover:border-[#BFDBFE] dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-[340px] mx-auto sm:max-w-none outline-none focus:outline-none focus:ring-0 active:outline-none p-3 sm:p-2.5"
                       >
                         
                         {/* Student image: IDL Star style with outer margin/padding and rounded-[15px] corners */}
-                        <div className="relative w-full aspect-square rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] overflow-hidden">
+                        <div className="relative w-full aspect-square rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] overflow-hidden shrink-0">
                           <Image
                             src={student.image}
                             alt={student.name}
@@ -852,7 +861,7 @@ export function AcademicExcellence() {
                           </div>
 
                           {/* Bottom Row: View Profile Action + Achievement Badge */}
-                          <div className="mt-2.5 sm:mt-2 pt-2.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                          <div className="mt-2.5 sm:mt-2 pt-2.5 sm:pt-2 border-t border-[#EEF3F8] dark:border-slate-800 flex items-center justify-between gap-2">
                             <button
                               type="button"
                               onClick={(e) => {
@@ -867,7 +876,7 @@ export function AcademicExcellence() {
                             </button>
 
                             {student.badge && (
-                              <span className="text-[11px] sm:text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] dark:bg-amber-900/30 dark:text-amber-300 shrink-0 truncate max-w-[130px]">
+                              <span className="text-[11px] sm:text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7]/90 text-[#92400E] dark:bg-amber-900/30 dark:text-amber-300 border border-[#FDE68A]/60 shrink-0 truncate max-w-[130px]">
                                 {student.badge}
                               </span>
                             )}
