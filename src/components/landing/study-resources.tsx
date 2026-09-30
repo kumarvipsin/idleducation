@@ -84,34 +84,32 @@ export function StudyResources() {
               href={item.href}
               className="group block h-full focus:outline-none"
             >
-              <div className="h-full flex flex-col bg-white dark:bg-slate-900 rounded-[18px] lg:rounded-[20px] border border-[#E0EAFF] dark:border-slate-800 shadow-[0_2px_12px_rgba(6,43,103,0.04)] hover:shadow-[0_8px_24px_rgba(6,43,103,0.08)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden relative">
+              <div className="h-full flex flex-col bg-white dark:bg-slate-900 rounded-[18px] lg:rounded-[20px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.03)] hover:shadow-[0_8px_24px_-4px_rgba(6,43,103,0.06)] hover:-translate-y-0.5 transition-all duration-300 overflow-hidden relative">
 
-                {/* Text Content — top left */}
+                {/* Text Content — top left with clean consistent alignment */}
                 <div className="pt-6 px-6 lg:pt-7 lg:px-7 pb-0 flex flex-col items-start text-left z-10 relative">
-                  {/* Heading — Desktop: 18px/18.9px */}
+                  {/* Heading — Preserved exact font size & weight, softened navy contrast & relaxed tracking */}
                   <h3 
-                    className="text-[18px] lg:text-[18.9px] font-black text-[#062B67] dark:text-white leading-[1.25] tracking-[-0.02em] whitespace-nowrap" 
+                    className="text-[18px] lg:text-[18.9px] font-black text-[#072458] dark:text-white leading-[1.3] tracking-[-0.012em] whitespace-nowrap" 
                     style={{ 
                       fontWeight: 900, 
-                      WebkitTextStroke: '0.45px currentColor',
                     }}
                   >
                     {item.title}
                   </h3>
 
-                  {/* Description — Desktop: 13.6px/13.8px */}
+                  {/* Description — Preserved exact font size & weight, improved line-height & softer dark-gray tone */}
                   <p 
-                    className="text-[13.6px] lg:text-[13.8px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.5] mt-2 max-w-[90%]" 
+                    className="text-[13.6px] lg:text-[13.8px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.55] mt-2.5 max-w-[92%]" 
                     style={{ 
                       fontWeight: 700, 
-                      WebkitTextStroke: '0.22px currentColor',
                     }}
                   >
                     {item.description}
                   </p>
 
                   {/* CTA: Explore → */}
-                  <div className="inline-flex items-center gap-1.5 text-[13.5px] lg:text-[14px] font-semibold text-[#155EEF] group-hover:text-[#0047CC] dark:text-blue-400 mt-3 transition-colors">
+                  <div className="inline-flex items-center gap-1.5 text-[13.5px] lg:text-[14px] font-semibold text-[#155EEF] group-hover:text-[#062B67] dark:text-blue-400 mt-3.5 transition-colors">
                     <span>Explore</span>
                     <ArrowRight className="w-3.5 h-3.5 stroke-[2.5] transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
@@ -167,22 +165,22 @@ export function StudyResources() {
               href={item.href}
               className="group block w-full focus:outline-none"
             >
-              <div className="bg-white dark:bg-slate-900 rounded-[16px] border border-[#E0EAFF] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.04)] active:scale-[0.99] transition-all duration-200 px-4 py-4 relative overflow-hidden flex flex-row items-center min-h-[110px]">
+              <div className="bg-white dark:bg-slate-900 rounded-[16px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_8px_-2px_rgba(6,43,103,0.03)] active:scale-[0.99] transition-all duration-200 px-4 py-3.5 relative overflow-hidden flex flex-row items-center min-h-[110px]">
 
                 {/* Left: Text & CTA */}
                 <div className="flex flex-col items-start text-left w-full z-10 relative">
-                  {/* Heading — Mobile: 16.5px/17.5px */}
+                  {/* Heading — Preserved exact mobile size & weight, natural font rendering */}
                   <h3 
-                    className="text-[16.5px] min-[380px]:text-[17.5px] font-black text-[#062B67] dark:text-white leading-tight tracking-tight whitespace-nowrap" 
+                    className="text-[16.5px] min-[380px]:text-[17.5px] font-black text-[#072458] dark:text-white leading-[1.28] tracking-[-0.012em] whitespace-nowrap" 
                     style={{ 
                       fontWeight: 900,
                     }}
                   >
                     {item.title}
                   </h3>
-                  {/* Description — Mobile: 12.8px/13.4px */}
+                  {/* Description — Preserved exact mobile size & weight, improved line-height & softer tone */}
                   <p 
-                    className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.45] mt-1 line-clamp-2 max-w-[60%] sm:max-w-[65%]" 
+                    className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.5] mt-1.5 line-clamp-2 max-w-[62%] sm:max-w-[66%]" 
                     style={{ 
                       fontWeight: 700,
                     }}
@@ -191,7 +189,7 @@ export function StudyResources() {
                   </p>
 
                   {/* Explore Link */}
-                  <div className="inline-flex items-center gap-1 text-[13px] sm:text-[13.5px] font-semibold text-[#155EEF] dark:text-blue-400 mt-2 group-active:text-[#0047CC]">
+                  <div className="inline-flex items-center gap-1 text-[13px] sm:text-[13.5px] font-semibold text-[#155EEF] dark:text-blue-400 mt-2.5 group-active:text-[#062B67]">
                     <span>Explore</span>
                     <ArrowRight className="w-3 h-3 stroke-[2.5]" />
                   </div>
