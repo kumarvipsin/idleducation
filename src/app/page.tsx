@@ -47,7 +47,7 @@ export default async function Home() {
       <TrustStatsSection />
 
       {/* 6. Student Testimonials */}
-      <StudentTestimonials testimonials={studentTestimonials.slice(0, 5)} />
+      <StudentTestimonials testimonials={studentTestimonials} />
 
       {/* 7. Study Resources (Notes, NCERT, PYQ) */}
       <StudyResources />

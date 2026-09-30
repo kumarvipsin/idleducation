@@ -457,7 +457,7 @@ function BarChartIcon({ className }: { className?: string }) {
 }
 
 export function AcademicExcellence() {
-  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0); // Starts at CLASS 10 -> CLASS 12 -> CUET (UG) -> repeat
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(1); // Default: CLASS 12 (index 1)
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [selectedStudent, setSelectedStudent] = useState<StudentPerformer | null>(null);
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
@@ -586,10 +586,10 @@ export function AcademicExcellence() {
                     aria-controls={`panel-${cat.id}`}
                     onClick={() => handleTabChange(idx)}
                     className={cn(
-                      "pb-1 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-2",
+                      "pb-0.5 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-[1.5px] text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white",
                       isActive
-                        ? "border-[#155EEF] text-[#155EEF] dark:border-blue-400 dark:text-blue-300"
-                        : "border-transparent text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white"
+                        ? "border-[#155EEF] dark:border-blue-400"
+                        : "border-transparent"
                     )}
                   >
                     <span>{cat.tabLabel}</span>
@@ -804,14 +804,14 @@ export function AcademicExcellence() {
                       key={student.id} 
                       className="pl-2 sm:pl-2.5 lg:pl-3 basis-full sm:basis-[32%] md:basis-[24%] lg:basis-1/5"
                     >
-                      {/* Student Card: Pure white card with visible neutral outline (no extra color effects) */}
+                      {/* Student Card: Clean, balanced card with subtle soft border (not harsh or prominently visible) */}
                       <div 
                         onClick={() => setSelectedCardId(student.id)}
-                        className="bg-white rounded-[20px] sm:rounded-[22px] border-[1.5px] border-slate-300 dark:border-slate-700 shadow-[0_3px_12px_rgba(10,30,74,0.05),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_rgba(10,30,74,0.08)] hover:border-slate-300 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-[340px] mx-auto sm:max-w-none outline-none focus:outline-none focus:ring-0 active:outline-none"
+                        className="bg-white rounded-[20px] sm:rounded-[22px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_rgba(10,30,74,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(10,30,74,0.08)] hover:border-[#BFDBFE]/70 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 flex flex-col group h-full select-none overflow-hidden cursor-pointer max-w-[340px] mx-auto sm:max-w-none outline-none focus:outline-none focus:ring-0 active:outline-none p-3 sm:p-2.5"
                       >
                         
-                        {/* Student image: soft light blue studio background with bottom divider */}
-                        <div className="relative w-full aspect-square bg-[#EAF2FC] overflow-hidden border-b border-slate-100 dark:border-slate-800">
+                        {/* Student image: IDL Star style with outer margin/padding and rounded-[15px] corners */}
+                        <div className="relative w-full aspect-square rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] overflow-hidden">
                           <Image
                             src={student.image}
                             alt={student.name}
@@ -824,7 +824,7 @@ export function AcademicExcellence() {
                         </div>
 
                         {/* Lower Information Area: Structured Layout eliminating empty gaps */}
-                        <div className="relative p-3.5 sm:p-3 flex flex-col justify-between">
+                        <div className="relative pt-3 sm:pt-2.5 px-0.5 pb-0.5 flex flex-col justify-between flex-1">
                           
                           {/* Top Row: Name + Grade on Left, Big Bold Yellow Marks on Right */}
                           <div className="flex items-center justify-between gap-2.5">

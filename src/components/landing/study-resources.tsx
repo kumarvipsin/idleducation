@@ -88,13 +88,25 @@ export function StudyResources() {
 
                 {/* Text Content — top left */}
                 <div className="pt-6 px-6 lg:pt-7 lg:px-7 pb-0 flex flex-col items-start text-left z-10 relative">
-                  {/* Heading */}
-                  <h3 className="text-[19.4px] lg:text-[21.3px] font-[800] text-[#062B67] dark:text-white leading-[1.2] tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
+                  {/* Heading — Same text size and boldness as reference (Desktop: 18.5px/19.5px font-black 900) */}
+                  <h3 
+                    className="text-[18.5px] lg:text-[19.5px] font-black text-[#062B67] dark:text-white leading-[1.25] tracking-[-0.02em] whitespace-nowrap" 
+                    style={{ 
+                      fontWeight: 900, 
+                      WebkitTextStroke: '0.45px currentColor',
+                    }}
+                  >
                     {item.title}
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-[13.8px] lg:text-[14.3px] text-[#64748B] dark:text-slate-400 leading-[1.5] mt-2 max-w-[88%]" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+                  {/* Description — Same text size and boldness as reference (Desktop: 14px/14.2px font-bold 700) */}
+                  <p 
+                    className="text-[14px] lg:text-[14.2px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.5] mt-2 max-w-[90%]" 
+                    style={{ 
+                      fontWeight: 700, 
+                      WebkitTextStroke: '0.22px currentColor',
+                    }}
+                  >
                     {item.description}
                   </p>
 
@@ -158,11 +170,23 @@ export function StudyResources() {
               <div className="bg-white dark:bg-slate-900 rounded-[16px] border border-[#E0EAFF] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.04)] active:scale-[0.99] transition-all duration-200 px-4 py-4 relative overflow-hidden flex flex-row items-center min-h-[110px]">
 
                 {/* Left: Text & CTA */}
-                <div className="flex flex-col items-start text-left max-w-[60%] sm:max-w-[65%] z-10 relative">
-                  <h3 className="font-[800] text-[15.5px] sm:text-[16.5px] text-[#062B67] dark:text-white leading-tight tracking-tight" style={{ WebkitTextStroke: '0.15px currentColor' }}>
+                <div className="flex flex-col items-start text-left w-full z-10 relative">
+                  {/* Heading — Single line with same font size & boldness */}
+                  <h3 
+                    className="text-[17px] min-[380px]:text-[18px] font-black text-[#062B67] dark:text-white leading-tight tracking-tight whitespace-nowrap" 
+                    style={{ 
+                      fontWeight: 900,
+                    }}
+                  >
                     {item.title}
                   </h3>
-                  <p className="text-[12.7px] sm:text-[13.3px] text-[#64748B] dark:text-slate-400 leading-[1.4] mt-1 line-clamp-2" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+                  {/* Description — Constrained to avoid overlap with bottom-right illustration */}
+                  <p 
+                    className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.45] mt-1 line-clamp-2 max-w-[60%] sm:max-w-[65%]" 
+                    style={{ 
+                      fontWeight: 700,
+                    }}
+                  >
                     {item.description}
                   </p>
 

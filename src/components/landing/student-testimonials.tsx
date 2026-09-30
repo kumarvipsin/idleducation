@@ -9,12 +9,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import { Dialog, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { VideoModalDialogContent } from "@/components/ui/video-modal-dialog";
-import { Play, ArrowRight } from "lucide-react";
+import { Play } from "lucide-react";
 
 /* ═══════════════════════════════════════════════════════════════════════
-   DEFAULT STORIES DATA — Exact content & structure from reference
+   DEFAULT STORIES DATA — Fallback data (9 Authentic Students)
    ═══════════════════════════════════════════════════════════════════════ */
 const DEFAULT_STORIES: TTestimonial[] = [
+  // Section 1 (Cards 1 - 3)
   {
     id: "star-kartik",
     name: "Kartik Goel",
@@ -38,10 +39,11 @@ const DEFAULT_STORIES: TTestimonial[] = [
     name: "Aditya Singh",
     achievement: "Class 10",
     testimonial: "Regular tests and personal guidance at IDL helped me improve a lot and build confidence in my preparation. The structured approach and teachers' personal feedback made all the difference.",
-    avatarUrl: "/images/results/idl-student-boy.jpg",
+    avatarUrl: "/images/results/aditya-sharma.jpg",
     videoId: "RH3gAxlv7wo",
     createdAt: new Date().toISOString(),
   },
+  // Section 2 (Cards 4 - 6)
   {
     id: "star-kirti",
     name: "Kirti Mishra",
@@ -56,8 +58,45 @@ const DEFAULT_STORIES: TTestimonial[] = [
     name: "Priya Sharma",
     achievement: "Class 12",
     testimonial: "What I appreciated most about IDL EDUCATION during my Class 12 journey was the balance they maintained between teaching and revision. Every concept was reinforced until we had total clarity.",
-    avatarUrl: "/images/results/idl-student-girl.jpg",
+    avatarUrl: "/images/results/student-female.jpg",
     videoId: "Xv7HlY4HUsk",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "star-aman",
+    name: "Aman Singh",
+    achievement: "Class 10",
+    testimonial: "IDL Education structured test series and mentorship turned complex topics into my strongest strengths. The teachers never let any doubt linger.",
+    avatarUrl: "/images/results/aman-singh.jpg",
+    videoId: "RH3gAxlv7wo",
+    createdAt: new Date().toISOString(),
+  },
+  // Section 3 (Cards 7 - 9)
+  {
+    id: "star-ishita",
+    name: "Ishita Verma",
+    achievement: "Class 10",
+    testimonial: "Daily practice papers and immediate doubt solving made board preparation stress-free. The constant encouragement kept me inspired throughout the session.",
+    avatarUrl: "/images/results/ishita-verma.jpg",
+    videoId: "opUk9BeH_t8",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "star-raghav",
+    name: "Raghav Sharma",
+    achievement: "Class 10",
+    testimonial: "The teachers at IDL never let us leave any concept half-understood. Truly indebted to their support, test series, and personalized attention.",
+    avatarUrl: "/images/results/raghav-sharma.jpg",
+    videoId: "9MOum9jk6lQ",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "star-mehak",
+    name: "Mehak Jain",
+    achievement: "Class 10",
+    testimonial: "The weekly assessments gave me real exam temperament months before the actual boards. IDL guidance helped me score beyond my expectations.",
+    avatarUrl: "/images/results/mehak-jain.jpg",
+    videoId: "h-30HsxclVg",
     createdAt: new Date().toISOString(),
   },
 ];
@@ -121,16 +160,22 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
-  const isGirl = testimonial.name?.toLowerCase().includes("priya") || testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti");
+  const isGirl = testimonial.name?.toLowerCase().includes("priya") || 
+                 testimonial.name?.toLowerCase().includes("gauri") || 
+                 testimonial.name?.toLowerCase().includes("kirti") ||
+                 testimonial.name?.toLowerCase().includes("ishita") ||
+                 testimonial.name?.toLowerCase().includes("mehak") ||
+                 testimonial.name?.toLowerCase().includes("kavya") ||
+                 testimonial.name?.toLowerCase().includes("lavanya");
   const fallback = isGirl
     ? "/images/results/idl-student-girl.jpg"
     : "/images/results/idl-student-boy.jpg";
 
   return (
     <>
-      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden shadow-[0_2px_14px_rgba(10,30,66,0.04)]">
+      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden shadow-[0_2px_14px_rgba(10,30,66,0.04)] p-3 sm:p-3.5">
         
-        {/* Outline Gradient: Left side same solid, middle to right lighter, right 5% removed completely */}
+        {/* Outline Gradient: Left side solid, middle to right lighter */}
         <div 
           aria-hidden="true"
           className="absolute inset-0 rounded-[22px] pointer-events-none z-20 dark:hidden"
@@ -154,9 +199,9 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           }}
         />
 
-        {/* Left Side: Student Portrait Image (No outer frame/box outline, no hover zoom) */}
+        {/* Left Side: Student Portrait Image (with rounded-[16px] corners and outer margin) */}
         <div 
-          className="relative w-[45%] xl:w-[45.5%] h-full shrink-0 overflow-hidden rounded-l-[22px] bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+          className="relative w-[44%] xl:w-[45%] h-full shrink-0 overflow-hidden rounded-[16px] bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
@@ -180,17 +225,17 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               setIsVideoOpen(true);
             }}
             aria-label={`Watch story of ${testimonial.name}`}
-            className="absolute bottom-3 right-3 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-black/35 backdrop-blur-xs flex items-center justify-center hover:bg-black/50 active:scale-95 transition-all duration-200 cursor-pointer"
+            className="absolute bottom-2.5 right-2.5 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-black/35 backdrop-blur-xs flex items-center justify-center hover:bg-black/50 active:scale-95 transition-all duration-200 cursor-pointer"
           >
             <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
           </button>
         </div>
 
         {/* Right Side: Quote & Student Identity */}
-        <div className="flex flex-col justify-center flex-1 py-3 px-4 lg:py-3.5 lg:px-5 xl:px-6 relative min-w-0 bg-white dark:bg-slate-900">
-          {/* Large Quotation Mark Graphic — Subtle, light blue editorial detail */}
+        <div className="flex flex-col justify-center flex-1 py-1.5 px-4 lg:py-2 lg:px-5 xl:px-6 relative min-w-0 bg-white dark:bg-slate-900">
+          {/* Large Quotation Mark Graphic */}
           <svg
-            className="w-7 h-7 text-[#BFD7F5] dark:text-blue-900/60 mb-1.5 select-none pointer-events-none shrink-0"
+            className="w-7 h-7 text-[#BFD7F5] dark:text-blue-900/60 mb-1 select-none pointer-events-none shrink-0"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
@@ -198,21 +243,24 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
 
-          {/* Testimonial Quote */}
+          {/* Testimonial Quote — Matches NCERT description text size, boldness and colour */}
           <div className="relative z-10 min-w-0 max-w-[360px] xl:max-w-[390px]">
-            <blockquote className="mb-2.5">
-              <p className="text-[14.2px] sm:text-[14.7px] lg:text-[15.2px] text-[#64748B] dark:text-slate-300 leading-[1.5] tracking-normal" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+            <blockquote className="mb-2">
+              <p 
+                className="text-[14px] lg:text-[14.2px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.48] tracking-normal" 
+                style={{ fontWeight: 700, WebkitTextStroke: '0.22px currentColor' }}
+              >
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Student Name & Class */}
+            {/* Student Name & Class — Matches Result Section Top Performers */}
             <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="text-[15.8px] sm:text-[16.3px] text-[#062B67] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 750, WebkitTextStroke: '0.15px currentColor' }}>
+              <h3 className="font-[950] text-[16px] sm:text-[16.5px] lg:text-[17px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 950 }}>
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[13.1px] sm:text-[13.7px] text-[#64748B] dark:text-slate-400" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+              <span className="text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400" style={{ fontWeight: 600 }}>
                 {classLabel}
               </span>
             </div>
@@ -245,7 +293,7 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 };
 
 /* ═══════════════════════════════════════════════════════════════════════
-   COMPACT STORY CARD (DESKTOP RIGHT)
+   COMPACT STORY CARD (SUPPORTING CARDS) — Uniform clean card without blue outline
    ═══════════════════════════════════════════════════════════════════════ */
 const CompactStoryCard = ({ 
   testimonial, 
@@ -258,14 +306,21 @@ const CompactStoryCard = ({
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
-  const fallback = testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti") || testimonial.name?.toLowerCase().includes("priya")
+  const isGirl = testimonial.name?.toLowerCase().includes("gauri") || 
+                 testimonial.name?.toLowerCase().includes("kirti") || 
+                 testimonial.name?.toLowerCase().includes("priya") ||
+                 testimonial.name?.toLowerCase().includes("ishita") ||
+                 testimonial.name?.toLowerCase().includes("mehak") ||
+                 testimonial.name?.toLowerCase().includes("kavya") ||
+                 testimonial.name?.toLowerCase().includes("lavanya");
+  const fallback = isGirl
     ? "/images/results/idl-student-girl.jpg"
     : "/images/results/idl-student-boy.jpg";
 
   return (
     <>
       <div 
-        className="group/compact flex-1 min-h-0 flex flex-row bg-white dark:bg-slate-900 rounded-[14px] sm:rounded-[16px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] cursor-pointer"
+        className="group/compact h-[86px] sm:h-[88px] w-full flex flex-row rounded-[14px] sm:rounded-[16px] overflow-hidden transition-all duration-200 cursor-pointer select-none bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-[0_1px_8px_rgba(10,30,66,0.03)] hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-800/40"
         onClick={() => {
           if (onSelect) {
             onSelect();
@@ -287,17 +342,20 @@ const CompactStoryCard = ({
 
         {/* Text Content on Right */}
         <div className="flex flex-col justify-center flex-1 py-1.5 pr-3 pl-1 min-w-0">
-          {/* Testimonial Quote */}
-          <p className="text-[12.6px] sm:text-[13.1px] text-[#64748B] dark:text-slate-300 leading-[1.38] mb-1 line-clamp-2" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+          {/* Testimonial Quote — Matches NCERT description styling */}
+          <p 
+            className="text-[12.6px] sm:text-[13.1px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.38] mb-1 line-clamp-2" 
+            style={{ fontWeight: 700 }}
+          >
             {quoteText}
           </p>
-          {/* Student Identity */}
+          {/* Student Identity — Matches Result Section Top Performers */}
           <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-            <span className="text-[13.1px] sm:text-[13.7px] text-[#062B67] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 750, WebkitTextStroke: '0.15px currentColor' }}>
+            <span className="font-[950] text-[13.5px] sm:text-[14px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 950 }}>
               {testimonial.name}
             </span>
             <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-            <span className="text-[12.1px] sm:text-[12.6px] text-[#64748B] dark:text-slate-400" style={{ fontWeight: 520, WebkitTextStroke: '0.1px currentColor' }}>
+            <span className="text-[12px] sm:text-[12.5px] font-semibold text-slate-500 dark:text-slate-400" style={{ fontWeight: 600 }}>
               {classLabel}
             </span>
           </div>
@@ -336,17 +394,24 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const classLabel = formatStudentClass(testimonial.achievement);
   const quoteText = cleanQuote(testimonial.testimonial);
   const videoId = testimonial.videoId || "9MOum9jk6lQ";
-  const fallback = testimonial.name?.toLowerCase().includes("priya") || testimonial.name?.toLowerCase().includes("gauri") || testimonial.name?.toLowerCase().includes("kirti")
+  const isGirl = testimonial.name?.toLowerCase().includes("priya") || 
+                 testimonial.name?.toLowerCase().includes("gauri") || 
+                 testimonial.name?.toLowerCase().includes("kirti") ||
+                 testimonial.name?.toLowerCase().includes("ishita") ||
+                 testimonial.name?.toLowerCase().includes("mehak") ||
+                 testimonial.name?.toLowerCase().includes("kavya") ||
+                 testimonial.name?.toLowerCase().includes("lavanya");
+  const fallback = isGirl
     ? "/images/results/idl-student-girl.jpg"
     : "/images/results/idl-student-boy.jpg";
 
   return (
     <>
-      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-[#DCE9F6] dark:border-slate-800 shadow-[0_4px_18px_rgba(6,43,103,0.05),0_1px_3px_rgba(0,0,0,0.02)] p-3 sm:p-3.5 transition-all duration-300">
+      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-slate-200/80 dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04)] p-3 sm:p-3.5 transition-all duration-300">
         
-        {/* Student Image: Prominent portrait box with refined subtle inner border */}
+        {/* Student Image: Prominent portrait box */}
         <div 
-          className="relative w-full aspect-[1.14/1] rounded-[15px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer border border-[#E2EEF8]/80 dark:border-slate-700/50"
+          className="relative w-full aspect-[1.14/1] rounded-[15px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
@@ -355,13 +420,13 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
             alt={testimonial.name}
           />
 
-          {/* Smooth, refined photographic bottom gradient */}
+          {/* Smooth, subtle photographic bottom gradient */}
           <div
             className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(6,35,84,0.32) 0%, rgba(6,35,84,0.08) 50%, transparent 100%)" }}
+            style={{ background: "linear-gradient(to top, rgba(6,35,84,0.28) 0%, transparent 100%)" }}
           />
 
-          {/* Play Button — refined glassmorphic button integrated with image */}
+          {/* Play Button */}
           <button
             type="button"
             onClick={(e) => {
@@ -375,28 +440,13 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           </button>
         </div>
 
-        {/* Content Area — Subtle premium light-blue background treatment with delicate pattern */}
-        <div className="relative mt-2.5 rounded-[15px] p-3 sm:p-3.5 bg-gradient-to-b from-[#F6F9FE] via-[#F1F6FD] to-[#EDF4FC] dark:from-slate-800/80 dark:via-slate-800/60 dark:to-slate-900/90 border border-[#E3EDF8] dark:border-slate-700/60 overflow-hidden">
-          {/* Extremely subtle soft curved blue line pattern in background (very low opacity, premium texture) */}
-          <div aria-hidden="true" className="absolute inset-0 pointer-events-none overflow-hidden select-none">
-            <svg 
-              className="absolute -right-8 -bottom-8 w-40 h-40 text-[#155EEF]/[0.05] dark:text-blue-400/[0.04]" 
-              viewBox="0 0 160 160" 
-              fill="none"
-            >
-              <circle cx="140" cy="140" r="120" stroke="currentColor" strokeWidth="1" />
-              <circle cx="140" cy="140" r="95" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" />
-              <circle cx="140" cy="140" r="70" stroke="currentColor" strokeWidth="1" />
-              <circle cx="140" cy="140" r="45" stroke="currentColor" strokeWidth="1" strokeDasharray="2 2" />
-            </svg>
-            <div className="absolute -top-8 -left-8 w-24 h-24 rounded-full bg-blue-100/50 dark:bg-blue-900/10 blur-lg pointer-events-none" />
-          </div>
-
+        {/* Content Area — Simple, clean, full size with no inner outline box */}
+        <div className="pt-3 px-1 sm:px-1.5 pb-1 flex flex-col relative">
           <div className="relative z-10 min-w-0">
-            {/* Refined Quotation Mark Graphic */}
+            {/* Quotation Mark Graphic */}
             <div className="flex items-center justify-between mb-1.5">
               <svg 
-                className="w-5 h-5 text-[#8CB6EB]/70 dark:text-blue-400/40 select-none pointer-events-none shrink-0" 
+                className="w-5 h-5 text-[#BFD7F5] dark:text-blue-900/60 select-none pointer-events-none shrink-0" 
                 viewBox="0 0 24 24" 
                 fill="currentColor" 
                 aria-hidden="true"
@@ -405,33 +455,31 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </svg>
             </div>
             
-            {/* Testimonial Quote — Clean typography, improved line-height & breathing room */}
+            {/* Testimonial Quote — Matches NCERT description text size, boldness and colour */}
             <blockquote className="mb-2.5">
               <p 
-                className="text-[13.7px] sm:text-[14.2px] text-[#475A72] dark:text-slate-200 leading-[1.54] tracking-[-0.005em] line-clamp-3 antialiased text-pretty" 
-                style={{ fontWeight: 520 }}
+                className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.5] tracking-[-0.005em] line-clamp-3 antialiased text-pretty" 
+                style={{ fontWeight: 700 }}
               >
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Subtle Divider Treatment */}
-            <div className="w-full h-px bg-gradient-to-r from-[#D6E6F8] via-[#E2EEFA] to-transparent dark:from-slate-700 dark:via-slate-800 dark:to-transparent mb-2.5" />
-
-            {/* Student Identity: Name prominent + Class 10 visually secondary */}
-            <div className="flex items-center justify-between gap-2 flex-wrap min-w-0">
-              <div className="flex items-center gap-2 min-w-0">
-                <h3 
-                  className="text-[14.7px] text-[#062B67] dark:text-white tracking-tight leading-snug font-extrabold"
-                  style={{ fontWeight: 800 }}
-                >
-                  {testimonial.name}
-                </h3>
-                <span className="text-slate-300 dark:text-slate-600 font-light select-none">|</span>
-                <span className="text-[12px] sm:text-[12.4px] text-[#647894] dark:text-slate-400 font-semibold tracking-wide">
-                  {classLabel}
-                </span>
-              </div>
+            {/* Student Identity: Matches Result Section Top Performers (font-[950] text-[#0A1E4A] + font-semibold text-slate-500) */}
+            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
+              <h3 
+                className="font-[950] text-[18px] min-[360px]:text-[19.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-tight"
+                style={{ fontWeight: 950 }}
+              >
+                {testimonial.name}
+              </h3>
+              <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
+              <span 
+                className="text-[13px] min-[360px]:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400"
+                style={{ fontWeight: 600 }}
+              >
+                {classLabel}
+              </span>
             </div>
           </div>
         </div>
@@ -466,107 +514,156 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
    ═══════════════════════════════════════════════════════════════════════ */
 export function StudentTestimonials({ testimonials }: { testimonials?: TTestimonial[] }) {
   const [loading, setLoading] = useState(false);
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [activeSlide, setActiveSlide] = useState(0);
-  const [isDesktopHovered, setIsDesktopHovered] = useState(false);
+  const [mobileApi, setMobileApi] = useState<CarouselApi>();
+  const [desktopApi, setDesktopApi] = useState<CarouselApi>();
+  const [activePageIndex, setActivePageIndex] = useState(0);
 
-  const isHoveredRef = useRef(false);
   const touchTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Harmonize stories: Use reference data ensuring unique testimonials & accurate student names
+  // Harmonize stories: Use passed database testimonials if available, else fallback to DEFAULT_STORIES
   const testimonialList = React.useMemo(() => {
+    if (testimonials && testimonials.length > 0) {
+      return testimonials;
+    }
     return DEFAULT_STORIES;
-  }, []);
+  }, [testimonials]);
 
-  useEffect(() => {
-    if (!api) return;
-    setCurrent(api.selectedScrollSnap());
-    api.on("select", () => {
-      setCurrent(api.selectedScrollSnap());
-    });
-  }, [api]);
+  // Group into pages of 3 cards each (last page cleanly holds remaining 1, 2, or 3 cards)
+  const CHUNK_SIZE = 3;
+  const pages = React.useMemo(() => {
+    const result: TTestimonial[][] = [];
+    for (let i = 0; i < testimonialList.length; i += CHUNK_SIZE) {
+      const chunk = testimonialList.slice(i, i + CHUNK_SIZE);
+      if (chunk.length > 0) {
+        result.push(chunk);
+      }
+    }
+    return result.length > 0 ? result : [testimonialList];
+  }, [testimonialList]);
 
-  // Reduced motion preference check
+  // Selected student for main featured card (defaults to 1st card of 1st page)
+  const [selectedStudent, setSelectedStudent] = useState<TTestimonial>(() => {
+    return pages[0]?.[0] || DEFAULT_STORIES[0];
+  });
+
+  // Keep selectedStudent updated if pages change
   useEffect(() => {
-    if (!api || typeof window === "undefined") return;
+    if (pages[0] && pages[0][0]) {
+      setSelectedStudent(pages[0][0]);
+      setActivePageIndex(0);
+    }
+  }, [pages]);
+
+  // Mobile Carousel Select Listener: Updates page index and defaults featured photo to 1st card of that section
+  useEffect(() => {
+    if (!mobileApi) return;
+    const onSelect = () => {
+      const snap = mobileApi.selectedScrollSnap();
+      setActivePageIndex(snap);
+      const newPage = pages[snap];
+      if (newPage && newPage[0]) {
+        setSelectedStudent(newPage[0]);
+      }
+    };
+    mobileApi.on("select", onSelect);
+    return () => {
+      mobileApi.off("select", onSelect);
+    };
+  }, [mobileApi, pages]);
+
+  // Desktop Carousel Select Listener: Updates page index and defaults featured photo to 1st card of that section
+  useEffect(() => {
+    if (!desktopApi) return;
+    const onSelect = () => {
+      const snap = desktopApi.selectedScrollSnap();
+      setActivePageIndex(snap);
+      const newPage = pages[snap];
+      if (newPage && newPage[0]) {
+        setSelectedStudent(newPage[0]);
+      }
+    };
+    desktopApi.on("select", onSelect);
+    return () => {
+      desktopApi.off("select", onSelect);
+    };
+  }, [desktopApi, pages]);
+
+  // Reduced motion preference
+  useEffect(() => {
+    if (typeof window === "undefined") return;
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (mediaQuery.matches) {
       try {
-        api.plugins()?.autoplay?.stop();
-      } catch {
-        /* safe */
-      }
+        mobileApi?.plugins()?.autoplay?.stop();
+        desktopApi?.plugins()?.autoplay?.stop();
+      } catch {}
     }
-  }, [api]);
+  }, [mobileApi, desktopApi]);
 
-  // Cleanup timeout on unmount
+  // Cleanup timeout
   useEffect(() => {
     return () => {
       if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
     };
   }, []);
 
-  const canAutoplay = useCallback(() => {
-    if (!api) return false;
-    const snaps = api.scrollSnapList();
-    return Boolean(snaps && snaps.length > 1);
-  }, [api]);
-
-  const handleMouseEnter = useCallback(() => {
-    isHoveredRef.current = true;
-    if (!canAutoplay()) return;
+  // When user clicks a card in the 3-card stack:
+  const handleCardSelect = useCallback((t: TTestimonial) => {
+    setSelectedStudent(t);
+    // Pause autoplay briefly so user can inspect the selected student
     try {
-      api?.plugins()?.autoplay?.stop();
-    } catch {
-      /* safe */
-    }
-  }, [api, canAutoplay]);
-
-  const handleMouseLeave = useCallback(() => {
-    isHoveredRef.current = false;
-    if (!canAutoplay()) return;
-    try {
-      api?.plugins()?.autoplay?.play();
-    } catch {
-      /* safe */
-    }
-  }, [api, canAutoplay]);
-
-  const handleTouchStart = useCallback(() => {
+      mobileApi?.plugins()?.autoplay?.stop();
+      desktopApi?.plugins()?.autoplay?.stop();
+    } catch {}
     if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    if (!canAutoplay()) return;
-    try {
-      api?.plugins()?.autoplay?.stop();
-    } catch {
-      /* safe */
-    }
-  }, [api, canAutoplay]);
-
-  const handleTouchEnd = useCallback(() => {
-    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
-    if (!canAutoplay()) return;
     touchTimeoutRef.current = setTimeout(() => {
-      if (!isHoveredRef.current && canAutoplay()) {
-        try {
-          api?.plugins()?.autoplay?.play();
-        } catch {
-          /* safe */
-        }
-      }
-    }, 1200);
-  }, [api, canAutoplay]);
+      try {
+        mobileApi?.plugins()?.autoplay?.play();
+        desktopApi?.plugins()?.autoplay?.play();
+      } catch {}
+    }, 4500);
+  }, [mobileApi, desktopApi]);
 
-  const scrollTo = useCallback(
-    (index: number) => {
-      api?.scrollTo(index);
-    },
-    [api]
-  );
+  // When user clicks a pagination dot:
+  const handleDotClick = useCallback((index: number) => {
+    setActivePageIndex(index);
+    const targetPage = pages[index];
+    if (targetPage && targetPage[0]) {
+      setSelectedStudent(targetPage[0]);
+    }
+    mobileApi?.scrollTo(index);
+    desktopApi?.scrollTo(index);
+  }, [pages, mobileApi, desktopApi]);
 
-  const featured = testimonialList[activeSlide] || testimonialList[0];
-  const supporting = testimonialList.filter((_, i) => i !== activeSlide);
-  const desktopSupporting = supporting.slice(0, 3);
+  // Mobile touch handlers
+  const handleMobileTouchStart = useCallback(() => {
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    try {
+      mobileApi?.plugins()?.autoplay?.stop();
+    } catch {}
+  }, [mobileApi]);
+
+  const handleMobileTouchEnd = useCallback(() => {
+    if (touchTimeoutRef.current) clearTimeout(touchTimeoutRef.current);
+    touchTimeoutRef.current = setTimeout(() => {
+      try {
+        mobileApi?.plugins()?.autoplay?.play();
+      } catch {}
+    }, 2500);
+  }, [mobileApi]);
+
+  // Desktop hover handlers
+  const handleDesktopMouseEnter = useCallback(() => {
+    try {
+      desktopApi?.plugins()?.autoplay?.stop();
+    } catch {}
+  }, [desktopApi]);
+
+  const handleDesktopMouseLeave = useCallback(() => {
+    try {
+      desktopApi?.plugins()?.autoplay?.play();
+    } catch {}
+  }, [desktopApi]);
 
   return (
     <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden">
@@ -601,82 +698,100 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
         ) : (
           <>
             {/* ═══════════════════════════════════════════
-                2. DESKTOP LAYOUT — Two Column (Left Featured + Right 3 Compact Cards)
+                2. DESKTOP LAYOUT — Left Featured Card + Right 3-Card Carousel + Dots Below
                ═══════════════════════════════════════════ */}
             <div 
-              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[295px] xl:h-[305px] items-stretch"
-              onMouseEnter={() => setIsDesktopHovered(true)}
-              onMouseLeave={() => setIsDesktopHovered(false)}
+              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[305px] xl:h-[315px] items-stretch"
+              onMouseEnter={handleDesktopMouseEnter}
+              onMouseLeave={handleDesktopMouseLeave}
             >
               {/* LEFT — Large Featured Student Story */}
-              <div key={activeSlide} className="h-full w-full animate-in fade-in duration-300">
-                <FeaturedStoryCard testimonial={featured} />
+              <div key={selectedStudent.id} className="h-full w-full animate-in fade-in duration-300">
+                <FeaturedStoryCard testimonial={selectedStudent} />
               </div>
 
-              {/* RIGHT — Three Compact Story Cards Stacked Vertically */}
-              <div className="flex flex-col justify-between h-full">
-                <div className="flex flex-col gap-2.5 flex-1 min-h-0 justify-between">
-                  {desktopSupporting.map((t) => {
-                    const originalIndex = testimonialList.indexOf(t);
-                    return (
-                      <CompactStoryCard 
-                        key={t.id || originalIndex} 
-                        testimonial={t} 
-                        onSelect={() => setActiveSlide(originalIndex)}
-                      />
-                    );
-                  })}
-                </div>
-
-                {/* Desktop "View More Student Stories" text link */}
-                <div className="flex justify-end pt-2">
-                  <a 
-                    href="/idl-stars"
-                    className="inline-flex items-center gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 transition-colors cursor-pointer group"
+              {/* RIGHT — Three Compact Story Cards Carousel Stacked Vertically with Dots Below */}
+              <div className="flex flex-col justify-between h-full min-w-0">
+                <div className="flex-1 min-h-0">
+                  <Carousel
+                    setApi={setDesktopApi}
+                    opts={{
+                      align: "start",
+                      loop: pages.length > 1,
+                      duration: 25,
+                    }}
+                    plugins={[
+                      Autoplay({
+                        delay: 5000,
+                        stopOnInteraction: false,
+                        stopOnMouseEnter: true,
+                      }),
+                    ]}
+                    className="w-full h-full overflow-hidden"
                   >
-                    <span>View More Student Stories</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </a>
+                    <CarouselContent className="-ml-0 items-stretch h-full">
+                      {pages.map((page, pageIndex) => (
+                        <CarouselItem 
+                          key={pageIndex} 
+                          className="pl-0 basis-full h-full"
+                        >
+                          <div className="flex flex-col gap-2.5 h-full">
+                            {page.map((t) => (
+                              <CompactStoryCard 
+                                key={t.id} 
+                                testimonial={t} 
+                                onSelect={() => handleCardSelect(t)}
+                              />
+                            ))}
+                          </div>
+                        </CarouselItem>
+                      ))}
+                    </CarouselContent>
+                  </Carousel>
+                </div>
+
+                {/* Desktop Pagination Dots — Placed directly below the 3 cards */}
+                <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3 pt-0.5">
+                  {pages.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleDotClick(i)}
+                      className="p-1 cursor-pointer flex items-center justify-center min-w-[20px] min-h-[20px]"
+                      aria-label={`Go to section ${i + 1}`}
+                    >
+                      <span
+                        className={cn(
+                          "rounded-full transition-all duration-300",
+                          activePageIndex === i 
+                            ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.28)]" 
+                            : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-[#062B67]/50"
+                        )}
+                      />
+                    </button>
+                  ))}
                 </div>
               </div>
-            </div>
-
-            {/* Desktop Carousel Pagination Dots */}
-            <div className="hidden lg:flex justify-center items-center gap-1.5 sm:gap-2 mt-4 sm:mt-5">
-              {testimonialList.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveSlide(i)}
-                  className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
-                  aria-label={`View story ${i + 1}`}
-                >
-                  <span
-                    className={cn(
-                      "rounded-full transition-all duration-300",
-                      activeSlide === i 
-                        ? "w-5 sm:w-6 h-1.5 bg-[#062B67] dark:bg-blue-500" 
-                        : "w-1.5 h-1.5 bg-slate-200 dark:bg-slate-700 hover:bg-[#062B67]/50"
-                    )}
-                  />
-                </button>
-              ))}
             </div>
 
             {/* ═══════════════════════════════════════════
-                3. MOBILE LAYOUT — Dedicated Vertical Carousel
+                3. MOBILE LAYOUT — Main Card at top, then 3-Card Carousel, then Pagination Dots Below
                ═══════════════════════════════════════════ */}
             <div 
               className="lg:hidden relative w-full max-w-[390px] mx-auto px-0"
-              onMouseEnter={handleMouseEnter}
-              onMouseLeave={handleMouseLeave}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
+              onTouchStart={handleMobileTouchStart}
+              onTouchEnd={handleMobileTouchEnd}
             >
+              {/* TOP — Main Featured Student Card */}
+              <div key={selectedStudent.id} className="w-full animate-in fade-in duration-300 mb-3">
+                <MobileStoryCard testimonial={selectedStudent} />
+              </div>
+
+              {/* MIDDLE — 3 Cards Carousel (Swipes up to 3 cards at a time, infinite free loop) */}
               <Carousel
-                setApi={setApi}
+                setApi={setMobileApi}
                 opts={{
                   align: "start",
-                  loop: true,
+                  loop: pages.length > 1,
                   duration: 25,
                 }}
                 plugins={[
@@ -689,49 +804,44 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 className="w-full overflow-hidden"
               >
                 <CarouselContent className="-ml-0 items-stretch">
-                  {testimonialList.map((testimonial, index) => (
+                  {pages.map((page, pageIndex) => (
                     <CarouselItem 
-                      key={testimonial.id || index} 
+                      key={pageIndex} 
                       className="pl-0 basis-full flex flex-col"
                     >
-                      <div className="w-full">
-                        <MobileStoryCard testimonial={testimonial} />
+                      <div className="flex flex-col gap-2.5 w-full">
+                        {page.map((t) => (
+                          <CompactStoryCard 
+                            key={t.id} 
+                            testimonial={t} 
+                            onSelect={() => handleCardSelect(t)}
+                          />
+                        ))}
                       </div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>
               </Carousel>
 
-              {/* Mobile Pagination Dots — Stronger active dot, subtle inactive dots */}
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3.5 sm:mt-5 mb-1">
-                {testimonialList.map((_, i) => (
+              {/* BOTTOM — Mobile Pagination Dots (Placed BELOW the 3 cards) */}
+              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3.5 sm:mt-4 mb-2">
+                {pages.map((_, i) => (
                   <button
                     key={i}
-                    onClick={() => scrollTo(i)}
-                    className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
-                    aria-label={`Go to slide ${i + 1}`}
+                    onClick={() => handleDotClick(i)}
+                    className="p-1 cursor-pointer flex items-center justify-center min-w-[20px] min-h-[20px]"
+                    aria-label={`Go to section ${i + 1}`}
                   >
                     <span
                       className={cn(
                         "rounded-full transition-all duration-300",
-                        current === i 
-                          ? "w-6 h-1.5 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.28)]" 
-                          : "w-1.5 h-1.5 bg-[#D5E3F5]/80 dark:bg-slate-700/50 hover:bg-[#062B67]/40"
+                        activePageIndex === i 
+                          ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.28)]" 
+                          : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-[#062B67]/50"
                       )}
                     />
                   </button>
                 ))}
-              </div>
-
-              {/* Mobile "View More Student Stories" link (centered) */}
-              <div className="flex justify-center mt-1.5">
-                <a 
-                  href="/idl-stars"
-                  className="inline-flex items-center justify-center gap-1.5 text-[#062B67] dark:text-blue-400 hover:text-[#155EEF] dark:hover:text-blue-300 text-[13px] sm:text-[13.5px] font-bold py-1 px-3 transition-colors cursor-pointer group"
-                >
-                  <span>View More Student Stories</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                </a>
               </div>
             </div>
           </>

@@ -242,15 +242,15 @@ export function ScholarshipSection() {
             2B. MOBILE VIEW (< lg): HORIZONTAL CARDS STACK
             (Identical to the phone frame in reference screenshot)
             ══════════════════════════════════════════════════ */}
-        <div className="block lg:hidden w-full max-w-[440px] mx-auto space-y-3.5">
+        <div className="block lg:hidden w-full max-w-[480px] mx-auto space-y-3">
           {pillars.map((item) => (
             <div 
               key={item.id}
-              className="w-full bg-white dark:bg-slate-900 rounded-[22px] border border-[#E6F0FA] dark:border-slate-800 shadow-[0_4px_16px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] px-4 py-3.5 sm:px-4.5 sm:py-4 flex items-center gap-3.5 min-[380px]:gap-4 transition-all duration-300"
+              className="w-full bg-white dark:bg-slate-900 rounded-[16px] border border-[#E0EAFF] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.04)] px-4 py-4 flex items-center gap-3.5 min-[380px]:gap-4 active:scale-[0.99] transition-all duration-200"
             >
               {/* Left Icon Disc with Number Badge at bottom-right */}
               <div className="relative shrink-0">
-                <div className={`w-[74px] h-[74px] rounded-full flex items-center justify-center p-2 border-2 border-white dark:border-slate-800 shadow-sm ${
+                <div className={`w-[72px] h-[72px] rounded-full flex items-center justify-center p-2 border-2 border-white dark:border-slate-800 shadow-sm ${
                   item.iconGlow === 'yellow'
                     ? 'bg-gradient-to-b from-[#FEF9E7] to-[#FDE8B3] ring-3 ring-amber-50/70 dark:ring-amber-900/30 shadow-[0_3px_12px_rgba(245,158,11,0.14)]'
                     : 'bg-gradient-to-b from-[#EBF4FE] to-[#D7E9FD] ring-3 ring-blue-50/70 dark:ring-blue-900/30 shadow-[0_3px_12px_rgba(21,94,239,0.12)]'
@@ -258,15 +258,15 @@ export function ScholarshipSection() {
                   <Image
                     src={item.iconSrc}
                     alt={`${item.titleDark} ${item.titleBlue}`}
-                    width={52}
-                    height={52}
+                    width={50}
+                    height={50}
                     unoptimized
-                    className="w-[44px] h-[44px] object-contain drop-shadow-sm"
+                    className="w-[42px] h-[42px] object-contain drop-shadow-sm"
                   />
                 </div>
 
-                {/* Badge at bottom-right of icon disc - refined size/spacing by a few pixels */}
-                <div className={`absolute -bottom-0.5 -right-0.5 w-[23px] h-[23px] rounded-full flex items-center justify-center text-white text-[11px] font-black leading-none border-2 border-white dark:border-slate-900 shadow-sm ${
+                {/* Badge at bottom-right of icon disc */}
+                <div className={`absolute -bottom-0.5 -right-0.5 w-[22px] h-[22px] rounded-full flex items-center justify-center text-white text-[11px] font-black leading-none border-2 border-white dark:border-slate-900 shadow-sm ${
                   item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#1E65E6]'
                 }`}>
                   {item.badge}
@@ -276,7 +276,7 @@ export function ScholarshipSection() {
               {/* Right Text Column - vertically balanced */}
               <div className="flex-1 min-w-0 text-left flex flex-col justify-center">
                 <h3 
-                  className="text-[17px] min-[380px]:text-[18px] font-black tracking-[-0.005em] leading-[1.28]"
+                  className="text-[17px] min-[380px]:text-[18px] font-black leading-tight tracking-tight"
                   style={{ 
                     fontWeight: 900,
                   }}
@@ -286,13 +286,13 @@ export function ScholarshipSection() {
                 </h3>
 
                 {/* Accent Dash Under Title with subtle gap */}
-                <div className={`w-6 h-[2.5px] rounded-full mt-1.5 mb-2 ${
+                <div className={`w-6 h-[2.5px] rounded-full mt-1.5 mb-1.5 ${
                   item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#1E65E6]'
                 }`} />
 
-                {/* Description with comfortable line-height, muted navy/blue-gray tone, and natural wrap */}
+                {/* Description with comfortable line-height matching Study Resources, keeping colors intact */}
                 <p 
-                  className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.54] tracking-[-0.005em] max-w-[290px] text-pretty"
+                  className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.45] text-pretty"
                   style={{ 
                     fontWeight: 700,
                   }}

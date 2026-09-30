@@ -84,11 +84,11 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
   return (
     <>
       {/* ── CARD CONTAINER ── */}
-      <div className="group/card h-full w-full flex flex-col bg-[#FAFCFF] dark:bg-slate-900 rounded-[18px] sm:rounded-[20px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.03),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(6,43,103,0.07)] hover:border-[#BFDBFE]/60 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 ease-out overflow-hidden">
+      <div className="group/card h-full w-full flex flex-col bg-[#FAFCFF] dark:bg-slate-900 rounded-[18px] sm:rounded-[20px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.03),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_6px_20px_-4px_rgba(6,43,103,0.07)] hover:border-[#BFDBFE]/60 dark:hover:border-slate-700 hover:-translate-y-0.5 transition-all duration-300 ease-out overflow-hidden p-3 sm:p-2.5">
 
-        {/* ── IMAGE BLOCK ── */}
+        {/* ── IMAGE BLOCK (IDL Star style with outer margin and rounded-[14px] sm:rounded-[15px] corners) ── */}
         <div
-          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden border-b border-[#E2ECF8]/50 dark:border-slate-800"
+          className="relative w-full aspect-[4/4.2] shrink-0 overflow-hidden rounded-[14px] sm:rounded-[15px]"
           style={{ background: "linear-gradient(145deg, #18181B 0%, #0F0F12 40%, #000000 100%)" }}
         >
           {/* Teacher Photo */}
@@ -126,7 +126,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             style={{ background: "linear-gradient(to top, rgba(0,0,0,0.18) 0%, transparent 100%)" }}
           />
 
-          {/* ── PLAY BUTTON: bottom-right corner — clean transparent round play icon ── */}
+          {/* ── PLAY BUTTON: bottom-right corner ── */}
           <button
             type="button"
             onClick={() => videoId ? setIsVideoOpen(true) : undefined}
@@ -142,8 +142,8 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </button>
         </div>
 
-        {/* ── CARD BODY — Ultra-light background matching "Best Exam Prep App for" section ── */}
-        <div className="relative flex flex-col flex-1 p-3.5 sm:p-4 text-center justify-between bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/95 dark:to-slate-900/90 overflow-hidden">
+        {/* ── CARD BODY ── */}
+        <div className="relative flex flex-col flex-1 pt-3 sm:pt-2.5 px-1 pb-0.5 text-center justify-between overflow-hidden">
 
           {/* Top-Left Soft Light Blue Curved Shape */}
           <div 

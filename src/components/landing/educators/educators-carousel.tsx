@@ -115,7 +115,14 @@ export function EducatorsCarousel({
     >
       <Carousel
         setApi={setApi}
-        opts={{ align: "start", loop: true, duration: 32 }}
+        opts={{
+          align: "center",
+          loop: true,
+          duration: 32,
+          breakpoints: {
+            "(min-width: 640px)": { align: "start" },
+          },
+        }}
         plugins={[Autoplay({ delay: 4500, stopOnInteraction: false, stopOnMouseEnter: true })]}
         className="w-full"
       >
@@ -123,7 +130,7 @@ export function EducatorsCarousel({
           {teachers.map((teacher, index) => (
             <CarouselItem
               key={teacher.id || index}
-              className="pl-3 sm:pl-4 basis-[82%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex flex-col"
+              className="pl-3 sm:pl-4 basis-[76%] min-[380px]:basis-[74%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex flex-col"
             >
               <div className="h-full flex flex-col flex-1">
                 <EducatorCard teacher={teacher} />
