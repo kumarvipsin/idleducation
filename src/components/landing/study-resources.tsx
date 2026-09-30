@@ -57,9 +57,9 @@ export function StudyResources() {
         {/* ══════════════════════════════════════════════════
             HEADER: "Study Resources"
             ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-7 md:mb-8">
+        <div className="flex flex-col items-center justify-center text-center mb-5 sm:mb-6 md:mb-8">
           {/* Eyebrow — bullet point */}
-          <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-3 sm:mb-3.5">
+          <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-2 sm:mb-3">
             <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
             <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
               <span className="text-[#062B67] dark:text-blue-200">Study </span>
@@ -165,7 +165,13 @@ export function StudyResources() {
               href={item.href}
               className="group block w-full focus:outline-none"
             >
-              <div className="bg-white dark:bg-slate-900 rounded-[16px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_8px_-2px_rgba(6,43,103,0.03)] active:scale-[0.99] transition-all duration-200 px-4 py-3.5 relative overflow-hidden flex flex-row items-center min-h-[110px]">
+              <div className="bg-white dark:bg-slate-900 rounded-[18px] border border-[#DCE8F6] dark:border-slate-800 shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] active:scale-[0.99] transition-all duration-200 px-4 sm:px-4.5 py-4 relative overflow-hidden flex flex-row items-center justify-between min-h-[122px] sm:min-h-[126px]">
+
+                {/* Atmospheric soft-blue wash behind illustration area — subtle and near-white */}
+                <div 
+                  aria-hidden="true" 
+                  className="absolute right-0 inset-y-0 w-[42%] bg-gradient-to-l from-[#F0F6FD]/70 via-[#F7FAFE]/30 to-transparent pointer-events-none rounded-r-[18px]" 
+                />
 
                 {/* Left: Text & CTA */}
                 <div className="flex flex-col items-start text-left w-full z-10 relative">
@@ -180,31 +186,37 @@ export function StudyResources() {
                   </h3>
                   {/* Description — Preserved exact mobile size & weight, improved line-height & softer tone */}
                   <p 
-                    className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.5] mt-1.5 line-clamp-2 max-w-[62%] sm:max-w-[66%]" 
+                    className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.52] mt-1.5 line-clamp-2 max-w-[62%] sm:max-w-[65%]" 
                     style={{ 
-                      fontWeight: 700,
+                      fontWeight: 700, 
                     }}
                   >
                     {item.description}
                   </p>
 
                   {/* Explore Link */}
-                  <div className="inline-flex items-center gap-1 text-[13px] sm:text-[13.5px] font-semibold text-[#155EEF] dark:text-blue-400 mt-2.5 group-active:text-[#062B67]">
+                  <div className="inline-flex items-center gap-1.5 text-[13px] sm:text-[13.5px] font-bold text-[#155EEF] dark:text-blue-400 mt-2.5 group-active:text-[#062B67] transition-colors">
                     <span>Explore</span>
-                    <ArrowRight className="w-3 h-3 stroke-[2.5]" />
+                    <ArrowRight className="w-3.5 h-3.5 stroke-[2.4] transition-transform duration-200 group-hover:translate-x-1" />
                   </div>
                 </div>
 
-                {/* Right: Illustration */}
-                <div className="absolute right-0 bottom-0 w-[120px] min-[390px]:w-[135px] h-[95px] min-[390px]:h-[100px] pointer-events-none z-0">
-                  <Image
-                    src={item.imageUrl}
-                    alt={item.imageAlt}
-                    fill
-                    className="object-contain object-right-bottom"
-                    sizes="140px"
-                    priority
+                {/* Right: Illustration — vertically balanced, naturally integrated, not touching edges */}
+                <div className="absolute right-2.5 sm:right-3.5 top-1/2 -translate-y-1/2 w-[104px] min-[380px]:w-[114px] h-[82px] min-[380px]:h-[88px] pointer-events-none z-0 flex items-center justify-center">
+                  <div 
+                    aria-hidden="true" 
+                    className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(219,234,254,0.35),transparent_70%)] pointer-events-none" 
                   />
+                  <div className="relative w-full h-full flex items-center justify-center opacity-[0.92]">
+                    <Image
+                      src={item.imageUrl}
+                      alt={item.imageAlt}
+                      fill
+                      className="object-contain object-center"
+                      sizes="120px"
+                      priority
+                    />
+                  </div>
                 </div>
 
               </div>
