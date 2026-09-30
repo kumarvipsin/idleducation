@@ -202,9 +202,9 @@ export function ScholarshipSection() {
 
                 {/* Large White Circle Card Body — 3D Convex Dome / Hemisphere Shape */}
                 <div className="idl-hemisphere-pod w-full aspect-square rounded-full border border-[#DCE8F7] dark:border-slate-800 hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center pt-[66px] pb-6 px-5 text-center relative z-10">
-                  {/* Two-Tone Title — Extra Bold (+8%) */}
+                  {/* Two-Tone Title — Extra Bold */}
                   <h3 
-                    className="text-[18.5px] sm:text-[19.5px] font-black tracking-[-0.02em] text-center leading-snug"
+                    className="text-[18px] sm:text-[18.9px] font-black tracking-[-0.02em] text-center leading-snug"
                     style={{ 
                       fontWeight: 900,
                       WebkitTextStroke: '0.45px currentColor',
@@ -219,9 +219,9 @@ export function ScholarshipSection() {
                     item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                   }`} />
 
-                  {/* Centered Description: EXACT 3 Lines (5% larger, 5% bolder, neutral gray) */}
+                  {/* Centered Description: EXACT 3 Lines */}
                   <p 
-                    className="text-[14px] sm:text-[14.2px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.5] text-center"
+                    className="text-[13.6px] sm:text-[13.8px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.5] text-center"
                     style={{ 
                       fontWeight: 700,
                       WebkitTextStroke: '0.22px currentColor',
@@ -276,7 +276,7 @@ export function ScholarshipSection() {
               {/* Right Text Column - vertically balanced */}
               <div className="flex-1 min-w-0 text-left flex flex-col justify-center">
                 <h3 
-                  className="text-[17px] min-[380px]:text-[18px] font-black leading-tight tracking-tight"
+                  className="text-[16.5px] min-[380px]:text-[17.5px] font-black leading-tight tracking-tight"
                   style={{ 
                     fontWeight: 900,
                   }}
@@ -292,7 +292,7 @@ export function ScholarshipSection() {
 
                 {/* Description with comfortable line-height matching Study Resources, keeping colors intact */}
                 <p 
-                  className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.45] text-pretty"
+                  className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4A5D78] dark:text-slate-300 font-bold leading-[1.45] text-pretty"
                   style={{ 
                     fontWeight: 700,
                   }}
