@@ -300,6 +300,25 @@ const DEFAULT_EXPERT_TEACHERS = [
     isActive: true
   },
   {
+    id: "teacher-shipra",
+    name: "Shipra Khurana",
+    designation: "Senior English Faculty",
+    subject: "English",
+    examFocus: "CBSE & COMPETITIVE",
+    specialization: "ENGLISH · CBSE & COMPETITIVE",
+    experience: "8+ Years",
+    qualification: "M.A. English & B.Ed.",
+    teachingFocus: "Communication & Literary Analysis",
+    shortBio: "Specializes in developing strong communication, vocabulary, and exam-oriented English language skills.",
+    avatarUrl: "/shipra.jpg",
+    photoUrl: "/shipra.jpg",
+    videoUrl: "https://www.youtube.com/watch?v=bOmsL6Z5z1M",
+    videoId: "bOmsL6Z5z1M",
+    profileUrl: "/about",
+    order: 3,
+    isActive: true
+  },
+  {
     id: "teacher-chandra",
     name: "Chandra Prakash",
     designation: "Senior Mathematics Faculty",
