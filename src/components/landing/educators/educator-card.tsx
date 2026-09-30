@@ -172,9 +172,9 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
 
             {/* Metadata Line (Experience • Subject) — Centered, No Outline */}
             <div className="mt-1.5 sm:mt-2 flex items-center justify-center">
-              <div className="inline-flex items-center justify-center gap-1.5 px-1 py-0.5 max-w-full text-center">
+              <div className="inline-flex items-center justify-center gap-1.5 px-1 py-1 max-w-full text-center">
                 {hasExp && (
-                  <span className="inline-flex items-center gap-1 text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] shrink-0 leading-none">
+                  <span className="inline-flex items-center gap-1 text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] shrink-0 leading-normal">
                     <Clock className="w-3 h-3 stroke-[2.4]" />
                     {expDisplay}
                   </span>
@@ -183,7 +183,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#93C5FD] shrink-0" aria-hidden="true" />
                 )}
                 {cleanSubject && (
-                  <span className="text-[12px] sm:text-[12.5px] font-bold text-[#4A5E78] dark:text-slate-300 truncate leading-none">
+                  <span className="text-[12px] sm:text-[12.5px] font-bold text-[#4A5E78] dark:text-slate-300 leading-normal">
                     {cleanSubject}
                   </span>
                 )}
