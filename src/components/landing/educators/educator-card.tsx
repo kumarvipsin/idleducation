@@ -93,7 +93,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
   return (
     <>
       {/* ── CARD CONTAINER ── */}
-      <div className="group/card relative h-full w-full flex flex-col bg-white dark:bg-slate-900 rounded-[22px] sm:rounded-[24px] border border-[#DCE7F6] dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(20,60,120,0.06),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_12px_32px_-6px_rgba(20,60,120,0.12)] hover:border-[#BFDBFE] dark:hover:border-slate-700 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden p-3 sm:p-3.5">
+      <div className="group/card relative h-full w-full flex flex-col bg-gradient-to-b from-white via-white to-[#F9FBFE] dark:from-slate-900 dark:to-slate-900 rounded-[22px] sm:rounded-[24px] border border-[#DCE8F6] dark:border-slate-800 shadow-[0_4px_20px_-4px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] hover:shadow-[0_10px_28px_-6px_rgba(6,43,103,0.07)] hover:border-[#BBD7FA] dark:hover:border-slate-700 hover:-translate-y-1 transition-all duration-300 ease-out overflow-hidden p-3 sm:p-3.5">
 
         {/* ── IMAGE BLOCK ── */}
         <div
@@ -157,11 +157,11 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
         </div>
 
         {/* ── CARD BODY ── */}
-        <div className="relative flex flex-col flex-1 pt-3 pb-0.5 text-center justify-between">
+        <div className="relative flex flex-col flex-1 pt-3.5 sm:pt-4 pb-0.5 text-center justify-between">
 
           {/* Teacher Info: Centered Name & Centered Exp / Subject */}
           <div className="relative z-10 w-full text-center">
-            {/* Teacher Name — Centered */}
+            {/* Teacher Name — Centered with comfortable breathing room */}
             <h3 
               onClick={() => setIsProfileOpen(true)}
               className="font-extrabold text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate cursor-pointer hover:text-[#155EEF] transition-colors text-center w-full"
@@ -170,9 +170,9 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
               {teacher.name}
             </h3>
 
-            {/* Metadata Line (Experience • Subject) — Centered, No Outline */}
-            <div className="mt-1.5 sm:mt-2 flex items-center justify-center">
-              <div className="inline-flex items-center justify-center gap-1.5 px-1 py-1 max-w-full text-center">
+            {/* Metadata Line (Experience • Subject) — Centered, visually compact & comfortable */}
+            <div className="mt-2 sm:mt-2.5 flex items-center justify-center">
+              <div className="inline-flex items-center justify-center gap-1.5 px-1 py-0.5 max-w-full text-center">
                 {hasExp && (
                   <span className="inline-flex items-center gap-1 text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] shrink-0 leading-normal">
                     <Clock className="w-3 h-3 stroke-[2.4]" />
@@ -192,17 +192,29 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
           </div>
 
           {/* ── CARD FOOTER: View Profile CTA ── */}
-          <div className="relative mt-3 pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
+          <div className="relative mt-3.5 sm:mt-4 pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
             {/* View Profile Action */}
             <button
               type="button"
               onClick={() => setIsProfileOpen(true)}
               aria-label={`View profile of ${teacher.name}`}
-              className="relative z-10 w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-pointer group/cta text-[13.5px] sm:text-[14px] font-bold text-[#155EEF] hover:text-[#0A1E4A] dark:hover:text-blue-400 transition-colors py-0.5"
+              className="relative z-10 w-full flex items-center justify-center gap-1.5 bg-transparent border-none p-0 cursor-pointer group/cta text-[13.5px] sm:text-[14px] font-bold text-[#155EEF] hover:text-[#0A1E4A] dark:hover:text-blue-400 transition-colors py-1"
             >
               <span>View Profile</span>
               <ArrowRight className="w-3.5 h-3.5 stroke-[2.4] text-[#155EEF] group-hover/cta:text-[#0A1E4A] dark:group-hover/cta:text-blue-400 group-hover/cta:translate-x-1 transition-all duration-200" />
             </button>
+          </div>
+
+          {/* Subtle soft-blue atmospheric wash in lower background — understated, kept strictly below metadata */}
+          <div 
+            aria-hidden="true" 
+            className="absolute inset-x-0 bottom-0 h-16 pointer-events-none -mx-3 sm:-mx-3.5 -mb-3 sm:-mb-3.5 rounded-b-[22px] sm:rounded-b-[24px] overflow-hidden z-0"
+          >
+            {/* Extremely light soft-blue ambient gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#EDF4FD]/80 via-[#F7FAFE]/40 to-transparent dark:from-slate-800/30 dark:to-transparent" />
+            
+            {/* Minimal understated organic curved blue shape in the bottom-right corner */}
+            <div className="absolute -bottom-8 -right-8 w-24 h-24 rounded-full bg-[#E0EDFD]/70 dark:bg-blue-900/10 pointer-events-none" />
           </div>
         </div>
       </div>
