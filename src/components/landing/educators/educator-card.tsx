@@ -6,7 +6,6 @@ import type { TExpertTeacher } from "@/app/actions/types";
 import { getSignedUrlForPdf } from "@/app/actions";
 import {
   Clock,
-  BookOpen,
   Users,
   Play,
   ArrowRight,
@@ -158,83 +157,54 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
         </div>
 
         {/* ── CARD BODY ── */}
-        <div className="relative flex flex-col flex-1 pt-3 pb-1 text-left justify-between">
+        <div className="relative flex flex-col flex-1 pt-3 pb-0.5 text-left justify-between">
 
-          {/* Teacher Info Row: Name & Pill on left, 3D Subject Icon on right */}
-          <div className="relative flex items-center justify-between gap-2 z-10 min-h-[72px]">
-            {/* Left Content */}
-            <div className="flex-1 min-w-0 pr-1">
-              {/* Teacher Name */}
-              <h3 
-                onClick={() => setIsProfileOpen(true)}
-                className="font-extrabold text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate cursor-pointer hover:text-[#155EEF] transition-colors"
-                title={teacher.name}
-              >
-                {teacher.name}
-              </h3>
+          {/* Teacher Info (Name & Pill) */}
+          <div className="relative z-10 pr-10 min-w-0">
+            {/* Teacher Name */}
+            <h3 
+              onClick={() => setIsProfileOpen(true)}
+              className="font-extrabold text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate cursor-pointer hover:text-[#155EEF] transition-colors"
+              title={teacher.name}
+            >
+              {teacher.name}
+            </h3>
 
-              {/* Metadata Pill Badge (Experience + Subject) */}
-              <div className="mt-2 flex items-center">
-                <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full border border-[#BFDBFE]/80 bg-[#F0F6FE]/70 dark:bg-slate-800/80 dark:border-blue-900/60 shadow-sm max-w-full">
-                  {hasExp && (
-                    <span className="inline-flex items-center gap-1 text-[11.5px] sm:text-[12px] font-bold text-[#155EEF] shrink-0 leading-none">
-                      <Clock className="w-3 h-3 stroke-[2.4]" />
-                      {expDisplay}
-                    </span>
-                  )}
-                  {hasExp && cleanSubject && (
-                    <span className="text-[#93C5FD] font-normal text-xs select-none">|</span>
-                  )}
-                  {cleanSubject && (
-                    <span className="inline-flex items-center gap-1 text-[11.5px] sm:text-[12px] font-bold text-[#334155] dark:text-slate-200 truncate leading-none">
-                      <BookOpen className="w-3 h-3 stroke-[2.2] text-[#475569] dark:text-slate-400 shrink-0" />
-                      <span className="truncate">{cleanSubject}</span>
-                    </span>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Right: 3D Subject Illustration with soft glowing aura */}
-            <div className="relative shrink-0 w-20 h-18 sm:w-[86px] sm:h-[76px] flex items-center justify-center">
-              {/* Soft light blue circular aura */}
-              <div 
-                aria-hidden="true"
-                className="absolute -top-1 -right-1 w-20 h-20 sm:w-22 sm:h-22 rounded-full bg-gradient-to-tr from-blue-100/80 via-sky-100/50 to-blue-50/20 dark:from-blue-900/30 dark:via-sky-950/20 dark:to-transparent pointer-events-none"
-              />
-              {/* Small floating sparkles/bubbles */}
-              <span aria-hidden="true" className="absolute top-1 left-0 w-2.5 h-2.5 rounded-full bg-blue-200/70 pointer-events-none" />
-              <span aria-hidden="true" className="absolute -top-1 right-6 w-1.5 h-1.5 rounded-full bg-blue-300/80 pointer-events-none" />
-              <span aria-hidden="true" className="absolute bottom-1 right-0 w-1.5 h-1.5 rounded-full bg-blue-300/60 pointer-events-none" />
-
-              {/* The 3D Subject Icon from public/ */}
-              <div className="relative z-10 w-full h-full flex items-center justify-center transition-transform duration-300 ease-out group-hover/card:scale-105 group-hover/card:-translate-y-0.5">
-                <Image
-                  src={subjectIconPath}
-                  alt={cleanSubject || "Subject"}
-                  width={84}
-                  height={76}
-                  className="w-auto h-auto max-w-full max-h-[72px] sm:max-h-[76px] object-contain drop-shadow-sm select-none"
-                  priority={false}
-                />
+            {/* Metadata Pill Badge (Experience • Subject) */}
+            <div className="mt-2 flex items-center">
+              <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full border border-[#BFDBFE]/80 bg-[#F0F6FE]/70 dark:bg-slate-800/80 dark:border-blue-900/60 shadow-sm max-w-full">
+                {hasExp && (
+                  <span className="inline-flex items-center gap-1 text-[11.5px] sm:text-[12px] font-bold text-[#155EEF] shrink-0 leading-none">
+                    <Clock className="w-3 h-3 stroke-[2.4]" />
+                    {expDisplay}
+                  </span>
+                )}
+                {hasExp && cleanSubject && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#93C5FD] shrink-0" aria-hidden="true" />
+                )}
+                {cleanSubject && (
+                  <span className="text-[11.5px] sm:text-[12px] font-bold text-[#334155] dark:text-slate-200 truncate leading-none">
+                    {cleanSubject}
+                  </span>
+                )}
               </div>
             </div>
           </div>
 
-          {/* ── CARD FOOTER: Dotted Accent & View Profile CTA ── */}
+          {/* ── CARD FOOTER: View Profile CTA & 3D Subject Icon ── */}
           <div className="relative mt-3 pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
-            {/* Dotted matrix pattern in the bottom-left */}
-            <div 
-              aria-hidden="true" 
-              className="absolute bottom-1 left-1.5 flex flex-col gap-1 sm:gap-1.5 opacity-35 dark:opacity-20 pointer-events-none"
-            >
-              {[0, 1, 2, 3].map((r) => (
-                <div key={r} className="flex gap-1 sm:gap-1.5">
-                  {[0, 1, 2, 3].map((c) => (
-                    <span key={c} className="w-1 h-1 rounded-full bg-[#60A5FA]" />
-                  ))}
-                </div>
-              ))}
+            {/* 3D Subject Icon: 50% smaller, base touches separator line, right side touches 100% */}
+            <div className="absolute bottom-full -right-3 sm:-right-3.5 z-10 flex items-end justify-end pointer-events-none">
+              <div className="relative flex items-end justify-end w-10 h-10 sm:w-11 sm:h-11 transition-transform duration-300 ease-out group-hover/card:scale-105">
+                <Image
+                  src={subjectIconPath}
+                  alt={cleanSubject || "Subject"}
+                  width={42}
+                  height={38}
+                  className="w-auto h-auto max-w-[38px] sm:max-w-[42px] max-h-[36px] sm:max-h-[38px] object-contain drop-shadow-sm select-none"
+                  priority={false}
+                />
+              </div>
             </div>
 
             {/* View Profile Action */}
