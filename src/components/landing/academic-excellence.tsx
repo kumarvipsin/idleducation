@@ -568,12 +568,12 @@ export function AcademicExcellence() {
         </div>
 
         {/* ===================== CATEGORY TABS (TEXT ONLY WITH UNDERLINE, NO BUTTON SHAPE) ===================== */}
-        <div className="w-full mb-[22px] sm:mb-[26px]">
+        <div className="w-full mb-[20px] sm:mb-[26px]">
           <div className="flex justify-center px-2">
             <div 
               role="tablist" 
               aria-label="Result Categories"
-              className="inline-flex items-center justify-center gap-6 sm:gap-8 select-none"
+              className="inline-flex items-center justify-center gap-6 min-[360px]:gap-7 sm:gap-8 select-none"
             >
               {RESULTS_DATA.map((cat, idx) => {
                 const isActive = activeCategoryIndex === idx;
@@ -586,9 +586,9 @@ export function AcademicExcellence() {
                     aria-controls={`panel-${cat.id}`}
                     onClick={() => handleTabChange(idx)}
                     className={cn(
-                      "pb-0.5 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-[1.5px] text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white",
+                      "pb-1 sm:pb-0.5 text-[11.5px] sm:text-[12.5px] font-[900] tracking-wider uppercase transition-all duration-200 cursor-pointer bg-transparent outline-none focus-visible:outline-none border-b-2 sm:border-b-[1.5px] text-[#64748B] hover:text-[#062B67] dark:text-slate-400 dark:hover:text-white",
                       isActive
-                        ? "border-[#155EEF] dark:border-blue-400"
+                        ? "border-[#155EEF] dark:border-blue-400 text-[#062B67] dark:text-white"
                         : "border-transparent"
                     )}
                   >
@@ -623,7 +623,7 @@ export function AcademicExcellence() {
               </h3>
 
               <p 
-                className="text-[13.7px] sm:text-[14.2px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-relaxed font-semibold max-w-sm break-words"
+                className="text-[13.7px] sm:text-[14.2px] text-slate-500 dark:text-slate-400 mt-2 sm:mt-2.5 leading-[1.56] font-semibold max-w-sm break-words"
                 style={{ fontWeight: 620, WebkitTextStroke: '0.12px currentColor' }}
               >
                 {activeCategory.description}
@@ -631,7 +631,7 @@ export function AcademicExcellence() {
             </div>
 
             {/* Right: 3 Typographic Data Displays in 1 Horizontal Row with 3D Icons */}
-            <div className="w-full lg:flex-1 min-w-0 pt-3 lg:pt-0 border-t border-[#E2ECF8] lg:border-t-0 lg:border-l lg:border-[#E2ECF8] lg:pl-6 xl:pl-7">
+            <div className="w-full lg:flex-1 min-w-0 pt-3.5 sm:pt-3.5 lg:pt-0 border-t border-[#E2ECF8]/80 dark:border-slate-800/80 lg:border-t-0 lg:border-l lg:border-[#E2ECF8] lg:pl-6 xl:pl-7">
               <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5 lg:gap-3 xl:gap-3.5 w-full">
                 
                 {/* Stat 1: Highest Score (Trophy Cup) */}
@@ -662,7 +662,7 @@ export function AcademicExcellence() {
                               {isPercentile ? '%ile' : isPercent ? '%' : ''}
                             </span>
                           </div>
-                          <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#FEF08A] dark:bg-amber-900/40 text-[#92400E] dark:text-amber-300 max-w-full">
+                          <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-1.5 min-[360px]:px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#FEF08A] dark:bg-amber-900/40 text-[#92400E] dark:text-amber-300 max-w-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#D97706] shrink-0" />
                             <span className="truncate">{activeCategory.stats.highestScore.label}</span>
                           </div>
@@ -701,7 +701,7 @@ export function AcademicExcellence() {
                             {symbol}
                           </span>
                         </div>
-                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DCFCE7] dark:bg-emerald-900/40 text-[#065F46] dark:text-emerald-300 max-w-full">
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-1.5 min-[360px]:px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DCFCE7] dark:bg-emerald-900/40 text-[#065F46] dark:text-emerald-300 max-w-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#059669] shrink-0" />
                           <span className="truncate">{bottomLabel}</span>
                         </div>
@@ -739,7 +739,7 @@ export function AcademicExcellence() {
                             {symbol}
                           </span>
                         </div>
-                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DBEAFE] dark:bg-blue-900/40 text-[#1E40AF] dark:text-blue-300 max-w-full">
+                        <div className="mt-1 sm:mt-1.5 inline-flex items-center justify-center gap-1 sm:gap-1.5 h-[19px] sm:h-[22px] lg:h-[24px] px-1.5 min-[360px]:px-2 sm:px-2.5 rounded-full text-[8px] min-[360px]:text-[8.5px] sm:text-[10px] xl:text-[10.5px] font-bold bg-[#DBEAFE] dark:bg-blue-900/40 text-[#1E40AF] dark:text-blue-300 max-w-full">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] shrink-0" />
                           <span className="truncate">{bottomLabel}</span>
                         </div>
@@ -754,7 +754,7 @@ export function AcademicExcellence() {
           </div>
 
           {/* ----------------- MIDDLE ROW: TOP PERFORMERS HEADER + NAV ARROWS ----------------- */}
-          <div className="relative z-10 flex items-center justify-between mt-2 sm:mt-2.5 mb-1.5 sm:mb-2 px-0.5 w-full">
+          <div className="relative z-10 flex items-center justify-between mt-3 sm:mt-2.5 mb-2 sm:mb-2 px-0.5 w-full">
             {/* Left: Bar Chart Icon + Title */}
             <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <BarChartIcon className="w-[18px] h-[18px] text-[#F59E0B] shrink-0" />
@@ -852,7 +852,7 @@ export function AcademicExcellence() {
                           </div>
 
                           {/* Bottom Row: View Profile Action + Achievement Badge */}
-                          <div className="mt-2.5 sm:mt-2 pt-2.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                          <div className="mt-3 sm:mt-2 pt-2.5 sm:pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
                             <button
                               type="button"
                               onClick={(e) => {
@@ -860,14 +860,14 @@ export function AcademicExcellence() {
                                 setSelectedCardId(student.id);
                                 setSelectedStudent(student);
                               }}
-                              className="text-[13px] min-[360px]:text-[13.5px] sm:text-[11.5px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-bold text-[#155EEF] hover:text-[#0A1E4A]"
+                              className="text-[13px] min-[360px]:text-[13.5px] sm:text-[11.5px] inline-flex items-center gap-1.5 leading-none group/btn transition-colors cursor-pointer text-left font-bold text-[#155EEF] hover:text-[#0A1E4A] py-0.5"
                             >
                               <span>View Profile</span>
                               <ArrowRight className="w-3.5 h-3.5 sm:w-3 sm:h-3 group-hover/btn:translate-x-1 transition-transform shrink-0" />
                             </button>
 
                             {student.badge && (
-                              <span className="text-[11px] sm:text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] dark:bg-amber-900/30 dark:text-amber-300 shrink-0 truncate max-w-[130px]">
+                              <span className="text-[11px] sm:text-[9.5px] font-bold px-2.5 py-1 sm:py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] dark:bg-amber-900/30 dark:text-amber-300 shrink-0 truncate max-w-[130px]">
                                 {student.badge}
                               </span>
                             )}
