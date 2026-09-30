@@ -1002,7 +1002,7 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'all-courses'}
                                                 aria-controls="mobile-accordion-all-courses"
                                                 className={cn(
-                                                    "touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    "touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
                                                     openMobileAccordion === 'all-courses' 
                                                         ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
                                                         : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
@@ -1021,15 +1021,16 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1.5 pb-3.5">
-                                                    {/* Outline Card Box with Margins (matching reference screenshot 2) */}
-                                                    <div className="rounded-[16px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_2px_12px_rgba(10,28,80,0.04)] overflow-hidden divide-y divide-slate-100 dark:divide-slate-800/80">
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1 pb-3">
+                                                    {/* Ultra-thin Outline Card Box with Margins */}
+                                                    <div className="rounded-[14px] border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-none overflow-hidden divide-y divide-slate-100/70 dark:divide-slate-800/50">
                                                         {courseCategories.map((cat) => {
-                                                             const isSubOpen = openMobileSubAccordion === cat.id;
-                                                             const { icon, colorClass } = getCategoryIconDetails(cat.id, cat.name);
-                                                             return (
+                                                            const isSubOpen = openMobileSubAccordion === cat.id;
+                                                            const hasSubItems = cat.subItems && cat.subItems.length > 0;
+
+                                                            return (
                                                                 <div key={cat.id} className="flex flex-col">
-                                                                    {/* Level 1: Category Row */}
+                                                                    {/* Level 1: Category Row (JEE, NEET, CBSE, etc.) */}
                                                                     <button
                                                                         type="button"
                                                                         onClick={(e) => {
@@ -1046,116 +1047,133 @@ export function Header() {
                                                                         aria-expanded={isSubOpen}
                                                                         aria-controls={`mobile-sub-${cat.id}`}
                                                                         className={cn(
-                                                                            "touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
-                                                                            isSubOpen && "bg-slate-50/70 dark:bg-slate-800/40 text-[#155EEF] dark:text-blue-400"
+                                                                            "touch-manipulation group relative flex items-center justify-between px-3.5 py-2.5 min-h-[40px] transition-colors duration-100 text-left w-full cursor-pointer select-none",
+                                                                            isSubOpen 
+                                                                                ? "bg-slate-50/70 dark:bg-slate-800/40 text-[#155EEF] dark:text-blue-400 font-semibold" 
+                                                                                : "text-[#102A68] dark:text-slate-100 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 font-medium"
                                                                         )}
                                                                     >
-                                                                        <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
-                                                                            <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0", colorClass)}>
-                                                                                {icon}
-                                                                            </div>
-                                                                            <span className="text-[14px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                                {cat.name}
-                                                                            </span>
-                                                                        </div>
+                                                                        <span className="text-[13.5px] leading-tight tracking-[-0.01em]">
+                                                                            {cat.name}
+                                                                        </span>
                                                                         <ChevronDown className={cn(
-                                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
+                                                                            "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto transition-transform duration-150",
                                                                             isSubOpen && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                                         )} />
                                                                     </button>
 
-                                                                    {/* Level 2: Nested Sub-items */}
-                                                                    <div
-                                                                        id={`mobile-sub-${cat.id}`}
-                                                                        role="region"
-                                                                        aria-hidden={!isSubOpen}
-                                                                        data-open={isSubOpen ? 'true' : 'false'}
-                                                                        className="mobile-accordion-grid"
-                                                                    >
-                                                                        <div className="overflow-hidden min-h-0 bg-[#F8FAFC] dark:bg-slate-950/60 border-t border-slate-100 dark:border-slate-800/70">
-                                                                            <div className="px-3 py-1.5 divide-y divide-slate-100/80 dark:divide-slate-800/60">
-                                                                                {cat.subItems.map((sub) => {
-                                                                                    const hasLeafs = sub.items && sub.items.length > 0;
-                                                                                    const isThirdOpen = openMobileThirdAccordion === sub.id;
+                                                                    {/* Level 2: Nested Sub-items with Mapping Guide Lines */}
+                                                                    {hasSubItems && (
+                                                                        <div
+                                                                            id={`mobile-sub-${cat.id}`}
+                                                                            role="region"
+                                                                            aria-hidden={!isSubOpen}
+                                                                            data-open={isSubOpen ? 'true' : 'false'}
+                                                                            className="mobile-accordion-grid"
+                                                                        >
+                                                                            <div className="overflow-hidden min-h-0 bg-[#F9FAFC] dark:bg-slate-950/50 border-t border-slate-100 dark:border-slate-800/50 py-2 px-3">
+                                                                                {/* Level 2 Tree container with vertical mapping line */}
+                                                                                <div className="relative pl-3.5 ml-2.5 border-l-[1.5px] border-slate-200/90 dark:border-slate-700/80 space-y-1.5">
+                                                                                    {cat.subItems.map((sub) => {
+                                                                                        const hasLeafs = sub.items && sub.items.length > 0;
+                                                                                        const isThirdOpen = openMobileThirdAccordion === sub.id;
 
-                                                                                    if (hasLeafs) {
-                                                                                        return (
-                                                                                            <div key={sub.id} className="flex flex-col py-0.5">
-                                                                                                <button
-                                                                                                    type="button"
-                                                                                                    onClick={(e) => {
-                                                                                                        const next = isThirdOpen ? null : sub.id;
-                                                                                                        setOpenMobileThirdAccordion(next);
-                                                                                                        if (next) {
-                                                                                                            const target = e.currentTarget;
-                                                                                                            requestAnimationFrame(() => {
-                                                                                                                target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                                                                                                            });
-                                                                                                        }
-                                                                                                    }}
-                                                                                                    aria-expanded={isThirdOpen}
-                                                                                                    aria-controls={`mobile-third-${sub.id}`}
-                                                                                                    className="touch-manipulation w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[38px] px-2.5 py-1.5 rounded-lg transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-white dark:hover:bg-slate-900"
-                                                                                                >
-                                                                                                    <span className="truncate pr-2">{sub.label}</span>
-                                                                                                    <ChevronDown className={cn(
-                                                                                                        "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
-                                                                                                        isThirdOpen && "rotate-180 text-primary"
-                                                                                                    )} />
-                                                                                                </button>
+                                                                                        if (hasLeafs) {
+                                                                                            return (
+                                                                                                <div key={sub.id} className="relative flex flex-col">
+                                                                                                    {/* Horizontal connector tick from Level 2 vertical line */}
+                                                                                                    <span className="absolute -left-3.5 top-4 w-2.5 h-[1.5px] bg-slate-200/90 dark:bg-slate-700/80" />
 
-                                                                                                <div
-                                                                                                    id={`mobile-third-${sub.id}`}
-                                                                                                    role="region"
-                                                                                                    aria-hidden={!isThirdOpen}
-                                                                                                    data-open={isThirdOpen ? 'true' : 'false'}
-                                                                                                    className="mobile-accordion-grid"
-                                                                                                >
-                                                                                                    <div className="overflow-hidden min-h-0 pl-3 pr-1 py-1 space-y-0.5">
-                                                                                                        {sub.items!.map((item) => (
-                                                                                                            <Link
-                                                                                                                key={item.id}
-                                                                                                                href={item.href}
-                                                                                                                onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                                className="group flex items-center justify-between min-h-[34px] px-2.5 py-1 rounded-md text-[12.5px] sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-white dark:hover:bg-slate-900 transition-colors duration-100 cursor-pointer"
-                                                                                                            >
-                                                                                                                <span className="truncate pr-2">{item.label}</span>
-                                                                                                                <ChevronRight className="w-3 h-3 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-auto" />
-                                                                                                            </Link>
-                                                                                                        ))}
+                                                                                                    {/* Level 2 Sub-heading button (e.g. CBSE Syllabus, CBSE Exam) */}
+                                                                                                    <button
+                                                                                                        type="button"
+                                                                                                        onClick={(e) => {
+                                                                                                            const next = isThirdOpen ? null : sub.id;
+                                                                                                            setOpenMobileThirdAccordion(next);
+                                                                                                            if (next) {
+                                                                                                                const target = e.currentTarget;
+                                                                                                                requestAnimationFrame(() => {
+                                                                                                                    target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                                                                                                });
+                                                                                                            }
+                                                                                                        }}
+                                                                                                        aria-expanded={isThirdOpen}
+                                                                                                        aria-controls={`mobile-third-${sub.id}`}
+                                                                                                        className={cn(
+                                                                                                            "touch-manipulation w-full text-left text-[12.5px] min-h-[32px] px-2.5 py-1.5 rounded-[8px] transition-all duration-100 flex items-center justify-between cursor-pointer select-none",
+                                                                                                            isThirdOpen 
+                                                                                                                ? "font-semibold text-[#155EEF] dark:text-blue-300 bg-blue-50/90 dark:bg-blue-950/60 shadow-xs" 
+                                                                                                                : "font-medium text-slate-700 dark:text-slate-200 hover:text-[#155EEF] hover:bg-white dark:hover:bg-slate-900/60"
+                                                                                                        )}
+                                                                                                    >
+                                                                                                        <span className="truncate pr-2">{sub.label}</span>
+                                                                                                        <ChevronDown className={cn(
+                                                                                                            "w-3 h-3 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto transition-transform duration-150",
+                                                                                                            isThirdOpen && "rotate-180 text-[#155EEF] dark:text-blue-400"
+                                                                                                        )} />
+                                                                                                    </button>
+
+                                                                                                    {/* Level 3: Classes (Class 9, Class 10, Class 11, Class 12) with its OWN nested mapping line */}
+                                                                                                    <div
+                                                                                                        id={`mobile-third-${sub.id}`}
+                                                                                                        role="region"
+                                                                                                        aria-hidden={!isThirdOpen}
+                                                                                                        data-open={isThirdOpen ? 'true' : 'false'}
+                                                                                                        className="mobile-accordion-grid"
+                                                                                                    >
+                                                                                                        <div className="overflow-hidden min-h-0 pt-1 pb-1">
+                                                                                                            {/* Level 3 Tree container with indented mapping line */}
+                                                                                                            <div className="relative pl-3 ml-3 border-l-[1.5px] border-blue-200 dark:border-blue-800/80 space-y-0.5">
+                                                                                                                {sub.items!.map((item) => (
+                                                                                                                    <Link
+                                                                                                                        key={item.id}
+                                                                                                                        href={item.href}
+                                                                                                                        onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                                        className="group relative flex items-center justify-between min-h-[28px] pl-2 pr-2 py-1 rounded-[6px] text-[12px] font-medium text-slate-600 dark:text-slate-300 hover:text-[#155EEF] hover:bg-blue-50/60 dark:hover:bg-blue-950/40 transition-colors duration-100 cursor-pointer"
+                                                                                                                    >
+                                                                                                                        {/* Horizontal connector tick from Level 3 line */}
+                                                                                                                        <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-2 h-[1.5px] bg-blue-300 dark:bg-blue-700" />
+                                                                                                                        <span className="truncate pr-2">{item.label}</span>
+                                                                                                                        <ChevronRight className="w-3 h-3 text-slate-300 dark:text-slate-600 group-hover:text-[#155EEF] group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-auto" />
+                                                                                                                    </Link>
+                                                                                                                ))}
+                                                                                                            </div>
+                                                                                                        </div>
                                                                                                     </div>
                                                                                                 </div>
-                                                                                            </div>
-                                                                                        );
-                                                                                    }
+                                                                                            );
+                                                                                        }
 
-                                                                                    const isSubDisabled = !sub.href || sub.href === '#' || (sub as any).disabled;
-                                                                                    if (isSubDisabled) {
+                                                                                        const isSubDisabled = !sub.href || sub.href === '#' || (sub as any).disabled;
+                                                                                        if (isSubDisabled) {
+                                                                                            return (
+                                                                                                <div
+                                                                                                    key={sub.id}
+                                                                                                    className="relative flex items-center justify-between min-h-[30px] pl-2 px-2.5 py-1 text-[12.5px] font-medium text-slate-500 dark:text-slate-400 select-none cursor-default"
+                                                                                                >
+                                                                                                    <span className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-2.5 h-[1.5px] bg-slate-200/90 dark:bg-slate-700/80" />
+                                                                                                    <span className="truncate">{sub.label}</span>
+                                                                                                </div>
+                                                                                            );
+                                                                                        }
+
                                                                                         return (
-                                                                                            <div
+                                                                                            <Link
                                                                                                 key={sub.id}
-                                                                                                className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[38px] px-2.5 py-1.5 text-slate-700 dark:text-slate-300 flex items-center select-none cursor-default"
+                                                                                                href={sub.href}
+                                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                className="group relative flex items-center justify-between min-h-[30px] px-2.5 py-1 rounded-[6px] text-[12.5px] font-medium text-slate-700 dark:text-slate-200 hover:text-[#155EEF] hover:bg-white dark:hover:bg-slate-900/60 transition-colors duration-100 cursor-pointer"
                                                                                             >
-                                                                                                <span className="truncate">{sub.label}</span>
-                                                                                            </div>
+                                                                                                <span className="absolute -left-3.5 top-1/2 -translate-y-1/2 w-2.5 h-[1.5px] bg-slate-200/90 dark:bg-slate-700/80" />
+                                                                                                <span className="truncate pr-2">{sub.label}</span>
+                                                                                                <ChevronRight className="w-3 h-3 text-slate-400 dark:text-slate-500 group-hover:text-[#155EEF] shrink-0 ml-auto" />
+                                                                                            </Link>
                                                                                         );
-                                                                                    }
-
-                                                                                    return (
-                                                                                        <Link
-                                                                                            key={sub.id}
-                                                                                            href={sub.href}
-                                                                                            onClick={() => setIsMobileMenuOpen(false)}
-                                                                                            className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[38px] px-2.5 py-1.5 rounded-lg text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-white dark:hover:bg-slate-900 transition-colors duration-100 flex items-center justify-between cursor-pointer"
-                                                                                        >
-                                                                                            <span className="truncate pr-2">{sub.label}</span>
-                                                                                            <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-auto" />
-                                                                                        </Link>
-                                                                                    );
-                                                                                })}
+                                                                                    })}
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    )}
                                                                 </div>
                                                             );
                                                         })}
@@ -1177,7 +1195,7 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'apply'}
                                                 aria-controls="mobile-accordion-apply"
                                                 className={cn(
-                                                    "touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    "touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
                                                     openMobileAccordion === 'apply' 
                                                         ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
                                                         : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
@@ -1196,10 +1214,10 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'apply' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1.5 pb-3.5">
-                                                    {/* Outline Card Box with Margins */}
-                                                    <div className="rounded-[16px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_2px_12px_rgba(10,28,80,0.04)] overflow-hidden divide-y divide-slate-100 dark:divide-slate-800/80">
-                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick, icon: IconComponent, iconColor }) => (
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1 pb-3">
+                                                    {/* Ultra-thin Outline Card Box with Margins */}
+                                                    <div className="rounded-[14px] border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-none overflow-hidden divide-y divide-slate-100/70 dark:divide-slate-800/50">
+                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
                                                             <button
                                                                 key={label}
                                                                 type="button"
@@ -1213,19 +1231,12 @@ export function Header() {
                                                                         router.push(href);
                                                                     }
                                                                 }}
-                                                                className="touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50"
+                                                                className="touch-manipulation group relative flex items-center justify-between px-3.5 py-2.5 min-h-[38px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50"
                                                             >
-                                                                <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                                                                    {IconComponent && (
-                                                                        <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0", iconColor)}>
-                                                                            <IconComponent className="w-4 h-4" />
-                                                                        </div>
-                                                                    )}
-                                                                    <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                        {label}
-                                                                    </span>
-                                                                </div>
-                                                                <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                <span className="text-[13px] font-medium leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                    {label}
+                                                                </span>
+                                                                <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
                                                             </button>
                                                         ))}
                                                     </div>
@@ -1238,7 +1249,7 @@ export function Header() {
                                             <Link
                                                 href="/about"
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
+                                                className="touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
                                             >
                                                 <span className="uppercase">ABOUT US</span>
                                             </Link>
@@ -1252,7 +1263,7 @@ export function Header() {
                                                     setIsMobileMenuOpen(false);
                                                     setIsContactOpen(true);
                                                 }}
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors text-left cursor-pointer select-none"
+                                                className="touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors text-left cursor-pointer select-none"
                                             >
                                                 <span className="uppercase">CONTACT US</span>
                                             </button>
@@ -1271,7 +1282,7 @@ export function Header() {
                                                 aria-expanded={openMobileAccordion === 'more'}
                                                 aria-controls="mobile-accordion-more"
                                                 className={cn(
-                                                    "touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    "touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
                                                     openMobileAccordion === 'more' 
                                                         ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
                                                         : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
@@ -1290,28 +1301,19 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'more' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1.5 pb-3.5">
-                                                    {/* Outline Card Box with Margins */}
-                                                    <div className="rounded-[16px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_2px_12px_rgba(10,28,80,0.04)] overflow-hidden divide-y divide-slate-100 dark:divide-slate-800/80">
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1 pb-3">
+                                                    {/* Ultra-thin Outline Card Box with Margins */}
+                                                    <div className="rounded-[14px] border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-none overflow-hidden divide-y divide-slate-100/70 dark:divide-slate-800/50">
                                                         {moreMenuGroups.flatMap((group) => group.links).map((link: any) => {
                                                             const isDisabled = (link as any).disabled || link.label === "Register Now";
                                                             const isAction = Boolean((link as any).onClick);
-                                                            const IconComponent = link.icon;
-                                                            const iconColor = link.iconColor;
 
                                                             const rowContent = (
                                                                 <>
-                                                                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                                                                        {IconComponent && (
-                                                                            <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0", iconColor)}>
-                                                                                <IconComponent className="w-4 h-4" />
-                                                                            </div>
-                                                                        )}
-                                                                        <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                            {link.label}
-                                                                        </span>
-                                                                    </div>
-                                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                    <span className="text-[13px] font-medium leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                        {link.label}
+                                                                    </span>
+                                                                    <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
                                                                 </>
                                                             );
 
@@ -1326,7 +1328,7 @@ export function Header() {
                                                                             if ((link as any).onClick) (link as any).onClick();
                                                                         }}
                                                                         className={cn(
-                                                                            "touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
+                                                                            "touch-manipulation group relative flex items-center justify-between px-3.5 py-2.5 min-h-[38px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
                                                                             isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                         )}
                                                                     >
@@ -1342,7 +1344,7 @@ export function Header() {
                                                                     suppressHydrationWarning
                                                                     onClick={() => setIsMobileMenuOpen(false)}
                                                                     className={cn(
-                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
+                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 py-2.5 min-h-[38px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
                                                                         isDisabled && "opacity-50 grayscale pointer-events-none"
                                                                     )}
                                                                 >
@@ -1362,10 +1364,10 @@ export function Header() {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 onClick={() => setIsMobileMenuOpen(false)}
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
+                                                className="touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
                                             >
-                                                <div className="flex items-center gap-2.5">
-                                                    <ShoppingCart className="w-4 h-4 text-[#102A68] dark:text-white shrink-0" />
+                                                <div className="flex items-center gap-2">
+                                                    <ShoppingCart className="w-3.5 h-3.5 text-[#102A68] dark:text-white shrink-0" />
                                                     <span className="uppercase">STORE</span>
                                                 </div>
                                             </Link>
