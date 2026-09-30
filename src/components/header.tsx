@@ -182,27 +182,52 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
     },
 ];
 
-const getCategoryIcon = (id: string, name: string) => {
+const getCategoryIconDetails = (id: string, name: string) => {
     const key = (name || id).toLowerCase();
     if (key.includes('cbse') || key.includes('school')) {
-        return <GraduationCap className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+        return {
+            icon: <GraduationCap className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+            colorClass: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"
+        };
     }
     if (key.includes('jee') || key.includes('iit')) {
-        return <Atom className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+        return {
+            icon: <Atom className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+            colorClass: "bg-blue-50 dark:bg-blue-950/60 text-[#155EEF] dark:text-blue-400"
+        };
     }
     if (key.includes('neet') || key.includes('medical')) {
-        return <Stethoscope className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+        return {
+            icon: <Stethoscope className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+            colorClass: "bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400"
+        };
     }
     if (key.includes('cuet') || key.includes('entrance') || key.includes('target')) {
-        return <Target className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+        return {
+            icon: <Target className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+            colorClass: "bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400"
+        };
     }
     if (key.includes('free') || key.includes('youtube')) {
-        return <PlayCircle className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+        return {
+            icon: <PlayCircle className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+            colorClass: "bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400"
+        };
     }
     if (key.includes('premium')) {
-        return <Award className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+        return {
+            icon: <Award className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+            colorClass: "bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400"
+        };
     }
-    return <BookOpen className="w-5 h-5 shrink-0" strokeWidth={2.2} />;
+    return {
+        icon: <BookOpen className="w-4 h-4 shrink-0" strokeWidth={2.2} />,
+        colorClass: "bg-sky-50 dark:bg-sky-950/60 text-[#0066CC] dark:text-sky-400"
+    };
+};
+
+const getCategoryIcon = (id: string, name: string) => {
+    return getCategoryIconDetails(id, name).icon;
 };
 
 const donationCategories = [
@@ -620,24 +645,24 @@ export function Header() {
         {
             title: "EXPLORE",
             links: [
-                { href: "/offline-centers", label: "Offline Centers" },
-                { href: "/blog", label: "IDL Blog" },
-                { href: '/gallery', label: "Gallery" },
+                { href: "/offline-centers", label: "Offline Centers", icon: MapPin, iconColor: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60" },
+                { href: "/blog", label: "IDL Blog", icon: BookOpen, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
+                { href: '/gallery', label: "Gallery", icon: ImageIcon, iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60" },
             ]
         },
         {
             title: "COMPANY",
             links: [
-                { href: "/journey", label: "The Journey" },
+                { href: "/journey", label: "The Journey", icon: Rocket, iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
             ]
         },
     ];
 
     const applyForLinks = [
-        { href: "#", label: "Admission Form", onClick: () => setIsAdmissionOpen(true) },
-        { href: "#", label: "Book Free Demo", onClick: () => setIsBookDemoOpen(true) },
-        { href: "#", label: "Student Enquiry", onClick: () => setIsEnquiryOpen(true) },
-        { href: "#", label: "Scholarship", onClick: () => setIsScholarshipOpen(true) },
+        { href: "#", label: "Admission Form", onClick: () => setIsAdmissionOpen(true), icon: FileText, iconColor: "text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60" },
+        { href: "#", label: "Book Free Demo", onClick: () => setIsBookDemoOpen(true), icon: PlayCircle, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
+        { href: "#", label: "Student Enquiry", onClick: () => setIsEnquiryOpen(true), icon: HelpCircle, iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
+        { href: "#", label: "Scholarship", onClick: () => setIsScholarshipOpen(true), icon: Award, iconColor: "text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60" },
     ];
 
     const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
@@ -976,12 +1001,17 @@ export function Header() {
                                                 }}
                                                 aria-expanded={openMobileAccordion === 'all-courses'}
                                                 aria-controls="mobile-accordion-all-courses"
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                className={cn(
+                                                    "touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    openMobileAccordion === 'all-courses' 
+                                                        ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
+                                                        : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
+                                                )}
                                             >
                                                 <span className="uppercase">ALL COURSES</span>
                                                 <ChevronDown className={cn(
                                                     "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
-                                                    openMobileAccordion === 'all-courses' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                    openMobileAccordion === 'all-courses' && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                 )} />
                                             </button>
                                             <div
@@ -991,11 +1021,13 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'all-courses' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 pb-1.5 pt-0 px-3.5 sm:px-4">
-                                                    <div suppressHydrationWarning className="flex flex-col gap-0.5">
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1.5 pb-3.5">
+                                                    {/* Outline Card Box with Margins (matching reference screenshot 2) */}
+                                                    <div className="rounded-[16px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_2px_12px_rgba(10,28,80,0.04)] overflow-hidden divide-y divide-slate-100 dark:divide-slate-800/80">
                                                         {courseCategories.map((cat) => {
-                                                            const isSubOpen = openMobileSubAccordion === cat.id;
-                                                            return (
+                                                             const isSubOpen = openMobileSubAccordion === cat.id;
+                                                             const { icon, colorClass } = getCategoryIconDetails(cat.id, cat.name);
+                                                             return (
                                                                 <div key={cat.id} className="flex flex-col">
                                                                     {/* Level 1: Category Row */}
                                                                     <button
@@ -1013,16 +1045,22 @@ export function Header() {
                                                                         }}
                                                                         aria-expanded={isSubOpen}
                                                                         aria-controls={`mobile-sub-${cat.id}`}
-                                                                        className="touch-manipulation group relative flex items-center justify-between px-3 sm:px-3.5 min-h-[40px] rounded-md transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50 dark:hover:bg-slate-900/40"
+                                                                        className={cn(
+                                                                            "touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
+                                                                            isSubOpen && "bg-slate-50/70 dark:bg-slate-800/40 text-[#155EEF] dark:text-blue-400"
+                                                                        )}
                                                                     >
-                                                                        <div className="flex items-center min-w-0 flex-1 pr-2">
-                                                                            <span className="text-[13.5px] sm:text-[14px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                        <div className="flex items-center gap-2.5 min-w-0 flex-1 pr-2">
+                                                                            <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0", colorClass)}>
+                                                                                {icon}
+                                                                            </div>
+                                                                            <span className="text-[14px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                                 {cat.name}
                                                                             </span>
                                                                         </div>
                                                                         <ChevronDown className={cn(
-                                                                            "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
-                                                                            isSubOpen && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                                            "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto",
+                                                                            isSubOpen && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                                         )} />
                                                                     </button>
 
@@ -1034,15 +1072,15 @@ export function Header() {
                                                                         data-open={isSubOpen ? 'true' : 'false'}
                                                                         className="mobile-accordion-grid"
                                                                     >
-                                                                        <div className="overflow-hidden min-h-0">
-                                                                            <div className="border-l border-slate-200/90 dark:border-slate-800 ml-3.5 pl-2.5 py-0.5 my-0.5 space-y-0.5">
+                                                                        <div className="overflow-hidden min-h-0 bg-[#F8FAFC] dark:bg-slate-950/60 border-t border-slate-100 dark:border-slate-800/70">
+                                                                            <div className="px-3 py-1.5 divide-y divide-slate-100/80 dark:divide-slate-800/60">
                                                                                 {cat.subItems.map((sub) => {
                                                                                     const hasLeafs = sub.items && sub.items.length > 0;
                                                                                     const isThirdOpen = openMobileThirdAccordion === sub.id;
 
                                                                                     if (hasLeafs) {
                                                                                         return (
-                                                                                            <div key={sub.id} className="flex flex-col">
+                                                                                            <div key={sub.id} className="flex flex-col py-0.5">
                                                                                                 <button
                                                                                                     type="button"
                                                                                                     onClick={(e) => {
@@ -1057,7 +1095,7 @@ export function Header() {
                                                                                                     }}
                                                                                                     aria-expanded={isThirdOpen}
                                                                                                     aria-controls={`mobile-third-${sub.id}`}
-                                                                                                    className="touch-manipulation w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[36px] px-2.5 py-1 rounded-md transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-blue-50/40 dark:hover:bg-blue-950/20"
+                                                                                                    className="touch-manipulation w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[38px] px-2.5 py-1.5 rounded-lg transition-colors duration-100 flex items-center justify-between cursor-pointer select-none text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-white dark:hover:bg-slate-900"
                                                                                                 >
                                                                                                     <span className="truncate pr-2">{sub.label}</span>
                                                                                                     <ChevronDown className={cn(
@@ -1073,20 +1111,18 @@ export function Header() {
                                                                                                     data-open={isThirdOpen ? 'true' : 'false'}
                                                                                                     className="mobile-accordion-grid"
                                                                                                 >
-                                                                                                    <div className="overflow-hidden min-h-0">
-                                                                                                        <div className="border-l border-slate-200/80 dark:border-slate-800/80 ml-2.5 pl-2 py-0.5 my-0.5 space-y-0.5">
-                                                                                                            {sub.items!.map((item) => (
-                                                                                                                <Link
-                                                                                                                    key={item.id}
-                                                                                                                    href={item.href}
-                                                                                                                    onClick={() => setIsMobileMenuOpen(false)}
-                                                                                                                    className="group flex items-center justify-between min-h-[34px] px-2 py-1 rounded-md text-[12.5px] sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors duration-100 cursor-pointer"
-                                                                                                                >
-                                                                                                                    <span className="truncate pr-2">{item.label}</span>
-                                                                                                                    <ChevronRight className="w-3 h-3 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-auto" />
-                                                                                                                </Link>
-                                                                                                            ))}
-                                                                                                        </div>
+                                                                                                    <div className="overflow-hidden min-h-0 pl-3 pr-1 py-1 space-y-0.5">
+                                                                                                        {sub.items!.map((item) => (
+                                                                                                            <Link
+                                                                                                                key={item.id}
+                                                                                                                href={item.href}
+                                                                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                                                                className="group flex items-center justify-between min-h-[34px] px-2.5 py-1 rounded-md text-[12.5px] sm:text-[13px] font-medium text-slate-700 dark:text-slate-300 hover:text-primary hover:bg-white dark:hover:bg-slate-900 transition-colors duration-100 cursor-pointer"
+                                                                                                            >
+                                                                                                                <span className="truncate pr-2">{item.label}</span>
+                                                                                                                <ChevronRight className="w-3 h-3 text-slate-400 dark:text-slate-500 group-hover:text-primary group-hover:translate-x-0.5 transition-transform duration-120 shrink-0 ml-auto" />
+                                                                                                            </Link>
+                                                                                                        ))}
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </div>
@@ -1098,7 +1134,7 @@ export function Header() {
                                                                                         return (
                                                                                             <div
                                                                                                 key={sub.id}
-                                                                                                className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[36px] px-2.5 py-1 rounded-md text-slate-700 dark:text-slate-300 flex items-center select-none cursor-default"
+                                                                                                className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[38px] px-2.5 py-1.5 text-slate-700 dark:text-slate-300 flex items-center select-none cursor-default"
                                                                                             >
                                                                                                 <span className="truncate">{sub.label}</span>
                                                                                             </div>
@@ -1110,7 +1146,7 @@ export function Header() {
                                                                                             key={sub.id}
                                                                                             href={sub.href}
                                                                                             onClick={() => setIsMobileMenuOpen(false)}
-                                                                                            className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[36px] px-2.5 py-1 rounded-md text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-blue-50/40 dark:hover:bg-blue-950/20 transition-colors duration-100 flex items-center justify-between cursor-pointer"
+                                                                                            className="w-full text-left font-semibold text-[13px] sm:text-[13.5px] min-h-[38px] px-2.5 py-1.5 rounded-lg text-slate-800 dark:text-slate-200 hover:text-primary hover:bg-white dark:hover:bg-slate-900 transition-colors duration-100 flex items-center justify-between cursor-pointer"
                                                                                         >
                                                                                             <span className="truncate pr-2">{sub.label}</span>
                                                                                             <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-auto" />
@@ -1140,12 +1176,17 @@ export function Header() {
                                                 }}
                                                 aria-expanded={openMobileAccordion === 'apply'}
                                                 aria-controls="mobile-accordion-apply"
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                className={cn(
+                                                    "touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    openMobileAccordion === 'apply' 
+                                                        ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
+                                                        : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
+                                                )}
                                             >
                                                 <span className="uppercase">APPLY FOR</span>
                                                 <ChevronDown className={cn(
                                                     "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
-                                                    openMobileAccordion === 'apply' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                    openMobileAccordion === 'apply' && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                 )} />
                                             </button>
                                             <div
@@ -1155,9 +1196,10 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'apply' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
-                                                    <div suppressHydrationWarning className="flex flex-col gap-0">
-                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick }) => (
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1.5 pb-3.5">
+                                                    {/* Outline Card Box with Margins */}
+                                                    <div className="rounded-[16px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_2px_12px_rgba(10,28,80,0.04)] overflow-hidden divide-y divide-slate-100 dark:divide-slate-800/80">
+                                                        {applyForLinks.map(({ href, label, onClick: linkOnClick, icon: IconComponent, iconColor }) => (
                                                             <button
                                                                 key={label}
                                                                 type="button"
@@ -1171,9 +1213,14 @@ export function Header() {
                                                                         router.push(href);
                                                                     }
                                                                 }}
-                                                                className="touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white"
+                                                                className="touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50"
                                                             >
-                                                                <div className="flex items-center min-w-0 flex-1">
+                                                                <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                                                                    {IconComponent && (
+                                                                        <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0", iconColor)}>
+                                                                            <IconComponent className="w-4 h-4" />
+                                                                        </div>
+                                                                    )}
                                                                     <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
                                                                         {label}
                                                                     </span>
@@ -1223,12 +1270,17 @@ export function Header() {
                                                 }}
                                                 aria-expanded={openMobileAccordion === 'more'}
                                                 aria-controls="mobile-accordion-more"
-                                                className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors duration-100 text-left cursor-pointer select-none"
+                                                className={cn(
+                                                    "touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    openMobileAccordion === 'more' 
+                                                        ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
+                                                        : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
+                                                )}
                                             >
                                                 <span className="uppercase">MORE</span>
                                                 <ChevronDown className={cn(
                                                     "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
-                                                    openMobileAccordion === 'more' && "rotate-180 text-[#102A68] dark:text-blue-400"
+                                                    openMobileAccordion === 'more' && "rotate-180 text-[#155EEF] dark:text-blue-400"
                                                 )} />
                                             </button>
                                             <div
@@ -1238,62 +1290,66 @@ export function Header() {
                                                 data-open={openMobileAccordion === 'more' ? 'true' : 'false'}
                                                 className="mobile-accordion-grid"
                                             >
-                                                <div className="overflow-hidden min-h-0 pb-1 pt-0 px-4 sm:px-6">
-                                                    <div suppressHydrationWarning className="flex flex-col gap-0">
-                                                        {moreMenuGroups.map((group, groupIdx) => (
-                                                            <div key={group.title} suppressHydrationWarning className="flex flex-col gap-0">
-                                                                {group.links.map((link) => {
-                                                                    const isDisabled = (link as any).disabled || link.label === "Register Now";
-                                                                    const isAction = Boolean((link as any).onClick);
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1.5 pb-3.5">
+                                                    {/* Outline Card Box with Margins */}
+                                                    <div className="rounded-[16px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_2px_12px_rgba(10,28,80,0.04)] overflow-hidden divide-y divide-slate-100 dark:divide-slate-800/80">
+                                                        {moreMenuGroups.flatMap((group) => group.links).map((link: any) => {
+                                                            const isDisabled = (link as any).disabled || link.label === "Register Now";
+                                                            const isAction = Boolean((link as any).onClick);
+                                                            const IconComponent = link.icon;
+                                                            const iconColor = link.iconColor;
 
-                                                                    const rowContent = (
-                                                                        <>
-                                                                            <div className="flex items-center min-w-0 flex-1">
-                                                                                <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                                    {link.label}
-                                                                                </span>
+                                                            const rowContent = (
+                                                                <>
+                                                                    <div className="flex items-center gap-2.5 min-w-0 flex-1">
+                                                                        {IconComponent && (
+                                                                            <div className={cn("w-7 h-7 rounded-lg flex items-center justify-center shrink-0", iconColor)}>
+                                                                                <IconComponent className="w-4 h-4" />
                                                                             </div>
-                                                                            <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
-                                                                        </>
-                                                                    );
+                                                                        )}
+                                                                        <span className="text-[14px] sm:text-[14.5px] font-semibold leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                            {link.label}
+                                                                        </span>
+                                                                    </div>
+                                                                    <ChevronRight className="w-4 h-4 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                                </>
+                                                            );
 
-                                                                    if (isAction) {
-                                                                        return (
-                                                                            <button
-                                                                                key={link.label}
-                                                                                type="button"
-                                                                                suppressHydrationWarning
-                                                                                onClick={() => {
-                                                                                    setIsMobileMenuOpen(false);
-                                                                                    if ((link as any).onClick) (link as any).onClick();
-                                                                                }}
-                                                                                className={cn(
-                                                                                    "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
-                                                                                    isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                                )}
-                                                                            >
-                                                                                {rowContent}
-                                                                            </button>
-                                                                        );
-                                                                    }
+                                                            if (isAction) {
+                                                                return (
+                                                                    <button
+                                                                        key={link.label}
+                                                                        type="button"
+                                                                        suppressHydrationWarning
+                                                                        onClick={() => {
+                                                                            setIsMobileMenuOpen(false);
+                                                                            if ((link as any).onClick) (link as any).onClick();
+                                                                        }}
+                                                                        className={cn(
+                                                                            "touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
+                                                                            isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                        )}
+                                                                    >
+                                                                        {rowContent}
+                                                                    </button>
+                                                                );
+                                                            }
 
-                                                                    return (
-                                                                        <Link
-                                                                            key={link.label}
-                                                                            href={isDisabled ? '#' : link.href}
-                                                                            suppressHydrationWarning
-                                                                            onClick={() => setIsMobileMenuOpen(false)}
-                                                                            className={cn(
-                                                                                "touch-manipulation group relative flex items-center justify-between px-3.5 sm:px-4 min-h-[44px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white",
-                                                                                isDisabled && "opacity-50 grayscale pointer-events-none"
-                                                                            )}
-                                                                        >
-                                                                            {rowContent}
-                                                                        </Link>
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        ))}
+                                                            return (
+                                                                <Link
+                                                                    key={link.label}
+                                                                    href={isDisabled ? '#' : link.href}
+                                                                    suppressHydrationWarning
+                                                                    onClick={() => setIsMobileMenuOpen(false)}
+                                                                    className={cn(
+                                                                        "touch-manipulation group relative flex items-center justify-between px-3.5 py-3 min-h-[46px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50",
+                                                                        isDisabled && "opacity-50 grayscale pointer-events-none"
+                                                                    )}
+                                                                >
+                                                                    {rowContent}
+                                                                </Link>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
                                             </div>
@@ -1308,7 +1364,10 @@ export function Header() {
                                                 onClick={() => setIsMobileMenuOpen(false)}
                                                 className="touch-manipulation px-4 sm:px-5 min-h-[50px] sm:min-h-[52px] flex items-center justify-between w-full font-semibold text-[15px] tracking-wide text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60 transition-colors cursor-pointer select-none"
                                             >
-                                                <span className="uppercase">STORE</span>
+                                                <div className="flex items-center gap-2.5">
+                                                    <ShoppingCart className="w-4 h-4 text-[#102A68] dark:text-white shrink-0" />
+                                                    <span className="uppercase">STORE</span>
+                                                </div>
                                             </Link>
                                         </div>
 
