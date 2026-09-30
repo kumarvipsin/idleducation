@@ -32,14 +32,14 @@ const SheetOverlay = React.forwardRef<
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 const sheetVariants = cva(
-  "fixed z-[9999] gap-4 bg-background shadow-lg transition ease-out data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=closed]:duration-200 data-[state=open]:duration-250",
+  "fixed z-[9999] gap-4 bg-background shadow-lg transition ease-out focus:outline-none outline-none ring-0 focus:ring-0 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:ease-out data-[state=closed]:ease-in data-[state=closed]:duration-150 data-[state=open]:duration-200",
   {
     variants: {
       side: {
         top: "inset-x-0 top-0 border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top",
         bottom:
           "inset-x-0 bottom-0 border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-        left: "inset-y-0 left-0 w-[72vw] max-w-[420px] h-full border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
+        left: "inset-y-0 left-0 w-3/4 max-w-sm h-full border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left",
         right:
           "inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm",
       },
@@ -57,29 +57,18 @@ interface SheetContentProps
 const SheetContent = React.forwardRef<
   React.ElementRef<typeof SheetPrimitive.Content>,
   SheetContentProps
->(({ side = "right", className, children, ...props }, ref) => {
-  // Log drawer dimensions for debugging
-  React.useEffect(() => {
-    // ref may be a function or object; handle object case
-    const element = typeof ref === "function" ? null : (ref as React.RefObject<HTMLDivElement>)?.current;
-    if (element) {
-      const rect = element.getBoundingClientRect();
-      const style = getComputedStyle(element);
-      console.log('[DEBUG] Drawer panel rect:', rect);
-      console.log('[DEBUG] Drawer computed styles - width:', style.width, 'max-width:', style.maxWidth, 'left:', style.left, 'right:', style.right, 'position:', style.position, 'display:', style.display, 'overflow:', style.overflow);
-    }
-  }, []);
+>(({ side = "right", className, children, style, ...props }, ref) => {
   return (
     <SheetPortal>
       <SheetOverlay />
       <SheetPrimitive.Content
         ref={ref}
-        className={cn(sheetVariants({ side }), className, "!w-[72vw]")}
-        style={{ width: "72vw", maxWidth: "420px" }}
+        className={cn(sheetVariants({ side }), className)}
+        style={style}
         {...props}
       >
         {children}
-        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+        <SheetPrimitive.Close className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 outline-none focus:outline-none focus:ring-0 disabled:pointer-events-none data-[state=open]:bg-secondary">
           <X className="h-4 w-4" />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>

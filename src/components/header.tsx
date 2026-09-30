@@ -921,7 +921,11 @@ export function Header() {
 
                         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                             <SheetTrigger asChild>
-                                <Button variant="ghost" size="icon" className="md:hidden text-foreground h-9 w-9 -mr-1 ml-2">
+                                <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="md:hidden text-foreground h-9 w-9 -mr-1 ml-2 outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none shadow-none"
+                                >
                                     <Menu className="h-5 w-5" />
                                     <span className="sr-only">Toggle menu</span>
                                 </Button>
@@ -929,13 +933,13 @@ export function Header() {
                             <SheetContent 
                                 side="left" 
                                 data-mobile-drawer="true" 
-                                className="fixed inset-y-0 left-0 right-auto flex-none z-[9999] p-0 gap-0 flex flex-col h-[100dvh] max-h-[100dvh] bg-white dark:bg-slate-950 border-r border-slate-200/80 dark:border-slate-800 shadow-[4px_0_24px_0_rgba(10,28,80,0.12)] overflow-hidden [&>button.absolute]:hidden" 
-                                style={{ width: '82vw', maxWidth: '340px' }}
+                                className="fixed inset-0 z-[9999] p-0 gap-0 flex flex-col w-full !w-full max-w-full !max-w-full h-full h-[100dvh] max-h-[100dvh] bg-white dark:bg-slate-950 border-none outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 shadow-none overflow-hidden [&>button.absolute]:hidden data-[state=open]:duration-200 data-[state=closed]:duration-150" 
+                                style={{ width: '100%', maxWidth: '100%' }}
                             >
                                 {/* Refined Sidebar Header */}
-                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[68px] min-h-[68px] max-h-[68px] space-y-0 shrink-0 relative z-10">
+                                <SheetHeader className="px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-950 text-left flex flex-row items-center justify-between h-[68px] min-h-[68px] max-h-[68px] space-y-0 shrink-0 relative z-10 outline-none focus:outline-none">
                                     <SheetTitle asChild>
-                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center h-full">
+                                        <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center h-full outline-none focus:outline-none">
                                             <Image 
                                               src="/idllogo.png" 
                                               alt="IDL Education Logo" 
@@ -949,7 +953,7 @@ export function Header() {
                                     <button 
                                         type="button" 
                                         onClick={() => setIsMobileMenuOpen(false)}
-                                        className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer"
+                                        className="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 active:scale-95 transition-all shrink-0 cursor-pointer outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:ring-0 border-none"
                                         aria-label="Close menu"
                                     >
                                         <X className="w-5 h-5 stroke-[2]" />
