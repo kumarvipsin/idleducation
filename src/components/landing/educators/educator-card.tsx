@@ -157,24 +157,24 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
         </div>
 
         {/* ── CARD BODY ── */}
-        <div className="relative flex flex-col flex-1 pt-3 pb-0.5 text-left justify-between">
+        <div className="relative flex flex-col flex-1 pt-3 pb-0.5 text-center justify-between">
 
-          {/* Teacher Info (Name & Pill) */}
-          <div className="relative z-10 pr-10 min-w-0">
-            {/* Teacher Name */}
+          {/* Teacher Info: Centered Name & Centered Exp / Subject */}
+          <div className="relative z-10 w-full text-center">
+            {/* Teacher Name — Centered */}
             <h3 
               onClick={() => setIsProfileOpen(true)}
-              className="font-extrabold text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate cursor-pointer hover:text-[#155EEF] transition-colors"
+              className="font-extrabold text-[17px] sm:text-[18.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug truncate cursor-pointer hover:text-[#155EEF] transition-colors text-center w-full"
               title={teacher.name}
             >
               {teacher.name}
             </h3>
 
-            {/* Metadata Pill Badge (Experience • Subject) */}
-            <div className="mt-2 flex items-center">
-              <div className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full border border-[#BFDBFE]/80 bg-[#F0F6FE]/70 dark:bg-slate-800/80 dark:border-blue-900/60 shadow-sm max-w-full">
+            {/* Metadata Line (Experience • Subject) — Centered, No Outline */}
+            <div className="mt-1.5 sm:mt-2 flex items-center justify-center">
+              <div className="inline-flex items-center justify-center gap-1.5 px-1 py-0.5 max-w-full text-center">
                 {hasExp && (
-                  <span className="inline-flex items-center gap-1 text-[11.5px] sm:text-[12px] font-bold text-[#155EEF] shrink-0 leading-none">
+                  <span className="inline-flex items-center gap-1 text-[12px] sm:text-[12.5px] font-bold text-[#155EEF] shrink-0 leading-none">
                     <Clock className="w-3 h-3 stroke-[2.4]" />
                     {expDisplay}
                   </span>
@@ -183,7 +183,7 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
                   <span className="w-1.5 h-1.5 rounded-full bg-[#93C5FD] shrink-0" aria-hidden="true" />
                 )}
                 {cleanSubject && (
-                  <span className="text-[11.5px] sm:text-[12px] font-bold text-[#334155] dark:text-slate-200 truncate leading-none">
+                  <span className="text-[12px] sm:text-[12.5px] font-bold text-[#4A5E78] dark:text-slate-300 truncate leading-none">
                     {cleanSubject}
                   </span>
                 )}
@@ -191,22 +191,8 @@ export function EducatorCard({ teacher }: EducatorCardProps) {
             </div>
           </div>
 
-          {/* ── CARD FOOTER: View Profile CTA & 3D Subject Icon ── */}
+          {/* ── CARD FOOTER: View Profile CTA ── */}
           <div className="relative mt-3 pt-2.5 sm:pt-3 border-t border-[#E8F0FA] dark:border-slate-800">
-            {/* 3D Subject Icon: 50% smaller, base touches separator line, right side touches 100% */}
-            <div className="absolute bottom-full -right-3 sm:-right-3.5 z-10 flex items-end justify-end pointer-events-none">
-              <div className="relative flex items-end justify-end w-10 h-10 sm:w-11 sm:h-11 transition-transform duration-300 ease-out group-hover/card:scale-105">
-                <Image
-                  src={subjectIconPath}
-                  alt={cleanSubject || "Subject"}
-                  width={42}
-                  height={38}
-                  className="w-auto h-auto max-w-[38px] sm:max-w-[42px] max-h-[36px] sm:max-h-[38px] object-contain drop-shadow-sm select-none"
-                  priority={false}
-                />
-              </div>
-            </div>
-
             {/* View Profile Action */}
             <button
               type="button"
