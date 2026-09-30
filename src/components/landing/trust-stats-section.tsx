@@ -109,18 +109,18 @@ export function TrustStatsSection() {
           2. MOBILE VIEW (< sm): 2x2 Rounded Dark Navy Card
           Slim, ultra-compact height
           ══════════════════════════════════════════════════ */}
-      <div className="block sm:hidden w-full px-3 py-1.5">
-        <div className="w-full max-w-[420px] mx-auto bg-[#041A4D] rounded-[16px] border border-white/[0.12] shadow-lg overflow-hidden p-0.5">
+      <div className="block sm:hidden w-full px-4 py-2 sm:py-3">
+        <div className="w-full max-w-[420px] mx-auto bg-[#041A4D] rounded-[18px] border border-white/[0.12] shadow-[0_4px_20px_rgba(0,0,0,0.25)] overflow-hidden">
           
           {/* Top Row: 2021 & 5+ */}
-          <div className="grid grid-cols-2 divide-x divide-white/[0.12]">
+          <div className="grid grid-cols-2 divide-x divide-white/[0.10]">
             {/* Cell 1: 2021 */}
-            <div className="flex flex-col items-center justify-center text-center py-1.5 px-2">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
               <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none">
                 {stats[0].value}
               </span>
-              <div className="flex items-center justify-center my-0.5">
-                <svg width="32" height="5" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
                   <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
                 </svg>
@@ -131,12 +131,12 @@ export function TrustStatsSection() {
             </div>
 
             {/* Cell 2: 5+ */}
-            <div className="flex flex-col items-center justify-center text-center py-1.5 px-2">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
               <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none">
                 {stats[1].value}
               </span>
-              <div className="flex items-center justify-center my-0.5">
-                <svg width="32" height="5" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
                   <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
                 </svg>
@@ -148,17 +148,17 @@ export function TrustStatsSection() {
           </div>
 
           {/* Horizontal cross divider between Row 1 and Row 2 */}
-          <div className="w-full h-px bg-white/[0.12]" />
+          <div className="w-full h-px bg-white/[0.10]" />
 
           {/* Bottom Row: 10,000+ & Academic Growth */}
-          <div className="grid grid-cols-2 divide-x divide-white/[0.12]">
+          <div className="grid grid-cols-2 divide-x divide-white/[0.10]">
             {/* Cell 3: 10,000+ */}
-            <div className="flex flex-col items-center justify-center text-center py-1.5 px-2">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
               <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none">
                 {stats[2].value}
               </span>
-              <div className="flex items-center justify-center my-0.5">
-                <svg width="32" height="5" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
                   <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
                 </svg>
@@ -169,12 +169,12 @@ export function TrustStatsSection() {
             </div>
 
             {/* Cell 4: Academic Growth */}
-            <div className="flex flex-col items-center justify-center text-center py-1.5 px-2">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
               <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none whitespace-nowrap">
                 {stats[3].value}
               </span>
-              <div className="flex items-center justify-center my-0.5">
-                <svg width="32" height="5" viewBox="0 0 34 6" fill="none" aria-hidden="true">
+              <div className="flex items-center justify-center my-1">
+                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
                   <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
                   <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
                 </svg>

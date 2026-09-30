@@ -89,7 +89,7 @@ export function ScholarshipSection() {
     <section
       id="why-idl-education"
       aria-label="Why Choose IDL"
-      className="relative w-full pt-8 sm:pt-10 md:pt-14 pb-14 sm:pb-18 md:pb-24 bg-white dark:bg-slate-950 overflow-hidden"
+      className="relative w-full pt-7 sm:pt-10 md:pt-14 pb-8 sm:pb-18 md:pb-24 bg-white dark:bg-slate-950 overflow-hidden"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* ══════════════════════════════════════════════════
@@ -125,9 +125,9 @@ export function ScholarshipSection() {
             “● Why think IDL ?”
             “Learn Better. Grow Stronger.” with smile underline
             ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col items-center justify-center text-center mb-8 sm:mb-12 md:mb-14">
+        <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-12 md:mb-14">
           {/* Eyebrow: "● Why think IDL ?" */}
-          <div className="inline-flex items-center justify-center gap-2 sm:gap-2.5 mb-2.5 sm:mb-3 select-none">
+          <div className="inline-flex items-center justify-center gap-2 sm:gap-2.5 mb-2 sm:mb-3 select-none">
             <span className="w-[8.5px] h-[8.5px] sm:w-[9.5px] sm:h-[9.5px] rounded-full bg-[#1E65E6] sm:bg-[#155EEF] dark:bg-blue-400 shrink-0" />
             <span className="text-[14px] sm:text-[16px] font-[800] sm:font-[900] tracking-tight">
               <span className="text-[#062B67] dark:text-blue-200">Why think </span>
@@ -244,7 +244,7 @@ export function ScholarshipSection() {
           {pillars.map((item) => (
             <div 
               key={item.id}
-              className="w-full bg-white dark:bg-slate-900 rounded-[16px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_-2px_rgba(6,43,103,0.03)] px-4 py-3.5 flex items-center gap-3.5 min-[380px]:gap-4 active:scale-[0.99] transition-all duration-200"
+              className="w-full bg-white dark:bg-slate-900 rounded-[18px] border border-[#DCE8F6] dark:border-slate-800 shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] px-4 py-3.5 sm:py-4 flex items-center gap-3.5 min-[380px]:gap-4 min-h-[104px] sm:min-h-[108px] active:scale-[0.99] transition-all duration-200"
             >
               {/* Left Icon Disc with Number Badge at bottom-right */}
               <div className="relative shrink-0">
@@ -290,9 +290,9 @@ export function ScholarshipSection() {
 
                 {/* Description with comfortable line-height matching Study Resources, keeping colors intact */}
                 <p 
-                  className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4A5872] dark:text-slate-300 font-bold leading-[1.52] text-pretty"
+                  className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.56] text-pretty"
                   style={{ 
-                    fontWeight: 700,
+                    fontWeight: 700, 
                   }}
                 >
                   {item.descriptionMobile}
