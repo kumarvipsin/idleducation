@@ -14,7 +14,7 @@ export function GetAppSection() {
       <div className="container mx-auto px-4 sm:px-5 md:px-6 max-w-7xl">
         
         {/* Main Section Card: Clean, Calm & Minimal Showcase */}
-        <div className="relative rounded-[24px] sm:rounded-[30px] lg:rounded-[32px] bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-800/60 border border-[#E2ECF8] dark:border-slate-800/80 px-5 pt-6 pb-7 sm:px-8 sm:pt-8 sm:pb-9 lg:px-10 lg:py-7 xl:px-12 xl:py-8 overflow-hidden shadow-[0_4px_30px_-6px_rgba(6,43,103,0.04)]">
+        <div className="relative rounded-[20px] min-[380px]:rounded-[22px] sm:rounded-[30px] lg:rounded-[32px] bg-gradient-to-br from-[#FAFCFF] via-[#F6F9FE] to-[#EEF5FC] dark:from-slate-900/80 dark:via-slate-900/60 dark:to-slate-800/60 border border-[#E2ECF8] dark:border-slate-800/80 px-4 pt-4 pb-2 min-[380px]:px-5 min-[380px]:pt-4.5 min-[380px]:pb-2.5 sm:px-8 sm:pt-8 sm:pb-9 lg:px-10 lg:py-7 xl:px-12 xl:py-8 overflow-hidden shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] sm:shadow-[0_4px_30px_-6px_rgba(6,43,103,0.04)]">
           
           {/* ============================================================== */}
           {/* BACKGROUND DECORATIVE ELEMENTS (Clean & Subtle, Dotted Removed)*/}
@@ -130,10 +130,10 @@ export function GetAppSection() {
           {/* ============================================================== */}
           {/* MOBILE DESIGN (Order-Preserved, Compact, Mobile-First)          */}
           {/* ============================================================== */}
-          <div className="flex flex-col lg:hidden space-y-2.5 relative z-10">
+          <div className="flex flex-col lg:hidden relative z-10">
             
             {/* 1. Eyebrow Badge */}
-            <div className="flex justify-start">
+            <div className="flex justify-start mb-2 min-[380px]:mb-2.5">
               <div className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#EBF3FF] dark:bg-blue-950/60 border border-[#D0E2FF] dark:border-blue-800/60 text-[#0A5CFF] dark:text-blue-300 text-[10px] font-bold tracking-wider uppercase select-none">
                 <Smartphone className="w-3 h-3 text-[#0A5CFF] dark:text-blue-400" />
                 <span>IDL LEARNING APP</span>
@@ -141,23 +141,23 @@ export function GetAppSection() {
             </div>
 
             {/* 2. Main Headline */}
-            <h2 className="text-[22px] sm:text-[26px] font-extrabold text-[#062B67] dark:text-white leading-[1.18] tracking-tight text-left">
+            <h2 className="text-[21px] min-[380px]:text-[23px] sm:text-[26px] font-extrabold text-[#062B67] dark:text-white leading-[1.18] tracking-tight text-left mb-1">
               Best Exam Prep App{' '}
               <span className="text-[#0A5CFF] dark:text-blue-400">for</span>
             </h2>
 
             {/* 3. Subtitle */}
-            <p className="text-[13px] sm:text-[14px] font-bold text-slate-700 dark:text-slate-200 tracking-wide text-left">
+            <p className="text-[12.5px] min-[380px]:text-[13.5px] sm:text-[14px] font-bold text-slate-700 dark:text-slate-200 tracking-wide text-left mb-2.5 min-[380px]:mb-3">
               JEE | NEET | Foundation | Olympiad
             </p>
 
             {/* 4. Download Area with Badges */}
-            <div className="w-full pt-0.5 pb-0.5">
-              <p className="text-[10.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-left mb-2">
+            <div className="w-full">
+              <p className="text-[10px] min-[380px]:text-[10.5px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 text-left mb-1.5 min-[380px]:mb-2">
                 DOWNLOAD THE IDL LEARNING APP
               </p>
               
-              <div className="flex items-center justify-start gap-2.5">
+              <div className="flex items-center justify-start gap-2 min-[380px]:gap-2.5">
                 {/* Google Play */}
                 <a
                   href="https://play.google.com"
@@ -171,7 +171,7 @@ export function GetAppSection() {
                     alt="Google Play"
                     width={120}
                     height={36}
-                    className="h-[34px] sm:h-[36px] w-auto object-contain"
+                    className="h-[32px] min-[380px]:h-[34px] sm:h-[36px] w-auto object-contain"
                   />
                 </a>
                 
@@ -188,31 +188,31 @@ export function GetAppSection() {
                     alt="App Store"
                     width={120}
                     height={36}
-                    className="h-[34px] sm:h-[36px] w-auto object-contain"
+                    className="h-[32px] min-[380px]:h-[34px] sm:h-[36px] w-auto object-contain"
                   />
                 </a>
               </div>
             </div>
 
-            {/* 5. Hero Visual with Pedestal — reduced ~12% */}
-            <div className="w-full flex items-center justify-center pt-1 pb-0">
-              <div className="relative w-full aspect-[3/2] max-w-[295px] sm:max-w-[350px] flex items-center justify-center">
+            {/* 5. Hero Visual with Pedestal — Optimized scale & tighter vertical containment */}
+            <div className="w-full flex items-center justify-center mt-2.5 min-[380px]:mt-3 pb-0">
+              <div className="relative w-full aspect-[3/2] max-w-[310px] min-[380px]:max-w-[335px] sm:max-w-[360px] flex items-center justify-center">
                 
                 {/* 3D Pedestal on Mobile */}
-                <div className="absolute -bottom-1 left-[49%] -translate-x-1/2 w-[190px] sm:w-[220px] h-[28px] sm:h-[32px] pointer-events-none z-0">
+                <div className="absolute -bottom-1 left-[49%] -translate-x-1/2 w-[205px] min-[380px]:w-[225px] sm:w-[240px] h-[28px] sm:h-[32px] pointer-events-none z-0">
                   <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-[90%] h-[10px] rounded-[50%] bg-blue-900/12 dark:bg-black/40 blur-[5px]" />
                   <div className="absolute inset-x-0 top-[9px] h-[12px] bg-gradient-to-b from-[#E2EEFC] to-[#D0E4FB] dark:from-slate-800 dark:to-slate-900 rounded-b-[50%] border-x border-b border-[#C8DFFA] dark:border-slate-700" />
                   <div className="absolute inset-x-0 top-0 h-[18px] rounded-[50%] bg-gradient-to-b from-[#FFFFFF] via-[#F4F9FF] to-[#E5F1FD] dark:from-slate-800 dark:to-slate-900 border border-[#C8DFFA] dark:border-slate-700 shadow-[inset_0_1px_2px_rgba(255,255,255,0.9),0_2px_6px_rgba(10,92,255,0.06)]" />
                 </div>
 
                 {/* Main Hero Visual (mobile.png) */}
-                <div className="relative w-full h-full z-10 scale-[0.88] origin-bottom">
+                <div className="relative w-full h-full z-10 scale-[0.95] origin-bottom">
                   <Image
                     src="/mobile.png"
                     alt="IDL Learning App on smartphone"
                     fill
                     className="object-contain drop-shadow-[0_6px_14px_rgba(6,43,103,0.07)]"
-                    sizes="(max-width: 640px) 295px, 350px"
+                    sizes="(max-width: 640px) 335px, 360px"
                     priority
                   />
                 </div>

@@ -47,7 +47,7 @@ export function TrustStatsSection() {
     <section 
       id="trust-stats"
       aria-label="IDL Education Milestones"
-      className="w-full bg-[#041A4D] dark:bg-[#020B1E] border-y border-white/[0.08] relative z-20"
+      className="w-full bg-white dark:bg-slate-950 sm:bg-[#041A4D] sm:dark:bg-[#020B1E] border-t-0 sm:border-y sm:border-white/[0.08] relative z-20"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* ══════════════════════════════════════════════════
@@ -107,79 +107,79 @@ export function TrustStatsSection() {
 
       {/* ══════════════════════════════════════════════════
           2. MOBILE VIEW (< sm): 2x2 Rounded Dark Navy Card
-          Slim, ultra-compact height
+          Premium compact information block with subtle dividers
           ══════════════════════════════════════════════════ */}
-      <div className="block sm:hidden w-full px-4 py-2 sm:py-3">
-        <div className="w-full max-w-[420px] mx-auto bg-[#041A4D] rounded-[18px] border border-white/[0.12] shadow-[0_4px_20px_rgba(0,0,0,0.25)] overflow-hidden">
+      <div className="block sm:hidden w-full px-3.5 min-[390px]:px-4 pt-1 pb-5 min-[390px]:pb-6">
+        <div className="w-full max-w-[480px] mx-auto bg-[#041A4D] dark:bg-[#020B1E] rounded-[16px] border border-white/[0.10] shadow-[0_4px_16px_rgba(4,26,77,0.18)] overflow-hidden">
           
           {/* Top Row: 2021 & 5+ */}
-          <div className="grid grid-cols-2 divide-x divide-white/[0.10]">
+          <div className="grid grid-cols-2 divide-x divide-white/[0.08]">
             {/* Cell 1: 2021 */}
-            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
-              <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[390px]:py-3 px-2">
+              <span className="text-[18px] min-[360px]:text-[19px] min-[390px]:text-[20px] font-[800] text-white tracking-tight leading-none">
                 {stats[0].value}
               </span>
-              <div className="flex items-center justify-center my-1">
-                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+              <div className="flex items-center justify-center my-1 min-[390px]:my-1.5">
+                <svg width="28" height="4" viewBox="0 0 28 4" fill="none" aria-hidden="true">
+                  <line x1="0" y1="2" x2="28" y2="2" stroke="#1D64EC" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
+                  <circle cx="14" cy="2" r="1.5" fill="#38BDF8" />
                 </svg>
               </div>
-              <span className="text-[10.5px] min-[360px]:text-[11px] font-medium text-[#BAC7D5] leading-tight">
+              <span className="text-[10px] min-[360px]:text-[10.5px] font-medium text-[#BAC7D5] leading-tight">
                 {stats[0].label}
               </span>
             </div>
 
             {/* Cell 2: 5+ */}
-            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
-              <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[390px]:py-3 px-2">
+              <span className="text-[18px] min-[360px]:text-[19px] min-[390px]:text-[20px] font-[800] text-white tracking-tight leading-none">
                 {stats[1].value}
               </span>
-              <div className="flex items-center justify-center my-1">
-                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+              <div className="flex items-center justify-center my-1 min-[390px]:my-1.5">
+                <svg width="28" height="4" viewBox="0 0 28 4" fill="none" aria-hidden="true">
+                  <line x1="0" y1="2" x2="28" y2="2" stroke="#1D64EC" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
+                  <circle cx="14" cy="2" r="1.5" fill="#38BDF8" />
                 </svg>
               </div>
-              <span className="text-[10.5px] min-[360px]:text-[11px] font-medium text-[#BAC7D5] leading-tight">
+              <span className="text-[10px] min-[360px]:text-[10.5px] font-medium text-[#BAC7D5] leading-tight">
                 {stats[1].label}
               </span>
             </div>
           </div>
 
           {/* Horizontal cross divider between Row 1 and Row 2 */}
-          <div className="w-full h-px bg-white/[0.10]" />
+          <div className="w-full h-px bg-white/[0.08]" />
 
           {/* Bottom Row: 10,000+ & Academic Growth */}
-          <div className="grid grid-cols-2 divide-x divide-white/[0.10]">
+          <div className="grid grid-cols-2 divide-x divide-white/[0.08]">
             {/* Cell 3: 10,000+ */}
-            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
-              <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[390px]:py-3 px-2">
+              <span className="text-[18px] min-[360px]:text-[19px] min-[390px]:text-[20px] font-[800] text-white tracking-tight leading-none">
                 {stats[2].value}
               </span>
-              <div className="flex items-center justify-center my-1">
-                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+              <div className="flex items-center justify-center my-1 min-[390px]:my-1.5">
+                <svg width="28" height="4" viewBox="0 0 28 4" fill="none" aria-hidden="true">
+                  <line x1="0" y1="2" x2="28" y2="2" stroke="#1D64EC" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
+                  <circle cx="14" cy="2" r="1.5" fill="#38BDF8" />
                 </svg>
               </div>
-              <span className="text-[10.5px] min-[360px]:text-[11px] font-medium text-[#BAC7D5] leading-tight">
+              <span className="text-[10px] min-[360px]:text-[10.5px] font-medium text-[#BAC7D5] leading-tight">
                 {stats[2].label}
               </span>
             </div>
 
             {/* Cell 4: Academic Growth */}
-            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[360px]:py-3 px-2">
-              <span className="text-[18.5px] min-[360px]:text-[19.5px] font-[800] text-white tracking-tight leading-none whitespace-nowrap">
+            <div className="flex flex-col items-center justify-center text-center py-2.5 min-[390px]:py-3 px-2">
+              <span className="text-[15px] min-[360px]:text-[16px] min-[390px]:text-[16.5px] font-[800] text-white tracking-tight leading-none whitespace-nowrap">
                 {stats[3].value}
               </span>
-              <div className="flex items-center justify-center my-1">
-                <svg width="34" height="6" viewBox="0 0 34 6" fill="none" aria-hidden="true">
-                  <line x1="0" y1="3" x2="34" y2="3" stroke="#1D64EC" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="17" cy="3" r="2" fill="#38BDF8" stroke="#041A4D" strokeWidth="1" />
+              <div className="flex items-center justify-center my-1 min-[390px]:my-1.5">
+                <svg width="28" height="4" viewBox="0 0 28 4" fill="none" aria-hidden="true">
+                  <line x1="0" y1="2" x2="28" y2="2" stroke="#1D64EC" strokeWidth="1.2" strokeLinecap="round" opacity="0.85" />
+                  <circle cx="14" cy="2" r="1.5" fill="#38BDF8" />
                 </svg>
               </div>
-              <span className="text-[10.5px] min-[360px]:text-[11px] font-medium text-[#BAC7D5] leading-tight">
+              <span className="text-[10px] min-[360px]:text-[10.5px] font-medium text-[#BAC7D5] leading-tight">
                 {stats[3].label}
               </span>
             </div>

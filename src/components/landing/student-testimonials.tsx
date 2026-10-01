@@ -133,11 +133,19 @@ const StudentAvatar = ({
   className?: string; 
 }) => {
   const [imgSrc, setImgSrc] = useState<string>(() => {
-    if (!src || src.startsWith("http") && src.includes("storage.googleapis.com")) {
+    if (!src || (src.startsWith("http") && src.includes("storage.googleapis.com"))) {
       return fallbackSrc;
     }
     return src;
   });
+
+  useEffect(() => {
+    if (!src || (src.startsWith("http") && src.includes("storage.googleapis.com"))) {
+      setImgSrc(fallbackSrc);
+    } else {
+      setImgSrc(src);
+    }
+  }, [src, fallbackSrc]);
 
   return (
     <Image
@@ -151,6 +159,22 @@ const StudentAvatar = ({
     />
   );
 };
+
+function getFeaturedAvatar(avatarUrl?: string, isGirl?: boolean): string {
+  if (avatarUrl) {
+    const lower = avatarUrl.toLowerCase();
+    if (lower.includes("girl") || lower.includes("female") || lower.includes("ishita") || lower.includes("mehak") || lower.includes("kavya")) {
+      return "/images/results/idl-student-girl.jpg";
+    }
+    if (lower.includes("boy") || lower.includes("male") || lower.includes("aditya") || lower.includes("aman") || lower.includes("raghav")) {
+      return "/images/results/idl-student-boy.jpg";
+    }
+    if (!lower.includes("results/")) {
+      return avatarUrl;
+    }
+  }
+  return isGirl ? "/images/results/idl-student-girl.jpg" : "/images/results/idl-student-boy.jpg";
+}
 
 /* ═══════════════════════════════════════════════════════════════════════
    FEATURED STORY CARD (DESKTOP LEFT)
@@ -170,51 +194,28 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const fallback = isGirl
     ? "/images/results/idl-student-girl.jpg"
     : "/images/results/idl-student-boy.jpg";
+  const avatarSrc = getFeaturedAvatar(testimonial.avatarUrl, isGirl);
 
   return (
     <>
-      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[22px] overflow-hidden shadow-[0_2px_14px_rgba(10,30,66,0.04)] p-3 sm:p-3.5">
-        
-        {/* Outline Gradient: Left side solid, middle to right lighter */}
-        <div 
-          aria-hidden="true"
-          className="absolute inset-0 rounded-[22px] pointer-events-none z-20 dark:hidden"
-          style={{
-            padding: '1px',
-            background: 'linear-gradient(to right, rgba(226, 232, 240, 0.85) 0%, rgba(226, 232, 240, 0.85) 45%, rgba(226, 232, 240, 0.3) 72%, rgba(226, 232, 240, 0.1) 88%, transparent 95%, transparent 100%)',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMaskComposite: 'xor',
-            maskComposite: 'exclude',
-          }}
-        />
-        <div 
-          aria-hidden="true"
-          className="absolute inset-0 rounded-[22px] pointer-events-none z-20 hidden dark:block"
-          style={{
-            padding: '1px',
-            background: 'linear-gradient(to right, rgba(51, 65, 85, 0.85) 0%, rgba(51, 65, 85, 0.85) 45%, rgba(51, 65, 85, 0.3) 72%, rgba(51, 65, 85, 0.1) 88%, transparent 95%, transparent 100%)',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMaskComposite: 'xor',
-            maskComposite: 'exclude',
-          }}
-        />
+      <div className="group/featured relative flex flex-row h-full w-full bg-white dark:bg-slate-900 rounded-[18px] lg:rounded-[20px] overflow-hidden border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_10px_rgba(6,43,103,0.03)] p-2.5 sm:p-3 transition-all duration-300">
 
-        {/* Left Side: Student Portrait Image (with rounded-[16px] corners and outer margin) */}
+        {/* Left Side: Student Portrait Image (Matching Academic Results style) */}
         <div 
-          className="relative w-[44%] xl:w-[45%] h-full shrink-0 overflow-hidden rounded-[16px] bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+          className="relative w-[44%] xl:w-[45%] h-full shrink-0 overflow-hidden rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 cursor-pointer"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
-            src={testimonial.avatarUrl}
+            src={avatarSrc}
             fallbackSrc={fallback}
             alt={testimonial.name}
-            className="object-cover object-[center_12%]"
+            className="object-cover object-top"
           />
 
           {/* Subtle bottom gradient for play button readability */}
           <div
-            className="absolute inset-x-0 bottom-0 h-16 z-20 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(0,0,0,0.22) 0%, transparent 100%)" }}
+            className="absolute inset-x-0 bottom-0 h-14 z-20 pointer-events-none"
+            style={{ background: "linear-gradient(to top, rgba(6,43,103,0.25) 0%, transparent 100%)" }}
           />
 
           {/* Play Button */}
@@ -225,17 +226,17 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               setIsVideoOpen(true);
             }}
             aria-label={`Watch story of ${testimonial.name}`}
-            className="absolute bottom-2.5 right-2.5 z-30 w-[34px] h-[34px] sm:w-[36px] sm:h-[36px] rounded-full bg-black/35 backdrop-blur-xs flex items-center justify-center hover:bg-black/50 active:scale-95 transition-all duration-200 cursor-pointer"
+            className="absolute bottom-2.5 right-2.5 z-30 w-[32px] h-[32px] sm:w-[34px] sm:h-[34px] rounded-full bg-black/40 hover:bg-black/55 active:scale-95 backdrop-blur-xs border border-white/30 flex items-center justify-center transition-all duration-200 cursor-pointer text-white"
           >
-            <Play className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-white text-white ml-[1.5px]" />
+            <Play className="w-3.5 h-3.5 fill-white text-white ml-[1px]" />
           </button>
         </div>
 
         {/* Right Side: Quote & Student Identity */}
-        <div className="flex flex-col justify-center flex-1 py-1.5 px-4 lg:py-2 lg:px-5 xl:px-6 relative min-w-0 bg-white dark:bg-slate-900">
-          {/* Large Quotation Mark Graphic */}
+        <div className="flex flex-col justify-center flex-1 py-1 px-4 lg:py-1.5 lg:px-5 xl:px-6 relative min-w-0 bg-white dark:bg-slate-900">
+          {/* Subtle Quotation Mark */}
           <svg
-            className="w-7 h-7 text-[#BFD7F5] dark:text-blue-900/60 mb-1 select-none pointer-events-none shrink-0"
+            className="w-5 h-5 text-[#BFDBFE] dark:text-blue-900/60 mb-1 select-none pointer-events-none shrink-0"
             viewBox="0 0 24 24"
             fill="currentColor"
             aria-hidden="true"
@@ -243,24 +244,23 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
             <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
           </svg>
 
-          {/* Testimonial Quote — Matches NCERT description text size, boldness and colour */}
+          {/* Testimonial Quote */}
           <div className="relative z-10 min-w-0 max-w-[360px] xl:max-w-[390px]">
             <blockquote className="mb-2">
               <p 
-                className="text-[14px] lg:text-[14.2px] text-[#4B5563] dark:text-gray-300 font-bold leading-[1.48] tracking-normal" 
-                style={{ fontWeight: 700, WebkitTextStroke: '0.22px currentColor' }}
+                className="text-[13.5px] lg:text-[13.8px] text-[#4A5872] dark:text-slate-300 font-[500] leading-[1.48] tracking-normal" 
               >
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Student Name & Class — Matches Result Section Top Performers */}
-            <div className="flex items-center gap-1.5 flex-wrap min-w-0">
-              <h3 className="font-[950] text-[16px] sm:text-[16.5px] lg:text-[17px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug" style={{ fontWeight: 950 }}>
+            {/* Student Name & Class */}
+            <div className="flex items-baseline gap-1.5 flex-wrap min-w-0">
+              <h3 className="font-[800] text-[16px] lg:text-[16.5px] text-[#062B67] dark:text-white tracking-tight leading-snug">
                 {testimonial.name}
               </h3>
               <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span className="text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400" style={{ fontWeight: 600 }}>
+              <span className="text-[12.5px] lg:text-[13px] font-[600] text-slate-500 dark:text-slate-400">
                 {classLabel}
               </span>
             </div>
@@ -320,7 +320,7 @@ const CompactStoryCard = ({
   return (
     <>
       <div 
-        className="group/compact h-[88px] lg:h-[86px] xl:h-[88px] w-full flex flex-row rounded-[14px] sm:rounded-[16px] overflow-hidden transition-all duration-200 cursor-pointer select-none bg-white dark:bg-slate-900 border border-[#DCE8F6] dark:border-slate-800 shadow-[0_1px_6px_rgba(10,30,66,0.03)] hover:border-[#BFDBFE] dark:hover:border-slate-700 hover:bg-slate-50/50 dark:hover:bg-slate-800/40"
+        className="group/compact h-[76px] min-[390px]:h-[80px] lg:h-[84px] xl:h-[86px] w-full flex flex-row items-center rounded-[12px] min-[390px]:rounded-[14px] overflow-hidden transition-all duration-200 cursor-pointer select-none bg-white dark:bg-slate-900 border border-[#E2ECF8] dark:border-slate-800 shadow-[0_1px_4px_rgba(6,43,103,0.03)] hover:border-[#BFDBFE] dark:hover:border-slate-700 hover:bg-slate-50/40"
         onClick={() => {
           if (onSelect) {
             onSelect();
@@ -330,32 +330,30 @@ const CompactStoryCard = ({
         }}
       >
         {/* Thumbnail on Left */}
-        <div className="p-1.5 sm:p-2 shrink-0 flex items-center">
-          <div className="relative w-[70px] sm:w-[74px] lg:w-[72px] xl:w-[76px] h-[70px] sm:h-[72px] lg:h-[68px] xl:h-[72px] rounded-[10px] sm:rounded-[12px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800">
+        <div className="p-1.5 min-[390px]:p-2 shrink-0 flex items-center">
+          <div className="relative w-[62px] h-[62px] min-[390px]:w-[66px] min-[390px]:h-[66px] lg:w-[68px] lg:h-[68px] rounded-[9px] min-[390px]:rounded-[10px] overflow-hidden bg-[#EAF2FC] dark:bg-slate-800">
             <StudentAvatar
               src={testimonial.avatarUrl}
               fallbackSrc={fallback}
               alt={testimonial.name}
+              className="object-cover object-top"
             />
           </div>
         </div>
 
         {/* Text Content on Right */}
-        <div className="flex flex-col justify-center flex-1 py-1.5 pr-2.5 sm:pr-3 pl-1.5 min-w-0">
-          {/* Testimonial Quote — Matches NCERT description styling */}
-          <p 
-            className="text-[12.6px] sm:text-[13.1px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.42] mb-1 line-clamp-2" 
-            style={{ fontWeight: 700 }}
-          >
+        <div className="flex flex-col justify-center flex-1 py-1 pr-2.5 min-[390px]:pr-3 pl-1 min-w-0">
+          {/* Testimonial Quote */}
+          <p className="text-[11.4px] min-[390px]:text-[11.8px] sm:text-[12.2px] text-[#4A5872] dark:text-slate-300 font-[500] leading-[1.38] mb-1 line-clamp-2">
             {quoteText}
           </p>
-          {/* Student Identity — Matches Result Section Top Performers */}
-          <div className="flex items-center gap-1.5 flex-nowrap min-w-0">
-            <span className="font-[950] text-[13.5px] sm:text-[14px] text-[#0A1E4A] dark:text-white tracking-tight leading-snug shrink-0" style={{ fontWeight: 950 }}>
+          {/* Student Identity */}
+          <div className="flex items-baseline gap-1.5 flex-nowrap min-w-0">
+            <span className="font-[800] text-[12.5px] min-[390px]:text-[13px] text-[#062B67] dark:text-white tracking-tight leading-none shrink-0">
               {testimonial.name}
             </span>
-            <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-            <span className="text-[12px] sm:text-[12.5px] font-semibold text-slate-500 dark:text-slate-400 truncate" style={{ fontWeight: 600 }}>
+            <span className="text-slate-300 dark:text-slate-600 text-[10px] select-none">|</span>
+            <span className="text-[11px] min-[390px]:text-[11.5px] font-[600] text-slate-500 dark:text-slate-400 truncate leading-none">
               {classLabel}
             </span>
           </div>
@@ -387,7 +385,7 @@ const CompactStoryCard = ({
 };
 
 /* ═══════════════════════════════════════════════════════════════════════
-   MOBILE STORY CARD — Vertical format matching reference screenshot
+   MOBILE STORY CARD — Matching Academic Results student photo sizing & framing
    ═══════════════════════════════════════════════════════════════════════ */
 const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
@@ -404,30 +402,31 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
   const fallback = isGirl
     ? "/images/results/idl-student-girl.jpg"
     : "/images/results/idl-student-boy.jpg";
+  const avatarSrc = getFeaturedAvatar(testimonial.avatarUrl, isGirl);
 
   return (
     <>
-      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[20px] overflow-hidden border border-[#DCE8F6] dark:border-slate-800 shadow-[0_2px_14px_rgba(10,30,66,0.04),0_1px_3px_rgba(0,0,0,0.02)] p-3 sm:p-3.5 transition-all duration-300">
+      <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[16px] min-[390px]:rounded-[18px] overflow-hidden border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_8px_rgba(6,43,103,0.03)] p-2.5 min-[390px]:p-3 transition-all duration-300">
         
-        {/* Student Image: Prominent portrait box */}
+        {/* Student Image: Exactly matching Academic Results style, visual, aspect-square and full portrait portion */}
         <div 
-          className="relative w-full aspect-[1.14/1] rounded-[15px] overflow-hidden bg-[#E9F0FA] dark:bg-slate-800 cursor-pointer"
+          className="relative w-full aspect-square rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden cursor-pointer"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
-            src={testimonial.avatarUrl}
+            src={avatarSrc}
             fallbackSrc={fallback}
             alt={testimonial.name}
-            className="object-cover object-[center_12%]"
+            className="object-cover object-top"
           />
 
-          {/* Smooth, subtle photographic bottom gradient */}
+          {/* Smooth, subtle photographic bottom gradient for play button readability */}
           <div
             className="absolute inset-x-0 bottom-0 h-14 z-20 pointer-events-none"
-            style={{ background: "linear-gradient(to top, rgba(6,35,84,0.22) 0%, transparent 100%)" }}
+            style={{ background: "linear-gradient(to top, rgba(6,43,103,0.22) 0%, transparent 100%)" }}
           />
 
-          {/* Play Button — Refined understated glass button that does not compete with face */}
+          {/* Play Button */}
           <button
             type="button"
             onClick={(e) => {
@@ -435,19 +434,19 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               setIsVideoOpen(true);
             }}
             aria-label={`Watch story of ${testimonial.name}`}
-            className="absolute bottom-2.5 right-2.5 z-30 w-[33px] h-[33px] rounded-full bg-black/45 hover:bg-black/60 active:scale-95 backdrop-blur-xs border border-white/35 shadow-[0_2px_6px_rgba(0,0,0,0.22)] flex items-center justify-center transition-all duration-200 cursor-pointer text-white"
+            className="absolute bottom-2.5 right-2.5 z-30 w-[32px] h-[32px] min-[390px]:w-[34px] min-[390px]:h-[34px] rounded-full bg-black/40 hover:bg-black/55 active:scale-95 backdrop-blur-xs border border-white/30 shadow-xs flex items-center justify-center transition-all duration-200 cursor-pointer text-white"
           >
-            <Play className="w-3.5 h-3.5 fill-white text-white ml-[1.5px]" />
+            <Play className="w-3.5 h-3.5 fill-white text-white ml-[1px]" />
           </button>
         </div>
 
         {/* Content Area — Balanced spacing from image → quote mark → testimonial → name */}
-        <div className="pt-2.5 px-1 sm:px-1.5 pb-0.5 flex flex-col relative">
+        <div className="pt-2 min-[390px]:pt-2.5 px-0.5 pb-0.5 flex flex-col relative">
           <div className="relative z-10 min-w-0">
             {/* Quotation Mark Graphic */}
             <div className="flex items-center justify-between mb-1">
               <svg 
-                className="w-[18px] h-[18px] text-[#A5C8F8] dark:text-blue-900/60 select-none pointer-events-none shrink-0" 
+                className="w-3.5 h-3.5 min-[390px]:w-4 min-[390px]:h-4 text-[#BFDBFE] dark:text-blue-900/60 select-none pointer-events-none shrink-0" 
                 viewBox="0 0 24 24" 
                 fill="currentColor" 
                 aria-hidden="true"
@@ -456,29 +455,20 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </svg>
             </div>
             
-            {/* Testimonial Quote — Exactly preserved font size & boldness, improved line-height & breathability */}
+            {/* Testimonial Quote */}
             <blockquote className="mb-2">
-              <p 
-                className="text-[13.2px] min-[380px]:text-[13.8px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.56] tracking-[-0.005em] line-clamp-3 antialiased text-pretty" 
-                style={{ fontWeight: 700 }}
-              >
+              <p className="text-[12.6px] min-[390px]:text-[13.2px] text-[#4A5872] dark:text-slate-300 font-[500] leading-[1.46] tracking-normal line-clamp-3 text-pretty">
                 {quoteText}
               </p>
             </blockquote>
 
-            {/* Student Identity: Name prominent, class secondary on clean horizontal line */}
-            <div className="flex items-center gap-1.5 flex-nowrap min-w-0 w-full">
-              <h3 
-                className="font-[950] text-[18px] min-[360px]:text-[19.5px] text-[#0A1E4A] dark:text-white tracking-tight leading-tight shrink-0"
-                style={{ fontWeight: 950 }}
-              >
+            {/* Student Identity: Name prominent, class secondary on clean horizontal baseline */}
+            <div className="flex items-baseline gap-1.5 flex-nowrap min-w-0 w-full">
+              <h3 className="font-[800] text-[15px] min-[360px]:text-[16px] text-[#062B67] dark:text-white tracking-tight leading-none shrink-0">
                 {testimonial.name}
               </h3>
-              <span className="text-slate-300 dark:text-slate-600 font-normal select-none">|</span>
-              <span 
-                className="text-[13px] min-[360px]:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 truncate"
-                style={{ fontWeight: 600 }}
-              >
+              <span className="text-slate-300 dark:text-slate-600 text-xs select-none mx-0.5">|</span>
+              <span className="text-[12px] min-[360px]:text-[12.5px] font-[600] text-slate-500 dark:text-slate-400 truncate leading-none">
                 {classLabel}
               </span>
             </div>
@@ -667,22 +657,22 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
   }, [desktopApi]);
 
   return (
-    <section id="testimonials" className="relative w-full pt-8 sm:pt-10 md:pt-12 pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden">
-      <div className="container relative z-10 mx-auto px-5 sm:px-6 max-w-7xl">
+    <section id="testimonials" className="relative w-full pt-6 min-[390px]:pt-7 sm:pt-10 md:pt-12 pb-5 min-[390px]:pb-6 sm:pb-8 md:pb-10 bg-white dark:bg-background overflow-hidden" style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}>
+      <div className="container relative z-10 mx-auto px-3.5 min-[390px]:px-4 sm:px-6 max-w-7xl">
 
         {/* ── 1. Section Header ── */}
-        <div className="flex flex-col items-center justify-center text-center mb-4 sm:mb-5 md:mb-6">
+        <div className="flex flex-col items-center justify-center text-center mb-3.5 min-[390px]:mb-4 sm:mb-8 md:mb-10">
           {/* Eyebrow — bullet point */}
-          <div className="inline-flex items-center justify-center gap-2.5 sm:gap-3 mb-2 sm:mb-3">
-            <span className="w-[9px] h-[9px] sm:w-[10px] sm:h-[10px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
-            <span className="text-[15px] sm:text-[17px] font-[900] tracking-tight">
+          <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1.5 min-[390px]:mb-2 select-none">
+            <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+            <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
               <span className="text-[#062B67] dark:text-blue-200">IDL </span>
-              <span className="text-[#155EEF] dark:text-blue-400">Stars</span>
+              <span className="text-[#155EEF] dark:text-blue-400 font-extrabold">Stars</span>
             </span>
           </div>
 
           {/* Description heading */}
-          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] tracking-[-0.02em] leading-[1.2] max-w-4xl mx-auto whitespace-nowrap">
+          <h2 className="text-[17px] min-[360px]:text-[18px] min-[400px]:text-[20px] sm:text-[28px] md:text-[34px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto whitespace-nowrap">
             <span className="text-[#062B67] dark:text-white">Celebrate Achievement.{' '}</span>
             <span className="text-[#155EEF] dark:text-blue-400">Inspire Excellence.</span>
           </h2>
@@ -691,9 +681,9 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
         {/* ── Loading State ── */}
         {loading ? (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            <Skeleton className="h-[360px] w-full rounded-2xl" />
-            <div className="space-y-3">
-              {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-[104px] w-full rounded-xl" />)}
+            <Skeleton className="h-[320px] w-full rounded-2xl" />
+            <div className="space-y-2.5">
+              {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-[80px] w-full rounded-xl" />)}
             </div>
           </div>
         ) : (
@@ -702,7 +692,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 2. DESKTOP LAYOUT — Left Featured Card + Right 3-Card Carousel + Dots Below
                ═══════════════════════════════════════════ */}
             <div 
-              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[305px] xl:h-[315px] items-stretch"
+              className="hidden lg:grid lg:grid-cols-[1.38fr_1fr] gap-5 xl:gap-6 lg:h-[295px] xl:h-[305px] items-stretch"
               onMouseEnter={handleDesktopMouseEnter}
               onMouseLeave={handleDesktopMouseLeave}
             >
@@ -736,7 +726,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                           key={pageIndex} 
                           className="pl-0 basis-full h-full"
                         >
-                          <div className="flex flex-col gap-2.5 h-full">
+                          <div className="flex flex-col gap-2 xl:gap-2.5 h-full">
                             {page.map((t) => (
                               <CompactStoryCard 
                                 key={t.id} 
@@ -752,7 +742,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 </div>
 
                 {/* Desktop Pagination Dots — Placed directly below the 3 cards */}
-                <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3 pt-0.5">
+                <div className="flex justify-center items-center gap-1.5 mt-2.5 pt-0.5">
                   {pages.map((_, i) => (
                     <button
                       key={i}
@@ -764,7 +754,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                         className={cn(
                           "rounded-full transition-all duration-300",
                           activePageIndex === i 
-                            ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.28)]" 
+                            ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.2)]" 
                             : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-[#062B67]/50"
                         )}
                       />
@@ -778,12 +768,12 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 3. MOBILE LAYOUT — Main Card at top, then 3-Card Carousel, then Pagination Dots Below
                ═══════════════════════════════════════════ */}
             <div 
-              className="lg:hidden relative w-full max-w-[400px] mx-auto px-0"
+              className="lg:hidden relative w-full max-w-[480px] mx-auto px-0"
               onTouchStart={handleMobileTouchStart}
               onTouchEnd={handleMobileTouchEnd}
             >
               {/* TOP — Main Featured Student Card */}
-              <div key={selectedStudent.id} className="w-full animate-in fade-in duration-300 mb-2.5">
+              <div key={selectedStudent.id} className="w-full animate-in fade-in duration-300 mb-2 min-[390px]:mb-2.5">
                 <MobileStoryCard testimonial={selectedStudent} />
               </div>
 
@@ -810,7 +800,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                       key={pageIndex} 
                       className="pl-0 basis-full flex flex-col"
                     >
-                      <div className="flex flex-col gap-2 w-full">
+                      <div className="flex flex-col gap-2 min-[390px]:gap-2.5 w-full">
                         {page.map((t) => (
                           <CompactStoryCard 
                             key={t.id} 
@@ -825,7 +815,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
               </Carousel>
 
               {/* BOTTOM — Mobile Pagination Dots (Placed BELOW the 3 cards) */}
-              <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-2.5 sm:mt-3 mb-1">
+              <div className="flex justify-center items-center gap-1.5 mt-2.5 min-[390px]:mt-3 mb-0.5">
                 {pages.map((_, i) => (
                   <button
                     key={i}
@@ -837,8 +827,8 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                       className={cn(
                         "rounded-full transition-all duration-300",
                         activePageIndex === i 
-                          ? "w-6 h-2 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.28)]" 
-                          : "w-2 h-2 bg-slate-300 dark:bg-slate-700 hover:bg-[#062B67]/50"
+                          ? "w-5 min-[390px]:w-6 h-1.5 min-[390px]:h-2 bg-[#062B67] dark:bg-blue-500 shadow-[0_1px_3px_rgba(6,43,103,0.2)]" 
+                          : "w-1.5 min-[390px]:w-2 h-1.5 min-[390px]:h-2 bg-slate-300 dark:bg-slate-700 hover:bg-[#062B67]/50"
                       )}
                     />
                   </button>

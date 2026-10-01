@@ -165,20 +165,25 @@ export function StudyResourcesView() {
         {!currentSubject && (
           <section aria-labelledby="select-subjects-heading">
             {/* Center Heading */}
-            <div className="flex flex-col items-center justify-center text-center mb-5 sm:mb-6 md:mb-7">
-              {/* Eyebrow with bullet point */}
-              <div className="inline-flex items-center justify-center gap-2 sm:gap-2.5 mb-2 sm:mb-2.5">
+            <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-8">
+              {/* Eyebrow Pill */}
+              <div className="inline-flex items-center justify-center gap-2 px-3.5 py-1 rounded-full bg-[#EEF4FB] dark:bg-blue-950/60 border border-[#D5E3F8] dark:border-blue-900/50 mb-2.5 select-none">
                 <span className="w-2 h-2 rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
-                <span className="text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
+                <span className="text-[12.5px] sm:text-[13.5px] font-[800] tracking-tight">
                   <span className="text-[#062B67] dark:text-blue-200">Select Your </span>
                   <span className="text-[#155EEF] dark:text-blue-400">Subjects</span>
                 </span>
               </div>
 
-              {/* Description heading — single line on mobile and desktop */}
-              <h1 id="select-subjects-heading" className="text-[13.5px] min-[360px]:text-[14.5px] min-[400px]:text-[16px] sm:text-[24px] md:text-[30px] lg:text-[34px] font-[700] tracking-[-0.02em] leading-normal max-w-4xl mx-auto whitespace-nowrap text-[#64748B] dark:text-slate-400">
-                Explore focused revision notes for every subject.
+              {/* Main Heading */}
+              <h1 id="select-subjects-heading" className="text-[20px] min-[360px]:text-[22px] min-[400px]:text-[24px] sm:text-[30px] md:text-[34px] lg:text-[36px] font-[800] tracking-[-0.02em] leading-[1.22] max-w-3xl mx-auto text-[#062B67] dark:text-white">
+                Explore Focused Revision Notes for Every Subject
               </h1>
+
+              {/* Supportive Subtitle */}
+              <p className="text-[13px] sm:text-[14.5px] text-[#556987] dark:text-slate-400 font-normal max-w-2xl mx-auto mt-2 leading-relaxed">
+                Handcrafted chapter summaries, key formula sheets & quick revision notes designed to help you score higher in less time.
+              </p>
             </div>
 
             {/* Class Tabs & Class 9 Subject Cards */}

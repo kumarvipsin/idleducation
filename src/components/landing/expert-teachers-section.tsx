@@ -42,7 +42,7 @@ export function ExpertTeachersSection({ teachers }: { teachers?: TExpertTeacher[
   return (
     <section
       id="expert-teachers"
-      className="relative w-full pt-10 sm:pt-12 md:pt-16 pb-12 sm:pb-10 md:pb-12 bg-white overflow-hidden"
+      className="relative w-full pt-6 min-[380px]:pt-8 sm:pt-12 md:pt-16 pb-8 sm:pb-10 md:pb-12 bg-white overflow-hidden"
     >
       <div className="container relative z-10 mx-auto px-4 sm:px-6 max-w-[1280px]">
         {/* ── 1. HEADER ELEMENT ── */}

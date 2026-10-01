@@ -89,7 +89,7 @@ export function ScholarshipSection() {
     <section
       id="why-idl-education"
       aria-label="Why Choose IDL"
-      className="relative w-full pt-7 sm:pt-10 md:pt-14 pb-8 sm:pb-18 md:pb-24 bg-white dark:bg-slate-950 overflow-hidden"
+      className="relative w-full pt-6 min-[390px]:pt-7 sm:pt-10 md:pt-14 pb-3 min-[390px]:pb-4 sm:pb-16 md:pb-20 bg-white dark:bg-slate-950 overflow-hidden"
       style={{ fontFamily: "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" }}
     >
       {/* ══════════════════════════════════════════════════
@@ -103,60 +103,60 @@ export function ScholarshipSection() {
       >
         {/* Soft light blue ambient bloom strictly around the 4 circular cards */}
         <div 
-          className="absolute inset-x-0 bottom-4 sm:bottom-8 mx-auto w-full max-w-[1260px] h-[460px] dark:hidden"
+          className="absolute inset-x-0 bottom-4 sm:bottom-8 mx-auto w-full max-w-[1260px] h-[360px] dark:hidden opacity-50"
           style={{
-            background: 'radial-gradient(ellipse 65% 55% at 50% 60%, #E6F2FE 0%, #F1F7FE 42%, #F9FBFE 65%, rgba(255, 255, 255, 0) 85%)',
+            background: 'radial-gradient(ellipse 65% 55% at 50% 60%, #EBF4FE 0%, #F5F9FE 42%, rgba(255, 255, 255, 0) 80%)',
           }}
         />
 
         {/* Dark mode center bloom */}
         <div 
-          className="hidden dark:block absolute inset-x-0 bottom-4 sm:bottom-8 mx-auto w-full max-w-[1260px] h-[460px]"
+          className="hidden dark:block absolute inset-x-0 bottom-4 sm:bottom-8 mx-auto w-full max-w-[1260px] h-[360px]"
           style={{
-            background: 'radial-gradient(ellipse 65% 55% at 50% 60%, rgba(30, 58, 138, 0.2) 0%, rgba(30, 58, 138, 0.08) 45%, rgba(2, 6, 23, 0) 85%)',
+            background: 'radial-gradient(ellipse 65% 55% at 50% 60%, rgba(30, 58, 138, 0.15) 0%, rgba(30, 58, 138, 0.05) 45%, rgba(2, 6, 23, 0) 80%)',
           }}
         />
       </div>
 
-      <div className="container relative z-10 mx-auto px-4 sm:px-6 max-w-[1260px]">
+      <div className="container relative z-10 mx-auto px-3.5 min-[390px]:px-4 sm:px-6 max-w-[1260px]">
         
         {/* ══════════════════════════════════════════════════
-            1. HEADER AREA (Matching Reference Screenshot & Educators Size)
+            1. HEADER AREA
             “● Why think IDL ?”
             “Learn Better. Grow Stronger.” with smile underline
             ══════════════════════════════════════════════════ */}
-        <div className="flex flex-col items-center justify-center text-center mb-6 sm:mb-12 md:mb-14">
+        <div className="flex flex-col items-center justify-center text-center mb-4 min-[390px]:mb-5 sm:mb-10 md:mb-12">
           {/* Eyebrow: "● Why think IDL ?" */}
-          <div className="inline-flex items-center justify-center gap-2 sm:gap-2.5 mb-2 sm:mb-3 select-none">
-            <span className="w-[8.5px] h-[8.5px] sm:w-[9.5px] sm:h-[9.5px] rounded-full bg-[#1E65E6] sm:bg-[#155EEF] dark:bg-blue-400 shrink-0" />
-            <span className="text-[14px] sm:text-[16px] font-[800] sm:font-[900] tracking-tight">
+          <div className="inline-flex items-center justify-center gap-1.5 sm:gap-2 mb-1.5 min-[390px]:mb-2 select-none">
+            <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] dark:bg-blue-400 shrink-0" />
+            <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
               <span className="text-[#062B67] dark:text-blue-200">Why think </span>
-              <span className="text-[#1E65E6] sm:text-[#155EEF] dark:text-blue-400 font-extrabold">IDL ?</span>
+              <span className="text-[#155EEF] dark:text-blue-400 font-extrabold">IDL ?</span>
             </span>
           </div>
 
-          {/* Main Heading: Matches exact size of "Expert Guidance. Meaningful Learning." */}
-          <h2 className="text-[15px] min-[360px]:text-[16.5px] min-[400px]:text-[18px] sm:text-[28px] md:text-[36px] font-[750] sm:font-[800] tracking-[-0.01em] sm:tracking-[-0.02em] leading-[1.26] sm:leading-[1.2] max-w-4xl mx-auto">
+          {/* Main Heading: Matches exact size & clean hierarchy */}
+          <h2 className="text-[17.5px] min-[360px]:text-[18.5px] min-[400px]:text-[20px] sm:text-[28px] md:text-[34px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto">
             <span className="text-[#062B67] dark:text-white">
               Learn Better.{' '}
             </span>
-            <span className="text-[#1E65E6] sm:text-[#155EEF] dark:text-blue-400 inline-block">
+            <span className="text-[#155EEF] dark:text-blue-400 inline-block">
               Grow{' '}
               <span className="relative inline-block">
                 Stronger.
                 {/* Curved blue smile underline stroke */}
                 <svg 
-                  className="absolute -bottom-1.5 sm:-bottom-2 md:-bottom-2.5 left-0 w-full h-[6px] sm:h-[8px] md:h-[9px] overflow-visible pointer-events-none" 
+                  className="absolute -bottom-1 min-[390px]:-bottom-1.5 sm:-bottom-2 md:-bottom-2.5 left-0 w-full h-[5px] sm:h-[7px] md:h-[8px] overflow-visible pointer-events-none" 
                   viewBox="0 0 100 12" 
-                  fill="none"
+                  fill="none" 
                   aria-hidden="true"
                 >
                   <path 
                     d="M 2 3 Q 50 13, 98 3" 
                     stroke="currentColor" 
-                    strokeWidth="3" 
+                    strokeWidth="2.8" 
                     strokeLinecap="round" 
-                    className="text-[#1E65E6] sm:text-[#155EEF] dark:stroke-blue-400"
+                    className="text-[#155EEF] dark:stroke-blue-400"
                   />
                 </svg>
               </span>
@@ -202,7 +202,7 @@ export function ScholarshipSection() {
 
                 {/* Large White Circle Card Body — 3D Convex Dome / Hemisphere Shape */}
                 <div className="idl-hemisphere-pod w-full aspect-square rounded-full border border-[#DCE6F5]/80 dark:border-slate-800/80 hover:-translate-y-1 transition-all duration-300 flex flex-col items-center justify-center pt-[64px] pb-5 px-5 text-center relative z-10">
-                  {/* Two-Tone Title — Preserved exact font size & weight, smooth natural typography */}
+                  {/* Two-Tone Title */}
                   <h3 
                     className="text-[18px] sm:text-[18.9px] font-black tracking-[-0.01em] text-center leading-snug"
                     style={{ 
@@ -218,7 +218,7 @@ export function ScholarshipSection() {
                     item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                   }`} />
 
-                  {/* Centered Description: Preserved exact font size & weight, breathable line-height & softer secondary dark-gray */}
+                  {/* Centered Description */}
                   <p 
                     className="text-[13.6px] sm:text-[13.8px] text-[#4A5872] dark:text-slate-300 font-bold leading-[1.58] text-center"
                     style={{ 
@@ -238,33 +238,34 @@ export function ScholarshipSection() {
 
         {/* ══════════════════════════════════════════════════
             2B. MOBILE VIEW (< lg): HORIZONTAL CARDS STACK
-            (Identical to the phone frame in reference screenshot)
+            Refined, modern, subtle 1px border, soft shadow,
+            consistent height, clear typography hierarchy
             ══════════════════════════════════════════════════ */}
-        <div className="block lg:hidden w-full max-w-[480px] mx-auto space-y-3">
+        <div className="block lg:hidden w-full max-w-[480px] mx-auto space-y-2.5 min-[390px]:space-y-3">
           {pillars.map((item) => (
             <div 
               key={item.id}
-              className="w-full bg-white dark:bg-slate-900 rounded-[18px] border border-[#DCE8F6] dark:border-slate-800 shadow-[0_2px_12px_-2px_rgba(6,43,103,0.04),0_1px_3px_rgba(0,0,0,0.02)] px-4 py-3.5 sm:py-4 flex items-center gap-3.5 min-[380px]:gap-4 min-h-[104px] sm:min-h-[108px] active:scale-[0.99] transition-all duration-200"
+              className="w-full bg-white dark:bg-slate-900 rounded-[14px] min-[390px]:rounded-[16px] border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_8px_rgba(6,43,103,0.03)] px-3.5 py-3 min-[390px]:px-4 min-[390px]:py-3.5 flex items-center gap-3 min-[390px]:gap-3.5 active:scale-[0.99] transition-all duration-200"
             >
-              {/* Left Icon Disc with Number Badge at bottom-right */}
+              {/* Left Icon Disc with Number Badge */}
               <div className="relative shrink-0">
-                <div className={`w-[72px] h-[72px] rounded-full flex items-center justify-center p-2 border-2 border-white dark:border-slate-800 shadow-sm ${
+                <div className={`w-[54px] h-[54px] min-[390px]:w-[58px] min-[390px]:h-[58px] rounded-full flex items-center justify-center p-2 border transition-transform duration-200 ${
                   item.iconGlow === 'yellow'
-                    ? 'bg-gradient-to-b from-[#FEF9E7] to-[#FDE8B3] ring-3 ring-amber-50/70 dark:ring-amber-900/30 shadow-[0_3px_12px_rgba(245,158,11,0.14)]'
-                    : 'bg-gradient-to-b from-[#EBF4FE] to-[#D7E9FD] ring-3 ring-blue-50/70 dark:ring-blue-900/30 shadow-[0_3px_12px_rgba(21,94,239,0.12)]'
+                    ? 'bg-[#FEF9EC] dark:bg-amber-950/30 border-[#FDE8B5] dark:border-amber-900/40'
+                    : 'bg-[#F0F6FE] dark:bg-blue-950/30 border-[#D8E6F8] dark:border-blue-900/40'
                 }`}>
                   <Image
                     src={item.iconSrc}
                     alt={`${item.titleDark} ${item.titleBlue}`}
-                    width={50}
-                    height={50}
+                    width={44}
+                    height={44}
                     unoptimized
-                    className="w-[42px] h-[42px] object-contain drop-shadow-sm"
+                    className="w-[32px] h-[32px] min-[390px]:w-[35px] min-[390px]:h-[35px] object-contain drop-shadow-xs"
                   />
                 </div>
 
-                {/* Badge at bottom-right of icon disc */}
-                <div className={`absolute -bottom-0.5 -right-0.5 w-[22px] h-[22px] rounded-full flex items-center justify-center text-white text-[11px] font-black leading-none border-2 border-white dark:border-slate-900 shadow-sm ${
+                {/* Badge at bottom-right of icon disc - subtle, compact, professional */}
+                <div className={`absolute -bottom-0.5 -right-0.5 w-[19px] h-[19px] rounded-full flex items-center justify-center text-white text-[9.5px] font-[800] leading-none border-[1.5px] border-white dark:border-slate-900 shadow-xs ${
                   item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                 }`}>
                   {item.badge}
@@ -273,28 +274,18 @@ export function ScholarshipSection() {
 
               {/* Right Text Column - vertically balanced */}
               <div className="flex-1 min-w-0 text-left flex flex-col justify-center">
-                <h3 
-                  className="text-[16.5px] min-[380px]:text-[17.5px] font-black leading-snug tracking-[-0.01em]"
-                  style={{ 
-                    fontWeight: 900,
-                  }}
-                >
-                  <span className="text-[#062B67] dark:text-white" style={{ fontWeight: 900 }}>{item.titleDark} </span>
-                  <span className="text-[#155EEF] dark:text-blue-400" style={{ fontWeight: 900 }}>{item.titleBlue}</span>
+                <h3 className="text-[15px] min-[390px]:text-[16px] font-[800] leading-snug tracking-[-0.01em]">
+                  <span className="text-[#062B67] dark:text-white">{item.titleDark} </span>
+                  <span className="text-[#155EEF] dark:text-blue-400">{item.titleBlue}</span>
                 </h3>
 
-                {/* Accent Dash Under Title with subtle gap */}
-                <div className={`w-6 h-[2px] rounded-full mt-1.5 mb-1.5 ${
+                {/* Accent Dash Under Title */}
+                <div className={`w-5 h-[2px] rounded-full mt-1 mb-1.5 ${
                   item.badgeColor === 'yellow' ? 'bg-[#F59E0B]' : 'bg-[#155EEF]'
                 }`} />
 
-                {/* Description with comfortable line-height matching Study Resources, keeping colors intact */}
-                <p 
-                  className="text-[12.8px] min-[380px]:text-[13.4px] text-[#4B586E] dark:text-slate-300 font-bold leading-[1.56] text-pretty"
-                  style={{ 
-                    fontWeight: 700, 
-                  }}
-                >
+                {/* Description: clear typography hierarchy, secondary, readable */}
+                <p className="text-[12px] min-[390px]:text-[12.6px] text-[#4A5872] dark:text-slate-300 font-[500] leading-[1.44] text-pretty">
                   {item.descriptionMobile}
                 </p>
               </div>

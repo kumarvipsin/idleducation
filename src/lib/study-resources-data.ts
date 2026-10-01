@@ -48,48 +48,78 @@ export interface SubjectItem {
   image?: string;
   glowBg?: string;
   badgeNumber?: string;
+  chapterCount?: number;
+  tags?: string[];
+  gradientBg?: string;
+  cardBgLight?: string;
+  borderHover?: string;
+  pillColor?: string;
 }
 
 export const CLASS_9_SUBJECTS: SubjectItem[] = [
   {
     id: 'maths',
     name: 'Maths',
-    description: 'Chapter-wise short revision notes for quick learning, plus detailed Premium Notes.',
+    description: 'Master theorems, formulas and step-by-step problem solving with clean visual revision notes.',
     accentBarClass: 'bg-[#155EEF]',
     accentColor: '#155EEF',
     image: '/images/books/class-9/maths.png',
-    glowBg: 'radial-gradient(circle, rgba(21,94,239,0.10) 0%, rgba(21,94,239,0.03) 60%, transparent 72%)',
+    glowBg: 'radial-gradient(circle, rgba(21,94,239,0.16) 0%, rgba(21,94,239,0.02) 65%, transparent 75%)',
     badgeNumber: '09',
+    chapterCount: 12,
+    tags: ['Formula Sheet', 'Step Solutions', 'Cheat Sheet'],
+    gradientBg: 'from-[#EFF6FF] via-[#F8FAFC] to-[#EFF6FF]',
+    cardBgLight: '#F0F6FE',
+    borderHover: 'hover:border-[#155EEF]/50',
+    pillColor: 'bg-blue-50 text-[#155EEF] border-blue-200/80 dark:bg-blue-950/60 dark:text-blue-300 dark:border-blue-900',
   },
   {
     id: 'science',
     name: 'Science',
-    description: 'Chapter-wise short revision notes for quick learning, plus detailed Premium Notes.',
+    description: 'Clear concept breakdowns, chemical reactions, diagrams and laws of physics made simple.',
     accentBarClass: 'bg-[#16A34A]',
     accentColor: '#16A34A',
     image: '/images/books/class-9/science.png',
-    glowBg: 'radial-gradient(circle, rgba(22,163,74,0.10) 0%, rgba(22,163,74,0.03) 60%, transparent 72%)',
+    glowBg: 'radial-gradient(circle, rgba(22,163,74,0.16) 0%, rgba(22,163,74,0.02) 65%, transparent 75%)',
     badgeNumber: '09',
+    chapterCount: 15,
+    tags: ['Concept Diagrams', 'Lab Principles', 'Short Notes'],
+    gradientBg: 'from-[#F0FDF4] via-[#F8FAFC] to-[#F0FDF4]',
+    cardBgLight: '#F0FDF4',
+    borderHover: 'hover:border-[#16A34A]/50',
+    pillColor: 'bg-emerald-50 text-[#16A34A] border-emerald-200/80 dark:bg-emerald-950/60 dark:text-emerald-300 dark:border-emerald-900',
   },
   {
     id: 'english',
     name: 'English',
-    description: 'Chapter-wise short revision notes for quick learning, plus detailed Premium Notes.',
-    accentBarClass: 'bg-[#F59E0B]',
-    accentColor: '#F59E0B',
+    description: 'Chapter-wise Beehive summaries, poetic devices, character sketches and grammar essentials.',
+    accentBarClass: 'bg-[#D97706]',
+    accentColor: '#D97706',
     image: '/images/books/class-9/english.png',
-    glowBg: 'radial-gradient(circle, rgba(245,158,11,0.10) 0%, rgba(245,158,11,0.03) 60%, transparent 72%)',
+    glowBg: 'radial-gradient(circle, rgba(217,119,6,0.16) 0%, rgba(217,119,6,0.02) 65%, transparent 75%)',
     badgeNumber: '09',
+    chapterCount: 9,
+    tags: ['Beehive Summaries', 'Characters', 'Key Quotes'],
+    gradientBg: 'from-[#FFFBEB] via-[#F8FAFC] to-[#FFFBEB]',
+    cardBgLight: '#FFFBEB',
+    borderHover: 'hover:border-[#D97706]/50',
+    pillColor: 'bg-amber-50 text-[#D97706] border-amber-200/80 dark:bg-amber-950/60 dark:text-amber-300 dark:border-amber-900',
   },
   {
     id: 'social-science',
     name: 'Social Studies',
-    description: 'Chapter-wise short revision notes for quick learning, plus detailed Premium Notes.',
-    accentBarClass: 'bg-[#8B5CF6]',
-    accentColor: '#8B5CF6',
+    description: 'History timelines, Geography maps, Civics & Economics concepts simplified for quick exam recall.',
+    accentBarClass: 'bg-[#7C3AED]',
+    accentColor: '#7C3AED',
     image: '/images/books/class-9/social-science.png',
-    glowBg: 'radial-gradient(circle, rgba(139,92,246,0.10) 0%, rgba(139,92,246,0.03) 60%, transparent 72%)',
+    glowBg: 'radial-gradient(circle, rgba(124,58,237,0.16) 0%, rgba(124,58,237,0.02) 65%, transparent 75%)',
     badgeNumber: '09',
+    chapterCount: 12,
+    tags: ['Timeline Charts', 'Map Guides', 'Concept Notes'],
+    gradientBg: 'from-[#FAF5FF] via-[#F8FAFC] to-[#FAF5FF]',
+    cardBgLight: '#FAF5FF',
+    borderHover: 'hover:border-[#7C3AED]/50',
+    pillColor: 'bg-purple-50 text-[#7C3AED] border-purple-200/80 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-900',
   },
 ];
 
@@ -99,12 +129,18 @@ export const CLASS_12_SUBJECTS: SubjectItem[] = [
   {
     id: 'political-science',
     name: 'Political Science',
-    description: 'Chapter-wise short revision notes for quick learning, plus detailed Premium Notes.',
-    accentBarClass: 'bg-[#8B5CF6]',
-    accentColor: '#8B5CF6',
+    description: 'Contemporary world politics, power structures, global events and analytical revision notes.',
+    accentBarClass: 'bg-[#7C3AED]',
+    accentColor: '#7C3AED',
     image: '/images/books/class-12/political-science.png',
-    glowBg: 'radial-gradient(circle, rgba(139,92,246,0.10) 0%, rgba(139,92,246,0.03) 60%, transparent 72%)',
+    glowBg: 'radial-gradient(circle, rgba(124,58,237,0.16) 0%, rgba(124,58,237,0.02) 65%, transparent 75%)',
     badgeNumber: '12',
+    chapterCount: 3,
+    tags: ['World Politics', 'Key Events', 'Analytical Notes'],
+    gradientBg: 'from-[#FAF5FF] via-[#F8FAFC] to-[#FAF5FF]',
+    cardBgLight: '#FAF5FF',
+    borderHover: 'hover:border-[#7C3AED]/50',
+    pillColor: 'bg-purple-50 text-[#7C3AED] border-purple-200/80 dark:bg-purple-950/60 dark:text-purple-300 dark:border-purple-900',
   },
 ];
 

@@ -285,9 +285,9 @@ export function SocialLinks({ variant, className, onLinkClick }: SocialLinksProp
     if (footerItems.length === 0) return null;
 
     return (
-      <div className={cn("mt-3 sm:mt-3.5", className)}>
+      <div className={cn("mt-2.5 sm:mt-3.5", className)}>
         {/* Footer Column Heading matching Quick Links, Resources, etc. */}
-        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
+        <h3 className="text-[11px] sm:text-[11.5px] font-bold text-[#081B4B] dark:text-white uppercase tracking-[0.08em] mb-2 sm:mb-2.5 border-l-[2px] border-[#0A5CFF] pl-2 leading-none py-0.5">
           Follow IDL
         </h3>
 

@@ -127,21 +127,31 @@ export function EducatorsCarousel({
         className="w-full"
       >
         <CarouselContent className="-ml-3 sm:-ml-4 items-stretch py-1.5">
-          {teachers.map((teacher, index) => (
-            <CarouselItem
-              key={teacher.id || index}
-              className="pl-3 sm:pl-4 basis-[82%] min-[380px]:basis-[80%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex flex-col"
-            >
-              <div className="h-full flex flex-col flex-1">
-                <EducatorCard teacher={teacher} />
-              </div>
-            </CarouselItem>
-          ))}
+          {teachers.map((teacher, index) => {
+            const isActive = current === index;
+            return (
+              <CarouselItem
+                key={teacher.id || index}
+                className="pl-3 sm:pl-4 basis-[87%] min-[380px]:basis-[88%] min-[420px]:basis-[89%] sm:basis-1/2 md:basis-1/3 lg:basis-1/4 flex flex-col"
+              >
+                <div 
+                  className={cn(
+                    "h-full flex flex-col flex-1 transition-all duration-300 ease-out",
+                    isActive
+                      ? "scale-100 opacity-100 z-10"
+                      : "scale-[0.96] opacity-75 sm:opacity-100 sm:scale-100"
+                  )}
+                >
+                  <EducatorCard teacher={teacher} />
+                </div>
+              </CarouselItem>
+            );
+          })}
         </CarouselContent>
       </Carousel>
 
       {/* Pagination dots */}
-      <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3 sm:mt-3.5">
+      <div className="flex justify-center items-center gap-1.5 sm:gap-2 mt-3.5 min-[380px]:mt-4 sm:mt-4">
         {Array.from({ length: count }).map((_, i) => (
           <button
             key={i}
@@ -153,8 +163,8 @@ export function EducatorsCarousel({
               className={cn(
                 "rounded-full transition-all duration-300",
                 current === i
-                  ? "w-5 sm:w-6 h-1.5 bg-[#246BFF]"
-                  : "w-1.5 h-1.5 bg-[#D0E2FF] hover:bg-[#246BFF]/50"
+                  ? "w-5 sm:w-6 h-1.5 bg-[#155EEF]"
+                  : "w-1.5 h-1.5 bg-slate-300 dark:bg-slate-700 hover:bg-[#155EEF]/50"
               )}
             />
           </button>
