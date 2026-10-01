@@ -128,9 +128,7 @@ const courses: CourseItem[] = [
 function CardWave({ waveColor }: { waveColor: string }) {
     return (
         <svg
-            className="absolute right-0 bottom-0 pointer-events-none z-0 rounded-br-[14px]"
-            width="68"
-            height="44"
+            className="absolute right-0 bottom-0 pointer-events-none z-0 rounded-br-[12px] md:rounded-br-[14px] w-12 h-8 md:w-[68px] md:h-[44px]"
             viewBox="0 0 68 44"
             fill="none"
             aria-hidden="true"
@@ -138,12 +136,12 @@ function CardWave({ waveColor }: { waveColor: string }) {
             <path
                 d="M0 44C18 44 36 28 68 14V44H0Z"
                 fill={waveColor}
-                opacity="0.22"
+                opacity="0.16"
             />
             <path
                 d="M18 44C34 44 46 32 68 21V44H18Z"
                 fill={waveColor}
-                opacity="0.42"
+                opacity="0.32"
             />
         </svg>
     );
@@ -881,17 +879,17 @@ export function DiscoverCoursesSection() {
                 
                 {/* Clean Centered Container with Generous Margins */}
                 <div className="container mx-auto px-0 max-w-[1360px] relative z-10">
-                    <div className="relative bg-white dark:bg-slate-900/95 border border-slate-200/80 dark:border-slate-800 rounded-2xl shadow-[0_10px_30px_-6px_rgba(11,40,88,0.06),0_2px_6px_rgba(11,40,88,0.02)] p-3.5 sm:p-4 md:p-5 overflow-hidden">
+                    <div className="relative bg-white dark:bg-slate-900/95 border border-slate-200/70 dark:border-slate-800/80 rounded-[18px] md:rounded-2xl shadow-[0_4px_20px_-4px_rgba(11,40,88,0.05),0_1px_3px_rgba(11,40,88,0.02)] md:shadow-[0_10px_30px_-6px_rgba(11,40,88,0.06),0_2px_6px_rgba(11,40,88,0.02)] p-3 min-[390px]:p-3.5 sm:p-4 md:p-5 overflow-hidden">
                         
                         {/* Section Header / Eyebrow */}
-                        <div className="relative z-10 flex items-center justify-center mb-4 sm:mb-5">
-                            <p className="inline-flex items-center text-sm sm:text-base font-extrabold tracking-[0.02em] text-[#0B2858] select-none bg-[#FCD34D] rounded-full px-5 py-1.5 shadow-sm">
+                        <div className="relative z-10 flex items-center justify-center mb-3 min-[390px]:mb-3.5 md:mb-5">
+                            <p className="inline-flex items-center text-[12.5px] min-[390px]:text-[13px] md:text-sm lg:text-base font-extrabold tracking-[0.03em] text-[#0B2858] select-none bg-[#FCD34D] rounded-full px-4 py-1 md:px-5 md:py-1.5 shadow-none border border-amber-300/40">
                                 Courses We Offer
                             </p>
                         </div>
 
                         {/* Six Course Cards: 1 Horizontal Row on Desktop, 2 Columns on Mobile */}
-                        <div className="relative z-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3 lg:gap-2 xl:gap-3">
+                        <div className="relative z-10 grid grid-cols-2 gap-2 min-[390px]:gap-2.5 sm:gap-3 md:grid-cols-3 lg:grid-cols-6 lg:gap-2 xl:gap-3">
                             {courses.map((course, index) => {
                                 const IconComponent = course.icon;
                                 const isCbse = course.id === 'cbse';
@@ -917,11 +915,10 @@ export function DiscoverCoursesSection() {
                                             }
                                         }}
                                         className={cn(
-                                            "group relative flex items-center justify-between rounded-[14px] border",
-                                            "shadow-[0_2px_8px_-2px_rgba(11,40,88,0.04),0_1px_2px_rgba(11,40,88,0.02)]",
-                                            "hover:shadow-[0_6px_18px_-3px_rgba(11,40,88,0.08)] transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]",
-                                            "h-[88px] min-[360px]:h-[92px] sm:h-[96px] lg:h-[90px] xl:h-[96px]",
-                                            "px-3 py-3 sm:px-3.5 sm:py-3.5 lg:px-2.5 lg:py-3 xl:px-3 xl:py-3.5",
+                                            "group relative flex items-center justify-between rounded-[12px] min-[390px]:rounded-[13px] md:rounded-[14px] border",
+                                            "shadow-[0_1px_4px_rgba(11,40,88,0.03)] hover:shadow-[0_4px_14px_-2px_rgba(11,40,88,0.07)] md:shadow-[0_2px_8px_-2px_rgba(11,40,88,0.04),0_1px_2px_rgba(11,40,88,0.02)] md:hover:shadow-[0_6px_18px_-3px_rgba(11,40,88,0.08)] transition-all duration-200 ease-out hover:-translate-y-0.5 active:scale-[0.98]",
+                                            "h-[74px] min-[390px]:h-[78px] sm:h-[84px] md:h-[96px] lg:h-[90px] xl:h-[96px]",
+                                            "px-2.5 py-2 min-[390px]:px-2.5 min-[390px]:py-2.5 sm:px-3.5 sm:py-3.5 lg:px-2.5 lg:py-3 xl:px-3 xl:py-3.5",
                                             "animate-fade-up overflow-hidden",
                                             course.cardBg,
                                             course.cardBorder,
@@ -933,26 +930,26 @@ export function DiscoverCoursesSection() {
 
                                         {/* Left: 2D Icon Container with Soft Circular Badge */}
                                         <div className={cn(
-                                            "relative z-10 w-11 h-11 sm:w-12 sm:h-12 lg:w-11 lg:h-11 xl:w-12 xl:h-12 rounded-full border flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-all duration-200",
+                                            "relative z-10 w-9 h-9 min-[390px]:w-10 min-[390px]:h-10 sm:w-11 sm:h-11 md:w-11 md:h-11 xl:w-12 xl:h-12 rounded-full border flex items-center justify-center shrink-0 shadow-none group-hover:scale-105 transition-all duration-200",
                                             course.badgeBg,
                                             course.badgeBorder
                                         )}>
-                                            <IconComponent className="w-[60%] h-[60%]" />
+                                            <IconComponent className="w-[56%] h-[56%]" />
                                         </div>
 
                                         {/* Middle: Course Title & Subtitle in IDL Navy (#0B2858) */}
-                                        <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2.5 sm:ml-3 lg:ml-2.5 xl:ml-3">
-                                            <h4 className="text-[12px] min-[360px]:text-[13px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-extrabold text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                        <div className="relative z-10 flex flex-col min-w-0 flex-1 justify-center ml-2 min-[390px]:ml-2.5 sm:ml-3 lg:ml-2.5 xl:ml-3">
+                                            <h4 className="text-[11.5px] min-[390px]:text-[12.5px] sm:text-[14px] lg:text-[13px] min-[1150px]:text-[14px] xl:text-[15px] font-bold text-[#0B2858] dark:text-white uppercase tracking-tight leading-tight whitespace-nowrap overflow-visible group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
                                                 {course.title}
                                             </h4>
-                                            <p className="text-[10px] min-[360px]:text-[10.5px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500/90 dark:text-slate-400 truncate mt-0.5 leading-tight">
+                                            <p className="text-[9.5px] min-[390px]:text-[10px] sm:text-[11px] lg:text-[10px] min-[1150px]:text-[10.5px] xl:text-[11px] font-medium text-slate-500/90 dark:text-slate-400 truncate mt-0.5 leading-tight">
                                                 {course.subtitle}
                                             </p>
                                         </div>
 
                                         {/* Right: Arrow Symbol Only (No Background) */}
-                                        <div className="relative z-10 flex items-center justify-center shrink-0 ml-1.5 sm:ml-2 text-[#0B2858]/65 dark:text-blue-300/80 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
-                                            <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 stroke-[2.2] group-hover:translate-x-0.5 transition-transform duration-200" />
+                                        <div className="relative z-10 flex items-center justify-center shrink-0 ml-1 min-[390px]:ml-1.5 sm:ml-2 text-[#0B2858]/45 dark:text-blue-300/60 group-hover:text-[#2563EB] dark:group-hover:text-blue-400 transition-colors">
+                                            <ArrowRight className="w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 sm:w-4 sm:h-4 lg:w-3.5 lg:h-3.5 xl:w-4 xl:h-4 stroke-[2.2] group-hover:translate-x-0.5 transition-transform duration-200" />
                                         </div>
                                     </Link>
                                 );

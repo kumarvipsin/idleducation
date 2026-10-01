@@ -21,10 +21,17 @@ interface GcsImageProps {
 }
 
 export function GcsImage({ filePath, alt, className, width, height, fill, style, sizes, asImgTag, priority }: GcsImageProps) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(true);
+  const isLocal = typeof filePath === 'string' && (filePath.startsWith('/') || filePath.startsWith('data:'));
+  const [imageUrl, setImageUrl] = useState<string | null>(isLocal ? filePath : null);
+  const [loading, setLoading] = useState(!isLocal);
 
   useEffect(() => {
+    if (isLocal) {
+      setImageUrl(filePath);
+      setLoading(false);
+      return;
+    }
+
     async function fetchSignedUrl() {
       if (!filePath) {
         setLoading(false);
@@ -41,7 +48,7 @@ export function GcsImage({ filePath, alt, className, width, height, fill, style,
       setLoading(false);
     }
     fetchSignedUrl();
-  }, [filePath]);
+  }, [filePath, isLocal]);
 
   if (loading) {
     return <Skeleton className={cn(asImgTag ? 'w-full aspect-[16/9]' : 'h-full w-full', className)} />;
