@@ -202,7 +202,7 @@ const FeaturedStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
         {/* Left Side: Student Portrait Image (Matching Academic Results style) */}
         <div 
-          className="relative w-[44%] xl:w-[45%] h-full shrink-0 overflow-hidden rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 cursor-pointer"
+          className="relative w-[38%] xl:w-[40%] h-full shrink-0 overflow-hidden rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 cursor-pointer"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
@@ -408,9 +408,9 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
     <>
       <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[16px] min-[390px]:rounded-[18px] overflow-hidden border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_8px_rgba(6,43,103,0.03)] p-2.5 min-[390px]:p-3 transition-all duration-300">
         
-        {/* Student Image: Exactly matching Academic Results style, visual, aspect-square and full portrait portion */}
+        {/* Student Image: Compact, well-proportioned ratio so photo area is reduced and balanced */}
         <div 
-          className="relative w-full aspect-square rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden cursor-pointer"
+          className="relative w-full aspect-[16/11] rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden cursor-pointer"
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
@@ -422,7 +422,7 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
 
           {/* Smooth, subtle photographic bottom gradient for play button readability */}
           <div
-            className="absolute inset-x-0 bottom-0 h-14 z-20 pointer-events-none"
+            className="absolute inset-x-0 bottom-0 h-12 z-20 pointer-events-none"
             style={{ background: "linear-gradient(to top, rgba(6,43,103,0.22) 0%, transparent 100%)" }}
           />
 
@@ -440,13 +440,13 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
           </button>
         </div>
 
-        {/* Content Area — Balanced spacing from image → quote mark → testimonial → name */}
-        <div className="pt-2 min-[390px]:pt-2.5 px-0.5 pb-0.5 flex flex-col relative">
+        {/* Content Area — Expanded message (quote) area with comfortable line-height and readable font size */}
+        <div className="pt-2.5 min-[390px]:pt-3 px-1 pb-1 flex flex-col relative">
           <div className="relative z-10 min-w-0">
             {/* Quotation Mark Graphic */}
-            <div className="flex items-center justify-between mb-1">
+            <div className="flex items-center justify-between mb-1.5">
               <svg 
-                className="w-3.5 h-3.5 min-[390px]:w-4 min-[390px]:h-4 text-[#BFDBFE] dark:text-blue-900/60 select-none pointer-events-none shrink-0" 
+                className="w-4 h-4 min-[390px]:w-4.5 min-[390px]:h-4.5 text-[#93C5FD] dark:text-blue-800/80 select-none pointer-events-none shrink-0" 
                 viewBox="0 0 24 24" 
                 fill="currentColor" 
                 aria-hidden="true"
@@ -455,20 +455,20 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
               </svg>
             </div>
             
-            {/* Testimonial Quote */}
-            <blockquote className="mb-2">
-              <p className="text-[12.6px] min-[390px]:text-[13.2px] text-[#4A5872] dark:text-slate-300 font-[500] leading-[1.46] tracking-normal line-clamp-3 text-pretty">
+            {/* Testimonial Quote — Expanded message area */}
+            <blockquote className="mb-2.5">
+              <p className="text-[13.2px] min-[390px]:text-[13.8px] sm:text-[14.2px] text-[#334155] dark:text-slate-200 font-[500] leading-[1.52] tracking-normal line-clamp-4 text-pretty">
                 {quoteText}
               </p>
             </blockquote>
 
             {/* Student Identity: Name prominent, class secondary on clean horizontal baseline */}
-            <div className="flex items-baseline gap-1.5 flex-nowrap min-w-0 w-full">
-              <h3 className="font-[800] text-[15px] min-[360px]:text-[16px] text-[#062B67] dark:text-white tracking-tight leading-none shrink-0">
+            <div className="flex items-baseline gap-1.5 flex-nowrap min-w-0 w-full pt-0.5 border-t border-slate-100/80 dark:border-slate-800/60">
+              <h3 className="font-[800] text-[15.5px] min-[360px]:text-[16.5px] text-[#062B67] dark:text-white tracking-tight leading-none shrink-0 pt-1.5">
                 {testimonial.name}
               </h3>
-              <span className="text-slate-300 dark:text-slate-600 text-xs select-none mx-0.5">|</span>
-              <span className="text-[12px] min-[360px]:text-[12.5px] font-[600] text-slate-500 dark:text-slate-400 truncate leading-none">
+              <span className="text-slate-300 dark:text-slate-600 text-xs select-none mx-0.5 pt-1.5">|</span>
+              <span className="text-[12.5px] min-[360px]:text-[13px] font-[600] text-slate-500 dark:text-slate-400 truncate leading-none pt-1.5">
                 {classLabel}
               </span>
             </div>
@@ -768,7 +768,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 3. MOBILE LAYOUT — Main Card at top, then 3-Card Carousel, then Pagination Dots Below
                ═══════════════════════════════════════════ */}
             <div 
-              className="lg:hidden relative w-full max-w-[480px] mx-auto px-0"
+              className="lg:hidden relative w-full max-w-[380px] min-[420px]:max-w-[400px] mx-auto px-0"
               onTouchStart={handleMobileTouchStart}
               onTouchEnd={handleMobileTouchEnd}
             >
