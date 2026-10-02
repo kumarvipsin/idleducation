@@ -411,6 +411,7 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
         {/* Student Image: Compact, well-proportioned ratio so photo area is reduced and balanced */}
         <div 
           className="relative w-full aspect-[16/11] rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden cursor-pointer"
+          style={{ aspectRatio: '16 / 11' }}
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
