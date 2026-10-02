@@ -408,10 +408,10 @@ const MobileStoryCard = ({ testimonial }: { testimonial: TTestimonial }) => {
     <>
       <div className="group/mobile w-full flex flex-col bg-white dark:bg-slate-900 rounded-[16px] min-[390px]:rounded-[18px] overflow-hidden border border-[#E2ECF8] dark:border-slate-800 shadow-[0_2px_8px_rgba(6,43,103,0.03)] p-2.5 min-[390px]:p-3 transition-all duration-300">
         
-        {/* Student Image: Compact, well-proportioned ratio so photo area is reduced and balanced */}
+        {/* Student Image: Matching Academic Results student photo (aspect-square, uncropped up to shoulders) */}
         <div 
-          className="relative w-full aspect-[16/11] rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden cursor-pointer"
-          style={{ aspectRatio: '16 / 11' }}
+          className="relative w-full aspect-square rounded-[14px] sm:rounded-[15px] bg-[#EAF2FC] dark:bg-slate-800 overflow-hidden cursor-pointer"
+          style={{ aspectRatio: '1 / 1' }}
           onClick={() => setIsVideoOpen(true)}
         >
           <StudentAvatar
@@ -769,7 +769,7 @@ export function StudentTestimonials({ testimonials }: { testimonials?: TTestimon
                 3. MOBILE LAYOUT — Main Card at top, then 3-Card Carousel, then Pagination Dots Below
                ═══════════════════════════════════════════ */}
             <div 
-              className="lg:hidden relative w-full max-w-[380px] min-[420px]:max-w-[400px] mx-auto px-0"
+              className="lg:hidden relative w-full max-w-[340px] min-[390px]:max-w-[360px] mx-auto px-0"
               onTouchStart={handleMobileTouchStart}
               onTouchEnd={handleMobileTouchEnd}
             >
