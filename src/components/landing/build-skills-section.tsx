@@ -24,7 +24,7 @@ const heroSlidesList: HeroSlideItem[] = [
   {
     id: "admission-slide-1",
     bulletText: "Admission Started",
-    yearText: "2025–26",
+    yearText: "2026–27",
     courseLine1: "Foundation 4–10 | 11 & 12 | JEE | NEET | CUET",
     courseLine2: "SCIENCE, COMMERCE, HUMANITIES",
     buttonText: "Enroll Now",
@@ -34,7 +34,7 @@ const heroSlidesList: HeroSlideItem[] = [
   {
     id: "admission-slide-2",
     bulletText: "Admission Started",
-    yearText: "2025–26",
+    yearText: "2026–27",
     courseLine1: "Foundation 4–10 | 11 & 12 | JEE | NEET | CUET",
     courseLine2: "SCIENCE, COMMERCE, HUMANITIES",
     buttonText: "Enroll Now",
@@ -119,26 +119,18 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                     {/* Dedicated Left-Aligned Mobile Composition */}
                     <div className="relative z-10 w-full max-w-[420px] mx-auto flex flex-col items-start text-left">
                       
-                      {/* Main Heading: Admission Started with live pulse bullet (Left-aligned, secondary) */}
-                      <div className="inline-flex items-center gap-1.5 text-[11.5px] min-[390px]:text-[12.5px] sm:text-[13.5px] font-bold tracking-wide text-sky-300 drop-shadow-xs mb-1 select-none">
-                        <span className="relative flex h-2 w-2 shrink-0">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.9)]" />
-                        </span>
+                      {/* Main Heading: Admission Started 2026-27 (Single line, fits 360px+) */}
+                      <h1 className="flex items-center gap-1.5 min-[360px]:gap-2 min-[390px]:gap-2 text-[18px] min-[360px]:text-[20px] min-[390px]:text-[22px] sm:text-[32px] font-black tracking-tight text-white leading-none pb-2 min-[390px]:pb-2.5 drop-shadow-sm text-left whitespace-nowrap">
                         <span>{slide.bulletText}</span>
-                      </div>
-
-                      {/* Strongest Visual Element: 2025-26 (Left-aligned, refined & dominant) */}
-                      <h1 className="text-[36px] min-[360px]:text-[40px] min-[390px]:text-[46px] sm:text-[52px] font-black tracking-tight text-white leading-none pb-2 min-[390px]:pb-2.5 drop-shadow-sm text-left">
-                        {slide.yearText}
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-400">{slide.yearText}</span>
                       </h1>
 
-                      {/* Supporting Text: Course Categories (Harmonious ice-blue tint, comfortable line-height) */}
-                      <div className="space-y-1.5 min-[390px]:space-y-2 pb-3.5 min-[390px]:pb-4 text-left max-w-[320px]">
-                        <p className="text-[11px] min-[360px]:text-[11.5px] min-[390px]:text-[12.5px] sm:text-[13.5px] font-semibold text-[#DCE8F8] tracking-[0.01em] leading-normal">
+                      {/* Supporting Text: Course Categories (single-line at all mobile widths) */}
+                      <div className="space-y-1 min-[390px]:space-y-1.5 pb-3.5 min-[390px]:pb-4 text-left">
+                        <p className="text-[12px] min-[360px]:text-[13px] min-[390px]:text-[14px] sm:text-[16px] font-semibold text-[#DCE8F8] tracking-[0.01em] leading-normal whitespace-nowrap">
                           {slide.courseLine1}
                         </p>
-                        <p className="text-[9.5px] min-[360px]:text-[10px] min-[390px]:text-[10.5px] sm:text-[11.5px] font-bold text-amber-300 tracking-[0.07em] uppercase leading-normal">
+                        <p className="text-[10.5px] min-[360px]:text-[11px] min-[390px]:text-[11.5px] sm:text-[13px] font-bold text-amber-300 tracking-[0.05em] uppercase leading-normal whitespace-nowrap">
                           {slide.courseLine2}
                         </p>
                       </div>
@@ -147,10 +139,10 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                       <div className="pb-1 text-left w-full flex justify-start">
                         <Link
                           href={slide.buttonLink}
-                          className="inline-flex items-center justify-center gap-2 h-9 min-[390px]:h-[38px] sm:h-10 px-6 min-[390px]:px-7 sm:px-8 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[12.5px] min-[390px]:text-[13px] sm:text-[13.5px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] border border-blue-400/25 active:scale-95 transition-all cursor-pointer select-none"
+                          className="inline-flex items-center justify-center gap-2 h-[38px] min-[390px]:h-[40px] sm:h-[42px] px-7 min-[390px]:px-8 sm:px-9 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[13px] min-[390px]:text-[13.5px] sm:text-[14px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] border border-blue-400/25 active:scale-95 transition-all cursor-pointer select-none"
                         >
                           <span>{slide.buttonText}</span>
-                          <ArrowRight className="w-3.5 h-3.5 stroke-[2.4]" />
+                          <ArrowRight className="w-4 h-4 stroke-[2.4]" />
                         </Link>
                       </div>
 
@@ -215,26 +207,18 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                       {/* Left Column: Text Content (Repositioned slightly upward and vertically balanced) */}
                       <div className="flex flex-col items-start text-left max-w-md lg:max-w-lg self-center -translate-y-6 md:-translate-y-8 lg:-translate-y-9 pt-1 md:pt-2 pb-2 md:pb-3">
                         
-                        {/* 1. Main Heading: • Admission Started (Live pulse bullet, supporting micro-label) */}
-                        <div className="inline-flex items-center gap-2 text-xs md:text-[12.5px] lg:text-[13px] font-bold tracking-[0.06em] text-sky-300 drop-shadow-xs mb-1 md:mb-1.5 select-none">
-                          <span className="relative flex h-2 w-2 shrink-0">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400 shadow-[0_0_8px_rgba(56,189,248,0.9)]" />
-                          </span>
+                        {/* 1. Main Heading: Admission Started 2026-27 (Single line, large font, no bullet) */}
+                        <h1 className="flex items-center gap-3 md:gap-3.5 text-[1.85rem] md:text-[2.35rem] lg:text-[2.85rem] xl:text-[3.25rem] font-black tracking-[-0.02em] text-white leading-none pb-3 md:pb-3.5 drop-shadow-sm text-left whitespace-nowrap">
                           <span>{slide.bulletText}</span>
-                        </div>
-
-                        {/* 2. Strongest Visual Element: 2025-26 (Reduced ~8-10%, Dominant & Proportionate) */}
-                        <h1 className="text-3xl md:text-[2.75rem] lg:text-[3.35rem] xl:text-[3.8rem] font-black tracking-[-0.025em] text-white leading-none pb-2 md:pb-2.5 drop-shadow-sm text-left">
-                          {slide.yearText}
+                          <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-400">{slide.yearText}</span>
                         </h1>
 
                         {/* 3. Supporting Text: Course Categories (Ice-blue tone, clearly readable) */}
-                        <div className="space-y-1 pb-3.5 md:pb-4 text-left">
-                          <p className="text-xs md:text-[13.5px] lg:text-[14.5px] font-semibold text-[#DCE8F8] tracking-normal leading-snug">
+                        <div className="space-y-1.5 pb-4.5 md:pb-5 text-left">
+                          <p className="text-[17px] md:text-[19px] lg:text-[20px] font-semibold text-[#DCE8F8] tracking-normal leading-relaxed">
                             {slide.courseLine1}
                           </p>
-                          <p className="text-[10px] md:text-[11px] lg:text-[11.5px] font-bold text-amber-300 tracking-[0.07em] uppercase">
+                          <p className="text-[13px] md:text-[14px] lg:text-[15px] font-bold text-amber-300 tracking-[0.07em] uppercase">
                             {slide.courseLine2}
                           </p>
                         </div>
@@ -243,10 +227,10 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                         <div className="pt-0.5 text-left">
                           <Link
                             href={slide.buttonLink}
-                            className="inline-flex items-center justify-center gap-2 h-9.5 md:h-10 lg:h-[40px] px-5.5 md:px-6 lg:px-6.5 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[13px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] hover:shadow-[0_4px_16px_rgba(21,94,239,0.4)] border border-blue-400/25 hover:scale-[1.01] active:scale-95 transition-all cursor-pointer select-none"
+                            className="inline-flex items-center justify-center gap-2.5 h-[40px] md:h-[42px] lg:h-[44px] px-6 md:px-7 lg:px-8 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[14px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] hover:shadow-[0_4px_16px_rgba(21,94,239,0.4)] border border-blue-400/25 hover:scale-[1.01] active:scale-95 transition-all cursor-pointer select-none"
                           >
                             <span>{slide.buttonText}</span>
-                            <ArrowRight className="w-3.5 h-3.5 stroke-[2.4]" />
+                            <ArrowRight className="w-4 h-4 stroke-[2.4]" />
                           </Link>
                         </div>
 
