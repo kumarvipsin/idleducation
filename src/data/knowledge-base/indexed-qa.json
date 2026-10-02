@@ -1,0 +1,389 @@
+{
+  "lastUpdated": "2026-10-02T13:57:01.179Z",
+  "sources": [
+    {
+      "filename": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "filesize": 142050,
+      "parsedAt": "2026-10-02T13:25:00.000Z",
+      "qaCount": 10,
+      "chunkCount": 3
+    },
+    {
+      "filename": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "filesize": 74652,
+      "parsedAt": "2026-10-02T13:57:01.179Z",
+      "qaCount": 16,
+      "chunkCount": 5
+    }
+  ],
+  "qaList": [
+    {
+      "id": "qa-idl-1",
+      "question": "What is the admission procedure for IDL Education for 2026-27?",
+      "answer": "Admission for the academic session 2026–27 is currently open. Students can apply online through the website by clicking 'Enroll Now' or by visiting any of our Delhi branches (Mukherjee Nagar, Mangol Puri, Krishan Vihar, Budh Vihar). An initial registration fee of ₹10 is required for provisional ID generation.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "admission",
+        "procedure",
+        "enroll",
+        "session",
+        "2026-27",
+        "branches"
+      ]
+    },
+    {
+      "id": "qa-idl-2",
+      "question": "What courses and programs does IDL Education offer?",
+      "answer": "IDL Education offers: 1) Foundation Courses for Classes 4th to 10th (CBSE/ICSE, Olympiads & NTSE prep), 2) Senior Secondary (Classes 11th & 12th) for Science (PCM/PCB), Commerce & Humanities, 3) Competitive Batches for JEE (Main & Advanced), NEET-UG, and CUET (UG), and 4) Target Repeater batches.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "courses",
+        "foundation",
+        "classes",
+        "jee",
+        "neet",
+        "cuet",
+        "commerce",
+        "science"
+      ]
+    },
+    {
+      "id": "qa-idl-3",
+      "question": "How can I apply for a scholarship at IDL Education?",
+      "answer": "IDL Education conducts the IDL Admission & Scholarship Test, offering up to 70% tuition fee scholarships based on student merit. You can register for the scholarship test online directly through our website by clicking the 'Apply for Scholarship' option.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "scholarship",
+        "test",
+        "discount",
+        "fee",
+        "merit",
+        "exam"
+      ]
+    },
+    {
+      "id": "qa-idl-4",
+      "question": "Where are the physical branch centers of IDL Education located?",
+      "answer": "IDL Education has 4 prime offline branch centers in Delhi: 1) Mukherjee Nagar (Delhi-110009), 2) Mangol Puri (Delhi-110083), 3) Krishan Vihar (Delhi-110086), and 4) Budh Vihar (Delhi-110086). Offline demo and counseling sessions are conducted at all centers.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "centers",
+        "branches",
+        "location",
+        "address",
+        "delhi",
+        "mukherjee nagar",
+        "mangol puri",
+        "krishan vihar",
+        "budh vihar"
+      ]
+    },
+    {
+      "id": "qa-idl-5",
+      "question": "Can I book a free demo class before taking admission?",
+      "answer": "Yes! IDL Education offers a 100% Free Demo Session for prospective students in offline mode at our branches. You can book a free demo session online using the 'Book Free Demo' modal on our website.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "demo",
+        "free",
+        "trial",
+        "experience",
+        "booking"
+      ]
+    },
+    {
+      "id": "qa-idl-6",
+      "question": "What is the two-teacher model at IDL Education?",
+      "answer": "Our unique two-teacher model provides one expert master teacher who conducts deep conceptual lectures and a second dedicated doubt-clearing mentor who gives personal attention and resolves doubts instantly during and after classes.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "two-teacher",
+        "mentor",
+        "doubt",
+        "model",
+        "faculty"
+      ]
+    },
+    {
+      "id": "qa-idl-7",
+      "question": "What study materials and resources are provided to students?",
+      "answer": "Enrolled students receive comprehensive IDL study modules, chapter-wise question banks, NCERT solutions, previous year question papers (PYQs), daily practice papers (DPPs), and weekly computer-based test (CBT) series with detailed performance analytics.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "study material",
+        "books",
+        "notes",
+        "pyq",
+        "ncert",
+        "test series"
+      ]
+    },
+    {
+      "id": "qa-idl-8",
+      "question": "What are the contact details and helpline number for IDL Education?",
+      "answer": "You can reach IDL Education via WhatsApp or Phone at +91 88600 40010, or email us at info@idleducation.in. Our counseling team is available Monday through Saturday from 9:00 AM to 7:00 PM.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "contact",
+        "phone",
+        "helpline",
+        "email",
+        "whatsapp",
+        "support",
+        "timing"
+      ]
+    },
+    {
+      "id": "qa-idl-9",
+      "question": "Is transport facility available for offline classes?",
+      "answer": "Yes, localized cab and van pickup/drop facilities are arranged along select routes across North and North-West Delhi connecting our Mukherjee Nagar, Mangol Puri, Krishan Vihar, and Budh Vihar branches. Contact the branch office for specific route coverage.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "transport",
+        "cab",
+        "bus",
+        "van",
+        "pickup",
+        "route"
+      ]
+    },
+    {
+      "id": "qa-idl-10",
+      "question": "How are parents updated about student attendance and academic progress?",
+      "answer": "Parents receive automated SMS and WhatsApp attendance notifications upon student entry/exit at the center. In addition, monthly parent-teacher meetings (PTMs) and comprehensive test analytics reports are shared on the student portal.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf",
+      "tags": [
+        "attendance",
+        "parents",
+        "ptm",
+        "reports",
+        "progress",
+        "updates"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-1",
+      "question": "What is a cell?",
+      "answer": "A cell is the smallest basic unit that makes up a living organism and performs the essential functions\nneeded for life.\n• Unicellular organisms: made of only one cell. Examples: bacteria and yeast.\n• Multicellular organisms: made of many cells. Examples: plants, fish, birds and humans.\nOrganisation in Multicellular Organisms\nCELL TISSUE ORGAN ORGAN\nSYSTEM\nORGANISM\nCell → Tissue → Organ → Organ system → Organism\n• A group of similar cells performing similar functions forms a tissue.\n• Different tissues are organised to form an organ.\n• Several organs work together to form an organ system.\nREMEMBER\nOne cell = Unicellular | Many cells = Multicellular\n\n**Quick Answer:**\nA cell is the basic unit of life and the basic structural and functional unit of living organisms.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "cell"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-2",
+      "question": "Give two examples of unicellular organisms.",
+      "answer": "Bacteria and yeast.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "give",
+        "two",
+        "examples",
+        "unicellular",
+        "organisms"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-3",
+      "question": "Who observed cells in cork in 1665?",
+      "answer": "Robert Hooke.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "observed",
+        "cells",
+        "cork",
+        "1665"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-4",
+      "question": "What is magnification?",
+      "answer": "Magnification is the process of making an object appear larger than its actual size.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "magnification"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-5",
+      "question": "What is the value of 1 mm in micrometres?",
+      "answer": "1 mm = 1000 μm.\nB. Short Answer",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "value",
+        "micrometres"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-6",
+      "question": "Differentiate between unicellular and multicellular organisms.",
+      "answer": "Unicellular organisms consist of only one cell, while multicellular organisms consist of many cells.\nExamples: bacteria/yeast are unicellular; humans/plants are multicellular.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "differentiate",
+        "between",
+        "unicellular",
+        "multicellular",
+        "organisms"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-7",
+      "question": "Why is a microscope needed to study cells?",
+      "answer": "Most cells are too small to be seen clearly by the naked eye. A microscope magnifies them and\nhelps us observe their structure.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "microscope",
+        "needed",
+        "study",
+        "cells"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-8",
+      "question": "What did Robert Hooke observe in cork?",
+      "answer": "In 1665, Robert Hooke observed many small box-like compartments in a thin slice of cork and called\nthem “cells”.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "did",
+        "robert",
+        "hooke",
+        "observe",
+        "cork"
+      ]
+    },
+    {
+      "id": "qa-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-9",
+      "question": "Write the correct order of organisation in a multicellular organism.",
+      "answer": "Cell → Tissue → Organ → Organ system → Organism.\nC. Numerical / Application",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "write",
+        "correct",
+        "order",
+        "organisation",
+        "multicellular",
+        "organism"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-10",
+      "question": "How to Study Cells?",
+      "answer": "Most cells are too small to be seen clearly with the naked eye. Scientists therefore use microscopes\nto magnify and study them.\nLimit of Resolution\nThe limit of resolution is the ability to see two very close points as two separate points. The human\neye can distinguish two points about 0.1 mm apart.\nEXAM FACT\nHuman eye limit of resolution ≈ 0.1 mm.\n\n\n\nIDL Education • Class 8 Science • Chapter 2 Page 2",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "study",
+        "cells"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-11",
+      "question": "Magnification & Microscopes",
+      "answer": "Magnification means making an object appear larger than its actual size. A microscope uses lenses\nto magnify tiny objects.\nWhy do we need a microscope?\n• Most cells are much smaller than what the naked eye can clearly resolve.\n• A microscope magnifies the object so that its structure can be observed.\n• Different objective lenses can provide different magnifications, such as 10X and 40X.\nEyepiece\nBody tube\nObjective lenses\nStage\nMirror\nBase\nAdjustment knobs\nImportant Parts of a Light Microscope\nPart Main role\nEyepiece The lens through which we look.\nObjective lens Magnifies the specimen.\nStage Supports the slide/specimen.\nMirror Helps direct light towards the specimen.\nAdjustment knobs Used for focusing the image.\nBase Provides support to the microscope.\nQUICK REMEMBER\nMagnification = making an object appear larger.\nCommon objective lenses shown in the chapter: 10X and 40X.\n\n\n\nIDL Education • Class 8 Science • Chapter 2 Page 3",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "magnification",
+        "microscopes"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-12",
+      "question": "Robert Hooke & the Discovery of Cells",
+      "answer": "In 1665, Robert Hooke examined a thin slice of cork using a self-designed microscope.\n• He observed many small, box-like compartments in the cork.\n• He named these compartments “cells”.\nMEMORY LINE\nROBERT HOOKE → 1665 → CORK → “CELLS”",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "robert",
+        "hooke",
+        "discovery",
+        "cells"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-13",
+      "question": "Light Microscope vs Electron Microscope",
+      "answer": "Light Microscope Electron Microscope\nUses light to form the image. Uses a beam of electrons.\nCommonly used in school laboratories. Used to reveal much finer details of cell structures.\nSuitable for observing cells with light. Can reveal structures at the nanometre scale.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "light",
+        "microscope",
+        "electron",
+        "microscope"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-14",
+      "question": "Size of Microscopic Objects",
+      "answer": "Cells and other tiny structures are described using small units such as millimetres (mm), micrometres\n(μm) and nanometres (nm).\n1 mm\n100 μm\n10 μm\n1 μm\n100 nm\n10 nm\nFish egg\nAmoeba\nPlant / animal cells\nNucleus\nMitochondrion\nViruses\nApproximate size range of microscopic objects\nUNIT CONVERSION\n1 millimetre (mm) = 1000 micrometres (μm)\n\n\n\nIDL Education • Class 8 Science • Chapter 2 Page 4",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "size",
+        "microscopic",
+        "objects"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-15",
+      "question": "Estimating the Size of a Cell",
+      "answer": "The size of a cell can be estimated by measuring the diameter of the visible field of view and counting\nhow many cells fit along that diameter.\nFormula ⭐\nSize of one cell = Diameter of visible field ÷ Number of cells along the\ndiameter\nWORKED EXAMPLE\nIf the visible field diameter is 5000 μm and 25 cells fit along the diameter:\nCell size = 5000 ÷ 25 = 200 μm\nSteps in the NCERT Activity\n• Place a transparent ruler with millimetre markings on the microscope stage.\n• Focus on the ruler and observe the diameter of the visible field.\n• Convert the diameter into micrometres (μm).\n• Replace the ruler with an onion peel slide.\n• Count the number of cells along the diameter of the field of view.\n• Use the formula to estimate the actual size of one cell.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "estimating",
+        "size",
+        "cell"
+      ]
+    },
+    {
+      "id": "sec-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-16",
+      "question": "Chapter Quick Revision",
+      "answer": "Concept Must remember\nBasic unit of life Cell\nOne-cell organism Unicellular\nMany-cell organism Multicellular\nHuman eye resolution About 0.1 mm\nRobert Hooke Observed cork cells in 1665\nMagnification Making an object appear larger\nLight microscope Uses light\nElectron microscope Uses electrons\n1 mm 1000 μm\nCell-size formula Visible-field diameter ÷ number of cells\n\n\n\nIDL Education • Class 8 Science • Chapter 2 Page 5",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf",
+      "tags": [
+        "chapter",
+        "quick",
+        "revision"
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "id": "chunk-idl-1",
+      "text": "IDL Education is a premier educational institute in Delhi dedicated to shaping young minds for academic excellence and top competitive exams including JEE Main, JEE Advanced, NEET-UG, and CUET. With a student-first philosophy, IDL integrates foundational classroom teaching with modern analytics.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf"
+    },
+    {
+      "id": "chunk-idl-2",
+      "text": "For classes 4 to 10, the IDL Foundation Program strengthens science and mathematics reasoning, preparing students early for NTSE, Junior Science Olympiads (NSEJS), and high school board exams with 95%+ targets.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf"
+    },
+    {
+      "id": "chunk-idl-3",
+      "text": "Fee structures for Foundation and Competitive batches vary by grade and scholarship percentage achieved. Flexible installment payment options are available through online net banking, UPI, credit/debit cards, and offline cash/cheque at branch counters.",
+      "source": "IDL_Education_Official_QA_Guide_2026-27.pdf"
+    },
+    {
+      "id": "chunk-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-1",
+      "text": "IDL Education • Class 8 Science • Chapter 2 Page 1\nCELL: THE BUILDING BLOCK OF LIFE\nClass 8 Science • NCERT Chapter 2 • Quick + Exam-Oriented Notes\nCORE IDEA\nA cell is the basic unit of life. Every living organism is made of one or more cells.\n1. What is a Cell?\nA cell is the smallest basic unit that makes up a living organism and performs the essential functions\nneeded for life.\n• Unicellular organisms: made of only one cell. Examples: bacteria and yeast.\n• Multicellular organisms: made of many cells. Examples: plants, fish, birds and humans.\nOrganisation in Multicellular Organisms\nCELL TISSUE ORGAN ORGAN\nSYSTEM\nORGANISM\nCell → Tissue → Organ → Organ system → Organism\n• A group of similar cells performing similar functions forms a tissue.\n• Different tissues are organised to form an organ.\n• Several organs work together to form an organ system.\nREMEMBER\nOne cell = Unicellular | Many cells = Multicellular\n2. How to Study Cells?\nMost cells are too small to be seen clearly with the naked eye. Scientists therefore use microscopes\nto magnify and study them.\nLimit of Resolution\nThe limit of resolution is the ability to see two very close points as two separate points. The human\neye can distinguish two points about 0.1 mm apart.\nEXAM FACT\nHuman eye limit of resolution ≈ 0.1 mm.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf"
+    },
+    {
+      "id": "chunk-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-2",
+      "text": "IDL Education • Class 8 Science • Chapter 2 Page 2\n3. Magnification & Microscopes\nMagnification means making an object appear larger than its actual size. A microscope uses lenses\nto magnify tiny objects.\nWhy do we need a microscope?\n• Most cells are much smaller than what the naked eye can clearly resolve.\n• A microscope magnifies the object so that its structure can be observed.\n• Different objective lenses can provide different magnifications, such as 10X and 40X.\nEyepiece\nBody tube\nObjective lenses\nStage\nMirror\nBase\nAdjustment knobs\nImportant Parts of a Light Microscope\nPart Main role\nEyepiece The lens through which we look.\nObjective lens Magnifies the specimen.\nStage Supports the slide/specimen.\nMirror Helps direct light towards the specimen.\nAdjustment knobs Used for focusing the image.\nBase Provides support to the microscope.\nQUICK REMEMBER\nMagnification = making an object appear larger.\nCommon objective lenses shown in the chapter: 10X and 40X.",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf"
+    },
+    {
+      "id": "chunk-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-3",
+      "text": "IDL Education • Class 8 Science • Chapter 2 Page 3\n4. Robert Hooke & the Discovery of Cells\nIn 1665, Robert Hooke examined a thin slice of cork using a self-designed microscope.\n• He observed many small, box-like compartments in the cork.\n• He named these compartments “cells”.\nMEMORY LINE\nROBERT HOOKE → 1665 → CORK → “CELLS”\n5. Light Microscope vs Electron Microscope\nLight Microscope Electron Microscope\nUses light to form the image. Uses a beam of electrons.\nCommonly used in school laboratories. Used to reveal much finer details of cell structures.\nSuitable for observing cells with light. Can reveal structures at the nanometre scale.\n6. Size of Microscopic Objects\nCells and other tiny structures are described using small units such as millimetres (mm), micrometres\n(μm) and nanometres (nm).\n1 mm\n100 μm\n10 μm\n1 μm\n100 nm\n10 nm\nFish egg\nAmoeba\nPlant / animal cells\nNucleus\nMitochondrion\nViruses\nApproximate size range of microscopic objects\nUNIT CONVERSION\n1 millimetre (mm) = 1000 micrometres (μm)",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf"
+    },
+    {
+      "id": "chunk-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-4",
+      "text": "IDL Education • Class 8 Science • Chapter 2 Page 4\n7. Estimating the Size of a Cell\nThe size of a cell can be estimated by measuring the diameter of the visible field of view and counting\nhow many cells fit along that diameter.\nFormula ⭐\nSize of one cell = Diameter of visible field ÷ Number of cells along the\ndiameter\nWORKED EXAMPLE\nIf the visible field diameter is 5000 μm and 25 cells fit along the diameter:\nCell size = 5000 ÷ 25 = 200 μm\nSteps in the NCERT Activity\n• Place a transparent ruler with millimetre markings on the microscope stage.\n• Focus on the ruler and observe the diameter of the visible field.\n• Convert the diameter into micrometres (μm).\n• Replace the ruler with an onion peel slide.\n• Count the number of cells along the diameter of the field of view.\n• Use the formula to estimate the actual size of one cell.\n8. Chapter Quick Revision\nConcept Must remember\nBasic unit of life Cell\nOne-cell organism Unicellular\nMany-cell organism Multicellular\nHuman eye resolution About 0.1 mm\nRobert Hooke Observed cork cells in 1665\nMagnification Making an object appear larger\nLight microscope Uses light\nElectron microscope Uses electrons\n1 mm 1000 μm\nCell-size formula Visible-field diameter ÷ number of cells",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf"
+    },
+    {
+      "id": "chunk-IDL_Class_8_Science_Ch2_Cell_Notes_A4_pdf-5",
+      "text": "IDL Education • Class 8 Science • Chapter 2 Page 5\n9. Important Questions — Topic Wise\nA. Very Short Answer\nQ1. What is a cell?\nAns. A cell is the basic unit of life and the basic structural and functional unit of living organisms.\nQ2. Give two examples of unicellular organisms.\nAns. Bacteria and yeast.\nQ3. Who observed cells in cork in 1665?\nAns. Robert Hooke.\nQ4. What is magnification?\nAns. Magnification is the process of making an object appear larger than its actual size.\nQ5. What is the value of 1 mm in micrometres?\nAns. 1 mm = 1000 μm.\nB. Short Answer\nQ6. Differentiate between unicellular and multicellular organisms.\nAns. Unicellular organisms consist of only one cell, while multicellular organisms consist of many cells.\nExamples: bacteria/yeast are unicellular; humans/plants are multicellular.\nQ7. Why is a microscope needed to study cells?\nAns. Most cells are too small to be seen clearly by the naked eye. A microscope magnifies them and\nhelps us observe their structure.\nQ8. What did Robert Hooke observe in cork?\nAns. In 1665, Robert Hooke observed many small box-like compartments in a thin slice of cork and called\nthem “cells”.\nQ9. Write the correct order of organisation in a multicellular organism.\nAns. Cell → Tissue → Organ → Organ system → Organism.\nC. Numerical / Application\nQ10. A visible field has a diameter of 5000 μm. If 25 cells lie along the diameter, estimate the size\nof one cell.\nAns. Size = 5000 ÷ 25 = 200 μm.\nLAST-MINUTE REVISION\nHooke — 1665 — Cork — Cells | 1 mm = 1000 μm | Cell → Tissue → Organ → Organ system",
+      "source": "IDL_Class_8_Science_Ch2_Cell_Notes_A4.pdf"
+    }
+  ]
+}

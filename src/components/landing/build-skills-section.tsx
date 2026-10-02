@@ -5,8 +5,8 @@ import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { THeroSlide } from "@/app/actions/types";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { AdmissionModal } from "@/components/admission-modal";
 
 interface HeroSlideItem {
   id: string;
@@ -46,6 +46,7 @@ const heroSlidesList: HeroSlideItem[] = [
 export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroSlide[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
 
   const autoplayPlugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
@@ -67,6 +68,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
   );
 
   return (
+    <>
     <section suppressHydrationWarning className="w-full pt-0 pb-0 bg-white dark:bg-background">
       <div className="w-full px-0">
         <div className="relative w-full rounded-none overflow-hidden bg-[#020B21] select-none">
@@ -135,15 +137,16 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                         </p>
                       </div>
 
-                      {/* Clear CTA Button: Enroll Now (Luminous premium gradient, refined border highlight) */}
+                      {/* Clear CTA Button: Enroll Now — opens Admission Modal */}
                       <div className="pb-1 text-left w-full flex justify-start">
-                        <Link
-                          href={slide.buttonLink}
+                        <button
+                          type="button"
+                          onClick={() => setIsAdmissionOpen(true)}
                           className="inline-flex items-center justify-center gap-2 h-[38px] min-[390px]:h-[40px] sm:h-[42px] px-7 min-[390px]:px-8 sm:px-9 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[13px] min-[390px]:text-[13.5px] sm:text-[14px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] border border-blue-400/25 active:scale-95 transition-all cursor-pointer select-none"
                         >
                           <span>{slide.buttonText}</span>
                           <ArrowRight className="w-4 h-4 stroke-[2.4]" />
-                        </Link>
+                        </button>
                       </div>
 
                       {/* Natural Student Visual in Lower-Right Area (Positioned slightly higher, visually connecting with text block) */}
@@ -223,15 +226,16 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                           </p>
                         </div>
 
-                        {/* 4. Clear CTA Button: Enroll Now (Luminous premium gradient, refined border highlight) */}
+                        {/* 4. Clear CTA Button: Enroll Now — opens Admission Modal */}
                         <div className="pt-0.5 text-left">
-                          <Link
-                            href={slide.buttonLink}
+                          <button
+                            type="button"
+                            onClick={() => setIsAdmissionOpen(true)}
                             className="inline-flex items-center justify-center gap-2.5 h-[40px] md:h-[42px] lg:h-[44px] px-6 md:px-7 lg:px-8 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[14px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] hover:shadow-[0_4px_16px_rgba(21,94,239,0.4)] border border-blue-400/25 hover:scale-[1.01] active:scale-95 transition-all cursor-pointer select-none"
                           >
                             <span>{slide.buttonText}</span>
                             <ArrowRight className="w-4 h-4 stroke-[2.4]" />
-                          </Link>
+                          </button>
                         </div>
 
                       </div>
@@ -279,5 +283,9 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
         </div>
       </div>
     </section>
+
+    {/* Admission Form Popup Modal */}
+    <AdmissionModal isOpen={isAdmissionOpen} onOpenChange={setIsAdmissionOpen} />
+    </>
   );
 }

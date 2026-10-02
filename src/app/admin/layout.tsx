@@ -18,7 +18,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2 } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2, Bot } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -322,6 +322,12 @@ function AdminLayout({
                             <Link href="/admin/social-media">
                                 <Share2 />
                                 <span>Social Media Settings</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/ai-knowledge')}>
+                            <Link href="/admin/ai-knowledge">
+                                <Bot />
+                                <span>AI Knowledge (PDF)</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>

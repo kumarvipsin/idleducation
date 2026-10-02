@@ -10,10 +10,11 @@ interface IdlActionCardProps {
 
 export function IdlActionCard({ action }: IdlActionCardProps) {
   const isExternal = action.type === 'external';
+  const href = action.href || action.url || '#';
 
   return (
     <Link
-      href={action.href}
+      href={href}
       target={isExternal ? '_blank' : undefined}
       rel={isExternal ? 'noopener noreferrer' : undefined}
       className="group inline-flex items-center justify-between w-full max-w-xs px-3 py-2.5 rounded-[9px] bg-[#F8FAFE] dark:bg-[#0e1420] border border-[#D0DCFF]/70 dark:border-[#2a3a70]/60 hover:bg-[#EEF2FF] dark:hover:bg-[#1e2d5a]/50 hover:border-[#93AEFF]/60 dark:hover:border-[#3B82F6]/40 transition-all duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"

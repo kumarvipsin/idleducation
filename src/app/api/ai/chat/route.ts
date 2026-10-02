@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { ProviderFactory } from '@/lib/ai/provider/ProviderFactory';
 import { AIConfig } from '@/lib/ai/config';
 import { AIWebsiteTools } from '@/lib/ai/tools/actions';
+import { PDFKnowledgeService } from '@/lib/ai/knowledge/PDFKnowledgeService';
 import { z } from 'zod';
 
 // Simple payload validation
@@ -52,20 +53,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // 2. Validate Configuration
-    const configResult = AIConfig.validateConfig();
-    const hasApiKey = !!(process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY);
-    if (!hasApiKey) {
-      console.error('[AI] PROVIDER_ERROR: GEMINI_API_KEY is not configured');
-      return NextResponse.json({
-        answer: "The AI service is not configured yet. Please contact the administrator.",
-        actions: [],
-        suggestedPrompts: [],
-        metadata: { provider: 'gemini' },
-      }, { status: 200 });
-    }
-
-    // 3. Parse and Validate Request
+    // 2. Parse and Validate Request
     const body = await req.json();
     const result = ChatRequestSchema.safeParse(body);
     
@@ -77,34 +65,102 @@ export async function POST(req: NextRequest) {
     }
 
     const { messages, context } = result.data;
+    const lastUserMessage = messages[messages.length - 1]?.content || '';
+    const lastMessageLower = lastUserMessage.toLowerCase();
 
-    // 4. Instantiate Provider (Gemini by default)
+    // 3. Search verified PDF Q&A Knowledge Base (Semantic Vector + Keyword RAG)
+    const hybridResults = await PDFKnowledgeService.searchKnowledgeAsync(lastUserMessage, 4);
+    const pdfQAContext = await PDFKnowledgeService.getFormattedContext(lastUserMessage, 4);
+
+    // 4. Validate AI Configuration & API Key
+    const hasApiKey = !!(process.env.GEMINI_API_KEY || process.env.GOOGLE_API_KEY);
+    if (!hasApiKey) {
+      // Graceful fallback: If an exact or close semantic Q&A match exists in the PDF knowledge base, return it!
+      const directMatch = await PDFKnowledgeService.findDirectMatch(lastUserMessage);
+      const matchedQA = directMatch || (hybridResults.qas.length > 0 ? hybridResults.qas[0] : null);
+
+      if (matchedQA) {
+        const sourceName = matchedQA.source.replace(/_/g, ' ').replace(/\.pdf$/i, '');
+        const isAcademic = /class|science|math|ch\d|chapter|notes|cell|physics|chemistry|biology/i.test(matchedQA.source) ||
+                           /cell|organism|microscope|science|equation|formula|theorem/i.test(lastUserMessage);
+
+        let formattedAnswer = matchedQA.answer;
+
+        // Enrich with related key points from the same PDF notes if available
+        const related = hybridResults.qas.filter(q => q.id !== matchedQA.id && q.source === matchedQA.source).slice(0, 2);
+        if (related.length > 0) {
+          formattedAnswer += `\n\n**Related Notes from Chapter:**\n` + related.map(r => `• **${r.question}**: ${r.answer}`).join('\n');
+        }
+
+        formattedAnswer += `\n\n📖 *Verified from: ${sourceName}*`;
+
+        const dynamicPrompts = hybridResults.qas
+          .filter(q => q.id !== matchedQA.id)
+          .map(q => q.question)
+          .slice(0, 3);
+
+        const actions = isAcademic
+          ? [{ id: 'act-resources', label: 'Explore Study Resources', type: 'navigation', href: '/study-resources', url: '/study-resources' }]
+          : [
+              { id: 'act-adm', label: 'Admission 2026–27', type: 'navigation', href: '/admission', url: '/admission' },
+              { id: 'act-courses', label: 'Explore Courses', type: 'navigation', href: '/study-resources', url: '/study-resources' }
+            ];
+
+        return NextResponse.json({
+          answer: formattedAnswer,
+          actions,
+          suggestedPrompts: dynamicPrompts.length > 0 ? dynamicPrompts : [
+            "What courses are offered?",
+            "How can I apply for scholarship?",
+            "Where are the branch centers located?"
+          ],
+          metadata: { provider: 'pdf-knowledge-base', source: matchedQA.source },
+        }, { status: 200 });
+      }
+
+      console.warn('[AI] GEMINI_API_KEY is not configured and no direct PDF match found');
+      return NextResponse.json({
+        answer: "Welcome to IDL Education! To connect directly with our academic counselor, call or WhatsApp us at +91 88600 40010.",
+        actions: [
+          { id: 'act-adm', label: 'Admission 2026–27', type: 'navigation', href: '/admission', url: '/admission' },
+          { id: 'act-demo', label: 'Book Free Demo', type: 'navigation', href: '/demo', url: '/demo' }
+        ],
+        suggestedPrompts: [
+          "Tell me about Class 11th & 12th JEE/NEET",
+          "What are the branch locations?",
+          "How to get admission?"
+        ],
+        metadata: { provider: 'fallback' },
+      }, { status: 200 });
+    }
+
+    // 5. Instantiate Provider (Gemini by default)
     const provider = ProviderFactory.getProvider();
     provider.initialize();
 
-    // 5. Gather intent-based tool data if requested
-    // In a fully developed agent, the model would trigger tool calls dynamically.
-    // For Phase 1 backend foundation, we simulate the retrieval if the last message mentions specific keywords.
-    const lastMessage = messages[messages.length - 1].content.toLowerCase();
-    
+    // 6. Gather intent-based tool data & inject PDF Q&A context
     let additionalContext = "";
     
-    if (lastMessage.includes("course") || lastMessage.includes("class")) {
+    if (pdfQAContext) {
+      additionalContext += `\n\n${pdfQAContext}`;
+    }
+
+    if (lastMessageLower.includes("course") || lastMessageLower.includes("class")) {
       const courses = await AIWebsiteTools.searchCourses(context?.studentClass, context?.subject);
       additionalContext += `\n\nVerified Courses Data:\n${JSON.stringify(courses).substring(0, 3000)}`;
     }
-    if (lastMessage.includes("teacher") || lastMessage.includes("faculty")) {
+    if (lastMessageLower.includes("teacher") || lastMessageLower.includes("faculty")) {
       const teachers = await AIWebsiteTools.getTeachers(context?.subject);
       additionalContext += `\n\nVerified Teachers Data:\n${JSON.stringify(teachers).substring(0, 3000)}`;
     }
-    if (lastMessage.includes("admission")) {
+    if (lastMessageLower.includes("admission")) {
       const admission = await AIWebsiteTools.getAdmissionInfo();
       additionalContext += `\n\nVerified Admission Info:\n${JSON.stringify(admission)}`;
     }
 
     const finalSystemPrompt = AIConfig.SYSTEM_INSTRUCTION + additionalContext;
 
-    // 6. Generate Response
+    // 7. Generate Response from Google Gemini Model
     const aiResponse = await provider.generateResponse(messages, finalSystemPrompt, context);
 
     // 7. Source Transparency Tracking (Internal logs)

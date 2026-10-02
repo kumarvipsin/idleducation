@@ -1,7 +1,8 @@
 export interface AIAction {
   label: string;
-  type: 'navigation' | 'external';
-  href: string;
+  type: 'navigation' | 'external' | string;
+  href?: string;
+  url?: string;
 }
 
 export interface AIResponse {
