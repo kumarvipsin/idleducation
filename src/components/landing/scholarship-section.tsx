@@ -136,7 +136,7 @@ export function ScholarshipSection() {
           </div>
 
           {/* Main Heading: Matches exact size & clean hierarchy */}
-          <h2 className="text-[17.5px] min-[360px]:text-[18.5px] min-[400px]:text-[20px] sm:text-[28px] md:text-[34px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto">
+          <h2 className="text-[15px] min-[360px]:text-[15.5px] min-[390px]:text-[16.5px] sm:text-[28px] md:text-[34px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto whitespace-nowrap">
             <span className="text-[#062B67] dark:text-white">
               Learn Better.{' '}
             </span>

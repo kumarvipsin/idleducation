@@ -201,19 +201,20 @@ export function StudyResources() {
                   </div>
                 </div>
 
-                {/* Right: Illustration — increased size by 12–15%, vertically centered, comfortably inside card */}
-                <div className="absolute right-2 min-[380px]:right-2.5 top-1/2 -translate-y-1/2 w-[118px] min-[380px]:w-[128px] h-[86px] min-[380px]:h-[92px] pointer-events-none z-0 flex items-center justify-center">
+                {/* Right: Illustration — positioned 100% right and 100% bottom touching card edges */}
+                <div className="absolute right-0 bottom-0 w-[148px] min-[380px]:w-[164px] h-[86px] min-[380px]:h-[94px] pointer-events-none z-0 flex items-end justify-end">
                   <div 
                     aria-hidden="true" 
-                    className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(219,234,254,0.35),transparent_70%)] pointer-events-none" 
+                    className="absolute inset-0 bg-[radial-gradient(circle_at_100%_100%,rgba(219,234,254,0.35),transparent_70%)] pointer-events-none" 
                   />
-                  <div className="relative w-full h-full flex items-center justify-center opacity-[0.95]">
+                  <div className="relative w-full h-full flex items-end justify-end opacity-[0.98]">
                     <Image
                       src={item.imageUrl}
                       alt={item.imageAlt}
                       fill
-                      className="object-contain object-center"
-                      sizes="135px"
+                      className="object-contain object-right-bottom"
+                      style={{ objectPosition: 'right bottom' }}
+                      sizes="170px"
                       priority
                     />
                   </div>

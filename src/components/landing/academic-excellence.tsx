@@ -561,7 +561,7 @@ export function AcademicExcellence() {
           </div>
 
           {/* Description heading — single line on mobile and desktop */}
-          <h2 className="text-[13.5px] min-[360px]:text-[14.5px] min-[400px]:text-[16px] sm:text-[24px] md:text-[30px] lg:text-[34px] font-[750] tracking-[-0.02em] leading-normal max-w-4xl mx-auto whitespace-nowrap">
+          <h2 className="text-[15px] min-[360px]:text-[15.5px] min-[390px]:text-[16.5px] sm:text-[24px] md:text-[30px] lg:text-[34px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto whitespace-nowrap">
             <span className="text-[#062B67] dark:text-white">Results That Reflect.{' '}</span>
             <span className="text-[#155EEF] dark:text-blue-400">Excellence That Inspires.</span>
           </h2>

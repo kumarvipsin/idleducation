@@ -34,7 +34,7 @@ export function EducatorsHeader({
       </div>
 
       {/* Description heading */}
-      <h2 className="text-[17px] min-[360px]:text-[18px] min-[400px]:text-[20px] sm:text-[28px] md:text-[36px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto whitespace-nowrap">
+      <h2 className="text-[15px] min-[360px]:text-[15.5px] min-[390px]:text-[16.5px] sm:text-[28px] md:text-[36px] font-[800] tracking-[-0.015em] leading-[1.22] max-w-4xl mx-auto whitespace-nowrap">
         <span className="text-[#062B67] dark:text-white">Expert Guidance.{' '}</span>
         <span className="text-[#155EEF] dark:text-blue-400">Meaningful Learning.</span>
       </h2>
