@@ -1381,10 +1381,10 @@ export function Header() {
                                     <a 
                                         href="tel:8860040010" 
                                         aria-label="Call IDL Education at 8860040010"
-                                        className="w-full flex items-center justify-center gap-2.5 h-11 rounded-[10px] bg-[#0B1F4B] hover:bg-[#071536] active:bg-[#050E24] dark:bg-primary dark:hover:bg-primary/90 text-white transition-colors duration-150 ease-out shadow-xs active:scale-[0.99] cursor-pointer"
+                                        className="group w-full flex items-center justify-center gap-2.5 py-1 text-[#0B1F4B] dark:text-slate-100 hover:text-[#155EEF] dark:hover:text-blue-400 transition-colors duration-150 active:scale-[0.98] cursor-pointer"
                                     >
-                                        <Phone className="w-4 h-4 text-white shrink-0" />
-                                        <span className="text-[15px] sm:text-[15.5px] font-semibold text-white tracking-tight leading-none">
+                                        <Phone className="w-5 h-5 text-[#155EEF] dark:text-blue-400 shrink-0 transition-transform duration-200 group-hover:scale-110" />
+                                        <span className="text-[18px] sm:text-[19px] font-bold text-[#0B1F4B] dark:text-slate-100 group-hover:text-[#155EEF] dark:group-hover:text-blue-400 tracking-tight leading-none transition-colors duration-150">
                                             8860040010
                                         </span>
                                     </a>
