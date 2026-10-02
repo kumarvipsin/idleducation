@@ -8,7 +8,8 @@ import {
     UserCircle, Building, Users, HandHeart, Banknote,
     Edit, Headset, CheckCircle2, MapPin, Search,
     Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket,
-    Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp, Target
+    Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp, Target,
+    Instagram
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -318,6 +319,7 @@ interface DesktopMenuRowProps {
     label: string;
     icon?: React.ReactNode;
     href?: string;
+    badge?: boolean;
     onClick?: () => void;
     isActive?: boolean;
     disabled?: boolean;
@@ -329,6 +331,7 @@ function DesktopMenuRow({
     label,
     icon,
     href,
+    badge = false,
     onClick,
     isActive = false,
     disabled = false,
@@ -349,7 +352,7 @@ function DesktopMenuRow({
                     {icon}
                 </div>
             )}
-            <div className="text-left flex-1 min-w-0">
+            <div className="text-left flex-1 min-w-0 flex items-center justify-between">
                 <p
                     className={cn(
                         DESKTOP_MENU_TOKENS.textTypography,
@@ -358,6 +361,9 @@ function DesktopMenuRow({
                 >
                     {label}
                 </p>
+                {badge && (
+                    <span className="w-2 h-2 rounded-full bg-[#FF6B00] shrink-0 ml-1.5" />
+                )}
             </div>
             <ChevronRight
                 className={isActive ? DESKTOP_MENU_TOKENS.arrowActive : DESKTOP_MENU_TOKENS.arrowClass}
@@ -654,6 +660,14 @@ export function Header() {
             title: "COMPANY",
             links: [
                 { href: "/journey", label: "The Journey", icon: Rocket, iconColor: "text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60" },
+                { 
+                    href: "#", 
+                    label: "Recent Updates", 
+                    onClick: () => setIsUpdatesOpen(true), 
+                    icon: Bell, 
+                    iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60",
+                    badge: true 
+                },
             ]
         },
     ];
@@ -885,6 +899,7 @@ export function Header() {
                                                                 key={link.label}
                                                                 label={link.label}
                                                                 href={link.href}
+                                                                badge={(link as any).badge}
                                                                 onClick={(link as any).onClick}
                                                                 disabled={(link as any).disabled || link.label === "Register Now"}
                                                                 onSelect={() => setActiveMenu(null)}
@@ -928,17 +943,17 @@ export function Header() {
                         </a>
 
 
-                        {/* Recent Updates Notification Bell Trigger */}
-                        <button 
-                            type="button"
-                            onClick={() => setIsUpdatesOpen(true)}
-                            aria-label="Recent Updates"
-                            title="Recent Updates"
+                        {/* Instagram Action Button: Exact IDL Navbar Visual Language (Navy Blue & Light-Blue Pill) */}
+                        <a 
+                            href="https://www.instagram.com/idleducation" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            aria-label="Follow IDL Education on Instagram"
+                            title="Follow IDL Education on Instagram"
                             className="group relative w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60 flex items-center justify-center shrink-0 transition-all duration-200 hover:bg-[#E2EDFF] dark:hover:bg-blue-900/80 hover:border-blue-300 dark:hover:border-blue-800 cursor-pointer"
                         >
-                            <Bell className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#1F4FA3] dark:text-blue-400 transition-transform duration-200 group-hover:scale-105" />
-                            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-[#FF6B00] ring-2 ring-white dark:ring-slate-900" />
-                        </button>
+                            <Instagram className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#1F4FA3] dark:text-blue-400 transition-transform duration-200 group-hover:scale-105" />
+                        </a>
 
                         <div className="flex items-center ml-0.5 sm:ml-0 md:ml-0">
                             {isClient && renderAuthSection()}
@@ -1310,9 +1325,14 @@ export function Header() {
 
                                                             const rowContent = (
                                                                 <>
-                                                                    <span className="text-[13px] font-medium leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
-                                                                        {link.label}
-                                                                    </span>
+                                                                    <div className="flex items-center gap-2 min-w-0">
+                                                                        <span className="text-[13px] font-medium leading-tight truncate text-[#102A68] dark:text-white transition-colors duration-100">
+                                                                            {link.label}
+                                                                        </span>
+                                                                        {link.badge && (
+                                                                            <span className="w-2 h-2 rounded-full bg-[#FF6B00] shrink-0" />
+                                                                        )}
+                                                                    </div>
                                                                     <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
                                                                 </>
                                                             );
