@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, BookOpen, Sparkles, CheckCircle2, Layers } from 'lucide-react';
+import { ArrowRight, BookOpen } from 'lucide-react';
 import {
   CLASSES,
   CLASS_9_SUBJECTS,
@@ -64,21 +64,7 @@ export function Class9SubjectCards({
           })}
         </div>
 
-        {/* Quick Value Trust Strip */}
-        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-3 mt-3 sm:mt-4 text-[11px] sm:text-[12px] font-semibold text-[#5B6B86] dark:text-slate-400">
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#F0F6FE] dark:bg-blue-950/40 border border-[#D8E6FC] dark:border-blue-900/40 text-[#155EEF] dark:text-blue-400">
-            <Sparkles className="w-3 h-3 text-[#155EEF]" />
-            <span>NCERT Aligned</span>
-          </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#F0FDF4] dark:bg-emerald-950/40 border border-[#DCFCE7] dark:border-emerald-900/40 text-[#16A34A] dark:text-emerald-400">
-            <CheckCircle2 className="w-3 h-3 text-[#16A34A]" />
-            <span>100% Free Access</span>
-          </span>
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-[#FFFBEB] dark:bg-amber-950/40 border border-[#FEF3C7] dark:border-amber-900/40 text-[#D97706] dark:text-amber-400">
-            <Layers className="w-3 h-3 text-[#D97706]" />
-            <span>Quick Revision Summaries</span>
-          </span>
-        </div>
+
       </div>
 
       {/* ── SUBJECT CARDS GRID ── */}
@@ -119,16 +105,7 @@ export function Class9SubjectCards({
                             </h3>
                           </div>
 
-                          {subj.chapterCount && (
-                            <span
-                              className={`inline-flex items-center gap-1 text-[11px] sm:text-[11.5px] font-bold px-2.5 py-0.5 rounded-full border shadow-2xs shrink-0 ${
-                                subj.pillColor || 'bg-blue-50 text-blue-700 border-blue-200'
-                              }`}
-                            >
-                              <BookOpen className="w-3 h-3 stroke-[2.25]" />
-                              <span>{subj.chapterCount} Chapters</span>
-                            </span>
-                          )}
+
                         </div>
 
                         {/* Thin accent line */}
@@ -176,27 +153,10 @@ export function Class9SubjectCards({
                           />
                         )}
 
-                        {/* Floating Stage Pill */}
-                        <div className="absolute bottom-2 left-2.5 z-10">
-                          <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded-md bg-white/95 dark:bg-slate-900/95 text-[#062B67] dark:text-blue-300 border border-slate-200/80 dark:border-slate-700 shadow-2xs backdrop-blur-xs">
-                            NCERT Core
-                          </span>
-                        </div>
+
                       </div>
 
-                      {/* Feature Tags / Micro-pills */}
-                      {subj.tags && subj.tags.length > 0 && (
-                        <div className="relative z-10 flex flex-wrap gap-1.5 mb-2.5">
-                          {subj.tags.map((tag, idx) => (
-                            <span
-                              key={idx}
-                              className="text-[10.5px] sm:text-[11px] font-semibold px-2 py-0.5 rounded-md bg-[#F1F5F9] dark:bg-slate-800 text-[#475569] dark:text-slate-300 border border-[#E2E8F0] dark:border-slate-700"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
-                      )}
+
 
                       {/* Description */}
                       <p className="relative z-10 text-[12.5px] sm:text-[13px] leading-[1.5] text-[#5B6B86] dark:text-slate-400 font-normal mb-3.5 flex-1">

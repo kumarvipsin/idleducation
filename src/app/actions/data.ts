@@ -137,12 +137,53 @@ export async function getDonations() {
   }
 }
 
+async function signTestimonialPhoto(testimonial: any) {
+    const avatar = testimonial.avatarUrl || testimonial.photoUrl || testimonial.image || testimonial.photo;
+    if (avatar && typeof avatar === "string" && (avatar.includes("storage.googleapis.com") || avatar.startsWith("testimonials/")) && !avatar.includes("X-Goog-Signature=") && !avatar.includes("Signature=")) {
+        try {
+            const cleanUrl = avatar.split("?")[0];
+            const signed = await getSignedUrlForPdf(cleanUrl);
+            if (signed.success && signed.url) {
+                return {
+                    ...testimonial,
+                    originalAvatarUrl: cleanUrl,
+                    avatarUrl: signed.url,
+                };
+            }
+        } catch (err) {
+            console.error("Error signing testimonial photo:", err);
+        }
+    }
+    return testimonial;
+}
+
+async function signTopperPhoto(topper: any) {
+    const photo = topper.thumbnailUrl || topper.avatarUrl || topper.photoUrl;
+    if (photo && typeof photo === "string" && (photo.includes("storage.googleapis.com") || photo.startsWith("testimonials/")) && !photo.includes("X-Goog-Signature=") && !photo.includes("Signature=")) {
+        try {
+            const cleanUrl = photo.split("?")[0];
+            const signed = await getSignedUrlForPdf(cleanUrl);
+            if (signed.success && signed.url) {
+                return {
+                    ...topper,
+                    thumbnailUrl: signed.url,
+                    avatarUrl: signed.url,
+                };
+            }
+        } catch (err) {
+            console.error("Error signing topper photo:", err);
+        }
+    }
+    return topper;
+}
+
 export async function getTestimonials() {
     try {
         const testimonialsQuery = query(collection(db, "testimonials"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(testimonialsQuery);
         const testimonials = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-        return { success: true, data: testimonials };
+        const signedTestimonials = await Promise.all(testimonials.map(signTestimonialPhoto));
+        return { success: true, data: signedTestimonials };
     } catch (error) {
         console.error("Error fetching testimonials:", error);
         return { success: false, message: "Failed to fetch testimonials." };
@@ -154,7 +195,8 @@ export async function getTopperTestimonials() {
         const testimonialsQuery = query(collection(db, "topperTestimonials"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(testimonialsQuery);
         const testimonials = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-        return { success: true, data: testimonials };
+        const signedToppers = await Promise.all(testimonials.map(signTopperPhoto));
+        return { success: true, data: signedToppers };
     } catch (error) {
         console.error("Error fetching topper testimonials:", error);
         return { success: false, message: "Failed to fetch topper testimonials." };

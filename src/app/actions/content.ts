@@ -26,12 +26,19 @@ export async function getSignedUrlForPdf(publicUrl: string) {
         return { success: false, message: 'No valid file URL provided.' };
     }
     
-    // Always return as-is if it's already a signed URL or doesn't look like our storage
-    if (publicUrl.includes('GoogleAccessId=') || publicUrl.includes('Signature=')) {
+    // Always return as-is if it's already a signed URL
+    if (publicUrl.includes('GoogleAccessId=') || publicUrl.includes('Signature=') || publicUrl.includes('X-Goog-Signature=')) {
         return { success: true, url: publicUrl };
     }
 
-    if (!publicUrl.includes('storage.googleapis.com')) {
+    const bucketName = 'idlcloud';
+
+    if (!publicUrl.includes('storage.googleapis.com') &&
+        !publicUrl.startsWith('testimonials/') &&
+        !publicUrl.startsWith('teachers/') &&
+        !publicUrl.startsWith('hero-slides/') &&
+        !publicUrl.startsWith('books/') &&
+        !publicUrl.startsWith('courses/')) {
         return { success: true, url: publicUrl };
     }
 

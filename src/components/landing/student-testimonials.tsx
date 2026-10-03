@@ -132,19 +132,19 @@ const StudentAvatar = ({
   fallbackSrc?: string;
   className?: string; 
 }) => {
-  const [imgSrc, setImgSrc] = useState<string>(() => {
-    if (!src || (src.startsWith("http") && src.includes("storage.googleapis.com"))) {
-      return fallbackSrc;
+  const resolveSrc = (url?: string) => {
+    if (!url || !url.trim()) return fallbackSrc;
+    // If it is an unsigned GCS URL without signature parameters, route through image-proxy
+    if (url.includes("storage.googleapis.com") && !url.includes("X-Goog-") && !url.includes("GoogleAccessId=") && !url.includes("Signature=")) {
+      return `/api/image-proxy?path=${encodeURIComponent(url)}`;
     }
-    return src;
-  });
+    return url;
+  };
+
+  const [imgSrc, setImgSrc] = useState<string>(() => resolveSrc(src));
 
   useEffect(() => {
-    if (!src || (src.startsWith("http") && src.includes("storage.googleapis.com"))) {
-      setImgSrc(fallbackSrc);
-    } else {
-      setImgSrc(src);
-    }
+    setImgSrc(resolveSrc(src));
   }, [src, fallbackSrc]);
 
   return (
@@ -153,7 +153,11 @@ const StudentAvatar = ({
       alt={alt}
       fill
       unoptimized
-      onError={() => setImgSrc(fallbackSrc)}
+      onError={() => {
+        if (imgSrc !== fallbackSrc) {
+          setImgSrc(fallbackSrc);
+        }
+      }}
       className={cn("object-cover object-top", className)}
       priority={false}
     />
@@ -161,7 +165,12 @@ const StudentAvatar = ({
 };
 
 function getFeaturedAvatar(avatarUrl?: string, isGirl?: boolean): string {
-  if (avatarUrl) {
+  if (avatarUrl && avatarUrl.trim()) {
+    // If it is a real uploaded or external photo
+    if (!avatarUrl.startsWith("/images/results/")) {
+      return avatarUrl;
+    }
+    // Only for local default mock photos:
     const lower = avatarUrl.toLowerCase();
     if (lower.includes("girl") || lower.includes("female") || lower.includes("ishita") || lower.includes("mehak") || lower.includes("kavya")) {
       return "/images/results/idl-student-girl.jpg";
@@ -169,9 +178,7 @@ function getFeaturedAvatar(avatarUrl?: string, isGirl?: boolean): string {
     if (lower.includes("boy") || lower.includes("male") || lower.includes("aditya") || lower.includes("aman") || lower.includes("raghav")) {
       return "/images/results/idl-student-boy.jpg";
     }
-    if (!lower.includes("results/")) {
-      return avatarUrl;
-    }
+    return avatarUrl;
   }
   return isGirl ? "/images/results/idl-student-girl.jpg" : "/images/results/idl-student-boy.jpg";
 }

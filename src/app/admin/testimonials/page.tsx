@@ -29,6 +29,10 @@ const TestimonialForm = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [preview, setPreview] = useState<string | null>(testimonial?.avatarUrl || null);
 
+  useEffect(() => {
+    setPreview(testimonial?.avatarUrl || null);
+  }, [testimonial]);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
