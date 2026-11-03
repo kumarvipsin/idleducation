@@ -9,6 +9,7 @@ import React from 'react';
 const centers = [
   {
     name: "Mukherjee Nagar",
+    slug: "mukherjee-nagar",
     address: "Mukherjee Nagar, Delhi-110009",
     imageUrl: "/idlbranch.png",
     imageHint: "IDL Education branch building",
@@ -16,6 +17,7 @@ const centers = [
   },
   {
     name: "Mangol Puri",
+    slug: "mangolpuri",
     address: "Mangol Puri, Delhi-110083",
     imageUrl: "/idlbranch.png",
     imageHint: "IDL Education branch building",
@@ -23,6 +25,7 @@ const centers = [
   },
   {
     name: "Budh Vihar",
+    slug: "budh-vihar",
     address: "Budh Vihar, Delhi-110086",
     imageUrl: "/idlbranch.png",
     imageHint: "IDL Education branch building",
@@ -30,6 +33,7 @@ const centers = [
   },
   {
     name: "Krishan Vihar",
+    slug: "krishna-vihar",
     address: "Krishan Vihar, Delhi-110086",
     imageUrl: "/idlbranch.png",
     imageHint: "IDL Education branch building",
@@ -117,44 +121,63 @@ export default function OfflineCentersPage() {
               </div>
 
               {/* Card Content: Fixed hierarchy with strictly equal height layout */}
-              <div className="p-5 sm:p-5.5 flex-1 flex flex-col">
-                {/* Centre Name */}
-                <h3 className="text-[20px] sm:text-[21px] font-bold text-[#102A68] dark:text-white tracking-tight leading-snug">
-                  {center.name}
-                </h3>
+              <div className="p-5 sm:p-5.5 flex-1 flex flex-col justify-between">
+                <div>
+                  {/* Centre Name */}
+                  <h3 className="text-[20px] sm:text-[21px] font-bold text-[#102A68] dark:text-white tracking-tight leading-snug group-hover:text-blue-600 transition-colors">
+                    <Link href={`/branches/${center.slug}`}>
+                      {center.name}
+                    </Link>
+                  </h3>
 
-                {/* Location Metadata */}
-                <div className="flex items-start gap-2 text-slate-500 dark:text-slate-400 mt-2 min-h-[42px]">
-                  <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#2563EB]/80" />
-                  <p className="text-[14px] leading-snug font-normal">
-                    {center.address}
-                  </p>
+                  {/* Location Metadata */}
+                  <div className="flex items-start gap-2 text-slate-500 dark:text-slate-400 mt-2 min-h-[42px]">
+                    <MapPin className="w-4 h-4 mt-0.5 shrink-0 text-[#2563EB]/80" />
+                    <p className="text-[14px] leading-snug font-normal">
+                      {center.address}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Card Actions: Primary + Secondary CTAs with clear hierarchy */}
-                <div className="mt-auto pt-4.5 flex flex-col gap-2.5">
-                  {/* Primary CTA: Visit Centre */}
+                <div className="mt-auto pt-4.5 flex flex-col gap-2">
+                  {/* Primary Action: View Dedicated Branch Page */}
                   <Button
                     asChild
-                    className="w-full h-11 px-6 rounded-[8px] font-bold text-sm bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 group/btn cursor-pointer"
+                    className="w-full h-10 px-4 rounded-[8px] font-bold text-sm bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
                   >
-                    <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
-                      Visit Centre
-                      <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" />
+                    <Link href={`/branches/${center.slug}`}>
+                      View Branch Details
+                      <ArrowRight className="w-3.5 h-3.5" />
                     </Link>
                   </Button>
 
-                  {/* Secondary CTA: Call Us */}
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="w-full h-11 px-6 rounded-[8px] font-bold text-sm bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-[#102A68]/20 dark:border-slate-700 hover:border-[#102A68]/45 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer"
-                  >
-                    <a href="tel:8860040010">
-                      <Phone className="w-3.5 h-3.5 opacity-70" />
-                      Call Us
-                    </a>
-                  </Button>
+                  <div className="grid grid-cols-2 gap-2">
+                    {/* Directions */}
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="h-9 px-3 rounded-[8px] font-semibold text-xs bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                    >
+                      <Link href={center.mapLink} target="_blank" rel="noopener noreferrer">
+                        Map Link
+                      </Link>
+                    </Button>
+
+                    {/* Call Us */}
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="h-9 px-3 rounded-[8px] font-semibold text-xs bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-[#102A68] dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                    >
+                      <a href="tel:8860040010" className="flex items-center justify-center gap-1">
+                        <Phone className="w-3 h-3 opacity-70" />
+                        Call
+                      </a>
+                    </Button>
+                  </div>
                 </div>
               </div>
             </div>

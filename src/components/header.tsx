@@ -9,7 +9,7 @@ import {
     Edit, Headset, CheckCircle2, MapPin, Search,
     Sparkles, PlayCircle, ShieldCheck, ChevronRight, Award, Bell, Rocket,
     Atom, Stethoscope, Presentation, MessageSquareText, CircleHelp, Target,
-    Instagram
+    Instagram, ArrowRight
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
@@ -51,60 +51,20 @@ import { getAllCoursesCategories, type CourseCategory } from "@/app/actions/cour
 
 const megaMenuBg = "bg-white shadow-2xl";
 
+const BRANCH_LINKS = [
+    { name: "Budh Vihar", area: "Phase 1, Delhi-110086", href: "/branches/budh-vihar", active: false },
+    { name: "Krishna Vihar", area: "Opp. Sec-24 Rohini, Delhi-110086", href: "/branches/krishna-vihar", active: false },
+    { name: "Mangolpuri", area: "Block I & Q, Delhi-110083", href: "/branches/mangolpuri", active: true },
+    { name: "Mukherjee Nagar", area: "Near Batra Cinema, Delhi-110009", href: "/branches/mukherjee-nagar", active: false },
+];
+
 const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
-    {
-        id: "cat_jee",
-        name: "JEE",
-        slug: "jee",
-        href: "#",
-        order: 1,
-        status: "active",
-        subItems: [
-            {
-                id: "sub_jee_main",
-                label: "JEE Main",
-                slug: "jee-main",
-                href: "#",
-                order: 1,
-                status: "active",
-                items: [],
-            },
-            {
-                id: "sub_jee_adv",
-                label: "JEE Advanced",
-                slug: "jee-advanced",
-                href: "#",
-                order: 2,
-                status: "active",
-                items: [],
-            },
-        ],
-    },
-    {
-        id: "cat_neet",
-        name: "NEET",
-        slug: "neet",
-        href: "#",
-        order: 2,
-        status: "active",
-        subItems: [
-            {
-                id: "sub_neet_ug",
-                label: "NEET UG",
-                slug: "neet-ug",
-                href: "#",
-                order: 1,
-                status: "active",
-                items: [],
-            },
-        ],
-    },
     {
         id: "cat_cbse",
         name: "CBSE",
         slug: "cbse",
         href: "/school",
-        order: 3,
+        order: 1,
         status: "active",
         subItems: [
             {
@@ -137,10 +97,10 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
     },
     {
         id: "cat_free_courses",
-        name: "FREE COURSES",
+        name: "Free Courses",
         slug: "free-courses",
         href: "/free-courses",
-        order: 4,
+        order: 2,
         status: "active",
         subItems: [
             {
@@ -324,6 +284,7 @@ interface DesktopMenuRowProps {
     isActive?: boolean;
     disabled?: boolean;
     onMouseEnter?: () => void;
+    onMouseMove?: () => void;
     onSelect?: () => void;
 }
 
@@ -336,6 +297,7 @@ function DesktopMenuRow({
     isActive = false,
     disabled = false,
     onMouseEnter,
+    onMouseMove,
     onSelect,
 }: DesktopMenuRowProps) {
     const isAction = Boolean(onClick || !href || href === '#');
@@ -379,15 +341,23 @@ function DesktopMenuRow({
         disabled && "opacity-50 grayscale pointer-events-none"
     );
 
+    const handleMouseAction = () => {
+        if (onMouseMove) onMouseMove();
+        else if (onMouseEnter) onMouseEnter();
+    };
+
     if (isAction) {
         return (
-            <div className="w-full" onMouseEnter={onMouseEnter}>
+            <div className="w-full" onMouseEnter={onMouseEnter} onMouseMove={handleMouseAction}>
                 <button
                     type="button"
+                    onMouseEnter={onMouseEnter}
+                    onMouseMove={handleMouseAction}
                     onClick={(e) => {
                         e.preventDefault();
-                        onSelect?.();
+                        e.stopPropagation();
                         onClick?.();
+                        onSelect?.();
                     }}
                     disabled={disabled}
                     className={rowClassName}
@@ -399,9 +369,11 @@ function DesktopMenuRow({
     }
 
     return (
-        <div className="w-full" onMouseEnter={onMouseEnter}>
+        <div className="w-full" onMouseEnter={onMouseEnter} onMouseMove={handleMouseAction}>
             <Link
                 href={disabled ? '#' : href!}
+                onMouseEnter={onMouseEnter}
+                onMouseMove={handleMouseAction}
                 onClick={() => onSelect?.()}
                 className={rowClassName}
             >
@@ -430,23 +402,20 @@ export function Header() {
         let isMounted = true;
         getAllCoursesCategories().then((res) => {
             if (isMounted && res.success && res.data && res.data.length > 0) {
-                const dynamicCategories = res.data.filter(c => 
-                    c.id !== 'cat_free_courses' && 
-                    c.slug !== 'free-courses' && 
-                    c.id !== 'cat_premium_courses' && 
-                    c.slug !== 'premium-courses'
-                ).map(c => {
+                const dynamicCategories = res.data.filter(c => {
                     const key = (c.slug || c.id || c.name || '').toLowerCase();
-                    if (key.includes('jee') || key.includes('neet')) {
-                        const defaultMatch = DEFAULT_COURSE_CATEGORIES.find(d => 
-                            d.id === c.id || (c.slug && d.slug === c.slug) || (c.name && d.name.toLowerCase() === c.name.toLowerCase())
-                        );
-                        if (defaultMatch) return defaultMatch;
-                        return {
-                            ...c,
-                            href: '#',
-                            subItems: (c.subItems || []).map(s => ({ ...s, href: '#', items: [] })),
-                        };
+                    if (key.includes('jee') || key.includes('neet') || key.includes('iit') || key.includes('medical')) {
+                        return false;
+                    }
+                    return (
+                        c.id !== 'cat_free_courses' && 
+                        c.slug !== 'free-courses' && 
+                        c.id !== 'cat_premium_courses' && 
+                        c.slug !== 'premium-courses'
+                    );
+                }).map(c => {
+                    if (c.name && c.name.toLowerCase() === 'free courses') {
+                        return { ...c, name: 'Free Courses' };
                     }
                     return c;
                 });
@@ -456,10 +425,8 @@ export function Header() {
 
                 const getCategoryRank = (c: CourseCategory) => {
                     const key = (c.slug || c.id || c.name || '').toLowerCase();
-                    if (key.includes('jee') || key.includes('iit')) return 1;
-                    if (key.includes('neet') || key.includes('medical')) return 2;
-                    if (key.includes('cbse') || key.includes('school')) return 3;
-                    if (key.includes('free')) return 4;
+                    if (key.includes('cbse') || key.includes('school')) return 1;
+                    if (key.includes('free')) return 2;
                     return c.order ?? 99;
                 };
 
@@ -576,20 +543,24 @@ export function Header() {
     const handleMouseEnter = (menu: string) => {
         if (menuTimeoutRef.current) {
             clearTimeout(menuTimeoutRef.current);
+            menuTimeoutRef.current = null;
         }
-        if (menu === 'explore') {
-            setHoveredCourseCategory(courseCategories[0]?.id || 'cat_jee');
+        if (menu === 'explore' && activeMenu !== 'explore') {
+            setHoveredCourseCategory(null);
             setHoveredSubItem(null);
         }
         setActiveMenu(menu);
     };
 
     const handleMouseLeave = () => {
+        if (menuTimeoutRef.current) {
+            clearTimeout(menuTimeoutRef.current);
+        }
         menuTimeoutRef.current = setTimeout(() => {
             setActiveMenu(null);
             setHoveredCourseCategory(null);
             setHoveredSubItem(null);
-        }, 200);
+        }, 500);
     };
 
     const handleDonateClick = () => setDonationStep(2);
@@ -651,7 +622,6 @@ export function Header() {
         {
             title: "EXPLORE",
             links: [
-                { href: "/offline-centers", label: "Offline Centers", icon: MapPin, iconColor: "text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60" },
                 { href: "/blog", label: "IDL Blog", icon: BookOpen, iconColor: "text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60" },
                 { href: '/gallery', label: "Gallery", icon: ImageIcon, iconColor: "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60" },
             ]
@@ -731,97 +701,188 @@ export function Header() {
                     </Link>
 
                     <div className="flex-1 justify-start items-center gap-1 ml-4 hidden md:flex h-full">
-                        <nav aria-label="Main Navigation" suppressHydrationWarning className="items-center flex gap-x-1 h-full" onMouseLeave={handleMouseLeave}>
+                        <nav aria-label="Main Navigation" suppressHydrationWarning className="items-center flex gap-x-1 h-full">
                             {!pathname.startsWith('/idl-foundation') ? (
                                 <>
-                                    <div onMouseEnter={() => handleMouseEnter('explore')} className="h-full flex items-center relative">
-                                        <Button variant="ghost" className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}>ALL COURSES</Button>
-                                        <div className={cn(
-                                            DESKTOP_MENU_TOKENS.dropdownAnimation,
-                                            activeMenu === 'explore' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
-                                        )}>
+                                    <div 
+                                        onMouseEnter={() => handleMouseEnter('explore')} 
+                                        onMouseLeave={handleMouseLeave}
+                                        className="h-full flex items-center relative"
+                                    >
+                                        <Button 
+                                            variant="ghost" 
+                                            onClick={() => {
+                                                if (activeMenu === 'explore') {
+                                                    setActiveMenu(null);
+                                                    setHoveredCourseCategory(null);
+                                                    setHoveredSubItem(null);
+                                                } else {
+                                                    handleMouseEnter('explore');
+                                                }
+                                            }}
+                                            className={cn(navItemClass, activeMenu === 'explore' && "after:scale-x-100 text-primary")}
+                                        >
+                                            ALL COURSES
+                                        </Button>
+                                        <div 
+                                            onMouseEnter={() => {
+                                                if (menuTimeoutRef.current) {
+                                                    clearTimeout(menuTimeoutRef.current);
+                                                    menuTimeoutRef.current = null;
+                                                }
+                                            }}
+                                            onMouseMove={() => {
+                                                if (menuTimeoutRef.current) {
+                                                    clearTimeout(menuTimeoutRef.current);
+                                                    menuTimeoutRef.current = null;
+                                                }
+                                            }}
+                                            onMouseLeave={handleMouseLeave}
+                                            className={cn(
+                                                DESKTOP_MENU_TOKENS.dropdownAnimation,
+                                                activeMenu === 'explore' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                                            )}
+                                        >
                                             <div className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "flex flex-row divide-x divide-border")}>
                                                 {/* Left Column: Main Course Categories */}
                                                 <div className="w-56 sm:w-60 flex flex-col gap-0 p-1.5">
-                                                    {courseCategories.map(c => (
-                                                        <DesktopMenuRow
-                                                            key={c.id}
-                                                            label={c.name}
-                                                            href={c.href}
-                                                            isActive={(hoveredCourseCategory || courseCategories[0]?.id) === c.id}
-                                                            onMouseEnter={() => {
-                                                                setHoveredCourseCategory(c.id);
-                                                                setHoveredSubItem(null);
-                                                            }}
-                                                            onSelect={() => setActiveMenu(null)}
-                                                        />
-                                                    ))}
+                                                    {courseCategories.map(c => {
+                                                        const isCatActive = hoveredCourseCategory === c.id;
+                                                        const hasSubItems = Boolean(c.subItems && c.subItems.length > 0);
+                                                        const displayName = c.name?.toLowerCase() === 'free courses' ? 'Free Courses' : c.name;
+
+                                                        const selectCategory = (e?: React.MouseEvent) => {
+                                                            if (e) {
+                                                                e.preventDefault();
+                                                                e.stopPropagation();
+                                                            }
+                                                            if (menuTimeoutRef.current) {
+                                                                clearTimeout(menuTimeoutRef.current);
+                                                                menuTimeoutRef.current = null;
+                                                            }
+                                                            setHoveredCourseCategory(c.id);
+                                                            setHoveredSubItem(null);
+                                                        };
+
+                                                        return (
+                                                            <DesktopMenuRow
+                                                                key={c.id}
+                                                                label={displayName}
+                                                                href={hasSubItems ? '#' : c.href}
+                                                                onClick={hasSubItems ? () => selectCategory() : undefined}
+                                                                isActive={isCatActive}
+                                                                onMouseEnter={() => selectCategory()}
+                                                                onMouseMove={() => selectCategory()}
+                                                                onSelect={hasSubItems ? undefined : () => setActiveMenu(null)}
+                                                            />
+                                                        );
+                                                    })}
                                                 </div>
 
                                                 {/* Right Column: Selected Category Submenu */}
                                                 {(() => {
-                                                    const activeCatId = hoveredCourseCategory || courseCategories[0]?.id;
-                                                    if (!activeCatId) return null;
-                                                    const activeCategory = courseCategories.find(c => c.id === activeCatId);
+                                                    if (!hoveredCourseCategory) return null;
+                                                    const activeCategory = courseCategories.find(c => c.id === hoveredCourseCategory);
                                                     if (!activeCategory || !activeCategory.subItems?.length) return null;
 
                                                     const activeSubItem = hoveredSubItem 
                                                         ? activeCategory.subItems.find(s => s.id === hoveredSubItem) 
-                                                        : (activeCategory.id === 'cat_cbse' ? activeCategory.subItems[0] : null);
+                                                        : null;
                                                     const hasLeafItems = Boolean(activeSubItem && activeSubItem.items && activeSubItem.items.length > 0);
 
                                                     return (
-                                                        <div className="flex flex-row divide-x divide-border">
+                                                        <div 
+                                                            onMouseEnter={() => {
+                                                                if (menuTimeoutRef.current) {
+                                                                    clearTimeout(menuTimeoutRef.current);
+                                                                    menuTimeoutRef.current = null;
+                                                                }
+                                                            }}
+                                                            onMouseMove={() => {
+                                                                if (menuTimeoutRef.current) {
+                                                                    clearTimeout(menuTimeoutRef.current);
+                                                                    menuTimeoutRef.current = null;
+                                                                }
+                                                            }}
+                                                            className="flex flex-row divide-x divide-border"
+                                                        >
                                                             <div className="w-52 sm:w-56 p-1.5 flex flex-col gap-0 animate-in fade-in duration-100">
                                                                 {activeCategory.subItems.map((sub) => {
-                                                                    const isSubActive = (hoveredSubItem === sub.id) || (!hoveredSubItem && activeSubItem?.id === sub.id);
-                                                                    const isSubDisabled = !sub.href || sub.href === '#' || (sub as any).disabled;
+                                                                    const hasNestedItems = Boolean(sub.items && sub.items.length > 0);
+                                                                    const isSubActive = hoveredSubItem === sub.id;
 
-                                                                    if (isSubDisabled) {
+                                                                    const selectSubItem = (e?: React.MouseEvent) => {
+                                                                        if (e) {
+                                                                            e.preventDefault();
+                                                                            e.stopPropagation();
+                                                                        }
+                                                                        if (menuTimeoutRef.current) {
+                                                                            clearTimeout(menuTimeoutRef.current);
+                                                                            menuTimeoutRef.current = null;
+                                                                        }
+                                                                        setHoveredSubItem(sub.id);
+                                                                    };
+
+                                                                    if (hasNestedItems) {
                                                                         return (
                                                                             <div
                                                                                 key={sub.id}
-                                                                                className="w-full flex items-center justify-between px-3.5 py-1.5 min-h-[36px] cursor-default select-none text-slate-700 dark:text-slate-300"
+                                                                                onMouseEnter={() => selectSubItem()}
+                                                                                onMouseMove={() => selectSubItem()}
+                                                                                className="w-full"
                                                                             >
-                                                                                <div className="text-left flex-1 min-w-0">
-                                                                                    <p className="text-[13px] leading-tight tracking-[-0.01em] font-semibold text-slate-700 dark:text-slate-300">
-                                                                                        {sub.label}
-                                                                                    </p>
-                                                                                </div>
+                                                                                <button
+                                                                                    type="button"
+                                                                                    onClick={(e) => selectSubItem(e)}
+                                                                                    className={cn(
+                                                                                        "group relative flex items-center justify-between gap-2.5 px-3.5 py-1.5 min-h-[36px] w-full rounded-none transition-all duration-150 text-left cursor-pointer",
+                                                                                        isSubActive
+                                                                                            ? "text-primary bg-primary/5"
+                                                                                            : "text-foreground hover:text-primary hover:bg-muted/40"
+                                                                                    )}
+                                                                                >
+                                                                                    <div className="text-left flex-1 min-w-0">
+                                                                                        <p className={cn(
+                                                                                            "text-[13px] leading-tight tracking-[-0.01em] transition-colors",
+                                                                                            isSubActive ? "font-bold text-primary" : "font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary"
+                                                                                        )}>
+                                                                                            {sub.label}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <ChevronRight className={cn(
+                                                                                        "w-3.5 h-3.5 transition-all shrink-0",
+                                                                                        isSubActive
+                                                                                            ? "text-primary translate-x-0.5 opacity-100"
+                                                                                            : "text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5"
+                                                                                    )} />
+                                                                                </button>
                                                                             </div>
                                                                         );
                                                                     }
 
+                                                                    // Direct leaf item (e.g. Class 9, Class 10 under Free Courses)
                                                                     return (
                                                                         <div
                                                                             key={sub.id}
-                                                                            onMouseEnter={() => setHoveredSubItem(sub.id)}
+                                                                            onMouseEnter={() => {
+                                                                                if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                                                                            }}
+                                                                            onMouseMove={() => {
+                                                                                if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                                                                            }}
                                                                             className="w-full"
                                                                         >
                                                                             <Link
                                                                                 href={sub.href}
                                                                                 onClick={() => setActiveMenu(null)}
-                                                                                className={cn(
-                                                                                    "group relative flex items-center gap-2.5 px-3.5 py-1.5 min-h-[36px] rounded-none transition-all duration-150 text-left cursor-pointer",
-                                                                                    isSubActive
-                                                                                        ? "text-primary"
-                                                                                        : "text-foreground hover:text-primary"
-                                                                                )}
+                                                                                className="group relative flex items-center justify-between gap-2.5 px-3.5 py-1.5 min-h-[36px] w-full rounded-none transition-all duration-150 text-left text-foreground hover:text-primary hover:bg-muted/40 cursor-pointer"
                                                                             >
                                                                                 <div className="text-left flex-1 min-w-0">
-                                                                                    <p className={cn(
-                                                                                        "text-[13px] leading-tight tracking-[-0.01em] transition-colors",
-                                                                                        isSubActive ? "font-bold text-primary" : "font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary"
-                                                                                    )}>
+                                                                                    <p className="text-[13px] leading-tight tracking-[-0.01em] font-semibold text-slate-800 dark:text-slate-200 group-hover:text-primary transition-colors">
                                                                                         {sub.label}
                                                                                     </p>
                                                                                 </div>
-                                                                                <ChevronRight className={cn(
-                                                                                    "w-3.5 h-3.5 transition-all shrink-0",
-                                                                                    isSubActive
-                                                                                        ? "text-primary translate-x-0.5 opacity-100"
-                                                                                        : "text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5"
-                                                                                )} />
+                                                                                <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/35 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0" />
                                                                             </Link>
                                                                         </div>
                                                                     );
@@ -830,13 +891,21 @@ export function Header() {
 
                                                             {/* Sub-section 2 / Classes (Equal size - w-48 to w-52) */}
                                                             {hasLeafItems && (
-                                                                <div className="w-48 sm:w-52 p-1.5 flex flex-col gap-0 animate-in fade-in duration-100">
+                                                                <div 
+                                                                    onMouseEnter={() => {
+                                                                        if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                                                                    }}
+                                                                    onMouseMove={() => {
+                                                                        if (menuTimeoutRef.current) clearTimeout(menuTimeoutRef.current);
+                                                                    }}
+                                                                    className="w-48 sm:w-52 p-1.5 flex flex-col gap-0 animate-in fade-in duration-100"
+                                                                >
                                                                     {activeSubItem?.items?.map((item) => (
                                                                         <Link
                                                                             key={item.id}
                                                                             href={item.href}
                                                                             onClick={() => setActiveMenu(null)}
-                                                                            className="group relative flex items-center gap-2 px-3.5 py-1.5 min-h-[36px] rounded-none transition-all duration-150 text-left hover:text-primary cursor-pointer"
+                                                                            className="group relative flex items-center gap-2 px-3.5 py-1.5 min-h-[36px] rounded-none transition-all duration-150 text-left hover:text-primary hover:bg-muted/40 cursor-pointer"
                                                                         >
                                                                             <div className="text-left flex-1 min-w-0">
                                                                                 <p className="font-semibold text-[13px] tracking-[-0.01em] text-slate-800 dark:text-slate-200 leading-tight group-hover:text-primary transition-colors">
@@ -883,6 +952,83 @@ export function Header() {
                                         <Button variant="ghost" className={navItemClass} onClick={() => setIsContactOpen(true)}>
                                             CONTACT US
                                         </Button>
+                                    </div>
+                                    <div 
+                                        suppressHydrationWarning
+                                        onMouseEnter={() => handleMouseEnter('branches')} 
+                                        className="h-full flex items-center relative"
+                                    >
+                                        <Button 
+                                            variant="ghost" 
+                                            onClick={() => {
+                                                if (activeMenu === 'branches') {
+                                                    setActiveMenu(null);
+                                                } else {
+                                                    handleMouseEnter('branches');
+                                                }
+                                            }}
+                                            className={cn(navItemClass, (activeMenu === 'branches' || pathname.startsWith('/branches')) && "after:scale-x-100 text-primary")}
+                                        >
+                                            BRANCHES
+                                        </Button>
+                                        <div 
+                                            suppressHydrationWarning
+                                            onMouseEnter={() => {
+                                                if (menuTimeoutRef.current) {
+                                                    clearTimeout(menuTimeoutRef.current);
+                                                    menuTimeoutRef.current = null;
+                                                }
+                                            }}
+                                            onMouseMove={() => {
+                                                if (menuTimeoutRef.current) {
+                                                    clearTimeout(menuTimeoutRef.current);
+                                                    menuTimeoutRef.current = null;
+                                                }
+                                            }}
+                                            onMouseLeave={handleMouseLeave}
+                                            className={cn(
+                                                DESKTOP_MENU_TOKENS.dropdownAnimation,
+                                                "w-72",
+                                                activeMenu === 'branches' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                                            )}
+                                        >
+                                            <div suppressHydrationWarning className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "p-2 flex flex-col gap-1")}>
+                                                {BRANCH_LINKS.map((branch) => branch.active ? (
+                                                    <Link
+                                                        key={branch.href}
+                                                        href={branch.href}
+                                                        suppressHydrationWarning
+                                                        onClick={() => setActiveMenu(null)}
+                                                        className="group relative flex items-center justify-between px-3.5 py-2 rounded-lg transition-all duration-150 text-left hover:bg-muted/50 cursor-pointer"
+                                                    >
+                                                        <div className="flex flex-col min-w-0" suppressHydrationWarning>
+                                                            <p className="font-semibold text-[13px] tracking-[-0.01em] text-slate-800 dark:text-slate-200 leading-tight group-hover:text-primary transition-colors">
+                                                                {branch.name}
+                                                            </p>
+                                                            <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                                                                {branch.area}
+                                                            </p>
+                                                        </div>
+                                                        <ChevronRight className="w-3.5 h-3.5 text-muted-foreground/40 group-hover:text-primary group-hover:translate-x-0.5 transition-all shrink-0 ml-2" />
+                                                    </Link>
+                                                ) : (
+                                                    <div
+                                                        key={branch.href}
+                                                        suppressHydrationWarning
+                                                        className="group relative flex items-center justify-between px-3.5 py-2 rounded-lg text-left cursor-default select-none opacity-60"
+                                                    >
+                                                        <div className="flex flex-col min-w-0" suppressHydrationWarning>
+                                                            <p className="font-semibold text-[13px] tracking-[-0.01em] text-slate-700 dark:text-slate-300 leading-tight">
+                                                                {branch.name}
+                                                            </p>
+                                                            <p className="text-[11px] text-muted-foreground truncate mt-0.5">
+                                                                {branch.area}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
                                     </div>
                                     <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
@@ -1069,7 +1215,7 @@ export function Header() {
                                                                         )}
                                                                     >
                                                                         <span className="text-[13.5px] leading-tight tracking-[-0.01em]">
-                                                                            {cat.name}
+                                                                            {cat.name?.toLowerCase() === 'free courses' ? 'Free Courses' : cat.name}
                                                                         </span>
                                                                         <ChevronDown className={cn(
                                                                             "w-3.5 h-3.5 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0 ml-auto transition-transform duration-150",
@@ -1284,7 +1430,81 @@ export function Header() {
                                             </button>
                                         </div>
 
-                                        {/* 5. MORE ROW (Submenu with Chevron) */}
+                                        {/* 5. BRANCHES ROW (Submenu with Chevron) */}
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button" 
+                                                onClick={() => {
+                                                    const isCurrentlyOpen = openMobileAccordion === 'branches';
+                                                    setOpenMobileAccordion(isCurrentlyOpen ? null : 'branches');
+                                                    setOpenMobileSubAccordion(null);
+                                                    setOpenMobileThirdAccordion(null);
+                                                }}
+                                                aria-expanded={openMobileAccordion === 'branches'}
+                                                aria-controls="mobile-accordion-branches"
+                                                className={cn(
+                                                    "touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    openMobileAccordion === 'branches' 
+                                                        ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
+                                                        : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
+                                                )}
+                                            >
+                                                <span className="uppercase">BRANCHES</span>
+                                                <ChevronDown className={cn(
+                                                    "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                    openMobileAccordion === 'branches' && "rotate-180 text-[#155EEF] dark:text-blue-400"
+                                                )} />
+                                            </button>
+                                            <div
+                                                id="mobile-accordion-branches"
+                                                role="region"
+                                                aria-hidden={openMobileAccordion !== 'branches'}
+                                                data-open={openMobileAccordion === 'branches' ? 'true' : 'false'}
+                                                className="mobile-accordion-grid"
+                                                suppressHydrationWarning
+                                            >
+                                                <div className="overflow-hidden min-h-0 px-3.5 sm:px-4 pt-1 pb-3" suppressHydrationWarning>
+                                                    <div className="rounded-[14px] border border-slate-200/60 dark:border-slate-800/60 bg-white dark:bg-slate-900 shadow-none overflow-hidden divide-y divide-slate-100/70 dark:divide-slate-800/50" suppressHydrationWarning>
+                                                        {BRANCH_LINKS.map((branch) => branch.active ? (
+                                                            <Link
+                                                                key={branch.href}
+                                                                href={branch.href}
+                                                                suppressHydrationWarning
+                                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                                className="touch-manipulation group relative flex items-center justify-between px-3.5 py-2.5 min-h-[38px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50"
+                                                            >
+                                                                <div className="flex flex-col min-w-0" suppressHydrationWarning>
+                                                                    <span className="text-[13px] font-semibold leading-tight truncate text-[#102A68] dark:text-white">
+                                                                        {branch.name}
+                                                                    </span>
+                                                                    <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                                                                        {branch.area}
+                                                                    </span>
+                                                                </div>
+                                                                <ChevronRight className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 shrink-0 ml-2" />
+                                                            </Link>
+                                                        ) : (
+                                                            <div
+                                                                key={branch.href}
+                                                                suppressHydrationWarning
+                                                                className="touch-manipulation flex items-center justify-between px-3.5 py-2.5 min-h-[38px] text-left w-full cursor-default select-none opacity-60 text-[#102A68] dark:text-white"
+                                                            >
+                                                                <div className="flex flex-col min-w-0" suppressHydrationWarning>
+                                                                    <span className="text-[13px] font-semibold leading-tight truncate text-[#102A68] dark:text-white">
+                                                                        {branch.name}
+                                                                    </span>
+                                                                    <span className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                                                                        {branch.area}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* 6. MORE ROW (Submenu with Chevron) */}
                                         <div className="flex flex-col">
                                             <button 
                                                 type="button" 

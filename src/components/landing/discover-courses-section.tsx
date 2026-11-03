@@ -858,7 +858,7 @@ export function DiscoverCoursesSection() {
             <section 
                 suppressHydrationWarning 
                 aria-label="Courses We Offer"
-                className="relative w-full z-30 -mt-6 min-[390px]:-mt-8 sm:-mt-8 md:-mt-10 lg:-mt-12 px-3 sm:px-4 md:px-6 pointer-events-auto pb-4 sm:pb-6"
+                className="relative w-full z-30 -mt-6 min-[390px]:-mt-8 sm:-mt-8 md:-mt-10 lg:-mt-12 px-3 sm:px-4 md:px-6 pointer-events-auto pb-2 sm:pb-3"
             >
                 <style dangerouslySetInnerHTML={{ __html: `
                     @keyframes fadeInUp {

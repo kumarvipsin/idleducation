@@ -43,6 +43,353 @@ const heroSlidesList: HeroSlideItem[] = [
   },
 ];
 
+// ── Enhanced Background Components (Premium Dark Navy + Electric Blue + Orbits + Dotted Grids + Academic Motif) ──
+
+function DesktopHeroBackground() {
+  return (
+    <div 
+      aria-hidden="true" 
+      className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
+      style={{
+        background: 'radial-gradient(ellipse 100% 90% at 80% 50%, #0B3386 0%, #072464 35%, #031135 70%, #020B21 100%)'
+      }}
+    >
+      {/* 1. Top Edge Electric Highlight */}
+      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-sky-400/35 to-transparent" />
+
+      {/* 2. Top-Left Celestial Ambient Glow (Behind Text) */}
+      <div 
+        className="absolute -top-36 left-[6%] w-[650px] lg:w-[800px] h-[400px] rounded-full blur-[95px] opacity-75"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.24) 0%, rgba(21, 94, 239, 0.22) 50%, transparent 75%)' }}
+      />
+
+      {/* 3. Right Ambient Sapphire Halo (Studio Backlight for Student Photo) */}
+      <div 
+        className="absolute bottom-0 right-[2%] w-[620px] lg:w-[780px] h-[480px] rounded-full blur-[90px] opacity-80"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(21, 94, 239, 0.46) 0%, rgba(59, 130, 246, 0.24) 50%, transparent 75%)' }}
+      />
+
+      {/* 4. Bottom-Left Subtle Azure Depth Glow */}
+      <div 
+        className="absolute -bottom-20 left-[22%] w-[450px] h-[260px] rounded-full blur-[85px] opacity-40"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(30, 64, 175, 0.35) 0%, rgba(21, 94, 239, 0.15) 50%, transparent 75%)' }}
+      />
+
+      {/* 5. Precision SVG Orbital Arcs & Curved Geometric Lines */}
+      <svg 
+        className="absolute inset-0 w-full h-full" 
+        viewBox="0 0 1440 440" 
+        preserveAspectRatio="xMidYMid slice" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="deskOrbitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.28" />
+            <stop offset="45%" stopColor="#2563EB" stopOpacity="0.16" />
+            <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.03" />
+          </linearGradient>
+          <linearGradient id="deskOrbitGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.22" />
+            <stop offset="55%" stopColor="#1D4ED8" stopOpacity="0.10" />
+            <stop offset="100%" stopColor="#0B2E75" stopOpacity="0.02" />
+          </linearGradient>
+          <linearGradient id="deskWaveGrad" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0" />
+            <stop offset="30%" stopColor="#38BDF8" stopOpacity="0.16" />
+            <stop offset="70%" stopColor="#2563EB" stopOpacity="0.20" />
+            <stop offset="100%" stopColor="#1D4ED8" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+
+        {/* Concentric Orbital Rings Radiating from Right */}
+        <circle cx="1180" cy="220" r="190" stroke="url(#deskOrbitGrad1)" strokeWidth="1" />
+        <circle cx="1180" cy="220" r="275" stroke="url(#deskOrbitGrad2)" strokeWidth="1" strokeDasharray="5 7" />
+        <circle cx="1180" cy="220" r="365" stroke="url(#deskOrbitGrad1)" strokeWidth="1" />
+        <circle cx="1180" cy="220" r="470" stroke="url(#deskOrbitGrad2)" strokeWidth="1" strokeDasharray="6 9" />
+        <circle cx="1180" cy="220" r="590" stroke="url(#deskOrbitGrad1)" strokeWidth="1" />
+        <circle cx="1180" cy="220" r="740" stroke="url(#deskOrbitGrad2)" strokeWidth="1" opacity="0.6" />
+
+        {/* Elliptical Tilted Orbit with Celestial Pulse Dot */}
+        <ellipse 
+          cx="1150" 
+          cy="225" 
+          rx="440" 
+          ry="190" 
+          transform="rotate(-16 1150 225)" 
+          stroke="url(#deskOrbitGrad1)" 
+          strokeWidth="1.2" 
+          strokeDasharray="4 8"
+        />
+        <circle cx="740" cy="180" r="3" fill="#38BDF8" opacity="0.8" />
+        <circle cx="740" cy="180" r="7" fill="#38BDF8" opacity="0.2" />
+
+        {/* Sweeping Dynamic Geometric Wave Arc */}
+        <path 
+          d="M -50 340 C 280 230, 680 390, 1500 240" 
+          stroke="url(#deskWaveGrad)" 
+          strokeWidth="1.2" 
+        />
+        <path 
+          d="M -20 375 C 320 270, 720 430, 1520 280" 
+          stroke="url(#deskWaveGrad)" 
+          strokeWidth="1" 
+          opacity="0.6" 
+          strokeDasharray="8 6" 
+        />
+
+        {/* Top-Left Concentric Ambient Arc */}
+        <circle cx="0" cy="0" r="260" stroke="url(#deskOrbitGrad1)" strokeWidth="1" opacity="0.5" />
+        <circle cx="0" cy="0" r="380" stroke="url(#deskOrbitGrad2)" strokeWidth="1" strokeDasharray="4 8" opacity="0.4" />
+      </svg>
+
+      {/* 6. Minimal Dotted Matrix Accents */}
+      {/* Top-Left Dot Cluster (offset from text) */}
+      <div className="absolute top-6 left-12 lg:left-16 pointer-events-none opacity-50">
+        <svg width="68" height="48" viewBox="0 0 68 48" fill="none">
+          {[0, 1, 2, 3].map((r) =>
+            [0, 1, 2, 3, 4].map((c) => (
+              <circle
+                key={`tl-${r}-${c}`}
+                cx={c * 14 + 6}
+                cy={r * 12 + 6}
+                r="1.5"
+                fill="#60A5FA"
+                opacity={0.3 + ((c + r) % 3) * 0.22}
+              />
+            ))
+          )}
+        </svg>
+      </div>
+
+      {/* Top-Right Dot Cluster */}
+      <div className="absolute top-7 right-14 lg:right-24 pointer-events-none opacity-55">
+        <svg width="82" height="54" viewBox="0 0 82 54" fill="none">
+          {[0, 1, 2, 3].map((r) =>
+            [0, 1, 2, 3, 4, 5].map((c) => (
+              <circle
+                key={`tr-${r}-${c}`}
+                cx={c * 13 + 6}
+                cy={r * 13 + 6}
+                r="1.4"
+                fill="#38BDF8"
+                opacity={0.25 + ((5 - c) % 3) * 0.2}
+              />
+            ))
+          )}
+        </svg>
+      </div>
+
+      {/* Bottom-Left Margin Subtle Dot Strip */}
+      <div className="absolute bottom-16 left-8 lg:left-12 pointer-events-none opacity-30">
+        <svg width="32" height="56" viewBox="0 0 32 56" fill="none">
+          {[0, 1, 2, 3].map((r) =>
+            [0, 1].map((c) => (
+              <circle
+                key={`bl-${r}-${c}`}
+                cx={c * 15 + 6}
+                cy={r * 14 + 6}
+                r="1.3"
+                fill="#93C5FD"
+              />
+            ))
+          )}
+        </svg>
+      </div>
+
+      {/* 7. Subtle Academic-Inspired Graduation-Cap Outline Motif */}
+      <div 
+        className="absolute top-8 md:top-10 lg:top-11 right-[38%] lg:right-[36%] xl:right-[34%] pointer-events-none opacity-25 transform -rotate-6 scale-95 lg:scale-105"
+      >
+        <svg 
+          width="116" 
+          height="102" 
+          viewBox="0 0 116 102" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-sky-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.35)]"
+        >
+          {/* Mortarboard Diamond Top */}
+          <path 
+            d="M58 20 L100 40 L58 60 L16 40 Z" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            fill="rgba(56, 189, 248, 0.04)"
+          />
+          {/* Cap Skull Underneath */}
+          <path 
+            d="M32 48 V 66 C 32 76, 84 76, 84 66 V 48" 
+            strokeWidth="1.4" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+          />
+          {/* Tassel String & Hanging Brush */}
+          <path 
+            d="M58 40 V 50 C 58 58, 48 62, 48 72" 
+            strokeWidth="1.4" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+          />
+          <circle cx="48" cy="74.5" r="2.5" fill="#38BDF8" strokeWidth="0" />
+          <path 
+            d="M46 77 L45 84 M48 77 L48 85 M50 77 L51 84" 
+            strokeWidth="1.2" 
+            strokeLinecap="round" 
+          />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
+function MobileHeroBackground() {
+  return (
+    <div 
+      aria-hidden="true" 
+      className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
+      style={{
+        background: 'radial-gradient(ellipse 110% 90% at 85% 60%, #0B3386 0%, #062058 42%, #031135 75%, #020B21 100%)'
+      }}
+    >
+      {/* 1. Top Edge Subtle Electric Accent */}
+      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
+
+      {/* 2. Atmospheric Lighting — Top-Left Soft Sky Glow */}
+      <div 
+        className="absolute -top-16 -left-12 w-[290px] h-[230px] rounded-full blur-[65px] opacity-75"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.26) 0%, rgba(21, 94, 239, 0.20) 50%, transparent 75%)' }}
+      />
+
+      {/* 3. Atmospheric Lighting — Bottom-Right Luminous Student Halo */}
+      <div 
+        className="absolute bottom-0 -right-8 w-[290px] h-[290px] rounded-full blur-[70px] opacity-80"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(21, 94, 239, 0.46) 0%, rgba(59, 130, 246, 0.22) 55%, transparent 75%)' }}
+      />
+
+      {/* 4. Precision SVG Orbital Arcs & Curved Geometric Lines */}
+      <svg 
+        className="absolute inset-0 w-full h-full" 
+        viewBox="0 0 420 480" 
+        preserveAspectRatio="xMidYMid slice" 
+        fill="none" 
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient id="mobOrbitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.26" />
+            <stop offset="50%" stopColor="#2563EB" stopOpacity="0.14" />
+            <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.02" />
+          </linearGradient>
+          <linearGradient id="mobOrbitGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.20" />
+            <stop offset="60%" stopColor="#1D4ED8" stopOpacity="0.08" />
+            <stop offset="100%" stopColor="#0B2E75" stopOpacity="0.01" />
+          </linearGradient>
+        </defs>
+
+        {/* Concentric Orbital Arcs Radiating behind Student */}
+        <circle cx="340" cy="270" r="140" stroke="url(#mobOrbitGrad1)" strokeWidth="1" />
+        <circle cx="340" cy="270" r="190" stroke="url(#mobOrbitGrad2)" strokeWidth="1" strokeDasharray="4 6" />
+        <circle cx="340" cy="270" r="250" stroke="url(#mobOrbitGrad1)" strokeWidth="1" />
+        <circle cx="340" cy="270" r="320" stroke="url(#mobOrbitGrad2)" strokeWidth="1" strokeDasharray="5 7" opacity="0.6" />
+
+        {/* Tilted Elliptical Arc */}
+        <ellipse 
+          cx="330" 
+          cy="270" 
+          rx="220" 
+          ry="100" 
+          transform="rotate(-18 330 270)" 
+          stroke="url(#mobOrbitGrad1)" 
+          strokeWidth="1.1" 
+          strokeDasharray="4 7" 
+        />
+        <circle cx="170" cy="235" r="2.5" fill="#38BDF8" opacity="0.8" />
+
+        {/* Top-Left Concentric Ambient Arc */}
+        <circle cx="0" cy="0" r="160" stroke="url(#mobOrbitGrad1)" strokeWidth="1" opacity="0.5" />
+        <circle cx="0" cy="0" r="230" stroke="url(#mobOrbitGrad2)" strokeWidth="1" strokeDasharray="4 6" opacity="0.4" />
+      </svg>
+
+      {/* 5. Minimal Dotted Matrix Accents */}
+      {/* Top-Right Dotted Matrix */}
+      <div className="absolute top-2 right-5 pointer-events-none opacity-30">
+        <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
+          {[0, 1].map((r) =>
+            [0, 1, 2, 3].map((c) => (
+              <circle
+                key={`mob-tr-${r}-${c}`}
+                cx={c * 12 + 4}
+                cy={r * 11 + 4}
+                r="1.2"
+                fill="#38BDF8"
+                opacity={0.3 + ((c + r) % 2) * 0.3}
+              />
+            ))
+          )}
+        </svg>
+      </div>
+
+      {/* Top-Left Dotted Matrix (tucked cleanly in top margin above text) */}
+      <div className="absolute top-1 left-5 pointer-events-none opacity-25">
+        <svg width="42" height="18" viewBox="0 0 42 18" fill="none">
+          {[0, 1].map((r) =>
+            [0, 1, 2, 3].map((c) => (
+              <circle
+                key={`mob-tl-${r}-${c}`}
+                cx={c * 11 + 4}
+                cy={r * 9 + 4}
+                r="1.1"
+                fill="#60A5FA"
+                opacity={0.35}
+              />
+            ))
+          )}
+        </svg>
+      </div>
+
+      {/* 6. Subtle Academic-Inspired Graduation-Cap Outline Motif */}
+      <div 
+        className="absolute top-6 right-6 pointer-events-none opacity-18 transform -rotate-6 scale-75"
+      >
+        <svg 
+          width="80" 
+          height="70" 
+          viewBox="0 0 116 102" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          className="stroke-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.3)]"
+        >
+          {/* Mortarboard Diamond Top */}
+          <path 
+            d="M58 20 L100 40 L58 60 L16 40 Z" 
+            strokeWidth="1.6" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            fill="rgba(56, 189, 248, 0.04)"
+          />
+          {/* Cap Skull Underneath */}
+          <path 
+            d="M32 48 V 66 C 32 76, 84 76, 84 66 V 48" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+          />
+          {/* Tassel String & Hanging Brush */}
+          <path 
+            d="M58 40 V 50 C 58 58, 48 62, 48 72" 
+            strokeWidth="1.5" 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+          />
+          <circle cx="48" cy="74.5" r="2.5" fill="#38BDF8" strokeWidth="0" />
+        </svg>
+      </div>
+    </div>
+  );
+}
+
 export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroSlide[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -83,40 +430,8 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                 <CarouselItem key={slide.id} className="rounded-none overflow-hidden">
                   
                   {/* ── 1. DEDICATED MOBILE HERO SECTION (< 768px ONLY) ── */}
-                  <div 
-                    className="block md:hidden relative w-full overflow-hidden pt-5 min-[390px]:pt-6 pb-0 px-5 min-[360px]:px-6 min-[390px]:px-7 select-none"
-                    style={{
-                      background: 'radial-gradient(ellipse 120% 100% at 85% 65%, #0A2B70 0%, #051A46 45%, #020B21 100%)'
-                    }}
-                  >
-                    
-                    {/* Atmospheric Lighting — Top-Left Soft Sky Glow */}
-                    <div 
-                      aria-hidden="true"
-                      className="absolute -top-16 -left-12 w-[280px] h-[220px] rounded-full pointer-events-none blur-[65px] opacity-70"
-                      style={{ background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.28) 0%, rgba(21, 94, 239, 0.22) 50%, transparent 75%)' }}
-                    />
-
-                    {/* Atmospheric Lighting — Bottom-Right Luminous Student Halo */}
-                    <div 
-                      aria-hidden="true"
-                      className="absolute bottom-0 -right-8 w-[280px] h-[280px] rounded-full pointer-events-none blur-[70px] opacity-75"
-                      style={{ background: 'radial-gradient(ellipse at center, rgba(21, 94, 239, 0.45) 0%, rgba(59, 130, 246, 0.2) 55%, transparent 75%)' }}
-                    />
-
-                    {/* Subtle Architectural Concentric Rings (IDL Brand Motif) */}
-                    <div 
-                      aria-hidden="true"
-                      className="absolute top-1/2 -translate-y-1/2 -right-20 w-[340px] h-[340px] rounded-full border border-blue-400/[0.08] pointer-events-none" 
-                    />
-                    <div 
-                      aria-hidden="true"
-                      className="absolute top-1/2 -translate-y-1/2 -right-8 w-[240px] h-[240px] rounded-full border border-sky-400/[0.06] pointer-events-none" 
-                    />
-                    <div 
-                      aria-hidden="true"
-                      className="absolute -top-20 -left-16 w-[220px] h-[220px] rounded-full border border-blue-300/[0.05] pointer-events-none" 
-                    />
+                  <div className="block md:hidden relative w-full overflow-hidden pt-5 min-[390px]:pt-6 pb-0 px-5 min-[360px]:px-6 min-[390px]:px-7 select-none">
+                    <MobileHeroBackground />
 
                     {/* Dedicated Left-Aligned Mobile Composition */}
                     <div className="relative z-10 w-full max-w-[420px] mx-auto flex flex-col items-start text-left">
@@ -165,44 +480,8 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                   </div>
 
                   {/* ── 2. DEDICATED DESKTOP HERO SECTION (>= 768px ONLY) ── */}
-                  <div 
-                    className="hidden md:block relative w-full overflow-hidden pt-6 md:pt-7 lg:pt-8 pb-0 px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 select-none"
-                    style={{
-                      background: 'radial-gradient(ellipse 110% 100% at 80% 55%, #0B2E75 0%, #061F52 40%, #030E29 75%, #020B21 100%)'
-                    }}
-                  >
-                    
-                    {/* Top-Left Ambient Celestial Glow (Behind Text) */}
-                    <div 
-                      aria-hidden="true"
-                      className="absolute -top-32 left-[8%] w-[600px] lg:w-[750px] h-[380px] rounded-full pointer-events-none blur-[95px] opacity-70"
-                      style={{ background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.24) 0%, rgba(21, 94, 239, 0.25) 50%, transparent 75%)' }}
-                    />
-
-                    {/* Right Ambient Sapphire Halo (Studio Backlight for Student Photo) */}
-                    <div 
-                      aria-hidden="true"
-                      className="absolute bottom-0 right-[4%] w-[580px] lg:w-[720px] h-[450px] rounded-full pointer-events-none blur-[90px] opacity-75"
-                      style={{ background: 'radial-gradient(ellipse at center, rgba(21, 94, 239, 0.42) 0%, rgba(59, 130, 246, 0.22) 50%, transparent 75%)' }}
-                    />
-
-                    {/* Subtle Concentric Rings & Brand Orbit Arcs */}
-                    <div 
-                      aria-hidden="true"
-                      className="absolute top-1/2 -translate-y-1/2 right-[-6%] w-[720px] h-[720px] rounded-full border border-blue-400/[0.08] pointer-events-none" 
-                    />
-                    <div 
-                      aria-hidden="true"
-                      className="absolute top-1/2 -translate-y-1/2 right-[1%] w-[560px] h-[560px] rounded-full border border-sky-400/[0.06] pointer-events-none" 
-                    />
-                    <div 
-                      aria-hidden="true"
-                      className="absolute top-1/2 -translate-y-1/2 right-[8%] w-[400px] h-[400px] rounded-full border border-blue-300/[0.05] pointer-events-none" 
-                    />
-                    <div 
-                      aria-hidden="true"
-                      className="absolute -top-40 -left-36 w-[480px] h-[480px] rounded-full border border-blue-400/[0.05] pointer-events-none" 
-                    />
+                  <div className="hidden md:block relative w-full overflow-hidden pt-6 md:pt-7 lg:pt-8 pb-0 px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 select-none">
+                    <DesktopHeroBackground />
 
                     {/* Desktop Balanced Composition (Tighter ~16% Shorter Height, Left-Aligned Text, Right Anchored Student) */}
                     <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between gap-8 lg:gap-12 xl:gap-16 min-h-[360px] md:min-h-[390px] lg:min-h-[415px]">
