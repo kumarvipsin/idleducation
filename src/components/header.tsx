@@ -141,6 +141,52 @@ const DEFAULT_COURSE_CATEGORIES: CourseCategory[] = [
             },
         ],
     },
+    {
+        id: "cat_premium_courses",
+        name: "Premium Courses",
+        slug: "premium-courses",
+        href: "/premium-courses",
+        order: 3,
+        status: "active",
+        subItems: [
+            {
+                id: "premium_class_9",
+                label: "Class 9",
+                classNumber: 9,
+                slug: "class-9",
+                href: "/premium-courses?class=Class 9",
+                order: 1,
+                status: "active",
+            },
+            {
+                id: "premium_class_10",
+                label: "Class 10",
+                classNumber: 10,
+                slug: "class-10",
+                href: "/premium-courses?class=Class 10",
+                order: 2,
+                status: "active",
+            },
+            {
+                id: "premium_class_11",
+                label: "Class 11",
+                classNumber: 11,
+                slug: "class-11",
+                href: "/premium-courses?class=Class 11",
+                order: 3,
+                status: "active",
+            },
+            {
+                id: "premium_class_12",
+                label: "Class 12",
+                classNumber: 12,
+                slug: "class-12",
+                href: "/premium-courses?class=Class 12",
+                order: 4,
+                status: "active",
+            },
+        ],
+    },
 ];
 
 const getCategoryIconDetails = (id: string, name: string) => {
@@ -419,13 +465,14 @@ export function Header() {
                     return c;
                 });
                 const staticExtras = DEFAULT_COURSE_CATEGORIES.filter(c => 
-                    c.id === 'cat_free_courses'
+                    c.id === 'cat_free_courses' || c.id === 'cat_premium_courses'
                 );
 
                 const getCategoryRank = (c: CourseCategory) => {
                     const key = (c.slug || c.id || c.name || '').toLowerCase();
                     if (key.includes('cbse') || key.includes('school')) return 1;
                     if (key.includes('free')) return 2;
+                    if (key.includes('premium') || key.includes('paid')) return 3;
                     return c.order ?? 99;
                 };
 

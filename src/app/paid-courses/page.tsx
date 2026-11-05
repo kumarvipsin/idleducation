@@ -1,16 +1,19 @@
-'use server';
+import { redirect } from 'next/navigation';
 
-import { Suspense } from 'react';
-import { getPaidCourses } from '@/app/actions';
-import { PaidCoursesClient } from './paid-courses-client';
-
-export default async function PaidCoursesPage() {
-  const { success, data } = await getPaidCourses();
-  const courses = success ? data : [];
-
-  return (
-    <Suspense fallback={<div className="container mx-auto py-10 px-4 text-center">Loading paid courses...</div>}>
-      <PaidCoursesClient courses={courses as any[]} />
-    </Suspense>
-  );
+export default async function PaidCoursesPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = searchParams ? await searchParams : {};
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(resolvedParams)) {
+    if (typeof value === 'string') {
+      query.set(key, value);
+    } else if (Array.isArray(value)) {
+      value.forEach(v => query.append(key, v));
+    }
+  }
+  const qs = query.toString();
+  redirect(`/premium-courses${qs ? `?${qs}` : ''}`);
 }
