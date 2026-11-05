@@ -23,7 +23,7 @@ export default async function Home() {
   const heroSlides = heroSlidesResult.success ? (heroSlidesResult.data as THeroSlide[]) : [];
 
   return (
-    <div data-landing-page="true" className="flex flex-col w-full min-h-screen bg-white dark:bg-black">
+    <div data-landing-page="true" className="flex flex-col w-full max-w-full overflow-x-hidden min-h-screen bg-white dark:bg-black">
       <h1 className="sr-only">IDL Education</h1>
       
       {/* 1. Hero Banner Section */}

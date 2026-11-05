@@ -390,8 +390,7 @@ export function Header() {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { toast } = useToast();
     const [isClient, setIsClient] = useState(false);
-    const [show, setShow] = useState(true);
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const [isScrolled, setIsScrolled] = useState(false);
 
     const [activeMenu, setActiveMenu] = useState<string | null>(null);
     const [courseCategories, setCourseCategories] = useState<CourseCategory[]>(DEFAULT_COURSE_CATEGORIES);
@@ -500,30 +499,24 @@ export function Header() {
 
     useEffect(() => {
         setIsClient(true);
+        if (typeof window === 'undefined') return;
+
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+        };
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                setActiveMenu(null);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('keydown', handleKeyDown);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('keydown', handleKeyDown);
+        };
     }, []);
-
-    const controlNavbar = useCallback(() => {
-        // Keep header visible on scroll
-        setShow(true);
-        // Update lastScrollY for completeness (not used)
-        setLastScrollY(window.scrollY);
-    }, [lastScrollY]);
-
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            window.addEventListener('scroll', controlNavbar);
-            const handleKeyDown = (e: KeyboardEvent) => {
-                if (e.key === 'Escape') {
-                    setActiveMenu(null);
-                }
-            };
-            window.addEventListener('keydown', handleKeyDown);
-            return () => {
-                window.removeEventListener('scroll', controlNavbar);
-                window.removeEventListener('keydown', handleKeyDown);
-            };
-        }
-    }, [controlNavbar]);
 
     const handleLogout = async () => {
         await logout();
@@ -690,8 +683,10 @@ export function Header() {
                 suppressHydrationWarning
                 data-mobile-menu-open={isMobileMenuOpen ? "true" : "false"}
                 className={cn(
-                    "sticky top-0 z-[60] border-b transition-transform duration-300 h-[68px] bg-background/95 backdrop-blur-sm",
-                    show ? "translate-y-0" : "-translate-y-full"
+                    "fixed top-0 left-0 right-0 w-full z-[60] border-b h-[68px] bg-background/95 backdrop-blur-md transition-shadow duration-200",
+                    isScrolled 
+                        ? "shadow-xs border-slate-200/90 dark:border-slate-800" 
+                        : "border-slate-100 dark:border-slate-800/80"
                 )}
             >
                 <div className="container mx-auto px-4 md:px-6 flex justify-between items-center h-full">
@@ -1634,6 +1629,9 @@ export function Header() {
                     </div>
                 </div>
             </header>
+
+            {/* Fixed Header Layout Spacer so content begins right below header */}
+            <div className="h-[68px] w-full shrink-0 pointer-events-none select-none" aria-hidden="true" />
 
             <AuthModal 
                 isOpen={isAuthOpen} 

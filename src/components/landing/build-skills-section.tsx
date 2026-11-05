@@ -1,391 +1,123 @@
 'use client';
 
+import Image from "next/image";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "../ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import type { THeroSlide } from "@/app/actions/types";
-import { ArrowRight } from "lucide-react";
+import { Zap, Phone, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { AdmissionModal } from "@/components/admission-modal";
+import { BookDemoModal } from "@/components/book-demo-modal";
 
 interface HeroSlideItem {
   id: string;
-  bulletText: string;
-  yearText: string;
-  courseLine1: string;
-  courseLine2: string;
+  badgeTag?: string;
+  badgeYear?: string;
+  headlineLine1: string;
+  headlineLine2: string;
+  streamText?: string;
+  streamClass?: string;
   buttonText: string;
-  buttonLink: string;
-  imageSrc: string;
+  secondaryButtonText: string;
+  studentImage: string;
+  studentAlt: string;
 }
 
-// 2 identical slides of this same design so carousel functions with smooth transitions
 const heroSlidesList: HeroSlideItem[] = [
   {
     id: "admission-slide-1",
-    bulletText: "Admission Started",
-    yearText: "2026–27",
-    courseLine1: "Foundation 4–10 | 11 & 12 | JEE | NEET | CUET",
-    courseLine2: "SCIENCE, COMMERCE, HUMANITIES",
+    headlineLine1: "JEE / NEET",
+    headlineLine2: "Dream Big. Achieve More.",
+    streamText: "Expert Guidance • Conceptual Clarity • Result-Oriented Preparation",
+    streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
     buttonText: "Enroll Now",
-    buttonLink: "/admission",
-    imageSrc: "/scholarship.png",
+    secondaryButtonText: "Book Free Demo",
+    studentImage: "/scholarship.png",
+    studentAlt: "IDL Education Student",
   },
   {
     id: "admission-slide-2",
-    bulletText: "Admission Started",
-    yearText: "2026–27",
-    courseLine1: "Foundation 4–10 | 11 & 12 | JEE | NEET | CUET",
-    courseLine2: "SCIENCE, COMMERCE, HUMANITIES",
+    headlineLine1: "CLASS 9 & 10",
+    headlineLine2: "Build Strong Foundations.",
+    streamText: "Concept Clarity • Academic Excellence • Exam Readiness",
+    streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
     buttonText: "Enroll Now",
-    buttonLink: "/admission",
-    imageSrc: "/scholarship.png",
+    secondaryButtonText: "Book Free Demo",
+    studentImage: "/scholarship.png",
+    studentAlt: "IDL Education Student",
+  },
+  {
+    id: "admission-slide-3",
+    headlineLine1: "JEE / NEET",
+    headlineLine2: "Dream Big. Achieve More.",
+    streamText: "Expert Guidance • Conceptual Clarity • Result-Oriented Preparation",
+    streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
+    buttonText: "Enroll Now",
+    secondaryButtonText: "Book Free Demo",
+    studentImage: "/scholarship.png",
+    studentAlt: "IDL Education Student",
+  },
+  {
+    id: "admission-slide-4",
+    headlineLine1: "CLASS 9 & 10",
+    headlineLine2: "Build Strong Foundations.",
+    streamText: "Concept Clarity • Academic Excellence • Exam Readiness",
+    streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
+    buttonText: "Enroll Now",
+    secondaryButtonText: "Book Free Demo",
+    studentImage: "/scholarship.png",
+    studentAlt: "IDL Education Student",
   },
 ];
 
-// ── Enhanced Background Components (Premium Dark Navy + Electric Blue + Orbits + Dotted Grids + Academic Motif) ──
-
-function DesktopHeroBackground() {
+/**
+ * Luminous Minimalist Background with Subtle Layered Radial Lighting & Ambient Floor Stage Glow
+ * Clean Royal Purple/Indigo aesthetic with golden core ambient light and glowing horizon (all stars removed).
+ */
+function LuminousHeroBackground() {
   return (
     <div 
       aria-hidden="true" 
       className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
-      style={{
-        background: 'radial-gradient(ellipse 100% 90% at 80% 50%, #0B3386 0%, #072464 35%, #031135 70%, #020B21 100%)'
-      }}
     >
-      {/* 1. Top Edge Electric Highlight */}
-      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-sky-400/35 to-transparent" />
-
-      {/* 2. Top-Left Celestial Ambient Glow (Behind Text) */}
+      {/* 1. Rich Royal Purple & Deep Indigo Gradient */}
       <div 
-        className="absolute -top-36 left-[6%] w-[650px] lg:w-[800px] h-[400px] rounded-full blur-[95px] opacity-75"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.24) 0%, rgba(21, 94, 239, 0.22) 50%, transparent 75%)' }}
+        className="absolute inset-0"
+        style={{
+          background: 'radial-gradient(ellipse 130% 95% at 50% 16%, #43178E 0%, #2F0F6B 32%, #1C0745 68%, #0E0326 100%)'
+        }}
       />
 
-      {/* 3. Right Ambient Sapphire Halo (Studio Backlight for Student Photo) */}
+      {/* 2. Top Edge Subtle Neon Rim Light */}
+      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-purple-300/40 via-sky-300/40 to-transparent shadow-[0_0_10px_rgba(168,85,247,0.35)]" />
+
+      {/* 3. Subtle Electric Violet/Purple Radial Glow behind Left Text */}
       <div 
-        className="absolute bottom-0 right-[2%] w-[620px] lg:w-[780px] h-[480px] rounded-full blur-[90px] opacity-80"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(21, 94, 239, 0.46) 0%, rgba(59, 130, 246, 0.24) 50%, transparent 75%)' }}
+        className="absolute top-[38%] left-[28%] lg:left-[22%] -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[750px] md:w-[900px] h-[360px] sm:h-[420px] rounded-full blur-[110px] opacity-75"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(168, 85, 247, 0.38) 0%, rgba(139, 92, 246, 0.20) 38%, rgba(88, 28, 135, 0.08) 68%, transparent 85%)'
+        }}
       />
 
-      {/* 4. Bottom-Left Subtle Azure Depth Glow */}
+      {/* 4. Soft Golden Ambient Lighting behind Left Headline */}
       <div 
-        className="absolute -bottom-20 left-[22%] w-[450px] h-[260px] rounded-full blur-[85px] opacity-40"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(30, 64, 175, 0.35) 0%, rgba(21, 94, 239, 0.15) 50%, transparent 75%)' }}
+        className="absolute top-[42%] left-[26%] lg:left-[20%] -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[500px] h-[200px] sm:h-[240px] rounded-full blur-[85px] opacity-40"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.48) 0%, rgba(245, 158, 11, 0.20) 45%, transparent 75%)'
+        }}
       />
 
-      {/* 5. Precision SVG Orbital Arcs & Curved Geometric Lines */}
-      <svg 
-        className="absolute inset-0 w-full h-full" 
-        viewBox="0 0 1440 440" 
-        preserveAspectRatio="xMidYMid slice" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="deskOrbitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.28" />
-            <stop offset="45%" stopColor="#2563EB" stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.03" />
-          </linearGradient>
-          <linearGradient id="deskOrbitGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.22" />
-            <stop offset="55%" stopColor="#1D4ED8" stopOpacity="0.10" />
-            <stop offset="100%" stopColor="#0B2E75" stopOpacity="0.02" />
-          </linearGradient>
-          <linearGradient id="deskWaveGrad" x1="0%" y1="50%" x2="100%" y2="50%">
-            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0" />
-            <stop offset="30%" stopColor="#38BDF8" stopOpacity="0.16" />
-            <stop offset="70%" stopColor="#2563EB" stopOpacity="0.20" />
-            <stop offset="100%" stopColor="#1D4ED8" stopOpacity="0" />
-          </linearGradient>
-        </defs>
-
-        {/* Concentric Orbital Rings Radiating from Right */}
-        <circle cx="1180" cy="220" r="190" stroke="url(#deskOrbitGrad1)" strokeWidth="1" />
-        <circle cx="1180" cy="220" r="275" stroke="url(#deskOrbitGrad2)" strokeWidth="1" strokeDasharray="5 7" />
-        <circle cx="1180" cy="220" r="365" stroke="url(#deskOrbitGrad1)" strokeWidth="1" />
-        <circle cx="1180" cy="220" r="470" stroke="url(#deskOrbitGrad2)" strokeWidth="1" strokeDasharray="6 9" />
-        <circle cx="1180" cy="220" r="590" stroke="url(#deskOrbitGrad1)" strokeWidth="1" />
-        <circle cx="1180" cy="220" r="740" stroke="url(#deskOrbitGrad2)" strokeWidth="1" opacity="0.6" />
-
-        {/* Elliptical Tilted Orbit with Celestial Pulse Dot */}
-        <ellipse 
-          cx="1150" 
-          cy="225" 
-          rx="440" 
-          ry="190" 
-          transform="rotate(-16 1150 225)" 
-          stroke="url(#deskOrbitGrad1)" 
-          strokeWidth="1.2" 
-          strokeDasharray="4 8"
-        />
-        <circle cx="740" cy="180" r="3" fill="#38BDF8" opacity="0.8" />
-        <circle cx="740" cy="180" r="7" fill="#38BDF8" opacity="0.2" />
-
-        {/* Sweeping Dynamic Geometric Wave Arc */}
-        <path 
-          d="M -50 340 C 280 230, 680 390, 1500 240" 
-          stroke="url(#deskWaveGrad)" 
-          strokeWidth="1.2" 
-        />
-        <path 
-          d="M -20 375 C 320 270, 720 430, 1520 280" 
-          stroke="url(#deskWaveGrad)" 
-          strokeWidth="1" 
-          opacity="0.6" 
-          strokeDasharray="8 6" 
-        />
-
-        {/* Top-Left Concentric Ambient Arc */}
-        <circle cx="0" cy="0" r="260" stroke="url(#deskOrbitGrad1)" strokeWidth="1" opacity="0.5" />
-        <circle cx="0" cy="0" r="380" stroke="url(#deskOrbitGrad2)" strokeWidth="1" strokeDasharray="4 8" opacity="0.4" />
-      </svg>
-
-      {/* 6. Minimal Dotted Matrix Accents */}
-      {/* Top-Left Dot Cluster (offset from text) */}
-      <div className="absolute top-6 left-12 lg:left-16 pointer-events-none opacity-50">
-        <svg width="68" height="48" viewBox="0 0 68 48" fill="none">
-          {[0, 1, 2, 3].map((r) =>
-            [0, 1, 2, 3, 4].map((c) => (
-              <circle
-                key={`tl-${r}-${c}`}
-                cx={c * 14 + 6}
-                cy={r * 12 + 6}
-                r="1.5"
-                fill="#60A5FA"
-                opacity={0.3 + ((c + r) % 3) * 0.22}
-              />
-            ))
-          )}
-        </svg>
-      </div>
-
-      {/* Top-Right Dot Cluster */}
-      <div className="absolute top-7 right-14 lg:right-24 pointer-events-none opacity-55">
-        <svg width="82" height="54" viewBox="0 0 82 54" fill="none">
-          {[0, 1, 2, 3].map((r) =>
-            [0, 1, 2, 3, 4, 5].map((c) => (
-              <circle
-                key={`tr-${r}-${c}`}
-                cx={c * 13 + 6}
-                cy={r * 13 + 6}
-                r="1.4"
-                fill="#38BDF8"
-                opacity={0.25 + ((5 - c) % 3) * 0.2}
-              />
-            ))
-          )}
-        </svg>
-      </div>
-
-      {/* Bottom-Left Margin Subtle Dot Strip */}
-      <div className="absolute bottom-16 left-8 lg:left-12 pointer-events-none opacity-30">
-        <svg width="32" height="56" viewBox="0 0 32 56" fill="none">
-          {[0, 1, 2, 3].map((r) =>
-            [0, 1].map((c) => (
-              <circle
-                key={`bl-${r}-${c}`}
-                cx={c * 15 + 6}
-                cy={r * 14 + 6}
-                r="1.3"
-                fill="#93C5FD"
-              />
-            ))
-          )}
-        </svg>
-      </div>
-
-      {/* 7. Subtle Academic-Inspired Graduation-Cap Outline Motif */}
+      {/* 5. Luminous Stage Floor Glow near Bottom Edge (Seamless transition into lower section) */}
       <div 
-        className="absolute top-8 md:top-10 lg:top-11 right-[38%] lg:right-[36%] xl:right-[34%] pointer-events-none opacity-25 transform -rotate-6 scale-95 lg:scale-105"
-      >
-        <svg 
-          width="116" 
-          height="102" 
-          viewBox="0 0 116 102" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          className="stroke-sky-300 drop-shadow-[0_0_10px_rgba(56,189,248,0.35)]"
-        >
-          {/* Mortarboard Diamond Top */}
-          <path 
-            d="M58 20 L100 40 L58 60 L16 40 Z" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            fill="rgba(56, 189, 248, 0.04)"
-          />
-          {/* Cap Skull Underneath */}
-          <path 
-            d="M32 48 V 66 C 32 76, 84 76, 84 66 V 48" 
-            strokeWidth="1.4" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-          />
-          {/* Tassel String & Hanging Brush */}
-          <path 
-            d="M58 40 V 50 C 58 58, 48 62, 48 72" 
-            strokeWidth="1.4" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-          />
-          <circle cx="48" cy="74.5" r="2.5" fill="#38BDF8" strokeWidth="0" />
-          <path 
-            d="M46 77 L45 84 M48 77 L48 85 M50 77 L51 84" 
-            strokeWidth="1.2" 
-            strokeLinecap="round" 
-          />
-        </svg>
-      </div>
-    </div>
-  );
-}
-
-function MobileHeroBackground() {
-  return (
-    <div 
-      aria-hidden="true" 
-      className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
-      style={{
-        background: 'radial-gradient(ellipse 110% 90% at 85% 60%, #0B3386 0%, #062058 42%, #031135 75%, #020B21 100%)'
-      }}
-    >
-      {/* 1. Top Edge Subtle Electric Accent */}
-      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-sky-400/30 to-transparent" />
-
-      {/* 2. Atmospheric Lighting — Top-Left Soft Sky Glow */}
-      <div 
-        className="absolute -top-16 -left-12 w-[290px] h-[230px] rounded-full blur-[65px] opacity-75"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(56, 189, 248, 0.26) 0%, rgba(21, 94, 239, 0.20) 50%, transparent 75%)' }}
+        className="absolute bottom-0 inset-x-0 h-44 sm:h-56 md:h-64 pointer-events-none overflow-hidden"
+        style={{
+          background: 'radial-gradient(ellipse 80% 100% at 50% 100%, rgba(243, 232, 255, 0.55) 0%, rgba(192, 132, 252, 0.32) 34%, rgba(126, 34, 206, 0.10) 65%, transparent 85%)'
+        }}
       />
 
-      {/* 3. Atmospheric Lighting — Bottom-Right Luminous Student Halo */}
-      <div 
-        className="absolute bottom-0 -right-8 w-[290px] h-[290px] rounded-full blur-[70px] opacity-80"
-        style={{ background: 'radial-gradient(ellipse at center, rgba(21, 94, 239, 0.46) 0%, rgba(59, 130, 246, 0.22) 55%, transparent 75%)' }}
-      />
-
-      {/* 4. Precision SVG Orbital Arcs & Curved Geometric Lines */}
-      <svg 
-        className="absolute inset-0 w-full h-full" 
-        viewBox="0 0 420 480" 
-        preserveAspectRatio="xMidYMid slice" 
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <linearGradient id="mobOrbitGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#38BDF8" stopOpacity="0.26" />
-            <stop offset="50%" stopColor="#2563EB" stopOpacity="0.14" />
-            <stop offset="100%" stopColor="#1E40AF" stopOpacity="0.02" />
-          </linearGradient>
-          <linearGradient id="mobOrbitGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.20" />
-            <stop offset="60%" stopColor="#1D4ED8" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#0B2E75" stopOpacity="0.01" />
-          </linearGradient>
-        </defs>
-
-        {/* Concentric Orbital Arcs Radiating behind Student */}
-        <circle cx="340" cy="270" r="140" stroke="url(#mobOrbitGrad1)" strokeWidth="1" />
-        <circle cx="340" cy="270" r="190" stroke="url(#mobOrbitGrad2)" strokeWidth="1" strokeDasharray="4 6" />
-        <circle cx="340" cy="270" r="250" stroke="url(#mobOrbitGrad1)" strokeWidth="1" />
-        <circle cx="340" cy="270" r="320" stroke="url(#mobOrbitGrad2)" strokeWidth="1" strokeDasharray="5 7" opacity="0.6" />
-
-        {/* Tilted Elliptical Arc */}
-        <ellipse 
-          cx="330" 
-          cy="270" 
-          rx="220" 
-          ry="100" 
-          transform="rotate(-18 330 270)" 
-          stroke="url(#mobOrbitGrad1)" 
-          strokeWidth="1.1" 
-          strokeDasharray="4 7" 
-        />
-        <circle cx="170" cy="235" r="2.5" fill="#38BDF8" opacity="0.8" />
-
-        {/* Top-Left Concentric Ambient Arc */}
-        <circle cx="0" cy="0" r="160" stroke="url(#mobOrbitGrad1)" strokeWidth="1" opacity="0.5" />
-        <circle cx="0" cy="0" r="230" stroke="url(#mobOrbitGrad2)" strokeWidth="1" strokeDasharray="4 6" opacity="0.4" />
-      </svg>
-
-      {/* 5. Minimal Dotted Matrix Accents */}
-      {/* Top-Right Dotted Matrix */}
-      <div className="absolute top-2 right-5 pointer-events-none opacity-30">
-        <svg width="48" height="24" viewBox="0 0 48 24" fill="none">
-          {[0, 1].map((r) =>
-            [0, 1, 2, 3].map((c) => (
-              <circle
-                key={`mob-tr-${r}-${c}`}
-                cx={c * 12 + 4}
-                cy={r * 11 + 4}
-                r="1.2"
-                fill="#38BDF8"
-                opacity={0.3 + ((c + r) % 2) * 0.3}
-              />
-            ))
-          )}
-        </svg>
-      </div>
-
-      {/* Top-Left Dotted Matrix (tucked cleanly in top margin above text) */}
-      <div className="absolute top-1 left-5 pointer-events-none opacity-25">
-        <svg width="42" height="18" viewBox="0 0 42 18" fill="none">
-          {[0, 1].map((r) =>
-            [0, 1, 2, 3].map((c) => (
-              <circle
-                key={`mob-tl-${r}-${c}`}
-                cx={c * 11 + 4}
-                cy={r * 9 + 4}
-                r="1.1"
-                fill="#60A5FA"
-                opacity={0.35}
-              />
-            ))
-          )}
-        </svg>
-      </div>
-
-      {/* 6. Subtle Academic-Inspired Graduation-Cap Outline Motif */}
-      <div 
-        className="absolute top-6 right-6 pointer-events-none opacity-18 transform -rotate-6 scale-75"
-      >
-        <svg 
-          width="80" 
-          height="70" 
-          viewBox="0 0 116 102" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
-          className="stroke-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.3)]"
-        >
-          {/* Mortarboard Diamond Top */}
-          <path 
-            d="M58 20 L100 40 L58 60 L16 40 Z" 
-            strokeWidth="1.6" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-            fill="rgba(56, 189, 248, 0.04)"
-          />
-          {/* Cap Skull Underneath */}
-          <path 
-            d="M32 48 V 66 C 32 76, 84 76, 84 66 V 48" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-          />
-          {/* Tassel String & Hanging Brush */}
-          <path 
-            d="M58 40 V 50 C 58 58, 48 62, 48 72" 
-            strokeWidth="1.5" 
-            strokeLinecap="round" 
-            strokeLinejoin="round" 
-          />
-          <circle cx="48" cy="74.5" r="2.5" fill="#38BDF8" strokeWidth="0" />
-        </svg>
-      </div>
+      {/* 6. Soft Horizon Edge Light Line */}
+      <div className="absolute bottom-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-purple-200/50 via-white/70 to-transparent shadow-[0_0_18px_rgba(192,132,252,0.4)]" />
     </div>
   );
 }
@@ -393,140 +125,332 @@ function MobileHeroBackground() {
 export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroSlide[] }) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
+  const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
 
-  const autoplayPlugin = useRef(
-    Autoplay({ delay: 5000, stopOnInteraction: false, stopOnMouseEnter: true })
-  );
+  // Section in-view detection: re-triggers motion every time user scrolls into this section
+  const sectionRef = useRef<HTMLElement>(null);
+  const [animKey, setAnimKey] = useState(1);
+  const wasOutOfViewRef = useRef(false);
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (wasOutOfViewRef.current) {
+            setAnimKey((prev) => prev + 1);
+            wasOutOfViewRef.current = false;
+          }
+        } else {
+          wasOutOfViewRef.current = true;
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  // Synchronized Autoplay & Progress Bar (Fill 0% to 100%, then slide transitions)
+  const progressRef = useRef(0);
 
   useEffect(() => {
     if (!api) return;
+
     setCurrent(api.selectedScrollSnap());
-    api.on("select", () => {
+    const onSelect = () => {
       setCurrent(api.selectedScrollSnap());
-    });
+      progressRef.current = 0;
+      setProgress(0);
+    };
+
+    api.on("select", onSelect);
+
+    const SLIDE_DURATION = 6000; // 6 seconds per slide
+    const INTERVAL = 50; // smooth 20fps update
+    const step = (INTERVAL / SLIDE_DURATION) * 100;
+
+    const timer = setInterval(() => {
+      if (isHovered) return;
+
+      progressRef.current += step;
+      if (progressRef.current >= 100) {
+        progressRef.current = 0;
+        setProgress(0);
+        api.scrollNext();
+      } else {
+        setProgress(progressRef.current);
+      }
+    }, INTERVAL);
+
+    return () => {
+      clearInterval(timer);
+      api.off("select", onSelect);
+    };
+  }, [api, isHovered]);
+
+  const handlePrev = useCallback(() => {
+    progressRef.current = 0;
+    setProgress(0);
+    api?.scrollPrev();
   }, [api]);
 
-  const scrollTo = useCallback(
-    (index: number) => {
-      api?.scrollTo(index);
-    },
-    [api]
-  );
+  const handleNext = useCallback(() => {
+    progressRef.current = 0;
+    setProgress(0);
+    api?.scrollNext();
+  }, [api]);
 
   return (
     <>
-    <section suppressHydrationWarning className="w-full pt-0 pb-0 bg-white dark:bg-background">
-      <div className="w-full px-0">
-        <div className="relative w-full rounded-none overflow-hidden bg-[#020B21] select-none">
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes heroFadeUp {
+          0% {
+            opacity: 0;
+            transform: translateY(26px);
+            filter: blur(5px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0px);
+          }
+        }
+
+        @keyframes heroBadgePop {
+          0% {
+            opacity: 0;
+            transform: translateY(14px) scale(0.92);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        @keyframes heroButtonRise {
+          0% {
+            opacity: 0;
+            transform: translateY(22px);
+            filter: blur(3px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0px);
+          }
+        }
+
+        @keyframes heroStudentReveal {
+          0% {
+            opacity: 0;
+            transform: translateY(24px) scale(0.96);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        .animate-hero-badge {
+          animation: heroBadgePop 0.65s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+          will-change: transform, opacity;
+        }
+
+        .animate-hero-line1 {
+          animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s both;
+          will-change: transform, opacity, filter;
+        }
+
+        .animate-hero-line2 {
+          animation: heroFadeUp 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.25s both;
+          will-change: transform, opacity, filter;
+        }
+
+        .animate-hero-subtitle {
+          animation: heroFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+          will-change: transform, opacity, filter;
+        }
+
+        .animate-hero-cta {
+          animation: heroButtonRise 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both;
+          will-change: transform, opacity, filter;
+        }
+
+        .animate-hero-student {
+          animation: heroStudentReveal 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.20s both;
+          will-change: transform, opacity;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-hero-badge,
+          .animate-hero-line1,
+          .animate-hero-line2,
+          .animate-hero-subtitle,
+          .animate-hero-cta,
+          .animate-hero-student {
+            animation: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            filter: none !important;
+          }
+        }
+      ` }} />
+
+      <section 
+        ref={sectionRef}
+        suppressHydrationWarning 
+        className="w-full max-w-full overflow-hidden pt-0 pb-0 bg-[#0E0326]"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <div className="relative w-full max-w-full overflow-hidden select-none">
           <Carousel 
             setApi={setApi}
-            opts={{ loop: true }}
-            plugins={[autoplayPlugin.current]} 
-            className="w-full"
+            opts={{ align: "start", loop: true }}
+            className="w-full overflow-hidden"
           >
-            <CarouselContent>
-              {heroSlidesList.map((slide) => (
-                <CarouselItem key={slide.id} className="rounded-none overflow-hidden">
+            <CarouselContent className="ml-0">
+              {heroSlidesList.map((slide, index) => {
+                const isActive = index === current;
+
+                return (
+                <CarouselItem key={slide.id} className="min-w-0 shrink-0 grow-0 basis-full pl-0 rounded-none">
                   
-                  {/* ── 1. DEDICATED MOBILE HERO SECTION (< 768px ONLY) ── */}
-                  <div className="block md:hidden relative w-full overflow-hidden pt-5 min-[390px]:pt-6 pb-0 px-5 min-[360px]:px-6 min-[390px]:px-7 select-none">
-                    <MobileHeroBackground />
+                  {/* Clean Luminous Slide with Left-Aligned Content & Right Integrated Student Visual */}
+                  <div className="relative w-full max-w-full overflow-hidden flex items-center min-h-[500px] sm:min-h-[540px] md:min-h-[560px] lg:min-h-[580px] xl:min-h-[600px] px-4 sm:px-8 md:px-12 lg:px-16 pt-20 min-[380px]:pt-24 sm:pt-28 md:pt-24 lg:pt-14 xl:pt-16 pb-12 sm:pb-16 md:pb-20 lg:pb-0">
+                    <LuminousHeroBackground />
 
-                    {/* Dedicated Left-Aligned Mobile Composition */}
-                    <div className="relative z-10 w-full max-w-[420px] mx-auto flex flex-col items-start text-left">
+                    {/* 2-Column Responsive Layout */}
+                    <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-6 sm:gap-8 lg:gap-10">
                       
-                      {/* Main Heading: Admission Started 2026-27 (Single line, fits 360px+) */}
-                      <h1 className="flex items-center gap-1.5 min-[360px]:gap-2 min-[390px]:gap-2 text-[18px] min-[360px]:text-[20px] min-[390px]:text-[22px] sm:text-[32px] font-black tracking-tight text-white leading-none pb-2 min-[390px]:pb-2.5 drop-shadow-sm text-left whitespace-nowrap">
-                        <span>{slide.bulletText}</span>
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-400">{slide.yearText}</span>
-                      </h1>
-
-                      {/* Supporting Text: Course Categories (single-line at all mobile widths) */}
-                      <div className="space-y-1 min-[390px]:space-y-1.5 pb-3.5 min-[390px]:pb-4 text-left">
-                        <p className="text-[12px] min-[360px]:text-[13px] min-[390px]:text-[14px] sm:text-[16px] font-semibold text-[#DCE8F8] tracking-[0.01em] leading-normal whitespace-nowrap">
-                          {slide.courseLine1}
-                        </p>
-                        <p className="text-[10.5px] min-[360px]:text-[11px] min-[390px]:text-[11.5px] sm:text-[13px] font-bold text-amber-300 tracking-[0.05em] uppercase leading-normal whitespace-nowrap">
-                          {slide.courseLine2}
-                        </p>
-                      </div>
-
-                      {/* Clear CTA Button: Enroll Now — opens Admission Modal */}
-                      <div className="pb-1 text-left w-full flex justify-start">
-                        <button
-                          type="button"
-                          onClick={() => setIsAdmissionOpen(true)}
-                          className="inline-flex items-center justify-center gap-2 h-[38px] min-[390px]:h-[40px] sm:h-[42px] px-7 min-[390px]:px-8 sm:px-9 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[13px] min-[390px]:text-[13.5px] sm:text-[14px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] border border-blue-400/25 active:scale-95 transition-all cursor-pointer select-none"
-                        >
-                          <span>{slide.buttonText}</span>
-                          <ArrowRight className="w-4 h-4 stroke-[2.4]" />
-                        </button>
-                      </div>
-
-                      {/* Natural Student Visual in Lower-Right Area (Positioned slightly higher, visually connecting with text block) */}
-                      <div className="relative w-full flex justify-end items-end -mt-5 min-[390px]:-mt-7 sm:-mt-8 overflow-visible pointer-events-none">
-                        <div className="relative w-[250px] min-[360px]:w-[275px] min-[390px]:w-[305px] min-[420px]:w-[330px] shrink-0 flex items-end justify-end -mr-3 min-[390px]:-mr-2">
-                          <img
-                            src={slide.imageSrc}
-                            alt="IDL Education Student"
-                            className="w-full h-auto object-contain object-bottom select-none drop-shadow-[0_16px_36px_rgba(0,0,0,0.65)] block"
-                            loading="eager"
-                          />
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  {/* ── 2. DEDICATED DESKTOP HERO SECTION (>= 768px ONLY) ── */}
-                  <div className="hidden md:block relative w-full overflow-hidden pt-6 md:pt-7 lg:pt-8 pb-0 px-6 sm:px-10 md:px-12 lg:px-16 xl:px-20 select-none">
-                    <DesktopHeroBackground />
-
-                    {/* Desktop Balanced Composition (Tighter ~16% Shorter Height, Left-Aligned Text, Right Anchored Student) */}
-                    <div className="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between gap-8 lg:gap-12 xl:gap-16 min-h-[360px] md:min-h-[390px] lg:min-h-[415px]">
-                      
-                      {/* Left Column: Text Content (Repositioned slightly upward and vertically balanced) */}
-                      <div className="flex flex-col items-start text-left max-w-md lg:max-w-lg self-center -translate-y-6 md:-translate-y-8 lg:-translate-y-9 pt-1 md:pt-2 pb-2 md:pb-3">
+                      {/* LEFT COLUMN: All text & buttons strictly LEFT-ALIGNED */}
+                      <div 
+                        key={`${slide.id}-${animKey}-${isActive ? 'active' : 'idle'}`}
+                        className="w-full lg:max-w-[58%] xl:max-w-[60%] flex flex-col items-start text-left pt-1 sm:pt-2 lg:pt-0"
+                      >
                         
-                        {/* 1. Main Heading: Admission Started 2026-27 (Single line, large font, no bullet) */}
-                        <h1 className="flex items-center gap-3 md:gap-3.5 text-[1.85rem] md:text-[2.35rem] lg:text-[2.85rem] xl:text-[3.25rem] font-black tracking-[-0.02em] text-white leading-none pb-3 md:pb-3.5 drop-shadow-sm text-left whitespace-nowrap">
-                          <span>{slide.bulletText}</span>
-                          <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-amber-400">{slide.yearText}</span>
+                        {/* 1. Top Pill Badge (if any) */}
+                        {slide.badgeTag && (
+                          <div className={cn(
+                            "inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/15 border border-amber-400/50 backdrop-blur-md shadow-[0_0_24px_rgba(251,191,36,0.35)] mb-3 sm:mb-4 transition-all duration-300 cursor-default",
+                            isActive && "animate-hero-badge"
+                          )}>
+                            <Sparkles className="w-3.5 h-3.5 text-amber-300 fill-amber-300" />
+                            <span className="text-xs sm:text-[13px] font-bold text-white tracking-wide">
+                              {slide.badgeTag}
+                            </span>
+                            {slide.badgeYear && (
+                              <span className="text-xs sm:text-[13px] font-black text-amber-300 drop-shadow-[0_0_8px_rgba(253,224,71,0.8)]">
+                                {slide.badgeYear}
+                              </span>
+                            )}
+                          </div>
+                        )}
+
+                        {/* 2. Main Headline (Left Aligned with balanced spacing) */}
+                        <h1 className="text-[26px] min-[360px]:text-[28px] min-[400px]:text-[32px] sm:text-4xl md:text-5xl lg:text-[48px] xl:text-[54px] font-black tracking-tight leading-[1.2] mb-3 sm:mb-4 text-left">
+                          <span className={cn(
+                            "block text-white drop-shadow-[0_2px_12px_rgba(0,0,0,0.6)]",
+                            isActive && "animate-hero-line1"
+                          )}>
+                            {slide.headlineLine1}
+                          </span>
+                          <span className={cn(
+                            "block mt-1 sm:mt-1.5 pb-2 sm:pb-3 text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8C5] via-[#FFD233] to-[#F59E0B] drop-shadow-[0_2px_16px_rgba(250,204,21,0.45)] font-black",
+                            isActive && "animate-hero-line2"
+                          )}>
+                            {slide.headlineLine2}
+                          </span>
                         </h1>
 
-                        {/* 3. Supporting Text: Course Categories (Ice-blue tone, clearly readable) */}
-                        <div className="space-y-1.5 pb-4.5 md:pb-5 text-left">
-                          <p className="text-[17px] md:text-[19px] lg:text-[20px] font-semibold text-[#DCE8F8] tracking-normal leading-relaxed">
-                            {slide.courseLine1}
-                          </p>
-                          <p className="text-[13px] md:text-[14px] lg:text-[15px] font-bold text-amber-300 tracking-[0.07em] uppercase">
-                            {slide.courseLine2}
-                          </p>
-                        </div>
+                        {/* 3. Supporting Subtitle / Stream Tag (Left Aligned) */}
+                        {slide.streamText && (
+                          <div className={cn(
+                            "mb-5 sm:mb-7 text-left max-w-xl",
+                            isActive && "animate-hero-subtitle"
+                          )}>
+                            <p className={slide.streamClass || "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]"}>
+                              {slide.streamText}
+                            </p>
+                          </div>
+                        )}
 
-                        {/* 4. Clear CTA Button: Enroll Now — opens Admission Modal */}
-                        <div className="pt-0.5 text-left">
+                        {/* 4. Two CTA Buttons (Left Aligned) */}
+                        <div className={cn(
+                          "flex flex-wrap items-center justify-start gap-3 sm:gap-4",
+                          isActive && "animate-hero-cta"
+                        )}>
+                          {/* Primary Golden CTA Button */}
                           <button
                             type="button"
                             onClick={() => setIsAdmissionOpen(true)}
-                            className="inline-flex items-center justify-center gap-2.5 h-[40px] md:h-[42px] lg:h-[44px] px-6 md:px-7 lg:px-8 rounded-full bg-gradient-to-r from-[#155EEF] to-[#2563EB] hover:from-[#1048B8] hover:to-[#1D4ED8] active:from-[#0C3894] active:to-[#1742B0] text-white font-bold text-[14px] shadow-[0_2px_12px_rgba(21,94,239,0.3)] hover:shadow-[0_4px_16px_rgba(21,94,239,0.4)] border border-blue-400/25 hover:scale-[1.01] active:scale-95 transition-all cursor-pointer select-none"
+                            className="group relative inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-6 sm:px-8 md:px-9 rounded-[5px] bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#D97706] hover:brightness-105 active:scale-95 text-slate-950 font-black text-xs sm:text-sm md:text-base shadow-[0_0_24px_rgba(245,158,11,0.4),0_4px_14px_rgba(0,0,0,0.4)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] border-t border-amber-200/60 transition-all duration-200 cursor-pointer overflow-hidden"
                           >
-                            <span>{slide.buttonText}</span>
-                            <ArrowRight className="w-4 h-4 stroke-[2.4]" />
+                            <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-700 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform ease-out pointer-events-none" />
+                            <Zap className="w-4 h-4 fill-slate-950 text-slate-950 shrink-0" />
+                            <span className="tracking-wide">{slide.buttonText}</span>
+                          </button>
+
+                          {/* Secondary Outline Glass CTA Button: "Book Free Demo" with Phone Icon */}
+                          <button
+                            type="button"
+                            onClick={() => setIsBookDemoOpen(true)}
+                            className="inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-5 sm:px-7 md:px-8 rounded-[5px] bg-[#3B1D7D]/60 hover:bg-[#4C249F]/75 border border-purple-400/40 hover:border-purple-300/70 text-white font-bold text-xs sm:text-sm md:text-base backdrop-blur-md shadow-[0_0_18px_rgba(168,85,247,0.22)] hover:shadow-[0_0_24px_rgba(168,85,247,0.35)] active:scale-95 transition-all duration-200 cursor-pointer"
+                          >
+                            <Phone className="w-4 h-4 text-cyan-300 shrink-0" />
+                            <span>{slide.secondaryButtonText}</span>
                           </button>
                         </div>
 
                       </div>
 
-                      {/* Right Column: Student Visual (Slightly Enlarged, Lower/Right Anchored without Cropping) */}
-                      <div className="relative flex justify-end items-end shrink-0 w-[320px] md:w-[375px] lg:w-[440px] xl:w-[480px] self-end mr-[-4px] md:mr-0 lg:mr-2 xl:mr-4 translate-y-1 md:translate-y-2">
-                        <img
-                          src={slide.imageSrc}
-                          alt="IDL Education Student"
-                          className="w-full h-auto object-contain object-bottom select-none pointer-events-none drop-shadow-[0_20px_40px_rgba(0,0,0,0.65)] block"
-                          loading="eager"
-                        />
+                      {/* RIGHT COLUMN: Naturally Integrated Student Visual (Circle centered behind student & grounded to floor) */}
+                      <div className="w-full lg:max-w-[42%] xl:max-w-[40%] flex items-end justify-center lg:justify-end relative mt-4 sm:mt-6 lg:mt-0 lg:self-end">
+                        <div 
+                          key={`student-${slide.id}-${animKey}-${isActive ? 'active' : 'idle'}`}
+                          className={cn(
+                            "relative w-[270px] min-[360px]:w-[290px] sm:w-[330px] md:w-[370px] lg:w-[420px] xl:w-[460px] h-[300px] min-[360px]:h-[320px] sm:h-[360px] md:h-[410px] lg:h-[480px] xl:h-[510px] flex items-end justify-center",
+                            isActive && "animate-hero-student"
+                          )}
+                        >
+                          
+                          {/* 1. Luminous Stage Halo Circle Perfectly Centered on Student's Head & Torso */}
+                          <div 
+                            aria-hidden="true" 
+                            className="absolute top-4 min-[360px]:top-6 sm:top-7 md:top-8 lg:top-8 xl:top-9 left-[56%] -translate-x-1/2 w-[260px] min-[360px]:w-[280px] sm:w-[320px] md:w-[360px] lg:w-[410px] xl:w-[430px] h-[260px] min-[360px]:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[410px] xl:h-[430px] rounded-full pointer-events-none"
+                            style={{
+                              background: 'radial-gradient(circle, rgba(168, 85, 247, 0.42) 0%, rgba(59, 130, 246, 0.18) 55%, transparent 75%)',
+                              border: '1.5px solid rgba(192, 132, 252, 0.38)',
+                              boxShadow: '0 0 35px rgba(168, 85, 247, 0.3)'
+                            }}
+                          />
+
+                          {/* 2. Student Photo with Soft Feathered Bottom Mask (Smooth fade into floor without dark rectangle seam) */}
+                          <div 
+                            className="relative w-full h-full"
+                            style={{
+                              maskImage: 'linear-gradient(to bottom, black 0%, black 78%, rgba(0,0,0,0.5) 89%, transparent 100%)',
+                              WebkitMaskImage: 'linear-gradient(to bottom, black 0%, black 78%, rgba(0,0,0,0.5) 89%, transparent 100%)',
+                            }}
+                          >
+                            <Image
+                              src={slide.studentImage}
+                              alt={slide.studentAlt}
+                              fill
+                              sizes="(max-width: 640px) 290px, (max-width: 1024px) 370px, 460px"
+                              className="object-contain object-bottom drop-shadow-[0_16px_36px_rgba(0,0,0,0.6)]"
+                              priority
+                            />
+                          </div>
+
+                        </div>
                       </div>
 
                     </div>
@@ -534,37 +458,56 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                   </div>
 
                 </CarouselItem>
-              ))}
+                );
+              })}
             </CarouselContent>
           </Carousel>
 
-          {/* Dotted Switch Indicators (Repositioned slightly upward on desktop) */}
-          <div className="absolute bottom-8 min-[390px]:bottom-10 md:bottom-13 lg:bottom-15 xl:bottom-17 left-1/2 -translate-x-1/2 z-30 flex justify-center items-center gap-1.5 sm:gap-2 pointer-events-auto select-none">
-            {heroSlidesList.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => scrollTo(i)}
-                aria-label={`Jump to slide ${i + 1}`}
-                className="p-1 cursor-pointer flex items-center justify-center min-w-[18px] min-h-[18px]"
+          {/* Bottom Slider Controls: Left Animated Progress Line + Right Circular Outline Buttons */}
+          <div className="absolute bottom-14 sm:bottom-16 lg:bottom-20 left-0 right-0 z-30 pointer-events-auto px-4 sm:px-8 md:px-12 lg:px-16">
+            <div className="max-w-7xl mx-auto flex items-center justify-between sm:justify-start lg:justify-start gap-4 sm:gap-6">
+              
+              {/* Progress Line Track (Starting to end color fill, transitions slide when full) */}
+              <div 
+                className="flex-1 max-w-[180px] min-[360px]:max-w-[220px] sm:max-w-[280px] md:max-w-[340px] lg:max-w-[380px] h-[2.5px] sm:h-[3px] bg-white/40 rounded-full overflow-hidden relative shadow-[0_0_6px_rgba(0,0,0,0.5)]"
+                aria-label="Slide transition progress"
               >
-                <span
-                  className={cn(
-                    "rounded-full transition-all duration-300",
-                    (current % heroSlidesList.length) === i 
-                      ? "w-6 sm:w-7 h-1.5 bg-[#155EEF] shadow-[0_0_8px_rgba(21,94,239,0.7)]" 
-                      : "w-1.5 h-1.5 bg-white/40 hover:bg-white/70"
-                  )}
+                <div 
+                  className="h-full bg-gradient-to-r from-[#F59E0B] via-[#FDE047] to-white shadow-[0_0_12px_rgba(250,204,21,0.95)] rounded-full transition-all duration-75 ease-linear"
+                  style={{ width: `${progress}%` }}
                 />
-              </button>
-            ))}
+              </div>
+
+              {/* Circular Outline Navigation Buttons (Bina background, only circular outline & shape) */}
+              <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  aria-label="Previous slide"
+                  className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-white/60 hover:border-white hover:bg-white/10 active:scale-95 flex items-center justify-center text-white transition-all duration-200 cursor-pointer backdrop-blur-xs shadow-[0_0_12px_rgba(255,255,255,0.12)]"
+                >
+                  <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  aria-label="Next slide"
+                  className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full border border-white/60 hover:border-white hover:bg-white/10 active:scale-95 flex items-center justify-center text-white transition-all duration-200 cursor-pointer backdrop-blur-xs shadow-[0_0_12px_rgba(255,255,255,0.12)]"
+                >
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 stroke-[2.2]" />
+                </button>
+              </div>
+
+            </div>
           </div>
 
         </div>
-      </div>
-    </section>
+      </section>
 
-    {/* Admission Form Popup Modal */}
-    <AdmissionModal isOpen={isAdmissionOpen} onOpenChange={setIsAdmissionOpen} />
+      {/* Popups & Modals */}
+      <AdmissionModal isOpen={isAdmissionOpen} onOpenChange={setIsAdmissionOpen} />
+      <BookDemoModal isOpen={isBookDemoOpen} onOpenChange={setIsBookDemoOpen} />
     </>
   );
 }
