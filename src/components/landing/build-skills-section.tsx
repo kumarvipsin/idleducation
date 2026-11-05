@@ -38,31 +38,9 @@ const heroSlidesList: HeroSlideItem[] = [
   },
   {
     id: "admission-slide-2",
-    headlineLine1: "CLASS 9 & 10",
-    headlineLine2: "Build Strong Foundations.",
-    streamText: "Concept Clarity • Academic Excellence • Exam Readiness",
-    streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
-    buttonText: "Enroll Now",
-    secondaryButtonText: "Book Free Demo",
-    studentImage: "/scholarship.png",
-    studentAlt: "IDL Education Student",
-  },
-  {
-    id: "admission-slide-3",
     headlineLine1: "JEE / NEET",
     headlineLine2: "Dream Big. Achieve More.",
     streamText: "Expert Guidance • Conceptual Clarity • Result-Oriented Preparation",
-    streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
-    buttonText: "Enroll Now",
-    secondaryButtonText: "Book Free Demo",
-    studentImage: "/scholarship.png",
-    studentAlt: "IDL Education Student",
-  },
-  {
-    id: "admission-slide-4",
-    headlineLine1: "CLASS 9 & 10",
-    headlineLine2: "Build Strong Foundations.",
-    streamText: "Concept Clarity • Academic Excellence • Exam Readiness",
     streamClass: "text-slate-100/95 font-medium text-xs sm:text-sm md:text-base tracking-wide drop-shadow-[0_1px_4px_rgba(0,0,0,0.5)]",
     buttonText: "Enroll Now",
     secondaryButtonText: "Book Free Demo",
@@ -73,7 +51,7 @@ const heroSlidesList: HeroSlideItem[] = [
 
 /**
  * Luminous Minimalist Background with Subtle Layered Radial Lighting & Ambient Floor Stage Glow
- * Clean Royal Purple/Indigo aesthetic with golden core ambient light and glowing horizon (all stars removed).
+ * Rich Vivid Royal Blue brand aesthetic with golden core ambient light and glowing horizon.
  */
 function LuminousHeroBackground() {
   return (
@@ -81,43 +59,43 @@ function LuminousHeroBackground() {
       aria-hidden="true" 
       className="absolute inset-0 pointer-events-none select-none overflow-hidden z-0"
     >
-      {/* 1. Rich Royal Purple & Deep Indigo Gradient */}
+      {/* 1. Rich Vivid Royal Blue Gradient (Vibrant & saturated, not dull) */}
       <div 
         className="absolute inset-0"
         style={{
-          background: 'radial-gradient(ellipse 130% 95% at 50% 16%, #43178E 0%, #2F0F6B 32%, #1C0745 68%, #0E0326 100%)'
+          background: 'radial-gradient(ellipse 135% 100% at 50% 18%, #1A56DB 0%, #1243B5 30%, #0B2C82 65%, #061A4E 100%)'
         }}
       />
 
       {/* 2. Top Edge Subtle Neon Rim Light */}
-      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-purple-300/40 via-sky-300/40 to-transparent shadow-[0_0_10px_rgba(168,85,247,0.35)]" />
+      <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-sky-300/50 via-blue-300/40 to-transparent shadow-[0_0_12px_rgba(56,189,248,0.45)]" />
 
-      {/* 3. Subtle Electric Violet/Purple Radial Glow behind Left Text */}
+      {/* 3. Vibrant Electric Royal Blue Glow behind Left Text */}
       <div 
-        className="absolute top-[38%] left-[28%] lg:left-[22%] -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[750px] md:w-[900px] h-[360px] sm:h-[420px] rounded-full blur-[110px] opacity-75"
+        className="absolute top-[36%] left-[28%] lg:left-[22%] -translate-x-1/2 -translate-y-1/2 w-[650px] sm:w-[800px] md:w-[950px] h-[380px] sm:h-[450px] rounded-full blur-[90px] opacity-85"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(168, 85, 247, 0.38) 0%, rgba(139, 92, 246, 0.20) 38%, rgba(88, 28, 135, 0.08) 68%, transparent 85%)'
+          background: 'radial-gradient(ellipse at center, rgba(37, 99, 235, 0.60) 0%, rgba(59, 130, 246, 0.35) 40%, rgba(29, 78, 216, 0.15) 70%, transparent 85%)'
         }}
       />
 
-      {/* 4. Soft Golden Ambient Lighting behind Left Headline */}
+      {/* 4. Warm Golden Ambient Core Lighting behind Left Headline */}
       <div 
-        className="absolute top-[42%] left-[26%] lg:left-[20%] -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[500px] h-[200px] sm:h-[240px] rounded-full blur-[85px] opacity-40"
+        className="absolute top-[42%] left-[26%] lg:left-[20%] -translate-x-1/2 -translate-y-1/2 w-[420px] sm:w-[550px] h-[220px] sm:h-[260px] rounded-full blur-[75px] opacity-55"
         style={{
-          background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.48) 0%, rgba(245, 158, 11, 0.20) 45%, transparent 75%)'
+          background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.65) 0%, rgba(245, 158, 11, 0.30) 45%, transparent 75%)'
         }}
       />
 
       {/* 5. Luminous Stage Floor Glow near Bottom Edge (Seamless transition into lower section) */}
       <div 
-        className="absolute bottom-0 inset-x-0 h-44 sm:h-56 md:h-64 pointer-events-none overflow-hidden"
+        className="absolute bottom-0 inset-x-0 h-48 sm:h-60 md:h-72 pointer-events-none overflow-hidden"
         style={{
-          background: 'radial-gradient(ellipse 80% 100% at 50% 100%, rgba(243, 232, 255, 0.55) 0%, rgba(192, 132, 252, 0.32) 34%, rgba(126, 34, 206, 0.10) 65%, transparent 85%)'
+          background: 'radial-gradient(ellipse 85% 100% at 50% 100%, rgba(219, 234, 254, 0.65) 0%, rgba(96, 165, 250, 0.40) 32%, rgba(37, 99, 235, 0.18) 65%, transparent 85%)'
         }}
       />
 
       {/* 6. Soft Horizon Edge Light Line */}
-      <div className="absolute bottom-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-purple-200/50 via-white/70 to-transparent shadow-[0_0_18px_rgba(192,132,252,0.4)]" />
+      <div className="absolute bottom-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-blue-200/60 via-white/85 to-transparent shadow-[0_0_20px_rgba(96,165,250,0.5)]" />
     </div>
   );
 }
@@ -306,7 +284,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
       <section 
         ref={sectionRef}
         suppressHydrationWarning 
-        className="w-full max-w-full overflow-hidden pt-0 pb-0 bg-[#0E0326]"
+        className="w-full max-w-full overflow-hidden pt-0 pb-0 bg-[#061A4E]"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
@@ -402,7 +380,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                           <button
                             type="button"
                             onClick={() => setIsBookDemoOpen(true)}
-                            className="inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-5 sm:px-7 md:px-8 rounded-[5px] bg-[#3B1D7D]/60 hover:bg-[#4C249F]/75 border border-purple-400/40 hover:border-purple-300/70 text-white font-bold text-xs sm:text-sm md:text-base backdrop-blur-md shadow-[0_0_18px_rgba(168,85,247,0.22)] hover:shadow-[0_0_24px_rgba(168,85,247,0.35)] active:scale-95 transition-all duration-200 cursor-pointer"
+                            className="inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-5 sm:px-7 md:px-8 rounded-[5px] bg-[#0E3584]/65 hover:bg-[#154AC7]/80 border border-sky-300/50 hover:border-sky-200 text-white font-bold text-xs sm:text-sm md:text-base backdrop-blur-md shadow-[0_0_20px_rgba(37,99,235,0.30)] hover:shadow-[0_0_28px_rgba(59,130,246,0.45)] active:scale-95 transition-all duration-200 cursor-pointer"
                           >
                             <Phone className="w-4 h-4 text-cyan-300 shrink-0" />
                             <span>{slide.secondaryButtonText}</span>
@@ -426,9 +404,9 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                             aria-hidden="true" 
                             className="absolute top-4 min-[360px]:top-6 sm:top-7 md:top-8 lg:top-8 xl:top-9 left-[56%] -translate-x-1/2 w-[260px] min-[360px]:w-[280px] sm:w-[320px] md:w-[360px] lg:w-[410px] xl:w-[430px] h-[260px] min-[360px]:h-[280px] sm:h-[320px] md:h-[360px] lg:h-[410px] xl:h-[430px] rounded-full pointer-events-none"
                             style={{
-                              background: 'radial-gradient(circle, rgba(168, 85, 247, 0.42) 0%, rgba(59, 130, 246, 0.18) 55%, transparent 75%)',
-                              border: '1.5px solid rgba(192, 132, 252, 0.38)',
-                              boxShadow: '0 0 35px rgba(168, 85, 247, 0.3)'
+                              background: 'radial-gradient(circle, rgba(29, 78, 216, 0.55) 0%, rgba(59, 130, 246, 0.28) 55%, transparent 75%)',
+                              border: '1.5px solid rgba(147, 197, 253, 0.55)',
+                              boxShadow: '0 0 42px rgba(37, 99, 235, 0.45)'
                             }}
                           />
 
