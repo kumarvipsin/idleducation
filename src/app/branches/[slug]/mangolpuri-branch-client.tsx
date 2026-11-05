@@ -2009,7 +2009,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
         <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
           
           {/* Left Panel: Frequently Asked Questions */}
-          <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs flex flex-col justify-between">
+          <div className="rounded-3xl bg-white p-6 sm:p-7 shadow-xs flex flex-col justify-between">
             <div>
               {/* Header */}
               <div className="flex items-start gap-3 mb-5">
@@ -2079,7 +2079,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
           </div>
 
           {/* Right Panel: Explore Other IDL Centres */}
-          <div className="rounded-3xl bg-white border border-slate-200/90 p-6 sm:p-7 shadow-xs flex flex-col justify-between">
+          <div className="rounded-3xl bg-white p-6 sm:p-7 shadow-xs flex flex-col justify-between">
             <div>
               {/* Header */}
               <div className="flex items-start gap-3 mb-5">
