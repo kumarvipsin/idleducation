@@ -54,7 +54,7 @@ const megaMenuBg = "bg-white shadow-2xl";
 const BRANCH_LINKS = [
     { name: "Budh Vihar", area: "Phase 1, Delhi-110086", href: "/branches/budh-vihar", active: false },
     { name: "Krishna Vihar", area: "Opp. Sec-24 Rohini, Delhi-110086", href: "/branches/krishna-vihar", active: false },
-    { name: "Mangolpuri", area: "Block I & Q, Delhi-110083", href: "/branches/mangolpuri", active: true },
+    { name: "Mangolpuri", area: "Block-D, Delhi-110083", href: "/branches/mangolpuri", active: true },
     { name: "Mukherjee Nagar", area: "Near Batra Cinema, Delhi-110009", href: "/branches/mukherjee-nagar", active: false },
 ];
 
@@ -555,12 +555,11 @@ export function Header() {
     const handleMouseLeave = () => {
         if (menuTimeoutRef.current) {
             clearTimeout(menuTimeoutRef.current);
+            menuTimeoutRef.current = null;
         }
-        menuTimeoutRef.current = setTimeout(() => {
-            setActiveMenu(null);
-            setHoveredCourseCategory(null);
-            setHoveredSubItem(null);
-        }, 500);
+        setActiveMenu(null);
+        setHoveredCourseCategory(null);
+        setHoveredSubItem(null);
     };
 
     const handleDonateClick = () => setDonationStep(2);
@@ -923,7 +922,7 @@ export function Header() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div onMouseEnter={() => handleMouseEnter('apply')} className="h-full flex items-center relative">
+                                    <div onMouseEnter={() => handleMouseEnter('apply')} onMouseLeave={handleMouseLeave} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}>APPLY FOR</Button>
                                         <div className={cn(
                                             DESKTOP_MENU_TOKENS.dropdownAnimation,
@@ -955,7 +954,8 @@ export function Header() {
                                     </div>
                                     <div 
                                         suppressHydrationWarning
-                                        onMouseEnter={() => handleMouseEnter('branches')} 
+                                        onMouseEnter={() => handleMouseEnter('branches')}
+                                        onMouseLeave={handleMouseLeave}
                                         className="h-full flex items-center relative"
                                     >
                                         <Button 
@@ -1030,7 +1030,7 @@ export function Header() {
                                             </div>
                                         </div>
                                     </div>
-                                    <div onMouseEnter={() => handleMouseEnter('more')} className="h-full flex items-center relative">
+                                    <div onMouseEnter={() => handleMouseEnter('more')} onMouseLeave={handleMouseLeave} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
                                         <div className={cn(
                                             DESKTOP_MENU_TOKENS.dropdownAnimation,
