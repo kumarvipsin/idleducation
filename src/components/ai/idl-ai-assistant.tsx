@@ -56,17 +56,17 @@ export function IdlAiAssistant() {
               aria-expanded={isOpen}
               className={cn(
                 // Position: On landing page and free courses (where WhatsApp is removed), sit at primary corner (bottom: 20-24px, right: 16-24px).
-                // On pages with WhatsApp, float right above WhatsApp (sm:bottom-[98px]).
+                // On pages with WhatsApp, float centered right above WhatsApp.
                 isPrimaryCorner
-                  ? 'fixed bottom-[calc(1.25rem+env(safe-area-inset-bottom))] right-[calc(1rem+env(safe-area-inset-right))] sm:bottom-6 sm:right-6 z-50'
-                  : 'fixed bottom-[calc(88px+env(safe-area-inset-bottom))] right-[calc(1.25rem+env(safe-area-inset-right))] sm:bottom-[98px] sm:right-6 z-50',
-                // Dimensions: perfectly circular, matching WhatsApp size family (54px mobile / 58px desktop)
-                'w-[54px] h-[54px] sm:w-[58px] sm:h-[58px] rounded-full',
+                  ? 'fixed bottom-6 right-6 z-50'
+                  : 'fixed bottom-[88px] right-[33px] sm:bottom-[98px] sm:right-[38px] z-50',
+                // Dimensions: scaled down to approximately 25% of existing overall size (~30px desktop / ~28px mobile)
+                'w-[28px] h-[28px] sm:w-[30px] sm:h-[30px] rounded-full',
                 'bg-[#1D4ED8] hover:bg-[#1A44BD]',
                 'text-white flex items-center justify-center',
-                // Elevation & Glow: matches WhatsApp shadow profile in IDL Blue
-                'shadow-[0_4px_16px_rgba(29,78,216,0.32),0_2px_6px_rgba(0,0,0,0.08)]',
-                'hover:shadow-[0_6px_20px_rgba(29,78,216,0.42),0_3px_8px_rgba(0,0,0,0.12)]',
+                // Elevation & Glow: subtle shadow
+                'shadow-[0_2px_8px_rgba(29,78,216,0.32),0_1px_3px_rgba(0,0,0,0.1)]',
+                'hover:shadow-[0_4px_12px_rgba(29,78,216,0.42),0_2px_4px_rgba(0,0,0,0.12)]',
                 'border border-white/20',
                 'hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97]',
                 'transition-all duration-200 ease-out cursor-pointer',
@@ -78,7 +78,7 @@ export function IdlAiAssistant() {
               {/* Subtle 4-point AI sparkle upon activation */}
               {isActivating && (
                 <span className="absolute -top-1.5 -left-1.5 pointer-events-none animate-ai-sparkle text-blue-200 z-10" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 drop-shadow-[0_0_8px_rgba(59,130,246,0.9)]">
+                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 drop-shadow-[0_0_8px_rgba(59,130,246,0.9)]">
                     <path d="M12 0L14.2 9.8L24 12L14.2 14.2L12 24L9.8 14.2L0 12L9.8 9.8L12 0Z" />
                   </svg>
                 </span>
@@ -92,19 +92,19 @@ export function IdlAiAssistant() {
                   strokeWidth="2.4"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  className="w-[20px] h-[20px] sm:w-[22px] sm:h-[22px] text-white shrink-0"
+                  className="w-[12px] h-[12px] sm:w-[13px] sm:h-[13px] text-white shrink-0"
                   aria-hidden="true"
                 >
                   <line x1="18" y1="6" x2="6" y2="18" />
                   <line x1="6" y1="6" x2="18" y2="18" />
                 </svg>
               ) : (
-                // Premium Illustrated AI Bot Icon
+                // Premium Illustrated AI Bot Icon scaled proportionally
                 <svg
                   viewBox="0 0 28 28"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-[27px] h-[27px] sm:w-[29px] sm:h-[29px] shrink-0 transition-transform duration-200 hover:scale-105"
+                  className="w-[15px] h-[15px] sm:w-[16px] sm:h-[16px] shrink-0 transition-transform duration-200 hover:scale-105"
                   aria-hidden="true"
                 >
                   {/* Top Antenna Node & Pulse */}

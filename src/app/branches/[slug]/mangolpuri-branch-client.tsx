@@ -455,99 +455,109 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
         </nav>
       </div>
 
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 lg:space-y-12 pb-16">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 pb-3 sm:pb-4">
 
         {/* ── SECTION 01 & 02: HERO SECTION WITH OVERLAPPING 3-COLUMN INFO CARD ── */}
         <div className="relative pt-2 sm:pt-4">
           
-          {/* Main Hero Container: Large Branch Building Image with Left-Side Dark Navy Gradient */}
-          <div className="relative w-full min-h-[460px] sm:min-h-[440px] lg:h-[460px] rounded-2xl overflow-hidden border border-slate-200/90 shadow-[0_4px_24px_-4px_rgba(11,27,61,0.12)] bg-[#081533] flex flex-col justify-center">
+          {/* Main Hero Container: Large Branch Building Image with Left-Side Dark Navy Gradient (Seamless Edge, No Harsh Outline) */}
+          <div className="relative w-full min-h-[490px] sm:min-h-[470px] lg:h-[490px] rounded-3xl overflow-hidden shadow-[0_20px_50px_-15px_rgba(9,26,58,0.22)] bg-[#091A3A] flex flex-col justify-center">
             
             {/* Background Branch Building Image (Coaching centre positioned right-center) */}
             <div className="absolute inset-0">
               <Image
-                src="/mangolpuri/mangolpuri-center.jpg"
+                src="/mangolpuri/mangolpuri.png"
                 alt="IDL Education Mangolpuri Campus Building"
                 fill
                 priority
                 sizes="(max-width: 1240px) 100vw, 1240px"
-                className="object-cover object-[right_center] select-none"
+                className="object-cover object-[right_center] select-none brightness-[1.0] contrast-[1.02] saturate-[1.02]"
               />
             </div>
 
-            {/* Left-to-Right 50% Color Spread: Dark on Left, Smoothly Fading Light to 50%-55% for High Text Readability */}
+            {/* Left-to-Right Smooth Navy Gradient: Eased transition from high-contrast dark text area to photograph */}
             <div 
               className="absolute inset-0 pointer-events-none hidden lg:block"
               style={{
-                background: 'linear-gradient(90deg, #071536 0%, #08193F 36%, rgba(8, 25, 63, 0.96) 44%, rgba(8, 25, 63, 0.65) 50%, rgba(8, 25, 63, 0.18) 54%, transparent 58%)'
+                background: 'linear-gradient(90deg, #091A3A 0%, #091A3A 26%, rgba(9, 26, 58, 0.96) 38%, rgba(9, 26, 58, 0.78) 46%, rgba(9, 26, 58, 0.38) 55%, rgba(9, 26, 58, 0.08) 64%, transparent 72%)'
               }}
             />
-            {/* Tablet View: Extends slightly to cover 60%-65% content width smoothly */}
+            {/* Tablet View: Smooth gradient covering content area comfortably */}
             <div 
               className="absolute inset-0 pointer-events-none hidden md:block lg:hidden"
               style={{
-                background: 'linear-gradient(90deg, #071536 0%, #08193F 45%, rgba(8, 25, 63, 0.95) 55%, rgba(8, 25, 63, 0.6) 63%, rgba(8, 25, 63, 0.15) 68%, transparent 72%)'
+                background: 'linear-gradient(90deg, #091A3A 0%, #091A3A 35%, rgba(9, 26, 58, 0.95) 48%, rgba(9, 26, 58, 0.70) 58%, rgba(9, 26, 58, 0.30) 68%, rgba(9, 26, 58, 0.06) 76%, transparent 82%)'
               }}
             />
-            {/* Mobile View: High-contrast coverage across full width with subtle right transparency */}
+            {/* Mobile View: High-contrast rich dark overlay ensuring sharp text readability */}
             <div 
               className="absolute inset-0 pointer-events-none md:hidden"
               style={{
-                background: 'linear-gradient(90deg, #071536 0%, rgba(8, 25, 63, 0.97) 58%, rgba(8, 25, 63, 0.82) 100%)'
+                background: 'linear-gradient(180deg, rgba(9, 26, 58, 0.94) 0%, rgba(9, 26, 58, 0.97) 55%, #091A3A 100%)'
               }}
             />
-            {/* Subtle bottom fade to blend with overlapping bottom information card */}
-            <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#071536]/45 to-transparent pointer-events-none" />
+            {/* Subtle bottom fade to blend smoothly with overlapping bottom information card */}
+            <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#091A3A]/70 via-[#091A3A]/30 to-transparent pointer-events-none" />
 
             {/* Left-Side Dark Navy Content Panel */}
-            <div className="relative z-10 p-6 sm:p-8 lg:p-10 max-w-xl flex flex-col justify-center h-full pb-20 sm:pb-24 lg:pb-20 antialiased">
+            <div className="relative z-10 p-6 sm:p-8 lg:p-11 max-w-xl flex flex-col justify-center h-full pb-20 sm:pb-24 lg:pb-20 antialiased">
               
+              {/* Institutional Campus Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.07] border border-white/[0.08] backdrop-blur-sm mb-3.5 w-fit">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441]" />
+                <span className="text-[10.5px] font-bold tracking-[0.16em] uppercase text-slate-200">
+                  Offline Campus
+                </span>
+              </div>
+
               {/* Main Heading */}
-              <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-black tracking-tight text-white leading-[1.12] drop-shadow-xs">
+              <h1 className="text-3xl sm:text-4xl lg:text-[45px] font-extrabold tracking-[-0.03em] text-white leading-[1.12] drop-shadow-xs">
                 Mangolpuri Branch
               </h1>
 
               {/* Description */}
-              <p className="text-sm sm:text-base text-blue-100/95 font-medium mt-2.5 leading-relaxed max-w-lg">
+              <p className="text-sm sm:text-[15px] text-slate-300 font-normal tracking-[0.01em] mt-2.5 leading-relaxed max-w-lg">
                 Focused Academic &amp; Commerce Coaching
               </p>
 
-              {/* Two Compact Subject Cards: Translucent Blue and Purple with Graduation-Cap Icons */}
+              {/* Two Academic Category Information Panels: Smooth Translucent Tints without Harsh Outlines */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
                 
-                {/* Card 1: Classes 4–10 (Subtle Translucent Blue with Clean Highlights) */}
-                <div className="p-3.5 rounded-[5px] bg-[#122b64]/65 border border-blue-400/35 backdrop-blur-md text-white flex items-start gap-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] transition-all hover:border-blue-400/50">
-                  <div className="w-8 h-8 rounded-[5px] bg-blue-500/25 text-blue-200 flex items-center justify-center shrink-0 mt-0.5 border border-blue-300/40 shadow-2xs">
-                    <GraduationCap className="w-4.5 h-4.5 text-blue-100" />
+                {/* Card 1: Classes 4–10 (Subtle Translucent Blue Surface) */}
+                <div className="p-3.5 sm:p-4 rounded-xl bg-blue-500/[0.08] hover:bg-blue-500/[0.12] border border-blue-400/10 hover:border-blue-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
+                  <div className="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-300 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-blue-500/25 transition-colors">
+                    <GraduationCap className="w-4.5 h-4.5 text-blue-300" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-white tracking-wide">Classes 4–10</p>
-                    <p className="text-[11.5px] text-blue-100/95 mt-0.5 font-medium leading-snug">
-                      Maths · Science · English · Social Studies
+                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-blue-300/90 block">Academic Foundation</span>
+                    <h3 className="text-[15px] sm:text-base font-bold text-white tracking-tight mt-0.5">Classes 4–10</h3>
+                    <p className="text-[12px] text-slate-300 mt-0.5 font-normal leading-snug">
+                      Covered 4+ Subjects
                     </p>
                   </div>
                 </div>
 
-                {/* Card 2: Classes 11–12 (Subtle Translucent Purple with Violet Accents) */}
-                <div className="p-3.5 rounded-[5px] bg-[#291657]/65 border border-purple-400/35 backdrop-blur-md text-white flex items-start gap-3 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] transition-all hover:border-purple-400/50">
-                  <div className="w-8 h-8 rounded-[5px] bg-purple-500/25 text-purple-200 flex items-center justify-center shrink-0 mt-0.5 border border-purple-300/40 shadow-2xs">
-                    <GraduationCap className="w-4.5 h-4.5 text-purple-100" />
+                {/* Card 2: Classes 11–12 (Subtle Translucent Purple Surface) */}
+                <div className="p-3.5 sm:p-4 rounded-xl bg-purple-500/[0.08] hover:bg-purple-500/[0.12] border border-purple-400/10 hover:border-purple-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
+                  <div className="w-9 h-9 rounded-lg bg-purple-500/15 text-purple-300 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-500/25 transition-colors">
+                    <GraduationCap className="w-4.5 h-4.5 text-purple-300" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-xs font-bold text-white tracking-wide">Classes 11–12</p>
-                    <p className="text-[11.5px] text-purple-100/95 mt-0.5 font-medium leading-snug">
-                      Accounts · Economics
+                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-purple-300/90 block">Senior Commerce</span>
+                    <h3 className="text-[15px] sm:text-base font-bold text-white tracking-tight mt-0.5">Classes 11–12</h3>
+                    <p className="text-[12px] text-slate-300 mt-0.5 font-normal leading-snug">
+                      Covered 4+ Subjects
                     </p>
                   </div>
                 </div>
 
               </div>
 
-              {/* CTA Buttons: Prominent Proportions, Rectangular with ONLY 5px Border Radius */}
+              {/* CTA Buttons: Refined Royal Blue & Seamless Translucent Secondary */}
               <div className="flex flex-wrap items-center gap-3.5 mt-6 sm:mt-7">
                 <Button
                   asChild
-                  className="h-12 px-7 rounded-[5px] font-bold text-sm bg-[#2563EB] hover:bg-[#1D4ED8] active:bg-[#1E40AF] text-white shadow-[0_4px_16px_rgba(37,99,235,0.4)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] transition-all duration-200 cursor-pointer flex items-center gap-2 group"
+                  className="h-11 sm:h-12 px-6 sm:px-7 rounded-xl font-semibold text-sm tracking-wide bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-[0_4px_16px_rgba(40,100,232,0.3)] hover:shadow-[0_6px_20px_rgba(40,100,232,0.4)] transition-all duration-200 cursor-pointer flex items-center gap-2.5 group"
                 >
                   <a
                     href={branch.mapLink || "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"}
@@ -555,17 +565,17 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                     rel="noopener noreferrer"
                   >
                     <span>Get Direction</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </a>
                 </Button>
 
                 <Button
                   asChild
                   variant="outline"
-                  className="h-12 px-6 rounded-[5px] font-bold text-sm border border-white/50 bg-[#091530]/40 hover:bg-white/15 text-white backdrop-blur-md shadow-xs transition-all duration-200 flex items-center gap-2 cursor-pointer"
+                  className="h-11 sm:h-12 px-5 sm:px-6 rounded-xl font-semibold text-sm tracking-wide border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white backdrop-blur-sm transition-all duration-200 flex items-center gap-2.5 cursor-pointer"
                 >
                   <a href={`tel:${heroTel}`}>
-                    <Phone className="w-4 h-4 text-blue-200" />
+                    <Phone className="w-4 h-4 text-[#D9A441]" />
                     <span>Call Branch</span>
                   </a>
                 </Button>
@@ -575,71 +585,110 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
 
           </div>
 
-          {/* Bottom Floating Information Card (Exactly 3 Columns, Pastel Icons, Overlapping Hero, 10% Reduced Width) */}
-          <div className="relative z-20 -mt-10 sm:-mt-12 lg:-mt-14 w-[90%] mx-auto rounded-2xl bg-gradient-to-b from-white via-white to-[#F8FAFC] border border-slate-200/90 shadow-[0_14px_40px_-8px_rgba(11,27,61,0.09),0_2px_8px_rgba(11,27,61,0.03)] p-5 sm:p-6 lg:p-7 antialiased">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 divide-y md:divide-y-0 md:divide-x divide-slate-100/90 items-center">
+          {/* Bottom Floating Information Bar (One Continuous Unified Panel, Exactly 3 Columns with Hairline Dividers) */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="relative z-20 -mt-10 sm:-mt-12 lg:-mt-14 w-[92%] sm:w-[92%] lg:w-[94%] max-w-5xl mx-auto rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_16px_40px_-8px_rgba(9,26,58,0.08),0_2px_6px_rgba(9,26,58,0.02)] px-6 py-5 sm:px-8 sm:py-6 antialiased"
+          >
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200/80 items-center">
               
-              {/* Column 1 – Branch Location */}
-              <div className="pt-2 md:pt-0 md:px-4 first:pl-0 flex items-start gap-3.5">
-                <div className="w-12 h-12 rounded-[5px] bg-[#EFF6FF] border border-blue-200/80 text-[#2563EB] flex items-center justify-center shrink-0 shadow-2xs">
-                  <MapPin className="w-5 h-5 text-[#2563EB]" />
+              {/* Group 1 – Branch Location */}
+              <div className="pb-4 md:pb-0 md:pr-6 lg:pr-8 flex items-start gap-4">
+                <div className="w-11 h-11 rounded-full bg-blue-50/90 border border-blue-100/90 text-[#2864E8] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                  <MapPin className="w-5 h-5 text-[#2864E8]" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-[11.5px] font-bold text-[#0F172A] tracking-wider uppercase">Branch Location</p>
-                  <p className="text-xs sm:text-[12.5px] text-slate-600 font-medium mt-1 leading-snug">
-                    D-945–46, Block-D, Mangolpuri,<br className="hidden sm:inline" /> Delhi-110083
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase">Branch Location</p>
+                  <p className="text-[13px] sm:text-[13.5px] text-[#091A3A] font-semibold mt-1 leading-snug">
+                    D-945–46, Block-D, Mangolpuri,<br />Delhi-110083
                   </p>
                 </div>
               </div>
 
-              {/* Column 2 – Working Hours */}
-              <div className="pt-3 md:pt-0 md:px-4 flex items-start gap-3.5">
-                <div className="w-12 h-12 rounded-[5px] bg-[#FFFBEB] border border-amber-200/80 text-amber-600 flex items-center justify-center shrink-0 shadow-2xs">
-                  <Clock className="w-5 h-5 text-amber-600" />
+              {/* Group 2 – Working Hours */}
+              <div className="py-4 md:py-0 md:px-6 lg:px-8 flex items-start gap-4">
+                <div className="w-11 h-11 rounded-full bg-amber-50/90 border border-amber-100/90 text-[#D9A441] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                  <Clock className="w-5 h-5 text-[#D9A441]" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-[11.5px] font-bold text-[#0F172A] tracking-wider uppercase">Working Hours</p>
-                  <p className="text-xs sm:text-[12.5px] text-slate-600 font-medium mt-1 leading-tight">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase">Working Hours</p>
+                  <p className="text-[13px] text-[#091A3A] font-semibold mt-1 leading-snug">
                     Mon – Sat: 8:00 AM – 8:30 PM
                   </p>
-                  <p className="text-xs sm:text-[12.5px] text-slate-600 font-medium mt-1 leading-tight">
+                  <p className="text-[12.5px] text-slate-500 font-medium mt-0.5 leading-snug">
                     Sun: 9:00 AM – 2:00 PM
                   </p>
                 </div>
               </div>
 
-              {/* Column 3 – Branch Contact */}
-              <div className="pt-3 md:pt-0 md:px-4 last:pr-0 flex items-start gap-3.5">
-                <div className="w-12 h-12 rounded-[5px] bg-[#ECFDF5] border border-emerald-200/80 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs">
+              {/* Group 3 – Branch Contact */}
+              <div className="pt-4 md:pt-0 md:pl-6 lg:pl-8 flex items-start gap-4">
+                <div className="w-11 h-11 rounded-full bg-emerald-50/90 border border-emerald-100/90 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
                   <Phone className="w-5 h-5 text-emerald-600" />
                 </div>
-                <div className="min-w-0">
-                  <p className="text-[11.5px] font-bold text-[#0F172A] tracking-wider uppercase">Branch Contact</p>
-                  <a href={`tel:${heroTel}`} className="text-sm font-extrabold text-[#0E2554] hover:text-[#2563EB] mt-1 block transition-colors">
+                <div className="min-w-0 flex-1">
+                  <p className="text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase">Branch Contact</p>
+                  <a href={`tel:${heroTel}`} className="text-base sm:text-[17px] font-extrabold text-[#091A3A] hover:text-[#2864E8] mt-0.5 block tracking-tight transition-colors">
                     {heroPhone}
                   </a>
-                  <p className="text-[11px] text-slate-500 font-medium mt-0.5">
+                  <p className="text-[11.5px] text-slate-500 font-medium mt-0.5">
                     Direct Branch Enquiry
                   </p>
                 </div>
               </div>
 
             </div>
-          </div>
+          </motion.div>
 
         </div>
+      </div>
 
-        {/* ── SECTION 03: MEET OUR DIRECTOR ── */}
-        <section className="relative w-full overflow-hidden">
+      {/* ── SECTION 03: MEET OUR DIRECTOR (100% Full-Width Background, Merges with White at Top & Bottom) ── */}
+      <section className="relative w-full overflow-hidden pt-7 sm:pt-9 lg:pt-10 pb-11 sm:pb-13 lg:pb-14">
+        
+        {/* Edge-to-Edge 100% Left to Right Blue Gradient Background Layer (Smoothly Merges with White at Top & Bottom) */}
+        <div 
+          className="absolute inset-0 pointer-events-none select-none"
+          style={{
+            background: 'linear-gradient(180deg, #FFFFFF 0%, #F5F9FF 12%, #EEF5FF 45%, #F0F6FF 68%, #F7FAFF 88%, #FFFFFF 100%)',
+          }}
+        />
+
+        {/* Ambient Radial Soft Glow */}
+        <div 
+          className="absolute inset-0 pointer-events-none select-none"
+          style={{
+            background: 'radial-gradient(ellipse 65% 55% at 50% 50%, rgba(216, 233, 254, 0.45) 0%, rgba(238, 245, 255, 0.2) 55%, transparent 100%)',
+          }}
+        />
+
+        {/* Subtle Concentric Orbital / Architectural Watermark (Reduced visibility by 50% for delicate elegance) */}
+        <svg 
+          className="absolute right-6 top-1/2 -translate-y-1/2 w-[540px] h-[540px] text-[#2864E8]/[0.016] pointer-events-none select-none" 
+          viewBox="0 0 400 400" 
+          fill="none" 
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <circle cx="200" cy="200" r="190" stroke="currentColor" strokeWidth="0.8" strokeDasharray="4 6" />
+          <circle cx="200" cy="200" r="140" stroke="currentColor" strokeWidth="0.6" />
+          <circle cx="200" cy="200" r="90" stroke="currentColor" strokeWidth="0.6" strokeDasharray="2 4" />
+        </svg>
+
+        {/* Inner Content Container: EXACT SAME 1240px Length As Hero Section */}
+        <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           
-          {/* Section Heading & Subtitle */}
+          {/* Section Heading & Subtitle matching Academic Programs Design System */}
           <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10">
             {/* Small text with bullet point */}
             <div className="inline-flex items-center justify-center gap-2 mb-2 sm:mb-2.5">
               <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] shrink-0" />
               <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
                 <span className="text-[#062B67]">Meet </span>
-                <span className="text-[#155EEF] font-extrabold">Our Director</span>
+                <span className="text-[#155EEF] font-extrabold">Our Branch Director</span>
               </span>
             </div>
 
@@ -650,33 +699,32 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+          {/* Content Grid: Spans Full 1240px Length Matching Hero Start & End */}
+          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
             
-            {/* Left Column: Portrait of Vijay Verma + Polished Leadership Badge underneath */}
-            <div className="lg:col-span-5 flex flex-col items-center">
+            {/* Left Column: Large Frameless Editorial Cutout + Soft Ambient Lighting + Natural Identity */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
               
-              {/* Photo Container with Soft Circular Backdrop */}
-              <div className="relative w-full max-w-[320px] sm:max-w-[360px] h-[340px] sm:h-[380px] lg:h-[400px] flex items-end justify-center">
-                
-                {/* Different Light Color Circle Backdrop behind photo (Outer edge blends smoothly into white background) */}
-                <div 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[290px] sm:w-[330px] lg:w-[360px] h-[290px] sm:h-[330px] lg:h-[360px] rounded-full pointer-events-none select-none"
-                  style={{
-                    background: 'radial-gradient(circle, #D8E9FE 0%, #E3F0FE 42%, #EFF6FE 68%, rgba(244, 248, 254, 0.6) 82%, transparent 100%)',
-                  }}
-                />
+              {/* Luminous Ambient Lighting & Soft Blue Glow */}
+              <div 
+                className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[420px] lg:w-[460px] h-[340px] sm:h-[420px] lg:h-[460px] rounded-full pointer-events-none select-none blur-3xl opacity-60"
+                style={{
+                  background: 'radial-gradient(circle at 50% 45%, rgba(40, 100, 232, 0.16) 0%, rgba(216, 233, 254, 0.5) 45%, rgba(238, 245, 255, 0.75) 70%, transparent 100%)',
+                }}
+              />
 
-                {/* Subtle soft ambient glow for seamless boundary melting */}
-                <div 
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[330px] sm:w-[380px] h-[330px] sm:h-[380px] rounded-full bg-blue-100/30 blur-2xl pointer-events-none" 
-                />
+              {/* Additional soft ambient light halo behind subject */}
+              <div 
+                className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[350px] h-[280px] sm:h-[350px] rounded-full bg-blue-200/25 blur-2xl pointer-events-none" 
+              />
 
-                {/* Vijay Verma Cutout Portrait (Crisp jacket, free standing, zero outline) */}
+              {/* Large Frameless Portrait Cutout (100% full scale, refined natural feather bottom blend) */}
+              <div className="relative w-full max-w-[340px] sm:max-w-[380px] h-[360px] sm:h-[400px] lg:h-[430px] flex items-end justify-center">
                 <div 
                   className="relative w-full h-full flex items-end justify-center z-10"
                   style={{
-                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.15) 1.5%, black 4%)',
-                    maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.15) 1.5%, black 4%)',
+                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
+                    maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
                   }}
                 >
                   <Image
@@ -684,46 +732,55 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                     alt="Vijay Verma - Academic Head & Branch Director"
                     fill
                     sizes="(max-width: 1024px) 100vw, 420px"
-                    className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_12px_28px_rgba(20,47,112,0.12)]"
+                    className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_14px_28px_rgba(23,53,104,0.12)]"
                     priority
                   />
                 </div>
-
               </div>
 
-              {/* Unified Profile Plate: Connects Photo, Name and Designation into ONE cohesive unit */}
-              <div className="relative z-20 -mt-6 sm:-mt-8 w-[92%] max-w-[290px] sm:max-w-[310px] bg-white rounded-xl border border-blue-100/90 shadow-[0_8px_22px_-6px_rgba(20,47,112,0.12)] p-3 sm:p-3.5 text-center">
-                <h3 className="text-xl sm:text-2xl font-black text-[#142F70] tracking-tight leading-tight">
+              {/* Director Identity: Natural tight connection beneath portrait */}
+              <div className="text-center mt-2 sm:mt-2.5 relative z-20">
+                <h3 className="text-2xl sm:text-[25px] font-bold text-[#173568] tracking-tight leading-tight">
                   Vijay Verma
                 </h3>
-                <p className="text-xs sm:text-[13px] font-bold text-[#2563EB] mt-0.5 tracking-wide">
+                <p className="text-xs sm:text-[12.5px] font-semibold text-[#2864E8] mt-1 tracking-[0.14em] uppercase">
                   Academic Head &amp; Branch Director
                 </p>
               </div>
 
             </div>
 
-            {/* Right Column: Leadership Details & Messages */}
-            <div className="lg:col-span-7 space-y-4 sm:space-y-5 text-left">
+            {/* Right Column: Integrated Leadership Message & Profile Showcase (Cool-White Surface with Subtle Shadow) */}
+            <div className="lg:col-span-7 flex flex-col justify-between bg-[#FAFCFF]/90 backdrop-blur-md rounded-2xl border border-blue-100/40 p-6 sm:p-8 lg:p-10 shadow-[0_12px_36px_-12px_rgba(23,53,104,0.06),0_2px_8px_-2px_rgba(23,53,104,0.02)] relative overflow-hidden">
+              
+              {/* Refined Quotation Mark Watermark (Subtle Background Accent) */}
+              <svg 
+                className="absolute top-4 right-5 w-12 h-12 text-[#2864E8]/[0.04] pointer-events-none select-none" 
+                fill="currentColor" 
+                viewBox="0 0 24 24" 
+                aria-hidden="true"
+              >
+                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
 
-              {/* Message Switch Text Tabs (Only text, uppercase, smooth sliding blue underline) */}
-              <div className="flex items-center gap-5 pt-1 border-b border-slate-200/80">
+              {/* Tabs with Clean Refined Indicator */}
+              <div className="flex items-center gap-6 border-b border-slate-200/70 pb-2 mb-4 relative z-10">
                 <button
                   type="button"
                   onClick={() => setActiveMessageTab('director')}
                   className={cn(
-                    "pb-1.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer relative",
+                    "pb-2 text-xs sm:text-[12.5px] font-bold uppercase tracking-wider transition-colors cursor-pointer relative",
                     activeMessageTab === 'director'
-                      ? "text-[#142F70]"
-                      : "text-slate-400 hover:text-slate-600"
+                      ? "text-[#173568]"
+                      : "text-[#64748B] hover:text-[#173568]"
                   )}
                 >
-                  <span>DIRECTOR MESSAGE</span>
+                  <span>Director Message</span>
                   {activeMessageTab === 'director' && (
                     <motion.span
                       layoutId="activeLeadershipUnderline"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute bottom-0 inset-x-0 h-[2px] bg-[#2563EB] rounded-full"
+                      className="absolute bottom-0 inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
                     />
                   )}
                 </button>
@@ -732,66 +789,69 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   type="button"
                   onClick={() => setActiveMessageTab('profile')}
                   className={cn(
-                    "pb-1.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer relative",
+                    "pb-2 text-xs sm:text-[12.5px] font-bold uppercase tracking-wider transition-colors cursor-pointer relative",
                     activeMessageTab === 'profile'
-                      ? "text-[#142F70]"
-                      : "text-slate-400 hover:text-slate-600"
+                      ? "text-[#173568]"
+                      : "text-[#64748B] hover:text-[#173568]"
                   )}
                 >
-                  <span>DIRECTOR PROFILE</span>
+                  <span>Director Profile</span>
                   {activeMessageTab === 'profile' && (
                     <motion.span
                       layoutId="activeLeadershipUnderline"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute bottom-0 inset-x-0 h-[2px] bg-[#2563EB] rounded-full"
+                      className="absolute bottom-0 inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
                     />
                   )}
                 </button>
               </div>
 
-              {/* Dynamic Message Box: Constant Solid Height & Buttery Smooth Cross-Fade (Zero Layout Jump) */}
-              <div className="relative min-h-[300px] sm:min-h-[280px] lg:min-h-[270px] p-5 sm:p-6 rounded-r-[5px] bg-[#F1F5F9]/80 border-l-4 border-[#2563EB] border-t-0 border-b-0 border-r-0 shadow-none overflow-hidden flex flex-col justify-between">
+              {/* Content Area with Buttery Smooth Transition */}
+              <div className="relative z-10 flex-1 flex flex-col justify-center">
                 <AnimatePresence mode="wait">
                   {activeMessageTab === 'director' ? (
                     <motion.div
                       key="director-message-view"
-                      initial={{ opacity: 0, y: 5 }}
+                      initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
+                      exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="space-y-3.5 my-auto"
+                      className="space-y-4 my-auto"
                     >
-                      <p className="text-sm sm:text-[15px] lg:text-[15.5px] font-semibold text-[#142F70] leading-[1.65]">
+                      {/* Primary Vision Statement (Prominent Kalam Font, Bold & Expressive) */}
+                      <p className="text-[16px] sm:text-[17.5px] lg:text-[18.5px] font-bold text-[#173568] font-kalam leading-[1.8] tracking-normal">
                         &ldquo;At IDL Education Mangolpuri, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
                       </p>
-                      <p className="text-[13px] sm:text-[14px] lg:text-[14.5px] font-semibold text-slate-700 leading-[1.65]">
+
+                      {/* Supporting Statement (Kalam Font, Bold & Refined) */}
+                      <p className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold text-[#475569] font-kalam leading-[1.8] tracking-normal">
                         &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
                       </p>
                     </motion.div>
                   ) : (
                     <motion.div
                       key="profile-message-view"
-                      initial={{ opacity: 0, y: 5 }}
+                      initial={{ opacity: 0, y: 4 }}
                       animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -5 }}
+                      exit={{ opacity: 0, y: -4 }}
                       transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="space-y-3.5 flex flex-col justify-between h-full"
+                      className="space-y-4 my-auto flex flex-col justify-between h-full"
                     >
-                      <div className="space-y-3">
-                        <p className="text-sm sm:text-[15px] lg:text-[15.5px] font-semibold text-[#142F70] leading-[1.65]">
+                      <div className="space-y-3.5">
+                        <p className="text-[16px] sm:text-[17.5px] lg:text-[18.5px] font-bold text-[#173568] font-kalam leading-[1.8] tracking-normal">
                           &ldquo;Senior Economics Faculty with 10+ years of distinguished teaching and mentorship experience. M.Com and UGC NET Qualified, specializing in Micro and Macro Economics, Indian Economic Development, and Applied Problem Solving for Class 11–12 CBSE Boards and CUET UG.&rdquo;
                         </p>
-                        <p className="text-[13px] sm:text-[14px] lg:text-[14.5px] font-semibold text-slate-700 leading-[1.65]">
+                        <p className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold text-[#475569] font-kalam leading-[1.8] tracking-normal">
                           &ldquo;His signature pedagogy simplifies complex economic graphs and models into intuitive concepts. Through chapter-wise test series and step-by-step answer-writing, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
                         </p>
                       </div>
 
                       {/* Actionable Button inside Profile */}
-                      <div className="pt-2">
+                      <div className="pt-3">
                         <Button
                           type="button"
                           onClick={() => setIsBookDemoOpen(true)}
-                          className="h-10 px-5 rounded-[5px] font-bold text-xs sm:text-sm bg-[#142F70] hover:bg-[#0E2252] text-white shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
+                          className="h-10 px-5 rounded-xl font-semibold text-xs sm:text-sm bg-[#173568] hover:bg-[#10254A] text-white shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
                         >
                           <Sparkles className="w-4 h-4 text-amber-300" />
                           <span>Book a Free Demo</span>
@@ -805,7 +865,12 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             </div>
 
           </div>
-        </section>
+
+        </div>
+      </section>
+
+      {/* ── SECTIONS 04+: ACADEMIC PROGRAMS & REMAINING CONTENT ── */}
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 lg:space-y-12 pb-16">
 
         {/* ── SECTION 04: ACADEMIC PROGRAMS (COURSES & CLASSES OFFERED) ── */}
         <section className="relative w-full overflow-hidden space-y-6 sm:space-y-8">
@@ -1977,12 +2042,12 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
           {/* Equal Grid: Only Photos, Identical Horizontal & Vertical Spacing (gap-5 sm:gap-6) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
             {[
-              { src: "/hub2.png", alt: "IDL Education Mangolpuri Facility 1" },
-              { src: "/mangolpuri/mangolpuri-center.jpg", alt: "IDL Education Mangolpuri Facility 2" },
-              { src: "/branch_rohini.png", alt: "IDL Education Mangolpuri Facility 3" },
-              { src: "/01.png", alt: "IDL Education Mangolpuri Facility 4" },
-              { src: "/02.png", alt: "IDL Education Mangolpuri Facility 5" },
-              { src: "/about.png", alt: "IDL Education Mangolpuri Facility 6" },
+              { src: "/mangolpuri/01.png", alt: "IDL Education Mangolpuri Smart Classroom" },
+              { src: "/mangolpuri/05.png", alt: "IDL Education Mangolpuri Interactive Teaching" },
+              { src: "/mangolpuri/03.png", alt: "IDL Education Mangolpuri Campus Reception" },
+              { src: "/mangolpuri/04.png", alt: "IDL Education Mangolpuri Digital Smartboard" },
+              { src: "/mangolpuri/06.png", alt: "IDL Education Mangolpuri Classroom Learning" },
+              { src: "/mangolpuri/02.png", alt: "IDL Education Mangolpuri Batch Study Session" },
             ].map((facility, idx) => (
               <div
                 key={idx}
@@ -2184,18 +2249,24 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 <X className="w-4 h-4" />
               </button>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
               <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/hub2.png" alt="Smart Classroom" fill className="object-cover" />
+                <Image src="/mangolpuri/01.png" alt="Smart Classroom" fill className="object-cover" />
               </div>
               <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/mangolpuri.png" alt="Campus Building" fill className="object-cover" />
+                <Image src="/mangolpuri/05.png" alt="Interactive Faculty Teaching" fill className="object-cover" />
               </div>
               <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/01.png" alt="Classroom Teaching" fill className="object-cover" />
+                <Image src="/mangolpuri/03.png" alt="Reception Desk" fill className="object-cover" />
               </div>
               <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/02.png" alt="Lecture Hall" fill className="object-cover" />
+                <Image src="/mangolpuri/04.png" alt="Digital Smartboard Classroom" fill className="object-cover" />
+              </div>
+              <div className="relative h-56 rounded-xl overflow-hidden border">
+                <Image src="/mangolpuri/06.png" alt="Classroom Practice" fill className="object-cover" />
+              </div>
+              <div className="relative h-56 rounded-xl overflow-hidden border">
+                <Image src="/mangolpuri/02.png" alt="Batch Study Session" fill className="object-cover" />
               </div>
             </div>
           </div>
