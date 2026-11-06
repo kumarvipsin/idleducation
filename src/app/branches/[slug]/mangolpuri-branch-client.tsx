@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
@@ -14,6 +14,8 @@ import {
   Navigation, 
   Sparkles,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Building2,
   ArrowRight,
   Monitor,
@@ -32,11 +34,8 @@ import {
   TrendingUp,
   Database,
   Download,
-  CheckCircle2,
-  ClipboardCheck,
-  Presentation,
-  Sun,
-  Info
+  HelpCircle,
+  Sun
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -122,9 +121,6 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
   const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
-
-  // Gallery View All Modal
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false);
 
   // Vijay Verma Tab ('director' | 'profile')
   const [activeMessageTab, setActiveMessageTab] = useState<'director' | 'profile'>('director');
@@ -411,6 +407,167 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
   // FAQ Accordion
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
+  // Explore Other IDL Centres continuous slider & manual drag state
+  const otherCentresSliderRef = useRef<HTMLDivElement>(null);
+  const [isCentresSliderPaused, setIsCentresSliderPaused] = useState(false);
+  const isCentresMouseDownRef = useRef(false);
+  const centresStartXRef = useRef(0);
+  const centresDragMovedRef = useRef(false);
+  const centresResumeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Initialize scroll position at half for infinite bidirectional free scrolling
+  useEffect(() => {
+    const el = otherCentresSliderRef.current;
+    if (el) {
+      const half = el.scrollWidth / 2;
+      if (half > 0 && el.scrollLeft === 0) {
+        el.scrollLeft = half;
+      }
+    }
+  }, []);
+
+  // Auto-scroll loop (continuous right-to-left running slider on both desktop & mobile)
+  useEffect(() => {
+    let animationFrameId: number;
+    const speed = 0.65; // gentle, smooth right-to-left continuous sliding
+
+    const step = () => {
+      const el = otherCentresSliderRef.current;
+      if (el && !isCentresSliderPaused && !isCentresMouseDownRef.current) {
+        el.scrollLeft += speed;
+        const half = el.scrollWidth / 2;
+        if (half > 0 && el.scrollLeft >= half) {
+          el.scrollLeft -= half;
+        }
+      }
+      animationFrameId = requestAnimationFrame(step);
+    };
+
+    animationFrameId = requestAnimationFrame(step);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+    };
+  }, [isCentresSliderPaused]);
+
+  // Seamless wrap during manual scroll in both directions
+  const handleCentresScroll = () => {
+    const el = otherCentresSliderRef.current;
+    if (!el) return;
+    const half = el.scrollWidth / 2;
+    if (half > 200) {
+      if (el.scrollLeft >= half) {
+        el.scrollLeft -= half;
+      } else if (el.scrollLeft <= 2) {
+        el.scrollLeft += half;
+      }
+    }
+  };
+
+  // Mouse drag handlers (free manual left-right drag on desktop)
+  const handleCentresMouseDown = (e: React.MouseEvent) => {
+    const el = otherCentresSliderRef.current;
+    if (!el) return;
+    isCentresMouseDownRef.current = true;
+    setIsCentresSliderPaused(true);
+    centresDragMovedRef.current = false;
+    centresStartXRef.current = e.pageX;
+    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+  };
+
+  const handleCentresMouseMove = (e: React.MouseEvent) => {
+    const el = otherCentresSliderRef.current;
+    if (!isCentresMouseDownRef.current || !el) return;
+    const deltaX = e.pageX - centresStartXRef.current;
+    if (Math.abs(deltaX) > 4) {
+      centresDragMovedRef.current = true;
+    }
+    el.scrollLeft -= deltaX;
+    centresStartXRef.current = e.pageX;
+  };
+
+  const handleCentresMouseUp = () => {
+    if (!isCentresMouseDownRef.current) return;
+    isCentresMouseDownRef.current = false;
+    setTimeout(() => {
+      centresDragMovedRef.current = false;
+    }, 80);
+    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+    centresResumeTimeoutRef.current = setTimeout(() => {
+      setIsCentresSliderPaused(false);
+    }, 2000);
+  };
+
+  const handleCentresMouseLeave = () => {
+    if (isCentresMouseDownRef.current) {
+      isCentresMouseDownRef.current = false;
+      setTimeout(() => {
+        centresDragMovedRef.current = false;
+      }, 80);
+    }
+    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+    centresResumeTimeoutRef.current = setTimeout(() => {
+      setIsCentresSliderPaused(false);
+    }, 1500);
+  };
+
+  // Touch swipe handlers (free manual left-right swipe on mobile)
+  const handleCentresTouchStart = () => {
+    setIsCentresSliderPaused(true);
+    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+  };
+
+  const handleCentresTouchEnd = () => {
+    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+    centresResumeTimeoutRef.current = setTimeout(() => {
+      setIsCentresSliderPaused(false);
+    }, 2000);
+  };
+
+  // Manual arrow navigation controls (free jump left / right)
+  const handleCentresScrollManual = (direction: 'left' | 'right') => {
+    const el = otherCentresSliderRef.current;
+    if (!el) return;
+    setIsCentresSliderPaused(true);
+    const cardStep = 250;
+    const shift = direction === 'left' ? -cardStep : cardStep;
+    el.scrollBy({ left: shift, behavior: 'smooth' });
+    if (centresResumeTimeoutRef.current) clearTimeout(centresResumeTimeoutRef.current);
+    centresResumeTimeoutRef.current = setTimeout(() => {
+      setIsCentresSliderPaused(false);
+    }, 2500);
+  };
+
+  // Branch cards list repeated for continuous loop
+  const OTHER_IDL_CENTRES_ITEMS = [
+    {
+      name: "Budh Vihar",
+      pincode: "Delhi – 110086",
+      slug: "budh-vihar",
+      image: "/images/branches/budh-vihar.jpg"
+    },
+    {
+      name: "Krishna Vihar",
+      pincode: "Delhi – 110086",
+      slug: "krishna-vihar",
+      image: "/images/branches/krishna-vihar.jpg"
+    },
+    {
+      name: "Mukherjee Nagar",
+      pincode: "Delhi – 110009",
+      slug: "mukherjee-nagar",
+      image: "/images/branches/mukherjee-nagar.jpg"
+    }
+  ];
+
+  const LOOP_CENTRES = [
+    ...OTHER_IDL_CENTRES_ITEMS,
+    ...OTHER_IDL_CENTRES_ITEMS,
+    ...OTHER_IDL_CENTRES_ITEMS,
+    ...OTHER_IDL_CENTRES_ITEMS,
+  ];
+
   const isMangolpuri = branch.id === 'mangolpuri' || branch.slug === 'mangolpuri';
   const heroAddress = isMangolpuri ? "D-945-46, Block-D, Mangolpuri, Delhi-110083" : branch.fullAddress;
   const heroPhone = isMangolpuri ? "+91 8860040067" : (branch.phone || "+91 8860040067");
@@ -460,8 +617,8 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
         {/* ── SECTION 01 & 02: HERO SECTION WITH OVERLAPPING 3-COLUMN INFO CARD ── */}
         <div className="relative pt-2 sm:pt-4">
           
-          {/* Main Hero Container: Large Branch Building Image with Left-Side Dark Navy Gradient (Seamless Edge, No Harsh Outline) */}
-          <div className="relative w-full min-h-[490px] sm:min-h-[470px] lg:h-[490px] rounded-3xl overflow-hidden shadow-[0_20px_50px_-15px_rgba(9,26,58,0.22)] bg-[#091A3A] flex flex-col justify-center">
+          {/* ── DESKTOP HERO (Strictly Preserved for lg: screens) ── */}
+          <div className="relative w-full h-[490px] rounded-3xl overflow-hidden shadow-[0_20px_50px_-15px_rgba(9,26,58,0.22)] bg-[#091A3A] hidden lg:flex flex-col justify-center">
             
             {/* Background Branch Building Image (Coaching centre positioned right-center) */}
             <div className="absolute inset-0">
@@ -470,37 +627,23 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 alt="IDL Education Mangolpuri Campus Building"
                 fill
                 priority
-                sizes="(max-width: 1240px) 100vw, 1240px"
+                sizes="1240px"
                 className="object-cover object-[right_center] select-none brightness-[1.0] contrast-[1.02] saturate-[1.02]"
               />
             </div>
 
             {/* Left-to-Right Smooth Navy Gradient: Eased transition from high-contrast dark text area to photograph */}
             <div 
-              className="absolute inset-0 pointer-events-none hidden lg:block"
+              className="absolute inset-0 pointer-events-none"
               style={{
                 background: 'linear-gradient(90deg, #091A3A 0%, #091A3A 26%, rgba(9, 26, 58, 0.96) 38%, rgba(9, 26, 58, 0.78) 46%, rgba(9, 26, 58, 0.38) 55%, rgba(9, 26, 58, 0.08) 64%, transparent 72%)'
-              }}
-            />
-            {/* Tablet View: Smooth gradient covering content area comfortably */}
-            <div 
-              className="absolute inset-0 pointer-events-none hidden md:block lg:hidden"
-              style={{
-                background: 'linear-gradient(90deg, #091A3A 0%, #091A3A 35%, rgba(9, 26, 58, 0.95) 48%, rgba(9, 26, 58, 0.70) 58%, rgba(9, 26, 58, 0.30) 68%, rgba(9, 26, 58, 0.06) 76%, transparent 82%)'
-              }}
-            />
-            {/* Mobile View: High-contrast rich dark overlay ensuring sharp text readability */}
-            <div 
-              className="absolute inset-0 pointer-events-none md:hidden"
-              style={{
-                background: 'linear-gradient(180deg, rgba(9, 26, 58, 0.94) 0%, rgba(9, 26, 58, 0.97) 55%, #091A3A 100%)'
               }}
             />
             {/* Subtle bottom fade to blend smoothly with overlapping bottom information card */}
             <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-[#091A3A]/70 via-[#091A3A]/30 to-transparent pointer-events-none" />
 
             {/* Left-Side Dark Navy Content Panel */}
-            <div className="relative z-10 p-6 sm:p-8 lg:p-11 max-w-xl flex flex-col justify-center h-full pb-20 sm:pb-24 lg:pb-20 antialiased">
+            <div className="relative z-10 p-11 max-w-[620px] flex flex-col justify-center h-full pb-20 antialiased">
               
               {/* Institutional Campus Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.07] border border-white/[0.08] backdrop-blur-sm mb-3.5 w-fit">
@@ -511,40 +654,40 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
               </div>
 
               {/* Main Heading */}
-              <h1 className="text-3xl sm:text-4xl lg:text-[45px] font-extrabold tracking-[-0.03em] text-white leading-[1.12] drop-shadow-xs">
+              <h1 className="text-[45px] font-extrabold tracking-[-0.03em] text-white leading-[1.12] drop-shadow-xs">
                 Mangolpuri Branch
               </h1>
 
               {/* Description */}
-              <p className="text-sm sm:text-[15px] text-slate-300 font-normal tracking-[0.01em] mt-2.5 leading-relaxed max-w-lg">
+              <p className="text-[15px] text-slate-300 font-normal tracking-[0.01em] mt-2.5 leading-relaxed max-w-lg">
                 Focused Academic &amp; Commerce Coaching
               </p>
 
-              {/* Two Academic Category Information Panels: Smooth Translucent Tints without Harsh Outlines */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
+              {/* Two Academic Category Information Panels */}
+              <div className="grid grid-cols-2 gap-3 mt-6">
                 
-                {/* Card 1: Classes 4–10 (Subtle Translucent Blue Surface) */}
-                <div className="p-3.5 sm:p-4 rounded-xl bg-blue-500/[0.08] hover:bg-blue-500/[0.12] border border-blue-400/10 hover:border-blue-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
+                {/* Card 1: Class 4–10 */}
+                <div className="p-4 rounded-xl bg-blue-500/[0.08] hover:bg-blue-500/[0.12] border border-blue-400/10 hover:border-blue-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
                   <div className="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-300 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-blue-500/25 transition-colors">
                     <GraduationCap className="w-4.5 h-4.5 text-blue-300" />
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-blue-300/90 block">Academic Foundation</span>
-                    <h3 className="text-[15px] sm:text-base font-bold text-white tracking-tight mt-0.5">Classes 4–10</h3>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-blue-300/90 block whitespace-nowrap">Academic Foundation</span>
+                    <h3 className="text-base font-bold text-white tracking-tight mt-0.5">Class 4–10</h3>
                     <p className="text-[12px] text-slate-300 mt-0.5 font-normal leading-snug">
                       Covered 4+ Subjects
                     </p>
                   </div>
                 </div>
 
-                {/* Card 2: Classes 11–12 (Subtle Translucent Purple Surface) */}
-                <div className="p-3.5 sm:p-4 rounded-xl bg-purple-500/[0.08] hover:bg-purple-500/[0.12] border border-purple-400/10 hover:border-purple-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
+                {/* Card 2: Class 11–12 */}
+                <div className="p-4 rounded-xl bg-purple-500/[0.08] hover:bg-purple-500/[0.12] border border-purple-400/10 hover:border-purple-400/20 text-white flex items-start gap-3 transition-colors duration-200 group">
                   <div className="w-9 h-9 rounded-lg bg-purple-500/15 text-purple-300 flex items-center justify-center shrink-0 mt-0.5 group-hover:bg-purple-500/25 transition-colors">
                     <GraduationCap className="w-4.5 h-4.5 text-purple-300" />
                   </div>
-                  <div className="min-w-0">
-                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.12em] text-purple-300/90 block">Senior Commerce</span>
-                    <h3 className="text-[15px] sm:text-base font-bold text-white tracking-tight mt-0.5">Classes 11–12</h3>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[10.5px] font-semibold uppercase tracking-[0.06em] text-purple-300/90 block whitespace-nowrap">COMMERCE FOUNDATION</span>
+                    <h3 className="text-base font-bold text-white tracking-tight mt-0.5">Class 11–12</h3>
                     <p className="text-[12px] text-slate-300 mt-0.5 font-normal leading-snug">
                       Covered 4+ Subjects
                     </p>
@@ -553,11 +696,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
 
               </div>
 
-              {/* CTA Buttons: Refined Royal Blue & Seamless Translucent Secondary */}
-              <div className="flex flex-wrap items-center gap-3.5 mt-6 sm:mt-7">
+              {/* CTA Buttons */}
+              <div className="flex items-center gap-3.5 mt-7">
                 <Button
                   asChild
-                  className="h-11 sm:h-12 px-6 sm:px-7 rounded-xl font-semibold text-sm tracking-wide bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-[0_4px_16px_rgba(40,100,232,0.3)] hover:shadow-[0_6px_20px_rgba(40,100,232,0.4)] transition-all duration-200 cursor-pointer flex items-center gap-2.5 group"
+                  className="h-12 px-7 rounded-[5px] font-semibold text-sm tracking-wide bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-[0_4px_16px_rgba(40,100,232,0.3)] hover:shadow-[0_6px_20px_rgba(40,100,232,0.4)] transition-all duration-200 cursor-pointer flex items-center gap-2.5 group"
                 >
                   <a
                     href={branch.mapLink || "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"}
@@ -572,10 +715,127 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 <Button
                   asChild
                   variant="outline"
-                  className="h-11 sm:h-12 px-5 sm:px-6 rounded-xl font-semibold text-sm tracking-wide border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white backdrop-blur-sm transition-all duration-200 flex items-center gap-2.5 cursor-pointer"
+                  className="h-12 px-6 rounded-[5px] font-semibold text-sm tracking-wide border border-white/15 bg-white/[0.06] hover:bg-white/[0.12] text-white backdrop-blur-sm transition-all duration-200 flex items-center gap-2.5 cursor-pointer"
                 >
                   <a href={`tel:${heroTel}`}>
                     <Phone className="w-4 h-4 text-[#D9A441]" />
+                    <span>Call Branch</span>
+                  </a>
+                </Button>
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* ── MOBILE & TABLET HERO (Tailored for screens < lg) ── */}
+          <div className="block lg:hidden rounded-2xl sm:rounded-3xl overflow-hidden shadow-[0_16px_40px_-12px_rgba(9,26,58,0.25)] bg-[#091A3A]">
+            
+            {/* 1. Dedicated Building Image Area (Crisp, High Quality, Fully Visible) */}
+            <div className="relative w-full h-[200px] min-[390px]:h-[220px] sm:h-[260px] overflow-hidden bg-slate-900">
+              <Image
+                src="/mangolpuri/mangolpuri.png"
+                alt="IDL Education Mangolpuri Campus Building"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 1240px"
+                className="object-cover object-[82%_center] brightness-[1.02] contrast-[1.03] select-none"
+              />
+              
+              {/* Smooth Navy-to-Image bottom transition gradient */}
+              <div 
+                className="absolute inset-x-0 bottom-0 h-24 pointer-events-none"
+                style={{
+                  background: 'linear-gradient(to top, #091A3A 0%, rgba(9, 26, 58, 0.85) 30%, rgba(9, 26, 58, 0.40) 65%, transparent 100%)'
+                }}
+              />
+            </div>
+
+            {/* 2. Content Area Below Image (Dark Navy, Smooth & Unobstructed) */}
+            <div className="p-4 sm:p-6 pb-12 sm:pb-14 flex flex-col antialiased">
+              
+              {/* Institutional Campus Badge (Positioned directly above Mangolpuri Branch text, matching desktop) */}
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.07] border border-white/[0.08] backdrop-blur-sm mb-3 w-fit">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#D9A441]" />
+                <span className="text-[10px] font-bold tracking-[0.14em] uppercase text-slate-200">
+                  Offline Campus
+                </span>
+              </div>
+
+              {/* Main Heading */}
+              <h1 className="text-[25px] min-[390px]:text-[27px] sm:text-3xl font-extrabold tracking-[-0.03em] text-white leading-[1.14]">
+                Mangolpuri Branch
+              </h1>
+
+              {/* Description */}
+              <p className="text-xs min-[390px]:text-[13px] sm:text-sm text-slate-300 font-normal tracking-[0.01em] mt-1.5 leading-snug">
+                Focused Academic &amp; Commerce Coaching
+              </p>
+
+              {/* Two Academic Category Tiles: Side-by-Side 2-Column Grid */}
+              <div className="grid grid-cols-2 gap-2 min-[390px]:gap-2.5 mt-4">
+                
+                {/* Tile 1: Class 4–10 */}
+                <div className="px-2.5 py-2.5 min-[390px]:px-3 min-[390px]:py-3 rounded-xl bg-blue-500/[0.08] hover:bg-blue-500/[0.12] border border-blue-400/15 text-white flex items-start gap-1.5 min-[390px]:gap-2 transition-colors">
+                  <div className="w-5 h-5 min-[390px]:w-5.5 min-[390px]:h-5.5 rounded-md bg-blue-500/20 text-blue-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <GraduationCap className="w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 text-blue-300" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[7px] min-[390px]:text-[7.5px] font-bold uppercase tracking-wider text-blue-300/90 whitespace-nowrap block">
+                      Academic Foundation
+                    </span>
+                    <h3 className="text-[12.5px] min-[390px]:text-[13.5px] font-bold text-white tracking-tight leading-snug mt-0.5">
+                      Class 4–10
+                    </h3>
+                    <p className="text-[9.5px] min-[390px]:text-[10px] text-slate-300 mt-0.5 leading-tight font-normal whitespace-nowrap">
+                      Covered 4+ Subjects
+                    </p>
+                  </div>
+                </div>
+
+                {/* Tile 2: Class 11–12 */}
+                <div className="px-2.5 py-2.5 min-[390px]:px-3 min-[390px]:py-3 rounded-xl bg-purple-500/[0.08] hover:bg-purple-500/[0.12] border border-purple-400/15 text-white flex items-start gap-1.5 min-[390px]:gap-2 transition-colors">
+                  <div className="w-5 h-5 min-[390px]:w-5.5 min-[390px]:h-5.5 rounded-md bg-purple-500/20 text-purple-300 flex items-center justify-center shrink-0 mt-0.5">
+                    <GraduationCap className="w-3 h-3 min-[390px]:w-3.5 min-[390px]:h-3.5 text-purple-300" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <span className="text-[7px] min-[390px]:text-[7.5px] font-bold uppercase tracking-wider text-purple-300/90 whitespace-nowrap block">
+                      Commerce Foundation
+                    </span>
+                    <h3 className="text-[12.5px] min-[390px]:text-[13.5px] font-bold text-white tracking-tight leading-snug mt-0.5">
+                      Class 11–12
+                    </h3>
+                    <p className="text-[9.5px] min-[390px]:text-[10px] text-slate-300 mt-0.5 leading-tight font-normal whitespace-nowrap">
+                      Covered 4+ Subjects
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* CTA Action Buttons: Side-by-Side 2-Column Grid */}
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 mt-4">
+                <Button
+                  asChild
+                  className="h-10 min-[390px]:h-11 px-3 sm:px-4 rounded-[5px] font-semibold text-xs sm:text-sm tracking-wide bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-[0_4px_14px_rgba(40,100,232,0.25)] hover:shadow-[0_6px_18px_rgba(40,100,232,0.35)] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 active:scale-[0.98]"
+                >
+                  <a
+                    href={branch.mapLink || "https://maps.app.goo.gl/uGr9CB7W8fpRUxJD6"}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <span>Get Direction</span>
+                    <ArrowRight className="w-3.5 h-3.5 shrink-0" />
+                  </a>
+                </Button>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  className="h-10 min-[390px]:h-11 px-3 sm:px-4 rounded-[5px] font-semibold text-xs sm:text-sm tracking-wide border border-white/20 bg-white/[0.08] hover:bg-white/[0.14] text-white backdrop-blur-sm transition-all duration-200 flex items-center justify-center gap-1.5 cursor-pointer active:scale-[0.98]"
+                >
+                  <a href={`tel:${heroTel}`}>
+                    <Phone className="w-3.5 h-3.5 text-[#D9A441] shrink-0" />
                     <span>Call Branch</span>
                   </a>
                 </Button>
@@ -591,50 +851,50 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-20 -mt-10 sm:-mt-12 lg:-mt-14 w-[92%] sm:w-[92%] lg:w-[94%] max-w-5xl mx-auto rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/80 shadow-[0_16px_40px_-8px_rgba(9,26,58,0.08),0_2px_6px_rgba(9,26,58,0.02)] px-6 py-5 sm:px-8 sm:py-6 antialiased"
+            className="relative z-20 -mt-8 sm:-mt-10 lg:-mt-14 w-[92%] sm:w-[92%] lg:w-[94%] max-w-5xl mx-auto rounded-2xl bg-white/95 backdrop-blur-md border border-slate-200/70 shadow-[0_12px_36px_-6px_rgba(9,26,58,0.07),0_2px_6px_rgba(9,26,58,0.02)] p-4 sm:p-5 lg:px-8 lg:py-6 antialiased"
           >
-            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200/80 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-slate-200/70 items-center">
               
               {/* Group 1 – Branch Location */}
-              <div className="pb-4 md:pb-0 md:pr-6 lg:pr-8 flex items-start gap-4">
-                <div className="w-11 h-11 rounded-full bg-blue-50/90 border border-blue-100/90 text-[#2864E8] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                  <MapPin className="w-5 h-5 text-[#2864E8]" />
+              <div className="pb-3.5 md:pb-0 md:pr-6 lg:pr-8 flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-blue-50/90 border border-blue-100/80 text-[#2864E8] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                  <MapPin className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#2864E8]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase">Branch Location</p>
-                  <p className="text-[13px] sm:text-[13.5px] text-[#091A3A] font-semibold mt-1 leading-snug">
+                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase block leading-none">Branch Location</p>
+                  <p className="text-[12.5px] sm:text-[13px] lg:text-[13.5px] text-[#091A3A] font-semibold mt-1 leading-snug">
                     D-945–46, Block-D, Mangolpuri,<br />Delhi-110083
                   </p>
                 </div>
               </div>
 
               {/* Group 2 – Working Hours */}
-              <div className="py-4 md:py-0 md:px-6 lg:px-8 flex items-start gap-4">
-                <div className="w-11 h-11 rounded-full bg-amber-50/90 border border-amber-100/90 text-[#D9A441] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                  <Clock className="w-5 h-5 text-[#D9A441]" />
+              <div className="py-3.5 md:py-0 md:px-6 lg:px-8 flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-amber-50/90 border border-amber-100/80 text-[#D9A441] flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                  <Clock className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-[#D9A441]" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase">Working Hours</p>
-                  <p className="text-[13px] text-[#091A3A] font-semibold mt-1 leading-snug">
+                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase block leading-none">Working Hours</p>
+                  <p className="text-[12.5px] sm:text-[13px] text-[#091A3A] font-semibold mt-1 leading-snug">
                     Mon – Sat: 8:00 AM – 8:30 PM
                   </p>
-                  <p className="text-[12.5px] text-slate-500 font-medium mt-0.5 leading-snug">
-                    Sun: 9:00 AM – 2:00 PM
+                  <p className="text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-slate-500 font-medium mt-0.5 leading-snug">
+                    Sun: Open on Prior Notice
                   </p>
                 </div>
               </div>
 
               {/* Group 3 – Branch Contact */}
-              <div className="pt-4 md:pt-0 md:pl-6 lg:pl-8 flex items-start gap-4">
-                <div className="w-11 h-11 rounded-full bg-emerald-50/90 border border-emerald-100/90 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
-                  <Phone className="w-5 h-5 text-emerald-600" />
+              <div className="pt-3.5 md:pt-0 md:pl-6 lg:pl-8 flex items-start gap-3 sm:gap-4">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 lg:w-11 lg:h-11 rounded-full bg-emerald-50/90 border border-emerald-100/80 text-emerald-600 flex items-center justify-center shrink-0 shadow-2xs mt-0.5">
+                  <Phone className="w-4 h-4 sm:w-4.5 sm:h-4.5 lg:w-5 lg:h-5 text-emerald-600" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase">Branch Contact</p>
-                  <a href={`tel:${heroTel}`} className="text-base sm:text-[17px] font-extrabold text-[#091A3A] hover:text-[#2864E8] mt-0.5 block tracking-tight transition-colors">
+                  <p className="text-[10px] sm:text-[11px] font-bold text-slate-400 tracking-[0.14em] uppercase block leading-none">Branch Contact</p>
+                  <a href={`tel:${heroTel}`} className="text-[12.5px] sm:text-[13px] lg:text-[13.5px] font-semibold text-[#091A3A] hover:text-[#2864E8] mt-1 block leading-snug tracking-tight transition-colors">
                     {heroPhone}
                   </a>
-                  <p className="text-[11.5px] text-slate-500 font-medium mt-0.5">
+                  <p className="text-[11.5px] sm:text-[12px] lg:text-[12.5px] text-slate-500 font-medium mt-0.5 leading-snug">
                     Direct Branch Enquiry
                   </p>
                 </div>
@@ -647,7 +907,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
       </div>
 
       {/* ── SECTION 03: MEET OUR DIRECTOR (100% Full-Width Background, Merges with White at Top & Bottom) ── */}
-      <section className="relative w-full overflow-hidden pt-7 sm:pt-9 lg:pt-10 pb-11 sm:pb-13 lg:pb-14">
+      <section className="relative w-full overflow-hidden pt-9 sm:pt-11 lg:pt-12 pb-14 sm:pb-16 lg:pb-14">
         
         {/* Edge-to-Edge 100% Left to Right Blue Gradient Background Layer (Smoothly Merges with White at Top & Bottom) */}
         <div 
@@ -682,32 +942,23 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
         <div className="relative z-10 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Section Heading & Subtitle matching Academic Programs Design System */}
+          {/* Centered Section Heading */}
           <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10">
-            {/* Small text with bullet point */}
-            <div className="inline-flex items-center justify-center gap-2 mb-2 sm:mb-2.5">
-              <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] shrink-0" />
-              <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
-                <span className="text-[#062B67]">Meet </span>
-                <span className="text-[#155EEF] font-extrabold">Our Branch Director</span>
-              </span>
-            </div>
-
-            {/* Headline description in single line */}
-            <h2 className="text-[18px] min-[390px]:text-[20px] sm:text-[23px] md:text-[26px] lg:text-[29px] font-[800] tracking-tight leading-tight max-w-5xl mx-auto whitespace-normal sm:whitespace-nowrap">
-              <span className="text-[#062B67]">Dedicated Mentorship.{' '}</span>
-              <span className="text-[#155EEF]">Inspiring Academic Excellence.</span>
+            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight">
+              <span className="text-[#173568]">Meet </span>
+              <span className="text-[#2864E8]">Branch Director</span>
             </h2>
           </div>
 
-          {/* Content Grid: Spans Full 1240px Length Matching Hero Start & End */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
+          {/* ── DESKTOP DIRECTOR LAYOUT (Strictly Preserved for lg: screens) ── */}
+          <div className="hidden lg:grid grid-cols-12 gap-12 xl:gap-16 items-center">
             
-            {/* Left Column: Large Frameless Editorial Cutout + Soft Ambient Lighting + Natural Identity */}
+            {/* Left Column: Frameless Editorial Cutout + Soft Ambient Lighting + Integrated Identity */}
             <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
               
               {/* Luminous Ambient Lighting & Soft Blue Glow */}
               <div 
-                className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[420px] lg:w-[460px] h-[340px] sm:h-[420px] lg:h-[460px] rounded-full pointer-events-none select-none blur-3xl opacity-60"
+                className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] rounded-full pointer-events-none select-none blur-3xl opacity-60"
                 style={{
                   background: 'radial-gradient(circle at 50% 45%, rgba(40, 100, 232, 0.16) 0%, rgba(216, 233, 254, 0.5) 45%, rgba(238, 245, 255, 0.75) 70%, transparent 100%)',
                 }}
@@ -715,47 +966,42 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
 
               {/* Additional soft ambient light halo behind subject */}
               <div 
-                className="absolute top-[40%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] sm:w-[350px] h-[280px] sm:h-[350px] rounded-full bg-blue-200/25 blur-2xl pointer-events-none" 
+                className="absolute top-[42%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full bg-blue-200/25 blur-2xl pointer-events-none" 
               />
 
-              {/* Large Frameless Portrait Cutout (100% full scale, refined natural feather bottom blend) */}
-              <div className="relative w-full max-w-[340px] sm:max-w-[380px] h-[360px] sm:h-[400px] lg:h-[430px] flex items-end justify-center">
-                <div 
-                  className="relative w-full h-full flex items-end justify-center z-10"
-                  style={{
-                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
-                    maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
-                  }}
-                >
-                  <Image
-                    src="/mangolpuri/vijay.png"
-                    alt="Vijay Verma - Academic Head & Branch Director"
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 420px"
-                    className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_14px_28px_rgba(23,53,104,0.12)]"
-                    priority
-                  />
+              {/* Portrait Cutout (100% full scale, refined natural feather bottom blend) */}
+              <div className="relative w-full max-w-[380px] flex flex-col items-center">
+                
+                {/* Large Frameless Portrait Cutout */}
+                <div className="relative w-full h-[430px] flex items-end justify-center z-10">
+                  <div 
+                    className="relative w-full h-full flex items-end justify-center"
+                    style={{
+                      WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
+                      maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.05) 1.5%, rgba(0, 0, 0, 0.25) 3.5%, rgba(0, 0, 0, 0.6) 6%, rgba(0, 0, 0, 0.9) 9%, black 14%)',
+                    }}
+                  >
+                    <Image
+                      src="/mangolpuri/vijay.png"
+                      alt="Vijay Verma - Academic Head & Branch Director"
+                      fill
+                      sizes="420px"
+                      className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_14px_28px_rgba(23,53,104,0.12)]"
+                      priority
+                    />
+                  </div>
                 </div>
-              </div>
 
-              {/* Director Identity: Natural tight connection beneath portrait */}
-              <div className="text-center mt-2 sm:mt-2.5 relative z-20">
-                <h3 className="text-2xl sm:text-[25px] font-bold text-[#173568] tracking-tight leading-tight">
-                  Vijay Verma
-                </h3>
-                <p className="text-xs sm:text-[12.5px] font-semibold text-[#2864E8] mt-1 tracking-[0.14em] uppercase">
-                  Academic Head &amp; Branch Director
-                </p>
               </div>
 
             </div>
 
-            {/* Right Column: Integrated Leadership Message & Profile Showcase (Cool-White Surface with Subtle Shadow) */}
-            <div className="lg:col-span-7 flex flex-col justify-between bg-[#FAFCFF]/90 backdrop-blur-md rounded-2xl border border-blue-100/40 p-6 sm:p-8 lg:p-10 shadow-[0_12px_36px_-12px_rgba(23,53,104,0.06),0_2px_8px_-2px_rgba(23,53,104,0.02)] relative overflow-hidden">
+            {/* Right Column: Seamless Open Editorial Message & Profile (No Box, Directly on Shared Canvas) */}
+            <div className="lg:col-span-7 flex flex-col justify-center relative py-4 lg:pl-2">
               
-              {/* Refined Quotation Mark Watermark (Subtle Background Accent) */}
+              {/* Subtle Ambient Quotation Watermark Accent */}
               <svg 
-                className="absolute top-4 right-5 w-12 h-12 text-[#2864E8]/[0.04] pointer-events-none select-none" 
+                className="absolute -top-5 right-6 w-20 h-20 text-[#2864E8]/[0.05] pointer-events-none select-none" 
                 fill="currentColor" 
                 viewBox="0 0 24 24" 
                 aria-hidden="true"
@@ -763,13 +1009,13 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
 
-              {/* Tabs with Clean Refined Indicator */}
-              <div className="flex items-center gap-6 border-b border-slate-200/70 pb-2 mb-4 relative z-10">
+              {/* Tabs Integrated Naturally into the Open Layout */}
+              <div className="flex items-center gap-7 border-b border-[#173568]/15 pb-3 mb-6 relative z-10 max-w-xl">
                 <button
                   type="button"
                   onClick={() => setActiveMessageTab('director')}
                   className={cn(
-                    "pb-2 text-xs sm:text-[12.5px] font-bold uppercase tracking-wider transition-colors cursor-pointer relative",
+                    "pb-1 text-[13px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer relative -mb-[13px]",
                     activeMessageTab === 'director'
                       ? "text-[#173568]"
                       : "text-[#64748B] hover:text-[#173568]"
@@ -778,9 +1024,9 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   <span>Director Message</span>
                   {activeMessageTab === 'director' && (
                     <motion.span
-                      layoutId="activeLeadershipUnderline"
+                      layoutId="activeLeadershipUnderlineDesktop"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute bottom-0 inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
+                      className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
                     />
                   )}
                 </button>
@@ -789,7 +1035,7 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   type="button"
                   onClick={() => setActiveMessageTab('profile')}
                   className={cn(
-                    "pb-2 text-xs sm:text-[12.5px] font-bold uppercase tracking-wider transition-colors cursor-pointer relative",
+                    "pb-1 text-[13px] font-bold uppercase tracking-[0.12em] transition-colors cursor-pointer relative -mb-[13px]",
                     activeMessageTab === 'profile'
                       ? "text-[#173568]"
                       : "text-[#64748B] hover:text-[#173568]"
@@ -798,68 +1044,193 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   <span>Director Profile</span>
                   {activeMessageTab === 'profile' && (
                     <motion.span
-                      layoutId="activeLeadershipUnderline"
+                      layoutId="activeLeadershipUnderlineDesktop"
                       transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                      className="absolute bottom-0 inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
+                      className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
                     />
                   )}
                 </button>
               </div>
 
-              {/* Content Area with Buttery Smooth Transition */}
-              <div className="relative z-10 flex-1 flex flex-col justify-center">
-                <AnimatePresence mode="wait">
-                  {activeMessageTab === 'director' ? (
-                    <motion.div
-                      key="director-message-view"
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="space-y-4 my-auto"
-                    >
-                      {/* Primary Vision Statement (Prominent Kalam Font, Bold & Expressive) */}
-                      <p className="text-[16px] sm:text-[17.5px] lg:text-[18.5px] font-bold text-[#173568] font-kalam leading-[1.8] tracking-normal">
-                        &ldquo;At IDL Education Mangolpuri, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
-                      </p>
+              {/* Open Message Content Area - Fixed Grid Stack */}
+              <div className="relative z-10 w-full max-w-2xl">
+                
+                {/* Paragraph Content Grid Stack (Height locked to taller content) */}
+                <div className="grid grid-cols-1">
+                  {/* View 1: Director Message */}
+                  <div
+                    className={cn(
+                      "col-start-1 row-start-1 w-full space-y-5 transition-opacity duration-150",
+                      activeMessageTab === 'director'
+                        ? "opacity-100 z-10 pointer-events-auto"
+                        : "opacity-0 z-0 pointer-events-none invisible"
+                    )}
+                  >
+                    <p className="text-[18px] font-semibold text-[#173568] leading-[1.75] tracking-[-0.01em]">
+                      &ldquo;At IDL Education Mangolpuri, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
+                    </p>
 
-                      {/* Supporting Statement (Kalam Font, Bold & Refined) */}
-                      <p className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold text-[#475569] font-kalam leading-[1.8] tracking-normal">
-                        &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
-                      </p>
-                    </motion.div>
-                  ) : (
-                    <motion.div
-                      key="profile-message-view"
-                      initial={{ opacity: 0, y: 4 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -4 }}
-                      transition={{ duration: 0.2, ease: "easeOut" }}
-                      className="space-y-4 my-auto flex flex-col justify-between h-full"
-                    >
-                      <div className="space-y-3.5">
-                        <p className="text-[16px] sm:text-[17.5px] lg:text-[18.5px] font-bold text-[#173568] font-kalam leading-[1.8] tracking-normal">
-                          &ldquo;Senior Economics Faculty with 10+ years of distinguished teaching and mentorship experience. M.Com and UGC NET Qualified, specializing in Micro and Macro Economics, Indian Economic Development, and Applied Problem Solving for Class 11–12 CBSE Boards and CUET UG.&rdquo;
-                        </p>
-                        <p className="text-[14px] sm:text-[15px] lg:text-[16px] font-bold text-[#475569] font-kalam leading-[1.8] tracking-normal">
-                          &ldquo;His signature pedagogy simplifies complex economic graphs and models into intuitive concepts. Through chapter-wise test series and step-by-step answer-writing, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
-                        </p>
-                      </div>
+                    <p className="text-[15.5px] font-normal text-[#475569] leading-[1.8]">
+                      &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
+                    </p>
+                  </div>
 
-                      {/* Actionable Button inside Profile */}
-                      <div className="pt-3">
-                        <Button
-                          type="button"
-                          onClick={() => setIsBookDemoOpen(true)}
-                          className="h-10 px-5 rounded-xl font-semibold text-xs sm:text-sm bg-[#173568] hover:bg-[#10254A] text-white shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2"
-                        >
-                          <Sparkles className="w-4 h-4 text-amber-300" />
-                          <span>Book a Free Demo</span>
-                        </Button>
-                      </div>
-                    </motion.div>
+                  {/* View 2: Director Profile */}
+                  <div
+                    className={cn(
+                      "col-start-1 row-start-1 w-full space-y-5 transition-opacity duration-150",
+                      activeMessageTab === 'profile'
+                        ? "opacity-100 z-10 pointer-events-auto"
+                        : "opacity-0 z-0 pointer-events-none invisible"
+                    )}
+                  >
+                    <p className="text-[18px] font-semibold text-[#173568] leading-[1.75] tracking-[-0.01em]">
+                      &ldquo;Senior Economics Faculty with 10+ years of distinguished teaching and mentorship experience. M.Com and UGC NET Qualified, specializing in Micro and Macro Economics, Indian Economic Development, and Applied Problem Solving for Class 11–12 CBSE Boards and CUET UG.&rdquo;
+                    </p>
+
+                    <p className="text-[15.5px] font-normal text-[#475569] leading-[1.8]">
+                      &ldquo;His signature pedagogy simplifies complex economic graphs and models into intuitive concepts. Through chapter-wise test series and step-by-step answer-writing, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
+                    </p>
+                  </div>
+                </div>
+
+                {/* Director Signature & Designation */}
+                <div className="pt-4 flex flex-col items-end text-right">
+                  <h4 className="text-xl sm:text-[22px] font-extrabold text-slate-900 tracking-tight">
+                    Vijay Verma
+                  </h4>
+                  <p className="text-[11px] font-bold text-[#2864E8] tracking-[0.06em] uppercase mt-0.5">
+                    Academic Head &amp; Branch Director
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          {/* ── MOBILE DIRECTOR LAYOUT (Tailored for screens < lg) ── */}
+          <div className="block lg:hidden max-w-xl mx-auto flex flex-col items-center text-center">
+            
+            {/* 1. Director Portrait (Wider & prominent 85-90% width, natural proportions, feathered bottom blend) */}
+            <div className="relative w-[88%] max-w-[325px] min-[390px]:max-w-[340px] sm:max-w-[370px] mx-auto flex flex-col items-center justify-center">
+
+              {/* Frameless Portrait Cutout Container */}
+              <div className="relative w-full h-[290px] min-[390px]:h-[315px] sm:h-[345px] flex items-end justify-center z-10">
+                <div 
+                  className="relative w-full h-full flex items-end justify-center"
+                  style={{
+                    WebkitMaskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.08) 2%, rgba(0, 0, 0, 0.35) 5%, rgba(0, 0, 0, 0.75) 9%, black 16%)',
+                    maskImage: 'linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.08) 2%, rgba(0, 0, 0, 0.35) 5%, rgba(0, 0, 0, 0.75) 9%, black 16%)',
+                  }}
+                >
+                  <Image
+                    src="/mangolpuri/vijay.png"
+                    alt="Vijay Verma - Academic Head & Branch Director"
+                    fill
+                    sizes="(max-width: 640px) 340px, 370px"
+                    className="object-contain object-bottom select-none pointer-events-none drop-shadow-[0_12px_24px_rgba(23,53,104,0.12)]"
+                    priority
+                  />
+                </div>
+              </div>
+
+            </div>
+
+            {/* 2. Director Identity (Directly Below Portrait, No Box, Natural Hierarchy) */}
+            <div className="mt-2.5 sm:mt-3 flex flex-col items-center">
+              <h3 className="text-[19px] min-[390px]:text-[20px] sm:text-[22px] font-extrabold text-[#173568] tracking-tight">
+                Vijay Verma
+              </h3>
+              <p className="text-[10.5px] min-[390px]:text-[11px] sm:text-xs font-bold text-[#2864E8] tracking-[0.08em] uppercase mt-0.5">
+                Academic Head &amp; Branch Director
+              </p>
+            </div>
+
+            {/* 3. Director Message / Director Profile Tabs */}
+            <div className="w-full flex items-center justify-center gap-6 border-b border-[#173568]/15 pb-2.5 mt-4 sm:mt-5 mb-4 relative z-10">
+              <button
+                type="button"
+                onClick={() => setActiveMessageTab('director')}
+                className={cn(
+                  "pb-1 text-xs min-[390px]:text-[12.5px] sm:text-[13px] font-bold uppercase tracking-[0.10em] transition-colors cursor-pointer relative -mb-[11px]",
+                  activeMessageTab === 'director'
+                    ? "text-[#173568]"
+                    : "text-[#64748B] hover:text-[#173568]"
+                )}
+              >
+                <span>Director Message</span>
+                {activeMessageTab === 'director' && (
+                  <motion.span
+                    layoutId="activeLeadershipUnderlineMobile"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
+                  />
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setActiveMessageTab('profile')}
+                className={cn(
+                  "pb-1 text-xs min-[390px]:text-[12.5px] sm:text-[13px] font-bold uppercase tracking-[0.10em] transition-colors cursor-pointer relative -mb-[11px]",
+                  activeMessageTab === 'profile'
+                    ? "text-[#173568]"
+                    : "text-[#64748B] hover:text-[#173568]"
+                )}
+              >
+                <span>Director Profile</span>
+                {activeMessageTab === 'profile' && (
+                  <motion.span
+                    layoutId="activeLeadershipUnderlineMobile"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
+                  />
+                )}
+              </button>
+            </div>
+
+            {/* 4. Message or Profile Content Area */}
+            <div className="w-full relative z-10 px-1 sm:px-3 text-left pb-4">
+              <div className="grid grid-cols-1">
+                
+                {/* View 1: Director Message */}
+                <div
+                  className={cn(
+                    "col-start-1 row-start-1 w-full space-y-3 transition-opacity duration-150",
+                    activeMessageTab === 'director'
+                      ? "opacity-100 z-10 pointer-events-auto"
+                      : "opacity-0 z-0 pointer-events-none invisible"
                   )}
-                </AnimatePresence>
+                >
+                  <p className="text-[13.5px] min-[390px]:text-[14px] sm:text-[15px] font-semibold text-[#173568] leading-relaxed tracking-[-0.01em]">
+                    &ldquo;At IDL Education Mangolpuri, our mission is to build deep conceptual clarity, disciplined study habits, and independent analytical thinking in every student. We firmly believe that when provided with the right mentorship, structured guidance, and continuous encouragement, every child has the potential to excel.&rdquo;
+                  </p>
+
+                  <p className="text-[12.5px] min-[390px]:text-[13px] sm:text-[13.5px] font-normal text-[#475569] leading-relaxed">
+                    &ldquo;Through our rigorous weekly test evaluations, personalized one-on-one doubt clearing sessions, and consistent parent-teacher engagement, we ensure steady academic progress, confidence building, and top rank performance across school tests, CBSE Board exams, and competitive entrances.&rdquo;
+                  </p>
+                </div>
+
+                {/* View 2: Director Profile */}
+                <div
+                  className={cn(
+                    "col-start-1 row-start-1 w-full space-y-3 transition-opacity duration-150",
+                    activeMessageTab === 'profile'
+                      ? "opacity-100 z-10 pointer-events-auto"
+                      : "opacity-0 z-0 pointer-events-none invisible"
+                  )}
+                >
+                  <p className="text-[13.5px] min-[390px]:text-[14px] sm:text-[15px] font-semibold text-[#173568] leading-relaxed tracking-[-0.01em]">
+                    &ldquo;Senior Economics Faculty with 10+ years of distinguished teaching and mentorship experience. M.Com and UGC NET Qualified, specializing in Micro and Macro Economics, Indian Economic Development, and Applied Problem Solving for Class 11–12 CBSE Boards and CUET UG.&rdquo;
+                  </p>
+
+                  <p className="text-[12.5px] min-[390px]:text-[13px] sm:text-[13.5px] font-normal text-[#475569] leading-relaxed">
+                    &ldquo;His signature pedagogy simplifies complex economic graphs and models into intuitive concepts. Through chapter-wise test series and step-by-step answer-writing, he consistently guides students to achieve 95%+ marks and top percentiles.&rdquo;
+                  </p>
+                </div>
+
               </div>
 
             </div>
@@ -870,26 +1241,16 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
       </section>
 
       {/* ── SECTIONS 04+: ACADEMIC PROGRAMS & REMAINING CONTENT ── */}
-      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 lg:space-y-12 pb-16">
+      <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 sm:space-y-10 lg:space-y-12 pb-24 sm:pb-28 lg:pb-16">
 
         {/* ── SECTION 04: ACADEMIC PROGRAMS (COURSES & CLASSES OFFERED) ── */}
         <section className="relative w-full overflow-hidden space-y-6 sm:space-y-8">
           
-          {/* Centered Section Heading matching Meet Our Director Design System */}
+          {/* Centered Section Heading matching Timetable Visual Hierarchy */}
           <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10">
-            {/* Small text with bullet point */}
-            <div className="inline-flex items-center justify-center gap-2 mb-2 sm:mb-2.5">
-              <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] shrink-0" />
-              <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
-                <span className="text-[#062B67]">Our </span>
-                <span className="text-[#155EEF] font-extrabold">Academic Programs</span>
-              </span>
-            </div>
-
-            {/* Headline description in single line */}
-            <h2 className="text-[18px] min-[390px]:text-[20px] sm:text-[23px] md:text-[26px] lg:text-[29px] font-[800] tracking-tight leading-tight max-w-5xl mx-auto whitespace-normal sm:whitespace-nowrap">
-              <span className="text-[#062B67]">From Strong Foundations{' '}</span>
-              <span className="text-[#155EEF]">to Board Excellence.</span>
+            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight">
+              <span className="text-[#173568]">Explore </span>
+              <span className="text-[#2864E8]">Academic Programs</span>
             </h2>
           </div>
 
@@ -899,22 +1260,22 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             {/* Card 1: Classes 4 – 8 (Junior Foundation) */}
             <div
               onClick={() => setIsAdmissionOpen(true)}
-              className="group relative rounded-2xl bg-white border border-slate-200/90 hover:border-[#155EEF]/50 p-0 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+              className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
-              {/* Visual Showcase Top with Student Cutout */}
-              <div className="relative h-56 sm:h-60 overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EFF6FF] via-[#F4F8FE] to-[#E2EEFE]">
+              {/* Visual Showcase Top with Student Cutout on Unified Soft Ice Blue */}
+              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EEF5FF] via-[#F4F8FE] to-[#E6F0FD]">
                 {/* Soft ambient radial glow behind student */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-blue-400/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-300/15 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Badge on Image Header */}
-                <span className="absolute top-3.5 left-3.5 z-10 inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#155EEF] border border-blue-200/80 text-xs font-bold shadow-2xs">
+                {/* Badge on Image Header - Unified Royal Blue & Ice Blue */}
+                <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
                   Classes 4 – 8
                 </span>
 
                 {/* Real Student Cutout Photo */}
-                <div className="relative w-full h-[190px] sm:h-[205px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
+                <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
                   <Image
-                    src="/student.png"
+                    src="/mangolpuri/girl.png"
                     alt="Classes 4 - 8 Junior Foundation Student"
                     fill
                     className="object-contain object-bottom"
@@ -922,50 +1283,29 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   />
                 </div>
 
-                {/* Soft bottom edge fade */}
-                <div className="absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+                {/* Soft natural bottom edge fade */}
+                <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
               </div>
 
               {/* Content Body */}
-              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between gap-5">
+              <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-1 justify-between gap-4 sm:gap-5">
                 <div>
-                  {/* Program Title */}
-                  <h3 className="text-xl font-bold text-[#142F70] tracking-tight group-hover:text-[#155EEF] transition-colors">
-                    Junior Foundation Program
+                  {/* Program Title - Deep Navy with Royal Blue Hover */}
+                  <h3 className="text-[16px] sm:text-[17px] lg:text-[19px] font-extrabold text-[#173568] tracking-tight uppercase group-hover:text-[#2864E8] transition-colors leading-snug">
+                    JUNIOR FOUNDATION PROGRAM
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-[13px] text-slate-500 mt-2 leading-relaxed">
-                    Build rock-solid basic concepts, mental maths, logical reasoning, and disciplined daily study habits.
+                  {/* Description - Slate Grey */}
+                  <p className="text-xs sm:text-[13px] lg:text-[13.5px] text-[#64748B] mt-2 leading-relaxed font-normal">
+                    Build strong fundamentals, mental maths, and disciplined study habits.
                   </p>
                 </div>
 
-                {/* Subjects Covered */}
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">
-                    Subjects Covered
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Maths
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Science
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      English
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Social Studies
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Footer */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-start mt-auto">
-                  <div className="h-10 px-5 rounded-[5px] font-bold text-xs sm:text-sm bg-[#142F70] hover:bg-[#0E2252] text-white shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2">
+                {/* Action Footer - Deep Navy Button */}
+                <div className="pt-3.5 sm:pt-4 border-t border-slate-100/90 flex items-center justify-start mt-auto">
+                  <div className="h-9 sm:h-10 px-4 sm:px-5 rounded-lg font-bold text-xs sm:text-sm bg-[#173568] hover:bg-[#102548] text-white shadow-[0_2px_8px_rgba(23,53,104,0.18)] hover:shadow-[0_4px_14px_rgba(23,53,104,0.28)] transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group/btn">
                     <span>Enroll Now</span>
-                    <ArrowRight className="w-4 h-4 text-blue-200 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200 group-hover/btn:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -974,22 +1314,22 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             {/* Card 2: Classes 9 & 10 (Secondary Board Foundation) */}
             <div
               onClick={() => setIsAdmissionOpen(true)}
-              className="group relative rounded-2xl bg-white border border-slate-200/90 hover:border-[#0284C7]/50 p-0 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+              className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
-              {/* Visual Showcase Top with Student Cutout */}
-              <div className="relative h-56 sm:h-60 overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#F0F8FF] via-[#F4F9FF] to-[#DFEFFE]">
+              {/* Visual Showcase Top with Student Cutout on Unified Soft Ice Blue */}
+              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EEF5FF] via-[#F4F8FE] to-[#E6F0FD]">
                 {/* Soft ambient radial glow behind student */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-sky-400/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-300/15 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Badge on Image Header */}
-                <span className="absolute top-3.5 left-3.5 z-10 inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#0284C7] border border-sky-200/80 text-xs font-bold shadow-2xs">
+                {/* Badge on Image Header - Unified Royal Blue & Ice Blue */}
+                <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
                   Classes 9 &amp; 10
                 </span>
 
                 {/* Real Student Cutout Photo */}
-                <div className="relative w-full h-[190px] sm:h-[205px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
+                <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
                   <Image
-                    src="/courses/cbse-student.png"
+                    src="/mangolpuri/boy.png"
                     alt="Classes 9 and 10 CBSE Board Student"
                     fill
                     className="object-contain object-bottom"
@@ -997,50 +1337,29 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   />
                 </div>
 
-                {/* Soft bottom edge fade */}
-                <div className="absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+                {/* Soft natural bottom edge fade */}
+                <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
               </div>
 
               {/* Content Body */}
-              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between gap-5">
+              <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-1 justify-between gap-4 sm:gap-5">
                 <div>
-                  {/* Program Title */}
-                  <h3 className="text-xl font-bold text-[#142F70] tracking-tight group-hover:text-[#0284C7] transition-colors">
-                    Secondary Board Program
+                  {/* Program Title - Deep Navy with Royal Blue Hover */}
+                  <h3 className="text-[16px] sm:text-[17px] lg:text-[19px] font-extrabold text-[#173568] tracking-tight uppercase group-hover:text-[#2864E8] transition-colors leading-snug">
+                    SECONDARY BOARD PROGRAM
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-[13px] text-slate-500 mt-2 leading-relaxed">
-                    NCERT line-by-line mastery, rigorous weekly test evaluations, PYQs practice, and Board exam scoring strategies.
+                  {/* Description - Slate Grey */}
+                  <p className="text-xs sm:text-[13px] lg:text-[13.5px] text-[#64748B] mt-2 leading-relaxed font-normal">
+                    Complete NCERT mastery, weekly test series, and top scoring strategies.
                   </p>
                 </div>
 
-                {/* Subjects Covered */}
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">
-                    Subjects Covered
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Maths
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Science
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Social Studies
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      English
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Footer */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-start mt-auto">
-                  <div className="h-10 px-5 rounded-[5px] font-bold text-xs sm:text-sm bg-[#142F70] hover:bg-[#0E2252] text-white shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2">
+                {/* Action Footer - Deep Navy Button */}
+                <div className="pt-3.5 sm:pt-4 border-t border-slate-100/90 flex items-center justify-start mt-auto">
+                  <div className="h-9 sm:h-10 px-4 sm:px-5 rounded-lg font-bold text-xs sm:text-sm bg-[#173568] hover:bg-[#102548] text-white shadow-[0_2px_8px_rgba(23,53,104,0.18)] hover:shadow-[0_4px_14px_rgba(23,53,104,0.28)] transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group/btn">
                     <span>Enroll Now</span>
-                    <ArrowRight className="w-4 h-4 text-blue-200 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200 group-hover/btn:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -1049,22 +1368,22 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             {/* Card 3: Classes 11 & 12 (Senior Commerce & CUET) */}
             <div
               onClick={() => setIsAdmissionOpen(true)}
-              className="group relative rounded-2xl bg-white border border-slate-200/90 hover:border-[#7C3AED]/50 p-0 shadow-2xs hover:shadow-lg transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+              className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
-              {/* Visual Showcase Top with Student Cutout */}
-              <div className="relative h-56 sm:h-60 overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#FAF5FF] via-[#F8F4FD] to-[#EFE4FD]">
+              {/* Visual Showcase Top with Student Cutout on Unified Soft Ice Blue */}
+              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EEF5FF] via-[#F4F8FE] to-[#E6F0FD]">
                 {/* Soft ambient radial glow behind student */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-44 h-44 bg-purple-400/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-300/15 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Badge on Image Header */}
-                <span className="absolute top-3.5 left-3.5 z-10 inline-flex items-center px-3 py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#7C3AED] border border-purple-200/80 text-xs font-bold shadow-2xs">
+                {/* Badge on Image Header - Unified Royal Blue & Ice Blue */}
+                <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
                   Classes 11 &amp; 12
                 </span>
 
                 {/* Real Student Cutout Photo */}
-                <div className="relative w-full h-[190px] sm:h-[205px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
+                <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
                   <Image
-                    src="/courses/cuet-student.png"
+                    src="/mangolpuri/girl.png"
                     alt="Classes 11 and 12 Commerce & CUET Student"
                     fill
                     className="object-contain object-bottom"
@@ -1072,50 +1391,29 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   />
                 </div>
 
-                {/* Soft bottom edge fade */}
-                <div className="absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none" />
+                {/* Soft natural bottom edge fade */}
+                <div className="absolute inset-x-0 bottom-0 h-10 sm:h-12 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none" />
               </div>
 
               {/* Content Body */}
-              <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between gap-5">
+              <div className="p-4 sm:p-5 lg:p-6 flex flex-col flex-1 justify-between gap-4 sm:gap-5">
                 <div>
-                  {/* Program Title */}
-                  <h3 className="text-xl font-bold text-[#142F70] tracking-tight group-hover:text-[#7C3AED] transition-colors">
-                    Commerce Foundation
+                  {/* Program Title - Deep Navy with Royal Blue Hover */}
+                  <h3 className="text-[16px] sm:text-[17px] lg:text-[19px] font-extrabold text-[#173568] tracking-tight uppercase group-hover:text-[#2864E8] transition-colors leading-snug">
+                    COMMERCE FOUNDATION
                   </h3>
 
-                  {/* Description */}
-                  <p className="text-xs sm:text-[13px] text-slate-500 mt-2 leading-relaxed">
-                    Expert mentoring in Accounts &amp; Economics by Vijay Verma Sir and faculty for 95%+ Board scores and top university admission.
+                  {/* Description - Slate Grey */}
+                  <p className="text-xs sm:text-[13px] lg:text-[13.5px] text-[#64748B] mt-2 leading-relaxed font-normal">
+                    Mentorship in Accounts and Economics for 95%+ Board and CUET scores.
                   </p>
                 </div>
 
-                {/* Subjects Covered */}
-                <div>
-                  <p className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2.5">
-                    Subjects Covered
-                  </p>
-                  <div className="grid grid-cols-2 gap-2">
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Accounts
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Economics
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      Political Science
-                    </div>
-                    <div className="h-9 px-2 rounded-[5px] border border-slate-200/90 flex items-center justify-center text-center text-xs font-semibold text-slate-700 hover:border-slate-300 transition-colors bg-transparent">
-                      History
-                    </div>
-                  </div>
-                </div>
-
-                {/* Action Footer */}
-                <div className="pt-4 border-t border-slate-100 flex items-center justify-start mt-auto">
-                  <div className="h-10 px-5 rounded-[5px] font-bold text-xs sm:text-sm bg-[#142F70] hover:bg-[#0E2252] text-white shadow-sm hover:shadow-md transition-all cursor-pointer inline-flex items-center gap-2">
+                {/* Action Footer - Deep Navy Button */}
+                <div className="pt-3.5 sm:pt-4 border-t border-slate-100/90 flex items-center justify-start mt-auto">
+                  <div className="h-9 sm:h-10 px-4 sm:px-5 rounded-lg font-bold text-xs sm:text-sm bg-[#173568] hover:bg-[#102548] text-white shadow-[0_2px_8px_rgba(23,53,104,0.18)] hover:shadow-[0_4px_14px_rgba(23,53,104,0.28)] transition-all duration-200 cursor-pointer inline-flex items-center gap-2 group/btn">
                     <span>Enroll Now</span>
-                    <ArrowRight className="w-4 h-4 text-blue-200 group-hover:translate-x-0.5 transition-transform" />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-blue-200 group-hover/btn:translate-x-1 transition-transform" />
                   </div>
                 </div>
               </div>
@@ -1128,26 +1426,16 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
         {/* ── SECTION 05: WEEKLY CLASS TIMETABLE ────────────────────────── */}
         <section id="weekly-timetable" className="relative w-full overflow-hidden space-y-6 sm:space-y-8 bg-white">
 
-          {/* 1. Centered Section Heading matching Design System */}
-          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8">
-            {/* Small text with bullet point */}
-            <div className="inline-flex items-center justify-center gap-2 mb-2 sm:mb-2.5">
-              <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] shrink-0" />
-              <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
-                <span className="text-[#062B67]">Weekly </span>
-                <span className="text-[#155EEF] font-extrabold">Class Timetable</span>
-              </span>
-            </div>
-
-            {/* Headline description in single line */}
-            <h2 className="text-[18px] min-[390px]:text-[20px] sm:text-[23px] md:text-[26px] lg:text-[29px] font-[800] tracking-tight leading-tight max-w-5xl mx-auto whitespace-normal sm:whitespace-nowrap">
-              <span className="text-[#062B67]">Structured Batches{' '}</span>
-              <span className="text-[#155EEF]">for Focused Learning.</span>
+          {/* 1. Centered Section Heading */}
+          <div className="text-center max-w-3xl mx-auto mb-5 sm:mb-6">
+            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight">
+              <span className="text-[#173568]">Weekly </span>
+              <span className="text-[#2864E8]">Class Timetable</span>
             </h2>
           </div>
 
-          {/* 2. Top Navigation Tabs (Class 9, Class 10, Class 11, Class 12) */}
-          <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-3.5 mt-6 mb-7 sm:mb-9">
+          {/* 2. Top Navigation Tabs (Text-only matching Director Message & Profile style) */}
+          <div className="flex items-center justify-center gap-7 sm:gap-9 border-b border-slate-200/70 pb-3 mb-7 sm:mb-8 max-w-md mx-auto">
             {[
               { id: '9', label: 'Class 9' },
               { id: '10', label: 'Class 10' },
@@ -1161,13 +1449,20 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                   type="button"
                   onClick={() => setTimetableTab(tab.id as any)}
                   className={cn(
-                    "px-5 sm:px-6 py-2 sm:py-2.5 rounded-[5px] text-xs sm:text-sm font-bold transition-all duration-150 cursor-pointer text-center",
+                    "pb-2 text-xs sm:text-[13px] font-bold uppercase tracking-[0.08em] transition-colors duration-200 cursor-pointer relative -mb-[13px] outline-none select-none",
                     isActive
-                      ? "bg-[#142F70] text-white shadow-md ring-2 ring-blue-500/20"
-                      : "bg-[#F8FAFC] text-[#0B2559] border border-slate-200/90 hover:bg-slate-100 hover:border-slate-300 shadow-2xs"
+                      ? "text-[#173568]"
+                      : "text-[#64748B] hover:text-[#173568]"
                   )}
                 >
-                  {tab.label}
+                  <span>{tab.label}</span>
+                  {isActive && (
+                    <motion.span
+                      layoutId="activeTimetableUnderline"
+                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                      className="absolute -bottom-[1px] inset-x-0 h-[2.5px] bg-[#2864E8] rounded-full"
+                    />
+                  )}
                 </button>
               );
             })}
@@ -1187,180 +1482,62 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs flex flex-col justify-between"
+                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
                   >
-                    <div>
-                      {/* Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0E52C9] border border-blue-200/60 flex items-center justify-center shrink-0">
-                            <BookOpen className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2559]">
-                                Class 9 Timetable
-                              </h3>
-                              <span className="px-2 py-0.5 rounded-[4px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                CBSE Foundation
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-500 mt-0.5">
-                              Regular 6-day academic schedule covering all major subjects
-                            </p>
-                          </div>
-                        </div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[5px] text-xs font-bold bg-[#EBF3FF] text-[#1D4ED8] border border-blue-200/70">
-                          <Clock className="w-3.5 h-3.5 text-[#1D4ED8]" />
-                          <span>2 Hours / Day • Mon to Sat</span>
-                        </div>
+                    {/* Header Banner - Soft Blue Gradient Banner */}
+                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
+                      <div className="flex items-center gap-2.5">
+                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
+                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
+                          Class 9 (Time-Table)
+                        </h3>
                       </div>
-
-                      {/* MWF & TTS 2 Summary Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
-                        {/* MWF Card */}
-                        <div className="rounded-xl border border-blue-200/90 bg-gradient-to-br from-blue-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#142F70] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              MWF Batch
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Mon, Wed, Fri</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Mathematics</span>
-                              <span className="text-xs font-semibold text-[#1D4ED8] bg-[#EBF2FE] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Social Studies</span>
-                              <span className="text-xs font-semibold text-[#9A6208] bg-[#FEF3D6] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* TTS Card */}
-                        <div className="rounded-xl border border-purple-200/90 bg-gradient-to-br from-purple-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#6B21A8] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              TTS Batch
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Tue, Thu, Sat</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Science</span>
-                              <span className="text-xs font-semibold text-[#0D8249] bg-[#E6F8ED] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">English</span>
-                              <span className="text-xs font-semibold text-[#6B32D6] bg-[#F2ECFE] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Unified Complete Timetable Table */}
-                      <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-white shadow-2xs">
-                        <div className="bg-[#0B357B] px-4 py-2.5 flex items-center justify-between text-white">
-                          <span className="font-bold text-xs sm:text-sm">Complete Class 9 Schedule (MWF + TTS)</span>
-                          <span className="text-[11px] font-medium text-blue-100">4 Core Subjects • 6 Days</span>
-                        </div>
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
-                            <thead>
-                              <tr className="bg-[#F0F5FD] text-[#0B2559] font-bold border-b border-slate-200/80">
-                                <th className="py-2.5 px-3 text-center w-[25%]">Days / Batch</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Time Slot</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Subject</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Focus Area</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100 text-slate-800">
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    MWF<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Mon, Wed, Fri</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    Mathematics
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  NCERT Concepts &amp; Practice
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#FEF3D6] text-[#9A6208]">
-                                    Social Studies
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  History, Geography, Civics
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors border-t-2 border-slate-100">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                                    TTS<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Tue, Thu, Sat</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#E6F8ED] text-[#0D8249]">
-                                    Science
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Physics, Chemistry, Biology
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#F2ECFE] text-[#6B32D6]">
-                                    English
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Grammar, Writing &amp; Literature
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
+                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
+                        <span>2 Hours / Day • Mon to Sat</span>
                       </div>
                     </div>
 
-                    {/* Bottom Features */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-4 mt-5 border-t border-slate-100 text-xs text-slate-600">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>6 Days / Week Regular Batches</span>
+                    {/* Merged 100% Full Content with Hairline Separation */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
+                      {/* MWF Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : MWF
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Mathematics</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Social Studies</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Daily Homework &amp; Doubts</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Weekly Sunday Assessment</span>
+
+                      {/* TTS Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : TTS
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Science</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">English</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1374,180 +1551,62 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs flex flex-col justify-between"
+                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
                   >
-                    <div>
-                      {/* Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0E52C9] border border-blue-200/60 flex items-center justify-center shrink-0">
-                            <GraduationCap className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2559]">
-                                Class 10 Timetable
-                              </h3>
-                              <span className="px-2 py-0.5 rounded-[4px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                CBSE Board Batch
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-500 mt-0.5">
-                              Focused board preparation with syllabus mastery and regular testing
-                            </p>
-                          </div>
-                        </div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[5px] text-xs font-bold bg-[#EBF3FF] text-[#1D4ED8] border border-blue-200/70">
-                          <Clock className="w-3.5 h-3.5 text-[#1D4ED8]" />
-                          <span>2 Hours / Day • Board Prep</span>
-                        </div>
+                    {/* Header Banner - Soft Blue Gradient Banner */}
+                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
+                      <div className="flex items-center gap-2.5">
+                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
+                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
+                          Class 10 (Time-Table)
+                        </h3>
                       </div>
-
-                      {/* MWF & TTS 2 Summary Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
-                        {/* MWF Card */}
-                        <div className="rounded-xl border border-blue-200/90 bg-gradient-to-br from-blue-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#142F70] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              MWF Batch
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Mon, Wed, Fri</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Mathematics</span>
-                              <span className="text-xs font-semibold text-[#1D4ED8] bg-[#EBF2FE] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Social Studies</span>
-                              <span className="text-xs font-semibold text-[#9A6208] bg-[#FEF3D6] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* TTS Card */}
-                        <div className="rounded-xl border border-purple-200/90 bg-gradient-to-br from-purple-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#6B21A8] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              TTS Batch
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Tue, Thu, Sat</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Science</span>
-                              <span className="text-xs font-semibold text-[#0D8249] bg-[#E6F8ED] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">English</span>
-                              <span className="text-xs font-semibold text-[#6B32D6] bg-[#F2ECFE] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Unified Complete Timetable Table */}
-                      <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-white shadow-2xs">
-                        <div className="bg-[#142F70] px-4 py-2.5 flex items-center justify-between text-white">
-                          <span className="font-bold text-xs sm:text-sm">Complete Class 10 Schedule (MWF + TTS)</span>
-                          <span className="text-[11px] font-medium text-blue-100">Board Batch • Mon – Sat</span>
-                        </div>
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
-                            <thead>
-                              <tr className="bg-[#F0F5FD] text-[#0B2559] font-bold border-b border-slate-200/80">
-                                <th className="py-2.5 px-3 text-center w-[25%]">Days / Batch</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Time Slot</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Subject</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Focus Area</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100 text-slate-800">
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    MWF<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Mon, Wed, Fri</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    Mathematics
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  NCERT Exemplar &amp; Board PYQs
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#FEF3D6] text-[#9A6208]">
-                                    Social Studies
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Board Answer Writing &amp; Map Work
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors border-t-2 border-slate-100">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                                    TTS<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Tue, Thu, Sat</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#E6F8ED] text-[#0D8249]">
-                                    Science
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Physics, Chem, Bio &amp; Numericals
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#F2ECFE] text-[#6B32D6]">
-                                    English
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Board Pattern Writing &amp; Literature
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
+                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
+                        <span>2 Hours / Day • Board Prep</span>
                       </div>
                     </div>
 
-                    {/* Bottom Features */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-4 mt-5 border-t border-slate-100 text-xs text-slate-600">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>100% Board Syllabus Coverage</span>
+                    {/* Merged 100% Full Content with Hairline Separation */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
+                      {/* MWF Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : MWF
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Mathematics</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Social Studies</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Chapter-wise Tests &amp; Reports</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Pre-Board Drills &amp; Presentation</span>
+
+                      {/* TTS Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : TTS
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Science</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">English</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1561,180 +1620,62 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs flex flex-col justify-between"
+                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
                   >
-                    <div>
-                      {/* Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-blue-50 text-[#0E52C9] border border-blue-200/60 flex items-center justify-center shrink-0">
-                            <BarChart2 className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2559]">
-                                Class 11 Timetable
-                              </h3>
-                              <span className="px-2 py-0.5 rounded-[4px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                Commerce Foundation
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-500 mt-0.5">
-                              Core commerce subjects with conceptual depth, practical problem solving and doubts
-                            </p>
-                          </div>
-                        </div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[5px] text-xs font-bold bg-[#EBF3FF] text-[#1D4ED8] border border-blue-200/70">
-                          <Clock className="w-3.5 h-3.5 text-[#1D4ED8]" />
-                          <span>1 Hour / Subject • Commerce Focus</span>
-                        </div>
+                    {/* Header Banner - Soft Blue Gradient Banner */}
+                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
+                      <div className="flex items-center gap-2.5">
+                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
+                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
+                          Class 11 (Time-Table)
+                        </h3>
                       </div>
-
-                      {/* MWF & TTS 2 Summary Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
-                        {/* MWF Card */}
-                        <div className="rounded-xl border border-blue-200/90 bg-gradient-to-br from-blue-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#142F70] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              MWF Core Sessions
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Mon, Wed, Fri</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Economics</span>
-                              <span className="text-xs font-semibold text-[#1D4ED8] bg-[#EBF2FE] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Accounts</span>
-                              <span className="text-xs font-semibold text-[#0E52C9] bg-[#DBEAFE] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* TTS Card */}
-                        <div className="rounded-xl border border-purple-200/90 bg-gradient-to-br from-purple-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#6B21A8] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              TTS Practice &amp; Support
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Tue, Thu, Sat</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Guided Practice &amp; Doubts</span>
-                              <span className="text-xs font-semibold text-[#0D8249] bg-[#E6F8ED] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Pol Science / History</span>
-                              <span className="text-xs font-semibold text-[#6B32D6] bg-[#F2ECFE] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Unified Complete Timetable Table */}
-                      <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-white shadow-2xs">
-                        <div className="bg-[#0B357B] px-4 py-2.5 flex items-center justify-between text-white">
-                          <span className="font-bold text-xs sm:text-sm">Complete Class 11 Schedule (MWF + TTS)</span>
-                          <span className="text-[11px] font-medium text-blue-100">Commerce Batch</span>
-                        </div>
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
-                            <thead>
-                              <tr className="bg-[#F0F5FD] text-[#0B2559] font-bold border-b border-slate-200/80">
-                                <th className="py-2.5 px-3 text-center w-[25%]">Days / Batch</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Time Slot</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Subject</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Focus Area</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100 text-slate-800">
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    MWF<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Mon, Wed, Fri</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    Economics
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Microeconomics &amp; Statistics
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#DBEAFE] text-[#1E40AF]">
-                                    Accounts
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Journal, Ledger, Trial Balance
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors border-t-2 border-slate-100">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                                    TTS<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Tue, Thu, Sat</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#E6F8ED] text-[#0D8249]">
-                                    Guided Practice
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Accounts Problem Solving &amp; Doubts
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#F2ECFE] text-[#6B32D6]">
-                                    Pol Science / History
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Foundation &amp; Humanities Support
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
+                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
+                        <span>1 Hour / Subject • Commerce Focus</span>
                       </div>
                     </div>
 
-                    {/* Bottom Features */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-4 mt-5 border-t border-slate-100 text-xs text-slate-600">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Core Accounts &amp; Economics Rigor</span>
+                    {/* Merged 100% Full Content with Hairline Separation */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
+                      {/* MWF Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : MWF
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Economics</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Accounts</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Practical Ledger Problem Workshops</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Weekly Sunday Assessment &amp; Doubts</span>
+
+                      {/* TTS Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : TTS
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Guided Practice &amp; Doubts</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Pol Science / History</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1748,180 +1689,62 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ duration: 0.2 }}
-                    className="rounded-2xl border border-slate-200/90 bg-white p-5 sm:p-6 shadow-xs flex flex-col justify-between"
+                    className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between h-full"
                   >
-                    <div>
-                      {/* Header */}
-                      <div className="flex flex-wrap items-center justify-between gap-3 mb-5 pb-4 border-b border-slate-100">
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-xl bg-purple-50 text-[#6B21A8] border border-purple-200/60 flex items-center justify-center shrink-0">
-                            <GraduationCap className="w-5 h-5" />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base sm:text-lg font-extrabold text-[#0B2559]">
-                                Class 12 Timetable
-                              </h3>
-                              <span className="px-2 py-0.5 rounded-[4px] text-[11px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                                Commerce Board Batch
-                              </span>
-                            </div>
-                            <p className="text-xs text-slate-500 mt-0.5">
-                              Intensive board exam preparation with high-scoring accounting formats and PYQ drills
-                            </p>
-                          </div>
-                        </div>
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-[5px] text-xs font-bold bg-[#EBF3FF] text-[#1D4ED8] border border-blue-200/70">
-                          <Clock className="w-3.5 h-3.5 text-[#1D4ED8]" />
-                          <span>1 Hour / Subject • Board Prep</span>
-                        </div>
+                    {/* Header Banner - Soft Blue Gradient Banner */}
+                    <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex flex-wrap items-center justify-between gap-2.5 text-white border-b border-[#173568]/30">
+                      <div className="flex items-center gap-2.5">
+                        <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
+                        <h3 className="text-sm sm:text-[15px] lg:text-base font-extrabold tracking-tight text-white">
+                          Class 12 (Time-Table)
+                        </h3>
                       </div>
-
-                      {/* TTS & MWF 2 Summary Cards */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mb-5">
-                        {/* TTS Card */}
-                        <div className="rounded-xl border border-purple-200/90 bg-gradient-to-br from-purple-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#6B21A8] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              TTS Core Sessions
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Tue, Thu, Sat</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Economics</span>
-                              <span className="text-xs font-semibold text-[#6B21A8] bg-[#F3E8FF] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Accounts</span>
-                              <span className="text-xs font-semibold text-[#1D4ED8] bg-[#DBEAFE] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* MWF Card */}
-                        <div className="rounded-xl border border-blue-200/90 bg-gradient-to-br from-blue-50/50 to-white p-3.5 sm:p-4">
-                          <div className="flex items-center justify-between mb-3">
-                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] text-xs font-extrabold bg-[#142F70] text-white">
-                              <Calendar className="w-3.5 h-3.5" />
-                              MWF Board Drills
-                            </span>
-                            <span className="text-[11px] font-semibold text-slate-500">Mon, Wed, Fri</span>
-                          </div>
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Board Answer Writing</span>
-                              <span className="text-xs font-semibold text-[#1D4ED8] bg-[#EBF2FE] px-2 py-0.5 rounded-[4px]">4:00 – 5:00 PM</span>
-                            </div>
-                            <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-200/80">
-                              <span className="text-xs font-bold text-[#0B2559]">Pol Science / History</span>
-                              <span className="text-xs font-semibold text-[#6B32D6] bg-[#F2ECFE] px-2 py-0.5 rounded-[4px]">5:00 – 6:00 PM</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Unified Complete Timetable Table */}
-                      <div className="rounded-xl border border-slate-200/90 overflow-hidden bg-white shadow-2xs">
-                        <div className="bg-[#142F70] px-4 py-2.5 flex items-center justify-between text-white">
-                          <span className="font-bold text-xs sm:text-sm">Complete Class 12 Schedule (TTS + MWF)</span>
-                          <span className="text-[11px] font-medium text-blue-100">CBSE Commerce Board Batch</span>
-                        </div>
-                        <div className="overflow-x-auto">
-                          <table className="w-full text-left border-collapse text-xs sm:text-[13px]">
-                            <thead>
-                              <tr className="bg-[#F0F5FD] text-[#0B2559] font-bold border-b border-slate-200/80">
-                                <th className="py-2.5 px-3 text-center w-[25%]">Days / Batch</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Time Slot</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Subject</th>
-                                <th className="py-2.5 px-3 text-center w-[25%]">Focus Area</th>
-                              </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-100 text-slate-800">
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#F3E8FF] text-[#6B21A8]">
-                                    TTS<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Tue, Thu, Sat</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#F3E8FF] text-[#6B21A8]">
-                                    Economics
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Macroeconomics &amp; IED Case Studies
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#DBEAFE] text-[#1E40AF]">
-                                    Accounts
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Partnership, Company &amp; Cash Flow
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors border-t-2 border-slate-100">
-                                <td className="py-2.5 px-2 text-center" rowSpan={2}>
-                                  <span className="inline-block px-2.5 py-1 rounded-[5px] text-[11px] font-bold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    MWF<br />
-                                    <span className="text-[9.5px] font-normal text-slate-500">Mon, Wed, Fri</span>
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  4:00 – 5:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#EBF2FE] text-[#1D4ED8]">
-                                    Board Answer Writing
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  CBSE PYQs &amp; Step-marking Practice
-                                </td>
-                              </tr>
-                              <tr className="hover:bg-slate-50/60 transition-colors">
-                                <td className="py-2.5 px-2 text-center whitespace-nowrap text-slate-700 font-medium">
-                                  5:00 – 6:00 PM
-                                </td>
-                                <td className="py-2.5 px-2 text-center">
-                                  <span className="inline-block px-3 py-1 rounded-[5px] text-xs font-semibold bg-[#F2ECFE] text-[#6B32D6]">
-                                    Pol Science / History
-                                  </span>
-                                </td>
-                                <td className="py-2.5 px-2 text-center text-xs text-slate-600">
-                                  Board Pattern Mastery &amp; Doubts
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                        </div>
+                      <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-md text-[11px] sm:text-xs font-semibold bg-white/15 text-blue-100 border border-white/20">
+                        <Clock className="w-3.5 h-3.5 text-blue-200 shrink-0" />
+                        <span>1 Hour / Subject • Commerce Focus</span>
                       </div>
                     </div>
 
-                    {/* Bottom Features */}
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-4 mt-5 border-t border-slate-100 text-xs text-slate-600">
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Dedicated Board Answer Writing</span>
+                    {/* Merged 100% Full Content with Hairline Separation */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-slate-200 flex-1">
+                      {/* TTS Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : TTS
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Economics</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Accounts</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Fast Accounting Calculation Drills</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                        <span>Pre-Board Mocks &amp; 1-on-1 Feedback</span>
+
+                      {/* MWF Column */}
+                      <div className="p-5 sm:p-6 flex flex-col justify-between">
+                        <div className="flex items-center pb-3 border-b border-slate-200/80">
+                          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-bold bg-[#2864E8] text-white shadow-xs">
+                            <Calendar className="w-3.5 h-3.5 text-blue-200" />
+                            Day : MWF
+                          </span>
+                        </div>
+                        <div className="divide-y divide-slate-200/70 pt-1">
+                          <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Board Answer Writing</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                          </div>
+                          <div className="flex items-center justify-between py-2.5 first:pt-2.5 last:pb-0">
+                            <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Pol Science / History</span>
+                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1931,85 +1754,39 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
 
             {/* Right Column (lg:col-span-4) – Sunday Special Card */}
             <div className="lg:col-span-4 flex flex-col">
-              <div className="rounded-2xl border border-slate-200/90 bg-white overflow-hidden shadow-xs flex flex-col justify-between w-full h-full transition-all duration-200">
-                {/* Header Banner */}
-                <div className="bg-[#0B357B] px-5 py-3.5 flex items-center justify-between gap-3 text-white">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5 text-white" />
-                    <span className="font-extrabold text-base sm:text-lg">
-                      Sunday Special
-                    </span>
-                  </div>
-                  <span className="px-3 py-1 rounded-full text-xs font-bold bg-[#F59E0B] text-slate-950 shadow-2xs">
-                    Special Schedule
+              <div className="rounded-2xl border border-[#DCE8F8] bg-white overflow-hidden shadow-[0_4px_20px_-4px_rgba(40,100,232,0.08)] flex flex-col justify-between w-full h-full transition-all duration-200">
+                {/* Header Banner - Soft Blue Gradient Banner */}
+                <div className="bg-gradient-to-r from-[#173568] via-[#1E4DB7] to-[#2864E8] px-5 py-3.5 sm:px-6 flex items-center gap-2.5 text-white border-b border-[#173568]/30">
+                  <Calendar className="w-4 h-4 text-blue-200 shrink-0" />
+                  <span className="font-extrabold text-sm sm:text-[15px] lg:text-base tracking-tight">
+                    Sunday Special
                   </span>
                 </div>
 
                 {/* Body Content */}
-                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-6">
-                  
-                  {/* 3 Activities */}
-                  <div className="space-y-5">
-                    {/* Activity 1 */}
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl border border-blue-400 bg-blue-50/60 text-[#0E52C9] flex items-center justify-center shrink-0 mt-0.5">
-                        <ClipboardCheck className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm sm:text-base font-bold text-[#0B2559]">
-                          Weekly Tests
-                        </h4>
-                        <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                          Subject-wise assessment and practice tests to track progress.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Activity 2 */}
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl border border-blue-400 bg-blue-50/60 text-[#0E52C9] flex items-center justify-center shrink-0 mt-0.5">
-                        <Presentation className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm sm:text-base font-bold text-[#0B2559]">
-                          Special Workshops
-                        </h4>
-                        <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                          Concept building, problem solving and exam strategy sessions.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Activity 3 */}
-                    <div className="flex items-start gap-3.5">
-                      <div className="w-10 h-10 rounded-xl border border-blue-400 bg-blue-50/60 text-[#0E52C9] flex items-center justify-center shrink-0 mt-0.5">
-                        <Users className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <h4 className="text-sm sm:text-base font-bold text-[#0B2559]">
-                          Revision &amp; Doubt Sessions
-                        </h4>
-                        <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
-                          Comprehensive revision and doubt clearing for better understanding.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom Info Note Box */}
-                  <div className="rounded-xl bg-[#F1F6FE] border border-[#D5E3FC] p-4 text-xs mt-4">
-                    <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                      <Info className="w-4 h-4 text-[#1D4ED8] shrink-0" />
-                      <span className="font-bold text-[#0B2559]">Note:</span>
-                      <span className="px-2.5 py-0.5 rounded-full font-bold text-[11px] sm:text-xs bg-[#FEF3C7] text-[#92400E]">
-                        Sunday timings: 9:00 AM – 2:00 PM
+                <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
+                  <div className="divide-y divide-slate-200/70">
+                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
+                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                        Weekly Subject Tests &amp; Assessment
                       </span>
                     </div>
-                    <p className="text-slate-600 pl-6 leading-relaxed">
-                      Exact schedule (Test / Workshop / Revision) will be shared each week by the branch.
-                    </p>
+                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
+                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                        Dedicated 1-on-1 Doubt Clearing
+                      </span>
+                    </div>
+                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
+                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                        Special Concept &amp; Strategy Workshops
+                      </span>
+                    </div>
+                    <div className="flex items-center py-2.5 first:pt-1 last:pb-1">
+                      <span className="text-xs sm:text-[13px] font-bold text-[#173568] tracking-tight">
+                        Comprehensive Revision &amp; Answer Writing
+                      </span>
+                    </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -2019,28 +1796,18 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
         </section>
 
         {/* ── SECTION 06: BRANCH FACILITIES & LEARNING ENVIRONMENT ───── */}
-        <section className="relative w-full overflow-hidden space-y-6 sm:space-y-8 bg-white">
+        <section className="relative w-full overflow-hidden bg-white">
           
-          {/* Centered Section Heading matching Design System */}
-          <div className="text-center max-w-3xl mx-auto mb-6 sm:mb-8 lg:mb-10">
-            {/* Small text with bullet point */}
-            <div className="inline-flex items-center justify-center gap-2 mb-2 sm:mb-2.5">
-              <span className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#155EEF] shrink-0" />
-              <span className="text-[13px] min-[390px]:text-[13.5px] sm:text-[15px] font-[800] tracking-tight">
-                <span className="text-[#062B67]">Branch Facilities &amp;{' '}</span>
-                <span className="text-[#155EEF] font-extrabold">Learning Environment</span>
-              </span>
-            </div>
-
-            {/* Headline description in single line */}
-            <h2 className="text-[18px] min-[390px]:text-[20px] sm:text-[23px] md:text-[26px] lg:text-[29px] font-[800] tracking-tight leading-tight max-w-5xl mx-auto whitespace-normal sm:whitespace-nowrap">
-              <span className="text-[#062B67]">Modern Spaces{' '}</span>
-              <span className="text-[#155EEF]">for Focused Learning.</span>
+          {/* Centered Section Heading */}
+          <div className="text-center max-w-3xl mx-auto mb-5 sm:mb-7 lg:mb-8">
+            <h2 className="text-[22px] min-[390px]:text-[24px] sm:text-[28px] md:text-[30px] lg:text-[32px] font-extrabold tracking-tight whitespace-nowrap">
+              <span className="text-[#173568]">Branch </span>
+              <span className="text-[#2864E8]">Facilities</span>
             </h2>
           </div>
 
-          {/* Equal Grid: Only Photos, Identical Horizontal & Vertical Spacing (gap-5 sm:gap-6) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+          {/* Equal Grid: Clean Single-Column on Mobile (16px spacing), 3-Column on Desktop */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {[
               { src: "/mangolpuri/01.png", alt: "IDL Education Mangolpuri Smart Classroom" },
               { src: "/mangolpuri/05.png", alt: "IDL Education Mangolpuri Interactive Teaching" },
@@ -2051,15 +1818,14 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
             ].map((facility, idx) => (
               <div
                 key={idx}
-                onClick={() => setIsGalleryOpen(true)}
-                className="group relative aspect-[16/10] sm:aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/90 shadow-2xs hover:shadow-md hover:border-[#155EEF]/50 transition-all duration-300 cursor-pointer bg-slate-100"
+                className="relative aspect-[16/9.5] sm:aspect-[4/3] rounded-2xl overflow-hidden border border-slate-200/80 shadow-2xs bg-slate-100"
               >
                 <Image
                   src={facility.src}
                   alt={facility.alt}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="object-cover select-none pointer-events-none"
                 />
               </div>
             ))}
@@ -2071,207 +1837,201 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
 
 
         {/* ── SECTION 07: FAQ & EXPLORE OTHER IDL CENTRES ───────────── */}
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
-          
-          {/* Left Panel: Frequently Asked Questions */}
-          <div className="rounded-3xl bg-white p-6 sm:p-7 shadow-xs flex flex-col justify-between">
-            <div>
-              {/* Header */}
-              <div className="flex items-start gap-3 mb-5">
-                <span className="w-1.5 h-6 bg-[#F59E0B] rounded-full shrink-0 mt-0.5" />
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <svg className="w-5 h-5 text-[#2563EB] shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                      <line x1="12" y1="17" x2="12.01" y2="17" />
-                    </svg>
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B2559] tracking-tight">
-                      Frequently Asked Questions
-                    </h3>
+        <section className="relative w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 divide-y lg:divide-y-0 lg:divide-x divide-slate-200/80 items-stretch">
+            
+            {/* Left Column: Frequently Asked Questions */}
+            <div className="lg:pr-8 xl:pr-10 pb-8 sm:pb-9 lg:pb-0 flex flex-col justify-between">
+              <div>
+                {/* Header */}
+                <div className="flex items-start gap-3 mb-5 pb-4 border-b border-slate-200/70">
+                  <span className="w-1.5 h-6 bg-[#2864E8] rounded-full shrink-0 mt-0.5" />
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <HelpCircle className="w-5 h-5 text-[#2864E8] shrink-0" />
+                      <h3 className="text-lg sm:text-xl font-extrabold text-[#173568] tracking-tight">
+                        Frequently Asked Questions
+                      </h3>
+                    </div>
+                    <p className="text-xs sm:text-[13px] text-slate-500 font-medium mt-0.5">
+                      Common questions about the Mangolpuri branch
+                    </p>
                   </div>
-                  <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-                    Common questions about the Mangolpuri branch
-                  </p>
                 </div>
-              </div>
 
-              {/* Accordion List */}
-              <div className="space-y-3">
-                {[
-                  {
-                    q: "What is the landmark for IDL Education Mangolpuri?",
-                    a: "The centre is located near Sanjay Gandhi Memorial Hospital and the Q-Block Bus Terminal on Main Market Road, Mangol Puri, Delhi – 110083."
-                  },
-                  {
-                    q: "Which is the nearest metro station to Mangolpuri branch?",
-                    a: "Peeragarhi Metro Station on the Green Line is the nearest metro station, approximately 6–7 minutes away by e-rickshaw or feeder bus."
-                  },
-                  {
-                    q: "Does Mangolpuri branch provide printed study material?",
-                    a: "Yes, all enrolled students receive comprehensive printed study modules, chapter-wise worksheets, formula booklets, and previous 10 years question banks."
-                  }
-                ].map((faq, idx) => {
-                  const isOpen = openFaqIndex === idx;
-                  return (
-                    <div
-                      key={idx}
-                      className="rounded-xl border border-[#E3EDFB] bg-[#F6F9FE] overflow-hidden transition-all duration-200"
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                        className="w-full p-4 sm:p-4.5 text-left flex items-center justify-between gap-3 font-bold text-xs sm:text-sm text-[#0B2559] hover:text-[#2563EB] transition-colors cursor-pointer select-none"
-                      >
-                        <span className="leading-snug">{faq.q}</span>
-                        <ChevronDown
-                          className={cn(
-                            "w-4 h-4 text-[#2563EB] shrink-0 transition-transform duration-200",
-                            isOpen && "rotate-180"
+                {/* Accordion List - 100% Full Width with Hairline Divider Lines */}
+                <div className="divide-y divide-slate-200/80">
+                  {[
+                    {
+                      q: "What is the landmark for IDL Education Mangolpuri?",
+                      a: "The centre is located near Sanjay Gandhi Memorial Hospital and the Q-Block Bus Terminal on Main Market Road, Mangol Puri, Delhi – 110083."
+                    },
+                    {
+                      q: "Which is the nearest metro station to Mangolpuri branch?",
+                      a: "Peeragarhi Metro Station on the Green Line is the nearest metro station, approximately 6–7 minutes away by e-rickshaw or feeder bus."
+                    },
+                    {
+                      q: "Does Mangolpuri branch provide printed study material?",
+                      a: "Yes, all enrolled students receive comprehensive printed study modules, chapter-wise worksheets, formula booklets, and previous 10 years question banks."
+                    }
+                  ].map((faq, idx) => {
+                    const isOpen = openFaqIndex === idx;
+                    return (
+                      <div key={idx} className="transition-colors">
+                        <button
+                          type="button"
+                          onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
+                          className="w-full py-4 text-left flex items-center justify-between gap-3 group cursor-pointer select-none"
+                        >
+                          <span className={cn(
+                            "text-xs sm:text-[13.5px] font-bold tracking-tight transition-colors leading-snug",
+                            isOpen ? "text-[#2864E8]" : "text-[#173568] group-hover:text-[#2864E8]"
+                          )}>
+                            {faq.q}
+                          </span>
+                          <div className={cn(
+                            "w-6 h-6 rounded-full flex items-center justify-center shrink-0 transition-transform duration-200",
+                            isOpen ? "bg-[#EEF5FF] text-[#2864E8] rotate-180" : "text-slate-400 group-hover:text-[#2864E8] group-hover:bg-slate-50"
+                          )}>
+                            <ChevronDown className="w-4 h-4" />
+                          </div>
+                        </button>
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: "auto" }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.2 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pb-4 pt-0.5 text-xs sm:text-[13px] text-slate-600 leading-relaxed">
+                                <p>{faq.a}</p>
+                              </div>
+                            </motion.div>
                           )}
-                        />
-                      </button>
-                      {isOpen && (
-                        <div className="px-4 pb-4 pt-0 text-xs sm:text-[13px] text-slate-600 leading-relaxed border-t border-[#E8F0FC]/60">
-                          <p className="pt-2">{faq.a}</p>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Panel: Explore Other IDL Centres */}
-          <div className="rounded-3xl bg-white p-6 sm:p-7 shadow-xs flex flex-col justify-between">
-            <div>
-              {/* Header */}
-              <div className="flex items-start gap-3 mb-5">
-                <span className="w-1.5 h-6 bg-[#F59E0B] rounded-full shrink-0 mt-0.5" />
-                <div className="min-w-0">
-                  <div className="flex items-center gap-2">
-                    <Building2 className="w-5 h-5 text-[#2563EB] shrink-0" />
-                    <h3 className="text-xl sm:text-2xl font-extrabold text-[#0B2559] tracking-tight">
-                      Explore Other IDL Centres
-                    </h3>
-                  </div>
-                  <p className="text-xs sm:text-sm text-slate-500 font-medium mt-1">
-                    Visit our other centres across Delhi for quality education.
-                  </p>
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
+            </div>
 
-              {/* 3 Branch Cards Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
-                {[
-                  {
-                    name: "Budh Vihar",
-                    pincode: "Delhi – 110086",
-                    slug: "budh-vihar",
-                    image: "/images/branches/budh-vihar.jpg"
-                  },
-                  {
-                    name: "Krishna Vihar",
-                    pincode: "Delhi – 110086",
-                    slug: "krishna-vihar",
-                    image: "/images/branches/krishna-vihar.jpg"
-                  },
-                  {
-                    name: "Mukherjee Nagar",
-                    pincode: "Delhi – 110009",
-                    slug: "mukherjee-nagar",
-                    image: "/images/branches/mukherjee-nagar.jpg"
-                  }
-                ].map((item) => (
-                  <Link
-                    key={item.slug}
-                    href={`/branches/${item.slug}`}
-                    className="rounded-2xl border border-slate-200/90 overflow-hidden bg-white hover:border-[#2563EB]/60 hover:shadow-md transition-all duration-200 group flex flex-col justify-between"
+            {/* Right Column: Explore Other IDL Centres */}
+            <div className="lg:pl-8 xl:pl-10 pt-8 sm:pt-9 lg:pt-0 flex flex-col justify-between min-w-0 overflow-hidden pb-8 sm:pb-9 lg:pb-0">
+              <div>
+                {/* Header with Title and Manual Left/Right Controls */}
+                <div className="flex items-center justify-between gap-2.5 sm:gap-3 mb-4 sm:mb-5 pb-3.5 sm:pb-4 border-b border-slate-200/70">
+                  <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+                    <span className="w-1.5 h-5 sm:h-6 bg-[#2864E8] rounded-full shrink-0" />
+                    <Building2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#2864E8] shrink-0" />
+                    <div className="min-w-0">
+                      <h3 className="text-[15px] min-[380px]:text-base sm:text-lg lg:text-xl font-extrabold text-[#173568] tracking-tight truncate">
+                        Explore Other IDL Centres
+                      </h3>
+                      <p className="hidden sm:block text-xs sm:text-[13px] text-slate-500 font-medium mt-0.5 truncate">
+                        Visit our other centres across Delhi for quality education.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Manual Navigation Arrows */}
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleCentresScrollManual('left')}
+                      aria-label="Previous centre"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200/80 bg-white hover:bg-[#EEF5FF] text-slate-600 hover:text-[#2864E8] hover:border-[#2864E8]/40 transition-colors flex items-center justify-center shadow-2xs active:scale-95 cursor-pointer"
+                    >
+                      <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleCentresScrollManual('right')}
+                      aria-label="Next centre"
+                      className="w-7 h-7 sm:w-8 sm:h-8 rounded-full border border-slate-200/80 bg-white hover:bg-[#EEF5FF] text-slate-600 hover:text-[#2864E8] hover:border-[#2864E8]/40 transition-colors flex items-center justify-center shadow-2xs active:scale-95 cursor-pointer"
+                    >
+                      <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Continuous Running Loop Slider + Free Left/Right Manual Drag */}
+                <div className="relative w-full overflow-hidden">
+                  <div
+                    ref={otherCentresSliderRef}
+                    onScroll={handleCentresScroll}
+                    onMouseEnter={() => setIsCentresSliderPaused(true)}
+                    onMouseLeave={handleCentresMouseLeave}
+                    onMouseDown={handleCentresMouseDown}
+                    onMouseMove={handleCentresMouseMove}
+                    onMouseUp={handleCentresMouseUp}
+                    onTouchStart={handleCentresTouchStart}
+                    onTouchEnd={handleCentresTouchEnd}
+                    className="flex gap-3.5 sm:gap-4 overflow-x-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-1 px-0.5 cursor-grab active:cursor-grabbing select-none"
+                    style={{ WebkitOverflowScrolling: 'touch' }}
                   >
-                    {/* Branch Image */}
-                    <div className="relative h-28 sm:h-32 w-full bg-slate-100 overflow-hidden">
-                      <Image
-                        src={item.image}
-                        alt={`${item.name} Branch - IDL Education`}
-                        fill
-                        sizes="(max-width: 640px) 100vw, 33vw"
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-
-                    {/* Bottom Card Info */}
-                    <div className="p-3 flex items-end justify-between gap-1.5 bg-white">
-                      <div className="min-w-0">
-                        <div className="flex items-center gap-1">
-                          <MapPin className="w-3.5 h-3.5 text-[#2563EB] shrink-0" />
-                          <h4 className="text-xs sm:text-[13px] font-extrabold text-[#0B2559] group-hover:text-[#2563EB] transition-colors truncate">
-                            {item.name}
-                          </h4>
+                    {LOOP_CENTRES.map((item, idx) => (
+                      <Link
+                        key={`${item.slug}-${idx}`}
+                        href={`/branches/${item.slug}`}
+                        onClick={(e) => {
+                          if (centresDragMovedRef.current) {
+                            e.preventDefault();
+                          }
+                        }}
+                        className="w-[215px] min-[390px]:w-[230px] sm:w-[245px] shrink-0 rounded-xl border border-slate-200/80 overflow-hidden bg-white hover:border-[#2864E8]/60 hover:shadow-md transition-all duration-200 group flex flex-col justify-between shadow-2xs select-none"
+                      >
+                        {/* Branch Image */}
+                        <div className="relative h-32 min-[390px]:h-36 sm:h-32 w-full bg-slate-100 overflow-hidden">
+                          <Image
+                            src={item.image}
+                            alt={`${item.name} Branch - IDL Education`}
+                            fill
+                            sizes="(max-width: 640px) 230px, 245px"
+                            className="object-cover brightness-[1.01] contrast-[1.03] select-none pointer-events-none group-hover:scale-105 transition-transform duration-300"
+                          />
+                          <div className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded-md bg-white/95 backdrop-blur-xs text-[10px] font-bold text-[#173568] border border-slate-200/60 shadow-xs pointer-events-none">
+                            Delhi Centre
+                          </div>
                         </div>
-                        <p className="text-[11px] text-slate-500 pl-4.5 mt-0.5">
-                          {item.pincode}
-                        </p>
-                      </div>
 
-                      {/* Small Arrow Button (Strictly 5px radius) */}
-                      <div className="w-7 h-7 rounded-[5px] bg-[#EBF3FE] group-hover:bg-[#2563EB] text-[#2563EB] group-hover:text-white flex items-center justify-center transition-colors shrink-0">
-                        <ArrowRight className="w-3.5 h-3.5" />
-                      </div>
-                    </div>
-                  </Link>
-                ))}
+                        {/* Bottom Card Info */}
+                        <div className="p-3 sm:p-3.5 flex flex-col justify-between flex-1 bg-white">
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <MapPin className="w-3.5 h-3.5 text-[#2864E8] shrink-0" />
+                              <h4 className="text-xs sm:text-[13px] font-bold text-[#173568] group-hover:text-[#2864E8] transition-colors leading-snug truncate">
+                                {item.name}
+                              </h4>
+                            </div>
+                            <p className="text-[11px] text-slate-500 pl-5 mt-0.5 font-medium truncate">
+                              {item.pincode}
+                            </p>
+                          </div>
+
+                          {/* Subtle Action Row */}
+                          <div className="mt-2.5 pt-2 border-t border-slate-100/90 flex items-center justify-between text-[11px] font-semibold text-[#2864E8] group-hover:text-[#173568] transition-colors">
+                            <span>View Branch</span>
+                            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+
+                  {/* Edge gradient masks for seamless premium look */}
+                  <div className="pointer-events-none absolute inset-y-0 left-0 w-3 sm:w-4 bg-gradient-to-r from-white to-transparent" />
+                  <div className="pointer-events-none absolute inset-y-0 right-0 w-3 sm:w-4 bg-gradient-to-l from-white to-transparent" />
+                </div>
               </div>
             </div>
-          </div>
 
+          </div>
         </section>
 
       </div>
-
-      {/* ── FULL GALLERY MODAL ───────────────────────────────────────── */}
-      {isGalleryOpen && (
-        <div 
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-xs flex items-center justify-center p-4"
-          onClick={() => setIsGalleryOpen(false)}
-        >
-          <div 
-            className="relative max-w-4xl w-full bg-white rounded-2xl overflow-hidden p-6 max-h-[90vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Inside Mangolpuri Campus Photos</h3>
-              <button 
-                type="button" 
-                onClick={() => setIsGalleryOpen(false)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-              <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/01.png" alt="Smart Classroom" fill className="object-cover" />
-              </div>
-              <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/05.png" alt="Interactive Faculty Teaching" fill className="object-cover" />
-              </div>
-              <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/03.png" alt="Reception Desk" fill className="object-cover" />
-              </div>
-              <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/04.png" alt="Digital Smartboard Classroom" fill className="object-cover" />
-              </div>
-              <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/06.png" alt="Classroom Practice" fill className="object-cover" />
-              </div>
-              <div className="relative h-56 rounded-xl overflow-hidden border">
-                <Image src="/mangolpuri/02.png" alt="Batch Study Session" fill className="object-cover" />
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ── MODALS INTEGRATION ───────────────────────────────────────── */}
       <BookDemoModal isOpen={isBookDemoOpen} onOpenChange={setIsBookDemoOpen} />

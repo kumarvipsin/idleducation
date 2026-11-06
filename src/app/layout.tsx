@@ -1,7 +1,7 @@
 
 
 import type { Metadata, Viewport } from 'next';
-import { Plus_Jakarta_Sans, Kalam } from 'next/font/google';
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { IdlAiAssistant } from '@/components/ai/idl-ai-assistant';
@@ -11,13 +11,6 @@ const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-sans',
   weight: ['400', '500', '600', '700', '800'],
-  display: 'swap',
-});
-
-const kalam = Kalam({
-  subsets: ['latin'],
-  variable: '--font-kalam',
-  weight: ['400', '700'],
   display: 'swap',
 });
 
@@ -42,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${plusJakartaSans.variable} ${kalam.variable}`}>
+    <html lang="en" suppressHydrationWarning className={plusJakartaSans.variable}>
       <body suppressHydrationWarning className={`${plusJakartaSans.className} font-sans antialiased flex flex-col min-h-screen bg-white dark:bg-background`}>
         <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
         <Providers>
