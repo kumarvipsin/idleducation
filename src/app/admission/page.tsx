@@ -33,12 +33,7 @@ const pincodeRegex = /^\d{6}$/;
 const aadharRegex = /^\d{12}$/;
 
 const indianStates = [
-    "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-    "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-    "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-    "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-    "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-    "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+    "Delhi"
 ];
 const programs = [
   "Foundation",
@@ -117,7 +112,7 @@ const admissionFormSchema = z.object({
 
   // Additional & compatibility fields
   transactionId: z.string().min(1, { message: "Transaction ID is required." }),
-  motherPhone: z.string().optional().or(z.literal('')),
+  motherPhone: z.string().regex(phoneRegex, { message: "Enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
   motherOccupation: z.string().optional().or(z.literal('')),
   telephone: z.string().optional().or(z.literal('')),
   country: z.string().optional().or(z.literal('')),
@@ -134,11 +129,9 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const STEPS = [
-  { id: 1, title: 'Branch', subtitle: 'Branch & Session', icon: Building },
-  { id: 2, title: 'Student', subtitle: 'Student Details', icon: User },
-  { id: 3, title: 'Parent', subtitle: 'Parent Details', icon: Briefcase },
-  { id: 4, title: 'Contact', subtitle: 'Contact Details', icon: Phone },
-  { id: 5, title: 'Academic', subtitle: 'Academic Details', icon: GraduationCap },
+  { id: 1, title: 'Student', subtitle: 'Student & Branch', icon: User },
+  { id: 2, title: 'Parents', subtitle: 'Parents & Contact', icon: Briefcase },
+  { id: 3, title: 'Academic', subtitle: 'Academic & Review', icon: GraduationCap },
 ];
 
 export default function AdmissionPage() {
@@ -148,6 +141,7 @@ export default function AdmissionPage() {
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [isThankYouOpen, setIsThankYouOpen] = useState(false);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
   const [activeCropImage, setActiveCropImage] = useState<string | null>(null);
   const [isCropOpen, setIsCropOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -186,7 +180,7 @@ export default function AdmissionPage() {
       email: '',
       address: '',
       city: '',
-      state: '',
+      state: 'Delhi',
       pincode: '',
       emergencyContact: '',
       previousSchool: '',
@@ -275,26 +269,25 @@ export default function AdmissionPage() {
   const validateStep = async (step: number): Promise<boolean> => {
     let fieldsToValidate: (keyof AdmissionFormValues)[] = [];
     if (step === 1) {
-      fieldsToValidate = ['branch'];
-    } else if (step === 2) {
-      fieldsToValidate = ['studentName', 'dob', 'gender', 'classApplied'];
+      fieldsToValidate = ['branch', 'studentName', 'dob', 'gender', 'classApplied'];
       if (form.getValues('studentPhone')) {
         fieldsToValidate.push('studentPhone');
       }
-    } else if (step === 3) {
-      fieldsToValidate = ['fatherName', 'fatherPhone'];
-      if (form.getValues('parentEmail')) {
-        fieldsToValidate.push('parentEmail');
-      }
-    } else if (step === 4) {
-      fieldsToValidate = ['address', 'city', 'state', 'pincode'];
       if (form.getValues('email')) {
         fieldsToValidate.push('email');
+      }
+    } else if (step === 2) {
+      fieldsToValidate = ['fatherName', 'fatherPhone', 'address', 'city', 'state', 'pincode'];
+      if (form.getValues('motherPhone')) {
+        fieldsToValidate.push('motherPhone');
+      }
+      if (form.getValues('parentEmail')) {
+        fieldsToValidate.push('parentEmail');
       }
       if (form.getValues('emergencyContact')) {
         fieldsToValidate.push('emergencyContact');
       }
-    } else if (step === 5) {
+    } else if (step === 3) {
       fieldsToValidate = [];
     }
 
@@ -310,9 +303,8 @@ export default function AdmissionPage() {
     return true;
   };
 
-  const handleNext = async () => {
-    const isValid = await validateStep(currentStep);
-    if (isValid && currentStep < 5) {
+  const handleNext = () => {
+    if (currentStep < 3) {
       setCurrentStep(prev => prev + 1);
     }
   };
@@ -323,30 +315,79 @@ export default function AdmissionPage() {
     }
   };
 
-  const handleStepClick = async (targetStep: number) => {
-    if (targetStep < currentStep) {
-      setCurrentStep(targetStep);
-    } else if (targetStep > currentStep) {
-      for (let s = currentStep; s < targetStep; s++) {
-        const valid = await validateStep(s);
-        if (!valid) return;
-      }
-      setCurrentStep(targetStep);
+  // Allow clicking 1, 2, 3 to switch to any step freely
+  const handleStepClick = (targetStep: number) => {
+    setCurrentStep(targetStep);
+  };
+
+  // Master validation before preview or submit
+  const validateCompulsoryFields = async (): Promise<boolean> => {
+    // 1. Photo is compulsory
+    if (!photoPreview) {
+      setPhotoError("Student passport size photo is compulsory (*).");
+      setCurrentStep(1);
+      toast({
+        variant: "destructive",
+        title: "Photo Required",
+        description: "Student passport size photo is compulsory (*). Please upload photo.",
+      });
+      return false;
+    } else {
+      setPhotoError(null);
     }
+
+    // 2. Form compulsory fields
+    const isBasicValid = await form.trigger([
+      "branch",
+      "studentName",
+      "dob",
+      "gender",
+      "classApplied",
+      "fatherName",
+      "fatherPhone",
+      "address",
+      "city",
+      "state",
+      "pincode"
+    ]);
+
+    // Optional fields format validation if entered
+    if (form.getValues('studentPhone')) await form.trigger('studentPhone');
+    if (form.getValues('email')) await form.trigger('email');
+    if (form.getValues('motherPhone')) await form.trigger('motherPhone');
+    if (form.getValues('parentEmail')) await form.trigger('parentEmail');
+    if (form.getValues('emergencyContact')) await form.trigger('emergencyContact');
+
+    const errors = form.formState.errors;
+    if (!isBasicValid || Object.keys(errors).length > 0) {
+      const step1Fields: (keyof AdmissionFormValues)[] = ['branch', 'studentName', 'dob', 'gender', 'classApplied', 'studentPhone', 'email'];
+      const step2Fields: (keyof AdmissionFormValues)[] = ['fatherName', 'fatherPhone', 'motherPhone', 'parentEmail', 'emergencyContact', 'address', 'city', 'state', 'pincode'];
+
+      if (step1Fields.some(f => errors[f])) {
+        setCurrentStep(1);
+      } else if (step2Fields.some(f => errors[f])) {
+        setCurrentStep(2);
+      } else {
+        setCurrentStep(3);
+      }
+
+      const firstKey = Object.keys(errors)[0] as keyof AdmissionFormValues;
+      const errorMsg = firstKey ? (errors[firstKey]?.message as string) : "Please complete all compulsory fields marked with (*).";
+      toast({
+        variant: "destructive",
+        title: "Compulsory Fields Missing",
+        description: errorMsg || "Please fill all required fields before proceeding.",
+      });
+      return false;
+    }
+
+    return true;
   };
 
   const handlePreview = async () => {
-    const result = await form.trigger([
-      "branch", "studentName", "dob", "gender", "classApplied", "fatherName", "fatherPhone", "address", "city", "state", "pincode"
-    ]);
-    if (result) {
+    const isValid = await validateCompulsoryFields();
+    if (isValid) {
       setIsPreviewOpen(true);
-    } else {
-       toast({
-        variant: "destructive",
-        title: "Required Fields Missing",
-        description: "Please fill all mandatory fields marked with an asterisk (*) to preview application.",
-      });
     }
   };
 
@@ -420,8 +461,16 @@ export default function AdmissionPage() {
   };
 
   const classes = [
-    "CLASS V", "CLASS VI", "CLASS VII", "CLASS VIII", "CLASS IX", "CLASS X", "CLASS XI", "CLASS XII",
-    "JEE (MAIN + ADVANCED)", "NEET (MEDICAL)", "CUET (UG)", "CBSE BOARD", "NIOS", "SSC CGL / CHSL", "BANK PO / CLERK", "RRB NTPC", "CLAT", "GATE", "DEFENCE / NDA", "DELHI POLICE"
+    "Class 4",
+    "Class 5",
+    "Class 6",
+    "Class 7",
+    "Class 8",
+    "Class 9",
+    "Class 10",
+    "Class 11",
+    "Class 12",
+    "Class 12 PASS"
   ];
   
   const branches = [
@@ -444,7 +493,7 @@ export default function AdmissionPage() {
   };
 
   return (
-    <div className="min-h-[90vh] w-full flex items-center justify-center p-4 py-8 bg-slate-50/70 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-200">
+    <div className="min-h-[90vh] w-full flex items-center justify-center p-4 py-8 bg-slate-50/70 dark:bg-slate-950 font-sans text-slate-800 dark:text-slate-200 admission-form-root">
       <Script id="razorpay-checkout-js" src="https://checkout.razorpay.com/v1/checkout.js" />
       
       <motion.div 
@@ -456,8 +505,11 @@ export default function AdmissionPage() {
         {/* Top Header: Title + Close */}
         <div className="flex items-start justify-between mb-5">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-tight">
-              Admission Form 2026–27
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-tight flex items-baseline flex-wrap gap-2">
+              <span>Admission Form 2026–27</span>
+              <span className="text-[10.5px] sm:text-[11.5px] font-bold text-slate-500 dark:text-slate-400 tracking-wider uppercase whitespace-nowrap">
+                (FOR OFFLINE STUDENTS ONLY)
+              </span>
             </h1>
             <p className="text-[13px] text-slate-500 dark:text-slate-400 mt-1 font-normal">
               Complete the steps below to apply for admission.
@@ -473,13 +525,13 @@ export default function AdmissionPage() {
           </button>
         </div>
 
-        {/* 5-Step Card (Contact-Us Card UI Style) */}
+        {/* 3-Step Card (Contact-Us Card UI Style) */}
         <Card className="shadow-none rounded-2xl border-2 border-primary/10 bg-white dark:bg-slate-900 overflow-hidden">
           <CardContent className="p-0">
             <Form {...form}>
               <form onSubmit={(e) => e.preventDefault()} className="flex flex-col overflow-hidden">
 
-                {/* Mind Map / 5-Step Progress Stepper */}
+                {/* Mind Map / 3-Step Progress Stepper */}
                 <div className="px-5 pt-6 pb-4 bg-slate-50/60 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800">
                   <div className="flex items-center justify-between relative">
                     {/* Background Progress Bar Line */}
@@ -530,21 +582,6 @@ export default function AdmissionPage() {
                   </div>
                 </div>
 
-                {/* Current Step Sub-Header */}
-                <div className="px-6 py-3 bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] font-semibold text-slate-400/90 uppercase tracking-widest block">
-                      Step {currentStep} of 5
-                    </span>
-                    <h3 className="text-[11px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                      {STEPS[currentStep - 1].subtitle}
-                    </h3>
-                  </div>
-                  <span className="text-[11px] font-bold text-primary bg-primary/10 px-2.5 py-0.5 rounded-full">
-                    {Math.round((currentStep / 5) * 100)}%
-                  </span>
-                </div>
-
                 {/* Step Form Body (Divided Input Cells) */}
                 <div className="flex flex-col min-h-[300px] justify-center">
                   <AnimatePresence mode="wait">
@@ -557,79 +594,88 @@ export default function AdmissionPage() {
                         transition={{ duration: 0.2 }}
                         className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
                       >
-                        {/* Provisional Student ID & Admission Session */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                          <FormField
-                            control={form.control}
-                            name="studentId"
-                            render={({ field }) => (
-                              <FormItem className="space-y-0">
-                                <FormControl>
-                                  <div className="relative group h-full">
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                      <FileText className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                        {/* Top Section: Left Details + Right Passport Photo */}
+                        <div className="flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          {/* Left Column: ID, Branch, Student Name */}
+                          <div className="flex-1 divide-y divide-slate-100 dark:divide-slate-800">
+                            {/* Row 1: Provisional Student ID (Session removed from right) */}
+                            <FormField
+                              control={form.control}
+                              name="studentId"
+                              render={({ field }) => (
+                                <FormItem className="space-y-0">
+                                  <FormControl>
+                                    <div className="relative group h-full">
+                                      <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                        <FileText className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                      </div>
+                                      <Input 
+                                        {...field} 
+                                        readOnly 
+                                        placeholder="Provisional Student ID"
+                                        className="pl-12 h-14 bg-transparent border-0 rounded-none font-semibold text-[13px] text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal cursor-default" 
+                                      />
                                     </div>
-                                    <Input 
-                                      {...field} 
-                                      readOnly 
-                                      placeholder="Provisional Student ID"
-                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-semibold text-[13px] text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal cursor-default" 
-                                    />
-                                    <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-medium uppercase tracking-wider text-slate-400/80 pointer-events-none">
-                                      Auto ID
-                                    </span>
-                                  </div>
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-
-                          <div className="relative group h-full">
-                            <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                              <Calendar className="h-4 w-4 text-slate-400" />
-                            </div>
-                            <Input 
-                              readOnly 
-                              value="Admission Session: 2026–27"
-                              className="pl-12 h-14 bg-transparent border-0 rounded-none font-semibold text-[13px] text-primary transition-all focus-visible:ring-0 focus-visible:ring-offset-0 cursor-default" 
+                                  </FormControl>
+                                </FormItem>
+                              )}
                             />
-                            <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded pointer-events-none">
-                              Active
-                            </span>
+
+                            {/* Row 2: Preferred Branch * */}
+                            <FormField
+                              control={form.control}
+                              name="branch"
+                              render={({ field }) => (
+                                <FormItem className="space-y-0">
+                                  <FormControl>
+                                    <div className="relative group h-full">
+                                      <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                        <Building className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                      </div>
+                                      <Select onValueChange={field.onChange} value={field.value}>
+                                        <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                          <SelectValue placeholder="Preferred Branch *" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          {branches.map(b => (
+                                            <SelectItem key={b} value={b} className="text-xs font-medium">{b}</SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                    </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
+                                </FormItem>
+                              )}
+                            />
+
+                            {/* Row 3: Student Full Name * */}
+                            <FormField
+                              control={form.control}
+                              name="studentName"
+                              render={({ field }) => (
+                                <FormItem className="space-y-0">
+                                  <FormControl>
+                                    <div className="relative group h-full">
+                                      <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                        <User className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                      </div>
+                                      <Input 
+                                        placeholder="Student Full Name *" 
+                                        {...field} 
+                                        className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal capitalize"
+                                        onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
+                                      />
+                                    </div>
+                                  </FormControl>
+                                  <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
+                                </FormItem>
+                              )}
+                            />
                           </div>
-                        </div>
 
-                        {/* Preferred Branch * */}
-                        <FormField
-                          control={form.control}
-                          name="branch"
-                          render={({ field }) => (
-                            <FormItem className="space-y-0">
-                              <FormControl>
-                                <div className="relative group h-full">
-                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                    <Building className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
-                                  </div>
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                      <SelectValue placeholder="Preferred Branch *" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      {branches.map(b => (
-                                        <SelectItem key={b} value={b} className="text-xs font-medium">{b}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
-                            </FormItem>
-                          )}
-                        />
-
-                        {/* Photo Upload Cell */}
-                        <div className="p-4 px-6 flex items-center justify-between gap-4 bg-white dark:bg-slate-900">
-                          <div className="flex items-center gap-3.5">
+                          {/* Right Column: Rectangular Passport Size Photo */}
+                          <div className="w-full md:w-44 shrink-0 p-4 flex flex-col items-center justify-center gap-2 bg-slate-50/40 dark:bg-slate-900/40">
                             <div 
                               onClick={() => {
                                 if (photoPreview) {
@@ -639,30 +685,37 @@ export default function AdmissionPage() {
                                   fileInputRef.current?.click();
                                 }
                               }}
-                              className="w-14 h-16 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-700 hover:border-primary transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer"
-                              title={photoPreview ? "Click to crop & adjust" : "Click to upload"}
+                              className={cn(
+                                "w-24 sm:w-28 aspect-[3.5/4.5] rounded-lg bg-white dark:bg-slate-800 border-2 border-dashed transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer shadow-xs",
+                                photoError
+                                  ? "border-rose-500 bg-rose-50/20 ring-2 ring-rose-500/20"
+                                  : "border-slate-300 dark:border-slate-700 hover:border-primary"
+                              )}
+                              title={photoPreview ? "Click to crop & adjust" : "Click to upload passport photo (Compulsory)"}
                             >
                               {photoPreview ? (
                                 <>
-                                  <img src={photoPreview} alt="Student" className="object-cover h-full w-full" />
-                                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[8px] font-bold uppercase">
-                                    Adjust
+                                  <img src={photoPreview} alt="Student" className="object-cover h-full w-full block" />
+                                  <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[9px] font-bold uppercase gap-1">
+                                    <Crop className="w-3 h-3" />
+                                    <span>Adjust</span>
                                   </div>
                                 </>
                               ) : (
-                                <Camera className="w-5 h-5 text-slate-400 group-hover:text-primary transition-colors" />
+                                <div className="flex flex-col items-center justify-center gap-1 p-2 text-center select-none">
+                                  <Camera className={cn("w-5 h-5 transition-colors", photoError ? "text-rose-500" : "text-slate-400 group-hover:text-primary")} />
+                                  <span className={cn("text-[10px] font-semibold", photoError ? "text-rose-600" : "text-slate-600 dark:text-slate-300")}>Passport Photo *</span>
+                                  <span className="text-[9px] text-slate-400 font-mono">35×45mm</span>
+                                  {photoError && (
+                                    <span className="text-[8px] text-rose-500 font-bold leading-none mt-0.5">Required *</span>
+                                  )}
+                                </div>
                               )}
                             </div>
-                            <div className="text-left">
-                              <p className="text-[11.5px] font-semibold text-slate-700 dark:text-slate-200">
-                                {photoPreview ? "Photo Uploaded" : "Passport Size Photograph"}
-                              </p>
-                              <p className="text-[11px] text-muted-foreground font-medium">3.5 × 4.5 cm • JPG or PNG</p>
-                            </div>
-                          </div>
-                          <div>
+
+                            {/* Action Options: Crop & Change */}
                             {photoPreview ? (
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1.5 w-full justify-center">
                                 <Button 
                                   type="button" 
                                   variant="outline" 
@@ -673,16 +726,17 @@ export default function AdmissionPage() {
                                       setIsCropOpen(true);
                                     }
                                   }}
-                                  className="rounded-xl h-10 px-3 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                                  className="h-7 px-2 text-[11px] font-bold rounded-lg border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none flex-1 justify-center gap-1 text-primary"
                                 >
-                                  Adjust
+                                  <Crop className="w-3 h-3" />
+                                  Crop
                                 </Button>
                                 <Button 
                                   type="button" 
                                   variant="outline" 
                                   size="sm" 
                                   onClick={() => fileInputRef.current?.click()}
-                                  className="rounded-xl h-10 px-3 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                                  className="h-7 px-2 text-[11px] font-bold rounded-lg border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none flex-1 justify-center"
                                 >
                                   Change
                                 </Button>
@@ -693,12 +747,13 @@ export default function AdmissionPage() {
                                 variant="outline" 
                                 size="sm" 
                                 onClick={() => fileInputRef.current?.click()}
-                                className="rounded-xl h-10 px-4 text-xs font-bold border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none"
+                                className="h-7 px-3 text-[11px] font-bold rounded-lg border-slate-200 hover:bg-slate-50 cursor-pointer shadow-none w-full justify-center text-primary"
                               >
-                                <Camera className="w-3.5 h-3.5 mr-1.5 text-primary" />
+                                <Camera className="w-3 h-3 mr-1 text-primary" />
                                 Upload
                               </Button>
                             )}
+
                             <Input
                               id="photo-upload"
                               ref={fileInputRef}
@@ -741,41 +796,6 @@ export default function AdmissionPage() {
                             />
                           </div>
                         </div>
-                      </motion.div>
-                    )}
-
-                    {currentStep === 2 && (
-                      <motion.div
-                        key="step-2"
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
-                      >
-                        {/* Student Full Name * */}
-                        <FormField
-                          control={form.control}
-                          name="studentName"
-                          render={({ field }) => (
-                            <FormItem className="space-y-0">
-                              <FormControl>
-                                <div className="relative group h-full">
-                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                    <User className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
-                                  </div>
-                                  <Input 
-                                    placeholder="Student Full Name *" 
-                                    {...field} 
-                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal capitalize"
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
-                            </FormItem>
-                          )}
-                        />
 
                         {/* Date of Birth * (Day, Month, Year) */}
                         <FormField
@@ -823,7 +843,7 @@ export default function AdmissionPage() {
                                     </div>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                       <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                        <SelectValue placeholder="Select Gender *" />
+                                        <SelectValue placeholder="Gender *" />
                                       </SelectTrigger>
                                       <SelectContent>
                                         <SelectItem value="male" className="text-xs">Male</SelectItem>
@@ -866,99 +886,70 @@ export default function AdmissionPage() {
                           />
                         </div>
 
-                        {/* Board & Applying For / Program in 2-column cell */}
+                        {/* Student Mobile & Student Email */}
                         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                             control={form.control}
-                            name="board"
+                            name="studentPhone"
                             render={({ field }) => (
                               <FormItem className="space-y-0">
                                 <FormControl>
                                   <div className="relative group h-full">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                      <Building className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                      <Phone className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
                                     </div>
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                        <SelectValue placeholder="Board (Optional)" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        {boards.map(b => (
-                                          <SelectItem key={b} value={b} className="text-xs font-medium">{b}</SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
+                                    <Input 
+                                      type="tel" 
+                                      placeholder="Student Mobile Number (Optional)" 
+                                      {...field} 
+                                      maxLength={10} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
+                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                    />
                                   </div>
                                 </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
                               </FormItem>
                             )}
                           />
 
                           <FormField
                             control={form.control}
-                            name="program"
+                            name="email"
                             render={({ field }) => (
                               <FormItem className="space-y-0">
                                 <FormControl>
                                   <div className="relative group h-full">
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                      <GraduationCap className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                      <Mail className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
                                     </div>
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                        <SelectValue placeholder="Applying For / Program (Optional)" />
-                                      </SelectTrigger>
-                                      <SelectContent>
-                                        {programs.map(p => (
-                                          <SelectItem key={p} value={p} className="text-xs font-medium">{p}</SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
+                                    <Input 
+                                      type="email" 
+                                      placeholder="Student Email (Optional)" 
+                                      {...field} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
+                                      onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
+                                    />
                                   </div>
                                 </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
                               </FormItem>
                             )}
                           />
                         </div>
-
-                        {/* Student Mobile Number (if applicable) */}
-                        <FormField
-                          control={form.control}
-                          name="studentPhone"
-                          render={({ field }) => (
-                            <FormItem className="space-y-0">
-                              <FormControl>
-                                <div className="relative group h-full">
-                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                    <Phone className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
-                                  </div>
-                                  <Input 
-                                    type="tel" 
-                                    placeholder="Student Mobile Number (Optional)" 
-                                    {...field} 
-                                    maxLength={10} 
-                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
-                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
-                            </FormItem>
-                          )}
-                        />
                       </motion.div>
                     )}
 
-                    {currentStep === 3 && (
+                    {currentStep === 2 && (
                       <motion.div
-                        key="step-3"
+                        key="step-2"
                         initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
                         transition={{ duration: 0.2 }}
                         className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
                       >
-                        {/* Father / Guardian Name * & Mother Name */}
+                        {/* Row 1: Father / Guardian Name * & Mother Name */}
                         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                             control={form.control}
@@ -1006,7 +997,54 @@ export default function AdmissionPage() {
                           />
                         </div>
 
-                        {/* Parent Mobile Number * & Parent Email */}
+                        {/* Row 2: Father Occupation & Mother Occupation */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
+                            name="fatherOccupation"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Briefcase className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      placeholder="Father / Guardian Occupation (Optional)" 
+                                      {...field} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal capitalize" 
+                                      onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                    />
+                                  </div>
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+
+                          <FormField
+                            control={form.control}
+                            name="motherOccupation"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Briefcase className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      placeholder="Mother Occupation (Optional)" 
+                                      {...field} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal capitalize" 
+                                      onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                    />
+                                  </div>
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Row 3: Father / Guardian Mobile * & Mother Mobile */}
                         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
                           <FormField
                             control={form.control}
@@ -1020,7 +1058,7 @@ export default function AdmissionPage() {
                                     </div>
                                     <Input 
                                       type="tel" 
-                                      placeholder="Parent Mobile Number *" 
+                                      placeholder="Father / Guardian Mobile *" 
                                       {...field} 
                                       maxLength={10} 
                                       className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
@@ -1035,6 +1073,34 @@ export default function AdmissionPage() {
 
                           <FormField
                             control={form.control}
+                            name="motherPhone"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <Phone className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Input 
+                                      type="tel" 
+                                      placeholder="Mother Mobile (Optional)" 
+                                      {...field} 
+                                      maxLength={10} 
+                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
+                                      onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Row 4: Parent Email & Emergency Contact Number */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
                             name="parentEmail"
                             render={({ field }) => (
                               <FormItem className="space-y-0">
@@ -1046,67 +1112,6 @@ export default function AdmissionPage() {
                                     <Input 
                                       type="email" 
                                       placeholder="Parent Email (Optional)" 
-                                      {...field} 
-                                      className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
-                                      onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
-                                    />
-                                  </div>
-                                </FormControl>
-                                <FormMessage className="text-[10px] px-4 pb-2 text-rose-500 font-semibold" />
-                              </FormItem>
-                            )}
-                          />
-                        </div>
-
-                        {/* Occupation (optional) */}
-                        <FormField
-                          control={form.control}
-                          name="fatherOccupation"
-                          render={({ field }) => (
-                            <FormItem className="space-y-0">
-                              <FormControl>
-                                <div className="relative group h-full">
-                                  <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                    <Briefcase className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
-                                  </div>
-                                  <Input 
-                                    placeholder="Occupation (Optional, e.g. Business / Government / Service)" 
-                                    {...field} 
-                                    className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </motion.div>
-                    )}
-
-                    {currentStep === 4 && (
-                      <motion.div
-                        key="step-4"
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -10 }}
-                        transition={{ duration: 0.2 }}
-                        className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
-                      >
-                        {/* Student / Parent Email & Emergency Contact Number */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
-                          <FormField
-                            control={form.control}
-                            name="email"
-                            render={({ field }) => (
-                              <FormItem className="space-y-0">
-                                <FormControl>
-                                  <div className="relative group h-full">
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                      <Mail className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
-                                    </div>
-                                    <Input 
-                                      type="email" 
-                                      placeholder="Student / Parent Email (Optional)" 
                                       {...field} 
                                       className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal" 
                                       onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
@@ -1205,7 +1210,7 @@ export default function AdmissionPage() {
                                     </div>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                       <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                        <SelectValue placeholder="Select State *" />
+                                        <SelectValue placeholder="State *" />
                                       </SelectTrigger>
                                       <SelectContent className="max-h-56">
                                         {indianStates.map(st => <SelectItem key={st} value={st} className="text-xs font-medium">{st}</SelectItem>)}
@@ -1245,17 +1250,43 @@ export default function AdmissionPage() {
                       </motion.div>
                     )}
 
-                    {currentStep === 5 && (
+                    {currentStep === 3 && (
                       <motion.div
-                        key="step-5"
+                        key="step-3"
                         initial={{ opacity: 0, x: 10 }}
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -10 }}
                         transition={{ duration: 0.2 }}
                         className="grid grid-cols-1 divide-y divide-slate-100 dark:divide-slate-800"
                       >
-                        {/* Previous School Name & Previous Class */}
+                        {/* Apply For (NEET, JEE, FOUNDATION) & Previous School Name */}
                         <div className="grid grid-cols-1 md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-100 dark:divide-slate-800">
+                          <FormField
+                            control={form.control}
+                            name="program"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0">
+                                <FormControl>
+                                  <div className="relative group h-full">
+                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
+                                      <GraduationCap className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
+                                    </div>
+                                    <Select onValueChange={field.onChange} value={field.value}>
+                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
+                                        <SelectValue placeholder="Apply For" />
+                                      </SelectTrigger>
+                                      <SelectContent className="max-h-56">
+                                        <SelectItem value="NEET" className="text-xs font-medium">NEET</SelectItem>
+                                        <SelectItem value="JEE" className="text-xs font-medium">JEE</SelectItem>
+                                        <SelectItem value="FOUNDATION" className="text-xs font-medium">FOUNDATION</SelectItem>
+                                      </SelectContent>
+                                    </Select>
+                                  </div>
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+
                           <FormField
                             control={form.control}
                             name="previousSchool"
@@ -1272,32 +1303,6 @@ export default function AdmissionPage() {
                                       className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400/70 placeholder:font-normal capitalize" 
                                       onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
                                     />
-                                  </div>
-                                </FormControl>
-                              </FormItem>
-                            )}
-                          />
-
-                          <FormField
-                            control={form.control}
-                            name="previousClass"
-                            render={({ field }) => (
-                              <FormItem className="space-y-0">
-                                <FormControl>
-                                  <div className="relative group h-full">
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
-                                      <GraduationCap className="h-3.5 w-3.5 text-slate-400/70 group-focus-within:text-primary transition-colors" />
-                                    </div>
-                                    <Select onValueChange={field.onChange} value={field.value}>
-                                      <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-medium text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 shadow-none text-slate-800 dark:text-slate-200">
-                                        <SelectValue placeholder="Previous Class (Optional)" />
-                                      </SelectTrigger>
-                                      <SelectContent className="max-h-56">
-                                        {previousClasses.map(pc => (
-                                          <SelectItem key={pc} value={pc} className="text-xs font-medium">{pc}</SelectItem>
-                                        ))}
-                                      </SelectContent>
-                                    </Select>
                                   </div>
                                 </FormControl>
                               </FormItem>
@@ -1394,39 +1399,39 @@ export default function AdmissionPage() {
                     <button
                       type="button"
                       onClick={handleBack}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-primary uppercase tracking-wide transition-colors cursor-pointer py-2"
+                      className="group flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] text-slate-500 hover:text-primary uppercase transition-colors cursor-pointer py-2 focus:outline-none"
                     >
-                      <ArrowLeft className="w-3.5 h-3.5" /> Back
+                      <ArrowLeft className="w-3.5 h-3.5 group-hover:-translate-x-0.5 transition-transform" />
+                      <span>BACK</span>
                     </button>
                   ) : (
                     <div />
                   )}
 
-                  {currentStep < 5 ? (
+                  {currentStep < 3 ? (
                     <button
                       type="button"
                       onClick={handleNext}
-                      className="flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-primary/80 uppercase tracking-wide transition-colors cursor-pointer py-2 group"
+                      className="group flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] text-primary hover:text-primary/80 uppercase transition-colors cursor-pointer py-2 focus:outline-none"
                     >
-                      <span>Next Step</span>
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                      <span>NEXT STEP</span>
+                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
                     </button>
                   ) : (
                     <div className="flex items-center gap-2.5">
                       <button
                         type="button"
                         onClick={handlePreview}
-                        className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-primary uppercase tracking-wide transition-colors cursor-pointer py-2"
+                        className="flex items-center gap-1.5 text-xs font-bold tracking-[0.08em] text-slate-500 hover:text-primary uppercase transition-colors cursor-pointer py-2 focus:outline-none"
                       >
-                        <FileText className="h-3.5 w-3.5 text-primary" /> Preview A4
+                        <FileText className="h-3.5 w-3.5 text-primary" />
+                        <span>PREVIEW A4</span>
                       </button>
                       <Button
                         type="button"
-                        onClick={() => {
-                          form.trigger().then(isValid => {
-                            if (isValid) setIsPaymentDialogOpen(true);
-                            else toast({ variant: "destructive", title: "Incomplete Form", description: "Please fill all required fields before proceeding." });
-                          });
+                        onClick={async () => {
+                          const isValid = await validateCompulsoryFields();
+                          if (isValid) setIsPaymentDialogOpen(true);
                         }}
                         className="h-10 sm:h-11 px-5 text-xs font-bold bg-primary text-white rounded-xl hover:bg-primary/90 active:scale-[0.98] group uppercase cursor-pointer"
                       >
@@ -1483,8 +1488,11 @@ export default function AdmissionPage() {
 
                   </div>
                 </div>
-                <div className="text-right flex items-center">
-                  <span className="bg-[#002B49] text-white text-[10px] font-bold px-3 py-1.5 rounded inline-block uppercase text-center">ADMISSION FORM 2026-27</span>
+                <div className="text-right flex flex-col items-end justify-center">
+                  <span className="text-[#002B49] text-[11.5px] font-extrabold uppercase tracking-wide text-center">ADMISSION FORM 2026-27</span>
+                  <span className="text-[7.5px] font-bold text-slate-500 tracking-wider mt-0.5 uppercase">
+                    (FOR OFFLINE STUDENTS ONLY)
+                  </span>
                 </div>
               </div>
 
@@ -1521,18 +1529,14 @@ export default function AdmissionPage() {
                     <tr className="border-b border-slate-300">
                       <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Gender:</td>
                       <td className="p-1.5 font-medium text-slate-900">{capitalizeWords(form.getValues('gender') || '') || '—'}</td>
-                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Class / Course:</td>
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Class:</td>
                       <td className="p-1.5 font-medium text-slate-900">{form.getValues('classApplied') || '—'}</td>
-                    </tr>
-                    <tr className="border-b border-slate-300">
-                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Board:</td>
-                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('board') || '—'}</td>
-                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Applying For / Program:</td>
-                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('program') || '—'}</td>
                     </tr>
                     <tr>
                       <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Student Mobile:</td>
-                      <td colSpan={3} className="p-1.5 font-medium text-slate-900">{form.getValues('studentPhone') || '—'}</td>
+                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('studentPhone') || '—'}</td>
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Student Email:</td>
+                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('email') || '—'}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -1552,14 +1556,20 @@ export default function AdmissionPage() {
                       <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('motherName') || '—'}</td>
                     </tr>
                     <tr className="border-b border-slate-300">
-                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Parent Mobile:</td>
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Father Occupation:</td>
+                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('fatherOccupation') || '—'}</td>
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Mother Occupation:</td>
+                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('motherOccupation') || '—'}</td>
+                    </tr>
+                    <tr className="border-b border-slate-300">
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Father / Guardian Mobile:</td>
                       <td className="p-1.5 font-bold text-slate-900">{form.getValues('fatherPhone') || '—'}</td>
-                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Parent Email:</td>
-                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('parentEmail') || '—'}</td>
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Mother Mobile:</td>
+                      <td className="p-1.5 font-medium text-slate-900">{form.getValues('motherPhone') || '—'}</td>
                     </tr>
                     <tr>
-                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Occupation:</td>
-                      <td colSpan={3} className="p-1.5 font-medium text-slate-900">{form.getValues('fatherOccupation') || '—'}</td>
+                      <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Parent Email:</td>
+                      <td colSpan={3} className="p-1.5 font-medium text-slate-900">{form.getValues('parentEmail') || '—'}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -1573,8 +1583,8 @@ export default function AdmissionPage() {
                 <table className="w-full text-[11px] border-collapse border border-slate-300">
                   <tbody>
                     <tr className="border-b border-slate-300">
-                      <td className="p-1.5 font-semibold text-slate-600 w-1/4 bg-slate-50">Student / Parent Email:</td>
-                      <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('email') || '—'}</td>
+                      <td className="p-1.5 font-semibold text-slate-600 w-1/4 bg-slate-50">Branch:</td>
+                      <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('branch')?.split(',')[0] || '—'}</td>
                       <td className="p-1.5 font-semibold text-slate-600 w-1/4 bg-slate-50">Emergency Contact:</td>
                       <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('emergencyContact') || '—'}</td>
                     </tr>
@@ -1596,10 +1606,10 @@ export default function AdmissionPage() {
                 <table className="w-full text-[11px] border-collapse border border-slate-300">
                   <tbody>
                     <tr className="border-b border-slate-300">
+                      <td className="p-1.5 font-semibold text-slate-600 w-1/4 bg-slate-50">Apply For:</td>
+                      <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('program') || '—'}</td>
                       <td className="p-1.5 font-semibold text-slate-600 w-1/4 bg-slate-50">Previous School:</td>
                       <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('previousSchool') || '—'}</td>
-                      <td className="p-1.5 font-semibold text-slate-600 w-1/4 bg-slate-50">Previous Class:</td>
-                      <td className="p-1.5 font-medium text-slate-900 w-1/4">{form.getValues('previousClass') || '—'}</td>
                     </tr>
                     <tr className="border-b border-slate-300">
                       <td className="p-1.5 font-semibold text-slate-600 bg-slate-50">Percentage / Grade:</td>
@@ -1635,6 +1645,11 @@ export default function AdmissionPage() {
                     <p className="text-[10px] font-bold text-[#002B49] uppercase mt-1">Authorized Signatory</p>
                   </div>
                 </div>
+
+                {/* Bottom Right Page Number */}
+                <div className="text-right pt-2">
+                  <span className="text-[9px] font-semibold text-slate-500">Page 1 of 1</span>
+                </div>
               </div>
 
             </div>
@@ -1646,7 +1661,13 @@ export default function AdmissionPage() {
             </span>
             <Button 
               className="h-9 px-5 rounded-lg font-bold text-xs bg-primary text-white" 
-              onClick={() => { setIsPreviewOpen(false); setIsPaymentDialogOpen(true); }}
+              onClick={async () => {
+                const isValid = await validateCompulsoryFields();
+                if (isValid) {
+                  setIsPreviewOpen(false);
+                  setIsPaymentDialogOpen(true);
+                }
+              }}
             >
               <span>Confirm & Pay (₹10)</span>
               <ArrowRight className="ml-1.5 w-3.5 h-3.5" />
@@ -1717,6 +1738,7 @@ export default function AdmissionPage() {
         onApplyCrop={(croppedDataUrl, fileBlob) => {
           setPhotoPreview(croppedDataUrl);
           setActiveCropImage(croppedDataUrl);
+          setPhotoError(null);
           form.setValue('studentPhoto', fileBlob);
           setIsCropOpen(false);
           toast({

@@ -9,8 +9,9 @@ import {
   FileText, Edit, Download, Camera, ArrowRight, ArrowLeft,
   CheckCircle2, Lock, ShieldCheck, Globe, Trash2, Check,
   Calendar, MapPin, Briefcase, Send, Heart, X, CreditCard, Printer,
-  Crop, RotateCw, ZoomIn, ZoomOut, Upload
+  Crop, RotateCw, ZoomIn, ZoomOut, Upload, Users, ExternalLink
 } from "lucide-react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -34,12 +35,7 @@ const pincodeRegex = /^\d{6}$/;
 const aadharRegex = /^\d{12}$/;
 
 const indianStates = [
-  "Andaman and Nicobar Islands", "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar",
-  "Chandigarh", "Chhattisgarh", "Dadra and Nagar Haveli and Daman and Diu", "Delhi", "Goa",
-  "Gujarat", "Haryana", "Himachal Pradesh", "Jammu and Kashmir", "Jharkhand", "Karnataka",
-  "Kerala", "Ladakh", "Lakshadweep", "Madhya Pradesh", "Maharashtra", "Manipur", "Meghalaya",
-  "Mizoram", "Nagaland", "Odisha", "Puducherry", "Punjab", "Rajasthan", "Sikkim", "Tamil Nadu",
-  "Telangana", "Tripura", "Uttar Pradesh", "Uttarakhand", "West Bengal"
+  "Delhi"
 ];
 
 const branches = [
@@ -50,13 +46,16 @@ const branches = [
 ];
 
 const classes = [
-  "Class 6th Foundation", "Class 7th Foundation", "Class 8th Foundation",
-  "Class 9th (Pre-Board & Olympiad)", "Class 10th (Board & Olympiad Prep)",
-  "Class 11th - Medical (NEET-UG Target)", "Class 11th - Engineering (JEE Main & Adv)",
-  "Class 11th - Commerce & Applied Arts", "Class 12th - Medical (NEET-UG Target)",
-  "Class 12th - Engineering (JEE Main & Adv)", "Class 12th - Board Focus",
-  "Target Repeater Batch (NEET)", "Target Repeater Batch (JEE)",
-  "Crash Course / Test Series Program"
+  "Class 4",
+  "Class 5",
+  "Class 6",
+  "Class 7",
+  "Class 8",
+  "Class 9",
+  "Class 10",
+  "Class 11",
+  "Class 12",
+  "Class 12 PASS"
 ];
 const programs = [
   "Foundation",
@@ -135,7 +134,7 @@ const admissionFormSchema = z.object({
 
   // Additional & compatibility fields
   transactionId: z.string().min(1, { message: "Transaction ID is required." }),
-  motherPhone: z.string().optional().or(z.literal('')),
+  motherPhone: z.string().regex(phoneRegex, { message: "Enter a valid 10-digit mobile number." }).optional().or(z.literal('')),
   motherOccupation: z.string().optional().or(z.literal('')),
   telephone: z.string().optional().or(z.literal('')),
   country: z.string().optional().or(z.literal('')),
@@ -152,11 +151,9 @@ const currentYear = new Date().getFullYear();
 const years = Array.from({ length: 30 }, (_, i) => currentYear - i - 3);
 
 const STEPS = [
-  { id: 1, title: 'Branch', subtitle: 'Branch & Session', icon: Building },
-  { id: 2, title: 'Student', subtitle: 'Student Details', icon: User },
-  { id: 3, title: 'Parent', subtitle: 'Parent Details', icon: Briefcase },
-  { id: 4, title: 'Contact', subtitle: 'Contact Details', icon: Phone },
-  { id: 5, title: 'Academic', subtitle: 'Academic Details', icon: GraduationCap },
+  { id: 1, title: 'Student', subtitle: 'Student & Branch', icon: User },
+  { id: 2, title: 'Parents', subtitle: 'Parents & Contact', icon: Users },
+  { id: 3, title: 'Academic', subtitle: 'Academic & Review', icon: GraduationCap },
 ];
 
 interface AdmissionModalProps {
@@ -171,8 +168,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
   const [isPaymentDialogOpen, setIsPaymentDialogOpen] = useState(false);
   const [isThankYouOpen, setIsThankYouOpen] = useState(false);
   const [isIdCardOpen, setIsIdCardOpen] = useState(false);
+  const [idCardLayout, setIdCardLayout] = useState<"portrait_waves" | "horizontal">("portrait_waves");
   const [submittedData, setSubmittedData] = useState<AdmissionFormValues | null>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const [photoError, setPhotoError] = useState<string | null>(null);
   const [isDownloadingCard, setIsDownloadingCard] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -234,7 +233,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
       email: '',
       address: '',
       city: '',
-      state: '',
+      state: 'Delhi',
       pincode: '',
       emergencyContact: '',
       previousSchool: '',
@@ -291,6 +290,8 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
       }
       fetchStudentId();
       return () => clearTimeout(blurTimer);
+    } else {
+      setCurrentStep(1);
     }
   }, [isOpen, form]);
 
@@ -334,26 +335,25 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
   const validateStep = async (step: number): Promise<boolean> => {
     let fieldsToValidate: (keyof AdmissionFormValues)[] = [];
     if (step === 1) {
-      fieldsToValidate = ['branch'];
-    } else if (step === 2) {
-      fieldsToValidate = ['studentName', 'dob', 'gender', 'classApplied'];
+      fieldsToValidate = ['branch', 'studentName', 'dob', 'gender', 'classApplied'];
       if (form.getValues('studentPhone')) {
         fieldsToValidate.push('studentPhone');
       }
-    } else if (step === 3) {
-      fieldsToValidate = ['fatherName', 'fatherPhone'];
-      if (form.getValues('parentEmail')) {
-        fieldsToValidate.push('parentEmail');
-      }
-    } else if (step === 4) {
-      fieldsToValidate = ['address', 'city', 'state', 'pincode'];
       if (form.getValues('email')) {
         fieldsToValidate.push('email');
+      }
+    } else if (step === 2) {
+      fieldsToValidate = ['fatherName', 'fatherPhone', 'address', 'city', 'state', 'pincode'];
+      if (form.getValues('motherPhone')) {
+        fieldsToValidate.push('motherPhone');
+      }
+      if (form.getValues('parentEmail')) {
+        fieldsToValidate.push('parentEmail');
       }
       if (form.getValues('emergencyContact')) {
         fieldsToValidate.push('emergencyContact');
       }
-    } else if (step === 5) {
+    } else if (step === 3) {
       fieldsToValidate = [];
     }
 
@@ -369,9 +369,8 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
     return true;
   };
 
-  const handleNext = async () => {
-    const isValid = await validateStep(currentStep);
-    if (isValid && currentStep < 5) {
+  const handleNext = () => {
+    if (currentStep < 3) {
       setCurrentStep(prev => prev + 1);
       if (stepContainerRef.current) {
         stepContainerRef.current.scrollTop = 0;
@@ -388,26 +387,35 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
     }
   };
 
-  const handleStepClick = async (targetStep: number) => {
-    if (targetStep < currentStep) {
-      setCurrentStep(targetStep);
-      if (stepContainerRef.current) {
-        stepContainerRef.current.scrollTop = 0;
-      }
-    } else if (targetStep > currentStep) {
-      for (let s = currentStep; s < targetStep; s++) {
-        const valid = await validateStep(s);
-        if (!valid) return;
-      }
-      setCurrentStep(targetStep);
-      if (stepContainerRef.current) {
-        stepContainerRef.current.scrollTop = 0;
-      }
+  // Allow clicking 1, 2, 3 to view any step directly
+  const handleStepClick = (targetStep: number) => {
+    setCurrentStep(targetStep);
+    if (stepContainerRef.current) {
+      stepContainerRef.current.scrollTop = 0;
     }
   };
 
-  const handlePreview = async () => {
-    const result = await form.trigger([
+  // Master validation before preview or submit
+  const validateCompulsoryFields = async (): Promise<boolean> => {
+    // 1. Photo is compulsory
+    if (!photoPreview) {
+      setPhotoError("Student passport size photo is compulsory (*).");
+      setCurrentStep(1);
+      if (stepContainerRef.current) {
+        stepContainerRef.current.scrollTop = 0;
+      }
+      toast({
+        variant: "destructive",
+        title: "Photo Required",
+        description: "Student passport size photo is compulsory (*). Please upload photo.",
+      });
+      return false;
+    } else {
+      setPhotoError(null);
+    }
+
+    // 2. Form compulsory fields
+    const isBasicValid = await form.trigger([
       "branch",
       "studentName",
       "dob",
@@ -420,14 +428,48 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
       "state",
       "pincode"
     ]);
-    if (result) {
-      setIsPreviewOpen(true);
-    } else {
+
+    // Optional fields format validation if entered
+    if (form.getValues('studentPhone')) await form.trigger('studentPhone');
+    if (form.getValues('email')) await form.trigger('email');
+    if (form.getValues('motherPhone')) await form.trigger('motherPhone');
+    if (form.getValues('parentEmail')) await form.trigger('parentEmail');
+    if (form.getValues('emergencyContact')) await form.trigger('emergencyContact');
+
+    const errors = form.formState.errors;
+    if (!isBasicValid || Object.keys(errors).length > 0) {
+      const step1Fields: (keyof AdmissionFormValues)[] = ['branch', 'studentName', 'dob', 'gender', 'classApplied', 'studentPhone', 'email'];
+      const step2Fields: (keyof AdmissionFormValues)[] = ['fatherName', 'fatherPhone', 'motherPhone', 'parentEmail', 'emergencyContact', 'address', 'city', 'state', 'pincode'];
+
+      if (step1Fields.some(f => errors[f])) {
+        setCurrentStep(1);
+      } else if (step2Fields.some(f => errors[f])) {
+        setCurrentStep(2);
+      } else {
+        setCurrentStep(3);
+      }
+
+      if (stepContainerRef.current) {
+        stepContainerRef.current.scrollTop = 0;
+      }
+
+      const firstKey = Object.keys(errors)[0] as keyof AdmissionFormValues;
+      const errorMsg = firstKey ? (errors[firstKey]?.message as string) : "Please complete all compulsory fields marked with (*).";
       toast({
         variant: "destructive",
-        title: "Required Fields Missing",
-        description: "Please fill all mandatory fields marked with an asterisk (*) to preview application.",
+        title: "Compulsory Fields Missing",
+        description: errorMsg || "Please fill all required fields before proceeding.",
       });
+      return false;
+    }
+
+    return true;
+  };
+
+  const handlePreview = async () => {
+    const isValid = await validateCompulsoryFields();
+    if (isValid) {
+      setIsPreviewOpen(true);
     }
   };
 
@@ -624,6 +666,39 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
     return { bars, totalWidth: currentX };
   };
 
+  const generateQRMatrix = (id: string) => {
+    const size = 21;
+    const matrix: boolean[][] = Array.from({ length: size }, () => Array(size).fill(false));
+    function fillFinder(row: number, col: number) {
+      for (let r = 0; r < 7; r++) {
+        for (let c = 0; c < 7; c++) {
+          if (r === 0 || r === 6 || c === 0 || c === 6 || (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
+            matrix[row + r][col + c] = true;
+          }
+        }
+      }
+    }
+    fillFinder(0, 0);
+    fillFinder(0, 14);
+    fillFinder(14, 0);
+    for (let i = 8; i < 13; i += 2) {
+      matrix[6][i] = true;
+      matrix[i][6] = true;
+    }
+    matrix[8][13] = true;
+    let hash = 0;
+    for (let i = 0; i < id.length; i++) hash = (hash * 31 + id.charCodeAt(i)) >>> 0;
+    for (let r = 0; r < size; r++) {
+      for (let c = 0; c < size; c++) {
+        if ((r < 8 && c < 8) || (r < 8 && c >= 13) || (r >= 13 && c < 8)) continue;
+        if (r === 6 || c === 6) continue;
+        hash = (hash * 1103515245 + 12345) & 0x7fffffff;
+        matrix[r][c] = (hash % 3) === 0;
+      }
+    }
+    return matrix;
+  };
+
   return (
     <>
       <Script id="razorpay-checkout-modal-js" src="https://checkout.razorpay.com/v1/checkout.js" />
@@ -633,31 +708,39 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
         <FormModalDialogContent 
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
-          maxWidthClass="max-w-[540px] sm:max-w-[580px]"
-          className="w-[92vw] sm:w-[94vw]"
+          maxWidthClass="max-w-[480px] sm:max-w-[580px] md:max-w-[620px]"
+          className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
         >
-          {/* Modal Header */}
-          <DialogHeader className="px-6 sm:px-8 pt-6 sm:pt-7 pb-1 text-left shrink-0 pr-14">
-            <DialogTitle className="text-left text-[24px] sm:text-[27px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
-              Admission Form 2026–27
-            </DialogTitle>
-            <DialogDescription className="text-left text-[13.5px] sm:text-[14.5px] font-medium text-slate-600 dark:text-slate-300 mt-1 leading-normal">
-              Complete the admission application in 5 simple steps.
-            </DialogDescription>
+          {/* Top Heading: Left-aligned, All Capital Letters, Small Font */}
+          <div className="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-3.5 border-b border-slate-100 dark:border-slate-800/80 pr-12 sm:pr-14 bg-white dark:bg-slate-950 shrink-0">
+            <div className="flex flex-col sm:flex-row sm:items-center items-start gap-0.5 sm:gap-x-2 select-none text-left">
+              <span className="text-[11px] sm:text-[12px] font-bold tracking-[0.08em] uppercase text-slate-700 dark:text-slate-200">
+                ADMISSION FORM 2026–27
+              </span>
+              <span className="text-[9.5px] sm:text-[10px] font-semibold text-slate-400 dark:text-slate-500 tracking-wider uppercase leading-tight sm:whitespace-nowrap">
+                (FOR OFFLINE STUDENTS ONLY)
+              </span>
+            </div>
+          </div>
+
+          <DialogHeader className="sr-only">
+            <DialogTitle>Admission Form 2026–27</DialogTitle>
+            <DialogDescription>Complete the admission application in 3 simple steps.</DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
             <form onSubmit={(e) => e.preventDefault()} className="flex flex-col flex-1 h-full min-h-0 overflow-hidden" autoComplete="off">
 
               {/* Progress Stepper: Clean visual hierarchy matching master theme */}
-              <div className="px-6 sm:px-8 pt-2.5 pb-2.5 bg-white dark:bg-slate-950 shrink-0">
-                <div className="max-w-[460px] mx-auto flex items-center justify-between relative">
+              <div className="px-4 sm:px-7 pt-3 pb-2.5 sm:pt-3.5 sm:pb-3 bg-white dark:bg-slate-950 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                <div className="max-w-[320px] sm:max-w-[360px] mx-auto flex items-center justify-between relative">
                   {/* Background Progress Bar Line */}
-                  <div className="absolute left-4 right-4 sm:left-6 sm:right-6 top-3.5 sm:top-4 h-[2px] bg-[#E2EAF4] dark:bg-slate-800 -translate-y-1/2 z-0" />
-                  <div 
-                    className="absolute left-4 sm:left-6 top-3.5 sm:top-4 h-[2px] bg-[#0B1F4B] dark:bg-blue-400 -translate-y-1/2 z-0 transition-all duration-300"
-                    style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
-                  />
+                  <div className="absolute left-6 right-6 sm:left-8 sm:right-8 top-3.5 sm:top-4 h-[2px] bg-slate-200/90 dark:bg-slate-800 -translate-y-1/2 z-0 overflow-hidden">
+                    <div 
+                      className="h-full bg-[#2864E8] transition-all duration-300"
+                      style={{ width: `${((currentStep - 1) / (STEPS.length - 1)) * 100}%` }}
+                    />
+                  </div>
 
                   {STEPS.map((s) => {
                     const isCompleted = currentStep > s.id;
@@ -674,10 +757,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           className={cn(
                             "w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs font-semibold transition-all duration-300",
                             isCompleted 
-                              ? "bg-[#0B1F4B] text-white shadow-xs" 
+                              ? "bg-[#2864E8] text-white shadow-xs" 
                               : isActive 
-                                ? "bg-[#0B1F4B] text-white ring-4 ring-[#0B1F4B]/15" 
-                                : "bg-white dark:bg-slate-900 border border-[#DCE7F6] dark:border-slate-700 text-slate-400 dark:text-slate-500 group-hover:border-[#0B1F4B]/40"
+                                ? "bg-[#2864E8] text-white ring-4 ring-[#2864E8]/15" 
+                                : "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-400 dark:text-slate-500 group-hover:border-[#2864E8]/50"
                           )}
                         >
                           {isCompleted ? (
@@ -688,8 +771,8 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         </div>
                         <span
                           className={cn(
-                            "text-[11px] sm:text-[12px] font-medium mt-1 transition-colors",
-                            isActive ? "text-[#0B1F4B] dark:text-blue-400 font-semibold" : isCompleted ? "text-slate-800 dark:text-slate-200" : "text-slate-400 dark:text-slate-500"
+                            "text-[10px] sm:text-[11px] font-semibold uppercase tracking-wider mt-1 transition-colors",
+                            isActive ? "text-[#2864E8] dark:text-blue-400 font-bold" : isCompleted ? "text-slate-700 dark:text-slate-300 font-medium" : "text-slate-400 dark:text-slate-500 font-medium"
                           )}
                         >
                           {s.title}
@@ -700,20 +783,10 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                 </div>
               </div>
 
-              {/* Step Header */}
-              <div className="px-6 sm:px-8 py-2 bg-[#F8FAFD] dark:bg-slate-900/60 border-y border-[#DCE7F6] dark:border-slate-800 flex items-center justify-between shrink-0">
-                <span className="text-[12px] sm:text-[13px] text-slate-500 dark:text-slate-400 font-medium">
-                  Step {currentStep} of 5 · <span className="font-semibold text-[#0B1F4B] dark:text-white">{STEPS[currentStep - 1].subtitle}</span>
-                </span>
-                <span className="text-[11.5px] sm:text-[12px] font-bold text-[#0B1F4B] dark:text-blue-400 bg-[#0B1F4B]/8 dark:bg-blue-500/15 px-2.5 py-0.5 rounded-full">
-                  {Math.round((currentStep / 5) * 100)}%
-                </span>
-              </div>
-
               {/* Scrollable Form Body */}
               <div ref={stepContainerRef} className="overflow-y-auto flex-1 min-h-0 overscroll-contain">
                 <AnimatePresence mode="wait">
-                  {/* STEP 1 — Branch & Session */}
+                  {/* STEP 1 — Student & Branch Details */}
                   {currentStep === 1 && (
                     <motion.div
                       key="step-1"
@@ -721,83 +794,139 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left"
+                      className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3 sm:space-y-3.5 text-left"
                     >
-                      {/* Row 1: Provisional ID & Active Session */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="studentId"
-                          render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Provisional Student ID</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center justify-between rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-3.5 sm:px-4 h-11 sm:h-12">
-                                  <span className="text-[12px] sm:text-[13px] font-semibold text-slate-500 dark:text-slate-400 mr-2 shrink-0">ID:</span>
-                                  <Input 
-                                    {...field} 
-                                    readOnly 
-                                    placeholder="Provisional ID"
-                                    className="h-full border-0 bg-transparent text-[13.5px] sm:text-[14px] font-semibold text-[#0B1F4B] dark:text-blue-400 placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
-                                  />
-                                  <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-slate-500 dark:text-slate-400 bg-white dark:bg-slate-800 border border-[#DCE7F6] dark:border-slate-700 px-2 py-0.5 rounded-md shrink-0 select-none">
-                                    Auto
+                      {/* Top Section: Left Details + Right Passport Photo */}
+                      {/* Top Section: Responsive Grid (Horizontal Card on Mobile, 2-Column Sidebar on Desktop) */}
+                      <div className="grid grid-cols-1 sm:grid-cols-[1fr_94px] gap-x-4 gap-y-3 sm:gap-y-3.5">
+                        {/* Provisional ID: Order 1 on mobile, col 1 row 1 on desktop */}
+                        <div className="order-1 sm:order-none sm:col-start-1 sm:row-start-1">
+                          <FormField
+                            control={form.control}
+                            name="studentId"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0 text-left">
+                                <FormLabel className="sr-only">Provisional Student ID</FormLabel>
+                                <FormControl>
+                                  <div className="flex items-center h-[38px] sm:h-[40px] border-b border-slate-200/90 dark:border-slate-700/80">
+                                    <span className="text-[12px] sm:text-[12.5px] font-semibold text-slate-500 dark:text-slate-400 mr-2 shrink-0 select-none">ID:</span>
+                                    <Input 
+                                      {...field} 
+                                      readOnly 
+                                      placeholder="Provisional ID"
+                                      className="h-full border-0 bg-transparent text-[13px] sm:text-[13.5px] font-bold text-[#2864E8] dark:text-blue-400 font-mono tracking-tight focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-0 cursor-default select-all" 
+                                    />
+                                  </div>
+                                </FormControl>
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Photo Upload Area:
+                            - Mobile (<sm): order-2, compact horizontal arrangement
+                            - Desktop (sm:): sm:col-start-2 sm:row-start-1 sm:row-span-3, vertical 94px passport box
+                        */}
+                        <div className="order-2 sm:order-none sm:col-start-2 sm:row-start-1 sm:row-span-3">
+                          {/* MOBILE VERSION (<sm): Compact horizontal card layout */}
+                          <div className="sm:hidden flex items-center justify-between gap-3 p-2.5 rounded-xl border border-slate-200/90 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-900/40">
+                            <div className="flex items-center gap-3 min-w-0">
+                              {/* Compact Passport Thumbnail */}
+                              <div
+                                onClick={() => {
+                                  if (photoPreview) {
+                                    setActiveCropImage(photoPreview);
+                                    setIsCropOpen(true);
+                                  } else {
+                                    fileInputRef.current?.click();
+                                  }
+                                }}
+                                className={cn(
+                                  "w-[48px] h-[62px] rounded-[7px] bg-white dark:bg-slate-950 border border-dashed transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer shadow-xs",
+                                  photoError
+                                    ? "border-rose-500 bg-rose-50/20 ring-2 ring-rose-500/20"
+                                    : "border-slate-300 dark:border-slate-700 hover:border-[#2864E8]"
+                                )}
+                                title={photoPreview ? "Click to crop & adjust photo" : "Click to upload passport photo"}
+                              >
+                                {photoPreview ? (
+                                  <>
+                                    <img src={photoPreview} alt="Passport Photo" className="w-full h-full object-cover block" />
+                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+                                      <Crop className="w-3.5 h-3.5" />
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="flex flex-col items-center justify-center gap-0.5 p-1 text-center select-none">
+                                    <Camera className={cn("w-4 h-4", photoError ? "text-rose-500" : "text-slate-400")} />
+                                    <span className="text-[7.5px] text-slate-400 font-mono leading-none">35×45</span>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Text Details */}
+                              <div className="min-w-0 flex-1">
+                                <div className="flex items-center gap-1.5">
+                                  <span className={cn("text-[12px] font-semibold leading-tight", photoError ? "text-rose-600" : "text-slate-700 dark:text-slate-200")}>
+                                    Student Photo <span className="text-rose-500">*</span>
                                   </span>
                                 </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormItem className="text-left">
-                          <FormLabel className="sr-only">Admission Session</FormLabel>
-                          <div className="relative flex items-center justify-between rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] px-3.5 sm:px-4 h-11 sm:h-12">
-                            <span className="text-[12px] sm:text-[13px] font-semibold text-slate-500 dark:text-slate-400 mr-2 shrink-0">Session:</span>
-                            <span className="text-[13.5px] sm:text-[14px] font-semibold text-[#0B1F4B] dark:text-blue-400 flex-1">
-                              2026–27
-                            </span>
-                            <span className="text-[10px] sm:text-[11px] font-medium tracking-wide text-[#0B1F4B] dark:text-blue-400 bg-[#0B1F4B]/8 dark:bg-blue-400/10 border border-[#DCE7F6] dark:border-slate-700 px-2 py-0.5 rounded-md shrink-0 select-none">
-                              Active
-                            </span>
-                          </div>
-                        </FormItem>
-                      </div>
-
-                      {/* Row 2: Preferred Branch * */}
-                      <FormField
-                        control={form.control}
-                        name="branch"
-                        render={({ field }) => (
-                          <FormItem className="text-left">
-                            <FormLabel className="sr-only">Preferred Branch</FormLabel>
-                            <FormControl>
-                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                <Select onValueChange={field.onChange} value={field.value}>
-                                  <SelectTrigger 
-                                    style={{ outline: 'none', boxShadow: 'none' }}
-                                    className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400"
-                                  >
-                                    <SelectValue placeholder="Select Preferred Branch *" />
-                                  </SelectTrigger>
-                                  <SelectContent className="max-h-56 z-[200]">
-                                    {branches.map(b => (
-                                      <SelectItem key={b} value={b} className="text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100">{b}</SelectItem>
-                                    ))}
-                                  </SelectContent>
-                                </Select>
+                                <p className="text-[10px] text-slate-400 dark:text-slate-500 leading-tight mt-0.5">
+                                  Passport size (35×45mm, JPG/PNG)
+                                </p>
+                                {photoError && (
+                                  <p className="text-[10px] text-rose-500 font-semibold leading-tight mt-0.5">
+                                    Photo is compulsory *
+                                  </p>
+                                )}
                               </div>
-                            </FormControl>
-                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                          </FormItem>
-                        )}
-                      />
+                            </div>
 
-                      {/* Row 3: Passport Size Photograph Upload */}
-                      <div className="space-y-1.5 text-left pt-0.5">
-                        <div className="p-3 sm:p-3.5 rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] flex items-center justify-between gap-3">
-                          <div className="flex items-center gap-3 min-w-0 flex-1">
-                            {/* Passport Thumbnail Box */}
-                            <div 
+                            {/* Action Buttons */}
+                            <div className="shrink-0 flex items-center gap-1.5">
+                              {photoPreview ? (
+                                <>
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => {
+                                      setActiveCropImage(photoPreview);
+                                      setIsCropOpen(true);
+                                    }}
+                                    className="h-7 px-2 text-[10.5px] font-semibold rounded-[6px] border border-slate-200 dark:border-slate-700 text-[#2864E8] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-blue-50 shadow-none cursor-pointer flex items-center gap-1"
+                                  >
+                                    <Crop className="w-3 h-3" />
+                                    <span>Crop</span>
+                                  </Button>
+                                  <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => fileInputRef.current?.click()}
+                                    className="h-7 px-2 text-[10.5px] font-semibold rounded-[6px] border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-100 shadow-none cursor-pointer flex items-center gap-1"
+                                  >
+                                    <span>Change</span>
+                                  </Button>
+                                </>
+                              ) : (
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() => fileInputRef.current?.click()}
+                                  className="h-7 px-2.5 text-[11px] font-semibold rounded-[6px] border border-blue-200 dark:border-blue-800/60 text-[#2864E8] dark:text-blue-400 bg-blue-50/70 dark:bg-blue-950/40 hover:bg-blue-100/70 shadow-none cursor-pointer flex items-center gap-1.5"
+                                >
+                                  <Upload className="w-3 h-3" />
+                                  <span>Upload</span>
+                                </Button>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* DESKTOP VERSION (sm:): Exact approved vertical 94px passport box */}
+                          <div className="hidden sm:flex flex-col items-center justify-start gap-1.5 self-start pt-0.5 w-[94px]">
+                            <div
                               onClick={() => {
                                 if (photoPreview) {
                                   setActiveCropImage(photoPreview);
@@ -806,232 +935,240 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                                   fileInputRef.current?.click();
                                 }
                               }}
-                              className="w-[48px] h-[60px] sm:w-[52px] sm:h-[66px] rounded-lg bg-white dark:bg-slate-900 border border-dashed border-[#C5D7EF] dark:border-slate-700 hover:border-[#0B1F4B] dark:hover:border-blue-400 transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer shadow-xs aspect-[35/45]"
-                              title={photoPreview ? "Click to crop & adjust position" : "Click to upload photo"}
+                              className={cn(
+                                "w-[94px] aspect-[3.5/4.5] rounded-[9px] bg-slate-50/70 dark:bg-slate-900/60 border border-dashed transition-all flex flex-col items-center justify-center overflow-hidden relative group shrink-0 cursor-pointer shadow-xs",
+                                photoError
+                                  ? "border-rose-500 bg-rose-50/20 ring-2 ring-rose-500/20"
+                                  : "border-slate-300 dark:border-slate-700 hover:border-[#2864E8] dark:hover:border-blue-400"
+                              )}
+                              title={photoPreview ? "Click to crop & adjust photo" : "Click to upload passport photo (Compulsory)"}
                             >
                               {photoPreview ? (
                                 <>
-                                  <img src={photoPreview} alt="Student" className="w-full h-full object-cover block" />
+                                  <img src={photoPreview} alt="Passport Photo" className="w-full h-full object-cover block" />
                                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-white text-[9px] font-semibold uppercase gap-0.5">
-                                    <Crop className="w-3 h-3" />
+                                    <Crop className="w-3.5 h-3.5" />
                                     <span>Adjust</span>
                                   </div>
                                 </>
                               ) : (
-                                <div className="flex flex-col items-center justify-center gap-1 p-1 text-center">
-                                  <Upload className="w-3.5 h-3.5 text-slate-400 group-hover:text-[#0B1F4B] transition-colors" />
-                                  <span className="text-[8.5px] text-slate-400 font-medium leading-none">35×45mm</span>
+                                <div className="flex flex-col items-center justify-center gap-0.5 p-1 text-center select-none">
+                                  <Camera className={cn("w-4 h-4 transition-colors", photoError ? "text-rose-500" : "text-slate-400 group-hover:text-[#2864E8]")} />
+                                  <span className={cn("text-[9px] font-semibold leading-tight", photoError ? "text-rose-600" : "text-slate-600 dark:text-slate-300")}>Photo *</span>
+                                  <span className="text-[7.5px] text-slate-400 font-mono leading-none">35×45mm</span>
+                                  {photoError && (
+                                    <span className="text-[7.5px] text-rose-500 font-bold leading-none mt-0.5">Required *</span>
+                                  )}
                                 </div>
                               )}
                             </div>
-                            <div className="text-left min-w-0 flex-1">
-                              <div className="flex items-center gap-2">
-                                <p className="text-[13px] sm:text-[13.5px] font-semibold text-[#0B1F4B] dark:text-white truncate">
-                                  {photoPreview ? "Photo Uploaded" : "Passport Size Photo (Optional)"}
-                                </p>
-                                <span className="px-1.5 py-0.5 rounded text-[9.5px] font-medium bg-[#0B1F4B]/8 text-[#0B1F4B] dark:text-blue-400 dark:bg-blue-400/10 shrink-0">
-                                  3.5×4.5 cm
-                                </span>
-                              </div>
-                              <p className="text-[11.5px] text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">
-                                JPG or PNG • Up to 10MB
-                              </p>
-                            </div>
-                          </div>
 
-                          <div className="shrink-0 flex items-center gap-1.5 justify-end">
                             {photoPreview ? (
-                              <>
-                                <Button 
-                                  type="button" 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => {
-                                    if (photoPreview) {
-                                      setActiveCropImage(photoPreview);
-                                      setIsCropOpen(true);
-                                    }
+                              <div className="flex items-center gap-1 w-[94px]">
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setActiveCropImage(photoPreview);
+                                    setIsCropOpen(true);
                                   }}
-                                  className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-[#DCE7F6] dark:border-slate-700 text-[#0B1F4B] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
+                                  className="h-6 px-1 text-[10px] font-semibold rounded-[5px] border border-slate-200 dark:border-slate-700 text-[#2864E8] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 cursor-pointer shadow-none flex items-center justify-center gap-0.5 flex-1"
+                                  title="Crop & adjust photo"
                                 >
-                                  <Crop className="w-3 h-3" />
-                                  Adjust
+                                  <Crop className="w-2.5 h-2.5" />
+                                  <span>Crop</span>
                                 </Button>
-                                <Button 
-                                  type="button" 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => fileInputRef.current?.click()}
-                                  className="rounded-lg h-8 px-2.5 text-[12px] font-medium border border-[#DCE7F6] dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 cursor-pointer shadow-xs flex items-center gap-1 focus:ring-0 focus:outline-none"
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    fileInputRef.current?.click();
+                                  }}
+                                  className="h-6 px-1 text-[10px] font-semibold rounded-[5px] border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer shadow-none flex items-center justify-center gap-0.5 flex-1"
+                                  title="Change photo"
                                 >
-                                  Change
+                                  <span>Change</span>
                                 </Button>
-                              </>
+                              </div>
                             ) : (
-                              <Button 
-                                type="button" 
-                                variant="outline" 
-                                size="sm" 
+                              <Button
+                                type="button"
+                                variant="outline"
+                                size="sm"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="rounded-xl h-9 px-3.5 text-[12.5px] sm:text-[13px] font-semibold border border-[#DCE7F6] dark:border-slate-700 text-[#0B1F4B] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-[#F8FAFD] cursor-pointer shadow-xs flex items-center gap-1.5 focus:ring-0 focus:outline-none"
+                                className="h-6 px-2 text-[10.5px] font-semibold rounded-[5px] border border-slate-200 dark:border-slate-700 text-[#2864E8] dark:text-blue-400 bg-white dark:bg-slate-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 cursor-pointer shadow-none flex items-center justify-center gap-1 w-[94px]"
                               >
-                                <Upload className="w-3.5 h-3.5 text-[#0B1F4B] dark:text-blue-400" />
-                                Choose Photo
+                                <Upload className="w-2.5 h-2.5" />
+                                <span>Upload</span>
                               </Button>
                             )}
-                            <Input
-                              id="photo-upload-modal"
-                              ref={fileInputRef}
-                              type="file"
-                              accept="image/png, image/jpeg, image/jpg, image/webp"
-                              className="hidden"
-                              onChange={(e) => {
-                                const file = e.target.files?.[0];
-                                if (file) {
-                                  const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
-                                  if (!validTypes.includes(file.type)) {
-                                    toast({
-                                      variant: "destructive",
-                                      title: "Unsupported format",
-                                      description: "Please upload a valid JPG, JPEG, or PNG image.",
-                                    });
-                                    e.target.value = "";
-                                    return;
-                                  }
-                                  if (file.size > 10 * 1024 * 1024) {
-                                    toast({
-                                      variant: "destructive",
-                                      title: "Image too large",
-                                      description: "Photo file size should be less than 10MB.",
-                                    });
-                                    e.target.value = "";
-                                    return;
-                                  }
-
-                                  const reader = new FileReader();
-                                  reader.onloadend = () => {
-                                    const dataUrl = reader.result as string;
-                                    setActiveCropImage(dataUrl);
-                                    setIsCropOpen(true);
-                                  };
-                                  reader.readAsDataURL(file);
-                                }
-                                e.target.value = "";
-                              }}
-                            />
                           </div>
+
+                          {/* Shared File Input for both Mobile & Desktop */}
+                          <Input
+                            id="photo-upload-modal"
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/png, image/jpeg, image/jpg, image/webp"
+                            className="hidden"
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
+                                if (!validTypes.includes(file.type)) {
+                                  toast({
+                                    variant: "destructive",
+                                    title: "Unsupported format",
+                                    description: "Please upload a valid JPG, JPEG, or PNG image.",
+                                  });
+                                  e.target.value = "";
+                                  return;
+                                }
+                                if (file.size > 10 * 1024 * 1024) {
+                                  toast({
+                                    variant: "destructive",
+                                    title: "Image too large",
+                                    description: "Photo file size should be less than 10MB.",
+                                  });
+                                  e.target.value = "";
+                                  return;
+                                }
+
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  const dataUrl = reader.result as string;
+                                  setActiveCropImage(dataUrl);
+                                  setIsCropOpen(true);
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                              e.target.value = "";
+                            }}
+                          />
+                        </div>
+
+                        {/* Preferred Branch *: Full width on mobile, col 1 row 2 on desktop */}
+                        <div className="order-3 sm:order-none sm:col-start-1 sm:row-start-2">
+                          <FormField
+                            control={form.control}
+                            name="branch"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0 text-left">
+                                <FormLabel className="sr-only">Preferred Branch</FormLabel>
+                                <Select onValueChange={field.onChange} value={field.value}>
+                                  <FormControl>
+                                    <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                                      <SelectValue placeholder="Preferred Branch *" />
+                                    </SelectTrigger>
+                                  </FormControl>
+                                  <SelectContent className="max-h-56 z-[200]">
+                                    {branches.map(b => (
+                                      <SelectItem key={b} value={b} className="text-[13px] py-1.5 cursor-pointer font-medium">{b}</SelectItem>
+                                    ))}
+                                  </SelectContent>
+                                </Select>
+                                <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                              </FormItem>
+                            )}
+                          />
+                        </div>
+
+                        {/* Student Full Name *: Full width on mobile, col 1 row 3 on desktop */}
+                        <div className="order-4 sm:order-none sm:col-start-1 sm:row-start-3">
+                          <FormField
+                            control={form.control}
+                            name="studentName"
+                            render={({ field }) => (
+                              <FormItem className="space-y-0 text-left">
+                                <FormLabel className="sr-only">Student Full Name</FormLabel>
+                                <FormControl>
+                                  <Input 
+                                    placeholder="Student Full Name *" 
+                                    {...field} 
+                                    autoFocus={false}
+                                    value={field.value}
+                                    className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
+                                  />
+                                </FormControl>
+                                <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                              </FormItem>
+                            )}
+                          />
                         </div>
                       </div>
-                    </motion.div>
-                  )}
 
-                  {/* STEP 2 — Student Details */}
-                  {currentStep === 2 && (
-                    <motion.div
-                      key="step-2"
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left"
-                    >
-                      {/* Row 1: Student Full Name * */}
-                      <FormField
-                        control={form.control}
-                        name="studentName"
-                        render={({ field }) => (
-                          <FormItem className="text-left">
-                            <FormLabel className="sr-only">Student Full Name</FormLabel>
-                            <FormControl>
-                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                <Input 
-                                  placeholder="Student Full Name *" 
-                                  {...field} 
-                                  autoFocus={false}
-                                  value={field.value}
-                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize"
-                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))}
-                                />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* Row 2: Date of Birth * (Day, Month, Year) */}
+                      {/* Row 4: Date of Birth * (Day, Month, Year) */}
                       <FormField
                         control={form.control}
                         name="dob"
                         render={() => (
-                          <FormItem className="text-left space-y-1">
+                          <FormItem className="space-y-1 text-left">
                             <div className="flex items-center justify-between pb-0.5">
-                              <span className="text-[12.5px] sm:text-[13px] font-medium text-slate-500 dark:text-slate-400">
-                                Date of Birth <span className="text-[#E11D48]">*</span>
+                              <span className="text-[11.5px] sm:text-[12px] font-medium text-slate-500 dark:text-slate-400">
+                                Date of Birth <span className="text-rose-500">*</span>
                               </span>
                             </div>
                             <FormControl>
-                              <div className="grid grid-cols-3 gap-2">
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-2.5 sm:px-3 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Day *" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {availableDays.map(day => <SelectItem key={day} value={String(day)} className="text-[13px] sm:text-[13.5px]">{day}</SelectItem>)}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-2.5 sm:px-3 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Month *" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {months.map(m => <SelectItem key={m} value={m} className="text-[13px] sm:text-[13.5px]">{m}</SelectItem>)}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-2.5 sm:px-3 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Year *" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {years.map(y => <SelectItem key={y} value={String(y)} className="text-[13px] sm:text-[13.5px]">{y}</SelectItem>)}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
+                              <div className="grid grid-cols-3 gap-1.5 sm:gap-3">
+                                <Select onValueChange={(value) => setDob(d => ({...d, day: value}))} value={dob.day}>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-1 sm:px-1 text-[12px] sm:text-[13px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-65 [&>svg]:w-3 sm:[&>svg]:w-3.5 [&>svg]:h-3 sm:[&>svg]:h-3.5 [&>svg]:shrink-0 cursor-pointer">
+                                    <SelectValue placeholder="Day *" />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-56 z-[200]">
+                                    {availableDays.map(day => <SelectItem key={day} value={String(day)} className="text-[13px] py-1.5 cursor-pointer">{day}</SelectItem>)}
+                                  </SelectContent>
+                                </Select>
+
+                                <Select onValueChange={(value) => setDob(d => ({...d, month: value}))} value={dob.month}>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-1 sm:px-1 text-[12px] sm:text-[13px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-65 [&>svg]:w-3 sm:[&>svg]:w-3.5 [&>svg]:h-3 sm:[&>svg]:h-3.5 [&>svg]:shrink-0 cursor-pointer">
+                                    <SelectValue placeholder="Month *" />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-56 z-[200]">
+                                    {months.map(m => <SelectItem key={m} value={m} className="text-[13px] py-1.5 cursor-pointer">{m}</SelectItem>)}
+                                  </SelectContent>
+                                </Select>
+
+                                <Select onValueChange={(value) => setDob(d => ({...d, year: value}))} value={dob.year}>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-1 sm:px-1 text-[12px] sm:text-[13px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-65 [&>svg]:w-3 sm:[&>svg]:w-3.5 [&>svg]:h-3 sm:[&>svg]:h-3.5 [&>svg]:shrink-0 cursor-pointer">
+                                    <SelectValue placeholder="Year *" />
+                                  </SelectTrigger>
+                                  <SelectContent className="max-h-56 z-[200]">
+                                    {years.map(y => <SelectItem key={y} value={String(y)} className="text-[13px] py-1.5 cursor-pointer">{y}</SelectItem>)}
+                                  </SelectContent>
+                                </Select>
                               </div>
                             </FormControl>
-                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                           </FormItem>
                         )}
                       />
 
-                      {/* Row 3: Gender & Class / Course in 2-column grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      {/* Row 5: Gender & Class / Course in 2-column grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
                           name="gender"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Gender</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Select Gender *" />
-                                    </SelectTrigger>
-                                    <SelectContent className="z-[200]">
-                                      <SelectItem value="male" className="text-[13.5px] sm:text-[14px]">Male</SelectItem>
-                                      <SelectItem value="female" className="text-[13.5px] sm:text-[14px]">Female</SelectItem>
-                                      <SelectItem value="other" className="text-[13.5px] sm:text-[14px]">Other</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 cursor-pointer">
+                                    <SelectValue placeholder="Gender *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="z-[200]">
+                                  <SelectItem value="male" className="text-[13px] py-1.5 cursor-pointer">Male</SelectItem>
+                                  <SelectItem value="female" className="text-[13px] py-1.5 cursor-pointer">Female</SelectItem>
+                                  <SelectItem value="other" className="text-[13px] py-1.5 cursor-pointer">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
@@ -1040,134 +1177,104 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           control={form.control}
                           name="classApplied"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Class / Course</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Select Class / Course *" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {classes.map((c, i) => (
-                                        <SelectItem key={`${c}-${i}`} value={c} className="text-[13.5px] sm:text-[14px]">{c}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 cursor-pointer">
+                                    <SelectValue placeholder="Class / Course *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="max-h-56 z-[200]">
+                                  {classes.map((c, i) => (
+                                    <SelectItem key={`${c}-${i}`} value={c} className="text-[13px] py-1.5 cursor-pointer">{c}</SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
                       </div>
 
-                      {/* Row 4: Board & Program */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      {/* Row 6: Student Mobile Number & Student Email */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
-                          name="board"
+                          name="studentPhone"
                           render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Board</FormLabel>
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Student Mobile Number</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Select Board (Optional)" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {boards.map(b => (
-                                        <SelectItem key={b} value={b} className="text-[13.5px] sm:text-[14px]">{b}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
+                                <div className="relative flex items-center h-[38px] sm:h-[40px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
+                                  <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                                    +91
+                                  </span>
+                                  <Input 
+                                    type="tel" 
+                                    placeholder="Student Mobile Number (Optional)" 
+                                    {...field} 
+                                    maxLength={10} 
+                                    className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none" 
+                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                  />
                                 </div>
                               </FormControl>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
 
                         <FormField
                           control={form.control}
-                          name="program"
+                          name="email"
                           render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Target Program</FormLabel>
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Student Email</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Program / Stream (Optional)" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {programs.map(p => (
-                                        <SelectItem key={p} value={p} className="text-[13.5px] sm:text-[14px]">{p}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* Row 5: Student Mobile */}
-                      <FormField
-                        control={form.control}
-                        name="studentPhone"
-                        render={({ field }) => (
-                          <FormItem className="text-left">
-                            <FormLabel className="sr-only">Student Mobile Number</FormLabel>
-                            <FormControl>
-                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
                                 <Input 
-                                  type="tel" 
-                                  placeholder="Student Mobile Number (Optional)" 
+                                  type="email" 
+                                  placeholder="Student Email (Optional)" 
                                   {...field} 
-                                  maxLength={10} 
-                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                  onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
                                 />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                          </FormItem>
-                        )}
-                      />
+                              </FormControl>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </motion.div>
                   )}
 
-                  {/* STEP 3 — Parent Details */}
-                  {currentStep === 3 && (
+                  {/* STEP 2 — Parents & Contact Details */}
+                  {currentStep === 2 && (
                     <motion.div
-                      key="step-3"
+                      key="step-2"
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left"
+                      className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3 sm:space-y-3.5 text-left"
                     >
                       {/* Row 1: Father / Guardian Name & Mother Name */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
                           name="fatherName"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Father / Guardian Name</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="Father / Guardian Name *" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
+                                <Input 
+                                  placeholder="Father / Guardian Name *" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
                               </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
@@ -1176,215 +1283,133 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           control={form.control}
                           name="motherName"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Mother Name</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="Mother Name (Optional)" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
+                                <Input 
+                                  placeholder="Mother Name (Optional)" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
                               </FormControl>
                             </FormItem>
                           )}
                         />
                       </div>
 
-                      {/* Row 2: Parent Mobile Number & Parent Email */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      {/* Row 2: Father Occupation & Mother Occupation */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                        <FormField
+                          control={form.control}
+                          name="fatherOccupation"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Father Occupation</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Father / Guardian Occupation (Optional)" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="motherOccupation"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Mother Occupation</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Mother Occupation (Optional)" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Row 3: Father / Guardian Mobile & Mother Mobile */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
                           name="fatherPhone"
                           render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Parent Mobile Number</FormLabel>
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Father / Guardian Mobile</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
+                                <div className="relative flex items-center h-[38px] sm:h-[40px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
+                                  <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                                    +91
+                                  </span>
                                   <Input 
                                     type="tel" 
-                                    placeholder="Parent Mobile Number *" 
+                                    placeholder="Father / Guardian Mobile *" 
                                     {...field} 
                                     maxLength={10} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
+                                    className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none" 
                                     onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
                                   />
                                 </div>
                               </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
 
+                        <FormField
+                          control={form.control}
+                          name="motherPhone"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Mother Mobile</FormLabel>
+                              <FormControl>
+                                <div className="relative flex items-center h-[38px] sm:h-[40px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
+                                  <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                                    +91
+                                  </span>
+                                  <Input 
+                                    type="tel" 
+                                    placeholder="Mother Mobile (Optional)" 
+                                    {...field} 
+                                    maxLength={10} 
+                                    className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none" 
+                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                  />
+                                </div>
+                              </FormControl>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Row 4: Parent Email & Emergency Contact */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
                           name="parentEmail"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Parent Email</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    type="email" 
-                                    placeholder="Parent Email (Optional)" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                    onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* Row 3: Father / Guardian Occupation */}
-                      <FormField
-                        control={form.control}
-                        name="fatherOccupation"
-                        render={({ field }) => (
-                          <FormItem className="text-left">
-                            <FormLabel className="sr-only">Occupation</FormLabel>
-                            <FormControl>
-                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
                                 <Input 
-                                  placeholder="Father / Guardian Occupation (Optional)" 
+                                  type="email" 
+                                  placeholder="Parent Email (Optional)" 
                                   {...field} 
-                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
-                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
                                 />
-                              </div>
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    </motion.div>
-                  )}
-
-                  {/* STEP 4 — Contact Details */}
-                  {currentStep === 4 && (
-                    <motion.div
-                      key="step-4"
-                      initial={{ opacity: 0, x: 10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      exit={{ opacity: 0, x: -10 }}
-                      transition={{ duration: 0.2 }}
-                      className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left"
-                    >
-                      {/* Row 1: Full Residential Address * */}
-                      <FormField
-                        control={form.control}
-                        name="address"
-                        render={({ field }) => (
-                          <FormItem className="text-left">
-                            <FormLabel className="sr-only">Full Address</FormLabel>
-                            <FormControl>
-                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                <Input 
-                                  placeholder="Full Residential Address *" 
-                                  {...field} 
-                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                />
-                              </div>
-                            </FormControl>
-                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                          </FormItem>
-                        )}
-                      />
-
-                      {/* Row 2: City *, State *, Pincode * in 3-column grid */}
-                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 sm:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="city"
-                          render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">City</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="City *" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
                               </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="state"
-                          render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">State</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Select State *" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {indianStates.map(st => <SelectItem key={st} value={st} className="text-[13.5px] sm:text-[14px]">{st}</SelectItem>)}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                            </FormItem>
-                          )}
-                        />
-
-                        <FormField
-                          control={form.control}
-                          name="pincode"
-                          render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Pincode</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="Pincode *" 
-                                    {...field} 
-                                    maxLength={6} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                    onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      {/* Row 3: Alternate Email & Emergency Contact */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Alternate Email</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    type="email" 
-                                    placeholder="Alternate Email (Optional)" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                    onChange={(e) => field.onChange(e.target.value.toLowerCase())} 
-                                  />
-                                </div>
-                              </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
@@ -1393,21 +1418,107 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           control={form.control}
                           name="emergencyContact"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Emergency Contact</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
+                                <div className="relative flex items-center h-[38px] sm:h-[40px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
+                                  <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                                    +91
+                                  </span>
                                   <Input 
                                     type="tel" 
                                     placeholder="Emergency Contact (Optional)" 
                                     {...field} 
                                     maxLength={10} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
+                                    className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none" 
                                     onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
                                   />
                                 </div>
                               </FormControl>
-                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      {/* Row 5: Full Residential Address * */}
+                      <FormField
+                        control={form.control}
+                        name="address"
+                        render={({ field }) => (
+                          <FormItem className="space-y-0 text-left">
+                            <FormLabel className="sr-only">Full Address</FormLabel>
+                            <FormControl>
+                              <Input 
+                                placeholder="Full Residential Address *" 
+                                {...field} 
+                                className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                              />
+                            </FormControl>
+                            <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                          </FormItem>
+                        )}
+                      />
+
+                      {/* Row 6: City *, State *, Pincode * in 3-column grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+                        <FormField
+                          control={form.control}
+                          name="city"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">City</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="City *" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
+                              </FormControl>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="state"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">State</FormLabel>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 cursor-pointer">
+                                    <SelectValue placeholder="State *" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="max-h-56 z-[200]">
+                                  {indianStates.map(st => <SelectItem key={st} value={st} className="text-[13px] py-1.5 cursor-pointer font-medium">{st}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="pincode"
+                          render={({ field }) => (
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Pincode</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Pincode *" 
+                                  {...field} 
+                                  maxLength={6} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))} 
+                                />
+                              </FormControl>
+                              <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                             </FormItem>
                           )}
                         />
@@ -1415,57 +1526,53 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     </motion.div>
                   )}
 
-                  {/* STEP 5 — Academic Details */}
-                  {currentStep === 5 && (
+                  {/* STEP 3 — Academic History & Review */}
+                  {currentStep === 3 && (
                     <motion.div
-                      key="step-5"
+                      key="step-3"
                       initial={{ opacity: 0, x: 10 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: -10 }}
                       transition={{ duration: 0.2 }}
-                      className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left"
+                      className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3.5 sm:space-y-4 text-left"
                     >
-                      {/* Row 1: Previous School Name & Previous Class */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      {/* Row 1: Apply For (NEET, JEE, FOUNDATION) & Previous School Name */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
-                          name="previousSchool"
+                          name="program"
                           render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Previous School Name</FormLabel>
-                              <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="Previous School Name (Optional)" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
-                              </FormControl>
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Apply For</FormLabel>
+                              <Select onValueChange={field.onChange} value={field.value}>
+                                <FormControl>
+                                  <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 cursor-pointer">
+                                    <SelectValue placeholder="Apply For" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="z-[200]">
+                                  <SelectItem value="NEET" className="text-[13px] py-1.5 cursor-pointer font-medium">NEET</SelectItem>
+                                  <SelectItem value="JEE" className="text-[13px] py-1.5 cursor-pointer font-medium">JEE</SelectItem>
+                                  <SelectItem value="FOUNDATION" className="text-[13px] py-1.5 cursor-pointer font-medium">FOUNDATION</SelectItem>
+                                </SelectContent>
+                              </Select>
                             </FormItem>
                           )}
                         />
 
                         <FormField
                           control={form.control}
-                          name="previousClass"
+                          name="previousSchool"
                           render={({ field }) => (
-                            <FormItem className="text-left">
-                              <FormLabel className="sr-only">Previous Class</FormLabel>
+                            <FormItem className="space-y-0 text-left">
+                              <FormLabel className="sr-only">Previous School Name</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                                  <Select onValueChange={field.onChange} value={field.value}>
-                                    <SelectTrigger style={{ outline: 'none', boxShadow: 'none' }} className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 !outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400">
-                                      <SelectValue placeholder="Select Previous Class (Optional)" />
-                                    </SelectTrigger>
-                                    <SelectContent className="max-h-56 z-[200]">
-                                      {previousClasses.map(pc => (
-                                        <SelectItem key={pc} value={pc} className="text-[13.5px] sm:text-[14px]">{pc}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                </div>
+                                <Input 
+                                  placeholder="Previous School Name (Optional)" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
                               </FormControl>
                             </FormItem>
                           )}
@@ -1473,21 +1580,19 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       </div>
 
                       {/* Row 2: Previous Marks / Grade & Stream */}
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                         <FormField
                           control={form.control}
                           name="previousPercentage"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Previous Marks</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="Previous Percentage / Grade (Optional)" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                  />
-                                </div>
+                                <Input 
+                                  placeholder="Previous Percentage / Grade (Optional)" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                />
                               </FormControl>
                             </FormItem>
                           )}
@@ -1497,17 +1602,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                           control={form.control}
                           name="stream"
                           render={({ field }) => (
-                            <FormItem className="text-left">
+                            <FormItem className="space-y-0 text-left">
                               <FormLabel className="sr-only">Stream</FormLabel>
                               <FormControl>
-                                <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                  <Input 
-                                    placeholder="Stream / Subjects (Optional)" 
-                                    {...field} 
-                                    className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
-                                    onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
-                                  />
-                                </div>
+                                <Input 
+                                  placeholder="Stream / Subjects (Optional)" 
+                                  {...field} 
+                                  className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                                  onChange={(e) => field.onChange(capitalizeWords(e.target.value))} 
+                                />
                               </FormControl>
                             </FormItem>
                           )}
@@ -1519,31 +1622,41 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         control={form.control}
                         name="scholarshipTest"
                         render={({ field }) => (
-                          <FormItem className="text-left">
+                          <FormItem className="space-y-0 text-left">
                             <FormLabel className="sr-only">Scholarship Test</FormLabel>
                             <FormControl>
-                              <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                                <Input 
-                                  placeholder="Scholarship / Entrance Test (Optional)" 
-                                  {...field} 
-                                  className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                                />
-                              </div>
+                              <Input 
+                                placeholder="Scholarship / Entrance Test (Optional)" 
+                                {...field} 
+                                className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                              />
                             </FormControl>
                           </FormItem>
                         )}
                       />
 
                       {/* Review Summary Box */}
-                      <div className="p-3.5 sm:p-4 rounded-xl bg-[#F8FAFD] dark:bg-slate-900/60 border border-[#DCE7F6] dark:border-slate-800 text-left">
-                        <p className="text-[11px] font-bold uppercase tracking-wider text-[#0B1F4B]/70 dark:text-slate-400 mb-2">
+                      <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/90 dark:bg-slate-900/60 border border-slate-200/90 dark:border-slate-800 text-left mt-2">
+                        <p className="text-[10px] sm:text-[10.5px] font-bold uppercase tracking-[0.1em] text-[#2864E8] dark:text-blue-400 mb-2">
                           Application Summary
                         </p>
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-[12px] sm:text-[13px]">
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Student</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('studentName') || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Branch</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('branch')?.split(',')[0] || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Parent Mobile</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('fatherPhone') || '—'}</strong></div>
-                          <div><span className="text-slate-500 dark:text-slate-400 block text-[11px]">Course</span><strong className="font-semibold text-[#0B1F4B] dark:text-slate-100 truncate block">{form.watch('classApplied') || '—'}</strong></div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 text-[11.5px] sm:text-[12px]">
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-400 block text-[10px] sm:text-[10.5px] uppercase font-medium">Student</span>
+                            <strong className="font-semibold text-slate-800 dark:text-slate-100 truncate block mt-0.5">{form.watch('studentName') || '—'}</strong>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-400 block text-[10px] sm:text-[10.5px] uppercase font-medium">Branch</span>
+                            <strong className="font-semibold text-slate-800 dark:text-slate-100 truncate block mt-0.5">{form.watch('branch')?.split(',')[0] || '—'}</strong>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-400 block text-[10px] sm:text-[10.5px] uppercase font-medium">Parent Mobile</span>
+                            <strong className="font-semibold text-slate-800 dark:text-slate-100 truncate block mt-0.5">{form.watch('fatherPhone') || '—'}</strong>
+                          </div>
+                          <div>
+                            <span className="text-slate-400 dark:text-slate-400 block text-[10px] sm:text-[10.5px] uppercase font-medium">Course</span>
+                            <strong className="font-semibold text-slate-800 dark:text-slate-100 truncate block mt-0.5">{form.watch('classApplied') || '—'}</strong>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -1552,62 +1665,52 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
               </div>
 
               {/* Sticky Footer Action Bar */}
-              <div className="px-6 sm:px-8 py-3.5 sm:py-4 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-t border-[#DCE7F6] dark:border-slate-800 flex items-center justify-between gap-3 shrink-0 mt-auto sticky bottom-0 z-20 pb-[max(0.85rem,env(safe-area-inset-bottom))]">
+              <div className="px-3.5 sm:px-7 py-2.5 sm:py-3 bg-white/95 dark:bg-slate-950/95 backdrop-blur-sm border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2 shrink-0 mt-auto sticky bottom-0 z-20 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
                 {currentStep > 1 ? (
-                  <Button
+                  <button
                     type="button"
-                    variant="outline"
                     onClick={handleBack}
-                    className="h-11 sm:h-12 px-4 sm:px-5 rounded-xl text-[13.5px] sm:text-[14px] font-semibold border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900 text-[#0B1F4B] dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5 transition-all outline-none"
+                    className="group h-[38px] sm:h-[40px] px-1 text-[12px] sm:text-[12.5px] font-bold tracking-[0.08em] uppercase text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white cursor-pointer flex items-center gap-1.5 transition-colors focus:outline-none shrink-0"
                   >
-                    <ArrowLeft className="w-4 h-4" />
-                    <span>Back</span>
-                  </Button>
+                    <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 group-hover:text-slate-700 dark:group-hover:text-white transition-colors group-hover:-translate-x-0.5 transition-transform duration-150" />
+                    <span>BACK</span>
+                  </button>
                 ) : (
-                  <div />
+                  <div className="shrink-0" />
                 )}
 
-                {currentStep < 5 ? (
-                  <Button
+                {currentStep < 3 ? (
+                  <button
                     type="button"
                     onClick={handleNext}
-                    className="h-11 sm:h-12 px-6 sm:px-7 rounded-xl text-[14.5px] sm:text-[15px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99] outline-none focus:outline-none ml-auto w-full sm:w-auto"
+                    className="group h-[38px] sm:h-[40px] px-1 font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] uppercase text-[#2864E8] hover:text-[#1E4ED8] dark:text-blue-400 dark:hover:text-blue-300 cursor-pointer flex items-center justify-center gap-1.5 transition-colors focus:outline-none ml-auto shrink-0"
                   >
-                    <span>Next Step</span>
-                    <ArrowRight className="w-4.5 h-4.5 stroke-[2.2] transition-transform group-hover:translate-x-1" />
-                  </Button>
+                    <span>NEXT STEP</span>
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#2864E8] dark:text-blue-400 group-hover:translate-x-0.5 transition-transform duration-150" />
+                  </button>
                 ) : (
-                  <div className="flex items-center gap-2 sm:gap-3 ml-auto w-full sm:w-auto justify-end">
+                  <div className="flex items-center gap-1.5 sm:gap-2 ml-auto shrink-0">
                     <Button
                       type="button"
                       variant="outline"
                       onClick={handlePreview}
-                      className="h-11 sm:h-12 px-4 sm:px-5 rounded-xl text-[13.5px] sm:text-[14px] font-semibold border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900 text-[#0B1F4B] dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1.5 transition-all outline-none"
+                      className="h-[38px] sm:h-[40px] px-2.5 sm:px-4 rounded-[6px] text-[11.5px] sm:text-[12.5px] font-semibold border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60 cursor-pointer shadow-xs flex items-center gap-1 sm:gap-1.5 transition-all outline-none shrink-0"
                     >
-                      <FileText className="h-4 w-4 text-[#0B1F4B] dark:text-blue-400" />
+                      <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-[#2864E8] dark:text-blue-400 shrink-0" />
                       <span>Preview</span>
                     </Button>
                     <Button
                       type="button"
                       onClick={async () => {
-                        const isValid = await form.trigger();
+                        const isValid = await validateCompulsoryFields();
                         if (isValid) {
                           setIsPaymentDialogOpen(true);
-                        } else {
-                          const errors = form.formState.errors;
-                          const firstKey = Object.keys(errors)[0] as keyof AdmissionFormValues;
-                          const errorMsg = firstKey ? (errors[firstKey]?.message as string) : "Please complete all required fields.";
-                          toast({ 
-                            variant: "destructive", 
-                            title: "Incomplete Form", 
-                            description: errorMsg || "Please fill all required fields before proceeding." 
-                          });
                         }
                       }}
-                      className="h-11 sm:h-12 px-6 sm:px-7 rounded-xl text-[14.5px] sm:text-[15px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99] outline-none focus:outline-none"
+                      className="group h-[38px] sm:h-[40px] px-3 sm:px-5 md:px-6 rounded-[6px] font-bold text-[11.5px] sm:text-[12.5px] tracking-[0.06em] sm:tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1 sm:gap-1.5 uppercase shrink-0 whitespace-nowrap"
                     >
-                      <span>Submit & Pay (₹10)</span>
-                      <Send className="h-3.5 w-3.5" />
+                      <span>SUBMIT &amp; PAY (₹10)</span>
+                      <Send className="h-3 w-3 sm:h-3.5 sm:w-3.5 text-white/90 shrink-0" />
                     </Button>
                   </div>
                 )}
@@ -1623,7 +1726,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
         <DialogContent 
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
-          className="w-[95vw] max-w-4xl h-[calc(100dvh-7.5rem)] max-h-[820px] rounded-2xl p-0 overflow-hidden border border-slate-300 bg-white flex flex-col shadow-2xl z-50 top-[5.25rem] left-1/2 -translate-x-1/2 translate-y-0"
+          className="w-[95vw] max-w-4xl h-[calc(100dvh-7.5rem)] max-h-[820px] rounded-2xl p-0 overflow-hidden border border-slate-300 bg-white flex flex-col shadow-2xl z-[150] top-[5.25rem] left-1/2 -translate-x-1/2 translate-y-0"
         >
           <DialogHeader className="px-4 sm:px-6 py-3 border-b bg-slate-50/90 flex flex-row items-center justify-between shrink-0 pr-14">
             <div className="space-y-0.5 text-left">
@@ -1640,9 +1743,12 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
               <Button 
                 size="sm" 
                 className="rounded-[8px] font-semibold h-8 text-xs bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer px-3.5 shadow-xs" 
-                onClick={() => {
-                  setIsPreviewOpen(false);
-                  setIsPaymentDialogOpen(true);
+                onClick={async () => {
+                  const isValid = await validateCompulsoryFields();
+                  if (isValid) {
+                    setIsPreviewOpen(false);
+                    setIsPaymentDialogOpen(true);
+                  }
                 }}
               >
                 <Lock className="w-3.5 h-3.5 mr-1" /> Submit (₹10)
@@ -1671,29 +1777,23 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       </div>
                     </div>
                   </div>
-                  <div className="text-right flex items-center">
-                    <div 
+                  <div className="text-right flex flex-col items-end justify-center">
+                    <span 
                       style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        height: '28px',
-                        padding: '0 12px',
-                        border: '1.5px solid #0B2A6F',
-                        borderRadius: '6px',
-                        backgroundColor: 'rgba(11, 42, 111, 0.04)',
+                        display: 'inline-block',
                         color: '#0B2A6F',
-                        fontSize: '11px',
+                        fontSize: '11.5px',
                         fontWeight: 800,
                         letterSpacing: '0.04em',
                         lineHeight: 1,
-                        boxSizing: 'border-box',
+                        textTransform: 'uppercase'
                       }}
                     >
-                      <span style={{ display: 'inline-block', lineHeight: 1 }}>
-                        ADMISSION FORM 2026-27
-                      </span>
-                    </div>
+                      ADMISSION FORM 2026-27
+                    </span>
+                    <span className="text-[7.5px] font-bold text-[#64748B] tracking-wider mt-1 uppercase">
+                      (FOR OFFLINE STUDENTS ONLY)
+                    </span>
                   </div>
                 </div>
 
@@ -1736,10 +1836,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       <div><span className="text-[#64748B] text-[10px] font-medium">Student Name:</span> <strong className="text-[#17213A] text-[11px] font-semibold uppercase ml-1">{form.getValues('studentName') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Date of Birth:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{formatDateForDisplay(form.getValues('dob')) || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Gender:</span> <strong className="text-[#17213A] text-[11px] font-semibold capitalize ml-1">{form.getValues('gender') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Class / Course:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('classApplied') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Board:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('board') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Program / Target:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('program') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Class:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('classApplied') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Student Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('studentPhone') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Student Email:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('email') || '—'}</strong></div>
                     </div>
                   </div>
 
@@ -1753,9 +1852,11 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 px-1">
                       <div><span className="text-[#64748B] text-[10px] font-medium">Father / Guardian:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherName') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Mother Name:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherName') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Parent Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherPhone') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Father Occupation:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherOccupation') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Mother Occupation:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherOccupation') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Father Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherPhone') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Mother Mobile:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('motherPhone') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Parent Email:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('parentEmail') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Occupation:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('fatherOccupation') || '—'}</strong></div>
                     </div>
                   </div>
 
@@ -1769,7 +1870,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                     <div className="grid grid-cols-3 gap-x-5 gap-y-2 px-1">
                       <div className="col-span-2"><span className="text-[#64748B] text-[10px] font-medium">Residential Address:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('address') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">City / State / Pin:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('city') || ''}{form.getValues('city') ? ', ' : ''}{form.getValues('state') || '—'} - {form.getValues('pincode') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Email:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('email') || '—'}</strong></div>
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Branch:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('branch')?.split(',')[0] || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Emergency Contact:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('emergencyContact') || '—'}</strong></div>
                     </div>
                   </div>
@@ -1782,8 +1883,8 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 gap-x-8 gap-y-2 px-1">
+                      <div><span className="text-[#64748B] text-[10px] font-medium">Apply For:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('program') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Previous School:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousSchool') || '—'}</strong></div>
-                      <div><span className="text-[#64748B] text-[10px] font-medium">Previous Class:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousClass') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Percentage / Grade:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('previousPercentage') || '—'}</strong></div>
                       <div><span className="text-[#64748B] text-[10px] font-medium">Stream / Subjects:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('stream') || '—'}</strong></div>
                       <div className="col-span-2"><span className="text-[#64748B] text-[10px] font-medium">Scholarship / Entrance Test:</span> <strong className="text-[#17213A] text-[11px] font-semibold ml-1">{form.getValues('scholarshipTest') || '—'}</strong></div>
@@ -1816,11 +1917,9 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                   </div>
                 </div>
 
-                {/* Subtle Document Footer */}
-                <div className="border-t border-[#D7DFEA] mt-4 pt-1.5 flex items-center justify-between text-[8px] text-[#64748B]">
-                  <span>IDL Education Academy &bull; Institutional Admission Record</span>
-                  <span>Admission Form 2026–27</span>
-                  <span>Page 1 of 1</span>
+                {/* Bottom Right Page Number */}
+                <div className="text-right pt-2">
+                  <span className="text-[8.5px] font-semibold text-[#64748B]">Page 1 of 1</span>
                 </div>
               </div>
             </div>
@@ -1833,7 +1932,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
         <DialogContent 
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
-          className="w-[95vw] sm:w-full sm:max-w-[440px] shadow-none rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 overflow-hidden top-[calc(4rem+0.75rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0"
+          className="w-[95vw] sm:w-full sm:max-w-[440px] shadow-none rounded-2xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 p-6 overflow-hidden top-[calc(4rem+0.75rem)] sm:top-[calc(4rem+1.25rem)] translate-y-0 z-[150]"
         >
           <DialogHeader className="text-center space-y-2">
             <div className="w-12 h-12 rounded-full bg-primary/10 text-primary mx-auto flex items-center justify-center">
@@ -1932,18 +2031,43 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
       }}>
         <DialogContent
           onOpenAutoFocus={(e) => e.preventDefault()}
-          className="sm:max-w-[510px] p-0 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xl"
+          className="sm:max-w-[560px] p-0 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 shadow-2xl z-[150] max-h-[96vh] flex flex-col"
         >
           <DialogTitle className="sr-only">Student ID Card</DialogTitle>
           <DialogDescription className="sr-only">Download your student identity card</DialogDescription>
 
           {/* Header */}
-          <div className="bg-white px-5 py-3.5 border-b border-slate-200 flex items-center justify-between">
+          <div className="bg-white px-4 sm:px-5 py-3 border-b border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shrink-0">
             <div>
               <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Admission Confirmed</p>
               <h3 className="text-sm font-extrabold text-[#0B2A6F]">Official Student ID Card</h3>
             </div>
-            <div className="flex items-center gap-2">
+
+            {/* Layout Switcher & Action Buttons */}
+            <div className="flex flex-wrap items-center gap-1.5 w-full sm:w-auto justify-end">
+              <div className="flex items-center gap-1 bg-slate-100 p-0.5 rounded-lg border border-slate-200 mr-1">
+                <button
+                  type="button"
+                  onClick={() => setIdCardLayout("portrait_waves")}
+                  className={cn(
+                    "px-2 py-1 text-[10.5px] font-bold rounded-md transition-all cursor-pointer",
+                    idCardLayout === "portrait_waves" ? "bg-[#0A225C] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+                  )}
+                >
+                  Portrait Badge
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIdCardLayout("horizontal")}
+                  className={cn(
+                    "px-2 py-1 text-[10.5px] font-bold rounded-md transition-all cursor-pointer",
+                    idCardLayout === "horizontal" ? "bg-[#0A225C] text-white shadow-xs" : "text-slate-600 hover:text-slate-900"
+                  )}
+                >
+                  Horizontal
+                </button>
+              </div>
+
               <Button
                 size="sm"
                 variant="outline"
@@ -1960,14 +2084,14 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       logging: false,
                     });
                     const link = document.createElement('a');
-                    link.download = `${submittedData?.studentName || 'Student'}_IDCard.png`;
+                    link.download = `${submittedData?.studentName || form.getValues('studentName') || 'Student'}_IDCard.png`;
                     link.href = canvas.toDataURL('image/png');
                     link.click();
                   } finally {
                     setIsDownloadingCard(false);
                   }
                 }}
-                className="h-8 text-xs font-bold rounded-[8px] cursor-pointer border-[#D7DFEA] text-slate-700 hover:bg-slate-50"
+                className="h-8 px-2.5 text-xs font-bold rounded-[8px] cursor-pointer border-[#D7DFEA] text-slate-700 hover:bg-slate-50"
               >
                 <Download className="w-3.5 h-3.5 mr-1" /> PNG
               </Button>
@@ -1986,29 +2110,301 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                       logging: false,
                     });
                     const imgData = canvas.toDataURL('image/png');
-                    const pdf = new jsPDF({ orientation: 'landscape', unit: 'mm', format: [85.6, 53.98] });
-                    pdf.addImage(imgData, 'PNG', 0, 0, 85.6, 53.98, '', 'FAST');
-                    pdf.save(`${submittedData?.studentName || 'Student'}_IDCard.pdf`);
+                    const isPortrait = idCardLayout === 'portrait_waves';
+                    const pdf = new jsPDF({
+                      orientation: isPortrait ? 'portrait' : 'landscape',
+                      unit: 'mm',
+                      format: isPortrait ? [53.98, 85.60] : [85.60, 53.98],
+                    });
+                    pdf.addImage(imgData, 'PNG', 0, 0, isPortrait ? 53.98 : 85.60, isPortrait ? 85.60 : 53.98, '', 'FAST');
+                    pdf.save(`${submittedData?.studentName || form.getValues('studentName') || 'Student'}_IDCard.pdf`);
                   } finally {
                     setIsDownloadingCard(false);
                   }
                 }}
-                className="h-8 text-xs font-extrabold rounded-lg bg-[#0B2A6F] text-white hover:bg-[#071942] cursor-pointer shadow-xs"
+                className="h-8 px-3 text-xs font-extrabold rounded-lg bg-[#0B2A6F] text-white hover:bg-[#071942] cursor-pointer shadow-xs"
               >
-                <Download className="w-3.5 h-3.5 mr-1.5" /> DOWNLOAD STUDENT ID
+                <Download className="w-3.5 h-3.5 mr-1.5" /> PDF
               </Button>
+
+              <Link
+                href="/student-id-card"
+                target="_blank"
+                className="h-8 px-2.5 text-[11px] font-bold rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-slate-900 inline-flex items-center gap-1"
+                title="Open Studio to customize card"
+              >
+                Studio <ExternalLink className="w-3 h-3 text-slate-400" />
+              </Link>
             </div>
           </div>
 
           {/* Card Preview Area */}
-          <div className="p-5 flex items-center justify-center bg-slate-100/90">
-            {/* ID Card — standard credit-card proportions 85.60 × 53.98mm, rendered at 460×290px */}
+          <div className="p-4 sm:p-5 flex items-center justify-center bg-slate-100/90 overflow-y-auto flex-1">
             {(() => {
-              const studentIdVal = submittedData?.studentId || form.getValues('studentId') || '040926-111';
+              const studentIdVal = submittedData?.studentId || form.getValues('studentId') || '071126-101';
               const barcodeData = generateCode39Bars(studentIdVal);
+              const qrMatrix = generateQRMatrix(studentIdVal);
               const studentNameVal = submittedData?.studentName || form.getValues('studentName') || 'Student Name';
+              const applyForVal = (submittedData as any)?.applyFor || (form.getValues() as any)?.applyFor || submittedData?.stream || form.getValues('stream') || submittedData?.program || form.getValues('program') || 'NEET';
+              const classVal = submittedData?.classApplied || form.getValues('classApplied') || 'Class 12 PASS';
+              const fatherVal = submittedData?.fatherName || form.getValues('fatherName') || '—';
+              const bloodVal = submittedData?.bloodGroup || form.getValues('bloodGroup') || 'O+';
+              const phoneVal = submittedData?.studentPhone || form.getValues('studentPhone') || submittedData?.fatherPhone || form.getValues('fatherPhone') || '9876543210';
+              const branchVal = (submittedData?.branch || form.getValues('branch') || 'Mukherjee Nagar, Delhi')?.split(',')[0];
               const nameLength = studentNameVal.length;
 
+              if (idCardLayout === "portrait_waves") {
+                return (
+                  <div
+                    ref={idCardRef}
+                    style={{
+                      width: 320,
+                      height: 510,
+                      borderRadius: 22,
+                      fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      backgroundColor: '#FFFFFF',
+                      boxShadow: '0 25px 60px -12px rgba(10, 34, 92, 0.25), 0 0 0 1.5px #CBD5E1',
+                      boxSizing: 'border-box',
+                      position: 'relative',
+                      overflow: 'hidden',
+                      userSelect: 'none',
+                    }}
+                  >
+                    <div style={{
+                      height: '100%',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      padding: '0 0 14px 0',
+                      boxSizing: 'border-box',
+                      position: 'relative',
+                    }}>
+                      {/* Top Lanyard Slot Cutout */}
+                      <div style={{
+                        position: 'absolute', top: 9, left: '50%', transform: 'translateX(-50%)',
+                        width: 46, height: 5.5, borderRadius: 3, backgroundColor: '#E2E8F0', zIndex: 30,
+                        boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.15)',
+                      }} />
+
+                      {/* Top Header: Logo on Top Left + 2026-27 on Top Right */}
+                      <div style={{
+                        padding: '22px 18px 0 18px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        position: 'relative',
+                        zIndex: 20,
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+                          <img src="/idllogo.png" alt="IDL Education" style={{ height: 28, width: 'auto', objectFit: 'contain' }} />
+                          <div style={{ textAlign: 'left' }}>
+                            <h3 style={{ margin: 0, fontSize: 11, fontWeight: 900, color: '#0A225C', letterSpacing: '0.04em', lineHeight: 1.1 }}>
+                              IDL EDUCATION
+                            </h3>
+                            <p style={{ margin: 0, fontSize: 6.5, color: '#64748B', fontWeight: 700, letterSpacing: '0.05em' }}>
+                              ACADEMY &bull; DELHI
+                            </p>
+                          </div>
+                        </div>
+
+                        <span style={{
+                          backgroundColor: '#0A225C', color: '#FFFFFF', fontSize: 7, fontWeight: 800,
+                          padding: '3px 8px', borderRadius: 5, letterSpacing: '0.06em', textTransform: 'uppercase',
+                          boxShadow: '0 2px 4px rgba(10, 34, 92, 0.2)',
+                        }}>
+                          2026–27
+                        </span>
+                      </div>
+
+                      {/* Flowing Navy Blue & Royal Blue Wave Ribbons (Framing Photo like Sample) */}
+                      <div style={{
+                        position: 'absolute',
+                        top: 75,
+                        left: 0,
+                        right: 0,
+                        height: 115,
+                        zIndex: 5,
+                        pointerEvents: 'none',
+                      }}>
+                        <svg viewBox="0 0 320 115" width="100%" height="100%" preserveAspectRatio="none" style={{ display: 'block' }}>
+                          <path 
+                            d="M-10,35 C70,80 220,10 330,55 L330,115 L-10,115 Z" 
+                            fill="#EFF6FF" 
+                            opacity="0.7" 
+                          />
+                          <path 
+                            d="M-10,32 C70,78 220,8 330,52" 
+                            stroke="#38BDF8" 
+                            strokeWidth="2.5" 
+                            fill="none" 
+                            opacity="0.8" 
+                          />
+                          <path 
+                            d="M-10,40 C75,86 215,16 330,62" 
+                            stroke="#2563EB" 
+                            strokeWidth="2" 
+                            fill="none" 
+                          />
+                          <path 
+                            d="M-10,48 C85,94 215,24 330,70" 
+                            stroke="#0A225C" 
+                            strokeWidth="3.5" 
+                            fill="none" 
+                          />
+                        </svg>
+                      </div>
+
+                      {/* Middle Group: Circular Photo + Name + Divider */}
+                      <div style={{ position: 'relative', zIndex: 15, marginTop: 4 }}>
+                        {/* Circular Student Photo with Navy Blue Ring (Matching Sample) */}
+                        <div style={{
+                          width: 108,
+                          height: 108,
+                          borderRadius: '50%',
+                          margin: '0 auto',
+                          border: '4px solid #0A225C',
+                          boxShadow: '0 10px 25px rgba(10, 34, 92, 0.22)',
+                          backgroundColor: '#F8FAFC',
+                          overflow: 'hidden',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                          {photoPreview ? (
+                            <img src={photoPreview} alt="Student" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          ) : (
+                            <User style={{ width: 44, height: 44, color: '#94A3B8' }} />
+                          )}
+                        </div>
+
+                        {/* Student Name & Course Subtitle */}
+                        <div style={{ textAlign: 'center', marginTop: 8 }}>
+                          <h2 style={{ margin: 0, fontSize: studentNameVal.length > 18 ? 14.5 : 17, fontWeight: 900, color: '#0A225C', textTransform: 'uppercase', letterSpacing: '0.02em', lineHeight: 1.2 }}>
+                            {studentNameVal}
+                          </h2>
+                          <p style={{ margin: '2px 0 0', fontSize: 9.5, color: '#2563EB', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                            {applyForVal} &bull; {classVal}
+                          </p>
+                          <div style={{ width: 50, height: 2.5, backgroundColor: '#0A225C', borderRadius: 2, margin: '6px auto 0 auto' }} />
+                        </div>
+                      </div>
+
+                      {/* Aligned Key-Value Table with Colons (Comfortable Spacing matching Sample) */}
+                      <div style={{
+                        fontSize: 9.5,
+                        lineHeight: 1.85,
+                        textAlign: 'left',
+                        padding: '0 24px',
+                        position: 'relative',
+                        zIndex: 10,
+                      }}>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ width: 62, color: '#64748B', fontWeight: 800, fontSize: 9 }}>ID NO</span>
+                          <span style={{ width: 12, color: '#94A3B8', fontWeight: 700 }}>:</span>
+                          <strong style={{ color: '#0A225C', fontFamily: 'monospace', fontSize: 10.5, letterSpacing: '0.05em' }}>{studentIdVal}</strong>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ width: 62, color: '#64748B', fontWeight: 800, fontSize: 9 }}>Father</span>
+                          <span style={{ width: 12, color: '#94A3B8', fontWeight: 700 }}>:</span>
+                          <span style={{ color: '#0F172A', fontWeight: 700, fontSize: 9, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{fatherVal}</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ width: 62, color: '#64748B', fontWeight: 800, fontSize: 9 }}>Blood</span>
+                          <span style={{ width: 12, color: '#94A3B8', fontWeight: 700 }}>:</span>
+                          <span style={{ color: '#0A225C', fontWeight: 800, fontSize: 9 }}>{bloodVal}</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ width: 62, color: '#64748B', fontWeight: 800, fontSize: 9 }}>Phone</span>
+                          <span style={{ width: 12, color: '#94A3B8', fontWeight: 700 }}>:</span>
+                          <span style={{ color: '#0F172A', fontWeight: 700, fontSize: 9 }}>+91 {phoneVal}</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ width: 62, color: '#64748B', fontWeight: 800, fontSize: 9 }}>Branch</span>
+                          <span style={{ width: 12, color: '#94A3B8', fontWeight: 700 }}>:</span>
+                          <span style={{ color: '#0F172A', fontWeight: 700, fontSize: 9, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{branchVal}</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <span style={{ width: 62, color: '#64748B', fontWeight: 800, fontSize: 9 }}>Address</span>
+                          <span style={{ width: 12, color: '#94A3B8', fontWeight: 700 }}>:</span>
+                          <span style={{ color: '#0F172A', fontWeight: 700, fontSize: 9, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Delhi, India</span>
+                        </div>
+                      </div>
+
+                      {/* Bottom-Left Curved Wave Arcs (Matches Reference Sample Bottom Left) */}
+                      <div style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        left: 0,
+                        width: 130,
+                        height: 100,
+                        zIndex: 6,
+                        pointerEvents: 'none',
+                      }}>
+                        <svg viewBox="0 0 130 100" width="100%" height="100%" style={{ display: 'block' }}>
+                          <path 
+                            d="M-20,100 C-10,50 35,35 75,58 C105,75 110,100 110,100 Z" 
+                            fill="#EFF6FF" 
+                            opacity="0.8" 
+                          />
+                          <path 
+                            d="M-10,100 C5,65 40,50 70,68 C92,82 98,100 98,100" 
+                            stroke="#38BDF8" 
+                            strokeWidth="2" 
+                            fill="none" 
+                            opacity="0.7" 
+                          />
+                          <path 
+                            d="M-10,100 C-5,75 25,60 55,75 C75,88 82,100 82,100" 
+                            stroke="#0A225C" 
+                            strokeWidth="3" 
+                            fill="none" 
+                          />
+                        </svg>
+                      </div>
+
+                      {/* Bottom Bar: Academy Info & Right QR Code (Matching Reference Sample) */}
+                      <div style={{
+                        padding: '0 20px',
+                        display: 'flex',
+                        alignItems: 'flex-end',
+                        justifyContent: 'space-between',
+                        position: 'relative',
+                        zIndex: 10,
+                      }}>
+                        <div style={{ textAlign: 'left', paddingLeft: 4 }}>
+                          <span style={{ fontSize: 7.5, color: '#0A225C', fontWeight: 900, display: 'block', letterSpacing: '0.02em' }}>
+                            IDL EDUCATION ACADEMY
+                          </span>
+                          <span style={{ fontSize: 6.5, color: '#64748B', display: 'block', fontWeight: 600 }}>
+                            www.idleducation.in &bull; 011 45035713
+                          </span>
+                        </div>
+
+                        <div style={{
+                          width: 50,
+                          height: 50,
+                          backgroundColor: '#FFFFFF',
+                          border: '1.5px solid #0A225C',
+                          padding: 3,
+                          borderRadius: 6,
+                          boxShadow: '0 3px 8px rgba(10, 34, 92, 0.15)',
+                          flexShrink: 0,
+                        }}>
+                          <svg viewBox="0 0 21 21" width="100%" height="100%">
+                            {qrMatrix.map((row, r) => 
+                              row.map((val, c) => val ? (
+                                <rect key={`${r}-${c}`} x={c} y={r} width="1" height="1" fill="#0A225C" />
+                              ) : null)
+                            )}
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+
+              // Horizontal Card
               return (
                 <div
                   ref={idCardRef}
@@ -2119,7 +2515,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                         {studentNameVal}
                       </h3>
                       <p style={{ margin: '2px 0 0', fontSize: 8.5, color: '#94A3B8', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        S/O {submittedData?.fatherName || form.getValues('fatherName') || '—'}
+                        S/O {fatherVal}
                       </p>
 
                       <div style={{ height: 1, backgroundColor: 'rgba(255, 255, 255, 0.1)', margin: '6px 0 8px 0' }} />
@@ -2146,7 +2542,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             PROGRAM / CLASS
                           </p>
                           <p style={{ margin: '1px 0 0', fontSize: 8.5, fontWeight: 600, color: '#FFFFFF', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {submittedData?.classApplied || form.getValues('classApplied') || '—'}
+                            {applyForVal} &bull; {classVal}
                           </p>
                         </div>
                         <div>
@@ -2154,15 +2550,15 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
                             CENTER / BRANCH
                           </p>
                           <p style={{ margin: '1px 0 0', fontSize: 8, fontWeight: 600, color: '#CBD5E1', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                            {(submittedData?.branch || form.getValues('branch'))?.split(',')[0] || '—'}
+                            {branchVal}
                           </p>
                         </div>
                         <div>
                           <p style={{ margin: 0, fontSize: 6.5, color: '#94A3B8', textTransform: 'uppercase', letterSpacing: '0.06em', fontWeight: 600 }}>
-                            ISSUE DATE
+                            BLOOD GROUP
                           </p>
-                          <p style={{ margin: '1px 0 0', fontSize: 8, fontWeight: 600, color: '#CBD5E1' }}>
-                            {format(new Date(), 'dd MMM yyyy')}
+                          <p style={{ margin: '1px 0 0', fontSize: 8, fontWeight: 600, color: '#F5B51B' }}>
+                            {bloodVal}
                           </p>
                         </div>
                       </div>
@@ -2220,7 +2616,7 @@ export function AdmissionModal({ isOpen, onOpenChange }: AdmissionModalProps) {
           </div>
 
           {/* Footer note */}
-          <div className="px-6 pb-4 pt-1 text-center">
+          <div className="px-6 pb-4 pt-2 text-center bg-white border-t border-slate-200 shrink-0">
             <p className="text-[11px] text-slate-500 font-medium">
               This is your verified institutional digital Student ID Card.
             </p>

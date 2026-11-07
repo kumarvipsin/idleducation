@@ -246,7 +246,7 @@ export default function ScholarshipPage() {
                               <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                   <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select Class *" />
+                                    <SelectValue placeholder="Class / Course *" />
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
@@ -291,7 +291,7 @@ export default function ScholarshipPage() {
                               <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                   <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select Country *" />
+                                    <SelectValue placeholder="Country *" />
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
@@ -315,7 +315,7 @@ export default function ScholarshipPage() {
                               <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                   <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select State *" />
+                                    <SelectValue placeholder="State *" />
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>

@@ -32,6 +32,7 @@ import { useToast } from '@/hooks/use-toast';
 import { BookDemoModal } from '@/components/book-demo-modal';
 import { AdmissionModal } from '@/components/admission-modal';
 import { StudentEnquiryModal } from '@/components/student-enquiry-modal';
+import { EnrollNowModal } from '@/components/enroll-now-modal';
 
 interface BranchDetailClientProps {
   branch: BranchInfo;
@@ -39,6 +40,7 @@ interface BranchDetailClientProps {
 
 export default function GenericBranchClient({ branch }: BranchDetailClientProps) {
   const { toast } = useToast();
+  const [isEnrollOpen, setIsEnrollOpen] = useState(false);
   const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
@@ -394,12 +396,19 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
                 </p>
               </div>
 
-              <div className="pt-2">
+              <div className="pt-2 flex flex-wrap gap-2.5">
+                <Button
+                  onClick={() => setIsEnrollOpen(true)}
+                  className="h-11 px-6 rounded-[5px] font-bold text-sm bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-sm cursor-pointer"
+                >
+                  Enroll Now at {branch.shortName}
+                </Button>
                 <Button
                   onClick={() => setIsAdmissionOpen(true)}
-                  className="w-full sm:w-auto h-11 px-6 rounded-[8px] font-bold text-sm bg-[#102A68] hover:bg-[#0B1E4B] text-white shadow-sm cursor-pointer"
+                  variant="outline"
+                  className="h-11 px-5 rounded-[5px] font-bold text-sm text-[#102A68] border-[#102A68]/20 hover:bg-slate-50 cursor-pointer"
                 >
-                  Apply For Admission at {branch.shortName}
+                  Admission Form
                 </Button>
               </div>
             </div>
@@ -753,6 +762,12 @@ export default function GenericBranchClient({ branch }: BranchDetailClientProps)
       </section>
 
       {/* ── MODALS INTEGRATION ─────────────────────────────────────── */}
+      <EnrollNowModal 
+        isOpen={isEnrollOpen} 
+        onOpenChange={setIsEnrollOpen} 
+        defaultBranch={`${branch.name}, ${branch.pincode}`}
+        source={`${branch.name} Page`}
+      />
       <BookDemoModal isOpen={isBookDemoOpen} onOpenChange={setIsBookDemoOpen} />
       <AdmissionModal isOpen={isAdmissionOpen} onOpenChange={setIsAdmissionOpen} />
       <StudentEnquiryModal isOpen={isEnquiryOpen} onOpenChange={setIsEnquiryOpen} />

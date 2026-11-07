@@ -535,6 +535,29 @@ export function Header() {
         }
     }, [pathname]);
 
+    useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const handleOpenAdmission = () => setIsAdmissionOpen(true);
+        const handleOpenBookDemo = () => setIsBookDemoOpen(true);
+        const handleOpenEnquiry = () => setIsEnquiryOpen(true);
+        const handleOpenScholarship = () => setIsScholarshipOpen(true);
+        const handleOpenContact = () => setIsContactOpen(true);
+
+        window.addEventListener('open-admission-modal', handleOpenAdmission);
+        window.addEventListener('open-book-demo-modal', handleOpenBookDemo);
+        window.addEventListener('open-enquiry-modal', handleOpenEnquiry);
+        window.addEventListener('open-scholarship-modal', handleOpenScholarship);
+        window.addEventListener('open-contact-modal', handleOpenContact);
+
+        return () => {
+            window.removeEventListener('open-admission-modal', handleOpenAdmission);
+            window.removeEventListener('open-book-demo-modal', handleOpenBookDemo);
+            window.removeEventListener('open-enquiry-modal', handleOpenEnquiry);
+            window.removeEventListener('open-scholarship-modal', handleOpenScholarship);
+            window.removeEventListener('open-contact-modal', handleOpenContact);
+        };
+    }, []);
+
     const [isDonateDialogOpen, setIsDonateDialogOpen] = useState(false);
     const [donationCategory, setDonationCategory] = useState<string>("");
     const [donationStep, setDonationStep] = useState(1);
@@ -965,7 +988,19 @@ export function Header() {
                                         </div>
                                     </div>
                                     <div onMouseEnter={() => handleMouseEnter('apply')} onMouseLeave={handleMouseLeave} className="h-full flex items-center relative">
-                                        <Button variant="ghost" className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}>APPLY FOR</Button>
+                                        <Button 
+                                            variant="ghost" 
+                                            onClick={() => {
+                                                if (activeMenu === 'apply') {
+                                                    setActiveMenu(null);
+                                                } else {
+                                                    handleMouseEnter('apply');
+                                                }
+                                            }}
+                                            className={cn(navItemClass, activeMenu === 'apply' && "after:scale-x-100 text-primary")}
+                                        >
+                                            APPLY FOR
+                                        </Button>
                                         <div className={cn(
                                             DESKTOP_MENU_TOKENS.dropdownAnimation,
                                             "w-64",
@@ -1428,11 +1463,13 @@ export function Header() {
                                                                 onClick={(e) => {
                                                                     e.preventDefault();
                                                                     setIsMobileMenuOpen(false);
-                                                                    if (linkOnClick) {
-                                                                      linkOnClick();
-                                                                    } else if (href && href !== '#') {
-                                                                        router.push(href);
-                                                                    }
+                                                                    setTimeout(() => {
+                                                                        if (linkOnClick) {
+                                                                            linkOnClick();
+                                                                        } else if (href && href !== '#') {
+                                                                            router.push(href);
+                                                                        }
+                                                                    }, 100);
                                                                 }}
                                                                 className="touch-manipulation group relative flex items-center justify-between px-3.5 py-2.5 min-h-[38px] transition-colors duration-100 text-left w-full cursor-pointer select-none text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-800/50"
                                                             >

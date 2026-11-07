@@ -76,31 +76,28 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
-        {/* Form Body & CTA Flow */}
-        <div className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left">
+        {/* Form Body - Clean Underlines, Consistent Vertical Spacing matching Scholarship Form */}
+        <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3.5 sm:space-y-4 text-left">
           {/* Row 1: Full Name & Phone Number (2 Columns on desktop, stacked on mobile) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
-                <FormItem className="text-left">
+                <FormItem className="space-y-0 text-left">
                   <FormLabel className="sr-only">Full Name</FormLabel>
                   <FormControl>
-                    <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                      <Input 
-                        placeholder="Full Name *" 
-                        {...field}
-                        autoFocus={false}
-                        value={field.value}
-                        onChange={(e) => {
-                          field.onChange(toTitleCase(e.target.value));
-                        }}
-                        className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize" 
-                      />
-                    </div>
+                    <Input 
+                      placeholder="Full Name *" 
+                      {...field}
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange(toTitleCase(e.target.value));
+                      }}
+                      className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                    />
                   </FormControl>
-                  <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                  <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                 </FormItem>
               )}
             />
@@ -109,21 +106,24 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
               control={form.control}
               name="phone"
               render={({ field }) => (
-                <FormItem className="text-left">
+                <FormItem className="space-y-0 text-left">
                   <FormLabel className="sr-only">Phone Number</FormLabel>
                   <FormControl>
-                    <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
+                    <div className="relative h-[38px] sm:h-[40px] w-full flex items-center">
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none pointer-events-none">
+                        +91
+                      </span>
                       <Input 
                         type="tel" 
                         maxLength={10}
                         placeholder="Phone Number *" 
                         {...field} 
-                        autoFocus={false}
-                        className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
+                        className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:ring-0 focus-visible:outline-none focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                        onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
                       />
                     </div>
                   </FormControl>
-                  <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                  <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                 </FormItem>
               )}
             />
@@ -134,20 +134,17 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             control={form.control}
             name="email"
             render={({ field }) => (
-              <FormItem className="text-left">
+              <FormItem className="space-y-0 text-left">
                 <FormLabel className="sr-only">Email Address</FormLabel>
                 <FormControl>
-                  <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                    <Input 
-                      type="email" 
-                      placeholder="Email Address (Optional)" 
-                      {...field} 
-                      autoFocus={false}
-                      className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4" 
-                    />
-                  </div>
+                  <Input 
+                    type="email" 
+                    placeholder="Email Address (Optional)" 
+                    {...field} 
+                    className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150" 
+                  />
                 </FormControl>
-                <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
               </FormItem>
             )}
           />
@@ -157,47 +154,43 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             control={form.control}
             name="message"
             render={({ field }) => (
-              <FormItem className="text-left">
-                <FormLabel className="sr-only">Your Message / Query</FormLabel>
+              <FormItem className="space-y-0 text-left">
+                <FormLabel className="sr-only">Your Message / Query *</FormLabel>
                 <FormControl>
-                  <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                    <Textarea 
-                      placeholder="Your Message / Query *" 
-                      className="min-h-[94px] sm:min-h-[100px] max-h-[140px] border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 pt-3 pb-3 resize-none leading-relaxed" 
-                      {...field}
-                      autoFocus={false}
-                      value={field.value}
-                      onChange={(e) => {
-                        field.onChange(toSentenceCase(e.target.value));
-                      }}
-                    />
-                  </div>
+                  <Textarea 
+                    placeholder="Your Message / Query *" 
+                    rows={3}
+                    className="min-h-[72px] sm:min-h-[80px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none resize-none leading-relaxed transition-[border-color,box-shadow] duration-150" 
+                    {...field}
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(toSentenceCase(e.target.value));
+                    }}
+                  />
                 </FormControl>
-                <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
               </FormItem>
             )}
           />
 
-          {/* Row 4: Submit Enquiry Button (Seamless flow matching master design) */}
-          <div className="pt-1.5 sm:pt-2">
-            <Button 
-              type="submit" 
-              disabled={form.formState.isSubmitting}
-              className="w-full h-11 sm:h-12 rounded-xl text-[15px] sm:text-[15.5px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99] disabled:opacity-70 group outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1F4B]/30" 
-            >
-              {form.formState.isSubmitting ? (
-                <>
-                  <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Submitting Enquiry...</span>
-                </>
-              ) : (
-                <>
-                  <span>Submit Enquiry</span>
-                  <ArrowRight className="w-4.5 h-4.5 stroke-[2.2] transition-transform group-hover:translate-x-1" />
-                </>
-              )}
-            </Button>
-          </div>
+          {/* Row 4: Submit Button matching Scholarship Modal styling */}
+          <Button 
+            type="submit" 
+            disabled={form.formState.isSubmitting}
+            className="group w-full h-[40px] sm:h-[42px] rounded-[6px] font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-3.5 sm:mt-4 uppercase" 
+          >
+            {form.formState.isSubmitting ? (
+              <span className="inline-flex items-center gap-2">
+                <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                SUBMITTING...
+              </span>
+            ) : (
+              <>
+                <span>SUBMIT MESSAGE</span>
+                <ArrowRight className="w-4 h-4 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
+              </>
+            )}
+          </Button>
         </div>
       </form>
     </Form>

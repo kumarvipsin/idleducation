@@ -724,3 +724,133 @@ body:has([data-radix-dialog-content]) [data-nextjs-dev-tools-button] {
   animation: idlMarqueeUp 18s linear infinite;
   will-change: transform;
 }
+
+/* ─────────────────────────────────────────────────────────────
+   Modal Dialog Focus Outline Suppression (No Blue Selection Ring)
+   ───────────────────────────────────────────────────────────── */
+[role="dialog"],
+[role="dialog"]:focus,
+[role="dialog"]:focus-visible,
+[data-radix-dialog-content],
+[data-radix-dialog-content]:focus,
+[data-radix-dialog-content]:focus-visible,
+[data-radix-focus-guard] {
+  outline: none !important;
+  -webkit-focus-ring-color: transparent !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Universal Suppression of 4-Sided Outline & Ring Blink on Click/Focus
+   Ensures ONLY the bottom underline (#2864E8) is highlighted consistently
+   ───────────────────────────────────────────────────────────── */
+[role="dialog"] input,
+[role="dialog"] textarea,
+[role="dialog"] select,
+[role="dialog"] [role="combobox"],
+[role="dialog"] button[role="combobox"],
+[data-radix-dialog-content] input,
+[data-radix-dialog-content] textarea,
+[data-radix-dialog-content] select,
+[data-radix-dialog-content] [role="combobox"],
+[data-radix-dialog-content] button[role="combobox"],
+.admission-form-root input,
+.admission-form-root textarea,
+.admission-form-root select,
+.admission-form-root [role="combobox"],
+.admission-form-root button[role="combobox"],
+input.border-b,
+textarea.border-b,
+button[role="combobox"].border-b,
+[role="combobox"].border-b {
+  outline: none !important;
+  outline-offset: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-focus-ring-color: transparent !important;
+}
+
+[role="dialog"] input:focus,
+[role="dialog"] input:focus-visible,
+[role="dialog"] textarea:focus,
+[role="dialog"] textarea:focus-visible,
+[role="dialog"] select:focus,
+[role="dialog"] select:focus-visible,
+[role="dialog"] [role="combobox"]:focus,
+[role="dialog"] [role="combobox"]:focus-visible,
+[role="dialog"] button[role="combobox"]:focus,
+[role="dialog"] button[role="combobox"]:focus-visible,
+[data-radix-dialog-content] input:focus,
+[data-radix-dialog-content] input:focus-visible,
+[data-radix-dialog-content] textarea:focus,
+[data-radix-dialog-content] textarea:focus-visible,
+[data-radix-dialog-content] select:focus,
+[data-radix-dialog-content] select:focus-visible,
+[data-radix-dialog-content] [role="combobox"]:focus,
+[data-radix-dialog-content] [role="combobox"]:focus-visible,
+[data-radix-dialog-content] button[role="combobox"]:focus,
+[data-radix-dialog-content] button[role="combobox"]:focus-visible,
+.admission-form-root input:focus,
+.admission-form-root input:focus-visible,
+.admission-form-root textarea:focus,
+.admission-form-root textarea:focus-visible,
+.admission-form-root select:focus,
+.admission-form-root select:focus-visible,
+.admission-form-root [role="combobox"]:focus,
+.admission-form-root [role="combobox"]:focus-visible,
+.admission-form-root button[role="combobox"]:focus,
+.admission-form-root button[role="combobox"]:focus-visible,
+input.border-b:focus,
+input.border-b:focus-visible,
+textarea.border-b:focus,
+textarea.border-b:focus-visible,
+button[role="combobox"].border-b:focus,
+button[role="combobox"].border-b:focus-visible,
+[role="combobox"].border-b:focus,
+[role="combobox"].border-b:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  --tw-ring-offset-width: 0px !important;
+  --tw-ring-width: 0px !important;
+  --tw-ring-offset-shadow: 0 0 #0000 !important;
+  --tw-ring-shadow: 0 0 #0000 !important;
+  box-shadow: none !important;
+  -webkit-focus-ring-color: transparent !important;
+}
+
+/* Exclusively apply the active bottom blue underline on focus for all underline-styled fields */
+input.border-b:focus,
+input.border-b:focus-visible,
+textarea.border-b:focus,
+textarea.border-b:focus-visible,
+button[role="combobox"].border-b:focus,
+button[role="combobox"].border-b:focus-visible,
+button[role="combobox"][data-state="open"],
+[role="combobox"].border-b:focus,
+[role="combobox"].border-b:focus-visible,
+[role="combobox"][data-state="open"],
+[role="dialog"] input.border-b:focus,
+[role="dialog"] input.border-b:focus-visible,
+[role="dialog"] button[role="combobox"].border-b:focus,
+[role="dialog"] button[role="combobox"].border-b:focus-visible,
+[role="dialog"] button[role="combobox"][data-state="open"],
+[data-radix-dialog-content] input.border-b:focus,
+[data-radix-dialog-content] input.border-b:focus-visible,
+[data-radix-dialog-content] button[role="combobox"].border-b:focus,
+[data-radix-dialog-content] button[role="combobox"].border-b:focus-visible,
+[data-radix-dialog-content] button[role="combobox"][data-state="open"],
+.admission-form-root input.border-b:focus,
+.admission-form-root input.border-b:focus-visible,
+.admission-form-root button[role="combobox"].border-b:focus,
+.admission-form-root button[role="combobox"].border-b:focus-visible,
+.admission-form-root button[role="combobox"][data-state="open"] {
+  border-bottom-color: #2864E8 !important;
+  box-shadow: 0 1px 0 0 #2864E8 !important;
+}
+
+/* Also ensure wrapper containers with border-b highlight on focus-within without all-sided shadow */
+div.border-b:focus-within,
+[role="dialog"] div.border-b:focus-within,
+[data-radix-dialog-content] div.border-b:focus-within,
+.admission-form-root div.border-b:focus-within {
+  border-bottom-color: #2864E8 !important;
+  box-shadow: 0 1px 0 0 #2864E8 !important;
+}

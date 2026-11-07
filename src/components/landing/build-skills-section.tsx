@@ -9,6 +9,11 @@ import type { THeroSlide } from "@/app/actions/types";
 import { Zap, Phone, ArrowRight, Sparkles, ChevronLeft, ChevronRight } from "lucide-react";
 import { AdmissionModal } from "@/components/admission-modal";
 import { BookDemoModal } from "@/components/book-demo-modal";
+import { 
+  EnrollNowModal, 
+  JEE_NEET_CLASSES, 
+  JEE_NEET_COURSES 
+} from "@/components/enroll-now-modal";
 
 interface HeroSlideItem {
   id: string;
@@ -105,6 +110,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
   const [current, setCurrent] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isEnrollOpen, setIsEnrollOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
   const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
 
@@ -368,7 +374,7 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
                           {/* Primary Golden CTA Button */}
                           <button
                             type="button"
-                            onClick={() => setIsAdmissionOpen(true)}
+                            onClick={() => setIsEnrollOpen(true)}
                             className="group relative inline-flex items-center justify-center gap-2 h-11 sm:h-12 md:h-13 px-6 sm:px-8 md:px-9 rounded-[5px] bg-gradient-to-r from-[#F59E0B] via-[#FBBF24] to-[#D97706] hover:brightness-105 active:scale-95 text-slate-950 font-black text-xs sm:text-sm md:text-base shadow-[0_0_24px_rgba(245,158,11,0.4),0_4px_14px_rgba(0,0,0,0.4)] hover:shadow-[0_0_32px_rgba(245,158,11,0.55)] border-t border-amber-200/60 transition-all duration-200 cursor-pointer overflow-hidden"
                           >
                             <span className="absolute inset-0 -translate-x-full group-hover:translate-x-full duration-700 bg-gradient-to-r from-transparent via-white/35 to-transparent transition-transform ease-out pointer-events-none" />
@@ -484,6 +490,16 @@ export function BuildSkillsSection({ slides: _initialSlides }: { slides?: THeroS
       </section>
 
       {/* Popups & Modals */}
+      <EnrollNowModal 
+        isOpen={isEnrollOpen} 
+        onOpenChange={setIsEnrollOpen} 
+        programTitle="JEE / NEET Target Program"
+        allowedClasses={JEE_NEET_CLASSES}
+        allowedCourses={JEE_NEET_COURSES}
+        defaultClass={JEE_NEET_CLASSES[0]}
+        defaultCourse={JEE_NEET_COURSES[0]}
+        source="Main Hero - JEE / NEET Slide"
+      />
       <AdmissionModal isOpen={isAdmissionOpen} onOpenChange={setIsAdmissionOpen} />
       <BookDemoModal isOpen={isBookDemoOpen} onOpenChange={setIsBookDemoOpen} />
     </>

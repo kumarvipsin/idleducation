@@ -20,16 +20,21 @@ export function ContactModal({ isOpen, onOpenChange }: ContactModalProps) {
       <FormModalDialogContent 
         onOpenAutoFocus={(e) => e.preventDefault()} 
         onCloseAutoFocus={(e) => e.preventDefault()}
-        maxWidthClass="max-w-[500px] sm:max-w-[530px]"
-        className="w-[92vw] sm:w-[94vw]"
+        maxWidthClass="max-w-[480px] sm:max-w-[560px] md:max-w-[580px]"
+        className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
       >
-        <DialogHeader className="px-6 sm:px-8 pt-6 sm:pt-7 pb-1 text-left shrink-0 pr-14">
-          <DialogTitle className="text-left text-[24px] sm:text-[27px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
-            Contact Us
-          </DialogTitle>
-          <DialogDescription className="text-left text-[13.5px] sm:text-[14.5px] font-medium text-slate-600 dark:text-slate-300 mt-1 leading-normal">
-            We’re here to help. Get in touch with our team.
-          </DialogDescription>
+        {/* Top Heading: Left-aligned, All Capital Letters, Small Font */}
+        <div className="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-3.5 border-b border-slate-100 dark:border-slate-800/80 pr-12 sm:pr-14 bg-white dark:bg-slate-950 shrink-0">
+          <div className="flex items-center select-none text-left">
+            <span className="text-[11px] sm:text-[12px] font-bold tracking-[0.08em] uppercase text-slate-700 dark:text-slate-200">
+              CONTACT US
+            </span>
+          </div>
+        </div>
+
+        <DialogHeader className="sr-only">
+          <DialogTitle>Contact Us</DialogTitle>
+          <DialogDescription>Get in touch with IDL Education team</DialogDescription>
         </DialogHeader>
 
         <ContactForm onSuccess={() => onOpenChange(false)} />

@@ -164,7 +164,7 @@ export default function BookDemoPage() {
                                     <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none transition-transform duration-300 group-focus-within:scale-110">
                                     <Phone className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                     </div>
-                                    <Input type="tel" placeholder="Mobile Number *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
+                                    <Input type="tel" maxLength={10} placeholder="Mobile Number *" {...field} className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400" />
                                 </div>
                                 </FormControl>
                                 <FormMessage className="text-[10px] px-4 pb-2" />
@@ -187,7 +187,7 @@ export default function BookDemoPage() {
                                 <Select onValueChange={field.onChange} value={field.value}>
                                     <FormControl>
                                     <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                        <SelectValue placeholder="Select Class/Course *" />
+                                        <SelectValue placeholder="Class/Course *" />
                                     </SelectTrigger>
                                     </FormControl>
                                     <SelectContent>
@@ -231,7 +231,7 @@ export default function BookDemoPage() {
                             <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl>
                                 <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                    <SelectValue placeholder="Select Nearest Branch *" />
+                                    <SelectValue placeholder="Nearest Branch *" />
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>

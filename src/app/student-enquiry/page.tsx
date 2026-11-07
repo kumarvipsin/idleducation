@@ -23,7 +23,7 @@ const enquirySchema = z.object({
   classCourse: z.string().min(1, { message: "Please select a class or course." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   state: z.string().min(1, { message: "Please select a state." }),
-  message: z.string().optional(),
+  message: z.string().min(2, { message: "Please specify which stream or subject you are enquiring for." }),
 });
 
 type EnquiryFormValues = z.infer<typeof enquirySchema>;
@@ -175,7 +175,7 @@ export default function StudentEnquiryPage() {
                                                             <Select onValueChange={field.onChange} value={field.value}>
                                                                 <FormControl>
                                                                     <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                                                        <SelectValue placeholder="Select Class/Course *" />
+                                                                        <SelectValue placeholder="Class / Course *" />
                                                                     </SelectTrigger>
                                                                 </FormControl>
                                                                 <SelectContent>
@@ -218,7 +218,7 @@ export default function StudentEnquiryPage() {
                                                         <Select onValueChange={field.onChange} value={field.value}>
                                                             <FormControl>
                                                                 <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
-                                                                    <SelectValue placeholder="Select a state *" />
+                                                                    <SelectValue placeholder="State *" />
                                                                 </SelectTrigger>
                                                             </FormControl>
                                                             <SelectContent>
@@ -242,7 +242,7 @@ export default function StudentEnquiryPage() {
                                                                 <MessageSquare className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                                                             </div>
                                                             <Textarea 
-                                                                placeholder="Describe your enquiry... *" 
+                                                                placeholder="Which stream or subject are you enquiring for? *" 
                                                                 className="min-h-[120px] pl-12 pt-4 bg-transparent border-0 rounded-none font-bold text-[13px] transition-all focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-slate-400 resize-none"
                                                                 {...field}
                                                             />

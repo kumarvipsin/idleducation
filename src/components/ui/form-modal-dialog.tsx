@@ -81,15 +81,16 @@ export const FormModalDialogContent = React.forwardRef<
             e.preventDefault();
             onOpenAutoFocus?.(e);
           }}
+          {...props}
+          style={{ outline: 'none', ...props.style }}
           className={cn(
-            "pointer-events-auto relative w-[calc(100vw-1.5rem)] sm:w-[92vw] md:w-[88vw] shadow-[0_20px_60px_-15px_rgba(11,31,75,0.15)] rounded-[22px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden flex flex-col",
+            "pointer-events-auto relative w-[calc(100vw-1.5rem)] sm:w-[92vw] md:w-[88vw] shadow-[0_20px_60px_-15px_rgba(11,31,75,0.15)] rounded-[22px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 p-0 overflow-hidden flex flex-col !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0",
             "max-h-[calc(100dvh-48px)] sm:max-h-[calc(100dvh-64px)] my-auto",
             // Controlled, consistent animations: subtle fade + small upward movement (open), subtle fade + small downward movement (close)
             "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=open]:fade-in-0 data-[state=closed]:fade-out-0 data-[state=open]:slide-in-from-bottom-2 data-[state=closed]:slide-out-to-bottom-2 duration-200 ease-out",
             maxWidthClass,
             className
           )}
-          {...props}
         >
           {children}
           {!hideCloseButton && (

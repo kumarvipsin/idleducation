@@ -46,6 +46,15 @@ import { useToast } from '@/hooks/use-toast';
 import { BookDemoModal } from '@/components/book-demo-modal';
 import { AdmissionModal } from '@/components/admission-modal';
 import { StudentEnquiryModal } from '@/components/student-enquiry-modal';
+import { 
+  EnrollNowModal, 
+  JUNIOR_CLASSES, 
+  JUNIOR_COURSES, 
+  SECONDARY_CLASSES, 
+  SECONDARY_COURSES, 
+  SENIOR_CLASSES, 
+  SENIOR_COURSES 
+} from '@/components/enroll-now-modal';
 
 // Future-Ready Branch Manager Timetable Configuration
 export const MANGOLPURI_TIMETABLE_CONFIG = {
@@ -121,6 +130,12 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
   const [isBookDemoOpen, setIsBookDemoOpen] = useState(false);
   const [isAdmissionOpen, setIsAdmissionOpen] = useState(false);
   const [isEnquiryOpen, setIsEnquiryOpen] = useState(false);
+  const [isEnrollOpen, setIsEnrollOpen] = useState(false);
+  const [enrollDefaultClass, setEnrollDefaultClass] = useState<string>('');
+  const [enrollDefaultCourse, setEnrollDefaultCourse] = useState<string>('');
+  const [enrollProgramTitle, setEnrollProgramTitle] = useState<string>('');
+  const [enrollAllowedClasses, setEnrollAllowedClasses] = useState<string[]>([]);
+  const [enrollAllowedCourses, setEnrollAllowedCourses] = useState<string[]>([]);
 
   // Vijay Verma Tab ('director' | 'profile')
   const [activeMessageTab, setActiveMessageTab] = useState<'director' | 'profile'>('director');
@@ -1257,26 +1272,33 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
           {/* Three Vertical Program Cards (Classes 4-8, 9 & 10, 11 & 12) with Student Cutouts */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
             
-            {/* Card 1: Classes 4 – 8 (Junior Foundation) */}
+            {/* Card 1: Class 4 – 8 (Junior Foundation) */}
             <div
-              onClick={() => setIsAdmissionOpen(true)}
+              onClick={() => {
+                setEnrollProgramTitle('Class 4–8 Junior Foundation');
+                setEnrollAllowedClasses(JUNIOR_CLASSES);
+                setEnrollAllowedCourses(JUNIOR_COURSES);
+                setEnrollDefaultClass('Class 4th');
+                setEnrollDefaultCourse(JUNIOR_COURSES[0]);
+                setIsEnrollOpen(true);
+              }}
               className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
-              {/* Visual Showcase Top with Student Cutout on Unified Soft Ice Blue */}
-              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EEF5FF] via-[#F4F8FE] to-[#E6F0FD]">
-                {/* Soft ambient radial glow behind student */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-300/15 rounded-full blur-2xl pointer-events-none" />
+              {/* Visual Showcase Top with Student Cutout on Soft Ice Blue Studio */}
+              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#E8F1FC] via-[#F1F6FD] to-[#E2EDFA]">
+                {/* Soft ambient radial glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-400/10 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Badge on Image Header - Unified Royal Blue & Ice Blue */}
+                {/* Badge on Image Header */}
                 <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
-                  Classes 4 – 8
+                  Class 4 – 8
                 </span>
 
                 {/* Real Student Cutout Photo */}
                 <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
                   <Image
                     src="/mangolpuri/girl.png"
-                    alt="Classes 4 - 8 Junior Foundation Student"
+                    alt="Class 4 - 8 Junior Foundation Student"
                     fill
                     className="object-contain object-bottom"
                     priority
@@ -1311,26 +1333,33 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
               </div>
             </div>
 
-            {/* Card 2: Classes 9 & 10 (Secondary Board Foundation) */}
+            {/* Card 2: Class 9 & 10 (Secondary Board Foundation) */}
             <div
-              onClick={() => setIsAdmissionOpen(true)}
+              onClick={() => {
+                setEnrollProgramTitle('Class 9 & 10 Secondary Board');
+                setEnrollAllowedClasses(SECONDARY_CLASSES);
+                setEnrollAllowedCourses(SECONDARY_COURSES);
+                setEnrollDefaultClass('Class 9th');
+                setEnrollDefaultCourse(SECONDARY_COURSES[0]);
+                setIsEnrollOpen(true);
+              }}
               className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
-              {/* Visual Showcase Top with Student Cutout on Unified Soft Ice Blue */}
-              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EEF5FF] via-[#F4F8FE] to-[#E6F0FD]">
-                {/* Soft ambient radial glow behind student */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-300/15 rounded-full blur-2xl pointer-events-none" />
+              {/* Visual Showcase Top with Student Cutout on Soft Ice Blue Studio */}
+              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#E8F1FC] via-[#F1F6FD] to-[#E2EDFA]">
+                {/* Soft ambient radial glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-400/10 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Badge on Image Header - Unified Royal Blue & Ice Blue */}
+                {/* Badge on Image Header */}
                 <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
-                  Classes 9 &amp; 10
+                  Class 9 &amp; 10
                 </span>
 
                 {/* Real Student Cutout Photo */}
                 <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
                   <Image
                     src="/mangolpuri/boy.png"
-                    alt="Classes 9 and 10 CBSE Board Student"
+                    alt="Class 9 and 10 CBSE Board Student"
                     fill
                     className="object-contain object-bottom"
                     priority
@@ -1365,26 +1394,33 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
               </div>
             </div>
 
-            {/* Card 3: Classes 11 & 12 (Senior Commerce & CUET) */}
+            {/* Card 3: Class 11 & 12 (Senior Commerce & CUET) */}
             <div
-              onClick={() => setIsAdmissionOpen(true)}
+              onClick={() => {
+                setEnrollProgramTitle('Class 11 & 12 Commerce Foundation');
+                setEnrollAllowedClasses(SENIOR_CLASSES);
+                setEnrollAllowedCourses(SENIOR_COURSES);
+                setEnrollDefaultClass('Class 11th');
+                setEnrollDefaultCourse(SENIOR_COURSES[0]);
+                setIsEnrollOpen(true);
+              }}
               className="group relative rounded-2xl bg-white border border-[#DCE8F8] hover:border-[#2864E8]/60 p-0 shadow-[0_4px_20px_-4px_rgba(23,63,70,0.06)] hover:shadow-[0_12px_28px_-6px_rgba(23,63,70,0.12)] transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
             >
-              {/* Visual Showcase Top with Student Cutout on Unified Soft Ice Blue */}
-              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#EEF5FF] via-[#F4F8FE] to-[#E6F0FD]">
-                {/* Soft ambient radial glow behind student */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-300/15 rounded-full blur-2xl pointer-events-none" />
+              {/* Visual Showcase Top with Student Cutout on Soft Ice Blue Studio */}
+              <div className="relative h-[185px] sm:h-[195px] lg:h-[235px] overflow-hidden flex items-end justify-center bg-gradient-to-b from-[#E8F1FC] via-[#F1F6FD] to-[#E2EDFA]">
+                {/* Soft ambient radial glow */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 sm:w-44 h-36 sm:h-44 bg-blue-400/10 rounded-full blur-2xl pointer-events-none" />
 
-                {/* Badge on Image Header - Unified Royal Blue & Ice Blue */}
+                {/* Badge on Image Header */}
                 <span className="absolute top-3 sm:top-3.5 left-3 sm:left-3.5 z-10 inline-flex items-center px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/95 backdrop-blur-xs text-[#2864E8] border border-[#D5E5FD] text-[11px] sm:text-xs font-bold shadow-2xs">
-                  Classes 11 &amp; 12
+                  Class 11 &amp; 12
                 </span>
 
                 {/* Real Student Cutout Photo */}
                 <div className="relative w-full h-[160px] sm:h-[170px] lg:h-[200px] flex items-end justify-center transition-transform duration-300 group-hover:scale-105 pointer-events-none">
                   <Image
                     src="/mangolpuri/girl.png"
-                    alt="Classes 11 and 12 Commerce & CUET Student"
+                    alt="Class 11 and 12 Commerce & CUET Student"
                     fill
                     className="object-contain object-bottom"
                     priority
@@ -1511,11 +1547,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Mathematics</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Social Studies</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1531,11 +1567,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Science</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">English</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1580,11 +1616,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Mathematics</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Social Studies</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1600,11 +1636,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Science</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">English</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1649,11 +1685,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Economics</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Accounts</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1669,11 +1705,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Guided Practice &amp; Doubts</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Pol Science / History</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1718,11 +1754,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Economics</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Accounts</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -1738,11 +1774,11 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
                         <div className="divide-y divide-slate-200/70 pt-1">
                           <div className="flex items-center justify-between py-2.5 first:pt-2 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Board Answer Writing</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">4:00 – 5:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">4:00 – 5:00 PM</span>
                           </div>
                           <div className="flex items-center justify-between py-2.5 first:pt-2.5 last:pb-0">
                             <span className="text-xs sm:text-[13px] font-bold text-[#173568]">Pol Science / History</span>
-                            <span className="text-[11.5px] sm:text-xs font-semibold text-[#2864E8] bg-[#EEF5FF] border border-[#D5E5FD] px-2.5 py-0.5 rounded-md tabular-nums">5:00 – 6:00 PM</span>
+                            <span className="text-xs sm:text-[13px] font-bold text-[#2864E8] tabular-nums">5:00 – 6:00 PM</span>
                           </div>
                         </div>
                       </div>
@@ -2034,6 +2070,17 @@ export default function MangolpuriBranchClient({ branch }: BranchDetailClientPro
       </div>
 
       {/* ── MODALS INTEGRATION ───────────────────────────────────────── */}
+      <EnrollNowModal 
+        isOpen={isEnrollOpen} 
+        onOpenChange={setIsEnrollOpen} 
+        defaultBranch="Mangol Puri, Delhi-110083"
+        defaultClass={enrollDefaultClass}
+        defaultCourse={enrollDefaultCourse}
+        programTitle={enrollProgramTitle}
+        allowedClasses={enrollAllowedClasses}
+        allowedCourses={enrollAllowedCourses}
+        source="Mangolpuri Branch Page"
+      />
       <BookDemoModal isOpen={isBookDemoOpen} onOpenChange={setIsBookDemoOpen} />
       <AdmissionModal isOpen={isAdmissionOpen} onOpenChange={setIsAdmissionOpen} />
       <StudentEnquiryModal isOpen={isEnquiryOpen} onOpenChange={setIsEnquiryOpen} />

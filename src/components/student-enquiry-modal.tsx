@@ -2,41 +2,49 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { submitStudentEnquiry } from "@/app/actions/forms";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { FormModalDialogContent } from "@/components/ui/form-modal-dialog";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
-const indianStates = [
-  "Delhi",
-  "Bihar"
+const indianStates = ["Delhi"];
+
+const delhiBranches = [
+  "Mukherjee Nagar, Delhi-110009",
+  "Mangol Puri, Delhi-110083",
+  "Krishan Vihar, Delhi-110086",
+  "Budh Vihar, Delhi-110086"
 ];
 
-const courseOptions = [
-  "Class 6th Foundation", "Class 7th Foundation", "Class 8th Foundation",
-  "Class 9th (Pre-Board & Olympiad)", "Class 10th (Board & Olympiad Prep)",
-  "Class 11th - Medical (NEET-UG)", "Class 11th - Engineering (JEE Main & Adv)",
-  "Class 11th - Commerce / Arts", "Class 12th - Medical (NEET-UG)",
-  "Class 12th - Engineering (JEE Main & Adv)", "Class 12th - Board Focus",
-  "Target Repeater Batch (NEET)", "Target Repeater Batch (JEE)",
-  "CUET (UG) Preparation", "CBSE Board Special", "Other Program Enquiry"
+const classOptions = [
+  "Class 4",
+  "Class 5",
+  "Class 6",
+  "Class 7",
+  "Class 8",
+  "Class 9",
+  "Class 10",
+  "Class 11",
+  "Class 12",
+  "Class 12 PASS"
 ];
 
 const enquirySchema = z.object({
-  studentName: z.string().min(2, { message: "Student Name must be at least 2 characters." }),
-  guardianName: z.string().min(2, { message: "Guardian Name must be at least 2 characters." }),
-  classCourse: z.string().min(1, { message: "Please select target class or course." }),
+  studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
+  guardianName: z.string().min(2, { message: "Parent/Guardian name is required." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  state: z.string().min(1, { message: "Please select a state." }),
-  message: z.string().optional(),
+  branch: z.string().min(1, { message: "Please select a branch / centre." }),
+  state: z.string().min(1, { message: "Please select your state." }),
+  classCourse: z.string().min(1, { message: "Please select a class." }),
+  message: z.string().min(2, { message: "Please specify which stream or subject you are enquiring for." }),
 });
 
 type EnquiryFormValues = z.infer<typeof enquirySchema>;
@@ -44,6 +52,7 @@ type EnquiryFormValues = z.infer<typeof enquirySchema>;
 interface StudentEnquiryModalProps {
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
+  defaultBranch?: string;
 }
 
 const toTitleCase = (str: string) => {
@@ -54,49 +63,73 @@ const toSentenceCase = (str: string) => {
   return str.replace(/(^\s*|[.!?]\s+)([a-z])/g, (_, p1, p2) => p1 + p2.toUpperCase());
 };
 
-export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModalProps) {
-  const { toast } = useToast();
-  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: StudentEnquiryModalProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccessOpen, setIsSuccessOpen] = useState(false);
+  const [submittedData, setSubmittedData] = useState<EnquiryFormValues | null>(null);
+  const { toast } = useToast();
 
   const form = useForm<EnquiryFormValues>({
     resolver: zodResolver(enquirySchema),
     defaultValues: {
       studentName: '',
       guardianName: '',
-      classCourse: '',
       mobile: '',
-      state: '',
+      branch: '',
+      state: 'Delhi',
+      classCourse: '',
       message: '',
     },
   });
 
+  // Pre-fill branch if provided
   useEffect(() => {
     if (isOpen) {
       if (typeof document !== 'undefined' && document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
       }
-      const timer = setTimeout(() => {
-        if (document.activeElement instanceof HTMLElement) {
-          document.activeElement.blur();
+      if (defaultBranch) {
+        const match = delhiBranches.find(b => 
+          b.toLowerCase().includes(defaultBranch.toLowerCase()) || 
+          defaultBranch.toLowerCase().includes(b.split(',')[0].toLowerCase())
+        );
+        if (match) {
+          form.setValue('branch', match);
         }
-      }, 50);
-      return () => clearTimeout(timer);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, defaultBranch, form]);
 
   const onSubmit: SubmitHandler<EnquiryFormValues> = async (data) => {
     setIsSubmitting(true);
     try {
-      const result = await submitStudentEnquiry(data);
+      const result = await submitStudentEnquiry({
+        studentName: data.studentName,
+        guardianName: data.guardianName,
+        classCourse: data.classCourse,
+        mobile: data.mobile,
+        state: data.state || 'Delhi',
+        branch: data.branch || '',
+        message: data.message || '',
+      });
+
       if (result.success) {
+        setSubmittedData(data);
         setIsSuccessOpen(true);
-        form.reset();
+        form.reset({
+          studentName: '',
+          guardianName: '',
+          mobile: '',
+          branch: '',
+          state: 'Delhi',
+          classCourse: '',
+          message: '',
+        });
       } else {
         toast({
           variant: "destructive",
-          title: "Submission Error",
-          description: result.message || "Could not submit enquiry.",
+          title: "Submission Failed",
+          description: result.message || "Failed to submit enquiry. Please try again.",
         });
       }
     } catch {
@@ -116,44 +149,46 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
         <FormModalDialogContent
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
-          maxWidthClass="max-w-[500px] sm:max-w-[530px]"
-          className="w-[92vw] sm:w-[94vw]"
+          maxWidthClass="max-w-[480px] sm:max-w-[560px] md:max-w-[580px]"
+          className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
         >
-          {/* Modal Header */}
-          <DialogHeader className="px-6 sm:px-8 pt-6 sm:pt-7 pb-1 text-left shrink-0 pr-14">
-            <DialogTitle className="text-left text-[24px] sm:text-[27px] font-bold text-[#0B1F4B] dark:text-white tracking-tight leading-tight">
-              Student Enquiry
-            </DialogTitle>
-            <DialogDescription className="text-left text-[13.5px] sm:text-[14.5px] font-medium text-slate-600 dark:text-slate-300 mt-1 leading-normal">
-              Have questions? We’re here to help.
-            </DialogDescription>
+          {/* Top Heading: Left-aligned, All Capital Letters, Small Font */}
+          <div className="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-3.5 border-b border-slate-100 dark:border-slate-800/80 pr-12 sm:pr-14 bg-white dark:bg-slate-950 shrink-0">
+            <div className="flex items-center select-none text-left">
+              <span className="text-[11px] sm:text-[12px] font-bold tracking-[0.08em] uppercase text-slate-700 dark:text-slate-200">
+                STUDENT ENQUIRY
+              </span>
+            </div>
+          </div>
+
+          <DialogHeader className="sr-only">
+            <DialogTitle>Student Enquiry</DialogTitle>
+            <DialogDescription>Submit your queries and our academic counsellors will get back to you</DialogDescription>
           </DialogHeader>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
-              {/* Form Body & CTA Flow */}
-              <div className="px-6 sm:px-8 pt-3 sm:pt-4 pb-6 sm:pb-7 space-y-3.5 sm:space-y-4 text-left">
-                {/* Row 1: Student Name & Guardian Name */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+              {/* Form Body - Clean Underlines, Consistent Vertical Spacing matching Admission Form */}
+              <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3.5 sm:space-y-4 text-left">
+
+                {/* Row 1: Student Full Name & Father / Guardian Name in 2-column grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="studentName"
                     render={({ field }) => (
-                      <FormItem className="text-left">
+                      <FormItem className="space-y-0 text-left">
                         <FormLabel className="sr-only">Student Full Name</FormLabel>
                         <FormControl>
-                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                            <Input
-                              placeholder="Student Full Name *"
-                              {...field}
-                              autoFocus={false}
-                              value={field.value}
-                              onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                              className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize"
-                            />
-                          </div>
+                          <Input
+                            placeholder="Student Full Name *"
+                            {...field}
+                            value={field.value}
+                            onChange={(e) => field.onChange(toTitleCase(e.target.value))}
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          />
                         </FormControl>
-                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                       </FormItem>
                     )}
                   />
@@ -162,157 +197,176 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
                     control={form.control}
                     name="guardianName"
                     render={({ field }) => (
-                      <FormItem className="text-left">
-                        <FormLabel className="sr-only">Parent / Guardian</FormLabel>
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Father / Guardian Name</FormLabel>
                         <FormControl>
-                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                            <Input
-                              placeholder="Parent / Guardian *"
-                              {...field}
-                              autoFocus={false}
-                              value={field.value}
-                              onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                              className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 capitalize"
-                            />
-                          </div>
+                          <Input
+                            placeholder="Father / Guardian Name *"
+                            {...field}
+                            value={field.value}
+                            onChange={(e) => field.onChange(toTitleCase(e.target.value))}
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          />
                         </FormControl>
-                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                       </FormItem>
                     )}
                   />
                 </div>
 
-                {/* Row 2: Target Course & State */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                {/* Row 2: Mobile Number & Preferred Branch in 2-column grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <FormField
                     control={form.control}
-                    name="classCourse"
+                    name="mobile"
                     render={({ field }) => (
-                      <FormItem className="text-left">
-                        <FormLabel className="sr-only">Class / Exam</FormLabel>
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Mobile Number</FormLabel>
                         <FormControl>
-                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                            <Select onValueChange={field.onChange} value={field.value}>
-                              <SelectTrigger 
-                                style={{ outline: 'none', boxShadow: 'none' }}
-                                className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400"
-                              >
-                                <SelectValue placeholder="Class / Exam *" />
-                              </SelectTrigger>
-                              <SelectContent className="max-h-56">
-                                {courseOptions.map((c) => (
-                                  <SelectItem key={c} value={c} className="text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100">
-                                    {c}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
+                          <div className="relative flex items-center h-[38px] sm:h-[40px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
+                            <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                              +91
+                            </span>
+                            <Input
+                              type="tel"
+                              maxLength={10}
+                              placeholder="Mobile Number (10 digits) *"
+                              {...field}
+                              className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none"
+                              onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
+                            />
                           </div>
                         </FormControl>
-                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                       </FormItem>
                     )}
                   />
 
+                  <FormField
+                    control={form.control}
+                    name="branch"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Preferred Branch</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                              <SelectValue placeholder="Preferred Branch *" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="max-h-[220px] z-[200]">
+                            {delhiBranches.map((b) => (
+                              <SelectItem key={b} value={b} className="text-[13px] py-1.5 cursor-pointer font-medium">
+                                {b}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                {/* Row 3: State & Class / Course in 2-column grid */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="state"
                     render={({ field }) => (
-                      <FormItem className="text-left">
-                        <FormLabel className="sr-only">State / Location</FormLabel>
-                        <FormControl>
-                          <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all overflow-hidden">
-                            <Select onValueChange={field.onChange} value={field.value}>
-                              <SelectTrigger 
-                                style={{ outline: 'none', boxShadow: 'none' }}
-                                className="h-11 sm:h-12 border-0 bg-transparent rounded-xl text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 !ring-0 !ring-offset-0 focus:!ring-0 focus:!ring-offset-0 focus-visible:!ring-0 focus-visible:!ring-offset-0 !outline-none focus:!outline-none focus-visible:!outline-none shadow-none px-3.5 sm:px-4 w-full cursor-pointer data-[placeholder]:text-slate-500 dark:data-[placeholder]:text-slate-400 [&>span[data-placeholder]]:text-slate-500 dark:[&>span[data-placeholder]]:text-slate-400"
-                              >
-                                <SelectValue placeholder="State / Location *" />
-                              </SelectTrigger>
-                              <SelectContent className="max-h-56">
-                                {indianStates.map((s) => (
-                                  <SelectItem key={s} value={s} className="text-[13.5px] sm:text-[14px] font-medium text-[#0B1F4B] dark:text-slate-100">
-                                    {s}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          </div>
-                        </FormControl>
-                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">State</FormLabel>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
+                          <FormControl>
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                              <SelectValue placeholder="State *" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="max-h-[220px] z-[200]">
+                            {indianStates.map((s) => (
+                              <SelectItem key={s} value={s} className="text-[13px] py-1.5 cursor-pointer font-medium">
+                                {s}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="classCourse"
+                    render={({ field }) => (
+                      <FormItem className="space-y-0 text-left">
+                        <FormLabel className="sr-only">Class / Course</FormLabel>
+                        <Select onValueChange={field.onChange} value={field.value}>
+                          <FormControl>
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                              <SelectValue placeholder="Class / Course *" />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent className="max-h-[240px] z-[200]">
+                            {classOptions.map((c) => (
+                              <SelectItem key={c} value={c} className="text-[13px] py-1.5 cursor-pointer font-medium">
+                                {c}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                        <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                       </FormItem>
                     )}
                   />
                 </div>
 
-                {/* Row 3: Mobile Number */}
-                <FormField
-                  control={form.control}
-                  name="mobile"
-                  render={({ field }) => (
-                    <FormItem className="text-left">
-                      <FormLabel className="sr-only">Mobile Number</FormLabel>
-                      <FormControl>
-                        <div className="relative flex items-center rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                          <Input
-                            type="tel"
-                            maxLength={10}
-                            placeholder="Mobile Number *"
-                            {...field}
-                            autoFocus={false}
-                            className="h-11 sm:h-12 border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4"
-                          />
-                        </div>
-                      </FormControl>
-                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
-                    </FormItem>
-                  )}
-                />
-
-                {/* Row 4: Message / Questions */}
+                {/* Row 4: Which Stream or Subject are you enquiring for? (Full-width) */}
                 <FormField
                   control={form.control}
                   name="message"
                   render={({ field }) => (
-                    <FormItem className="text-left">
-                      <FormLabel className="sr-only">Questions / Specific Enquiry</FormLabel>
+                    <FormItem className="space-y-0 text-left">
+                      <FormLabel className="sr-only">Which Stream or Subject are you enquiring for? *</FormLabel>
                       <FormControl>
-                        <div className="relative rounded-xl border border-[#DCE7F6] dark:border-slate-800 bg-[#F8FAFD] dark:bg-slate-900/60 shadow-[0_1px_2px_rgba(0,0,0,0.02)] focus-within:border-[#0B1F4B] focus-within:ring-2 focus-within:ring-[#0B1F4B]/10 transition-all">
-                          <Textarea
-                            placeholder="Questions / Specific Enquiry"
-                            className="min-h-[85px] sm:min-h-[90px] max-h-[130px] border-0 bg-transparent text-[14px] sm:text-[14.5px] font-medium text-[#0B1F4B] dark:text-slate-100 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus-visible:ring-0 focus-visible:ring-offset-0 focus:ring-0 focus:outline-none outline-none px-3.5 sm:px-4 pt-3 pb-3 resize-none leading-relaxed"
-                            {...field}
-                            autoFocus={false}
-                            value={field.value || ''}
-                            onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
-                          />
-                        </div>
+                        <Input
+                          placeholder="Which Stream or Subject are you enquiring for? *"
+                          {...field}
+                          value={field.value || ''}
+                          onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
+                          className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[12.5px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                        />
                       </FormControl>
-                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-1" />
+                      <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
                     </FormItem>
                   )}
                 />
 
-                {/* Row 5: Submit Student Enquiry Button */}
-                <div className="pt-1.5 sm:pt-2">
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full h-11 sm:h-12 rounded-xl text-[15px] sm:text-[15.5px] font-bold bg-[#0B1F4B] hover:bg-[#155EEF] text-white shadow-sm hover:shadow-md transition-all flex items-center justify-center gap-2.5 cursor-pointer active:scale-[0.99] disabled:opacity-70 group outline-none focus:outline-none focus-visible:ring-2 focus-visible:ring-[#0B1F4B]/30"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        <span>Sending Enquiry...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Send Enquiry</span>
-                        <ArrowRight className="w-4.5 h-4.5 stroke-[2.2] transition-transform group-hover:translate-x-1" />
-                      </>
-                    )}
-                  </Button>
-                </div>
+                {/* CTA Submit Button matching Admission Form button styling */}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="group w-full h-[40px] sm:h-[42px] rounded-[6px] font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-3.5 sm:mt-4 uppercase"
+                >
+                  {isSubmitting ? (
+                    <span className="inline-flex items-center gap-2">
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                      SUBMITTING...
+                    </span>
+                  ) : (
+                    <>
+                      <span>SUBMIT</span>
+                      <ArrowRight className="w-4 h-4 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
+                    </>
+                  )}
+                </Button>
+
               </div>
             </form>
           </Form>
@@ -320,24 +374,43 @@ export function StudentEnquiryModal({ isOpen, onOpenChange }: StudentEnquiryModa
       </Dialog>
 
       {/* Success Dialog */}
-      <Dialog open={isSuccessOpen} onOpenChange={setIsSuccessOpen}>
-        <DialogContent className="rounded-2xl max-w-sm border border-slate-200 dark:border-slate-800 p-6 bg-white dark:bg-slate-900 text-center shadow-2xl">
-          <DialogHeader className="space-y-2">
-            <div className="w-12 h-12 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center">
-              <CheckCircle2 className="w-6 h-6" />
+      <Dialog open={isSuccessOpen} onOpenChange={(open) => {
+        setIsSuccessOpen(open);
+        if (!open) {
+          onOpenChange(false);
+        }
+      }}>
+        <DialogContent className="max-w-[420px] rounded-2xl p-6 text-center z-[130]">
+          <div className="w-14 h-14 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+            <CheckCircle2 className="w-8 h-8" />
+          </div>
+          <DialogTitle className="text-xl font-bold text-slate-900 dark:text-white">
+            Enquiry Received!
+          </DialogTitle>
+          <DialogDescription className="text-sm text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+            Thank you, <span className="font-semibold text-slate-900 dark:text-white">{submittedData?.studentName}</span>. Your enquiry for <span className="font-semibold text-slate-900 dark:text-white">{submittedData?.branch || 'Delhi'}</span> has been submitted. Our academic counsellor will get in touch with you shortly.
+          </DialogDescription>
+          <div className="mt-4 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800 text-left space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+            <div className="flex justify-between">
+              <span className="text-slate-400 font-medium">Student:</span>
+              <span className="font-bold text-slate-800 dark:text-slate-200">{submittedData?.studentName}</span>
             </div>
-            <DialogTitle className="text-xl font-bold text-[#102A68] dark:text-white">Enquiry Submitted!</DialogTitle>
-            <DialogDescription className="text-[13px] sm:text-[14px] font-normal text-slate-500 dark:text-slate-400 leading-relaxed">
-              We have received your enquiry. An IDL academic counsellor will contact you shortly to address all your questions.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter className="mt-4">
+            <div className="flex justify-between">
+              <span className="text-slate-400 font-medium">Class:</span>
+              <span className="font-bold text-blue-600">{submittedData?.classCourse}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="text-slate-400 font-medium">Branch:</span>
+              <span className="font-bold text-slate-800 dark:text-slate-200 truncate max-w-[200px]">{submittedData?.branch}</span>
+            </div>
+          </div>
+          <DialogFooter className="mt-5">
             <Button
               onClick={() => {
                 setIsSuccessOpen(false);
                 onOpenChange(false);
               }}
-              className="w-full h-10 sm:h-11 rounded-[8px] font-semibold text-[13px] sm:text-[14px] bg-[#102A68] hover:bg-[#0C1E4A] text-white cursor-pointer shadow-sm"
+              className="w-full rounded-[5px] bg-[#2864E8] text-white font-semibold"
             >
               Done
             </Button>

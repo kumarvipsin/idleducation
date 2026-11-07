@@ -185,6 +185,12 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enrollments')}>
+                            <Link href="/admin/enrollments">
+                                <GraduationCap />
+                                <span>Enrollments</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
                             <Link href="/admin/admissions">
                                 <FileText />

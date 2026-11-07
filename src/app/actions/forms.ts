@@ -18,6 +18,7 @@ const freeSessionSchema = z.object({
   branch: z.string().optional(),
   nearestBranch: z.string().optional().or(z.literal('')),
   mode: z.string().optional(),
+  subjects: z.string().optional(),
 });
 type FreeSessionValues = z.infer<typeof freeSessionSchema>;
 
@@ -46,8 +47,13 @@ const scholarshipSchema = z.object({
   guardianName: z.string().min(2, { message: "Guardian name is required." }),
   class: z.string().min(1, { message: "Please select a class." }),
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
-  country: z.string().min(1, { message: "Please select a country." }),
+  otp: z.string().optional(),
+  country: z.string().optional().default('India'),
   state: z.string().min(1, { message: "Please select a state." }),
+  city: z.string().optional(),
+  branch: z.string().optional(),
+  mode: z.string().optional().default('Offline'),
+  message: z.string().optional(),
 });
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
 
@@ -161,7 +167,9 @@ const enquirySchema = z.object({
   classCourse: z.string().min(1),
   mobile: z.string().regex(/^\d{10}$/),
   state: z.string().min(1),
-  message: z.string().optional(),
+  branch: z.string().optional(),
+  mode: z.string().optional(),
+  message: z.string().min(2),
 });
 
 type EnquiryFormValues = z.infer<typeof enquirySchema>;
@@ -243,6 +251,39 @@ export async function submitAdmissionForm(formData: FormData) {
         return { success: true, message: "Admission form submitted successfully." };
     } catch (error) {
         console.error("Error submitting admission form:", error);
+        return { success: false, message: "Failed to submit admission form." };
+    }
+}
+
+export async function submitQuickAdmission(data: {
+    studentName: string;
+    guardianName: string;
+    mobile: string;
+    branch: string;
+    state: string;
+    classApplied: string;
+    previousSchool?: string;
+}) {
+    try {
+        const studentIdRes = await getNextStudentId();
+        const studentId = studentIdRes.success ? studentIdRes.studentId : `IDL-${Date.now().toString().slice(-6)}`;
+        await addDoc(collection(db, "admissions"), {
+            studentId,
+            studentName: data.studentName,
+            fatherName: data.guardianName,
+            fatherPhone: data.mobile,
+            mobile: data.mobile,
+            branch: data.branch,
+            state: data.state || 'Delhi',
+            classApplied: data.classApplied,
+            previousSchool: data.previousSchool || '',
+            admissionSession: '2026–27',
+            status: 'submitted',
+            createdAt: serverTimestamp(),
+        });
+        return { success: true, message: "Admission form submitted successfully.", studentId };
+    } catch (error) {
+        console.error("Error submitting quick admission:", error);
         return { success: false, message: "Failed to submit admission form." };
     }
 }
