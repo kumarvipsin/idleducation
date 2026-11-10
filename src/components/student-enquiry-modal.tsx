@@ -150,7 +150,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
           maxWidthClass="max-w-[480px] sm:max-w-[560px] md:max-w-[580px]"
-          className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
+          className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0 max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-3.5rem)] flex flex-col"
         >
           {/* Top Heading: Left-aligned, All Capital Letters, Small Font */}
           <div className="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-3.5 border-b border-slate-100 dark:border-slate-800/80 pr-12 sm:pr-14 bg-white dark:bg-slate-950 shrink-0">
@@ -167,12 +167,12 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
               {/* Form Body - Clean Underlines, Consistent Vertical Spacing matching Admission Form */}
               <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3.5 sm:space-y-4 text-left">
 
                 {/* Row 1: Student Full Name & Father / Guardian Name in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="studentName"
@@ -185,7 +185,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                             {...field}
                             value={field.value}
                             onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                           />
                         </FormControl>
                         <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -205,7 +205,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                             {...field}
                             value={field.value}
                             onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                           />
                         </FormControl>
                         <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -215,7 +215,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                 </div>
 
                 {/* Row 2: Mobile Number & Preferred Branch in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="mobile"
@@ -223,8 +223,8 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                       <FormItem className="space-y-0 text-left">
                         <FormLabel className="sr-only">Mobile Number</FormLabel>
                         <FormControl>
-                          <div className="relative flex items-center h-[38px] sm:h-[40px] w-full border-b border-slate-200/90 dark:border-slate-700/80 focus-within:border-[#2864E8] focus-within:shadow-[0_1px_0_0_#2864E8] transition-[border-color,box-shadow] duration-150">
-                            <span className="pr-2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none shrink-0 leading-none">
+                          <div className="relative h-[38px] sm:h-[40px] w-full flex items-center">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[13px] sm:text-[13.5px] font-semibold text-slate-500 dark:text-slate-400 select-none pointer-events-none">
                               +91
                             </span>
                             <Input
@@ -232,7 +232,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                               maxLength={10}
                               placeholder="Mobile Number (10 digits) *"
                               {...field}
-                              className="h-full w-full border-0 !bg-transparent rounded-none pl-1 pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus-visible:ring-0 focus-visible:outline-none shadow-none flex items-center leading-none"
+                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                               onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
                             />
                           </div>
@@ -253,7 +253,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                           value={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:w-3.5 [&>svg]:h-3.5 [&>svg]:shrink-0 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
                               <SelectValue placeholder="Preferred Branch *" />
                             </SelectTrigger>
                           </FormControl>
@@ -272,7 +272,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                 </div>
 
                 {/* Row 3: State & Class / Course in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="state"
@@ -284,7 +284,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                           value={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:w-3.5 [&>svg]:h-3.5 [&>svg]:shrink-0 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
                               <SelectValue placeholder="State *" />
                             </SelectTrigger>
                           </FormControl>
@@ -309,7 +309,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                         <FormLabel className="sr-only">Class / Course</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:w-3.5 [&>svg]:h-3.5 [&>svg]:shrink-0 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
                               <SelectValue placeholder="Class / Course *" />
                             </SelectTrigger>
                           </FormControl>
@@ -340,7 +340,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                           {...field}
                           value={field.value || ''}
                           onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
-                          className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[12.5px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal placeholder:truncate focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                         />
                       </FormControl>
                       <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -352,7 +352,7 @@ export function StudentEnquiryModal({ isOpen, onOpenChange, defaultBranch }: Stu
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group w-full h-[40px] sm:h-[42px] rounded-[6px] font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-3.5 sm:mt-4 uppercase"
+                  className="group w-full h-[40px] sm:h-[42px] rounded-[6px] font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-3.5 sm:mt-4 uppercase shrink-0"
                 >
                   {isSubmitting ? (
                     <span className="inline-flex items-center gap-2">

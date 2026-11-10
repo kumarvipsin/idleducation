@@ -281,22 +281,22 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 2. MEET OUR FOUNDERS SECTION — FLAT PREMIUM POLISHED */}
+      {/* 2. MEET OUR FOUNDER SECTION — FLAT PREMIUM POLISHED */}
       <section className="w-full bg-[#030712] relative overflow-hidden py-10 sm:py-12 md:py-12 lg:py-14 border-b border-white/5">
         <div className="container mx-auto px-4 md:px-6 relative z-10">
           {/* Header Title */}
           <div className="text-center mb-6 sm:mb-8 md:mb-9 max-w-2xl mx-auto space-y-1.5">
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white">
-              Meet Our Founders
+              Meet Our Founder
             </h2>
             <p className="text-sm sm:text-base text-slate-300 font-medium">
               The vision behind IDL Education.
             </p>
           </div>
 
-          {/* 2 Founder Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-10 max-w-5xl mx-auto items-stretch">
-            {/* FOUNDER 1: AMOD SHARMA (FLAT WARM ORANGE WITH SUBTLE SHINE) */}
+          {/* Single Founder Card */}
+          <div className="max-w-[440px] sm:max-w-[480px] md:max-w-[500px] lg:max-w-[520px] mx-auto">
+            {/* FOUNDER: AMOD SHARMA (FLAT WARM ORANGE WITH SUBTLE SHINE) */}
             <div className="group relative overflow-hidden rounded-[24px] pt-7 flex flex-col justify-between min-h-[480px] sm:min-h-[500px] md:min-h-[540px] bg-gradient-to-b from-[#F7B54C] to-[#F5A623] border border-white/5 transition-transform duration-500 hover:-translate-y-1">
               {/* Name & Role (Top) */}
               <div className="relative z-10 px-6 sm:px-8 space-y-0.5">
@@ -328,42 +328,6 @@ export default function AboutPage() {
                 </svg>
                 <p className="text-[13px] sm:text-[14px] md:text-[15px] font-bold text-slate-800 leading-[1.65] tracking-tight">
                   &ldquo;My vision is to make quality education more accessible, meaningful, and transformative—empowering every student to dream bigger, learn better, and build a brighter future.&rdquo;
-                </p>
-              </div>
-            </div>
-
-            {/* FOUNDER 2: VIJAY VERMA (FLAT REFINED BLUE WITH SUBTLE SHINE) */}
-            <div className="group relative overflow-hidden rounded-[24px] pt-7 flex flex-col justify-between min-h-[480px] sm:min-h-[500px] md:min-h-[540px] bg-gradient-to-b from-[#26B2EF] to-[#0EA5E9] border border-white/5 transition-transform duration-500 hover:-translate-y-1">
-              {/* Name & Role (Top) */}
-              <div className="relative z-10 px-6 sm:px-8 space-y-0.5">
-                <h3 className="text-2xl sm:text-3xl lg:text-3xl font-black uppercase tracking-tight text-white">
-                  VIJAY VERMA
-                </h3>
-                <p className="text-[13px] sm:text-sm font-extrabold tracking-wide text-white/90">
-                  Co-Founder
-                </p>
-              </div>
-
-              {/* Portrait Container (Middle) */}
-              <div className="absolute inset-x-0 bottom-[140px] sm:bottom-[160px] md:bottom-[170px] top-20 sm:top-24 flex items-end justify-center pointer-events-none z-10">
-                <div className="relative w-72 sm:w-80 md:w-[380px] h-full origin-bottom transition-transform duration-500 ease-out group-hover:scale-[1.04]">
-                  <Image
-                    src="/vijay.png"
-                    alt="Vijay Verma"
-                    fill
-                    priority
-                    className="object-contain object-bottom"
-                  />
-                </div>
-              </div>
-
-              {/* White Quote Panel (Bottom) */}
-              <div className="relative z-20 bg-white rounded-[20px] p-4 sm:p-5 md:p-6 shadow-[0_4px_24px_rgba(0,0,0,0.06)] border border-slate-100/50 mt-auto mx-5 sm:mx-6 md:mx-7 mb-5 sm:mb-6 md:mb-7">
-                <svg className="w-4 h-4 sm:w-5 sm:h-5 text-[#0EA5E9] mb-1.5 sm:mb-2 fill-current" viewBox="0 0 24 24">
-                  <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                </svg>
-                <p className="text-[13px] sm:text-[14px] md:text-[15px] font-bold text-slate-800 leading-[1.65] tracking-tight">
-                  &ldquo;We are committed to putting students first and leveraging technology to make learning more accessible and impactful—empowering and inspiring the next generation across Bharat.&rdquo;
                 </p>
               </div>
             </div>

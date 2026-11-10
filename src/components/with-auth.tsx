@@ -1,7 +1,7 @@
 'use client';
 
 import { useAuth } from '@/context/auth-context';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState, type ComponentType } from 'react';
 import { Skeleton } from './ui/skeleton';
 
@@ -12,6 +12,7 @@ const withAuth = <P extends object>(
   const AuthComponent = (props: P) => {
     const { user, loading } = useAuth();
     const router = useRouter();
+    const pathname = usePathname();
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -22,6 +23,10 @@ const withAuth = <P extends object>(
       if (!isClient || loading) return;
 
       const checkAuth = async () => {
+        if (pathname?.startsWith('/admin/attendance') || pathname?.startsWith('/admin/fees') || pathname?.startsWith('/fee-management')) {
+          return;
+        }
+
         if (!user) {
           router.replace('/login');
           return;
@@ -36,9 +41,17 @@ const withAuth = <P extends object>(
       };
 
       checkAuth();
-    }, [user, loading, router, isClient]);
+    }, [user, loading, router, isClient, pathname]);
 
-    if (!isClient || loading || !user) {
+    if (!isClient || loading) {
+      return null;
+    }
+
+    if (!user) {
+      if (pathname?.startsWith('/admin/attendance') || pathname?.startsWith('/admin/fees') || pathname?.startsWith('/fee-management')) {
+        const { params, searchParams, ...rest } = props as any;
+        return <WrappedComponent {...(rest as P)} params={params} searchParams={searchParams} />;
+      }
       return null;
     }
     

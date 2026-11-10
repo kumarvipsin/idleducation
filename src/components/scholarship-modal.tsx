@@ -221,7 +221,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
           maxWidthClass="max-w-[480px] sm:max-w-[560px] md:max-w-[580px]"
-          className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0"
+          className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_24px_60px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] rounded-[20px] sm:rounded-[24px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 !outline-none focus:!outline-none focus:!ring-0 focus-visible:!outline-none focus-visible:!ring-0 ring-0 max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-3.5rem)] flex flex-col"
         >
           {/* Top Heading: Left-aligned, All Capital Letters, Small Font */}
           <div className="flex items-center justify-between px-4 sm:px-7 py-3 sm:py-3.5 border-b border-slate-100 dark:border-slate-800/80 pr-12 sm:pr-14 bg-white dark:bg-slate-950 shrink-0">
@@ -238,7 +238,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
           </DialogHeader>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 h-full min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col flex-1 min-h-0 overflow-y-auto overscroll-contain" autoComplete="off">
               {/* Form Body - Clean Underlines, Consistent Vertical Spacing matching Admission Form */}
               <div className="px-4 sm:px-7 pt-3.5 sm:pt-4 pb-4 sm:pb-5 space-y-3.5 sm:space-y-4 text-left">
 
@@ -250,11 +250,11 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                     <FormItem className="space-y-0.5">
                       <FormLabel className="sr-only">Scholarship Mode</FormLabel>
                       <FormControl>
-                        <div className="flex items-center gap-x-4 sm:gap-x-6 gap-y-1.5 py-0.5 overflow-x-auto no-scrollbar">
-                          <span className="text-[12.5px] sm:text-[13px] font-semibold text-slate-500 dark:text-slate-400 shrink-0 leading-none">
+                        <div className="flex items-center gap-x-3.5 sm:gap-x-6 gap-y-1.5 py-0.5 overflow-x-auto no-scrollbar">
+                          <span className="text-[12px] sm:text-[13px] font-semibold text-slate-500 dark:text-slate-400 shrink-0 leading-none">
                             Your Mode:
                           </span>
-                          <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+                          <div className="flex items-center gap-3.5 sm:gap-5 shrink-0">
                             {[
                               { value: 'Offline', label: 'Offline', disabled: false },
                               { value: 'Online', label: 'Online', disabled: true },
@@ -270,13 +270,13 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                                     if (!item.disabled) field.onChange(item.value);
                                   }}
                                   className={cn(
-                                    "inline-flex items-center gap-1.5 sm:gap-2 select-none bg-transparent border-0 py-1.5 px-0.5 focus:outline-none transition-opacity",
+                                    "inline-flex items-center gap-1.5 sm:gap-2 select-none bg-transparent border-0 py-1 px-0.5 focus:outline-none transition-opacity",
                                     item.disabled ? "opacity-35 cursor-not-allowed" : "cursor-pointer group"
                                   )}
                                 >
                                   <div
                                     className={cn(
-                                      "w-[17px] h-[17px] sm:w-[18px] sm:h-[18px] rounded-full flex items-center justify-center transition-all duration-150 shrink-0",
+                                      "w-[16px] h-[16px] sm:w-[18px] sm:h-[18px] rounded-full flex items-center justify-center transition-all duration-150 shrink-0",
                                       isSelected
                                         ? "border-[2px] border-[#2864E8] bg-white dark:bg-slate-900 shadow-[0_0_0_2px_rgba(40,100,232,0.12)]"
                                         : item.disabled
@@ -285,12 +285,12 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                                     )}
                                   >
                                     {isSelected && (
-                                      <div className="w-[7px] h-[7px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#2864E8]" />
+                                      <div className="w-[6px] h-[6px] sm:w-[8px] sm:h-[8px] rounded-full bg-[#2864E8]" />
                                     )}
                                   </div>
                                   <span
                                     className={cn(
-                                      "text-[12.5px] sm:text-[13.5px] transition-colors leading-none",
+                                      "text-[12px] sm:text-[13.5px] transition-colors leading-none",
                                       isSelected
                                         ? "font-semibold text-slate-900 dark:text-white"
                                         : item.disabled
@@ -315,7 +315,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                 <div className="border-t border-slate-100 dark:border-slate-800/80 my-0.5" />
 
                 {/* Row 1: Student Full Name & Father / Guardian Name in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="studentName"
@@ -328,7 +328,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                             {...field}
                             value={field.value}
                             onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                           />
                         </FormControl>
                         <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -348,7 +348,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                             {...field}
                             value={field.value}
                             onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                           />
                         </FormControl>
                         <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -358,7 +358,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                 </div>
 
                 {/* Row 2: Mobile Number (Full-width underline on Input itself, like Student Name) & Enter OTP (underline directly on Input itself, NOT under GET OTP button) */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="mobile"
@@ -375,7 +375,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                               maxLength={10}
                               placeholder="Mobile Number *"
                               {...field}
-                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:ring-0 focus-visible:outline-none focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none pl-[30px] sm:pl-[32px] pr-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                               onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
                             />
                           </div>
@@ -392,19 +392,19 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                       <FormItem className="space-y-0 text-left">
                         <FormLabel className="sr-only">Enter OTP</FormLabel>
                         <FormControl>
-                          <div className="flex items-center gap-2.5 h-[38px] sm:h-[40px] w-full">
+                          <div className="flex items-center gap-2 sm:gap-2.5 h-[38px] sm:h-[40px] w-full">
                             <Input
                               type="text"
                               maxLength={6}
                               placeholder="Enter OTP"
                               {...field}
-                              className="h-[38px] sm:h-[40px] flex-1 border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:ring-0 focus-visible:outline-none focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                              className="h-[38px] sm:h-[40px] flex-1 border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                               onChange={(e) => field.onChange(e.target.value.replace(/\D/g, ''))}
                             />
                             <button
                               type="button"
                               onClick={handleGetOtp}
-                              className="shrink-0 h-[32px] px-3 font-bold text-[10.5px] sm:text-[11px] tracking-wider uppercase rounded-[5px] bg-[#2864E8]/10 hover:bg-[#2864E8]/20 text-[#2864E8] select-none transition-all duration-150 border border-[#2864E8]/25 cursor-pointer flex items-center justify-center active:scale-95 shadow-none"
+                              className="shrink-0 h-[30px] sm:h-[32px] px-2.5 sm:px-3 font-bold text-[10.5px] sm:text-[11px] tracking-wider uppercase rounded-[5px] bg-[#2864E8]/10 hover:bg-[#2864E8]/20 text-[#2864E8] select-none transition-all duration-150 border border-[#2864E8]/25 cursor-pointer flex items-center justify-center active:scale-95 shadow-none whitespace-nowrap"
                             >
                               {otpCountdown > 0 ? `Resend (${otpCountdown}s)` : otpSent ? 'Resend OTP' : 'Get OTP'}
                             </button>
@@ -417,7 +417,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                 </div>
 
                 {/* Row 3: State (Delhi / Other) & (Preferred Branch OR Custom State Name) in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="state"
@@ -441,7 +441,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                           value={field.value}
                         >
                           <FormControl>
-                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:w-3.5 [&>svg]:h-3.5 [&>svg]:shrink-0 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
                               <SelectValue placeholder="State *" />
                             </SelectTrigger>
                           </FormControl>
@@ -471,7 +471,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                               {...field}
                               value={field.value}
                               onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                              className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                             />
                           </FormControl>
                           <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -496,7 +496,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                             value={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                              <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:w-3.5 [&>svg]:h-3.5 [&>svg]:shrink-0 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
                                 <SelectValue placeholder="Preferred Branch *" />
                               </SelectTrigger>
                             </FormControl>
@@ -516,7 +516,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                 </div>
 
                 {/* Row 4: City & Class / Course in 2-column grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
                   <FormField
                     control={form.control}
                     name="city"
@@ -529,7 +529,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                             {...field}
                             value={field.value}
                             onChange={(e) => field.onChange(toTitleCase(e.target.value))}
-                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                            className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none capitalize flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                           />
                         </FormControl>
                         <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -545,7 +545,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                         <FormLabel className="sr-only">Class / Course</FormLabel>
                         <Select onValueChange={field.onChange} value={field.value}>
                           <FormControl>
-                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400/90 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
+                            <SelectTrigger className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0 ring-0 ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] data-[state=open]:border-[#2864E8] data-[state=open]:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center justify-between transition-[border-color,box-shadow] duration-150 [&>span]:truncate [&>span]:leading-none data-[placeholder]:[&>span]:text-slate-400 data-[placeholder]:[&>span]:font-normal [&>svg]:text-slate-400 [&>svg]:opacity-75 [&>svg]:w-3.5 [&>svg]:h-3.5 [&>svg]:shrink-0 [&>svg]:transition-transform data-[state=open]:[&>svg]:rotate-180 cursor-pointer">
                               <SelectValue placeholder="Class / Course *" />
                             </SelectTrigger>
                           </FormControl>
@@ -576,7 +576,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                           {...field}
                           value={field.value || ''}
                           onChange={(e) => field.onChange(toSentenceCase(e.target.value))}
-                          className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400/90 placeholder:font-normal focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
+                          className="h-[38px] sm:h-[40px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-slate-400 placeholder:font-normal placeholder:truncate focus:outline-none focus:ring-0 focus:ring-offset-0 focus:border-[#2864E8] focus:shadow-[0_1px_0_0_#2864E8] focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-[#2864E8] focus-visible:shadow-[0_1px_0_0_#2864E8] shadow-none flex items-center leading-none transition-[border-color,box-shadow] duration-150"
                         />
                       </FormControl>
                       <FormMessage className="text-[11.5px] font-medium text-rose-500 pt-0.5" />
@@ -588,7 +588,7 @@ export function ScholarshipModal({ isOpen, onOpenChange, defaultBranch }: Schola
                 <Button
                   type="submit"
                   disabled={isSubmitting}
-                  className="group w-full h-[40px] sm:h-[42px] rounded-[6px] font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-3.5 sm:mt-4 uppercase"
+                  className="group w-full h-[40px] sm:h-[42px] rounded-[6px] font-bold text-[12px] sm:text-[12.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_10px_rgba(40,100,232,0.28)] hover:shadow-[0_4px_16px_rgba(40,100,232,0.38)] active:shadow-sm active:translate-y-[0.5px] transition-all duration-200 cursor-pointer flex items-center justify-center gap-1.5 mt-3.5 sm:mt-4 uppercase shrink-0"
                 >
                   {isSubmitting ? (
                     <span className="inline-flex items-center gap-2">

@@ -33,6 +33,7 @@ import { cn } from "@/lib/utils";
 import { GcsImage } from "./gcs-image";
 import { ScrollArea } from "./ui/scroll-area";
 import { ContactForm } from "./contact-form";
+import { PayFeeCard } from "./pay-fee-card";
 import { RadioGroup, RadioGroupItem } from "./ui/radio-group";
 import { Label } from "./ui/label";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
@@ -1107,6 +1108,52 @@ export function Header() {
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* PAY FEE NAV ITEM */}
+                                    <div 
+                                        suppressHydrationWarning
+                                        onMouseEnter={() => handleMouseEnter('pay-fee')}
+                                        onMouseLeave={handleMouseLeave}
+                                        className="h-full flex items-center relative"
+                                    >
+                                        <Button 
+                                            variant="ghost" 
+                                            onClick={() => {
+                                                if (activeMenu === 'pay-fee') {
+                                                    setActiveMenu(null);
+                                                } else {
+                                                    handleMouseEnter('pay-fee');
+                                                }
+                                            }}
+                                            className={cn(navItemClass, (activeMenu === 'pay-fee') && "after:scale-x-100 text-primary")}
+                                        >
+                                            PAY FEE
+                                        </Button>
+                                        <div 
+                                            suppressHydrationWarning
+                                            onMouseEnter={() => {
+                                                if (menuTimeoutRef.current) {
+                                                    clearTimeout(menuTimeoutRef.current);
+                                                    menuTimeoutRef.current = null;
+                                                }
+                                            }}
+                                            onMouseMove={() => {
+                                                if (menuTimeoutRef.current) {
+                                                    clearTimeout(menuTimeoutRef.current);
+                                                    menuTimeoutRef.current = null;
+                                                }
+                                            }}
+                                            onMouseLeave={handleMouseLeave}
+                                            className={cn(
+                                                "absolute top-full right-0 sm:left-1/2 sm:-translate-x-1/2 transition-all duration-200 ease-in-out z-50 pt-2",
+                                                "w-[94vw] sm:w-[420px] max-w-[430px]",
+                                                activeMenu === 'pay-fee' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                                            )}
+                                        >
+                                            <PayFeeCard onClose={() => setActiveMenu(null)} />
+                                        </div>
+                                    </div>
+
                                     <div onMouseEnter={() => handleMouseEnter('more')} onMouseLeave={handleMouseLeave} className="h-full flex items-center relative">
                                         <Button variant="ghost" className={cn(navItemClass, activeMenu === 'more' && "after:scale-x-100 text-primary")}>MORE</Button>
                                         <div className={cn(
@@ -1581,6 +1628,40 @@ export function Header() {
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        {/* PAY FEE ROW (Mobile) */}
+                                        <div className="flex flex-col">
+                                            <button 
+                                                type="button" 
+                                                onClick={() => {
+                                                    const isCurrentlyOpen = openMobileAccordion === 'pay-fee';
+                                                    setOpenMobileAccordion(isCurrentlyOpen ? null : 'pay-fee');
+                                                    setOpenMobileSubAccordion(null);
+                                                    setOpenMobileThirdAccordion(null);
+                                                }}
+                                                aria-expanded={openMobileAccordion === 'pay-fee'}
+                                                className={cn(
+                                                    "touch-manipulation px-4 min-h-[46px] flex items-center justify-between w-full font-semibold text-[14px] tracking-wide transition-colors duration-100 text-left cursor-pointer select-none",
+                                                    openMobileAccordion === 'pay-fee' 
+                                                        ? "text-[#155EEF] dark:text-blue-400 bg-blue-50/20 dark:bg-blue-950/10" 
+                                                        : "text-[#102A68] dark:text-white hover:bg-slate-50/80 dark:hover:bg-slate-900/40 active:bg-slate-100/60"
+                                                )}
+                                            >
+                                                <span className="uppercase flex items-center gap-2">
+                                                    <span>PAY FEE</span>
+                                                    <span className="px-1.5 py-0.5 text-[9.5px] font-bold bg-blue-100 dark:bg-blue-950 text-[#155EEF] rounded-full">ONLINE</span>
+                                                </span>
+                                                <ChevronDown className={cn(
+                                                    "w-4 h-4 text-slate-400 dark:text-slate-500 mobile-accordion-chevron shrink-0",
+                                                    openMobileAccordion === 'pay-fee' && "rotate-180 text-[#155EEF] dark:text-blue-400"
+                                                )} />
+                                            </button>
+                                            {openMobileAccordion === 'pay-fee' && (
+                                                <div className="p-3 bg-slate-50/60 dark:bg-slate-950/40 border-y border-slate-100 dark:border-slate-800">
+                                                    <PayFeeCard onClose={() => setIsMobileMenuOpen(false)} isMobile />
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* 6. MORE ROW (Submenu with Chevron) */}

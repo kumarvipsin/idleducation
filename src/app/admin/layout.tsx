@@ -42,7 +42,7 @@ function AdminLayout({
     const fetchBookingsCount = async () => {
       const result = await getNewSessionBookingsCount();
       if (result.success) {
-        setBookingCount(result.count);
+        setBookingCount(result.count || 0);
       }
     };
     fetchBookingsCount();
@@ -54,7 +54,7 @@ function AdminLayout({
     router.push('/');
   };
 
-  if (pathname?.startsWith('/admin/attendance')) {
+  if (pathname?.startsWith('/admin/attendance') || pathname?.startsWith('/admin/fees')) {
     return <>{children}</>;
   }
 
@@ -174,6 +174,21 @@ function AdminLayout({
                             <Link href="/admin/attendance/subjects">
                                 <BookOpen />
                                 <span>Subjects</span>
+                            </Link>
+                        </SidebarMenuButton>
+                    </SidebarMenuSubItem>
+                </SidebarMenuSub>
+                <SidebarMenuSub value="fee-management">
+                    <SidebarMenuSubButton>
+                        <IndianRupee />
+                        <span>Fee Management</span>
+                        <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                    </SidebarMenuSubButton>
+                    <SidebarMenuSubItem>
+                        <SidebarMenuButton asChild isActive={pathname === '/admin/fees'}>
+                            <Link href="/admin/fees">
+                                <SlidersHorizontal />
+                                <span>Fee Dashboard</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
