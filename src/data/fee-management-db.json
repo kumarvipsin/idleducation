@@ -22,7 +22,8 @@
       "description": "",
       "defaultMonthlyFee": 0,
       "order": 1,
-      "createdAt": "2026-11-08T17:26:07.030Z"
+      "createdAt": "2026-11-08T17:26:07.030Z",
+      "updatedAt": "2026-11-10T17:03:58.173Z"
     }
   ],
   "batches": [
@@ -30,7 +31,7 @@
       "id": "batch-1794211556656",
       "classId": "cls-1794158767030",
       "branchId": "budh-vihar",
-      "name": "A3 BATCH",
+      "name": "Batch A3",
       "duration": "01 Apr 2026 – 31 Mar 2027",
       "startDate": "2026-04-01",
       "endDate": "2027-03-31",
@@ -43,13 +44,14 @@
       "monthlyFee": 2500,
       "courseFee": 30000,
       "order": 3,
-      "createdAt": "2026-11-09T08:05:56.551Z"
+      "createdAt": "2026-11-09T08:05:56.551Z",
+      "updatedAt": "2026-11-10T17:04:43.947Z"
     },
     {
       "id": "batch-1794211475182",
       "classId": "cls-1794158767030",
       "branchId": "budh-vihar",
-      "name": "A2 BATCH",
+      "name": "Batch A2",
       "duration": "01 Apr 2026 – 31 Mar 2027",
       "startDate": "2026-04-01",
       "endDate": "2027-03-31",
@@ -61,13 +63,14 @@
       "monthlyFee": 2000,
       "courseFee": 24000,
       "order": 2,
-      "createdAt": "2026-11-09T08:04:35.087Z"
+      "createdAt": "2026-11-09T08:04:35.087Z",
+      "updatedAt": "2026-11-10T17:04:35.386Z"
     },
     {
       "id": "batch-1794202644852",
       "classId": "cls-1794158767030",
       "branchId": "budh-vihar",
-      "name": "A1 BATCH",
+      "name": "Batch A1",
       "duration": "01 Apr 2026 – 31 Mar 2027",
       "startDate": "2026-04-01",
       "endDate": "2027-03-31",
@@ -82,7 +85,7 @@
       "courseFee": 36000,
       "order": 1,
       "createdAt": "2026-11-09T05:37:24.753Z",
-      "updatedAt": "2026-11-09T08:09:10.149Z"
+      "updatedAt": "2026-11-10T16:52:28.788Z"
     }
   ],
   "students": [
@@ -129,7 +132,7 @@
       ],
       "additionalFee": 2000,
       "joiningDate": "2026-11-09",
-      "dueDayOfMonth": 10,
+      "dueDayOfMonth": 11,
       "feeType": "monthly",
       "paymentCycleMonths": 1,
       "baseFee": 3000,
@@ -138,17 +141,17 @@
       "netFee": 4000,
       "status": "active",
       "createdAt": "2026-11-09T13:25:04.035Z",
-      "dueDate": "10-11-2026",
-      "totalYearlyFee": 48000,
+      "dueDate": "11-11-2026",
+      "totalYearlyFee": 24000,
       "yearlyStandardFee": 36000,
       "yearlyCourseMonths": 12,
-      "updatedAt": "2026-11-10T06:40:10.638Z"
+      "updatedAt": "2026-11-10T18:36:06.459Z"
     },
     {
       "id": "stu-1794213912965",
       "rollNumber": "09112026-101",
       "name": "Neetu",
-      "fatherName": "Hari",
+      "fatherName": "Hari Thakur",
       "fatherOccupation": "Cont",
       "dob": "2000-02-02",
       "gender": "female",
@@ -197,14 +200,14 @@
       "status": "active",
       "createdAt": "2026-11-09T08:45:12.965Z",
       "dueDate": "05-11-2026",
-      "totalYearlyFee": 55200,
+      "totalYearlyFee": 36000,
       "yearlyStandardFee": 36000,
       "yearlyCourseMonths": 12,
-      "updatedAt": "2026-11-09T09:13:07.035Z"
+      "updatedAt": "2026-11-10T17:23:31.386Z"
     },
     {
       "id": "stu-1794203415345",
-      "rollNumber": "IDL-BV-26-002",
+      "rollNumber": "10112026104",
       "name": "Priya Sharma",
       "fatherName": "Rajesh Sharma",
       "fatherOccupation": "Contractor",
@@ -245,8 +248,8 @@
       },
       "status": "active",
       "createdAt": "2026-11-09T05:50:15.345Z",
-      "updatedAt": "2026-11-09T18:59:06.346Z",
-      "dueDate": "01-11-2026",
+      "updatedAt": "2026-11-10T17:24:12.886Z",
+      "dueDate": "2026-11-01",
       "totalYearlyFee": 30000,
       "yearlyStandardFee": 36000,
       "yearlyCourseMonths": 12,
@@ -255,9 +258,9 @@
     },
     {
       "id": "stu-1794202983021",
-      "rollNumber": "IDL-BV-26-001",
+      "rollNumber": "10112026-103",
       "name": "Amod Sharma",
-      "fatherName": "hari",
+      "fatherName": "Hari Sharma",
       "fatherOccupation": "cont",
       "dob": "1998-01-01",
       "gender": "male",
@@ -286,9 +289,9 @@
       "netFee": 2000,
       "status": "active",
       "createdAt": "2026-11-09T05:43:03.021Z",
-      "updatedAt": "2026-11-09T19:56:41.334Z",
+      "updatedAt": "2026-11-10T17:22:31.789Z",
       "dueDate": "05-11-2026",
-      "totalYearlyFee": 36000,
+      "totalYearlyFee": 24000,
       "yearlyStandardFee": 36000,
       "yearlyCourseMonths": 12,
       "additionalSubjects": [],
@@ -311,10 +314,10 @@
       "paidAmount": 0,
       "balanceAmount": 4000,
       "advanceAmount": 0,
-      "dueDate": "2026-11-10",
+      "dueDate": "2026-11-11",
       "status": "PENDING",
       "isOverdue": false,
-      "updatedAt": "2026-11-10T06:40:10.640Z"
+      "updatedAt": "2026-11-11T04:57:37.725Z"
     },
     {
       "id": "led-stu-1794213912965-2026-11",
@@ -334,8 +337,8 @@
       "dueDate": "2026-11-05",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T19:07:35.410Z",
-      "lastPaymentDate": "2026-11-09"
+      "updatedAt": "2026-11-10T20:07:00.251Z",
+      "lastPaymentDate": "2026-11-10"
     },
     {
       "id": "led-stu-1794213160355-2026-11",
@@ -375,7 +378,7 @@
       "dueDate": "2027-10-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -396,7 +399,7 @@
       "dueDate": "2027-09-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -417,7 +420,7 @@
       "dueDate": "2027-08-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -438,7 +441,7 @@
       "dueDate": "2027-07-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -459,7 +462,7 @@
       "dueDate": "2027-06-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -480,7 +483,7 @@
       "dueDate": "2027-05-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -501,7 +504,7 @@
       "dueDate": "2027-04-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -522,7 +525,7 @@
       "dueDate": "2027-03-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -543,7 +546,7 @@
       "dueDate": "2027-02-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -564,7 +567,7 @@
       "dueDate": "2027-01-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.888Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -585,7 +588,7 @@
       "dueDate": "2026-12-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T18:59:06.346Z",
+      "updatedAt": "2026-11-10T17:24:12.887Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -606,7 +609,7 @@
       "dueDate": "2026-11-01",
       "status": "PAID",
       "isOverdue": false,
-      "updatedAt": "2026-11-09T19:07:52.290Z",
+      "updatedAt": "2026-11-10T17:24:12.887Z",
       "lastPaymentDate": "2026-11-01"
     },
     {
@@ -627,12 +630,12 @@
       "dueDate": "2026-11-05",
       "status": "OVERDUE",
       "isOverdue": true,
-      "updatedAt": "2026-11-09T21:23:30.093Z"
+      "updatedAt": "2026-11-10T17:22:31.789Z"
     }
   ],
   "payments": [
     {
-      "id": "pay-1794251255410",
+      "id": "pay-1794341220251",
       "receiptNumber": "REC-202611-0001",
       "studentId": "stu-1794213912965",
       "studentName": "Neetu",
@@ -643,12 +646,12 @@
       "month": "2026-11",
       "monthLabel": "November 2026",
       "amount": 5000,
-      "paymentMode": "cash",
+      "paymentMode": "online",
       "transactionRef": "",
-      "paymentDate": "2026-11-09",
+      "paymentDate": "2026-11-10",
       "collectedBy": "Admin Desk",
       "remarks": "",
-      "createdAt": "2026-11-09T19:07:35.410Z"
+      "createdAt": "2026-11-10T20:07:00.251Z"
     }
   ]
 }

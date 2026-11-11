@@ -9,6 +9,7 @@ import {
   getFeeStudents,
   getMonthlyLedger,
   getBranchYearlyReport,
+  getFeePayments,
 } from '@/app/actions/fee-management';
 
 export const metadata: Metadata = {
@@ -27,13 +28,14 @@ export default async function AdminFeesPage({
   const currentMonth = await getCurrentMonth();
   const initialMonth = sp.month && sp.month <= currentMonth && sp.month >= '2026-04' ? sp.month : currentMonth;
 
-  const [statsRes, classesRes, batchesRes, studentsRes, ledgerRes, yearlyRes] = await Promise.all([
+  const [statsRes, classesRes, batchesRes, studentsRes, ledgerRes, yearlyRes, paymentsRes] = await Promise.all([
     getFeeDashboardStats(initialMonth, initialBranch),
     getFeeClasses(initialBranch),
     getFeeBatches(undefined, initialBranch),
     getFeeStudents({ branchId: initialBranch }),
     getMonthlyLedger(initialMonth, { branchId: initialBranch }),
     getBranchYearlyReport('2026-27'),
+    getFeePayments({ month: initialMonth }),
   ]);
 
   return (
@@ -47,6 +49,7 @@ export default async function AdminFeesPage({
       initialStudents={studentsRes.data}
       initialLedger={ledgerRes.data}
       initialYearlyReport={yearlyRes.data}
+      initialPayments={paymentsRes.data}
     />
   );
 }

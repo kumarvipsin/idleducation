@@ -11,6 +11,8 @@ export interface UserProfile extends Partial<FirebaseUser> {
   uid: string;
   role: 'student' | 'teacher' | 'admin' | null;
   name: string | null;
+  branchId?: string | null;
+  branchName?: string | null;
 }
 
 interface AuthContextType {
@@ -64,11 +66,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         
         if (userDoc.exists()) {
             const userData = userDoc.data();
+            const branchId = userData.branchId || (userData.role === 'admin' ? (firebaseUser.email === 'aksias.sos@outlook.com' ? 'all' : (userData.branchId || 'all')) : null);
+            const branchName = userData.branchName || (branchId === 'all' ? 'All Branches (Super Admin)' : (branchId === 'mangolpuri' || branchId === 'mangol-puri' ? 'Mangol Puri Branch' : branchId));
+
             userProfile = {
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,
                 name: userData.name,
                 role: userData.role,
+                branchId: branchId,
+                branchName: branchName,
                 ...serializeFirestoreData(userData),
             };
         } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL || firebaseUser.email === 'aksias.sos@outlook.com') {
@@ -77,12 +84,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               email: firebaseUser.email,
               name: 'Admin',
               role: 'admin',
+              branchId: 'all',
+              branchName: 'All Branches (Super Admin)',
             };
             const adminData = {
               uid: firebaseUser.uid,
               email: firebaseUser.email,
               name: 'Admin',
               role: 'admin',
+              branchId: 'all',
+              branchName: 'All Branches (Super Admin)',
               status: 'approved',
               createdAt: serverTimestamp()
             };

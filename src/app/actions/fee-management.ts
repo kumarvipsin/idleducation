@@ -1117,6 +1117,39 @@ export async function updateFeeStudent(
           ledItem.updatedAt = new Date().toISOString();
         }
       }
+
+      // Ensure a yearly package master receipt exists so Print/Share receipts work immediately
+      const hasYearlyPayment = dbData.payments.some(
+        p =>
+          p.studentId === id &&
+          (p.transactionRef === 'YEARLY-PACKAGE-LUMPSUM' || (p.monthLabel || '').includes('Yearly Package'))
+      );
+      if (!hasYearlyPayment) {
+        const totalYFee =
+          Number(data.yearlyPackage?.totalYearlyFee || updatedStudent.yearlyPackage?.totalYearlyFee) ||
+          updatedStudent.netFee * courseMonths;
+        const receiptNo = `REC-${startMonth.replace('-', '')}-${String(dbData.payments.length + 1).padStart(4, '0')}`;
+        const payDate = updatedStudent.joiningDate || current.joiningDate || new Date().toISOString().split('T')[0];
+        dbData.payments.unshift({
+          id: `pay-yr-${id}-${Date.now()}`,
+          receiptNumber: receiptNo,
+          studentId: id,
+          studentName: updatedStudent.name,
+          rollNumber: updatedStudent.rollNumber,
+          branchId: updatedStudent.branchId,
+          classId: updatedStudent.classId,
+          batchId: updatedStudent.batchId,
+          month: startMonth,
+          monthLabel: `${await getMonthLabel(startMonth)} (Yearly Package)`,
+          amount: totalYFee,
+          paymentMode: 'cash',
+          paymentDate: payDate,
+          transactionRef: 'YEARLY-PACKAGE-LUMPSUM',
+          remarks: `Yearly Package (${courseMonths} Months). Equal Monthly: ₹${updatedStudent.netFee}/mo with ${updatedStudent.scholarshipPercent}% Scholarship.`,
+          collectedBy: 'Admin Desk',
+          createdAt: new Date().toISOString(),
+        });
+      }
     }
 
     saveDatabase(dbData);
@@ -2343,6 +2376,24 @@ export async function getFeePayments(filters?: {
     }
     if (filters?.month && filters.month !== 'all') {
       payments = payments.filter(p => p.month === filters.month);
+
+      // For yearly package students viewing any covered paid month, include their master yearly receipt
+      if (filters?.studentId && payments.length === 0) {
+        const stu = dbData.students.find(s => s.id === filters.studentId);
+        const isYearly = stu?.feeType === 'yearly_package' || Boolean(stu?.yearlyPackage?.totalYearlyFee);
+        if (isYearly) {
+          const paidLedger = dbData.ledger.find(
+            l => l.studentId === filters.studentId && l.month === filters.month && l.paidAmount > 0
+          );
+          if (paidLedger) {
+            payments = dbData.payments.filter(
+              p =>
+                p.studentId === filters.studentId &&
+                (p.transactionRef === 'YEARLY-PACKAGE-LUMPSUM' || (p.monthLabel || '').includes('Yearly Package'))
+            );
+          }
+        }
+      }
     }
 
     return { success: true, data: payments };

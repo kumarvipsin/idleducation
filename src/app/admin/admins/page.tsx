@@ -67,6 +67,8 @@ interface User {
   address?: string;
   dob?: string;
   bloodGroup?: string;
+  branchId?: string;
+  branchName?: string;
 }
 
 const adminSchema = z.object({
@@ -77,6 +79,7 @@ const adminSchema = z.object({
   address: z.string().optional(),
   dob: z.date().optional(),
   bloodGroup: z.string().optional(),
+  branchId: z.string().optional(),
 });
 type AdminFormValues = z.infer<typeof adminSchema>;
 
@@ -98,6 +101,7 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
       address: admin?.address || '',
       dob: admin?.dob ? new Date(admin.dob) : undefined,
       bloodGroup: admin?.bloodGroup || '',
+      branchId: admin?.branchId || 'all',
     },
   });
 
@@ -136,15 +140,33 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
       if (photoFile) formData.append('photo', photoFile);
       if (removePhoto) formData.append('removePhoto', 'true');
       
-    if (admin) { // Editing
-      result = await editAdminProfile(admin.id, formData);
-    } else { // Adding
-       if (data.password) {
-        formData.append('password', data.password);
+      const BRANCH_LABELS: Record<string, string> = {
+        'all': 'All Branches (Super Admin)',
+        'mangolpuri': 'Mangol Puri Branch',
+        'budh-vihar': 'Budh Vihar Branch',
+        'krishan-vihar': 'Krishan Vihar Branch',
+        'mukherjee-nagar': 'Mukherjee Nagar Branch',
+      };
+      const assignedBranchId = data.branchId || 'all';
+      const assignedBranchName = BRANCH_LABELS[assignedBranchId] || assignedBranchId;
+
+      if (admin) { // Editing
+        formData.append('branchId', assignedBranchId);
+        formData.append('branchName', assignedBranchName);
+        result = await editAdminProfile(admin.id, formData);
+      } else { // Adding
+         if (data.password) {
+          formData.append('password', data.password);
+        }
+        formData.append('email', data.email);
+        result = await addAdmin({
+          name: data.name,
+          email: data.email,
+          password: data.password || '',
+          branchId: assignedBranchId,
+          branchName: assignedBranchName,
+        });
       }
-      formData.append('email', data.email);
-      result = await addAdmin(data as z.infer<typeof adminSchema> & { password: string });
-    }
     
     if (result.success) {
       toast({
@@ -191,6 +213,35 @@ const AdminForm = ({ admin, onSuccess }: { admin?: User | null, onSuccess: () =>
 
               <FormField control={form.control} name="name" render={({ field }) => ( <FormItem><FormLabel>Full Name</FormLabel><FormControl><Input placeholder="John Doe" {...field} /></FormControl><FormMessage /></FormItem> )} />
               <FormField control={form.control} name="email" render={({ field }) => ( <FormItem><FormLabel>Email Address</FormLabel><FormControl><Input type="email" placeholder="admin@example.com" {...field} disabled={!!admin} /></FormControl><FormMessage /></FormItem> )} />
+              
+              <FormField
+                control={form.control}
+                name="branchId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="flex items-center gap-2">
+                      <Shield className="h-4 w-4 text-blue-600" />
+                      Branch Scope / Access
+                    </FormLabel>
+                    <FormControl>
+                      <select
+                        {...field}
+                        className="w-full text-xs border rounded-md px-3 py-2 bg-background font-medium focus:ring-1 focus:ring-blue-500"
+                      >
+                        <option value="all">🌐 All Branches (Super Admin)</option>
+                        <option value="mangolpuri">🏢 Mangol Puri Branch</option>
+                        <option value="budh-vihar">🏢 Budh Vihar Branch</option>
+                        <option value="krishan-vihar">🏢 Krishan Vihar Branch</option>
+                        <option value="mukherjee-nagar">🏢 Mukherjee Nagar Branch</option>
+                      </select>
+                    </FormControl>
+                    <p className="text-[11px] text-muted-foreground">
+                      Branch Admins can only view and manage fee data, enrollments, admissions & enquiries for their selected branch.
+                    </p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               {!admin && (
                 <FormField control={form.control} name="password" render={({ field }) => ( <FormItem><FormLabel>Password</FormLabel><FormControl><Input type="password" placeholder="••••••••" {...field} /></FormControl><FormMessage /></FormItem> )} />
               )}
@@ -351,6 +402,7 @@ export default function AdminManagementPage() {
                         <TableRow>
                             <TableHead>Admin Name</TableHead>
                             <TableHead className="hidden sm:table-cell">Email</TableHead>
+                            <TableHead>Branch Scope</TableHead>
                             <TableHead className="hidden md:table-cell">Status</TableHead>
                             <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
@@ -361,6 +413,7 @@ export default function AdminManagementPage() {
                             <TableRow key={i}>
                               <TableCell><div className="flex items-center gap-2"><Skeleton className="h-10 w-10 rounded-full" /><Skeleton className="h-4 w-32" /></div></TableCell>
                               <TableCell className="hidden sm:table-cell"><Skeleton className="h-4 w-full" /></TableCell>
+                              <TableCell><Skeleton className="h-6 w-24" /></TableCell>
                               <TableCell className="hidden md:table-cell"><Skeleton className="h-6 w-20" /></TableCell>
                               <TableCell className="text-right"><Skeleton className="h-8 w-8 ml-auto" /></TableCell>
                             </TableRow>
@@ -383,6 +436,17 @@ export default function AdminManagementPage() {
                                 </button>
                             </TableCell>
                             <TableCell className="hidden sm:table-cell">{admin.email}</TableCell>
+                            <TableCell>
+                              {admin.branchId && admin.branchId !== 'all' ? (
+                                <Badge className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border-blue-200">
+                                  🏢 {admin.branchName || admin.branchId}
+                                </Badge>
+                              ) : (
+                                <Badge variant="outline" className="text-slate-600 dark:text-slate-400">
+                                  🌐 All Branches
+                                </Badge>
+                              )}
+                            </TableCell>
                             <TableCell className="hidden md:table-cell">
                                 <Badge variant={getBadgeVariant(admin.status)} className="capitalize">{admin.status}</Badge>
                             </TableCell>
@@ -471,6 +535,7 @@ export default function AdminManagementPage() {
                 <div className="space-y-4 pt-4">
                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm pt-4 border-t">
                         <DetailItem icon={<Shield size={16}/>} label="Status" value={viewingAdmin.status} />
+                        <DetailItem icon={<Shield size={16}/>} label="Branch Scope" value={viewingAdmin.branchName || (viewingAdmin.branchId === 'all' || !viewingAdmin.branchId ? 'All Branches (Super Admin)' : viewingAdmin.branchId)} />
                         <DetailItem icon={<Mail size={16}/>} label="Email" value={viewingAdmin.email} />
                         <DetailItem icon={<Phone size={16}/>} label="Phone" value={viewingAdmin.phone} />
                         <DetailItem icon={<CalendarIcon size={16}/>} label="Date of Birth" value={formatDateForDisplay(viewingAdmin.dob)} />

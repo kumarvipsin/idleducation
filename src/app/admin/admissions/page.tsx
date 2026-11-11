@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { getAdmissions, getSignedUrlForPdf } from '@/app/actions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
@@ -11,7 +11,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import Image from 'next/image';
-import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase, MapPin, KeyRound, Droplets, VenetianMask } from 'lucide-react';
+import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase, MapPin, KeyRound, Droplets, VenetianMask, Building2 } from 'lucide-react';
+import { useAuth } from '@/context/auth-context';
 
 interface Admission {
   id: string;
@@ -88,9 +89,20 @@ function AdmissionPhoto({ filePath }: { filePath: string }) {
 }
 
 export default function AdminAdmissionsPage() {
+  const { user } = useAuth();
+  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!) : null;
+
   const [admissions, setAdmissions] = useState<Admission[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedBranch, setSelectedBranch] = useState<string>(branchAdminBranchId || 'all');
   const [selectedAdmission, setSelectedAdmission] = useState<Admission | null>(null);
+
+  useEffect(() => {
+    if (isBranchAdmin && branchAdminBranchId && selectedBranch !== branchAdminBranchId) {
+      setSelectedBranch(branchAdminBranchId);
+    }
+  }, [isBranchAdmin, branchAdminBranchId]);
 
   useEffect(() => {
     const fetchAdmissions = async () => {
@@ -103,6 +115,21 @@ export default function AdminAdmissionsPage() {
     };
     fetchAdmissions();
   }, []);
+
+  const filteredAdmissions = useMemo(() => {
+    return admissions.filter(item => {
+      const targetBranch = isBranchAdmin ? branchAdminBranchId : selectedBranch;
+      if (!targetBranch || targetBranch === 'all') return true;
+      const b = (item.branch || '').toLowerCase();
+      if (targetBranch === 'mangolpuri' || targetBranch === 'mangol-puri') {
+        return b.includes('mangol');
+      }
+      if (targetBranch === 'budh-vihar') return b.includes('budh');
+      if (targetBranch === 'krishan-vihar') return b.includes('krishan');
+      if (targetBranch === 'mukherjee-nagar') return b.includes('mukherjee');
+      return b.includes(targetBranch.toLowerCase());
+    });
+  }, [admissions, isBranchAdmin, branchAdminBranchId, selectedBranch]);
 
   const formatDateForDisplay = (dateString: string) => {
     if (!dateString) return 'N/A';
@@ -131,9 +158,39 @@ export default function AdminAdmissionsPage() {
   return (
     <Dialog>
       <Card>
-        <CardHeader>
-          <CardTitle>Admission Submissions</CardTitle>
-          <CardDescription>All submitted admission forms from students.</CardDescription>
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <CardTitle>Admission Submissions</CardTitle>
+              {isBranchAdmin && (
+                <span className="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 border border-blue-200 flex items-center gap-1">
+                  <Building2 className="w-3 h-3 text-blue-600" />
+                  {user?.branchName || 'Mangol Puri Branch'}
+                </span>
+              )}
+            </div>
+            <CardDescription className="mt-1">
+              {isBranchAdmin
+                ? `Showing admission forms received for ${user?.branchName || 'Mangol Puri'}.`
+                : 'All submitted admission forms from students across all branches.'}
+            </CardDescription>
+          </div>
+          {!isBranchAdmin && (
+            <div className="flex items-center gap-2 shrink-0">
+              <span className="text-xs text-muted-foreground font-medium">Branch:</span>
+              <select
+                value={selectedBranch}
+                onChange={e => setSelectedBranch(e.target.value)}
+                className="text-xs border rounded-md px-2.5 py-1.5 bg-background font-medium focus:ring-1 focus:ring-blue-500"
+              >
+                <option value="all">🌐 All Branches</option>
+                <option value="mangolpuri">🏢 Mangol Puri</option>
+                <option value="budh-vihar">🏢 Budh Vihar</option>
+                <option value="krishan-vihar">🏢 Krishan Vihar</option>
+                <option value="mukherjee-nagar">🏢 Mukherjee Nagar</option>
+              </select>
+            </div>
+          )}
         </CardHeader>
         <CardContent>
           <ScrollArea className="h-[calc(100vh-220px)] w-full">
@@ -143,18 +200,24 @@ export default function AdminAdmissionsPage() {
                   <TableHead>Student ID</TableHead>
                   <TableHead>Student Name</TableHead>
                   <TableHead>Class</TableHead>
+                  <TableHead>Branch</TableHead>
                   <TableHead>Contact</TableHead>
                   <TableHead>Submission Date</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {loading ? renderSkeleton() : admissions.length > 0 ? (
-                  admissions.map((admission) => (
+                {loading ? renderSkeleton() : filteredAdmissions.length > 0 ? (
+                  filteredAdmissions.map((admission) => (
                     <TableRow key={admission.id}>
                       <TableCell className="font-mono">{admission.studentId}</TableCell>
                       <TableCell className="font-medium">{admission.studentName}</TableCell>
                       <TableCell>{admission.classApplied}</TableCell>
+                      <TableCell>
+                        <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                          {admission.branch || '—'}
+                        </span>
+                      </TableCell>
                       <TableCell>
                         <div>{admission.email}</div>
                         <div>{admission.fatherPhone}</div>
@@ -173,8 +236,8 @@ export default function AdminAdmissionsPage() {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell colSpan={6} className="text-center text-muted-foreground">
-                      No admission forms have been submitted yet.
+                    <TableCell colSpan={7} className="text-center text-muted-foreground py-8">
+                      No admission forms found for this branch.
                     </TableCell>
                   </TableRow>
                 )}

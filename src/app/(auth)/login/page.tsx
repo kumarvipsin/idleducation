@@ -100,7 +100,7 @@ export default function LoginPage() {
   };
 
   const handleEmailLogin = async (data: LoginValues) => {
-    const getRedirectTarget = (role: string | null) => {
+    const getRedirectTarget = (profile: UserProfile | null) => {
       if (typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);
         const redirectParam = urlParams.get('redirect');
@@ -108,14 +108,20 @@ export default function LoginPage() {
           return redirectParam;
         }
       }
-      return role === 'admin' ? '/admin/dashboard' : `/${role}/dashboard`;
+      if (profile?.role === 'admin') {
+        if (profile.branchId && profile.branchId !== 'all') {
+          return '/admin/fees';
+        }
+        return '/admin/dashboard';
+      }
+      return profile?.role ? `/${profile.role}/dashboard` : '/';
     };
 
     const result = await loginUser(data);
     if (result.success && result.user) {
       toast({ title: "Login Successful", description: "Welcome back!" });
       login(result.user as UserProfile);
-      router.push(getRedirectTarget(result.user.role));
+      router.push(getRedirectTarget(result.user as UserProfile));
     } else {
       toast({ variant: "destructive", title: "Login Failed", description: result.message });
     }

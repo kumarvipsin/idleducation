@@ -18,7 +18,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2, Bot } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2, Bot, Building2 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -37,6 +37,19 @@ function AdminLayout({
   const { user, logout } = useAuth();
   const router = useRouter();
   const [bookingCount, setBookingCount] = React.useState(0);
+
+  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
+  const branchName = user?.branchName || (user?.branchId === 'mangolpuri' || user?.branchId === 'mangol-puri' ? 'Mangol Puri Branch' : (user?.branchId || ''));
+
+  React.useEffect(() => {
+    if (isBranchAdmin && pathname) {
+      const allowedPrefixes = ['/admin/fees', '/admin/enrollments', '/admin/admissions', '/admin/enquiries', '/admin/profile'];
+      const isAllowed = allowedPrefixes.some(prefix => pathname.startsWith(prefix));
+      if (!isAllowed) {
+        router.replace('/admin/fees');
+      }
+    }
+  }, [isBranchAdmin, pathname, router]);
 
   React.useEffect(() => {
     const fetchBookingsCount = async () => {
@@ -79,20 +92,73 @@ function AdminLayout({
                         </Avatar>
                         <div className="flex flex-col">
                         <span className="font-semibold">{user?.name}</span>
-                        <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                        {isBranchAdmin ? (
+                          <span className="text-[10.5px] font-bold text-[#2864E8] tracking-tight">{branchName}</span>
+                        ) : (
+                          <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                        )}
                         </div>
                     </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
-                 <SidebarMenuItem>
+                {isBranchAdmin ? (
+                  <div className="py-2 space-y-1">
+                    <div className="px-3 py-2 mb-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/50">
+                      <div className="flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-[#2864E8] shrink-0" />
+                        <span className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">{branchName}</span>
+                      </div>
+                      <p className="text-[10px] text-blue-600 dark:text-blue-400 font-medium mt-0.5">Branch Admin Portal</p>
+                    </div>
+
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/fees')}>
+                        <Link href="/admin/fees" className="flex items-center gap-3">
+                          <IndianRupee className="w-4 h-4 text-emerald-600" />
+                          <span className="font-semibold">Fee Management</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enrollments')}>
+                        <Link href="/admin/enrollments" className="flex items-center gap-3">
+                          <GraduationCap className="w-4 h-4 text-blue-600" />
+                          <span className="font-semibold">Course Enrollments</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
+                        <Link href="/admin/admissions" className="flex items-center gap-3">
+                          <FileText className="w-4 h-4 text-indigo-600" />
+                          <span className="font-semibold">Admissions</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+
+                    <SidebarMenuItem>
+                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enquiries')}>
+                        <Link href="/admin/enquiries" className="flex items-center gap-3">
+                          <MessageSquare className="w-4 h-4 text-amber-600" />
+                          <span className="font-semibold">Student Enquiries</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  </div>
+                ) : (
+                  <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
-                    <Link href="/admin/dashboard">
+                      <Link href="/admin/dashboard">
                         <SlidersHorizontal />
                         <span>Dashboard</span>
-                    </Link>
+                      </Link>
                     </SidebarMenuButton>
-                </SidebarMenuItem>
+                  </SidebarMenuItem>
+                )}
              </SidebarMenu>
+            {!isBranchAdmin && (
             <SidebarMenuAccordion defaultValue="user-management">
                 <SidebarMenuSub value="user-management">
                     <SidebarMenuSubButton>
@@ -396,6 +462,7 @@ function AdminLayout({
                     </SidebarMenuSubItem>
                 </SidebarMenuSub>
             </SidebarMenuAccordion>
+            )}
           </SidebarContent>
         </Sidebar>
         <div className="flex flex-col flex-1">

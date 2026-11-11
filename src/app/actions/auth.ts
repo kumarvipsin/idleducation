@@ -57,6 +57,8 @@ export async function loginUser(data: LoginValues) {
             email: user.email,
             name: userData?.name || 'Admin',
             role: 'admin',
+            branchId: 'all',
+            branchName: 'All Branches (Super Admin)',
             ...serializeFirestoreData(userData),
         };
         console.log('[actions.ts] loginUser: Admin user profile loaded.', userProfile);
@@ -77,11 +79,16 @@ export async function loginUser(data: LoginValues) {
                 return { success: false, message: "Your account is currently inactive. Please contact support." };
             }
 
+            const branchId = userData.branchId || (userData.role === 'admin' ? 'all' : null);
+            const branchName = userData.branchName || (branchId === 'all' ? 'All Branches (Super Admin)' : (branchId === 'mangolpuri' || branchId === 'mangol-puri' ? 'Mangol Puri Branch' : branchId));
+
             userProfile = {
                 uid: user.uid,
                 email: user.email,
                 name: userData.name,
                 role: userData.role,
+                branchId: branchId,
+                branchName: branchName,
                 ...serializeFirestoreData(userData),
             };
             console.log('[actions.ts] loginUser: User profile created.', userProfile);
@@ -128,6 +135,8 @@ const signupSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, { message: "Password must be at least 6 characters." }),
   role: z.enum(['student', 'teacher', 'admin']),
+  branchId: z.string().optional(),
+  branchName: z.string().optional(),
   designation: z.string().optional(),
   experience: z.string().optional(),
   biography: z.string().optional(),

@@ -120,6 +120,8 @@ const addAdminSchema = z.object({
   name: z.string().min(2, { message: "Name is required" }),
   email: z.string().email(),
   password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  branchId: z.string().optional(),
+  branchName: z.string().optional(),
 });
 
 export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
@@ -134,6 +136,12 @@ export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
   // The signUpUser function automatically sets status to 'pending', let's approve it right away for admins
   if (result.success && result.uid) {
     await approveUser(result.uid);
+    if (validation.data.branchId) {
+      await updateDoc(doc(db, "users", result.uid), {
+        branchId: validation.data.branchId,
+        branchName: validation.data.branchName || (validation.data.branchId === 'all' ? 'All Branches' : validation.data.branchId),
+      });
+    }
   }
 
   return result;
@@ -505,6 +513,8 @@ export async function editAdminProfile(userId: string, formData: FormData) {
   if (rawData.address) dataToUpdate.address = rawData.address as string;
   if (rawData.dob) dataToUpdate.dob = rawData.dob as string;
   if (rawData.bloodGroup) dataToUpdate.bloodGroup = rawData.bloodGroup as string;
+  if (rawData.branchId !== undefined) dataToUpdate.branchId = rawData.branchId as string;
+  if (rawData.branchName !== undefined) dataToUpdate.branchName = rawData.branchName as string;
   
   try {
     if (photoFile && photoFile.size > 0) {

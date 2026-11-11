@@ -53,6 +53,7 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { useAuth } from '@/context/auth-context';
 
 const BRANCH_TABS = [
   { key: 'all', label: 'All IDL Centres (Main View)', slugMatch: null },
@@ -65,9 +66,21 @@ const BRANCH_TABS = [
 ];
 
 export default function AdminEnrollmentsPage() {
+  const { user } = useAuth();
+  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
+  const branchAdminKey = isBranchAdmin
+    ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!)
+    : null;
+
   const [enrollments, setEnrollments] = useState<EnrollmentRecord[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<string>('all');
+  const [activeTab, setActiveTab] = useState<string>(branchAdminKey || 'all');
+
+  useEffect(() => {
+    if (isBranchAdmin && branchAdminKey && activeTab !== branchAdminKey) {
+      setActiveTab(branchAdminKey);
+    }
+  }, [isBranchAdmin, branchAdminKey]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedMode, setSelectedMode] = useState<string>('all');
   const [selectedStatus, setSelectedStatus] = useState<string>('all');
@@ -116,7 +129,14 @@ export default function AdminEnrollmentsPage() {
   const filteredEnrollments = useMemo(() => {
     return enrollments.filter(item => {
       // 1. Branch Tab
-      if (activeTab !== 'all') {
+      if (isBranchAdmin && branchAdminKey) {
+        const match = BRANCH_TABS.find(t => t.key === branchAdminKey)?.slugMatch || 'mangol';
+        const branchStr = (item.branch || '').toLowerCase();
+        const slugStr = (item.branchSlug || '').toLowerCase();
+        if (!branchStr.includes(match) && !slugStr.includes(match)) {
+          return false;
+        }
+      } else if (activeTab !== 'all') {
         const currentTabConfig = BRANCH_TABS.find(t => t.key === activeTab);
         const match = currentTabConfig?.slugMatch || '';
         const branchStr = (item.branch || '').toLowerCase();
@@ -285,7 +305,7 @@ export default function AdminEnrollmentsPage() {
       <div className="border-b border-slate-200 dark:border-slate-800">
         <ScrollArea className="w-full whitespace-nowrap">
           <div className="flex items-center gap-1.5 pb-2">
-            {BRANCH_TABS.map((tab) => {
+            {(isBranchAdmin ? BRANCH_TABS.filter(t => t.key === branchAdminKey) : BRANCH_TABS).map((tab) => {
               const isActive = activeTab === tab.key;
               const count = branchCounts[tab.key] || 0;
               return (

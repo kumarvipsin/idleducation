@@ -148,7 +148,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
       onOpenChange(false);
 
       const redirectPath = result.user.role === 'admin' 
-        ? '/admin/dashboard' 
+        ? (result.user.branchId && result.user.branchId !== 'all' ? '/admin/fees' : '/admin/dashboard')
         : `/${result.user.role}/dashboard`;
         
       router.push(redirectPath);
@@ -175,7 +175,7 @@ export function AuthModal({ isOpen, onOpenChange, defaultMode = 'login' }: AuthM
       onOpenChange(false);
 
       const redirectPath = result.user.role === 'admin' 
-        ? '/admin/dashboard' 
+        ? (result.user.branchId && result.user.branchId !== 'all' ? '/admin/fees' : '/admin/dashboard')
         : `/${result.user.role}/dashboard`;
         
       router.push(redirectPath);
