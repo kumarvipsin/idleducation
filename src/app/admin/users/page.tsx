@@ -52,6 +52,8 @@ import { z } from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { useAuth } from "@/context/auth-context";
+import { getBranchDisplayName, normalizeBranchId, recordMatchesBranch } from "@/lib/branch-utils";
 
 interface User {
   id: string;
@@ -202,6 +204,14 @@ const StudentEditForm = ({ student, onSuccess }: { student: User | null; onSucce
 }
 
 export default function AdminUsersPage() {
+  const { user, loading: authLoading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? normalizedBranchId : null;
+  const branchDisplayName = isBranchAdmin
+    ? user?.branchName || getBranchDisplayName(branchAdminBranchId, true)
+    : null;
+
   const [students, setStudents] = useState<User[]>([]);
   const [teachers, setTeachers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
@@ -214,23 +224,40 @@ export default function AdminUsersPage() {
 
   const fetchUsers = async () => {
     setLoading(true);
+    const scopeArg = isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined;
     const [studentsResult, teachersResult] = await Promise.all([
-      getStudents(),
-      getTeachers(),
+      getStudents(undefined, scopeArg),
+      getTeachers({ narrowBranchId: scopeArg }),
     ]);
 
     if (studentsResult.success && studentsResult.data) {
-      setStudents(studentsResult.data as User[]);
+      const list = studentsResult.data as User[];
+      setStudents(
+        isBranchAdmin && branchAdminBranchId
+          ? list.filter((item) => recordMatchesBranch(item as any, branchAdminBranchId))
+          : list
+      );
+    } else {
+      setStudents([]);
     }
     if (teachersResult.success && teachersResult.data) {
-      setTeachers(teachersResult.data as User[]);
+      const list = teachersResult.data as User[];
+      setTeachers(
+        isBranchAdmin && branchAdminBranchId
+          ? list.filter((item) => recordMatchesBranch(item as any, branchAdminBranchId))
+          : list
+      );
+    } else {
+      setTeachers([]);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (!authLoading && user) {
+      fetchUsers();
+    }
+  }, [authLoading, user?.uid, branchAdminBranchId]);
 
   const handleAction = async () => {
     if (!selectedUser || !actionType) return;
@@ -338,8 +365,19 @@ export default function AdminUsersPage() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Student Management</CardTitle>
-              <CardDescription>Approve or deny new students, assign teachers, or send a password reset email.</CardDescription>
+              <CardTitle>
+                Student Management
+                {branchDisplayName && (
+                  <span className="ml-2 inline-flex items-center rounded-md border border-[#E5EAF2] bg-[#EFF6FF] px-2.5 py-0.5 text-xs font-semibold text-[#2864E8] align-middle">
+                    {branchDisplayName}
+                  </span>
+                )}
+              </CardTitle>
+              <CardDescription>
+                {branchDisplayName
+                  ? `Showing students enrolled in ${branchDisplayName}.`
+                  : 'Approve or deny new students, assign teachers, or send a password reset email.'}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <ScrollArea className="h-[calc(100vh-280px)] w-full">
@@ -353,7 +391,15 @@ export default function AdminUsersPage() {
                           </TableRow>
                       </TableHeader>
                       <TableBody>
-                          {loading ? renderSkeleton() : students.map((student) => (
+                          {loading ? renderSkeleton() : students.length === 0 ? (
+                            <TableRow>
+                              <TableCell colSpan={4} className="h-36 text-center text-sm text-muted-foreground">
+                                {branchDisplayName
+                                  ? `No students registered for ${branchDisplayName} yet.`
+                                  : 'No students found.'}
+                              </TableCell>
+                            </TableRow>
+                          ) : students.map((student) => (
                               <TableRow key={student.id}>
                                   <TableCell>
                                       <button onClick={() => setViewingStudent(student)} className="flex items-center gap-3 cursor-pointer hover:underline">

@@ -56,6 +56,9 @@ import {
   getCurrentMonth,
   getMonthLabel,
   clearAllFeeData,
+  getResetBackupStatus,
+  restoreResetFeeData,
+  type ResetBackupStatus,
   getBranchYearlyReport,
 } from '@/app/actions/fee-management';
 import {
@@ -150,6 +153,7 @@ import {
   ArrowRightLeft,
   Shield,
   UserPlus,
+  Folder,
   FolderPlus,
   School,
   BookOpen,
@@ -209,6 +213,7 @@ export function FeesClient({
   const [selectedMonth, setSelectedMonth] = useState<string>(initialMonth);
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState<boolean>(false);
   const [isMonthPickerOpen, setIsMonthPickerOpen] = useState<boolean>(false);
+  const [isDataGroupOpen, setIsDataGroupOpen] = useState<boolean>(false);
   const [monthPickerYear, setMonthPickerYear] = useState<number>(
     () => parseInt((initialMonth || '2026-11').split('-')[0], 10) || 2026
   );
@@ -290,12 +295,17 @@ export function FeesClient({
       setYearlyReport(null);
       setMonthPayments([]);
       setSelectedStudentProfile(null);
+      getResetBackupStatus()
+        .then(status => {
+          if (status?.success) setResetBackupStatus(status);
+        })
+        .catch(() => {});
       return;
     }
 
     startTransition(async () => {
       try {
-        const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments] = await Promise.all([
+        const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments, backupStatus] = await Promise.all([
           getFeeDashboardStats(month, branch),
           getFeeClasses(branch),
           getFeeBatches(undefined, branch),
@@ -303,6 +313,7 @@ export function FeesClient({
           getMonthlyLedger(month, { branchId: branch }),
           getBranchYearlyReport('2026-27'),
           getFeePayments({ month, branchId: branch }),
+          getResetBackupStatus(),
         ]);
 
         if (newStats?.success) setStats(newStats.data);
@@ -319,6 +330,7 @@ export function FeesClient({
         if (newLedger?.success) setLedger(newLedger.data);
         if (newYearly?.success) setYearlyReport(newYearly.data);
         if (newPayments?.success) setMonthPayments(newPayments.data);
+        if (backupStatus?.success) setResetBackupStatus(backupStatus);
       } catch (err) {
         console.error('Failed to refresh fee dashboard data:', err);
       }
@@ -336,7 +348,7 @@ export function FeesClient({
   // Shared Card Modal Styles (Create Class / Create Batch / Enroll Student)
   const FORM_CARD_SURFACE_CLS = "w-[94vw] rounded-2xl p-5 bg-white dark:bg-slate-950 border border-[#E2E8F0] dark:border-slate-800 shadow-[0_24px_56px_-12px_rgba(11,31,75,0.16),0_6px_18px_-4px_rgba(15,23,42,0.07),0_0_0_1px_rgba(15,23,42,0.03)] font-sans antialiased [&>button:last-child]:border-slate-200/90 [&>button:last-child]:text-slate-400 [&>button:last-child]:hover:text-[#0B1F4B] [&>button:last-child]:hover:border-slate-300 [&>button:last-child]:hover:bg-slate-50 [&>button:last-child]:shadow-[0_1px_2px_rgba(15,23,42,0.04)] [&>button:last-child]:transition-colors";
   const FORM_CARD_DIALOG_CLS = `max-w-[440px] ${FORM_CARD_SURFACE_CLS}`;
-  const FORM_CARD_WIDE_DIALOG_CLS = `max-w-[490px] sm:max-w-[580px] ${FORM_CARD_SURFACE_CLS}`;
+  const FORM_CARD_WIDE_DIALOG_CLS = `max-w-[480px] sm:max-w-[500px] ${FORM_CARD_SURFACE_CLS}`;
   const FORM_CARD_HEADER_CLS = "pb-3 border-b border-[#EEF2F7] dark:border-slate-800/80 shrink-0 text-left pr-9";
   const FORM_CARD_TITLE_CLS = "text-[16px] sm:text-[17px] font-bold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-snug";
   const FORM_CARD_DESC_CLS = "text-[11.5px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed mt-0.5";
@@ -345,11 +357,16 @@ export function FeesClient({
   const FORM_CARD_SELECT_TRIGGER_CLS = `${FORM_CARD_FIELD_CLS} focus:outline-none focus:ring-0 focus-visible:outline-none data-[state=open]:!border-b-[#2864E8] data-[state=open]:!bg-transparent data-[placeholder]:font-normal data-[placeholder]:text-slate-400/65 dark:data-[placeholder]:text-slate-600 [&>svg]:text-slate-400 data-[state=open]:[&>svg]:text-[#2864E8] [&>svg]:transition-[transform,color] [&>svg]:duration-150 data-[state=open]:[&>svg]:rotate-180`;
   const FORM_CARD_SELECT_CONTENT_CLS = "rounded-xl border border-slate-200/95 dark:border-slate-800 bg-white dark:bg-slate-950 p-1 shadow-[0_14px_34px_-8px_rgba(11,31,75,0.14),0_2px_8px_rgba(15,23,42,0.05)]";
   const FORM_CARD_SELECT_ITEM_CLS = "text-xs sm:text-[13px] font-medium text-slate-700 dark:text-slate-200 rounded-lg py-1.5 sm:py-2 focus:bg-blue-50/90 focus:text-[#2864E8] data-[state=checked]:text-[#2864E8] data-[state=checked]:font-semibold dark:focus:bg-blue-950/40 dark:focus:text-blue-400 cursor-pointer";
-  const FORM_CARD_ADD_BTN_CLS = "h-9 px-3 rounded-[5px] text-xs font-semibold border border-[#2864E8]/25 bg-[#2864E8]/[0.06] hover:bg-[#2864E8]/[0.11] text-[#2864E8] dark:bg-blue-950/30 dark:border-blue-800/60 dark:text-blue-400 dark:hover:bg-blue-950/50 flex items-center gap-1.5 shadow-[0_1px_2px_rgba(15,23,42,0.02)] transition-colors duration-150 cursor-pointer shrink-0";
-  const ENROLL_FIELD_CLS = FORM_CARD_FIELD_CLS;
-  const ENROLL_SELECT_TRIGGER_CLS = FORM_CARD_SELECT_TRIGGER_CLS;
-  const ENROLL_ADD_BTN_CLS = FORM_CARD_ADD_BTN_CLS;
-  const FORM_CARD_SUBMIT_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_6px_rgba(40,100,232,0.22),0_1px_2px_rgba(15,23,42,0.08)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.28),0_1px_3px_rgba(15,23,42,0.1)] flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-[0.995]";
+  const CIRCLE_PLUS_BTN_BASE_CLS = "rounded-full border inline-flex items-center justify-center shrink-0 transition-colors duration-150 cursor-pointer";
+  const FORM_CARD_SUBMIT_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-[0.06em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_-1px_rgba(40,100,232,0.26),0_1px_2px_rgba(23,32,51,0.08)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.3),0_1px_3px_rgba(23,32,51,0.1)] flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-[0.995]";
+
+  // Shared Student Profile / Enroll / Edit Modal Tokens (1:1 Visual Consistency)
+  const STUDENT_MODAL_DIALOG_CLS = "max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-['Inter_Tight',sans-serif]";
+  const STUDENT_MODAL_LABEL_CLS = "text-[11px] font-normal text-slate-400 dark:text-slate-500 block truncate";
+  const STUDENT_MODAL_INPUT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12.5px] font-medium text-slate-700 dark:text-slate-200 placeholder:font-normal placeholder:text-slate-400/80 p-0 m-0 mt-0.5 h-[19px] leading-tight transition-colors";
+  const STUDENT_MODAL_MONO_INPUT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums placeholder:font-normal placeholder:text-slate-400/80 p-0 m-0 mt-0.5 h-[19px] leading-tight transition-colors";
+  const STUDENT_MODAL_SELECT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12.5px] font-medium text-slate-700 dark:text-slate-200 data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal p-0 m-0 mt-0.5 h-[19px] shadow-none flex items-center justify-between cursor-pointer transition-colors [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-slate-400 [&>svg]:opacity-60 hover:[&>svg]:text-[#2864E8] hover:[&>svg]:opacity-100";
+  const STUDENT_MODAL_FOOTER_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] flex items-center justify-center gap-1.5 transition-all cursor-pointer";
 
   // 1. Create Class Modal
   const EMPTY_CLASS_FORM: {
@@ -403,6 +420,8 @@ export function FeesClient({
     order: '',
   });
   const [newBatchSubjectInput, setNewBatchSubjectInput] = useState('');
+  const [isBatchSubjectInputOpen, setIsBatchSubjectInputOpen] = useState(false);
+  const batchSubjectInputRef = useRef<HTMLInputElement | null>(null);
   const [editingBatchSubIdx, setEditingBatchSubIdx] = useState<number | null>(null);
   const [editingBatchSubName, setEditingBatchSubName] = useState('');
   const [isCustomBatchFee, setIsCustomBatchFee] = useState(false);
@@ -463,8 +482,7 @@ export function FeesClient({
   });
 
   // 3. Register Student Modal
-  const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
-  const [studentForm, setStudentForm] = useState<{
+  type EnrollStudentFormState = {
     rollNumber?: string;
     name: string;
     fatherName: string;
@@ -493,7 +511,8 @@ export function FeesClient({
     yearlyStandardFee?: number;
     yearlyCourseMonths?: number;
     additionalSubjects?: AdditionalSubject[];
-  }>({
+  };
+  const EMPTY_STUDENT_FORM: EnrollStudentFormState = {
     rollNumber: '',
     name: '',
     fatherName: '',
@@ -522,9 +541,13 @@ export function FeesClient({
     yearlyStandardFee: 0,
     yearlyCourseMonths: 12,
     additionalSubjects: [],
-  });
+  };
+  const [isStudentModalOpen, setIsStudentModalOpen] = useState(false);
+  const [studentForm, setStudentForm] = useState<EnrollStudentFormState>({ ...EMPTY_STUDENT_FORM });
 
   const [isCustomRollNumber, setIsCustomRollNumber] = useState(false);
+  const [enrollStudentSubjectTab, setEnrollStudentSubjectTab] = useState<'enrolled' | 'additional'>('enrolled');
+  const [showEnrollAddSubjectInput, setShowEnrollAddSubjectInput] = useState(false);
   const [newEnrollAddlSubjectName, setNewEnrollAddlSubjectName] = useState('');
   const [newEnrollAddlSubjectFee, setNewEnrollAddlSubjectFee] = useState('');
   const [newEditAddlSubjectName, setNewEditAddlSubjectName] = useState('');
@@ -593,8 +616,14 @@ export function FeesClient({
     additionalSubjects: [],
   });
 
-  // Reset confirmation dialog
+  // Reset & Restore confirmation dialogs
   const [isResetConfirmOpen, setIsResetConfirmOpen] = useState(false);
+  const [isRestoreConfirmOpen, setIsRestoreConfirmOpen] = useState(false);
+  const [isRestoringData, setIsRestoringData] = useState(false);
+  const [resetBackupStatus, setResetBackupStatus] = useState<ResetBackupStatus>({
+    success: true,
+    hasBackup: false,
+  });
 
   // 4. Collect Fee Modal
   const [isCollectFeeOpen, setIsCollectFeeOpen] = useState(false);
@@ -832,7 +861,8 @@ export function FeesClient({
         statusOptionsModal.isOpen ||
         transferModal.isOpen ||
         !!editingPaymentDateTarget ||
-        isResetConfirmOpen;
+        isResetConfirmOpen ||
+        isRestoreConfirmOpen;
 
       if (!anyModalOpen && typeof document !== 'undefined') {
         if (document.body.style.pointerEvents === 'none') {
@@ -859,6 +889,7 @@ export function FeesClient({
     transferModal.isOpen,
     editingPaymentDateTarget,
     isResetConfirmOpen,
+    isRestoreConfirmOpen,
   ]);
 
   // --------------------------------------------------------------------------
@@ -985,10 +1016,7 @@ export function FeesClient({
         ? rawYearly
         : (resolvedMonthlyFee > 0 ? resolvedMonthlyFee * 12 : undefined);
 
-      const pendingSub = newBatchSubjectInput.trim();
-      const finalSubjects = pendingSub && !batchForm.subjects.some(s => s.toLowerCase() === pendingSub.toLowerCase())
-        ? [...batchForm.subjects, pendingSub]
-        : batchForm.subjects;
+      const finalSubjects = parseSubjectEntries(newBatchSubjectInput, batchForm.subjects);
 
       const payload = {
         classId: batchForm.classId,
@@ -1023,6 +1051,7 @@ export function FeesClient({
           order: '',
         });
         setNewBatchSubjectInput('');
+        setIsBatchSubjectInputOpen(false);
         setEditingBatchSubIdx(null);
         setIsCustomBatchFee(false);
         refreshAllData(selectedMonth, selectedBranch);
@@ -1036,15 +1065,28 @@ export function FeesClient({
     }
   };
 
+  // Parse comma-separated subjects while deduplicating case-insensitively
+  const parseSubjectEntries = (raw: string, existing: string[] = []): string[] => {
+    const result = [...existing];
+    for (const part of raw.split(',')) {
+      const clean = part.trim();
+      if (clean && !result.some(s => s.toLowerCase() === clean.toLowerCase())) {
+        result.push(clean);
+      }
+    }
+    return result;
+  };
+
   // Handlers for dynamic batch subjects creation, editing & deletion
   const handleAddBatchSubject = (subjectToAdd?: string) => {
-    const sub = (subjectToAdd !== undefined ? subjectToAdd : newBatchSubjectInput).trim();
-    if (!sub) return;
-    if (batchForm.subjects.some(s => s.toLowerCase() === sub.toLowerCase())) {
-      toast({ title: 'Notice', description: `"${sub}" is already added to this batch.` });
+    const raw = subjectToAdd !== undefined ? subjectToAdd : newBatchSubjectInput;
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+    const updatedSubjects = parseSubjectEntries(raw, batchForm.subjects);
+    if (updatedSubjects.length === batchForm.subjects.length) {
+      toast({ title: 'Notice', description: `"${trimmed}" is already added to this batch.` });
       return;
     }
-    const updatedSubjects = [...batchForm.subjects, sub];
     setBatchForm(prev => ({
       ...prev,
       subjects: updatedSubjects,
@@ -1243,8 +1285,9 @@ export function FeesClient({
   // Handle Student Creation
   const handleCreateStudent = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!studentForm.name.trim() || !studentForm.contact1.trim() || !studentForm.branchId || !studentForm.classId || !studentForm.batchId) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Name, Contact 1, Branch, Class, and Batch are mandatory.' });
+    const resolvedContact1 = studentForm.contact1.trim() || (studentForm.fatherContact || '').trim();
+    if (!studentForm.name.trim() || !resolvedContact1 || !studentForm.branchId || !studentForm.classId || !studentForm.batchId) {
+      toast({ variant: 'destructive', title: 'Error', description: 'Name, Contact, Branch, Class, and Batch are mandatory.' });
       return;
     }
     if (!studentForm.gender) {
@@ -1285,6 +1328,7 @@ export function FeesClient({
 
     const payload = {
       ...studentForm,
+      contact1: resolvedContact1,
       additionalSubjects: studentForm.additionalSubjects || [],
       rollNumber: effectiveRollNumber,
       gender: (studentForm.gender || 'male') as 'male' | 'female',
@@ -1308,35 +1352,13 @@ export function FeesClient({
       toast({ title: 'Student Enrolled', description: res.message });
       setIsStudentModalOpen(false);
       setStudentForm({
-        rollNumber: '',
-        name: '',
-        fatherName: '',
-        fatherOccupation: '',
-        dob: '',
-        gender: '',
-        bloodGroup: '',
-        address: '',
-        contact1: '',
-        fatherContact: '',
-        motherContact: '',
-        contact2: '',
+        ...EMPTY_STUDENT_FORM,
         branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
-        classId: '',
-        batchId: '',
-        subjects: [],
-        joiningDate: '',
-        dueDate: '',
-        dueDayOfMonth: 5,
-        feeType: 'monthly',
-        paymentCycleMonths: 1,
-        baseFee: 0,
-        scholarshipPercent: 0,
-        discountAmount: 0,
-        totalYearlyFee: 0,
-        yearlyStandardFee: 0,
-        yearlyCourseMonths: 12,
-        additionalSubjects: [],
       });
+      setEnrollStudentSubjectTab('enrolled');
+      setShowEnrollAddSubjectInput(false);
+      setNewEnrollAddlSubjectName('');
+      setNewEnrollAddlSubjectFee('');
       refreshAllData();
     } else {
       toast({ variant: 'destructive', title: 'Error', description: res.message });
@@ -1352,11 +1374,14 @@ export function FeesClient({
     const formattedJoin = formatAdmDate(student.joiningDate);
     const formattedDob = formatAdmDate(student.dob);
 
+    const activeLedgerEntry = ledger.find(l => l.studentId === student.id && (!selectedMonth || l.month === selectedMonth));
     const today = new Date();
     const currentMonthStr = String(today.getMonth() + 1).padStart(2, '0');
     const currentYearStr = String(today.getFullYear());
     const dueDay = String(student.dueDayOfMonth || 5).padStart(2, '0');
-    const computedDueDate = `${dueDay}-${currentMonthStr}-${currentYearStr}`;
+    const fallbackDueDate = `${dueDay}-${currentMonthStr}-${currentYearStr}`;
+    const ledgerDueFormatted = activeLedgerEntry?.dueDate ? formatAdmDate(activeLedgerEntry.dueDate) : '—';
+    const computedDueDate = ledgerDueFormatted !== '—' ? ledgerDueFormatted : fallbackDueDate;
 
     const isYr = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage);
     const baseFee = student.baseFee || 0;
@@ -1494,19 +1519,58 @@ export function FeesClient({
     });
   };
 
+  const loadResetBackupStatus = async () => {
+    try {
+      const status = await getResetBackupStatus();
+      if (status?.success) {
+        setResetBackupStatus(status);
+      }
+    } catch (err) {
+      console.error('Failed to load reset backup status:', err);
+    }
+  };
+
   // Handle Clear All Data
   const handleClearAllData = async () => {
     setIsResetConfirmOpen(false);
     try {
       const res = await clearAllFeeData();
       if (res.success) {
+        setSelectedStudentProfile(null);
         toast({ title: 'Data Cleared', description: res.message });
         refreshAllData();
+        loadResetBackupStatus();
       } else {
         toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to clear fee data' });
+    }
+  };
+
+  const openRestoreConfirmDialog = () => {
+    setIsRestoreConfirmOpen(true);
+    loadResetBackupStatus();
+  };
+
+  // Handle Restore Reset Data
+  const handleRestoreResetData = async () => {
+    if (isRestoringData) return;
+    setIsRestoringData(true);
+    try {
+      const res = await restoreResetFeeData();
+      if (res.success) {
+        setIsRestoreConfirmOpen(false);
+        toast({ title: 'Data Restored', description: res.message });
+        refreshAllData();
+        loadResetBackupStatus();
+      } else {
+        toast({ variant: 'destructive', title: 'Restore Failed', description: res.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Restore Failed', description: err?.message || 'Failed to restore fee data' });
+    } finally {
+      setIsRestoringData(false);
     }
   };
 
@@ -2471,21 +2535,6 @@ export function FeesClient({
     setNewEnrollAddlSubjectFee('');
   };
 
-  const handleUpdateEnrollAddlSubject = (id: string, field: 'name' | 'fee', value: any) => {
-    setStudentForm(prev => ({
-      ...prev,
-      additionalSubjects: (prev.additionalSubjects || []).map(s => {
-        if (s.id === id) {
-          return {
-            ...s,
-            [field]: field === 'fee' ? (Number(value) || 0) : value,
-          };
-        }
-        return s;
-      }),
-    }));
-  };
-
   const handleRemoveEnrollAddlSubject = (id: string) => {
     setStudentForm(prev => ({
       ...prev,
@@ -2925,36 +2974,14 @@ export function FeesClient({
   // Open Create Student Modal with clean defaults and dynamic watermarks
   const openCreateStudentModal = () => {
     setIsCustomRollNumber(false);
-
     setStudentForm({
-      rollNumber: '',
-      name: '',
-      fatherName: '',
-      fatherOccupation: '',
-      dob: '',
-      gender: '',
-      bloodGroup: '',
-      address: '',
-      contact1: '',
-      fatherContact: '',
-      motherContact: '',
-      contact2: '',
+      ...EMPTY_STUDENT_FORM,
       branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
-      classId: '',
-      batchId: '',
-      subjects: [],
-      joiningDate: '',
-      dueDate: '',
-      dueDayOfMonth: 5,
-      feeType: 'monthly',
-      paymentCycleMonths: 1,
-      baseFee: 0,
-      scholarshipPercent: 0,
-      discountAmount: 0,
-      totalYearlyFee: 0,
-      yearlyStandardFee: 0,
-      yearlyCourseMonths: 12,
     });
+    setEnrollStudentSubjectTab('enrolled');
+    setShowEnrollAddSubjectInput(false);
+    setNewEnrollAddlSubjectName('');
+    setNewEnrollAddlSubjectFee('');
     setIsStudentModalOpen(true);
   };
 
@@ -2980,6 +3007,7 @@ export function FeesClient({
       order: '',
     });
     setNewBatchSubjectInput('');
+    setIsBatchSubjectInputOpen(false);
     setEditingBatchSubIdx(null);
     setIsCustomBatchFee(false);
     setIsBatchModalOpen(true);
@@ -3097,23 +3125,442 @@ export function FeesClient({
   const getOverdueDays = (dueDateStr?: string) => {
     if (!dueDateStr) return 0;
     try {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const pure = dueDateStr.split('T')[0];
+      const pure = dueDateStr.trim().split('T')[0].replace(/\//g, '-');
       const parts = pure.split('-');
-      if (parts.length === 3) {
-        const year = parseInt(parts[0], 10);
-        const month = parseInt(parts[1], 10) - 1;
-        const day = parseInt(parts[2], 10);
-        const dueDate = new Date(year, month, day);
-        dueDate.setHours(0, 0, 0, 0);
-        const diffMs = today.getTime() - dueDate.getTime();
-        return Math.max(0, Math.floor(diffMs / (1000 * 60 * 60 * 24)));
+      if (parts.length !== 3) return 0;
+
+      let year: number;
+      let month: number;
+      let day: number;
+      if (parts[0].length === 4) {
+        year = Number(parts[0]);
+        month = Number(parts[1]) - 1;
+        day = Number(parts[2]);
+      } else if (parts[2].length === 4) {
+        day = Number(parts[0]);
+        month = Number(parts[1]) - 1;
+        year = Number(parts[2]);
+      } else {
+        return 0;
       }
+
+      if (
+        !Number.isInteger(year) ||
+        !Number.isInteger(month) ||
+        !Number.isInteger(day) ||
+        year < 1900 ||
+        month < 0 ||
+        month > 11 ||
+        day < 1 ||
+        day > 31
+      ) {
+        return 0;
+      }
+
+      const dueDate = new Date(year, month, day);
+      if (
+        dueDate.getFullYear() !== year ||
+        dueDate.getMonth() !== month ||
+        dueDate.getDate() !== day
+      ) {
+        return 0;
+      }
+
+      const today = new Date();
+      const todayUtc = Date.UTC(today.getFullYear(), today.getMonth(), today.getDate());
+      const dueUtc = Date.UTC(year, month, day);
+      return Math.max(0, Math.floor((todayUtc - dueUtc) / 86400000));
     } catch {
       return 0;
     }
-    return 0;
+  };
+
+  /** Renders the compact two-line rose Overdue days indicator used beside Due Dates. */
+  const renderOverdueDaysBadge = (days: number, marginClass = 'ml-2') => (
+    <div className={`inline-flex flex-col items-start justify-center font-sans leading-none text-rose-600 dark:text-rose-400 shrink-0 ${marginClass}`}>
+      <span className="flex items-baseline gap-0.5 leading-none">
+        <strong className="font-bold text-[10.5px] tabular-nums leading-none">{days}</strong>
+        <span className="text-[8px] font-medium leading-none">{days === 1 ? 'day' : 'days'}</span>
+      </span>
+      <span className="text-[8px] font-semibold leading-none mt-0.5">
+        Overdue
+      </span>
+    </div>
+  );
+
+  const cleanSubjectLabel = (sub: string) =>
+    (sub || '').replace(/Socil\s*Studies/gi, 'Social Studies').replace(/Socil/gi, 'Social');
+
+  /** Updates discount rupee amount, percentage, and yearly net total consistently across student forms. */
+  const applyScholarshipDiscountUpdate = <T extends {
+    feeType: 'monthly' | 'course_onetime' | 'yearly_package';
+    baseFee: number;
+    yearlyStandardFee?: number;
+    totalYearlyFee?: number;
+    yearlyCourseMonths?: number;
+    discountAmount?: number;
+    scholarshipPercent: number;
+  }>(prev: T, val: number): T => {
+    const cMonths = prev.yearlyCourseMonths || 12;
+    if (prev.feeType === 'yearly_package') {
+      const yearlyStd = prev.yearlyStandardFee || ((prev.baseFee || 0) * cMonths);
+      const cappedDisc = Math.min(yearlyStd, Math.max(0, val));
+      const pct = yearlyStd > 0 ? Number(((cappedDisc / yearlyStd) * 100).toFixed(1)) : 0;
+      const net = Math.max(0, yearlyStd - cappedDisc);
+      const monthlyDisc = Math.round(cappedDisc / cMonths);
+      return {
+        ...prev,
+        yearlyStandardFee: yearlyStd,
+        totalYearlyFee: net,
+        scholarshipPercent: pct,
+        discountAmount: monthlyDisc,
+      };
+    }
+    const base = Number(prev.baseFee || 0);
+    const cappedDisc = Math.min(base, Math.max(0, val));
+    const pct = base > 0 ? Number(((cappedDisc / base) * 100).toFixed(1)) : 0;
+    const yearlyStd = prev.yearlyStandardFee || (base * cMonths);
+    const totalYr = Math.max(0, yearlyStd - (cappedDisc * cMonths));
+    return {
+      ...prev,
+      discountAmount: cappedDisc,
+      scholarshipPercent: pct,
+      totalYearlyFee: totalYr,
+    };
+  };
+
+  /** Shared Fee Breakdown card used by both Enroll New Student and Edit Student Details (fixed read-only Net Payable Fee). */
+  const renderStudentFeeBreakdownCard = <T extends {
+    feeType: 'monthly' | 'course_onetime' | 'yearly_package';
+    baseFee: number;
+    yearlyStandardFee?: number;
+    totalYearlyFee?: number;
+    yearlyCourseMonths?: number;
+    scholarshipPercent: number;
+    discountAmount?: number;
+    additionalSubjects?: AdditionalSubject[];
+  }>({
+    form,
+    previewDiscount: discPreview,
+    previewNetFee: netPreview,
+    addlFee,
+    onToggleFeeType,
+    onDiscountAmountChange,
+  }: {
+    form: T;
+    previewDiscount: number;
+    previewNetFee: number;
+    addlFee: number;
+    onToggleFeeType: (mode: 'monthly' | 'yearly_package') => void;
+    onDiscountAmountChange: (amount: number) => void;
+  }) => {
+    const isYearly = form.feeType === 'yearly_package';
+    const cMonths = form.yearlyCourseMonths || 12;
+    const stdFee = isYearly
+      ? (form.yearlyStandardFee || (form.baseFee > 0 ? form.baseFee * cMonths : 0))
+      : (form.baseFee || 0);
+    const activeAddlCount = (form.additionalSubjects || []).filter(s => s.status !== 'removed').length;
+
+    return (
+      <div className="p-3 rounded-xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-100 dark:border-slate-800/80 space-y-1.5 text-xs">
+        <div className="flex items-center justify-between">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+            FEE BREAKDOWN
+          </span>
+
+          <div className="flex items-center gap-1.5 text-[10px] font-medium tracking-wider uppercase">
+            <button
+              type="button"
+              onClick={() => onToggleFeeType('monthly')}
+              className={`transition-colors cursor-pointer ${!isYearly
+                ? 'text-slate-700 dark:text-slate-200 font-semibold'
+                : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
+                }`}
+            >
+              Monthly Fee
+            </button>
+            <span className="text-slate-300 dark:text-slate-700">•</span>
+            <button
+              type="button"
+              onClick={() => onToggleFeeType('yearly_package')}
+              className={`transition-colors cursor-pointer ${isYearly
+                ? 'text-slate-700 dark:text-slate-200 font-semibold'
+                : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
+                }`}
+            >
+              Yearly Package
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-1 pt-0.5 text-xs">
+          {/* Standard Fee: Fixed from batch/class, non-editable */}
+          <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+            <span className="font-normal text-[12px]">Standard Fee:</span>
+            <span className="font-medium text-slate-700 dark:text-slate-200 font-mono text-[12px] tabular-nums">
+              ₹{Number(stdFee).toLocaleString('en-IN')}
+              <span className="text-[10px] text-slate-400 font-normal ml-0.5">
+                {isYearly ? '/yr' : '/mo'}
+              </span>
+            </span>
+          </div>
+
+          {/* Scholarship: Percentage is non-editable, only discount amount (₹) is editable */}
+          <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+            <span className="font-normal text-[12px]">Scholarship:</span>
+            <div className="flex items-center justify-end font-medium text-emerald-600 dark:text-emerald-400 font-mono text-[12px] tabular-nums">
+              <span>{form.scholarshipPercent || 0}%</span>
+              <span className="ml-1 mr-0.5 text-emerald-600 dark:text-emerald-400">(-₹</span>
+              <input
+                type="text"
+                inputMode="numeric"
+                placeholder="0"
+                title="Enter scholarship discount amount in ₹"
+                value={discPreview ? discPreview : ""}
+                onChange={e => {
+                  const rawVal = e.target.value.replace(/[^0-9]/g, "");
+                  onDiscountAmountChange(rawVal === "" ? 0 : Number(rawVal));
+                }}
+                style={{ width: `${Math.max(2, String(discPreview || "").length)}ch` }}
+                className="bg-transparent border-0 border-b border-transparent hover:border-emerald-300 focus:border-emerald-500 focus:outline-none focus:ring-0 p-0 m-0 font-medium text-emerald-600 dark:text-emerald-400 font-mono text-[12px] text-right transition-colors"
+              />
+              <span className="text-emerald-600 dark:text-emerald-400">)</span>
+            </div>
+          </div>
+
+          {/* Additional Subjects Fee (if any) */}
+          {addlFee > 0 && (
+            <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
+              <span className="flex items-center gap-1.5 text-[12px]">
+                <span className="font-normal text-[12px]">Additional Subjects:</span>
+                <span className="text-[9.5px] text-violet-600 dark:text-violet-400 font-medium bg-violet-50/80 dark:bg-violet-950/40 border border-violet-200/50 dark:border-violet-800/40 px-1.5 py-0.2 rounded">
+                  {activeAddlCount} subj
+                </span>
+              </span>
+              <span className="font-medium text-violet-600 dark:text-violet-400 font-mono text-[12px] tabular-nums">
+                +₹{Number(isYearly ? addlFee * cMonths : addlFee).toLocaleString('en-IN')}
+                <span className="text-[10px] text-slate-400 font-normal ml-0.5">
+                  {isYearly ? '/yr' : '/mo'}
+                </span>
+              </span>
+            </div>
+          )}
+        </div>
+
+        {/* Net Payable Fee: Auto-computed, fixed and non-editable */}
+        <div className="flex justify-between items-baseline pt-1.5 border-t border-slate-100 dark:border-slate-800">
+          <span className="font-semibold text-slate-900 dark:text-white text-[12.5px] tracking-tight">Net Payable Fee:</span>
+          <span
+            data-testid="net-payable-fee-value"
+            className="text-[#2864E8] font-bold text-[16px] font-mono tracking-tight tabular-nums select-none"
+          >
+            ₹{Number(netPreview || 0).toLocaleString('en-IN')}
+            <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 ml-0.5">
+              {isYearly ? '/year' : '/month'}
+            </span>
+          </span>
+        </div>
+      </div>
+    );
+  };
+
+  /** Shared Enrolled & Additional Subjects tab bar + content used by Enroll and Edit Student modals. */
+  const renderStudentSubjectsTabs = ({
+    activeTab,
+    onTabChange,
+    showAddInput,
+    onToggleAddInput,
+    batchId,
+    enrolledSubjects,
+    onToggleEnrolledSubject,
+    emptyEnrolledText,
+    additionalSubjects,
+    onRemoveAdditionalSubject,
+    newAddlName,
+    onNewAddlNameChange,
+    newAddlFee,
+    onNewAddlFeeChange,
+    onAddAdditionalSubject,
+  }: {
+    activeTab: 'enrolled' | 'additional';
+    onTabChange: (tab: 'enrolled' | 'additional') => void;
+    showAddInput: boolean;
+    onToggleAddInput: () => void;
+    batchId: string;
+    enrolledSubjects: string[];
+    onToggleEnrolledSubject: (sub: string) => void;
+    emptyEnrolledText: string;
+    additionalSubjects: AdditionalSubject[];
+    onRemoveAdditionalSubject: (id: string) => void;
+    newAddlName: string;
+    onNewAddlNameChange: (val: string) => void;
+    newAddlFee: string;
+    onNewAddlFeeChange: (val: string) => void;
+    onAddAdditionalSubject: () => void;
+  }) => {
+    const activeAddlCount = additionalSubjects.filter(s => s.status !== 'removed').length;
+    const currentBatch = batches.find(b => b.id === batchId);
+    const batchSubjects = currentBatch?.subjects && currentBatch.subjects.length > 0
+      ? currentBatch.subjects
+      : (enrolledSubjects.length > 0 ? enrolledSubjects : []);
+
+    return (
+      <div className="py-2 border-b border-slate-100 dark:border-slate-800/70 space-y-1.5 text-xs">
+        <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+          <button
+            type="button"
+            onClick={() => onTabChange('enrolled')}
+            className={`text-[10.5px] uppercase font-semibold tracking-wider transition-colors cursor-pointer bg-transparent border-0 p-0 ${activeTab === 'enrolled'
+              ? 'text-slate-900 dark:text-white'
+              : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
+              }`}
+          >
+            ENROLLED SUBJECTS ({enrolledSubjects.length})
+          </button>
+
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={() => onTabChange('additional')}
+              className={`text-[10.5px] uppercase font-semibold tracking-wider transition-colors cursor-pointer bg-transparent border-0 p-0 ${activeTab === 'additional'
+                ? 'text-slate-900 dark:text-white'
+                : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
+                }`}
+            >
+              ADDITIONAL SUBJECTS ({activeAddlCount})
+            </button>
+            <button
+              type="button"
+              onClick={onToggleAddInput}
+              title={showAddInput ? "Hide Add Subject Input" : "Add Additional Subject"}
+              aria-label={showAddInput ? "Hide Add Subject Input" : "Add Additional Subject"}
+              className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors cursor-pointer bg-transparent ${showAddInput
+                ? 'border-[#2864E8] text-[#2864E8]'
+                : 'border-slate-200 dark:border-slate-700 hover:border-[#2864E8] text-slate-400 hover:text-[#2864E8]'
+                }`}
+            >
+              <Plus className="w-2.5 h-2.5" />
+            </button>
+          </div>
+        </div>
+
+        {activeTab === 'enrolled' && (
+          batchSubjects.length === 0 ? (
+            <div className="pt-0.5 text-xs text-slate-400 italic">
+              {emptyEnrolledText}
+            </div>
+          ) : (
+            <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 pt-0.5">
+              {batchSubjects.map(sub => {
+                const cleanSub = cleanSubjectLabel(sub);
+                const active = enrolledSubjects.includes(sub);
+                return (
+                  <button
+                    type="button"
+                    key={sub}
+                    onClick={() => onToggleEnrolledSubject(sub)}
+                    title={active ? `Click to remove ${cleanSub}` : `Click to add ${cleanSub}`}
+                    className={`inline-flex items-center gap-1.5 text-[12px] transition-colors cursor-pointer ${active
+                      ? "font-medium text-slate-700 dark:text-slate-200"
+                      : "font-normal text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
+                      }`}
+                  >
+                    <span
+                      className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${active ? "bg-blue-500/80 dark:bg-blue-400/80" : "bg-slate-200 dark:bg-slate-700"
+                        }`}
+                    />
+                    <span>{cleanSub}</span>
+                  </button>
+                );
+              })}
+            </div>
+          )
+        )}
+
+        {activeTab === 'additional' && (
+          <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5 pt-0.5">
+            {additionalSubjects.length > 0 ? (
+              additionalSubjects.map((sub, idx) => {
+                const cleanName = cleanSubjectLabel(sub.name);
+                const isRemoved = sub.status === 'removed';
+                return (
+                  <span
+                    key={sub.id || idx}
+                    className={`inline-flex items-center gap-1 text-[12px] ${isRemoved ? 'line-through text-slate-400 opacity-60' : 'font-medium text-slate-700 dark:text-slate-200'
+                      }`}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-500/80 dark:bg-blue-400/80 shrink-0" />
+                    <span>{cleanName}</span>
+                    <span className={`text-[11px] font-mono tabular-nums ${isRemoved ? 'text-slate-400' : 'text-violet-600 dark:text-violet-400 font-medium'}`}>
+                      (+₹{sub.fee})
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => onRemoveAdditionalSubject(sub.id)}
+                      className="text-slate-400 hover:text-rose-500 transition-colors cursor-pointer p-0.5 ml-0.5"
+                      title={`Delete ${cleanName}`}
+                      aria-label={`Remove ${cleanName}`}
+                    >
+                      <X className="w-2.5 h-2.5" />
+                    </button>
+                  </span>
+                );
+              })
+            ) : (
+              !showAddInput && (
+                <div className="text-xs text-slate-400 italic">
+                  No additional subjects. Click (+) above to add.
+                </div>
+              )
+            )}
+
+            {showAddInput && (
+              <div className="inline-flex items-center gap-1.5">
+                <input
+                  autoFocus
+                  placeholder="Add subject..."
+                  value={newAddlName}
+                  onChange={e => onNewAddlNameChange(toTitleCase(e.target.value))}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      onAddAdditionalSubject();
+                    }
+                  }}
+                  className="h-[21px] w-[110px] sm:w-[125px] bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 p-0 m-0 transition-colors"
+                />
+                <div className="inline-flex items-center">
+                  <span className="text-slate-400 text-xs font-mono mr-0.5">₹</span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="Fee"
+                    value={newAddlFee}
+                    onChange={e => onNewAddlFeeChange(e.target.value.replace(/[^0-9]/g, ''))}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();
+                        onAddAdditionalSubject();
+                      }
+                    }}
+                    className="h-[21px] w-[42px] bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-xs font-medium text-violet-600 dark:text-violet-400 placeholder:text-slate-400 font-mono p-0 m-0 transition-colors"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={onAddAdditionalSubject}
+                  className="w-4 h-4 rounded-full border border-slate-200 dark:border-slate-700 hover:border-[#2864E8] text-slate-400 hover:text-[#2864E8] flex items-center justify-center transition-colors cursor-pointer shrink-0 bg-transparent"
+                  title="Add Subject"
+                  aria-label="Confirm Add Subject"
+                >
+                  <Plus className="w-2.5 h-2.5" />
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    );
   };
 
   // Filtered Students (Respects admission date, month exclusions, and month status when in 'month' scope)
@@ -3371,17 +3818,104 @@ export function FeesClient({
               <span>Sync</span>
             </Button>
 
-            {/* 4. Reset Button */}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsResetConfirmOpen(true)}
-              className="h-6 px-1.5 sm:px-2 bg-transparent hover:bg-transparent hover:opacity-80 text-rose-300/90 hover:text-rose-200 text-xs font-semibold gap-1.5 transition-all shadow-none border-0 shrink-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none cursor-pointer"
-              title="Clear all dummy/test data and start fresh"
+            {/* 4. Reset & Restore Folder Group */}
+            <Popover
+              open={isDataGroupOpen}
+              onOpenChange={(open) => {
+                setIsDataGroupOpen(open);
+                if (open) loadResetBackupStatus();
+              }}
             >
-              <Trash2 className="w-3.5 h-3.5" />
-              <span>Reset</span>
-            </Button>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Reset and Restore data folder"
+                  className="flex items-center gap-1.5 px-1 py-0.5 h-6 bg-transparent text-xs font-semibold text-white/95 hover:text-white hover:opacity-85 transition-opacity cursor-pointer group shrink-0 border-0 shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                  title="Reset & Restore data options"
+                >
+                  <Folder className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                  <span className="whitespace-nowrap">Reset &amp; Restore</span>
+                  {resetBackupStatus.hasBackup && (
+                    <span
+                      className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"
+                      aria-hidden="true"
+                    />
+                  )}
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 shrink-0 ${isDataGroupOpen ? 'rotate-180 opacity-90' : ''}`}
+                  />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="end"
+                sideOffset={8}
+                className="w-[244px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+              >
+                <div className="flex items-center justify-between px-2 pt-1 pb-2 mb-1.5 border-b border-slate-100 dark:border-slate-800/80">
+                  <span className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                    <Folder className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400" />
+                    <span>Data Folder</span>
+                  </span>
+                  {resetBackupStatus.hasBackup && (
+                    <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                      Backup Ready
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsDataGroupOpen(false);
+                      setIsResetConfirmOpen(true);
+                    }}
+                    className="w-full px-2 py-2 rounded-lg text-left flex items-center gap-2.5 hover:bg-rose-50/80 dark:hover:bg-rose-950/40 transition-colors cursor-pointer group"
+                  >
+                    <span className="w-7 h-7 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0">
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-semibold text-slate-800 dark:text-slate-100 group-hover:text-rose-700 dark:group-hover:text-rose-300">
+                        Reset Data
+                      </span>
+                      <span className="block text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                        Clear records &amp; auto-save backup
+                      </span>
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsDataGroupOpen(false);
+                      openRestoreConfirmDialog();
+                    }}
+                    className="w-full px-2 py-2 rounded-lg text-left flex items-center gap-2.5 hover:bg-emerald-50/80 dark:hover:bg-emerald-950/40 transition-colors cursor-pointer group"
+                  >
+                    <span
+                      className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
+                        resetBackupStatus.hasBackup
+                          ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400'
+                          : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500'
+                      }`}
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-xs font-semibold text-slate-800 dark:text-slate-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-300">
+                        Restore Data
+                      </span>
+                      <span className="block text-[10px] text-slate-500 dark:text-slate-400 truncate">
+                        {resetBackupStatus.hasBackup && resetBackupStatus.counts
+                          ? `Restore ${resetBackupStatus.counts.classes} classes, ${resetBackupStatus.counts.students} students`
+                          : 'No reset backup saved yet'}
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
           {/* Right: Admin Dashboard Link */}
@@ -6014,11 +6548,39 @@ export function FeesClient({
 
               {/* Row 5: Subjects */}
               <div className="space-y-1.5">
-                <Label className={FORM_CARD_LABEL_CLS}>
-                  Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
-                </Label>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                  </Label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!isBatchSubjectInputOpen) {
+                        setIsBatchSubjectInputOpen(true);
+                        requestAnimationFrame(() => batchSubjectInputRef.current?.focus());
+                      } else if (newBatchSubjectInput.trim()) {
+                        handleAddBatchSubject();
+                        requestAnimationFrame(() => batchSubjectInputRef.current?.focus());
+                      } else {
+                        setIsBatchSubjectInputOpen(false);
+                      }
+                    }}
+                    className={`${CIRCLE_PLUS_BTN_BASE_CLS} w-4 h-4 ${
+                      isBatchSubjectInputOpen
+                        ? 'border-[#2864E8]/70 text-[#2864E8] bg-[#2864E8]/[0.06] dark:border-blue-500/70 dark:text-blue-400'
+                        : 'border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:border-[#2864E8] hover:text-[#2864E8] hover:bg-[#2864E8]/[0.06]'
+                    }`}
+                    title={isBatchSubjectInputOpen && !newBatchSubjectInput.trim() ? 'Hide subject field' : 'Add Subject'}
+                    aria-label="Add Subject"
+                    aria-expanded={isBatchSubjectInputOpen}
+                  >
+                    <Plus className="w-2.5 h-2.5 stroke-[2.2]" />
+                  </button>
+                </div>
+
+                {isBatchSubjectInputOpen && (
                   <Input
+                    ref={batchSubjectInputRef}
                     placeholder="e.g. Physics, Maths"
                     value={newBatchSubjectInput}
                     onChange={e => setNewBatchSubjectInput(e.target.value)}
@@ -6028,19 +6590,9 @@ export function FeesClient({
                         handleAddBatchSubject();
                       }
                     }}
-                    className={`${FORM_CARD_FIELD_CLS} flex-1`}
+                    className={FORM_CARD_FIELD_CLS}
                   />
-                  <button
-                    type="button"
-                    onClick={() => handleAddBatchSubject()}
-                    className={FORM_CARD_ADD_BTN_CLS}
-                    title="Add Subject"
-                    aria-label="Add Subject"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add Subject</span>
-                  </button>
-                </div>
+                )}
 
                 {batchForm.subjects && batchForm.subjects.length > 0 && (
                   <div className="flex flex-wrap items-center gap-1.5 pt-1">
@@ -6448,750 +7000,402 @@ export function FeesClient({
         {/* -------------------------------------------------------------------- */}
         {/* MODAL 3: ENROLL NEW STUDENT (1:1 Exact Match with Edit Student Details & Student Profile Visual System) */}
         {/* -------------------------------------------------------------------- */}
-        <Dialog open={isStudentModalOpen} onOpenChange={open => !open && setIsStudentModalOpen(false)}>
+        <Dialog open={isStudentModalOpen} onOpenChange={open => {
+          if (!open) {
+            setIsStudentModalOpen(false);
+            setShowEnrollAddSubjectInput(false);
+          }
+        }}>
           <DialogContent
             onOpenAutoFocus={(e) => e.preventDefault()}
-            className={`${FORM_CARD_WIDE_DIALOG_CLS} !p-4 sm:!p-5 overflow-hidden max-h-[94dvh] flex flex-col text-left`}
+            className={STUDENT_MODAL_DIALOG_CLS}
           >
-            {/* Header: Card Title + Inline Student ID, Join Date & Due Date */}
-            <DialogHeader className="pb-2.5 border-b border-[#EEF2F7] dark:border-slate-800/80 shrink-0 text-left">
-              <div>
-                <DialogTitle className={`${FORM_CARD_TITLE_CLS} pr-9`}>
-                  Enroll New Student
-                </DialogTitle>
-                <div className="text-[10.5px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1 flex flex-wrap items-center gap-x-1.5 sm:gap-x-2.5 gap-y-0.5">
-                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
-                    <span className="font-semibold text-slate-500 dark:text-slate-400">ID :</span>
+            <form onSubmit={handleCreateStudent} noValidate className="flex flex-col flex-1 min-h-0 overflow-hidden text-left" autoComplete="off">
+              {/* Header: Student Full Name Title + Compact Auto-Sized ID, Join Date & Due Date */}
+              <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
+                <div>
+                  <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-snug pr-8">
+                    <span className="sr-only">Enroll New Student</span>
                     <input
                       type="text"
-                      placeholder={studentIdWatermark}
-                      value={studentForm.rollNumber || ""}
-                      onChange={e => {
-                        setIsCustomRollNumber(true);
-                        setStudentForm({ ...studentForm, rollNumber: e.target.value });
-                      }}
-                      style={{ width: `${Math.max(9, (studentForm.rollNumber || studentIdWatermark).length)}ch` }}
-                      className="font-semibold text-[#0B1F4B] dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/90 dark:placeholder:text-slate-500 transition-colors"
-                    />
-                  </span>
-                  <span className="text-slate-300 dark:text-slate-600 select-none">•</span>
-                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
-                    <span className="font-semibold text-slate-500 dark:text-slate-400">JOIN :</span>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder={todayDateWatermark}
-                      value={studentForm.joiningDate || ""}
-                      onChange={e => {
-                        const formatted = handleDateTyping(e.target.value, studentForm.joiningDate);
-                        setStudentForm(prev => ({
-                          ...prev,
-                          joiningDate: formatted,
-                        }));
-                      }}
-                      onBlur={e => {
-                        const normalized = normalizeDateBlur(e.target.value);
-                        setStudentForm(prev => ({
-                          ...prev,
-                          joiningDate: normalized,
-                        }));
-                      }}
-                      style={{ width: "10ch" }}
-                      className="font-semibold text-[#0B1F4B] dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/90 dark:placeholder:text-slate-500 transition-colors"
-                    />
-                  </span>
-                  <span className="text-slate-300 dark:text-slate-600 select-none">•</span>
-                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
-                    <span className="font-semibold text-slate-500 dark:text-slate-400">DUE :</span>
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder={defaultDueDateWatermark}
-                      value={studentForm.dueDate || ""}
-                      onChange={e => {
-                        const formatted = handleDateTyping(e.target.value, studentForm.dueDate);
-                        setStudentForm({ ...studentForm, dueDate: formatted });
-                      }}
-                      onBlur={e => {
-                        const normalized = normalizeDateBlur(e.target.value);
-                        setStudentForm({ ...studentForm, dueDate: normalized });
-                      }}
-                      style={{ width: "10ch" }}
-                      className="font-semibold text-[#0B1F4B] dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/90 dark:placeholder:text-slate-500 transition-colors"
-                    />
-                  </span>
-                </div>
-              </div>
-            </DialogHeader>
-
-            <form onSubmit={handleCreateStudent} noValidate className="flex flex-col flex-1 min-h-0 overflow-hidden pt-0.5 text-left" autoComplete="off">
-              <div className="flex-1 overflow-y-auto no-scrollbar pb-1 space-y-2">
-                {/* Row 1: Student Full Name, Father/Guardian Name, Father/Guardian Occ. */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Full Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <Input
-                      placeholder="e.g. Diya Tiwari"
+                      aria-label="Student Full Name"
+                      placeholder="Student Full Name"
                       value={studentForm.name}
                       onChange={e => setStudentForm({ ...studentForm, name: toTitleCase(e.target.value) })}
-                      className={ENROLL_FIELD_CLS}
+                      required
+                      className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] p-0 m-0 focus:outline-none focus:ring-0 leading-snug w-full placeholder:text-slate-400/90 dark:placeholder:text-slate-500 selection:bg-[#2864E8]/20 transition-colors"
                     />
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Father / Guardian Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <Input
-                      placeholder="e.g. Rajender Tiwari"
-                      value={studentForm.fatherName}
-                      onChange={e => setStudentForm({ ...studentForm, fatherName: toTitleCase(e.target.value) })}
-                      className={ENROLL_FIELD_CLS}
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Father / Guardian Occ.
-                    </Label>
-                    <Input
-                      placeholder="e.g. Business"
-                      value={studentForm.fatherOccupation || ""}
-                      onChange={e => setStudentForm({ ...studentForm, fatherOccupation: toTitleCase(e.target.value) })}
-                      className={ENROLL_FIELD_CLS}
-                    />
-                  </div>
-                </div>
-
-                {/* Row 2: Date of Birth, Gender, Blood Group */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      DOB (DD-MM-YYYY)
-                    </Label>
-                    <Input
-                      type="text"
-                      inputMode="numeric"
-                      placeholder="DD-MM-YYYY"
-                      value={studentForm.dob || ""}
-                      onChange={e => {
-                        const formatted = handleDateTyping(e.target.value, studentForm.dob);
-                        setStudentForm({ ...studentForm, dob: formatted });
-                      }}
-                      onBlur={e => {
-                        const normalized = normalizeDateBlur(e.target.value);
-                        setStudentForm({ ...studentForm, dob: normalized });
-                      }}
-                      className={`${ENROLL_FIELD_CLS} font-mono`}
-                    />
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Gender <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <Select
-                      value={studentForm.gender || ""}
-                      onValueChange={(val: any) => setStudentForm({ ...studentForm, gender: val })}
-                    >
-                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
-                        <SelectValue placeholder="Select gender" />
-                      </SelectTrigger>
-                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                        <SelectItem value="male" className={FORM_CARD_SELECT_ITEM_CLS}>Male</SelectItem>
-                        <SelectItem value="female" className={FORM_CARD_SELECT_ITEM_CLS}>Female</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Blood Group
-                    </Label>
-                    <Select
-                      value={studentForm.bloodGroup || ""}
-                      onValueChange={(val: string) => setStudentForm({ ...studentForm, bloodGroup: val })}
-                    >
-                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
-                        <SelectValue placeholder="Select group" />
-                      </SelectTrigger>
-                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                        {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].map(bg => (
-                          <SelectItem key={bg} value={bg} className={FORM_CARD_SELECT_ITEM_CLS}>{bg}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {/* Row 3: Father Contact, Mother Contact, Phone Number with +91 Prefix */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Father Contact
-                    </Label>
-                    <div className="relative">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 dark:text-slate-500 select-none pointer-events-none">
-                        +91
+                    {studentForm.feeType === 'yearly_package' && (
+                      <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-1">
+                        <span className="w-2 h-2 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_7px_2px_rgba(139,92,246,0.75)] animate-pulse" />
                       </span>
-                      <Input
-                        type="tel"
-                        maxLength={10}
-                        placeholder="10-digit no."
-                        value={studentForm.fatherContact || ""}
-                        onChange={e => setStudentForm({ ...studentForm, fatherContact: e.target.value.replace(/\D/g, "") })}
-                        className={`${ENROLL_FIELD_CLS} !pl-7 font-mono`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Mother Contact
-                    </Label>
-                    <div className="relative">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 dark:text-slate-500 select-none pointer-events-none">
-                        +91
-                      </span>
-                      <Input
-                        type="tel"
-                        maxLength={10}
-                        placeholder="10-digit no."
-                        value={studentForm.motherContact || ""}
-                        onChange={e => setStudentForm({ ...studentForm, motherContact: e.target.value.replace(/\D/g, ""), contact2: e.target.value.replace(/\D/g, "") })}
-                        className={`${ENROLL_FIELD_CLS} !pl-7 font-mono`}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Phone Number <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <div className="relative">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 dark:text-slate-500 select-none pointer-events-none">
-                        +91
-                      </span>
-                      <Input
-                        type="tel"
-                        maxLength={10}
-                        placeholder="10-digit no."
-                        value={studentForm.contact1}
-                        onChange={e => setStudentForm({ ...studentForm, contact1: e.target.value.replace(/\D/g, "") })}
-                        className={`${ENROLL_FIELD_CLS} !pl-7 font-mono`}
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Row 4: Residential Address */}
-                <div className="space-y-1">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Residential Address
-                  </Label>
-                  <Input
-                    placeholder="House no, colony, landmark, PIN"
-                    value={studentForm.address}
-                    onChange={e => setStudentForm({ ...studentForm, address: toTitleCase(e.target.value) })}
-                    className={ENROLL_FIELD_CLS}
-                  />
-                </div>
-
-                {/* Row 5: Academic Details (Branch, Class, Batch) */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <Select
-                      value={studentForm.branchId}
-                      onValueChange={val => setStudentForm({ ...studentForm, branchId: val, classId: "", batchId: "" })}
-                    >
-                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
-                        <SelectValue placeholder="Select branch" />
-                      </SelectTrigger>
-                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                        {IDL_BRANCHES.filter(b => b.id !== "all").map(b => (
-                          <SelectItem key={b.id} value={b.id} className={FORM_CARD_SELECT_ITEM_CLS}>{b.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <Select
-                      value={studentForm.classId}
-                      onValueChange={val => {
-                        const c = classes.find(item => item.id === val);
-                        const clsFee = c?.defaultMonthlyFee || 0;
-                        setStudentForm(prev => ({
-                          ...prev,
-                          classId: val,
-                          branchId: prev.branchId || (c?.branchId && c.branchId !== 'all' ? c.branchId : prev.branchId),
-                          batchId: "",
-                          baseFee: clsFee,
-                          discountAmount: 0,
-                          scholarshipPercent: 0,
-                          subjects: [],
-                        }));
-                      }}
-                    >
-                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
-                        <SelectValue placeholder="Select class" />
-                      </SelectTrigger>
-                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                        {classes
-                          .filter(c => !studentForm.branchId || c.branchId === studentForm.branchId || c.branchId === "all")
-                          .map(c => (
-                            <SelectItem key={c.id} value={c.id} className={FORM_CARD_SELECT_ITEM_CLS}>{c.name}</SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-1">
-                    <Label className={FORM_CARD_LABEL_CLS}>
-                      Batch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                    </Label>
-                    <Select
-                      value={studentForm.batchId}
-                      onValueChange={val => {
-                        const b = batches.find(item => item.id === val);
-                        const c = classes.find(item => item.id === studentForm.classId);
-                        const actualMonthlyFee = (b && typeof b.monthlyFee === 'number' && b.monthlyFee > 0)
-                          ? b.monthlyFee
-                          : (c?.defaultMonthlyFee || 0);
-                        const actualYearlyFee = (b && typeof b.courseFee === 'number' && b.courseFee > 0)
-                          ? b.courseFee
-                          : (actualMonthlyFee * 12);
-
-                        setStudentForm(prev => {
-                          let pct = prev.scholarshipPercent || 0;
-                          return {
-                            ...prev,
-                            batchId: val,
-                            baseFee: actualMonthlyFee,
-                            yearlyStandardFee: actualYearlyFee,
-                            totalYearlyFee: actualYearlyFee - Math.round((actualYearlyFee * pct) / 100),
-                            discountAmount: Math.round((actualMonthlyFee * pct) / 100),
-                            scholarshipPercent: pct,
-                            subjects: b?.subjects ? [...b.subjects] : prev.subjects,
-                          };
-                        });
-                      }}
-                    >
-                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
-                        <SelectValue placeholder="Select batch" />
-                      </SelectTrigger>
-                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                        {batches
-                          .filter(b => b.classId === studentForm.classId)
-                          .map(b => (
-                            <SelectItem key={b.id} value={b.id} className={FORM_CARD_SELECT_ITEM_CLS}>{b.name}</SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-
-                {/* Fee Breakdown Card */}
-                <div className="p-3 rounded-xl bg-[#F8FAFC] dark:bg-slate-900/40 border border-[#E2E8F0] dark:border-slate-800/80 space-y-1.5 text-xs">
-                  <div className="flex items-center justify-between text-[10.5px] font-semibold uppercase tracking-wider text-[#0B1F4B] dark:text-slate-300">
-                    <span className="whitespace-nowrap shrink-0">
-                      Fee Breakdown
-                    </span>
-
-                    {/* Monthly / Yearly Selection Option */}
-                    <div className="inline-flex items-center p-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-700/80 shadow-2xs">
-                      <button
-                        type="button"
-                        onClick={() => handleToggleStudentFeeType('monthly')}
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase transition-all cursor-pointer ${studentForm.feeType !== 'yearly_package'
-                          ? 'bg-[#2864E8] text-white shadow-xs'
-                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-                          }`}
-                      >
-                        Monthly
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => handleToggleStudentFeeType('yearly_package')}
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold tracking-wider uppercase transition-all cursor-pointer ${studentForm.feeType === 'yearly_package'
-                          ? 'bg-[#2864E8] text-white shadow-xs'
-                          : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-                          }`}
-                      >
-                        Yearly
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5 pt-0.5">
-                    {/* Standard Fee */}
-                    <div className="flex justify-between items-baseline text-slate-600 dark:text-slate-400 text-[12px]">
-                      <span className="font-normal">Standard Fee:</span>
-                      <div className="inline-flex items-baseline justify-end font-medium text-[#0B1F4B] dark:text-slate-200 font-mono text-[12px] whitespace-nowrap">
-                        <span className="text-slate-500 dark:text-slate-400 select-none mr-1">₹</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="0"
-                          value={
-                            studentForm.feeType === 'yearly_package'
-                              ? (studentForm.yearlyStandardFee || (studentForm.baseFee > 0 ? studentForm.baseFee * 12 : "") || "")
-                              : (studentForm.baseFee || "")
-                          }
-                          onChange={e => {
-                            const val = Number(e.target.value.replace(/[^0-9]/g, "")) || 0;
-                            if (studentForm.feeType === 'yearly_package') {
-                              setStudentForm(prev => {
-                                const pct = prev.scholarshipPercent || 0;
-                                const disc = Math.round((val * pct) / 100);
-                                const net = Math.max(0, val - disc);
-                                return {
-                                  ...prev,
-                                  yearlyStandardFee: val,
-                                  totalYearlyFee: net,
-                                  baseFee: Math.round(val / 12),
-                                  discountAmount: Math.round(disc / 12),
-                                };
-                              });
-                            } else {
-                              setStudentForm(prev => {
-                                const disc = prev.discountAmount || 0;
-                                const pct = val > 0 && disc > 0 ? Number(((disc / val) * 100).toFixed(1)) : (prev.scholarshipPercent || 0);
-                                return {
-                                  ...prev,
-                                  baseFee: val,
-                                  yearlyStandardFee: val * 12,
-                                  scholarshipPercent: pct,
-                                  discountAmount: val > 0 && pct > 0 ? Math.round((val * pct) / 100) : disc,
-                                };
-                              });
-                            }
-                          }}
-                          style={{
-                            width: `${Math.max(
-                              1,
-                              String(
-                                (studentForm.feeType === 'yearly_package'
-                                  ? (studentForm.yearlyStandardFee || (studentForm.baseFee > 0 ? studentForm.baseFee * 12 : ""))
-                                  : (studentForm.baseFee || "")) || 0
-                              ).length
-                            )}ch`
-                          }}
-                          className="text-right p-0 m-0 border-0 bg-transparent font-medium text-[#0B1F4B] dark:text-slate-200 font-mono placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:ring-0 leading-none"
-                        />
-                        <span className="text-slate-400 dark:text-slate-500 text-[11px] select-none ml-1">
-                          {studentForm.feeType === 'yearly_package' ? '/yr' : '/mo'}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Scholarship: Percentage & Rupee Amount both interactive and synced */}
-                    <div className="flex justify-between items-baseline text-slate-600 dark:text-slate-400 text-[12px]">
-                      <span className="font-normal">Scholarship:</span>
-                      <div className="inline-flex items-baseline justify-end font-medium text-emerald-600 dark:text-emerald-400 font-mono text-[12px] whitespace-nowrap">
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="0"
-                          title="Scholarship Percentage (%)"
-                          value={studentForm.scholarshipPercent ?? ""}
-                          onChange={e => {
-                            const val = e.target.value.replace(/[^0-9.]/g, "");
-                            const pct = Math.min(100, Math.max(0, Number(val) || 0));
-                            if (studentForm.feeType === 'yearly_package') {
-                              const yearlyStd = studentForm.yearlyStandardFee || (studentForm.baseFee * 12);
-                              const disc = Math.round((yearlyStd * pct) / 100);
-                              const net = Math.max(0, yearlyStd - disc);
-                              setStudentForm(prev => ({
-                                ...prev,
-                                scholarshipPercent: pct,
-                                totalYearlyFee: net,
-                                discountAmount: Math.round(disc / 12),
-                              }));
-                            } else {
-                              const base = Number(studentForm.baseFee || 0);
-                              const disc = Math.round((base * pct) / 100);
-                              setStudentForm(prev => ({
-                                ...prev,
-                                scholarshipPercent: pct,
-                                discountAmount: disc,
-                              }));
-                            }
-                          }}
-                          style={{ width: `${Math.max(1, String(studentForm.scholarshipPercent ?? 0).length)}ch` }}
-                          className="text-right p-0 m-0 border-0 bg-transparent font-medium text-emerald-600 dark:text-emerald-400 font-mono placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:ring-0 leading-none"
-                        />
-                        <span className="select-none">%</span>
-                        <span className="ml-1.5 select-none font-mono">(-₹</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="0"
-                          title="Enter scholarship discount amount in ₹"
-                          value={previewDiscount || ""}
-                          onChange={e => {
-                            const val = Number(e.target.value.replace(/[^0-9]/g, "")) || 0;
-                            if (studentForm.feeType === 'yearly_package') {
-                              const yearlyStd = studentForm.yearlyStandardFee || (studentForm.baseFee * 12);
-                              const cappedDisc = Math.min(yearlyStd, Math.max(0, val));
-                              const pct = yearlyStd > 0 ? Number(((cappedDisc / yearlyStd) * 100).toFixed(1)) : 0;
-                              const net = Math.max(0, yearlyStd - cappedDisc);
-                              setStudentForm(prev => ({
-                                ...prev,
-                                yearlyStandardFee: yearlyStd,
-                                totalYearlyFee: net,
-                                scholarshipPercent: pct,
-                                discountAmount: cappedDisc,
-                              }));
-                            } else {
-                              const base = Number(studentForm.baseFee || 0);
-                              const cappedDisc = Math.min(base, Math.max(0, val));
-                              const pct = base > 0 ? Number(((cappedDisc / base) * 100).toFixed(1)) : 0;
-                              setStudentForm(prev => ({
-                                ...prev,
-                                discountAmount: cappedDisc,
-                                scholarshipPercent: pct,
-                              }));
-                            }
-                          }}
-                          style={{ width: `${Math.max(1, String(previewDiscount || 0).length)}ch` }}
-                          className="text-right p-0 m-0 border-0 bg-transparent font-medium text-emerald-600 dark:text-emerald-400 font-mono placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:ring-0 leading-none"
-                        />
-                        <span className="font-mono select-none">)</span>
-                      </div>
-                    </div>
-
-                    {/* Additional Subjects Fee (if any added) */}
-                    {currentStudentAddlFee > 0 && (
-                      <div className="flex justify-between items-baseline text-slate-600 dark:text-slate-400 text-[12px]">
-                        <span className="font-normal flex items-center gap-1">
-                          <span>Additional Subjects:</span>
-                          <span className="text-[10px] text-indigo-600 dark:text-indigo-400 font-semibold bg-indigo-50 dark:bg-indigo-950/60 px-1 py-0.2 rounded">
-                            {(studentForm.additionalSubjects || []).filter(s => s.status !== 'removed').length} subj
-                          </span>
-                        </span>
-                        <div className="inline-flex items-baseline justify-end font-semibold text-indigo-600 dark:text-indigo-400 font-mono text-[12px] whitespace-nowrap">
-                          <span className="select-none mr-0.5">+₹</span>
-                          <span>
-                            {studentForm.feeType === 'yearly_package'
-                              ? currentStudentAddlFee * (studentForm.yearlyCourseMonths || 12)
-                              : currentStudentAddlFee}
-                          </span>
-                          <span className="text-slate-400 dark:text-slate-500 text-[11px] select-none ml-1">
-                            {studentForm.feeType === 'yearly_package' ? '/yr' : '/mo'}
-                          </span>
-                        </div>
-                      </div>
                     )}
+                  </DialogTitle>
+                  <div className="text-[11.5px] text-slate-500 font-mono mt-1.5 flex items-center flex-wrap gap-x-1.5 gap-y-1">
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                      <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">ID:</span>
+                      <span className="inline-grid items-center">
+                        <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium uppercase text-[11.5px] pointer-events-none select-none min-w-[4ch]">
+                          {studentForm.rollNumber || studentIdWatermark}
+                        </span>
+                        <input
+                          type="text"
+                          size={1}
+                          placeholder={studentIdWatermark}
+                          value={studentForm.rollNumber || ""}
+                          onChange={e => {
+                            setIsCustomRollNumber(true);
+                            setStudentForm({ ...studentForm, rollNumber: e.target.value });
+                          }}
+                          className="col-start-1 row-start-1 w-full min-w-0 font-medium text-slate-700 dark:text-slate-200 placeholder:text-slate-500/90 dark:placeholder:text-slate-400 placeholder:font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                        />
+                      </span>
+                    </span>
+                    <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                      <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">JOIN:</span>
+                      <span className="inline-grid items-center">
+                        <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium text-[11.5px] pointer-events-none select-none tabular-nums">
+                          {studentForm.joiningDate || todayDateWatermark}
+                        </span>
+                        <input
+                          type="text"
+                          size={1}
+                          inputMode="numeric"
+                          placeholder={todayDateWatermark}
+                          value={studentForm.joiningDate || ""}
+                          onChange={e => {
+                            const formatted = handleDateTyping(e.target.value, studentForm.joiningDate);
+                            setStudentForm(prev => ({
+                              ...prev,
+                              joiningDate: formatted,
+                            }));
+                          }}
+                          onBlur={e => {
+                            const normalized = normalizeDateBlur(e.target.value);
+                            setStudentForm(prev => ({
+                              ...prev,
+                              joiningDate: normalized,
+                            }));
+                          }}
+                          className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 placeholder:text-slate-500/90 dark:placeholder:text-slate-400 placeholder:font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                        />
+                      </span>
+                    </span>
+                    <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                    <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                      <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">DUE:</span>
+                      <span className="inline-grid items-center">
+                        <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium text-[11.5px] pointer-events-none select-none tabular-nums">
+                          {studentForm.dueDate || defaultDueDateWatermark}
+                        </span>
+                        <input
+                          type="text"
+                          size={1}
+                          inputMode="numeric"
+                          placeholder={defaultDueDateWatermark}
+                          value={studentForm.dueDate || ""}
+                          onChange={e => {
+                            const formatted = handleDateTyping(e.target.value, studentForm.dueDate);
+                            setStudentForm({ ...studentForm, dueDate: formatted });
+                          }}
+                          onBlur={e => {
+                            const normalized = normalizeDateBlur(e.target.value);
+                            setStudentForm({ ...studentForm, dueDate: normalized });
+                          }}
+                          className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 placeholder:text-slate-500/90 dark:placeholder:text-slate-400 placeholder:font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                        />
+                      </span>
+                    </span>
                   </div>
+                </div>
+              </DialogHeader>
 
-                  {/* Net Payable Fee Highlight */}
-                  <div className="flex justify-between items-baseline pt-2 border-t border-[#E2E8F0] dark:border-slate-800">
-                    <span className="font-semibold text-[#0B1F4B] dark:text-white text-[12px] sm:text-[12.5px]">Net Payable Fee:</span>
-                    <div className="inline-flex items-baseline justify-end text-[#2864E8] font-mono tracking-tight whitespace-nowrap">
-                      <span className="text-[13px] sm:text-[14px] font-bold mr-1 select-none">₹</span>
+              <div className="flex-1 overflow-y-auto pr-1 pb-1 space-y-2.5 pt-2">
+                {/* Personal Information Grid (1:1 Match with Profile View / Edit Student Details) */}
+                <div className="py-2 border-b border-slate-100 dark:border-slate-800/80 space-y-2 text-xs">
+                  {/* Row 1: Father / Guardian Name, Date of Birth, Gender */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5">
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Father / Guardian Name
+                      </span>
+                      <input
+                        placeholder="Father Name"
+                        value={studentForm.fatherName}
+                        onChange={e => setStudentForm({ ...studentForm, fatherName: toTitleCase(e.target.value) })}
+                        className={STUDENT_MODAL_INPUT_CLS}
+                      />
+                    </div>
+
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Date of Birth
+                      </span>
                       <input
                         type="text"
                         inputMode="numeric"
-                        placeholder="0"
-                        title="Net Payable Fee (or edit directly)"
-                        value={previewNetFee || ""}
+                        placeholder="DD-MM-YYYY"
+                        value={studentForm.dob || ""}
                         onChange={e => {
-                          const targetNet = Number(e.target.value.replace(/[^0-9]/g, "")) || 0;
-                          if (studentForm.feeType === 'yearly_package') {
-                            const yearlyStd = studentForm.yearlyStandardFee || (studentForm.baseFee * 12);
-                            const cappedNet = Math.min(yearlyStd, Math.max(0, targetNet));
-                            const disc = Math.max(0, yearlyStd - cappedNet);
-                            const pct = yearlyStd > 0 ? Number(((disc / yearlyStd) * 100).toFixed(1)) : 0;
-                            setStudentForm(prev => ({
-                              ...prev,
-                              yearlyStandardFee: yearlyStd,
-                              totalYearlyFee: cappedNet,
-                              scholarshipPercent: pct,
-                              discountAmount: disc,
-                            }));
-                          } else {
-                            const base = Number(studentForm.baseFee || 0);
-                            const disc = Math.max(0, base - targetNet);
-                            const pct = base > 0 ? Number(((disc / base) * 100).toFixed(1)) : 0;
-                            setStudentForm(prev => ({
-                              ...prev,
-                              discountAmount: disc,
-                              scholarshipPercent: pct,
-                            }));
-                          }
+                          const formatted = handleDateTyping(e.target.value, studentForm.dob);
+                          setStudentForm({ ...studentForm, dob: formatted });
                         }}
-                        style={{ width: `${Math.max(1, String(previewNetFee || 0).length)}ch` }}
-                        className="p-0 m-0 border-0 bg-transparent text-[#2864E8] font-bold font-mono text-[16px] sm:text-[17px] focus:outline-none focus:ring-0 text-right leading-none"
+                        onBlur={e => {
+                          const normalized = normalizeDateBlur(e.target.value);
+                          setStudentForm({ ...studentForm, dob: normalized });
+                        }}
+                        className={STUDENT_MODAL_MONO_INPUT_CLS}
                       />
-                      <span className="text-[11px] sm:text-[11.5px] font-medium text-slate-400 dark:text-slate-500 ml-1 select-none">
-                        {studentForm.feeType === 'yearly_package' ? '/year' : '/month'}
+                    </div>
+
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Gender
                       </span>
+                      <Select
+                        value={studentForm.gender || ""}
+                        onValueChange={(val: any) => setStudentForm({ ...studentForm, gender: val })}
+                      >
+                        <SelectTrigger className={STUDENT_MODAL_SELECT_CLS}>
+                          <SelectValue placeholder="Gender" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="male" className="text-xs">Male</SelectItem>
+                          <SelectItem value="female" className="text-xs">Female</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
                   </div>
-                </div>
 
-                {/* Enrolled Subjects: Show only when batch is selected and has subjects */}
-                {Boolean(studentForm.batchId) && (() => {
-                  const currentBatch = batches.find(b => b.id === studentForm.batchId);
-                  const batchSubjects = currentBatch?.subjects && currentBatch.subjects.length > 0
-                    ? currentBatch.subjects
-                    : [];
-
-                  if (batchSubjects.length === 0) return null;
-
-                  return (
-                    <div className="space-y-1.5 text-xs">
-                      <div className="flex items-center justify-between">
-                        <Label className={FORM_CARD_LABEL_CLS}>
-                          Enrolled Subjects ({studentForm.subjects?.length || 0})
-                        </Label>
-                      </div>
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-0.5">
-                        {batchSubjects.map(sub => {
-                          const active = studentForm.subjects?.includes(sub);
-                          return (
-                            <button
-                              type="button"
-                              key={sub}
-                              onClick={() => {
-                                if (active) {
-                                  setStudentForm({
-                                    ...studentForm,
-                                    subjects: (studentForm.subjects || []).filter(s => s !== sub),
-                                  });
-                                } else {
-                                  setStudentForm({
-                                    ...studentForm,
-                                    subjects: [...(studentForm.subjects || []), sub],
-                                  });
-                                }
-                              }}
-                              title={active ? `Click to remove ${sub}` : `Click to add ${sub}`}
-                              className={`inline-flex items-center gap-1.5 text-xs transition-colors cursor-pointer ${active
-                                ? "font-medium text-[#0B1F4B] dark:text-slate-100"
-                                : "font-normal text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
-                                }`}
-                            >
-                              <span
-                                className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${active ? "bg-[#2864E8]" : "bg-slate-300 dark:bg-slate-600"
-                                  }`}
-                              />
-                              <span>{sub}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  );
-                })()}
-
-                {/* Additional Subjects (Optional) */}
-                <div className="space-y-1">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Additional Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
-                  </Label>
-                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
-                    <Input
-                      placeholder="e.g. Computer Science"
-                      value={newEnrollAddlSubjectName}
-                      onChange={e => setNewEnrollAddlSubjectName(toTitleCase(e.target.value))}
-                      onKeyDown={e => {
-                        if (e.key === 'Enter') {
-                          e.preventDefault();
-                          handleAddEnrollAddlSubject();
-                        }
-                      }}
-                      className={`${ENROLL_FIELD_CLS} flex-1 min-w-[160px]`}
-                    />
-                    <div className="relative w-[84px] sm:w-[92px] shrink-0">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 select-none pointer-events-none">₹</span>
-                      <Input
-                        type="text"
-                        inputMode="numeric"
-                        placeholder="Fee"
-                        value={newEnrollAddlSubjectFee}
-                        onChange={e => setNewEnrollAddlSubjectFee(e.target.value.replace(/[^0-9]/g, ''))}
-                        onKeyDown={e => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                            handleAddEnrollAddlSubject();
-                          }
-                        }}
-                        className={`${ENROLL_FIELD_CLS} !pl-3.5 font-mono text-indigo-600 dark:text-indigo-400`}
+                  {/* Row 2: Primary Contact, Secondary Contact, Emergency Contact */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Primary Contact
+                      </span>
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        placeholder="Primary Phone"
+                        value={studentForm.fatherContact || ""}
+                        onChange={e => setStudentForm({ ...studentForm, fatherContact: e.target.value.replace(/\D/g, "") })}
+                        className={STUDENT_MODAL_MONO_INPUT_CLS}
                       />
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleAddEnrollAddlSubject()}
-                      className={ENROLL_ADD_BTN_CLS}
-                      title="Add Additional Subject"
-                      aria-label="Add Additional Subject"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Add Subject</span>
-                    </button>
+
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Secondary Contact
+                      </span>
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        placeholder="Secondary Phone"
+                        value={studentForm.motherContact || ""}
+                        onChange={e => {
+                          const digits = e.target.value.replace(/\D/g, "");
+                          setStudentForm({ ...studentForm, motherContact: digits, contact2: digits });
+                        }}
+                        className={STUDENT_MODAL_MONO_INPUT_CLS}
+                      />
+                    </div>
+
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Emergency Contact
+                      </span>
+                      <input
+                        type="tel"
+                        maxLength={10}
+                        placeholder="Emergency Phone"
+                        value={studentForm.contact1}
+                        onChange={e => setStudentForm({ ...studentForm, contact1: e.target.value.replace(/\D/g, "") })}
+                        required
+                        className={STUDENT_MODAL_MONO_INPUT_CLS}
+                      />
+                    </div>
                   </div>
 
-                  {studentForm.additionalSubjects && studentForm.additionalSubjects.length > 0 && (
-                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      {studentForm.additionalSubjects.map((sub, idx) => (
-                        <span
-                          key={sub.id || idx}
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] bg-indigo-50/70 dark:bg-indigo-950/40 text-xs font-medium text-[#0B1F4B] dark:text-slate-200 border border-indigo-200/80 dark:border-indigo-800"
-                        >
-                          <span>{sub.name}</span>
-                          <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold flex items-center text-[11px]">
-                            <span>(+₹</span>
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              value={sub.fee || ''}
-                              placeholder="0"
-                              onChange={e => {
-                                const val = Number(e.target.value.replace(/[^0-9]/g, '')) || 0;
-                                handleUpdateEnrollAddlSubject(sub.id, 'fee', val);
-                              }}
-                              style={{ width: `${Math.max(1, String(sub.fee || 0).length)}ch` }}
-                              className="p-0 m-0 border-0 bg-transparent text-indigo-600 dark:text-indigo-400 font-mono font-semibold text-[11px] focus:outline-none focus:ring-0 text-center"
-                              title="Edit fee"
-                            />
-                            <span>/mo)</span>
-                          </span>
-                          <button
-                            type="button"
-                            onClick={() => handleRemoveEnrollAddlSubject(sub.id)}
-                            className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
-                            title="Remove Subject"
-                            aria-label={`Remove ${sub.name}`}
-                          >
-                            <X className="w-3 h-3" />
-                          </button>
-                        </span>
-                      ))}
+                  {/* Row 3: Residential Address */}
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                    <span className={STUDENT_MODAL_LABEL_CLS}>
+                      Residential Address
+                    </span>
+                    <input
+                      placeholder="Residential Address"
+                      value={studentForm.address}
+                      onChange={e => setStudentForm({ ...studentForm, address: toTitleCase(e.target.value) })}
+                      className={`${STUDENT_MODAL_INPUT_CLS} leading-snug`}
+                    />
+                  </div>
+
+                  {/* Row 4: Branch, Class, Batch */}
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5">
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Branch
+                      </span>
+                      <Select
+                        value={studentForm.branchId}
+                        onValueChange={val => setStudentForm({ ...studentForm, branchId: val, classId: "", batchId: "" })}
+                      >
+                        <SelectTrigger className={STUDENT_MODAL_SELECT_CLS}>
+                          <SelectValue placeholder="Branch" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {IDL_BRANCHES.filter(b => b.id !== "all").map(b => (
+                            <SelectItem key={b.id} value={b.id} className="text-xs">{b.name}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                     </div>
-                  )}
+
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Class
+                      </span>
+                      <Select
+                        value={studentForm.classId}
+                        onValueChange={val => {
+                          const c = classes.find(item => item.id === val);
+                          const clsFee = c?.defaultMonthlyFee || 0;
+                          setStudentForm(prev => {
+                            const cMonths = prev.yearlyCourseMonths || 12;
+                            return {
+                              ...prev,
+                              classId: val,
+                              branchId: prev.branchId || (c?.branchId && c.branchId !== 'all' ? c.branchId : prev.branchId),
+                              batchId: "",
+                              baseFee: clsFee,
+                              yearlyStandardFee: clsFee * cMonths,
+                              totalYearlyFee: clsFee * cMonths,
+                              discountAmount: 0,
+                              scholarshipPercent: 0,
+                              subjects: [],
+                            };
+                          });
+                        }}
+                      >
+                        <SelectTrigger className={STUDENT_MODAL_SELECT_CLS}>
+                          <SelectValue placeholder="Class" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {classes
+                            .filter(c => !studentForm.branchId || c.branchId === studentForm.branchId || c.branchId === "all")
+                            .map(c => (
+                              <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+
+                    <div>
+                      <span className={STUDENT_MODAL_LABEL_CLS}>
+                        Batch
+                      </span>
+                      <Select
+                        value={studentForm.batchId}
+                        onValueChange={val => {
+                          const b = batches.find(item => item.id === val);
+                          const c = classes.find(item => item.id === studentForm.classId);
+                          const actualMonthlyFee = (b && typeof b.monthlyFee === 'number' && b.monthlyFee > 0)
+                            ? b.monthlyFee
+                            : (c?.defaultMonthlyFee || 0);
+                          const cMonths = studentForm.yearlyCourseMonths || 12;
+                          const actualYearlyFee = (b && typeof b.courseFee === 'number' && b.courseFee > 0)
+                            ? b.courseFee
+                            : (actualMonthlyFee * cMonths);
+
+                          setStudentForm(prev => {
+                            const pct = prev.scholarshipPercent || 0;
+                            const yearlyDisc = Math.round((actualYearlyFee * pct) / 100);
+                            const monthlyDisc = Math.round((actualMonthlyFee * pct) / 100);
+                            return {
+                              ...prev,
+                              batchId: val,
+                              baseFee: actualMonthlyFee,
+                              yearlyStandardFee: actualYearlyFee,
+                              totalYearlyFee: actualYearlyFee - yearlyDisc,
+                              discountAmount: monthlyDisc,
+                              scholarshipPercent: pct,
+                              subjects: b?.subjects ? [...b.subjects] : prev.subjects,
+                            };
+                          });
+                        }}
+                      >
+                        <SelectTrigger className={STUDENT_MODAL_SELECT_CLS}>
+                          <SelectValue placeholder="Batch" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {batches
+                            .filter(b => b.classId === studentForm.classId)
+                            .map(b => (
+                              <SelectItem key={b.id} value={b.id} className="text-xs">{b.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 </div>
+
+                {/* Fee Breakdown Card: Exact Match with Student Edit Modal & Fixed Read-Only Net Payable Fee */}
+                {renderStudentFeeBreakdownCard({
+                  form: studentForm,
+                  previewDiscount,
+                  previewNetFee,
+                  addlFee: currentStudentAddlFee,
+                  onToggleFeeType: handleToggleStudentFeeType,
+                  onDiscountAmountChange: amount =>
+                    setStudentForm(prev => applyScholarshipDiscountUpdate(prev, amount)),
+                })}
+
+                {/* Enrolled & Additional Subjects Tabs */}
+                {renderStudentSubjectsTabs({
+                  activeTab: enrollStudentSubjectTab,
+                  onTabChange: setEnrollStudentSubjectTab,
+                  showAddInput: showEnrollAddSubjectInput,
+                  onToggleAddInput: () => {
+                    if (enrollStudentSubjectTab !== 'additional') {
+                      setEnrollStudentSubjectTab('additional');
+                      setShowEnrollAddSubjectInput(true);
+                    } else {
+                      setShowEnrollAddSubjectInput(prev => !prev);
+                    }
+                  },
+                  batchId: studentForm.batchId,
+                  enrolledSubjects: studentForm.subjects,
+                  onToggleEnrolledSubject: sub =>
+                    setStudentForm(prev => ({
+                      ...prev,
+                      subjects: prev.subjects.includes(sub)
+                        ? prev.subjects.filter(s => s !== sub)
+                        : [...prev.subjects, sub],
+                    })),
+                  emptyEnrolledText: studentForm.batchId
+                    ? 'No subjects configured in selected batch.'
+                    : 'Select a batch to view enrolled subjects.',
+                  additionalSubjects: studentForm.additionalSubjects || [],
+                  onRemoveAdditionalSubject: handleRemoveEnrollAddlSubject,
+                  newAddlName: newEnrollAddlSubjectName,
+                  onNewAddlNameChange: setNewEnrollAddlSubjectName,
+                  newAddlFee: newEnrollAddlSubjectFee,
+                  onNewAddlFeeChange: setNewEnrollAddlSubjectFee,
+                  onAddAdditionalSubject: () => handleAddEnrollAddlSubject(),
+                })}
               </div>
 
-              <DialogFooter className="pt-2.5 border-t border-[#EEF2F7] dark:border-slate-800/80 shrink-0">
+              {/* Submit Button (Pinned Bottom Action Footer matching Reference Card) */}
+              <div className="pt-2 mt-1 border-t border-slate-100 dark:border-slate-800/80 shrink-0">
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className={FORM_CARD_SUBMIT_BTN_CLS}
+                  className={STUDENT_MODAL_FOOTER_BTN_CLS}
                 >
                   <span>ENROLL STUDENT</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
                 </Button>
-              </DialogFooter>
+              </div>
             </form>
           </DialogContent>
         </Dialog>
@@ -7208,9 +7412,9 @@ export function FeesClient({
           <DialogContent overlayClassName="z-[120]" onOpenAutoFocus={(e) => e.preventDefault()} className="z-[121] max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-['Inter_Tight',sans-serif]">
             <form onSubmit={handleUpdateStudent} className="flex flex-col flex-1 min-h-0 overflow-hidden text-left" autoComplete="off">
               {/* Header: Student Name / Edit Title + Compact Student ID & Joined Date matching Profile */}
-              <DialogHeader className="pb-2.5 pr-8 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
+              <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
                 <div>
-                  <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-snug">
+                  <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-snug pr-8">
                     <input
                       type="text"
                       placeholder="Student Full Name"
@@ -7236,63 +7440,76 @@ export function FeesClient({
                     const isOver = oDays > 0 && studentLedger && (studentLedger.balanceAmount > 0 || studentLedger.status === 'OVERDUE');
 
                     return (
-                      <div className="text-[11.5px] text-slate-500 font-mono mt-1 flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
-                        <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">ID:</span>
-                        <input
-                          type="text"
-                          placeholder="ID"
-                          value={editStudentForm.rollNumber || ""}
-                          onChange={e => setEditStudentForm({ ...editStudentForm, rollNumber: e.target.value })}
-                          style={{ width: `${Math.max(8, (editStudentForm.rollNumber || "").length)}ch` }}
-                          className="font-medium text-slate-700 dark:text-slate-200 bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
-                        />
-                        <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                        <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">JOIN:</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="DD-MM-YYYY"
-                          value={editStudentForm.joiningDate || ""}
-                          onChange={e => {
-                            const formatted = handleDateTyping(e.target.value, editStudentForm.joiningDate);
-                            setEditStudentForm({ ...editStudentForm, joiningDate: formatted });
-                          }}
-                          onBlur={e => {
-                            const normalized = normalizeDateBlur(e.target.value);
-                            setEditStudentForm({ ...editStudentForm, joiningDate: normalized });
-                          }}
-                          style={{ width: "10ch" }}
-                          className="font-medium text-slate-700 dark:text-slate-300 bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
-                        />
-                        <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                        <span className={`text-[10px] uppercase tracking-wider font-medium shrink-0 ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>DUE:</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="DD-MM-YYYY"
-                          value={editStudentForm.dueDate || ""}
-                          onChange={e => {
-                            const formatted = handleDateTyping(e.target.value, editStudentForm.dueDate);
-                            setEditStudentForm({ ...editStudentForm, dueDate: formatted });
-                          }}
-                          onBlur={e => {
-                            const normalized = normalizeDateBlur(e.target.value);
-                            setEditStudentForm({ ...editStudentForm, dueDate: normalized });
-                          }}
-                          style={{ width: "10ch" }}
-                          className={`font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px] ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}
-                        />
-                        {isOver && (
-                          <div className="inline-flex flex-col items-start justify-center leading-none text-rose-600 dark:text-rose-400 shrink-0 ml-1">
-                            <span className="flex items-baseline gap-0.5 leading-none">
-                              <strong className="font-bold text-[10.5px] tabular-nums leading-none">{oDays}</strong>
-                              <span className="text-[8px] font-medium leading-none">{oDays === 1 ? 'day' : 'days'}</span>
+                      <div className="text-[11.5px] text-slate-500 font-mono mt-1.5 flex items-center flex-wrap gap-x-1.5 gap-y-1">
+                        <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                          <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">ID:</span>
+                          <span className="inline-grid items-center">
+                            <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium uppercase text-[11.5px] pointer-events-none select-none min-w-[4ch]">
+                              {editStudentForm.rollNumber || "ID"}
                             </span>
-                            <span className="text-[8px] font-semibold leading-none mt-0.5">
-                              Overdue
+                            <input
+                              type="text"
+                              size={1}
+                              placeholder="ID"
+                              value={editStudentForm.rollNumber || ""}
+                              onChange={e => setEditStudentForm({ ...editStudentForm, rollNumber: e.target.value })}
+                              className="col-start-1 row-start-1 w-full min-w-0 font-medium text-slate-700 dark:text-slate-200 bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                            />
+                          </span>
+                        </span>
+                        <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                        <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                          <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">JOIN:</span>
+                          <span className="inline-grid items-center">
+                            <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium text-[11.5px] pointer-events-none select-none tabular-nums">
+                              {editStudentForm.joiningDate || "DD-MM-YYYY"}
                             </span>
-                          </div>
-                        )}
+                            <input
+                              type="text"
+                              size={1}
+                              inputMode="numeric"
+                              placeholder="DD-MM-YYYY"
+                              value={editStudentForm.joiningDate || ""}
+                              onChange={e => {
+                                const formatted = handleDateTyping(e.target.value, editStudentForm.joiningDate);
+                                setEditStudentForm({ ...editStudentForm, joiningDate: formatted });
+                              }}
+                              onBlur={e => {
+                                const normalized = normalizeDateBlur(e.target.value);
+                                setEditStudentForm({ ...editStudentForm, joiningDate: normalized });
+                              }}
+                              className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                            />
+                          </span>
+                        </span>
+                        <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                        <span className="inline-flex items-center whitespace-nowrap shrink-0">
+                          <span className="inline-flex items-center gap-1">
+                            <span className={`text-[10px] uppercase tracking-wider font-medium shrink-0 ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>DUE:</span>
+                            <span className="inline-grid items-center">
+                              <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium text-[11.5px] pointer-events-none select-none tabular-nums">
+                                {editStudentForm.dueDate || "DD-MM-YYYY"}
+                              </span>
+                              <input
+                                type="text"
+                                size={1}
+                                inputMode="numeric"
+                                placeholder="DD-MM-YYYY"
+                                value={editStudentForm.dueDate || ""}
+                                onChange={e => {
+                                  const formatted = handleDateTyping(e.target.value, editStudentForm.dueDate);
+                                  setEditStudentForm({ ...editStudentForm, dueDate: formatted });
+                                }}
+                                onBlur={e => {
+                                  const normalized = normalizeDateBlur(e.target.value);
+                                  setEditStudentForm({ ...editStudentForm, dueDate: normalized });
+                                }}
+                                className={`col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px] ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}
+                              />
+                            </span>
+                          </span>
+                          {isOver && renderOverdueDaysBadge(oDays, 'ml-2')}
+                        </span>
                       </div>
                     );
                   })()}
@@ -7515,333 +7732,52 @@ export function FeesClient({
                   </div>
                 </div>
 
-                {/* Fee Breakdown Card: Clean, Compact Premium Styling */}
-                <div className="p-3 rounded-xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-100 dark:border-slate-800/80 space-y-1.5 text-xs">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                      FEE BREAKDOWN
-                    </span>
+                {/* Fee Breakdown Card: Shared with Enroll New Student */}
+                {renderStudentFeeBreakdownCard({
+                  form: editStudentForm,
+                  previewDiscount: editPreviewDiscount,
+                  previewNetFee: editPreviewNetFee,
+                  addlFee: currentEditStudentAddlFee,
+                  onToggleFeeType: handleToggleEditStudentFeeType,
+                  onDiscountAmountChange: amount =>
+                    setEditStudentForm(prev => applyScholarshipDiscountUpdate(prev, amount)),
+                })}
 
-                    {/* Clean text Monthly / Yearly Toggle matching gray uppercase style */}
-                    <div className="flex items-center gap-1.5 text-[10px] font-medium tracking-wider uppercase">
-                      <button
-                        type="button"
-                        onClick={() => handleToggleEditStudentFeeType('monthly')}
-                        className={`transition-colors cursor-pointer ${editStudentForm.feeType !== 'yearly_package'
-                          ? 'text-slate-700 dark:text-slate-200 font-semibold'
-                          : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
-                          }`}
-                      >
-                        Monthly Fee
-                      </button>
-                      <span className="text-slate-300 dark:text-slate-700">•</span>
-                      <button
-                        type="button"
-                        onClick={() => handleToggleEditStudentFeeType('yearly_package')}
-                        className={`transition-colors cursor-pointer ${editStudentForm.feeType === 'yearly_package'
-                          ? 'text-slate-700 dark:text-slate-200 font-semibold'
-                          : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
-                          }`}
-                      >
-                        Yearly Package
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="space-y-1 pt-0.5 text-xs">
-                    {/* Standard Fee: Fixed from batch, non-editable */}
-                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
-                      <span className="font-normal text-[12px]">Standard Fee:</span>
-                      <span className="font-medium text-slate-700 dark:text-slate-200 font-mono text-[12px] tabular-nums">
-                        ₹{Number(editStudentForm.feeType === 'yearly_package'
-                          ? (editStudentForm.yearlyStandardFee || (editStudentForm.baseFee > 0 ? editStudentForm.baseFee * 12 : 0))
-                          : (editStudentForm.baseFee || 0)).toLocaleString('en-IN')}
-                        <span className="text-[10px] text-slate-400 font-normal ml-0.5">
-                          {editStudentForm.feeType === 'yearly_package' ? '/yr' : '/mo'}
-                        </span>
-                      </span>
-                    </div>
-
-                    {/* Scholarship: Percentage is non-editable, only discount amount (₹) is editable */}
-                    <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
-                      <span className="font-normal text-[12px]">Scholarship:</span>
-                      <div className="flex items-center justify-end font-medium text-emerald-600 dark:text-emerald-400 font-mono text-[12px] tabular-nums">
-                        <span>{editStudentForm.scholarshipPercent || 0}%</span>
-                        <span className="ml-1 mr-0.5 text-emerald-600 dark:text-emerald-400">(-₹</span>
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          placeholder="0"
-                          title="Enter scholarship discount amount in ₹"
-                          value={editPreviewDiscount ? editPreviewDiscount : ""}
-                          onChange={e => {
-                            const rawVal = e.target.value.replace(/[^0-9]/g, "");
-                            const val = rawVal === "" ? 0 : Number(rawVal);
-                            const cMonths = editStudentForm.yearlyCourseMonths || 12;
-                            if (editStudentForm.feeType === 'yearly_package') {
-                              const yearlyStd = editStudentForm.yearlyStandardFee || ((editStudentForm.baseFee || 0) * cMonths);
-                              const cappedDisc = Math.min(yearlyStd, Math.max(0, val));
-                              const pct = yearlyStd > 0 ? Number(((cappedDisc / yearlyStd) * 100).toFixed(1)) : 0;
-                              const net = Math.max(0, yearlyStd - cappedDisc);
-                              const monthlyDisc = Math.round(cappedDisc / cMonths);
-                              setEditStudentForm(prev => ({
-                                ...prev,
-                                yearlyStandardFee: yearlyStd,
-                                totalYearlyFee: net,
-                                scholarshipPercent: pct,
-                                discountAmount: monthlyDisc,
-                              }));
-                            } else {
-                              const base = Number(editStudentForm.baseFee || 0);
-                              const cappedDisc = Math.min(base, Math.max(0, val));
-                              const pct = base > 0 ? Number(((cappedDisc / base) * 100).toFixed(1)) : 0;
-                              const yearlyStd = editStudentForm.yearlyStandardFee || (base * cMonths);
-                              const totalYr = Math.max(0, yearlyStd - (cappedDisc * cMonths));
-                              setEditStudentForm(prev => ({
-                                ...prev,
-                                discountAmount: cappedDisc,
-                                scholarshipPercent: pct,
-                                totalYearlyFee: totalYr,
-                              }));
-                            }
-                          }}
-                          style={{ width: `${Math.max(2, String(editPreviewDiscount || "").length)}ch` }}
-                          className="bg-transparent border-0 border-b border-transparent hover:border-emerald-300 focus:border-emerald-500 focus:outline-none focus:ring-0 p-0 m-0 font-medium text-emerald-600 dark:text-emerald-400 font-mono text-[12px] text-right transition-colors"
-                        />
-                        <span className="text-emerald-600 dark:text-emerald-400">)</span>
-                      </div>
-                    </div>
-
-                    {/* Additional Subjects Fee (if any) */}
-                    {currentEditStudentAddlFee > 0 && (
-                      <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
-                        <span className="flex items-center gap-1.5 text-[12px]">
-                          <span className="font-normal text-[12px]">Additional Subjects:</span>
-                          <span className="text-[9.5px] text-violet-600 dark:text-violet-400 font-medium bg-violet-50/80 dark:bg-violet-950/40 border border-violet-200/50 dark:border-violet-800/40 px-1.5 py-0.2 rounded">
-                            {(editStudentForm.additionalSubjects || []).filter(s => s.status !== 'removed').length} subj
-                          </span>
-                        </span>
-                        <span className="font-medium text-violet-600 dark:text-violet-400 font-mono text-[12px] tabular-nums">
-                          +₹{Number(editStudentForm.feeType === 'yearly_package'
-                            ? currentEditStudentAddlFee * (editStudentForm.yearlyCourseMonths || 12)
-                            : currentEditStudentAddlFee).toLocaleString('en-IN')}
-                          <span className="text-[10px] text-slate-400 font-normal ml-0.5">
-                            {editStudentForm.feeType === 'yearly_package' ? '/yr' : '/mo'}
-                          </span>
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Net Payable Fee Highlight */}
-                  <div className="flex justify-between items-baseline pt-1.5 border-t border-slate-100 dark:border-slate-800">
-                    <span className="font-semibold text-slate-900 dark:text-white text-[12.5px] tracking-tight">Net Payable Fee:</span>
-                    <span className="text-[#2864E8] font-bold text-[16px] font-mono tracking-tight tabular-nums">
-                      ₹{Number(editPreviewNetFee || 0).toLocaleString('en-IN')}
-                      <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 ml-0.5">
-                        {editStudentForm.feeType === 'yearly_package' ? '/year' : '/month'}
-                      </span>
-                    </span>
-                  </div>
-                </div>
-
-                {/* Enrolled & Additional Subjects: Single-line Interactive Text Tabs matching screenshot */}
-                <div className="py-2 border-b border-slate-100 dark:border-slate-800/70 space-y-1.5 text-xs">
-                  {/* Single Line Tabs: ENROLLED SUBJECTS & ADDITIONAL SUBJECTS */}
-                  <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={() => setEditStudentSubjectTab('enrolled')}
-                      className={`text-[10.5px] uppercase font-semibold tracking-wider transition-colors cursor-pointer bg-transparent border-0 p-0 ${editStudentSubjectTab === 'enrolled'
-                        ? 'text-slate-900 dark:text-white'
-                        : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
-                        }`}
-                    >
-                      ENROLLED SUBJECTS ({editStudentForm.subjects.length})
-                    </button>
-
-                    <div className="flex items-center gap-1.5">
-                      <button
-                        type="button"
-                        onClick={() => setEditStudentSubjectTab('additional')}
-                        className={`text-[10.5px] uppercase font-semibold tracking-wider transition-colors cursor-pointer bg-transparent border-0 p-0 ${editStudentSubjectTab === 'additional'
-                          ? 'text-slate-900 dark:text-white'
-                          : 'text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300'
-                          }`}
-                      >
-                        ADDITIONAL SUBJECTS ({(editStudentForm.additionalSubjects || []).filter(s => s.status !== 'removed').length})
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          if (editStudentSubjectTab !== 'additional') {
-                            setEditStudentSubjectTab('additional');
-                            setShowAddSubjectInput(true);
-                          } else {
-                            setShowAddSubjectInput(prev => !prev);
-                          }
-                        }}
-                        title={showAddSubjectInput ? "Hide Add Subject Input" : "Add Additional Subject"}
-                        className={`w-4 h-4 rounded-full border flex items-center justify-center transition-colors cursor-pointer bg-transparent ${showAddSubjectInput
-                          ? 'border-[#2864E8] text-[#2864E8]'
-                          : 'border-slate-200 dark:border-slate-700 hover:border-[#2864E8] text-slate-400 hover:text-[#2864E8]'
-                          }`}
-                      >
-                        <Plus className="w-2.5 h-2.5" />
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Tab 1 Content: Enrolled Subjects */}
-                  {editStudentSubjectTab === 'enrolled' && (
-                    (() => {
-                      const currentBatch = batches.find(b => b.id === editStudentForm.batchId);
-                      const batchSubjects = currentBatch?.subjects && currentBatch.subjects.length > 0
-                        ? currentBatch.subjects
-                        : (editStudentForm.subjects && editStudentForm.subjects.length > 0 ? editStudentForm.subjects : []);
-
-                      if (batchSubjects.length === 0) {
-                        return (
-                          <div className="pt-0.5 text-xs text-slate-400 italic">
-                            No subjects configured in selected batch.
-                          </div>
-                        );
-                      }
-
-                      return (
-                        <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 pt-0.5">
-                          {batchSubjects.map(sub => {
-                            const cleanSub = sub
-                              .replace(/Socil\s*Studies/gi, 'Social Studies')
-                              .replace(/Socil/gi, 'Social');
-                            const active = editStudentForm.subjects.includes(sub);
-                            return (
-                              <button
-                                type="button"
-                                key={sub}
-                                onClick={() => {
-                                  if (active) {
-                                    setEditStudentForm({
-                                      ...editStudentForm,
-                                      subjects: editStudentForm.subjects.filter(s => s !== sub),
-                                    });
-                                  } else {
-                                    setEditStudentForm({
-                                      ...editStudentForm,
-                                      subjects: [...editStudentForm.subjects, sub],
-                                    });
-                                  }
-                                }}
-                                title={active ? `Click to remove ${cleanSub}` : `Click to add ${cleanSub}`}
-                                className={`inline-flex items-center gap-1.5 text-[12px] transition-colors cursor-pointer ${active
-                                  ? "font-medium text-slate-700 dark:text-slate-200"
-                                  : "font-normal text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
-                                  }`}
-                              >
-                                <span
-                                  className={`w-1.5 h-1.5 rounded-full shrink-0 transition-colors ${active ? "bg-blue-500/80 dark:bg-blue-400/80" : "bg-slate-200 dark:bg-slate-700"
-                                    }`}
-                                />
-                                <span>{cleanSub}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      );
-                    })()
-                  )}
-
-                  {/* Tab 2 Content: Additional Subjects with Add input & management in exact same space */}
-                  {editStudentSubjectTab === 'additional' && (
-                    <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1.5 pt-0.5">
-                      {/* Existing Additional Subjects with blue bullets matching profile view */}
-                      {editStudentForm.additionalSubjects && editStudentForm.additionalSubjects.length > 0 ? (
-                        editStudentForm.additionalSubjects.map((sub, idx) => {
-                          const cleanName = (sub.name || '')
-                            .replace(/Socil\s*Studies/gi, 'Social Studies')
-                            .replace(/Socil/gi, 'Social');
-                          const isRemoved = sub.status === 'removed';
-                          return (
-                            <span
-                              key={sub.id || idx}
-                              className={`inline-flex items-center gap-1 text-[12px] ${isRemoved ? 'line-through text-slate-400 opacity-60' : 'font-medium text-slate-700 dark:text-slate-200'
-                                }`}
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full bg-blue-500/80 dark:bg-blue-400/80 shrink-0" />
-                              <span>{cleanName}</span>
-                              <span className={`text-[11px] font-mono tabular-nums ${isRemoved ? 'text-slate-400' : 'text-violet-600 dark:text-violet-400 font-medium'}`}>
-                                (+₹{sub.fee})
-                              </span>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setEditStudentForm(prev => ({
-                                    ...prev,
-                                    additionalSubjects: (prev.additionalSubjects || []).filter(s => s.id !== sub.id),
-                                  }));
-                                }}
-                                className="text-slate-400 hover:text-rose-500 transition-colors cursor-pointer p-0.5 ml-0.5"
-                                title={`Delete ${cleanName}`}
-                              >
-                                <X className="w-2.5 h-2.5" />
-                              </button>
-                            </span>
-                          );
-                        })
-                      ) : (
-                        !showAddSubjectInput && (
-                          <div className="text-xs text-slate-400 italic">
-                            No additional subjects. Click (+) above to add.
-                          </div>
-                        )
-                      )}
-
-                      {/* Inline Add Subject Controls: Toggled by the circular (+) button in the header */}
-                      {showAddSubjectInput && (
-                        <div className="inline-flex items-center gap-1.5">
-                          <input
-                            autoFocus
-                            placeholder="Add subject..."
-                            value={newEditAddlSubjectName}
-                            onChange={e => setNewEditAddlSubjectName(toTitleCase(e.target.value))}
-                            onKeyDown={e => {
-                              if (e.key === 'Enter') {
-                                e.preventDefault();
-                                handleAddEditAddlSubject();
-                              }
-                            }}
-                            className="h-[21px] w-[110px] sm:w-[125px] bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-xs font-medium text-slate-800 dark:text-slate-100 placeholder:text-slate-400 p-0 m-0 transition-colors"
-                          />
-                          <div className="inline-flex items-center">
-                            <span className="text-slate-400 text-xs font-mono mr-0.5">₹</span>
-                            <input
-                              type="text"
-                              inputMode="numeric"
-                              placeholder="Fee"
-                              value={newEditAddlSubjectFee}
-                              onChange={e => setNewEditAddlSubjectFee(e.target.value.replace(/[^0-9]/g, ''))}
-                              onKeyDown={e => {
-                                if (e.key === 'Enter') {
-                                  e.preventDefault();
-                                  handleAddEditAddlSubject();
-                                }
-                              }}
-                              className="h-[21px] w-[42px] bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-xs font-medium text-violet-600 dark:text-violet-400 placeholder:text-slate-400 font-mono p-0 m-0 transition-colors"
-                            />
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => handleAddEditAddlSubject()}
-                            className="w-4 h-4 rounded-full border border-slate-200 dark:border-slate-700 hover:border-[#2864E8] text-slate-400 hover:text-[#2864E8] flex items-center justify-center transition-colors cursor-pointer shrink-0 bg-transparent"
-                            title="Add Subject"
-                          >
-                            <Plus className="w-2.5 h-2.5" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
+                {/* Enrolled & Additional Subjects: Shared Interactive Text Tabs */}
+                {renderStudentSubjectsTabs({
+                  activeTab: editStudentSubjectTab,
+                  onTabChange: setEditStudentSubjectTab,
+                  showAddInput: showAddSubjectInput,
+                  onToggleAddInput: () => {
+                    if (editStudentSubjectTab !== 'additional') {
+                      setEditStudentSubjectTab('additional');
+                      setShowAddSubjectInput(true);
+                    } else {
+                      setShowAddSubjectInput(prev => !prev);
+                    }
+                  },
+                  batchId: editStudentForm.batchId,
+                  enrolledSubjects: editStudentForm.subjects,
+                  onToggleEnrolledSubject: sub =>
+                    setEditStudentForm(prev => ({
+                      ...prev,
+                      subjects: prev.subjects.includes(sub)
+                        ? prev.subjects.filter(s => s !== sub)
+                        : [...prev.subjects, sub],
+                    })),
+                  emptyEnrolledText: 'No subjects configured in selected batch.',
+                  additionalSubjects: editStudentForm.additionalSubjects || [],
+                  onRemoveAdditionalSubject: id =>
+                    setEditStudentForm(prev => ({
+                      ...prev,
+                      additionalSubjects: (prev.additionalSubjects || []).filter(s => s.id !== id),
+                    })),
+                  newAddlName: newEditAddlSubjectName,
+                  onNewAddlNameChange: setNewEditAddlSubjectName,
+                  newAddlFee: newEditAddlSubjectFee,
+                  onNewAddlFeeChange: setNewEditAddlSubjectFee,
+                  onAddAdditionalSubject: () => handleAddEditAddlSubject(),
+                })}
               </div>
 
               {/* Submit Button (Pinned Bottom Action Footer) - Compact & Elegant (Exact 44px Footer matching View Modal) */}
@@ -7849,7 +7785,7 @@ export function FeesClient({
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  className={STUDENT_MODAL_FOOTER_BTN_CLS}
                 >
                   <span>SAVE STUDENT CHANGES</span>
                   <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
@@ -7954,17 +7890,7 @@ export function FeesClient({
                           <span className={`font-mono font-medium tabular-nums w-[74px] shrink-0 whitespace-nowrap ${isOverdue ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}>
                             {formatAdmDate(effDue)}
                           </span>
-                          {isOverdue && (
-                            <div className="inline-flex flex-col items-start justify-center leading-none text-rose-600 dark:text-rose-400 shrink-0 ml-2">
-                              <span className="flex items-baseline gap-0.5 leading-none">
-                                <strong className="font-bold text-[10.5px] tabular-nums leading-none">{oDays}</strong>
-                                <span className="text-[8px] font-medium leading-none">{oDays === 1 ? 'day' : 'days'}</span>
-                              </span>
-                              <span className="text-[8px] font-semibold leading-none mt-0.5">
-                                Overdue
-                              </span>
-                            </div>
-                          )}
+                          {isOverdue && renderOverdueDaysBadge(oDays, 'ml-2')}
                         </div>
                       </div>
                     </div>
@@ -8327,9 +8253,9 @@ export function FeesClient({
             {selectedStudentProfile && (
               <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
                 {/* Header: Student Name + Highlighted ID & Joined Date */}
-                <DialogHeader className="pb-2.5 pr-8 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
+                <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
                   <div>
-                    <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-snug">
+                    <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-snug pr-8">
                       <span>{selectedStudentProfile.name}</span>
                       {(selectedStudentProfile.feeType === 'yearly_package' || Boolean(selectedStudentProfile.yearlyPackage)) && (
                         <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-1">
@@ -8351,32 +8277,30 @@ export function FeesClient({
                       const isOver = oDays > 0 && studentLedger && (studentLedger.balanceAmount > 0 || studentLedger.status === 'OVERDUE');
 
                       return (
-                        <div className="text-[11.5px] text-slate-500 font-mono mt-1 flex items-center gap-2 flex-nowrap whitespace-nowrap overflow-x-auto no-scrollbar">
-                          <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">ID:</span>
-                          <span className="font-medium text-slate-700 dark:text-slate-200 shrink-0">
-                            {selectedStudentProfile.rollNumber || selectedStudentProfile.id}
+                        <div className="text-[11.5px] text-slate-500 font-mono mt-1.5 flex items-center flex-wrap gap-x-1.5 gap-y-1">
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                            <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">ID:</span>
+                            <span className="font-medium text-slate-700 dark:text-slate-200">
+                              {selectedStudentProfile.rollNumber || selectedStudentProfile.id}
+                            </span>
                           </span>
                           <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                          <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">JOIN:</span>
-                          <span className="font-medium text-slate-700 dark:text-slate-300 shrink-0">
-                            {formatAdmDate(selectedStudentProfile.joiningDate)}
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                            <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">JOIN:</span>
+                            <span className="font-medium text-slate-700 dark:text-slate-300 tabular-nums">
+                              {formatAdmDate(selectedStudentProfile.joiningDate)}
+                            </span>
                           </span>
                           <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                          <span className={`text-[10px] uppercase tracking-wider font-medium shrink-0 ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>DUE:</span>
-                          <span className={`font-medium shrink-0 ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}>
-                            {formatAdmDate(effectiveDueDate)}
+                          <span className="inline-flex items-center whitespace-nowrap shrink-0">
+                            <span className="inline-flex items-center gap-1">
+                              <span className={`text-[10px] uppercase tracking-wider font-medium ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>DUE:</span>
+                              <span className={`font-medium tabular-nums ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}>
+                                {formatAdmDate(effectiveDueDate)}
+                              </span>
+                            </span>
+                            {isOver && renderOverdueDaysBadge(oDays, 'ml-1.5')}
                           </span>
-                          {isOver && (
-                            <div className="inline-flex flex-col items-start justify-center leading-none text-rose-600 dark:text-rose-400 shrink-0 ml-1">
-                              <span className="flex items-baseline gap-0.5 leading-none">
-                                <strong className="font-bold text-[10.5px] tabular-nums leading-none">{oDays}</strong>
-                                <span className="text-[8px] font-medium leading-none">{oDays === 1 ? 'day' : 'days'}</span>
-                              </span>
-                              <span className="text-[8px] font-semibold leading-none mt-0.5">
-                                Overdue
-                              </span>
-                            </div>
-                          )}
                         </div>
                       );
                     })()}
@@ -9398,7 +9322,7 @@ export function FeesClient({
                     Kya aap sach me saara random dummy/test data delete karke bilkul <strong>fresh start</strong> karna chahte hain?
                   </p>
                   <div className="p-2.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200/60 text-rose-800 dark:text-rose-300 font-medium">
-                    Iske baad sabhi classes, batches, students, ledger records, aur receipts remove ho jayenge taaki aap khud shuru se apni classes aur students add kar sakein.
+                    Iske baad sabhi classes, batches, students, ledger records, aur receipts remove ho jayenge. System clear karne se pehle ek automatic backup save kar lega jise aap <strong>Restore</strong> button se wapas la sakte hain.
                   </div>
                 </div>
               </AlertDialogDescription>
@@ -9411,6 +9335,92 @@ export function FeesClient({
               >
                 Haan, Saara Data Clear Karo
               </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <AlertDialog open={isRestoreConfirmOpen} onOpenChange={setIsRestoreConfirmOpen}>
+          <AlertDialogContent className="max-w-md rounded-2xl p-6 bg-white dark:bg-slate-900">
+            <AlertDialogHeader>
+              <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1">
+                <RotateCcw className="w-5 h-5" />
+                <AlertDialogTitle className="text-base font-bold">
+                  Restore Reset Fee Data?
+                </AlertDialogTitle>
+              </div>
+              <AlertDialogDescription asChild className="text-xs text-slate-600 dark:text-slate-400">
+                {resetBackupStatus.hasBackup && resetBackupStatus.counts ? (
+                  <div className="space-y-2.5">
+                    <p>
+                      Last reset se pehle save kiya gaya backup snapshot wapas restore karein?
+                    </p>
+                    <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 space-y-2">
+                      <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                        <span>Backup Saved</span>
+                        <span className="font-semibold text-slate-800 dark:text-slate-200">
+                          {resetBackupStatus.savedAt && !Number.isNaN(new Date(resetBackupStatus.savedAt).getTime())
+                            ? new Date(resetBackupStatus.savedAt).toLocaleString('en-IN', {
+                                day: '2-digit',
+                                month: 'short',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                              })
+                            : 'Saved snapshot'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-3 gap-1.5 pt-1 border-t border-slate-200/70 dark:border-slate-700/70 text-[11px]">
+                        <div className="rounded-md bg-white dark:bg-slate-900 px-2 py-1 border border-slate-200/70 dark:border-slate-700">
+                          <span className="text-slate-400 block">Classes</span>
+                          <span className="font-bold text-slate-900 dark:text-white">{resetBackupStatus.counts.classes}</span>
+                        </div>
+                        <div className="rounded-md bg-white dark:bg-slate-900 px-2 py-1 border border-slate-200/70 dark:border-slate-700">
+                          <span className="text-slate-400 block">Batches</span>
+                          <span className="font-bold text-slate-900 dark:text-white">{resetBackupStatus.counts.batches}</span>
+                        </div>
+                        <div className="rounded-md bg-white dark:bg-slate-900 px-2 py-1 border border-slate-200/70 dark:border-slate-700">
+                          <span className="text-slate-400 block">Students</span>
+                          <span className="font-bold text-slate-900 dark:text-white">{resetBackupStatus.counts.students}</span>
+                        </div>
+                        <div className="rounded-md bg-white dark:bg-slate-900 px-2 py-1 border border-slate-200/70 dark:border-slate-700">
+                          <span className="text-slate-400 block">Ledger</span>
+                          <span className="font-bold text-slate-900 dark:text-white">{resetBackupStatus.counts.ledger}</span>
+                        </div>
+                        <div className="rounded-md bg-white dark:bg-slate-900 px-2 py-1 border border-slate-200/70 dark:border-slate-700 col-span-2">
+                          <span className="text-slate-400 block">Payments / Receipts</span>
+                          <span className="font-bold text-slate-900 dark:text-white">{resetBackupStatus.counts.payments}</span>
+                        </div>
+                      </div>
+                    </div>
+                    {(classes.length > 0 || students.length > 0) && (
+                      <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200/70 text-amber-800 dark:text-amber-300 text-[11px] font-medium">
+                        Note: Abhi system me {classes.length} classes aur {students.length} students maujood hain — restore karne par current data backup snapshot se replace ho jayega.
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300">
+                    Abhi tak koi reset backup snapshot save nahi hua hai. Jab aap <strong>Reset</strong> button se data clear karenge, usse pehle system automatic backup save kar lega jise aap yahan se restore kar sakte hain.
+                  </div>
+                )}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter className="pt-2">
+              <AlertDialogCancel className="h-9 text-xs" disabled={isRestoringData}>
+                {resetBackupStatus.hasBackup ? 'Cancel' : 'Close'}
+              </AlertDialogCancel>
+              {resetBackupStatus.hasBackup && (
+                <AlertDialogAction
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleRestoreResetData();
+                  }}
+                  disabled={isRestoringData}
+                  className="h-9 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white"
+                >
+                  {isRestoringData ? 'Restoring...' : 'Haan, Data Restore Karo'}
+                </AlertDialogAction>
+              )}
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>

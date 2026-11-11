@@ -8,6 +8,14 @@ import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, updateDoc } f
 import { uploadFileToGCS } from '@/lib/gcs';
 
 import { serializeFirestoreData } from './utils';
+import { getBranchDisplayName, normalizeBranchId } from '@/lib/branch-utils';
+import {
+  clearServerUserSessionCookie,
+  getServerAdminContext,
+  getVerifiedSessionUserProfile,
+  setServerUserSessionCookie,
+  verifyFirebaseIdToken,
+} from '@/lib/server-admin-auth';
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -79,17 +87,19 @@ export async function loginUser(data: LoginValues) {
                 return { success: false, message: "Your account is currently inactive. Please contact support." };
             }
 
-            const branchId = userData.branchId || (userData.role === 'admin' ? 'all' : null);
-            const branchName = userData.branchName || (branchId === 'all' ? 'All Branches (Super Admin)' : (branchId === 'mangolpuri' || branchId === 'mangol-puri' ? 'Mangol Puri Branch' : branchId));
+            const rawBranchId = normalizeBranchId(userData.branchId || userData.branchName || userData.branch);
+            const isAdminRole = String(userData.role || '').toLowerCase() === 'admin';
+            const branchId = rawBranchId || (isAdminRole ? 'all' : null);
+            const branchName = userData.branchName || (branchId ? getBranchDisplayName(branchId, true) : null);
 
             userProfile = {
+                ...serializeFirestoreData(userData),
                 uid: user.uid,
                 email: user.email,
                 name: userData.name,
-                role: userData.role,
+                role: isAdminRole ? 'admin' : userData.role,
                 branchId: branchId,
                 branchName: branchName,
-                ...serializeFirestoreData(userData),
             };
             console.log('[actions.ts] loginUser: User profile created.', userProfile);
         } else {
@@ -99,6 +109,7 @@ export async function loginUser(data: LoginValues) {
         }
     }
 
+    await setServerUserSessionCookie({ uid: user.uid, email: user.email });
     console.log('[actions.ts] loginUser: Login successful, returning user profile.');
     return { success: true, message: "Login successful!", user: userProfile };
 
@@ -167,6 +178,14 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
       photoURL = await uploadFileToGCS(photoFile, destination);
     }
 
+    const callerAdminCtx = await getServerAdminContext();
+    const resolvedBranchId = callerAdminCtx?.isBranchAdmin
+      ? callerAdminCtx.branchId
+      : normalizeBranchId(extraData.branchId || extraData.branchName);
+    const resolvedBranchName = callerAdminCtx?.isBranchAdmin
+      ? callerAdminCtx.branchName
+      : (extraData.branchName || (resolvedBranchId ? getBranchDisplayName(resolvedBranchId, true) : undefined));
+
     const userDocData: any = {
       name: name,
       email: email,
@@ -175,6 +194,8 @@ export async function signUpUser(data: SignupValues, photoFile?: File | null) {
       status: role === 'admin' ? 'approved' : 'pending',
       photoURL: photoURL,
       ...extraData,
+      ...(resolvedBranchId ? { branchId: resolvedBranchId } : {}),
+      ...(resolvedBranchName ? { branchName: resolvedBranchName } : {}),
     };
 
     if (role === 'student') {
@@ -328,6 +349,7 @@ export async function verifyPhoneOtpAndLogin(params: {
       };
     }
 
+    await setServerUserSessionCookie({ uid: phoneUid, email: '' });
     return { 
       success: true, 
       message: "Login successful!", 
@@ -371,10 +393,26 @@ export async function resetUserPassword(email: string) {
 export async function logoutUser() {
   console.log('[actions.ts] logoutUser: Server action called.');
   try {
+    await clearServerUserSessionCookie();
     return { success: true, message: "Logout successful." };
   } catch (error) {
     console.error("[actions.ts] logoutUser: Error during server-side logout attempt:", error);
     return { success: false, message: "Logout failed. Please try again." };
   }
+}
+
+export async function syncServerSessionFromIdToken(idToken: string) {
+  const verified = await verifyFirebaseIdToken(idToken);
+  if (!verified) {
+    return { success: false, user: null };
+  }
+  await setServerUserSessionCookie({ uid: verified.uid, email: verified.email });
+  const profile = await getVerifiedSessionUserProfile();
+  return { success: Boolean(profile), user: profile };
+}
+
+export async function getServerSessionUser() {
+  const profile = await getVerifiedSessionUserProfile();
+  return { success: Boolean(profile), user: profile };
 }
 

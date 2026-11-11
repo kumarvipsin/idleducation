@@ -13,12 +13,9 @@ import {
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth, type UserProfile } from "@/context/auth-context";
+import { normalizeBranchId } from "@/lib/branch-utils";
 import { useRouter, usePathname } from "next/navigation";
-import { Avatar, AvatarFallback } from "./ui/avatar";
-import {
-    DropdownMenu, DropdownMenuContent, DropdownMenuItem,
-    DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger
-} from "./ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { createRazorpayOrder, recordDonation, getUpdates } from "@/app/actions";
 import Image from "next/image";
@@ -303,16 +300,16 @@ const MegaMenu = ({ links, onLinkClick, iconShape = 'circle' }: { links?: any[],
 // ============================================================================
 const DESKTOP_MENU_TOKENS = {
     panelBg: "bg-white dark:bg-slate-950",
-    panelBorder: "border border-border",
-    panelRadius: "rounded-none",
-    panelShadow: "shadow-xl",
-    dropdownAnimation: "absolute top-full left-0 transition-all duration-200 ease-in-out z-50",
+    panelBorder: "border border-[#E5EAF2] dark:border-slate-800",
+    panelRadius: "rounded-[15px]",
+    panelShadow: "shadow-[0_14px_34px_-10px_rgba(11,27,67,0.14),0_2px_6px_-2px_rgba(11,27,67,0.05)]",
+    dropdownAnimation: "absolute top-full left-0 transition-all duration-200 ease-in-out z-50 pt-2",
     rowPadding: "px-3.5 py-1.5",
     iconContainer: "w-4.5 h-4.5 flex items-center justify-center shrink-0 transition-colors duration-150 [&>svg]:w-4.5 [&>svg]:h-4.5 [&>svg]:transition-transform [&>svg]:duration-150 group-hover:[&>svg]:translate-x-0.5",
     iconColorDefault: "text-[#0B1F4B] dark:text-slate-300 group-hover:text-[#1D4ED8] dark:group-hover:text-blue-400",
     iconColorActive: "text-[#1D4ED8] dark:text-blue-400 [&>svg]:translate-x-0.5",
     rowGap: "gap-3",
-    rowBase: "group relative flex items-center rounded-none transition-all duration-150 text-left cursor-pointer w-full min-h-[36px]",
+    rowBase: "group relative flex items-center rounded-xl transition-all duration-150 text-left cursor-pointer w-full min-h-[36px]",
     rowHover: "text-foreground hover:text-primary",
     rowActive: "text-primary",
     textTypography: "font-semibold text-[13.5px] leading-tight transition-colors",
@@ -486,6 +483,7 @@ export function Header() {
         return () => { isMounted = false; };
     }, []);
     const menuTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const profileMenuRef = useRef<HTMLDivElement>(null);
     const [openMobileAccordion, setOpenMobileAccordion] = useState<string | null>(null);
     const [openMobileSubAccordion, setOpenMobileSubAccordion] = useState<string | null>(null);
     const [openMobileThirdAccordion, setOpenMobileThirdAccordion] = useState<string | null>(null);
@@ -502,8 +500,9 @@ export function Header() {
         }
     }, [isMobileMenuOpen]);
 
-    // Also close mobile menu & reset all subsections when user navigates to a new page
+    // Also close mobile menu, desktop dropdowns & reset all subsections when user navigates to a new page
     useEffect(() => {
+        setActiveMenu(null);
         setIsMobileMenuOpen(false);
         setOpenMobileAccordion(null);
         setOpenMobileSubAccordion(null);
@@ -580,12 +579,19 @@ export function Header() {
                 setActiveMenu(null);
             }
         };
+        const handlePointerDownOutside = (e: PointerEvent) => {
+            if (profileMenuRef.current && !profileMenuRef.current.contains(e.target as Node)) {
+                setActiveMenu((prev) => (prev === 'profile' ? null : prev));
+            }
+        };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
         window.addEventListener('keydown', handleKeyDown);
+        document.addEventListener('pointerdown', handlePointerDownOutside);
         return () => {
             window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('keydown', handleKeyDown);
+            document.removeEventListener('pointerdown', handlePointerDownOutside);
         };
     }, []);
 
@@ -713,26 +719,136 @@ export function Header() {
     ];
 
     const navItemClass = "relative h-auto py-1.5 px-3 text-[13px] font-bold tracking-tight text-foreground hover:text-primary hover:bg-transparent rounded-none uppercase transition-colors after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full after:scale-x-0 after:bg-primary after:transition-transform after:duration-300 hover:after:scale-x-100";
+    const navAuthButtonClass = "px-3 min-[360px]:px-3.5 md:px-[19px] py-0 rounded-[8px] md:rounded-[6px] bg-[#EEF3FB] hover:bg-[#E0EAFB] active:bg-[#D0DEFA] border border-[#B8CFF5] hover:border-[#93B4EF] text-[#0B2A6B] h-[32px] md:h-[34px] flex items-center justify-center cursor-pointer whitespace-nowrap font-semibold text-[11.5px] md:text-[12.5px] leading-none tracking-[0.04em] transition-colors duration-150 shadow-none";
 
     const renderAuthSection = () => {
-        if (loading) return <Skeleton className="h-[41px] md:h-9 w-20 rounded-[8px]" />;
+        if (loading) return <Skeleton className="h-[32px] md:h-[34px] w-[76px] rounded-[8px] md:rounded-[6px]" />;
 
         if (user) {
+            const normalizedBranch = normalizeBranchId(user.branchId);
+            const isBranchAdmin = user.role === 'admin' && Boolean(normalizedBranch && normalizedBranch !== 'all');
+            const roleLabel =
+                user.role === 'admin'
+                    ? isBranchAdmin
+                        ? 'Branch Admin'
+                        : 'Super Admin'
+                    : user.role === 'teacher'
+                      ? 'Teacher'
+                      : user.role === 'student'
+                        ? 'Student'
+                        : 'Member';
+            const displayName = (user.name || user.email?.split('@')[0] || 'User').trim();
+            const nameParts = displayName.split(/\s+/).filter(Boolean);
+            const initials =
+                nameParts.length >= 2
+                    ? `${nameParts[0][0]}${nameParts[nameParts.length - 1][0]}`.toUpperCase()
+                    : displayName.slice(0, 2).toUpperCase() || 'U';
+            const dashboardHref = getDashboardPath(user);
+            const dashboardLabel = 'Dashboard';
+            const triggerLabel = user.role === 'admin' ? 'ADMIN' : user.role === 'teacher' ? 'TEACHER' : user.role === 'student' ? 'STUDENT' : 'ACCOUNT';
+
             return (
-                <div className="flex items-center gap-1.5 sm:gap-2">
-                    <Link
-                        href={getDashboardPath(user)}
-                        className="px-2.5 sm:px-3 py-1.5 rounded-[8px] border border-primary text-primary hover:bg-primary hover:text-white font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
-                    >
-                        ADMIN
-                    </Link>
+                <div
+                    ref={profileMenuRef}
+                    onMouseEnter={() => handleMouseEnter('profile')}
+                    onMouseLeave={handleMouseLeave}
+                    className="relative h-full flex items-center"
+                >
                     <button
                         type="button"
-                        onClick={handleLogout}
-                        className="px-2.5 sm:px-3 py-1.5 rounded-[8px] border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-red-500 hover:text-white hover:border-red-500 font-extrabold text-[9.5px] sm:text-[10px] uppercase tracking-wide transition-colors whitespace-nowrap h-8 sm:h-9 flex items-center cursor-pointer"
+                        data-testid="navbar-profile-trigger"
+                        aria-label={`${displayName} – ${roleLabel}`}
+                        aria-expanded={activeMenu === 'profile'}
+                        aria-haspopup="menu"
+                        onClick={() => {
+                            if (activeMenu === 'profile') {
+                                setActiveMenu(null);
+                            } else {
+                                handleMouseEnter('profile');
+                            }
+                        }}
+                        className={navAuthButtonClass}
                     >
-                        LOGOUT
+                        {triggerLabel}
                     </button>
+
+                    <div
+                        onMouseEnter={() => {
+                            if (menuTimeoutRef.current) {
+                                clearTimeout(menuTimeoutRef.current);
+                                menuTimeoutRef.current = null;
+                            }
+                        }}
+                        onMouseMove={() => {
+                            if (menuTimeoutRef.current) {
+                                clearTimeout(menuTimeoutRef.current);
+                                menuTimeoutRef.current = null;
+                            }
+                        }}
+                        onMouseLeave={handleMouseLeave}
+                        className={cn(
+                            "absolute top-full right-0 pt-2 w-[272px] z-[80] transition-all duration-200 ease-in-out",
+                            activeMenu === 'profile'
+                                ? "opacity-100 translate-y-0 visible pointer-events-auto"
+                                : "opacity-0 -translate-y-1 invisible pointer-events-none"
+                        )}
+                    >
+                        <div
+                            role="menu"
+                            aria-label="Profile menu"
+                            data-testid="navbar-profile-menu"
+                            data-state={activeMenu === 'profile' ? 'open' : 'closed'}
+                            className="overflow-hidden rounded-[15px] border border-[#E5EAF2] bg-white shadow-[0_14px_34px_-10px_rgba(11,27,67,0.14),0_2px_6px_-2px_rgba(11,27,67,0.05)]"
+                        >
+                            <div className="px-3.5 py-3">
+                                <div className="flex items-center gap-2.5">
+                                    <Avatar className="h-[42px] w-[42px] border border-[#E5EAF2] shrink-0">
+                                        <AvatarImage src={user.photoURL ?? undefined} alt={displayName} />
+                                        <AvatarFallback className="bg-[#0B1B43] text-white text-sm font-semibold">
+                                            {initials}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    <div className="min-w-0 flex-1">
+                                        <p className="truncate text-[15.5px] font-semibold text-[#0B1B43] leading-snug">
+                                            {displayName}
+                                        </p>
+                                        <p className="truncate text-[12px] font-medium text-[#64748B] leading-snug mt-0.5">
+                                            {roleLabel}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="h-px w-full bg-[#EFF3F8]" />
+                            <div className="relative flex w-full items-stretch">
+                                <Link
+                                    href={dashboardHref}
+                                    role="menuitem"
+                                    onClick={() => setActiveMenu(null)}
+                                    className="flex-1 flex h-[44px] items-center justify-center gap-2 px-3 text-[14px] font-medium text-[#172033] hover:bg-[#EAF2FF] active:bg-[#DBEAFE] focus:bg-[#EAF2FF] focus:text-[#0B1B43] outline-none transition-colors cursor-pointer"
+                                >
+                                    <LayoutDashboard className="!h-[17px] !w-[17px] text-[#2864E8] shrink-0" />
+                                    <span>{dashboardLabel}</span>
+                                </Link>
+                                <div
+                                    aria-hidden="true"
+                                    data-testid="dropdown-actions-divider"
+                                    className="pointer-events-none absolute left-1/2 top-1/2 z-10 h-[18px] w-px -translate-x-1/2 -translate-y-1/2 bg-[#CBD5E1] dark:bg-slate-700"
+                                />
+                                <button
+                                    type="button"
+                                    role="menuitem"
+                                    onClick={async () => {
+                                        setActiveMenu(null);
+                                        await handleLogout();
+                                    }}
+                                    className="flex-1 flex h-[44px] items-center justify-center gap-2 px-3 text-[14px] font-medium text-[#DC2626] hover:bg-[#FEECEC] active:bg-[#FEE2E2] focus:bg-[#FEECEC] focus:text-[#B91C1C] outline-none transition-colors cursor-pointer"
+                                >
+                                    <LogOut className="!h-[17px] !w-[17px] text-[#DC2626] shrink-0" />
+                                    <span>Logout</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             );
         }
@@ -741,7 +857,7 @@ export function Header() {
             <button 
                 type="button" 
                 onClick={() => { setAuthDefaultMode('login'); setIsAuthOpen(true); }}
-                className="px-3.5 min-[360px]:px-4 md:px-5 py-0 rounded-[8px] md:rounded-[6px] bg-[#EEF3FB] hover:bg-[#E0EAFB] active:bg-[#D0DEFA] border border-[#B8CFF5] hover:border-[#93B4EF] text-[#0B2A6B] h-[34px] md:h-9 flex items-center justify-center cursor-pointer whitespace-nowrap font-semibold text-[12px] md:text-[13px] leading-none tracking-[0.04em] transition-colors duration-150 shadow-none"
+                className={navAuthButtonClass}
             >
                 LOGIN
             </button>
@@ -808,7 +924,7 @@ export function Header() {
                                                 activeMenu === 'explore' ? "opacity-100 translate-y-0 visible pointer-events-auto" : "opacity-0 -translate-y-1 invisible pointer-events-none"
                                             )}
                                         >
-                                            <div className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "flex flex-row divide-x divide-border")}>
+                                            <div className={cn(DESKTOP_MENU_TOKENS.panelBg, DESKTOP_MENU_TOKENS.panelBorder, DESKTOP_MENU_TOKENS.panelRadius, DESKTOP_MENU_TOKENS.panelShadow, "flex flex-row divide-x divide-[#E5EAF2] dark:divide-slate-800 overflow-hidden")}>
                                                 {/* Left Column: Main Course Categories */}
                                                 <div className="w-56 sm:w-60 flex flex-col gap-0 p-1.5">
                                                     {courseCategories.map(c => {
@@ -1197,35 +1313,32 @@ export function Header() {
                             )}
                         </nav>
                     </div>
-                    <div className="flex items-center gap-2 sm:gap-3 lg:gap-3.5">
+                    <div className="flex h-full items-center gap-3.5 sm:gap-5 md:gap-6">
                         {/* Call Action: Visible on Desktop only. On Mobile, call action is inside the mobile drawer */}
                         <a 
                             href="tel:8860040010" 
                             aria-label="Call IDL Education at 8860040010"
-                            className="group hidden md:flex items-center gap-2 lg:gap-2.5 py-1 pl-1 pr-2 rounded-full transition-all duration-200 shrink-0 hover:bg-slate-100/60 dark:hover:bg-slate-800/60"
+                            className="group hidden md:inline-flex items-center gap-2 py-1 text-[#0B1B43] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 transition-colors duration-150 shrink-0"
                         >
-                            <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60 flex items-center justify-center shrink-0 transition-all duration-200 group-hover:bg-[#E2EDFF] dark:group-hover:bg-blue-900/80 group-hover:border-blue-300 dark:group-hover:border-blue-800">
-                                <Phone className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#1F4FA3] dark:text-blue-400 transition-transform duration-200 group-hover:scale-105" />
-                            </div>
-                            <span className="text-[15px] lg:text-[17.5px] font-bold text-[#0B1F4B] dark:text-slate-100 tracking-tight leading-none group-hover:text-[#1F4FA3] dark:group-hover:text-blue-400 transition-colors duration-200">
+                            <Phone className="h-[19px] w-[19px] text-[#0B1B43]/80 dark:text-slate-300 group-hover:text-[#2864E8] dark:group-hover:text-blue-400 transition-colors duration-150 shrink-0" strokeWidth={1.85} />
+                            <span className="text-[17px] font-semibold tracking-[-0.01em] leading-none tabular-nums">
                                 8860040010
                             </span>
                         </a>
 
-
-                        {/* Instagram Action Button: Exact IDL Navbar Visual Language (Navy Blue & Light-Blue Pill) */}
+                        {/* Minimal Instagram Action Icon */}
                         <a 
                             href="https://www.instagram.com/idleducation" 
                             target="_blank" 
                             rel="noopener noreferrer"
                             aria-label="Follow IDL Education on Instagram"
                             title="Follow IDL Education on Instagram"
-                            className="group relative w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-[#EEF4FF] dark:bg-blue-950/60 border border-[#D6E4FF] dark:border-blue-900/60 flex items-center justify-center shrink-0 transition-all duration-200 hover:bg-[#E2EDFF] dark:hover:bg-blue-900/80 hover:border-blue-300 dark:hover:border-blue-800 cursor-pointer"
+                            className="inline-flex items-center justify-center text-[#0B1B43]/80 dark:text-slate-300 hover:text-[#2864E8] dark:hover:text-blue-400 transition-colors duration-150 shrink-0 cursor-pointer"
                         >
-                            <Instagram className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#1F4FA3] dark:text-blue-400 transition-transform duration-200 group-hover:scale-105" />
+                            <Instagram className="h-[23px] w-[23px]" strokeWidth={1.75} />
                         </a>
 
-                        <div className="flex items-center ml-0.5 sm:ml-0 md:ml-0">
+                        <div className="flex h-full items-center">
                             {isClient && renderAuthSection()}
                         </div>
 

@@ -109,9 +109,6 @@ export default function LoginPage() {
         }
       }
       if (profile?.role === 'admin') {
-        if (profile.branchId && profile.branchId !== 'all') {
-          return '/admin/fees';
-        }
         return '/admin/dashboard';
       }
       return profile?.role ? `/${profile.role}/dashboard` : '/';

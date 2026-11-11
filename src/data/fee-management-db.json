@@ -145,7 +145,17 @@
       "totalYearlyFee": 24000,
       "yearlyStandardFee": 36000,
       "yearlyCourseMonths": 12,
-      "updatedAt": "2026-11-10T18:36:06.459Z"
+      "updatedAt": "2026-11-11T09:47:37.401Z",
+      "statusHistory": [
+        {
+          "month": "2026-11",
+          "status": "active",
+          "updatedAt": "2026-11-11T09:47:37.401Z"
+        }
+      ],
+      "disabledAt": "2026-11-11T09:47:10.313Z",
+      "statusNotes": "Re-activated from November 2026 onwards.",
+      "enabledAt": "2026-11-11T09:47:37.401Z"
     },
     {
       "id": "stu-1794213912965",
@@ -299,26 +309,6 @@
     }
   ],
   "ledger": [
-    {
-      "id": "led-stu-1794230704035-2026-11",
-      "studentId": "stu-1794230704035",
-      "branchId": "budh-vihar",
-      "classId": "cls-1794158767030",
-      "batchId": "batch-1794202644852",
-      "month": "2026-11",
-      "monthLabel": "November 2026",
-      "baseAmount": 5000,
-      "discountAmount": 1000,
-      "netDueAmount": 4000,
-      "carriedForwardDue": 0,
-      "paidAmount": 0,
-      "balanceAmount": 4000,
-      "advanceAmount": 0,
-      "dueDate": "2026-11-11",
-      "status": "PENDING",
-      "isOverdue": false,
-      "updatedAt": "2026-11-11T04:57:37.725Z"
-    },
     {
       "id": "led-stu-1794213912965-2026-11",
       "studentId": "stu-1794213912965",
@@ -631,6 +621,26 @@
       "status": "OVERDUE",
       "isOverdue": true,
       "updatedAt": "2026-11-10T17:22:31.789Z"
+    },
+    {
+      "id": "led-stu-1794230704035-2026-11",
+      "studentId": "stu-1794230704035",
+      "branchId": "budh-vihar",
+      "classId": "cls-1794158767030",
+      "batchId": "batch-1794202644852",
+      "month": "2026-11",
+      "monthLabel": "November 2026",
+      "baseAmount": 5000,
+      "discountAmount": 1000,
+      "netDueAmount": 4000,
+      "carriedForwardDue": 0,
+      "paidAmount": 0,
+      "balanceAmount": 4000,
+      "advanceAmount": 0,
+      "dueDate": "2026-11-11",
+      "status": "PENDING",
+      "isOverdue": false,
+      "updatedAt": "2026-11-11T09:47:37.504Z"
     }
   ],
   "payments": [

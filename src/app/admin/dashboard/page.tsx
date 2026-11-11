@@ -9,8 +9,12 @@ import React, { useEffect, useState } from "react";
 import { getTotalUsersCount, getTotalStudentsCount, getNewStudentsCount, getTotalTeachersCount, getDeniedUsersCount, getTotalSessionBookingsCount, getMonthlySessionBookingsCount, getTotalContactSubmissionsCount, getMonthlyContactSubmissionsCount, getTotalUpdatesCount, getMonthlyUpdatesCount, getActiveUsersCount, getMonthlyActiveUsersCount, getInactiveUsersCount } from "@/app/actions";
 import { UserApproval } from "./user-approval";
 import { UserCompositionChart } from "./user-composition-chart";
+import { useAuth } from "@/context/auth-context";
+import { normalizeBranchId } from "@/lib/branch-utils";
+import { BranchAdminDashboard } from "./branch-admin-dashboard";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export default function AdminDashboard() {
+function SuperAdminDashboard() {
   const [stats, setStats] = useState({
     totalUsers: '0',
     totalStudents: '0',
@@ -165,4 +169,28 @@ export default function AdminDashboard() {
 
     </div>
   );
+}
+
+export default function AdminDashboard() {
+  const { user, loading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+
+  if (loading || !user) {
+    return (
+      <div className="space-y-6">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <Skeleton key={idx} className="h-[118px] w-full rounded-xl" />
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  if (isBranchAdmin) {
+    return <BranchAdminDashboard />;
+  }
+
+  return <SuperAdminDashboard />;
 }

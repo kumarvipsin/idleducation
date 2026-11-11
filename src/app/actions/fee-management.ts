@@ -34,8 +34,29 @@ import type {
   BranchYearlyMonthPoint,
 } from '@/types/fee-management';
 import { IDL_BRANCHES, getStudentStatusForMonth, getActiveAdditionalSubjectsForMonth } from '@/types/fee-management';
+import { getServerAdminContext } from '@/lib/server-admin-auth';
+import { normalizeBranchId } from '@/lib/branch-utils';
+
+async function resolveEffectiveFeeBranch(requestedBranchId?: string): Promise<string | undefined> {
+  const adminCtx = await getServerAdminContext();
+  if (!adminCtx) {
+    return 'none';
+  }
+  if (adminCtx.isBranchAdmin) {
+    return adminCtx.branchId;
+  }
+  return requestedBranchId;
+}
+
+function feeRecordMatchesBranch(recordBranchId: string | undefined | null, targetBranchId: string): boolean {
+  const normTarget = normalizeBranchId(targetBranchId);
+  if (!normTarget) return false;
+  if (normTarget === 'all') return true;
+  return normalizeBranchId(recordBranchId) === normTarget;
+}
 
 const DB_PATH = path.join(process.cwd(), 'src', 'data', 'fee-management-db.json');
+const RESET_BACKUP_PATH = path.join(process.cwd(), 'src', 'data', 'fee-management-reset-backup.json');
 
 interface FeeDatabase {
   classes: FeeClass[];
@@ -43,6 +64,27 @@ interface FeeDatabase {
   students: FeeStudent[];
   ledger: FeeLedgerEntry[];
   payments: FeePayment[];
+}
+
+export interface FeeDatabaseCounts {
+  classes: number;
+  batches: number;
+  students: number;
+  ledger: number;
+  payments: number;
+}
+
+interface FeeResetBackupFile {
+  savedAt: string;
+  data: FeeDatabase;
+}
+
+export interface ResetBackupStatus {
+  success: boolean;
+  hasBackup: boolean;
+  savedAt?: string;
+  counts?: FeeDatabaseCounts;
+  message?: string;
 }
 
 function loadDatabase(): FeeDatabase {
@@ -80,12 +122,66 @@ function loadDatabase(): FeeDatabase {
   }
 }
 
+/**
+ * Writes JSON data atomically via a temporary file rename so partial writes cannot corrupt disk state.
+ */
+function writeJsonAtomic(filePath: string, data: unknown): void {
+  fs.mkdirSync(path.dirname(filePath), { recursive: true });
+  const tempPath = `${filePath}.tmp`;
+  fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf-8');
+  fs.renameSync(tempPath, filePath);
+}
+
+function summarizeDatabase(data: FeeDatabase): FeeDatabaseCounts {
+  return {
+    classes: data.classes.length,
+    batches: data.batches.length,
+    students: data.students.length,
+    ledger: data.ledger.length,
+    payments: data.payments.length,
+  };
+}
+
+function hasDatabaseData(counts: FeeDatabaseCounts): boolean {
+  return (
+    counts.classes > 0 ||
+    counts.batches > 0 ||
+    counts.students > 0 ||
+    counts.ledger > 0 ||
+    counts.payments > 0
+  );
+}
+
+function normalizeDatabase(raw: Partial<FeeDatabase> | null | undefined): FeeDatabase {
+  return {
+    classes: Array.isArray(raw?.classes) ? raw.classes : [],
+    batches: Array.isArray(raw?.batches) ? raw.batches : [],
+    students: Array.isArray(raw?.students) ? raw.students : [],
+    ledger: Array.isArray(raw?.ledger) ? raw.ledger : [],
+    payments: Array.isArray(raw?.payments) ? raw.payments : [],
+  };
+}
+
+function readResetBackupFile(): FeeResetBackupFile | null {
+  try {
+    if (!fs.existsSync(RESET_BACKUP_PATH)) return null;
+    const raw = fs.readFileSync(RESET_BACKUP_PATH, 'utf-8');
+    const parsed = JSON.parse(raw) as Partial<FeeResetBackupFile>;
+    const normalizedData = normalizeDatabase(parsed?.data);
+    if (!hasDatabaseData(summarizeDatabase(normalizedData))) return null;
+    return {
+      savedAt: typeof parsed?.savedAt === 'string' ? parsed.savedAt : new Date().toISOString(),
+      data: normalizedData,
+    };
+  } catch (err) {
+    console.error('Failed to read fee reset backup:', err);
+    return null;
+  }
+}
+
 function saveDatabase(data: FeeDatabase): void {
   try {
-    fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
-    const tempPath = `${DB_PATH}.tmp`;
-    fs.writeFileSync(tempPath, JSON.stringify(data, null, 2), 'utf-8');
-    fs.renameSync(tempPath, DB_PATH);
+    writeJsonAtomic(DB_PATH, data);
   } catch (err) {
     console.error('Failed to save fee database to disk:', err);
   }
@@ -174,18 +270,100 @@ export async function getAcademicMonths(): Promise<{ value: string; label: strin
 }
 
 // Reset/Clear action - ONLY called if explicitly clicked by user with double confirmation
-export async function clearAllFeeData(): Promise<{ success: boolean; message: string }> {
+export async function clearAllFeeData(): Promise<{
+  success: boolean;
+  message: string;
+  backupSaved?: boolean;
+}> {
   try {
-    saveDatabase({
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return { success: false, message: 'Forbidden: Only Super Admin can reset system fee data.' };
+    }
+    const currentDb = normalizeDatabase(loadDatabase());
+    const counts = summarizeDatabase(currentDb);
+    let backupSaved = false;
+
+    // Only overwrite the reset backup when the active database has records,
+    // so an accidental second Reset never destroys the last non-empty snapshot.
+    if (hasDatabaseData(counts)) {
+      const backupPayload: FeeResetBackupFile = {
+        savedAt: new Date().toISOString(),
+        data: currentDb,
+      };
+      writeJsonAtomic(RESET_BACKUP_PATH, backupPayload);
+      backupSaved = true;
+    }
+
+    writeJsonAtomic(DB_PATH, {
       classes: [],
       batches: [],
       students: [],
       ledger: [],
       payments: [],
     });
-    return { success: true, message: 'Fee data reset to clean state.' };
+
+    return {
+      success: true,
+      backupSaved,
+      message: backupSaved
+        ? 'Fee data reset to clean state. Backup saved — you can restore it anytime.'
+        : 'Fee data reset to clean state.',
+    };
   } catch (error: any) {
     return { success: false, message: error?.message || 'Failed to clear data' };
+  }
+}
+
+export async function getResetBackupStatus(): Promise<ResetBackupStatus> {
+  try {
+    const backup = readResetBackupFile();
+    if (!backup) {
+      return { success: true, hasBackup: false };
+    }
+    return {
+      success: true,
+      hasBackup: true,
+      savedAt: backup.savedAt,
+      counts: summarizeDatabase(backup.data),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      hasBackup: false,
+      message: error?.message || 'Failed to read reset backup status',
+    };
+  }
+}
+
+export async function restoreResetFeeData(): Promise<{
+  success: boolean;
+  message: string;
+  counts?: FeeDatabaseCounts;
+}> {
+  try {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return { success: false, message: 'Forbidden: Only Super Admin can restore system fee data.' };
+    }
+    const backup = readResetBackupFile();
+    if (!backup) {
+      return {
+        success: false,
+        message: 'No reset backup snapshot found to restore.',
+      };
+    }
+
+    writeJsonAtomic(DB_PATH, backup.data);
+    const counts = summarizeDatabase(backup.data);
+
+    return {
+      success: true,
+      counts,
+      message: `Restored ${counts.classes} classes, ${counts.batches} batches, ${counts.students} students, and ${counts.payments} payments.`,
+    };
+  } catch (error: any) {
+    return { success: false, message: error?.message || 'Failed to restore fee data' };
   }
 }
 
@@ -199,13 +377,14 @@ function isEmptyBranchSelection(branchId?: string): boolean {
 
 export async function getFeeClasses(branchId?: string): Promise<{ success: boolean; data: FeeClass[] }> {
   try {
-    if (isEmptyBranchSelection(branchId)) {
+    const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
+    if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
     const dbData = loadDatabase();
     let classes = [...dbData.classes];
-    if (branchId && branchId !== 'all') {
-      classes = classes.filter(c => c.branchId === branchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      classes = classes.filter(c => feeRecordMatchesBranch(c.branchId, effectiveBranch));
     }
 
     // Attach batch and student counts
@@ -245,12 +424,17 @@ export async function createFeeClass(data: {
   order?: number;
 }): Promise<{ success: boolean; message: string; data?: FeeClass }> {
   try {
+    const adminCtx = await getServerAdminContext();
+    const resolvedBranchId = adminCtx?.isBranchAdmin
+      ? adminCtx.branchId
+      : (data.branchId || 'mukherjee-nagar');
+
     const id = `cls-${Date.now()}`;
     const newClass: FeeClass = {
       id,
       name: data.name.trim(),
       code: data.code.trim().toUpperCase(),
-      branchId: data.branchId || 'mukherjee-nagar',
+      branchId: resolvedBranchId,
       academicSession: data.academicSession || '2026-27',
       division: data.division?.trim(),
       description: data.description?.trim(),
@@ -279,16 +463,22 @@ export async function updateFeeClass(
   data: Partial<FeeClass>
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
     const idx = dbData.classes.findIndex(c => c.id === id);
     if (idx === -1) return { success: false, message: 'Class not found.' };
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(dbData.classes[idx].branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Class belongs to a different branch.' };
+    }
 
     dbData.classes[idx] = {
       ...dbData.classes[idx],
       ...data,
       name: data.name !== undefined ? data.name.trim() : dbData.classes[idx].name,
       code: data.code !== undefined ? data.code.trim().toUpperCase() : dbData.classes[idx].code,
-      branchId: data.branchId !== undefined ? data.branchId : dbData.classes[idx].branchId,
+      branchId: adminCtx?.isBranchAdmin
+        ? dbData.classes[idx].branchId
+        : (data.branchId !== undefined ? data.branchId : dbData.classes[idx].branchId),
       division: data.division !== undefined ? data.division.trim() : dbData.classes[idx].division,
       academicSession: data.academicSession !== undefined ? data.academicSession.trim() : dbData.classes[idx].academicSession,
       description: data.description !== undefined ? data.description.trim() : dbData.classes[idx].description,
@@ -305,7 +495,12 @@ export async function updateFeeClass(
 
 export async function deleteFeeClass(id: string): Promise<{ success: boolean; message: string }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
+    const target = dbData.classes.find(c => c.id === id);
+    if (adminCtx?.isBranchAdmin && (!target || !feeRecordMatchesBranch(target.branchId, adminCtx.branchId))) {
+      return { success: false, message: 'Forbidden: Class belongs to a different branch.' };
+    }
     const batchCount = dbData.batches.filter(b => b.classId === id).length;
     const studentCount = dbData.students.filter(s => s.classId === id).length;
 
@@ -333,7 +528,8 @@ export async function getFeeBatches(
   branchId?: string
 ): Promise<{ success: boolean; data: FeeBatch[] }> {
   try {
-    if (isEmptyBranchSelection(branchId)) {
+    const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
+    if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
     const dbData = loadDatabase();
@@ -341,8 +537,8 @@ export async function getFeeBatches(
     if (classId && classId !== 'all') {
       batches = batches.filter(b => b.classId === classId);
     }
-    if (branchId && branchId !== 'all') {
-      batches = batches.filter(b => b.branchId === branchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      batches = batches.filter(b => feeRecordMatchesBranch(b.branchId, effectiveBranch));
     }
 
     const enriched = batches.map(b => ({
@@ -625,7 +821,12 @@ export async function updateFeeBatch(
 
 export async function deleteFeeBatch(id: string): Promise<{ success: boolean; message: string }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
+    const targetBatch = dbData.batches.find(b => b.id === id);
+    if (adminCtx?.isBranchAdmin && (!targetBatch || !feeRecordMatchesBranch(targetBatch.branchId, adminCtx.branchId))) {
+      return { success: false, message: 'Forbidden: Batch belongs to a different branch.' };
+    }
     const studentCount = dbData.students.filter(s => s.batchId === id).length;
     if (studentCount > 0) {
       return {
@@ -655,7 +856,8 @@ export async function getFeeStudents(filters?: {
   month?: string;
 }): Promise<{ success: boolean; data: FeeStudent[] }> {
   try {
-    if (isEmptyBranchSelection(filters?.branchId)) {
+    const effectiveBranch = await resolveEffectiveFeeBranch(filters?.branchId);
+    if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
     const dbData = loadDatabase();
@@ -671,8 +873,8 @@ export async function getFeeStudents(filters?: {
       });
     }
 
-    if (filters?.branchId && filters.branchId !== 'all') {
-      students = students.filter(s => s.branchId === filters.branchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      students = students.filter(s => feeRecordMatchesBranch(s.branchId, effectiveBranch));
     }
     if (filters?.classId && filters.classId !== 'all') {
       students = students.filter(s => s.classId === filters.classId);
@@ -788,10 +990,12 @@ export async function createFeeStudent(data: {
   additionalSubjects?: AdditionalSubject[];
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
+    const adminCtx = await getServerAdminContext();
+    const resolvedBranchId = adminCtx?.isBranchAdmin ? adminCtx.branchId : data.branchId;
     const dbData = loadDatabase();
     const id = `stu-${Date.now()}`;
     const branchCode =
-      IDL_BRANCHES.find(b => b.id === data.branchId)?.code.replace('IDL-', '') || 'DL';
+      IDL_BRANCHES.find(b => feeRecordMatchesBranch(b.id, resolvedBranchId))?.code.replace('IDL-', '') || 'DL';
     const rollNumber = data.rollNumber?.trim() || generateStudentRollNumber(data.joiningDate, dbData.students);
 
     const isYearly = data.feeType === 'yearly_package' || Boolean(data.yearlyPackage?.totalYearlyFee);
@@ -866,7 +1070,7 @@ export async function createFeeStudent(data: {
       fatherContact: data.fatherContact?.trim() || '',
       motherContact: data.motherContact?.trim() || data.contact2?.trim() || '',
       contact2: data.contact2?.trim() || data.motherContact?.trim() || '',
-      branchId: data.branchId,
+      branchId: resolvedBranchId,
       classId: data.classId,
       batchId: data.batchId,
       subjects: data.subjects || [],
@@ -1000,11 +1204,15 @@ export async function updateFeeStudent(
   data: Partial<FeeStudent>
 ): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
     const idx = dbData.students.findIndex(s => s.id === id);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
     const current = dbData.students[idx];
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(current.branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Student belongs to a different branch.' };
+    }
     const baseFee = data.baseFee !== undefined ? Math.max(0, Number(data.baseFee)) : current.baseFee;
     let scholarshipPercent =
       data.scholarshipPercent !== undefined
@@ -1182,11 +1390,15 @@ export async function addStudentAdditionalSubject(data: {
   effectiveMonth?: string;
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
     const idx = dbData.students.findIndex(s => s.id === data.studentId);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
     const student = dbData.students[idx];
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(student.branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Student belongs to a different branch.' };
+    }
     const currentMonth = await getCurrentMonth();
     const effectiveMonth = data.effectiveMonth || currentMonth;
 
@@ -1248,11 +1460,15 @@ export async function removeStudentAdditionalSubject(data: {
   effectiveMonth?: string;
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
     const idx = dbData.students.findIndex(s => s.id === data.studentId);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
     const student = dbData.students[idx];
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(student.branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Student belongs to a different branch.' };
+    }
     const currentMonth = await getCurrentMonth();
     const effectiveMonth = data.effectiveMonth || currentMonth;
 
@@ -1332,11 +1548,17 @@ export async function transferFeeStudent(data: {
   reason?: string;
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
     const idx = dbData.students.findIndex(s => s.id === data.studentId);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
     const student = dbData.students[idx];
+    if (adminCtx?.isBranchAdmin) {
+      if (!feeRecordMatchesBranch(student.branchId, adminCtx.branchId) || !feeRecordMatchesBranch(data.targetBranchId, adminCtx.branchId)) {
+        return { success: false, message: 'Forbidden: Cross-branch transfer requires Super Admin.' };
+      }
+    }
     const targetBatch = dbData.batches.find(b => b.id === data.targetBatchId);
     if (!targetBatch) return { success: false, message: 'Destination batch not found.' };
 
@@ -1765,11 +1987,15 @@ export async function restoreStudentToMonth(
 // Option 2: Delete student completely from ALL months (permanently remove student, ledgers & receipts)
 export async function deleteFeeStudent(id: string): Promise<{ success: boolean; message: string }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
     const idx = dbData.students.findIndex(s => s.id === id);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
     const student = dbData.students[idx];
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(student.branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Student belongs to a different branch.' };
+    }
     dbData.students = dbData.students.filter(s => s.id !== id);
     dbData.ledger = dbData.ledger.filter(l => l.studentId !== id);
     dbData.payments = dbData.payments.filter(p => p.studentId !== id);
@@ -1798,7 +2024,8 @@ export async function getMonthlyLedger(
   }
 ): Promise<{ success: boolean; data: (FeeLedgerEntry & { student: FeeStudent })[] }> {
   try {
-    if (isEmptyBranchSelection(filters?.branchId)) {
+    const effectiveBranch = await resolveEffectiveFeeBranch(filters?.branchId);
+    if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
     const dbData = loadDatabase();
@@ -2017,8 +2244,8 @@ export async function getMonthlyLedger(
       return jMonth <= effectiveMonth;
     });
 
-    if (filters?.branchId && filters.branchId !== 'all') {
-      entries = entries.filter(l => l.branchId === filters.branchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      entries = entries.filter(l => feeRecordMatchesBranch(l.branchId, effectiveBranch));
     }
     if (filters?.classId && filters.classId !== 'all') {
       entries = entries.filter(l => l.classId === filters.classId);
@@ -2381,14 +2608,15 @@ export async function getFeePayments(filters?: {
   month?: string;
 }): Promise<{ success: boolean; data: FeePayment[] }> {
   try {
-    if (isEmptyBranchSelection(filters?.branchId)) {
+    const effectiveBranch = await resolveEffectiveFeeBranch(filters?.branchId);
+    if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
     const dbData = loadDatabase();
     let payments = [...dbData.payments];
 
-    if (filters?.branchId && filters.branchId !== 'all') {
-      payments = payments.filter(p => p.branchId === filters.branchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      payments = payments.filter(p => feeRecordMatchesBranch(p.branchId, effectiveBranch));
     }
     if (filters?.studentId) {
       payments = payments.filter(p => p.studentId === filters.studentId);
@@ -2546,12 +2774,13 @@ export async function getFeeDashboardStats(
   branchId?: string
 ): Promise<{ success: boolean; data: FeeDashboardStats }> {
   try {
+    const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
     const currentMonth = await getCurrentMonth();
     const rawMonth = month || currentMonth;
     const effectiveMonth = rawMonth > currentMonth ? currentMonth : rawMonth;
     const currentMonthLabel = await getMonthLabel(effectiveMonth);
 
-    if (isEmptyBranchSelection(branchId)) {
+    if (isEmptyBranchSelection(effectiveBranch)) {
       return {
         success: true,
         data: {
@@ -2603,12 +2832,12 @@ export async function getFeeDashboardStats(
     let ledgers = [...allLedgersForMonth];
     let payments = dbData.payments.filter(p => p.month === effectiveMonth);
 
-    if (branchId && branchId !== 'all') {
-      students = students.filter(s => s.branchId === branchId);
-      classes = classes.filter(c => c.branchId === branchId);
-      batches = batches.filter(b => b.branchId === branchId);
-      ledgers = ledgers.filter(l => l.branchId === branchId);
-      payments = payments.filter(p => p.branchId === branchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      students = students.filter(s => feeRecordMatchesBranch(s.branchId, effectiveBranch));
+      classes = classes.filter(c => feeRecordMatchesBranch(c.branchId, effectiveBranch));
+      batches = batches.filter(b => feeRecordMatchesBranch(b.branchId, effectiveBranch));
+      ledgers = ledgers.filter(l => feeRecordMatchesBranch(l.branchId, effectiveBranch));
+      payments = payments.filter(p => feeRecordMatchesBranch(p.branchId, effectiveBranch));
     }
 
     const totalStudents = students.length;
@@ -2779,6 +3008,7 @@ export async function getBranchYearlyReport(session = '2026-27'): Promise<{
   data: BranchYearlyReportResult;
 }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = loadDatabase();
 
     // Full Academic Session 2026-27 (12 months: April 2026 to March 2027)
@@ -2788,7 +3018,15 @@ export async function getBranchYearlyReport(session = '2026-27'): Promise<{
       '2026-12', '2027-01', '2027-02', '2027-03',
     ];
 
-    const branches: BranchYearlyData[] = IDL_BRANCHES.filter(b => b.id !== 'all').map(br => {
+    const targetBranches = IDL_BRANCHES.filter(b => {
+      if (b.id === 'all') return false;
+      if (adminCtx?.isBranchAdmin) {
+        return feeRecordMatchesBranch(b.id, adminCtx.branchId);
+      }
+      return true;
+    });
+
+    const branches: BranchYearlyData[] = targetBranches.map(br => {
       let annualExpected = 0;
       let annualReceived = 0;
       let annualPending = 0;

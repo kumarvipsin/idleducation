@@ -13,6 +13,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import Image from 'next/image';
 import { User, Mail, Phone, Calendar, Home, GraduationCap, Building, Info, Briefcase, MapPin, KeyRound, Droplets, VenetianMask, Building2 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
+import { normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
 
 interface Admission {
   id: string;
@@ -89,9 +90,10 @@ function AdmissionPhoto({ filePath }: { filePath: string }) {
 }
 
 export default function AdminAdmissionsPage() {
-  const { user } = useAuth();
-  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
-  const branchAdminBranchId = isBranchAdmin ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!) : null;
+  const { user, loading: authLoading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? normalizedBranchId : null;
 
   const [admissions, setAdmissions] = useState<Admission[]>([]);
   const [loading, setLoading] = useState(true);
@@ -105,29 +107,23 @@ export default function AdminAdmissionsPage() {
   }, [isBranchAdmin, branchAdminBranchId]);
 
   useEffect(() => {
+    if (authLoading || !user) return;
     const fetchAdmissions = async () => {
       setLoading(true);
-      const result = await getAdmissions();
+      const result = await getAdmissions(isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined);
       if (result.success && result.data) {
         setAdmissions(result.data as Admission[]);
       }
       setLoading(false);
     };
     fetchAdmissions();
-  }, []);
+  }, [authLoading, user?.uid, isBranchAdmin, branchAdminBranchId]);
 
   const filteredAdmissions = useMemo(() => {
     return admissions.filter(item => {
       const targetBranch = isBranchAdmin ? branchAdminBranchId : selectedBranch;
       if (!targetBranch || targetBranch === 'all') return true;
-      const b = (item.branch || '').toLowerCase();
-      if (targetBranch === 'mangolpuri' || targetBranch === 'mangol-puri') {
-        return b.includes('mangol');
-      }
-      if (targetBranch === 'budh-vihar') return b.includes('budh');
-      if (targetBranch === 'krishan-vihar') return b.includes('krishan');
-      if (targetBranch === 'mukherjee-nagar') return b.includes('mukherjee');
-      return b.includes(targetBranch.toLowerCase());
+      return recordMatchesBranch(item, targetBranch);
     });
   }, [admissions, isBranchAdmin, branchAdminBranchId, selectedBranch]);
 

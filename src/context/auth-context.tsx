@@ -6,6 +6,8 @@ import { onAuthStateChanged, signOut, type User as FirebaseUser } from 'firebase
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { doc, getDoc, Timestamp, setDoc, serverTimestamp } from 'firebase/firestore';
+import { getServerSessionUser, logoutUser, syncServerSessionFromIdToken } from '@/app/actions/auth';
+import { getBranchDisplayName, normalizeBranchId } from '@/lib/branch-utils';
 
 export interface UserProfile extends Partial<FirebaseUser> {
   uid: string;
@@ -39,6 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const authMutationVersionRef = React.useRef(0);
   
   useEffect(() => {
     const storedProfile = sessionStorage.getItem('userProfile');
@@ -57,26 +60,32 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setLoading(false);
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      const runVersion = authMutationVersionRef.current;
       setLoading(true);
       if (firebaseUser) {
         const userDocRef = doc(db, "users", firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
+        if (runVersion !== authMutationVersionRef.current) return;
         
         let userProfile: UserProfile | null = null;
         
         if (userDoc.exists()) {
             const userData = userDoc.data();
-            const branchId = userData.branchId || (userData.role === 'admin' ? (firebaseUser.email === 'aksias.sos@outlook.com' ? 'all' : (userData.branchId || 'all')) : null);
-            const branchName = userData.branchName || (branchId === 'all' ? 'All Branches (Super Admin)' : (branchId === 'mangolpuri' || branchId === 'mangol-puri' ? 'Mangol Puri Branch' : branchId));
+            const isAdminRole = String(userData.role || '').toLowerCase() === 'admin';
+            const rawBranchId = normalizeBranchId(userData.branchId || userData.branchName || userData.branch);
+            const branchId = isAdminRole
+              ? (firebaseUser.email === 'aksias.sos@outlook.com' ? 'all' : (rawBranchId || 'all'))
+              : rawBranchId;
+            const branchName = userData.branchName || (branchId ? getBranchDisplayName(branchId, true) : null);
 
             userProfile = {
+                ...serializeFirestoreData(userData),
                 uid: firebaseUser.uid,
                 email: firebaseUser.email,
                 name: userData.name,
-                role: userData.role,
+                role: isAdminRole ? 'admin' : userData.role,
                 branchId: branchId,
                 branchName: branchName,
-                ...serializeFirestoreData(userData),
             };
         } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL || firebaseUser.email === 'aksias.sos@outlook.com') {
              userProfile = {
@@ -98,17 +107,40 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               createdAt: serverTimestamp()
             };
             await setDoc(userDocRef, adminData, { merge: true });
+            if (runVersion !== authMutationVersionRef.current) return;
         }
 
         if (userProfile) {
+          try {
+            const idToken = await firebaseUser.getIdToken();
+            await syncServerSessionFromIdToken(idToken);
+          } catch {
+            // Non-blocking sync fallback
+          }
+          if (runVersion !== authMutationVersionRef.current) return;
           setUser(userProfile);
           sessionStorage.setItem('userProfile', JSON.stringify(userProfile));
         } else {
+          await logoutUser();
           await signOut(auth);
+          if (runVersion !== authMutationVersionRef.current) return;
           setUser(null);
           sessionStorage.removeItem('userProfile');
         }
       } else {
+        try {
+          const sessionRes = await getServerSessionUser();
+          if (runVersion !== authMutationVersionRef.current) return;
+          if (sessionRes?.success && sessionRes.user) {
+            setUser(sessionRes.user as UserProfile);
+            sessionStorage.setItem('userProfile', JSON.stringify(sessionRes.user));
+            setLoading(false);
+            return;
+          }
+        } catch {
+          // Fall through to clear state
+        }
+        if (runVersion !== authMutationVersionRef.current) return;
         setUser(null);
         sessionStorage.removeItem('userProfile');
       }
@@ -119,12 +151,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const login = (profile: UserProfile) => {
-    sessionStorage.setItem('userProfile', JSON.stringify(profile));
-    setUser(profile);
+    authMutationVersionRef.current += 1;
+    const isAdminRole = String(profile?.role || '').toLowerCase() === 'admin';
+    const rawBranchId = normalizeBranchId(
+      profile?.branchId || profile?.branchName || (profile as any)?.branch
+    );
+    const branchId = isAdminRole
+      ? (profile?.email === 'aksias.sos@outlook.com' ? 'all' : (rawBranchId || 'all'))
+      : rawBranchId;
+    const branchName =
+      profile?.branchName || (branchId ? getBranchDisplayName(branchId, true) : null);
+
+    const normalizedProfile: UserProfile = {
+      ...profile,
+      role: (isAdminRole ? 'admin' : profile.role) as UserProfile['role'],
+      branchId,
+      branchName,
+    };
+
+    if (auth.currentUser && auth.currentUser.uid !== normalizedProfile.uid) {
+      signOut(auth).catch(() => {});
+    }
+
+    sessionStorage.setItem('userProfile', JSON.stringify(normalizedProfile));
+    setUser(normalizedProfile);
     setLoading(false);
   };
 
   const logout = async () => {
+    authMutationVersionRef.current += 1;
+    await logoutUser();
     await signOut(auth);
     sessionStorage.removeItem('userProfile');
     setUser(null);

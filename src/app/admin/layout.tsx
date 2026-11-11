@@ -24,6 +24,7 @@ import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React from 'react';
 import { getNewSessionBookingsCount } from '@/app/actions';
+import { getBranchDisplayName, normalizeBranchId } from '@/lib/branch-utils';
 import { Header } from '@/components/header';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
@@ -38,28 +39,46 @@ function AdminLayout({
   const router = useRouter();
   const [bookingCount, setBookingCount] = React.useState(0);
 
-  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
-  const branchName = user?.branchName || (user?.branchId === 'mangolpuri' || user?.branchId === 'mangol-puri' ? 'Mangol Puri Branch' : (user?.branchId || ''));
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchName = isBranchAdmin
+    ? (user?.branchName || getBranchDisplayName(normalizedBranchId, true))
+    : '';
+
+  const branchAllowedPrefixes = [
+    '/admin/dashboard',
+    '/admin/fees',
+    '/admin/enrollments',
+    '/admin/admissions',
+    '/admin/enquiries',
+    '/admin/profile',
+    '/admin/users',
+    '/admin/teachers',
+    '/admin/demo',
+    '/admin/messages',
+  ];
+  const isBranchRouteAllowed =
+    !isBranchAdmin ||
+    !pathname ||
+    branchAllowedPrefixes.some(prefix => pathname.startsWith(prefix));
 
   React.useEffect(() => {
-    if (isBranchAdmin && pathname) {
-      const allowedPrefixes = ['/admin/fees', '/admin/enrollments', '/admin/admissions', '/admin/enquiries', '/admin/profile'];
-      const isAllowed = allowedPrefixes.some(prefix => pathname.startsWith(prefix));
-      if (!isAllowed) {
-        router.replace('/admin/fees');
-      }
+    if (isBranchAdmin && !isBranchRouteAllowed) {
+      router.replace('/admin/dashboard');
     }
-  }, [isBranchAdmin, pathname, router]);
+  }, [isBranchAdmin, isBranchRouteAllowed, router]);
 
   React.useEffect(() => {
     const fetchBookingsCount = async () => {
-      const result = await getNewSessionBookingsCount();
+      const result = await getNewSessionBookingsCount(
+        isBranchAdmin ? normalizedBranchId || undefined : undefined
+      );
       if (result.success) {
         setBookingCount(result.count || 0);
       }
     };
     fetchBookingsCount();
-  }, [pathname]); // Refetch on path change to update after marking as seen
+  }, [pathname, isBranchAdmin, normalizedBranchId]); // Refetch on path or branch context change
 
 
   const handleLogout = async () => {
@@ -75,12 +94,42 @@ function AdminLayout({
     <>
     <Header />
     <SidebarProvider>
-      <div className="flex min-h-screen">
-        <Sidebar>
-          <SidebarHeader>
+      <div className={isBranchAdmin ? "flex min-h-[calc(100svh-68px)] w-full bg-[#F8FAFC]" : "flex min-h-screen w-full pt-[68px]"}>
+        <Sidebar className={isBranchAdmin ? "md:top-[68px] md:h-[calc(100svh-68px)] border-r border-[#E5EAF2] bg-white" : "md:top-[68px] md:h-[calc(100svh-68px)]"}>
+          <SidebarHeader className={isBranchAdmin ? "pt-[76px] md:pt-3 px-3 pb-2" : "pt-[76px] md:pt-2"}>
+            {isBranchAdmin && (
+              <Link
+                href="/admin/profile"
+                className={
+                  pathname.startsWith('/admin/profile')
+                    ? "group flex items-center gap-3 rounded-xl border border-[#2864E8] bg-[#EFF6FF]/60 p-3 ring-1 ring-[#2864E8]/20 transition-colors"
+                    : "group flex items-center gap-3 rounded-xl border border-[#E5EAF2] bg-[#F8FAFC] p-3 transition-colors hover:border-[#2864E8]/40 hover:bg-white"
+                }
+              >
+                <Avatar className="h-10 w-10 shrink-0 border border-[#E5EAF2]">
+                  <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Branch Admin'} />
+                  <AvatarFallback className="bg-[#0B1B43] text-white text-sm font-semibold">
+                    {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-[13.5px] font-semibold text-[#172033] leading-tight">
+                    {user?.name || 'Branch Admin'}
+                  </p>
+                  <p className="text-[11px] font-medium text-[#64748B] mt-0.5">
+                    Branch Admin
+                  </p>
+                  <div className="mt-1.5 inline-flex max-w-full items-center gap-1.5 rounded-md bg-[#EFF6FF] px-2 py-0.5 text-[11px] font-semibold text-[#2864E8]">
+                    <Building2 className="h-3 w-3 shrink-0" />
+                    <span className="truncate">{branchName}</span>
+                  </div>
+                </div>
+              </Link>
+            )}
           </SidebarHeader>
-          <SidebarContent className="mt-2">
+          <SidebarContent className={isBranchAdmin ? "px-2 py-2" : "mt-2"}>
             <SidebarMenu>
+                {!isBranchAdmin && (
                 <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
                     <Link href="/admin/profile">
@@ -92,62 +141,76 @@ function AdminLayout({
                         </Avatar>
                         <div className="flex flex-col">
                         <span className="font-semibold">{user?.name}</span>
-                        {isBranchAdmin ? (
-                          <span className="text-[10.5px] font-bold text-[#2864E8] tracking-tight">{branchName}</span>
-                        ) : (
-                          <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
-                        )}
+                        <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
                         </div>
                     </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
-                {isBranchAdmin ? (
-                  <div className="py-2 space-y-1">
-                    <div className="px-3 py-2 mb-2 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200/80 dark:border-blue-900/50">
-                      <div className="flex items-center gap-2">
-                        <Building2 className="w-4 h-4 text-[#2864E8] shrink-0" />
-                        <span className="text-xs font-bold text-slate-800 dark:text-slate-100 truncate">{branchName}</span>
+                )}
+                {isBranchAdmin ? (() => {
+                  const branchNavLinkClass =
+                    "h-auto rounded-lg px-3 py-2 text-[13.5px] font-medium text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0B1B43] data-[active=true]:bg-[#2864E8] data-[active=true]:text-white data-[active=true]:font-semibold data-[active=true]:shadow-sm";
+
+                  const portalItems = [
+                    { href: '/admin/dashboard', label: 'Dashboard', icon: SlidersHorizontal, active: pathname === '/admin/dashboard' },
+                    { href: '/admin/fees', label: 'Fee Management', icon: IndianRupee, active: pathname.startsWith('/admin/fees') },
+                    { href: '/admin/enrollments', label: 'Course Enrollments', icon: GraduationCap, active: pathname.startsWith('/admin/enrollments') },
+                    { href: '/admin/admissions', label: 'Admissions', icon: FileText, active: pathname.startsWith('/admin/admissions') },
+                    { href: '/admin/enquiries', label: 'Student Enquiries', icon: MessageSquare, active: pathname.startsWith('/admin/enquiries') },
+                  ];
+
+                  const directoryItems = [
+                    { href: '/admin/users', label: 'Students & Users', icon: Users, active: pathname.startsWith('/admin/users') },
+                    { href: '/admin/teachers', label: 'Teachers', icon: Briefcase, active: pathname.startsWith('/admin/teachers') },
+                    { href: '/admin/demo', label: 'Free Demo', icon: Presentation, active: pathname.startsWith('/admin/demo'), badge: bookingCount },
+                    { href: '/admin/messages', label: 'Contact Us', icon: FeedbackIcon, active: pathname.startsWith('/admin/messages') },
+                  ];
+
+                  const renderNavGroup = (title: string, items: Array<{ href: string; label: string; icon: any; active: boolean; badge?: number }>) => (
+                    <div>
+                      <p className="px-3 pb-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-[#94A3B8]">
+                        {title}
+                      </p>
+                      <div className="space-y-1">
+                        {items.map((item) => {
+                          const Icon = item.icon;
+                          return (
+                            <SidebarMenuItem key={item.href}>
+                              <SidebarMenuButton asChild isActive={item.active} className={branchNavLinkClass}>
+                                <Link href={item.href} className="flex items-center justify-between w-full">
+                                  <span className="flex items-center gap-3 min-w-0">
+                                    <Icon className="h-4 w-4 shrink-0" />
+                                    <span className="truncate">{item.label}</span>
+                                  </span>
+                                  {typeof item.badge === 'number' && item.badge > 0 && (
+                                    <span
+                                      className={
+                                        item.active
+                                          ? "ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-white/20 px-1.5 text-[11px] font-semibold text-white"
+                                          : "ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-[#2864E8]/15 px-1.5 text-[11px] font-semibold text-[#2864E8]"
+                                      }
+                                    >
+                                      {item.badge}
+                                    </span>
+                                  )}
+                                </Link>
+                              </SidebarMenuButton>
+                            </SidebarMenuItem>
+                          );
+                        })}
                       </div>
-                      <p className="text-[10px] text-blue-600 dark:text-blue-400 font-medium mt-0.5">Branch Admin Portal</p>
                     </div>
+                  );
 
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/fees')}>
-                        <Link href="/admin/fees" className="flex items-center gap-3">
-                          <IndianRupee className="w-4 h-4 text-emerald-600" />
-                          <span className="font-semibold">Fee Management</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enrollments')}>
-                        <Link href="/admin/enrollments" className="flex items-center gap-3">
-                          <GraduationCap className="w-4 h-4 text-blue-600" />
-                          <span className="font-semibold">Course Enrollments</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/admissions')}>
-                        <Link href="/admin/admissions" className="flex items-center gap-3">
-                          <FileText className="w-4 h-4 text-indigo-600" />
-                          <span className="font-semibold">Admissions</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-
-                    <SidebarMenuItem>
-                      <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/enquiries')}>
-                        <Link href="/admin/enquiries" className="flex items-center gap-3">
-                          <MessageSquare className="w-4 h-4 text-amber-600" />
-                          <span className="font-semibold">Student Enquiries</span>
-                        </Link>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  </div>
-                ) : (
+                  return (
+                    <div className="space-y-4">
+                      {renderNavGroup('Branch Portal', portalItems)}
+                      <div className="border-t border-[#E5EAF2] pt-3">
+                        {renderNavGroup('Branch Records', directoryItems)}
+                      </div>
+                    </div>
+                  );
+                })() : (
                   <SidebarMenuItem>
                     <SidebarMenuButton asChild isActive={pathname === '/admin/dashboard'}>
                       <Link href="/admin/dashboard">
@@ -465,13 +528,19 @@ function AdminLayout({
             )}
           </SidebarContent>
         </Sidebar>
-        <div className="flex flex-col flex-1">
-          <header className="p-4 border-b flex items-center md:hidden">
+        <div className="flex flex-col flex-1 min-w-0">
+          <header className={isBranchAdmin ? "px-4 py-3 border-b border-[#E5EAF2] bg-white flex items-center justify-between md:hidden" : "p-4 border-b flex items-center md:hidden"}>
+            {isBranchAdmin && (
+              <div className="flex items-center gap-2 min-w-0">
+                <Building2 className="h-4 w-4 text-[#2864E8] shrink-0" />
+                <span className="text-sm font-semibold text-[#0B1B43] truncate">{branchName}</span>
+              </div>
+            )}
             <div className="flex items-center gap-2 ml-auto">
                  {user && (
                     <SidebarTrigger>
-                        <Button variant="ghost" className="relative h-10 w-10 rounded-full">
-                            <Avatar className="h-10 w-10">
+                        <Button variant="ghost" className="relative h-9 w-9 rounded-full">
+                            <Avatar className="h-9 w-9">
                             <AvatarImage src={user.photoURL ?? ''} alt={user.name ?? ''} />
                             <AvatarFallback>
                                 {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
@@ -482,8 +551,16 @@ function AdminLayout({
                   )}
             </div>
           </header>
-          <main className="flex-1 p-4 md:p-6 bg-muted/20">
-            {children}
+          <main className={isBranchAdmin ? "flex-1 min-w-0 px-4 pt-3 pb-6 md:px-6 md:pt-4 md:pb-6 bg-[#F8FAFC]" : "flex-1 min-w-0 p-4 md:p-6 bg-muted/20"}>
+            {isBranchAdmin && !isBranchRouteAllowed ? (
+              <div className="flex min-h-[50vh] items-center justify-center">
+                <div className="rounded-xl border border-[#E5EAF2] bg-white px-6 py-4 text-sm font-medium text-[#64748B] shadow-sm">
+                  Redirecting to your branch dashboard...
+                </div>
+              </div>
+            ) : (
+              children
+            )}
           </main>
         </div>
       </div>

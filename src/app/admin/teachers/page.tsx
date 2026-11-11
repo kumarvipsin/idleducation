@@ -51,6 +51,8 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { GcsImage } from "@/components/gcs-image";
+import { useAuth } from "@/context/auth-context";
+import { getBranchDisplayName, normalizeBranchId, recordMatchesBranch } from "@/lib/branch-utils";
 
 interface User {
   id: string;
@@ -218,7 +220,16 @@ const TeacherForm = ({ teacher, onSuccess }: { teacher?: User | null, onSuccess:
 }
 
 export default function AdminTeachersPage() {
+  const { user, loading: authLoading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? normalizedBranchId : null;
+  const branchDisplayName = isBranchAdmin
+    ? user?.branchName || getBranchDisplayName(branchAdminBranchId, true)
+    : null;
+
   const [teachers, setTeachers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [actionType, setActionType] = useState<'resetPassword' | 'deny' | 'toggleStatus' | 'delete' | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -227,15 +238,27 @@ export default function AdminTeachersPage() {
   const { toast } = useToast();
 
   const fetchUsers = async () => {
-    const teachersResult = await getTeachers();
+    setLoading(true);
+    const scopeArg = isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined;
+    const teachersResult = await getTeachers({ narrowBranchId: scopeArg });
     if (teachersResult.success && teachersResult.data) {
-      setTeachers(teachersResult.data as User[]);
+      const list = teachersResult.data as User[];
+      setTeachers(
+        isBranchAdmin && branchAdminBranchId
+          ? list.filter((item) => recordMatchesBranch(item as any, branchAdminBranchId))
+          : list
+      );
+    } else {
+      setTeachers([]);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
-    fetchUsers();
-  }, []);
+    if (!authLoading && user) {
+      fetchUsers();
+    }
+  }, [authLoading, user?.uid, branchAdminBranchId]);
 
   const handleAction = async () => {
     if (!selectedUser || !actionType) return;
@@ -319,8 +342,19 @@ export default function AdminTeachersPage() {
             <Card>
             <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                    <CardTitle>Teacher Management</CardTitle>
-                    <CardDescription>Manage all teachers on the platform.</CardDescription>
+                    <CardTitle>
+                      Teacher Management
+                      {branchDisplayName && (
+                        <span className="ml-2 inline-flex items-center rounded-md border border-[#E5EAF2] bg-[#EFF6FF] px-2.5 py-0.5 text-xs font-semibold text-[#2864E8] align-middle">
+                          {branchDisplayName}
+                        </span>
+                      )}
+                    </CardTitle>
+                    <CardDescription>
+                      {branchDisplayName
+                        ? `Manage teachers registered for ${branchDisplayName}.`
+                        : 'Manage all teachers on the platform.'}
+                    </CardDescription>
                 </div>
                  <DialogTrigger asChild>
                     <Button onClick={() => { setEditingTeacher(null); setIsFormOpen(true); }}>
@@ -342,7 +376,21 @@ export default function AdminTeachersPage() {
                     </TableRow>
                     </TableHeader>
                     <TableBody>
-                    {teachers.map((teacher) => (
+                    {loading ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="h-32 text-center text-sm text-muted-foreground">
+                          Loading teachers...
+                        </TableCell>
+                      </TableRow>
+                    ) : teachers.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={5} className="h-32 text-center text-sm text-muted-foreground">
+                          {branchDisplayName
+                            ? `No teachers found for ${branchDisplayName}.`
+                            : 'No teachers found.'}
+                        </TableCell>
+                      </TableRow>
+                    ) : teachers.map((teacher) => (
                         <TableRow key={teacher.id}>
                         <TableCell>
                            <button onClick={() => setViewingTeacher(teacher)} className="font-medium flex items-center gap-2 cursor-pointer hover:underline">

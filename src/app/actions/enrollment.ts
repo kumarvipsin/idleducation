@@ -7,6 +7,7 @@ import {
   addDoc, 
   serverTimestamp, 
   getDocs, 
+  getDoc,
   query, 
   orderBy, 
   doc, 
@@ -15,6 +16,8 @@ import {
 } from "firebase/firestore";
 import { serializeFirestoreData } from './utils';
 import { enrollmentSchema, type EnrollmentFormValues } from "@/types/enrollment";
+import { getServerAdminContext, scopeRecordsToBranchAdmin } from '@/lib/server-admin-auth';
+import { normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
 
 /**
  * Submit a student enrollment from website or branch page
@@ -29,22 +32,11 @@ export async function submitEnrollment(data: EnrollmentFormValues) {
   try {
     const cleanData = validation.data;
     
-    // Normalize branchSlug if not present
-    let branchSlug = cleanData.branchSlug;
-    if (!branchSlug && cleanData.branch) {
-      const lower = cleanData.branch.toLowerCase();
-      if (lower.includes('mangol')) branchSlug = 'mangolpuri';
-      else if (lower.includes('budh')) branchSlug = 'budh-vihar';
-      else if (lower.includes('krishan')) branchSlug = 'krishan-vihar';
-      else if (lower.includes('mukherjee')) branchSlug = 'mukherjee-nagar';
-      else if (lower.includes('rohini')) branchSlug = 'rohini';
-      else if (lower.includes('online')) branchSlug = 'online';
-      else branchSlug = 'other';
-    }
+    const branchSlug = normalizeBranchId(cleanData.branchSlug || cleanData.branch) || 'general';
 
     const docRef = await addDoc(collection(db, "enrollments"), {
       ...cleanData,
-      branchSlug: branchSlug || 'general',
+      branchSlug,
       status: 'new',
       createdAt: serverTimestamp(),
     });
@@ -66,15 +58,22 @@ export async function submitEnrollment(data: EnrollmentFormValues) {
 /**
  * Fetch all enrollments for admin panel
  */
-export async function getEnrollments() {
+export async function getEnrollments(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const q = query(collection(db, "enrollments"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(q);
     const enrollments = querySnapshot.docs.map(docSnap => ({
       id: docSnap.id,
       ...serializeFirestoreData(docSnap.data()),
     }));
-    return { success: true, data: enrollments };
+    return {
+      success: true,
+      data: scopeRecordsToBranchAdmin(enrollments, adminCtx, { narrowBranchId }),
+    };
   } catch (error) {
     console.error("Error fetching enrollments:", error);
     return { success: false, message: "Failed to fetch enrollments." };
@@ -86,7 +85,18 @@ export async function getEnrollments() {
  */
 export async function updateEnrollmentStatus(id: string, status: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const docRef = doc(db, "enrollments", id);
+    const existing = await getDoc(docRef);
+    if (!existing.exists()) {
+      return { success: false, message: "Enrollment not found." };
+    }
+    if (adminCtx.isBranchAdmin && !recordMatchesBranch(existing.data(), adminCtx.branchId)) {
+      return { success: false, message: "Forbidden: Enrollment belongs to a different branch." };
+    }
     await updateDoc(docRef, { 
       status,
       updatedAt: serverTimestamp() 
@@ -103,7 +113,18 @@ export async function updateEnrollmentStatus(id: string, status: string) {
  */
 export async function deleteEnrollment(id: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const docRef = doc(db, "enrollments", id);
+    const existing = await getDoc(docRef);
+    if (!existing.exists()) {
+      return { success: false, message: "Enrollment not found." };
+    }
+    if (adminCtx.isBranchAdmin && !recordMatchesBranch(existing.data(), adminCtx.branchId)) {
+      return { success: false, message: "Forbidden: Enrollment belongs to a different branch." };
+    }
     await deleteDoc(docRef);
     return { success: true, message: "Enrollment deleted successfully." };
   } catch (error) {

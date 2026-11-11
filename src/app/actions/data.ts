@@ -5,26 +5,36 @@ import { db } from "@/lib/firebase";
 import { collection, query, where, getDocs, orderBy, getCountFromServer, limit, doc, getDoc, Timestamp } from "firebase/firestore";
 import { serializeFirestoreData } from './utils';
 import { getSignedUrlForPdf } from './content';
+import { getServerAdminContext, resolveScopedBranchFilter, scopeRecordsToBranchAdmin } from '@/lib/server-admin-auth';
+import { recordMatchesBranch } from '@/lib/branch-utils';
 
 // Data Fetching
-export async function getSessionBookings() {
+export async function getSessionBookings(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const bookingsQuery = query(collection(db, "sessionBookings"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(bookingsQuery);
     const bookings = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: bookings };
+    return { success: true, data: scopeRecordsToBranchAdmin(bookings, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching session bookings:", error);
     return { success: false, message: "Failed to fetch session bookings." };
   }
 }
 
-export async function getStudentEnquiries() {
+export async function getStudentEnquiries(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const enquiriesQuery = query(collection(db, "studentEnquiries"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(enquiriesQuery);
     const enquiries = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: enquiries };
+    return { success: true, data: scopeRecordsToBranchAdmin(enquiries, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching student enquiries:", error);
     return { success: false, message: "Failed to fetch student enquiries." };
@@ -32,81 +42,106 @@ export async function getStudentEnquiries() {
 }
 
 
-export async function getContactSubmissions() {
+export async function getContactSubmissions(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const submissionsQuery = query(collection(db, "contactSubmissions"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(submissionsQuery);
     const submissions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: submissions };
+    return { success: true, data: scopeRecordsToBranchAdmin(submissions, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching contact submissions:", error);
     return { success: false, message: "Failed to fetch contact submissions." };
   }
 }
 
-export async function getSupportTickets() {
+export async function getSupportTickets(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const ticketsQuery = query(collection(db, "supportTickets"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(ticketsQuery);
     const tickets = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: tickets };
+    return { success: true, data: scopeRecordsToBranchAdmin(tickets, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching support tickets:", error);
     return { success: false, message: "Failed to fetch support tickets." };
   }
 }
 
-export async function getScholarshipRegistrations() {
+export async function getScholarshipRegistrations(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const registrationsQuery = query(collection(db, "scholarshipRegistrations"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(registrationsQuery);
     const registrations = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: registrations };
+    return { success: true, data: scopeRecordsToBranchAdmin(registrations, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching scholarship registrations:", error);
     return { success: false, message: "Failed to fetch scholarship registrations." };
   }
 }
 
-export async function getUpdates(count?: number) {
+export async function getUpdates(count?: number, narrowBranchId?: string) {
   try {
-    let updatesQuery;
-    if (count) {
-        updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"), limit(count));
-    } else {
-        updatesQuery = query(collection(db, "updates"), orderBy("createdAt", "desc"));
-    }
+    const adminCtx = await getServerAdminContext();
+    const effectiveBranch = adminCtx ? resolveScopedBranchFilter(adminCtx, narrowBranchId) : null;
+    const isBranchFiltered = Boolean(effectiveBranch && effectiveBranch !== 'all');
+    const updatesQuery =
+      count && !isBranchFiltered
+        ? query(collection(db, "updates"), orderBy("createdAt", "desc"), limit(count))
+        : query(collection(db, "updates"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(updatesQuery);
     const updates = querySnapshot.docs.map(doc => {
         const docData = doc.data();
         if (!docData) return null;
         return { id: doc.id, ...serializeFirestoreData(docData) };
-    }).filter(Boolean);
-    return { success: true, data: updates };
+    }).filter((item): item is Record<string, any> => Boolean(item));
+    const scoped = scopeRecordsToBranchAdmin(updates, adminCtx, {
+      allowUnauthenticated: true,
+      narrowBranchId,
+    });
+    return { success: true, data: count ? scoped.slice(0, count) : scoped };
   } catch (error) {
     console.error("Error fetching updates:", error);
     return { success: false, message: "Failed to fetch updates." };
   }
 }
 
-export async function getFeedbackSubmissions() {
+export async function getFeedbackSubmissions(narrowBranchId?: string) {
     try {
+        const adminCtx = await getServerAdminContext();
+        if (!adminCtx) {
+          return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+        }
         const feedbackQuery = query(collection(db, "feedbackSubmissions"), orderBy("createdAt", "desc"));
         const querySnapshot = await getDocs(feedbackQuery);
         const feedback = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-        return { success: true, data: feedback };
+        return { success: true, data: scopeRecordsToBranchAdmin(feedback, adminCtx, { narrowBranchId }) };
     } catch (error) {
         console.error("Error fetching feedback:", error);
         return { success: false, message: "Failed to fetch feedback submissions." };
     }
 }
 
-export async function getAdmissions() {
+export async function getAdmissions(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Administrator session required.", data: [] };
+    }
     const admissionsQuery = query(collection(db, "admissions"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(admissionsQuery);
     const admissions = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: admissions };
+    return { success: true, data: scopeRecordsToBranchAdmin(admissions, adminCtx, { narrowBranchId }) };
   } catch (error) {
     console.error("Error fetching admissions:", error);
     return { success: false, message: "Failed to fetch admissions." };
@@ -496,6 +531,33 @@ export async function getAllExpertTeachers() {
 }
 
 // Count Functions
+function toJsDate(value: any): Date | null {
+  if (!value) return null;
+  if (value instanceof Timestamp) return value.toDate();
+  if (value?.toDate && typeof value.toDate === 'function') return value.toDate();
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+}
+
+async function getBranchScopedCount(
+  collectionName: string,
+  branchId: string,
+  predicate?: (data: Record<string, any>) => boolean
+) {
+  try {
+    const snapshot = await getDocs(collection(db, collectionName));
+    const count = snapshot.docs.filter((docSnap) => {
+      const data = docSnap.data();
+      if (!recordMatchesBranch(data, branchId)) return false;
+      return predicate ? predicate(data) : true;
+    }).length;
+    return { success: true, count };
+  } catch (error) {
+    console.error(`Error counting branch-scoped ${collectionName}:`, error);
+    return { success: false, message: "Failed to fetch count." };
+  }
+}
+
 async function getCount(q: any) {
     try {
         const snapshot = await getCountFromServer(q);
@@ -506,8 +568,16 @@ async function getCount(q: any) {
     }
 }
 
-export async function getNewSessionBookingsCount() {
+export async function getNewSessionBookingsCount(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, count: 0 };
+    }
+    const effectiveBranch = resolveScopedBranchFilter(adminCtx, narrowBranchId);
+    if (effectiveBranch && effectiveBranch !== 'all') {
+      return getBranchScopedCount("sessionBookings", effectiveBranch, (d) => d.status === 'new');
+    }
     const bookingsQuery = query(collection(db, "sessionBookings"), where("status", "==", "new"));
     const querySnapshot = await getDocs(bookingsQuery);
     return { success: true, count: querySnapshot.size };
@@ -518,26 +588,46 @@ export async function getNewSessionBookingsCount() {
 }
 
 export async function getTotalUsersCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => String(d.role || '').toLowerCase() !== 'admin');
+    }
     const q = query(collection(db, "users"));
     return getCount(q);
 }
 
 export async function getTotalStudentsCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => d.role === 'student');
+    }
     const q = query(collection(db, "users"), where("role", "==", "student"));
     return getCount(q);
 }
 
 export async function getTotalTeachersCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => d.role === 'teacher');
+    }
     const q = query(collection(db, "users"), where("role", "==", "teacher"));
     return getCount(q);
 }
 
 export async function getNewStudentsCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => d.role === 'student' && d.status === 'approved');
+    }
     const q = query(collection(db, "users"), where("role", "==", "student"), where("status", "==", "approved"));
     return getCount(q);
 }
 
 export async function getTrainedStudentsCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => d.role === 'student' && d.status === 'approved' && Array.isArray(d.teacherIds) && d.teacherIds.length > 0);
+    }
     const q = query(
       collection(db, "users"), 
       where("role", "==", "student"), 
@@ -548,11 +638,19 @@ export async function getTrainedStudentsCount() {
 }
 
 export async function getDeniedUsersCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("deniedUsers", adminCtx.branchId);
+    }
     const q = query(collection(db, "deniedUsers"));
     return getCount(q);
 }
 
 export async function getTotalSessionBookingsCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("sessionBookings", adminCtx.branchId);
+    }
     const q = query(collection(db, "sessionBookings"));
     return getCount(q);
 }
@@ -561,6 +659,14 @@ export async function getMonthlySessionBookingsCount() {
     const now = new Date();
     const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("sessionBookings", adminCtx.branchId, (d) => {
+        const dt = toJsDate(d.createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      });
+    }
 
     const q = query(
         collection(db, "sessionBookings"),
@@ -571,6 +677,10 @@ export async function getMonthlySessionBookingsCount() {
 }
 
 export async function getTotalContactSubmissionsCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("contactSubmissions", adminCtx.branchId);
+    }
     const q = query(collection(db, "contactSubmissions"));
     return getCount(q);
 }
@@ -579,6 +689,14 @@ export async function getMonthlyContactSubmissionsCount() {
     const now = new Date();
     const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("contactSubmissions", adminCtx.branchId, (d) => {
+        const dt = toJsDate(d.createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      });
+    }
 
     const q = query(
         collection(db, "contactSubmissions"),
@@ -589,6 +707,10 @@ export async function getMonthlyContactSubmissionsCount() {
 }
 
 export async function getTotalUpdatesCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("updates", adminCtx.branchId);
+    }
     const q = query(collection(db, "updates"));
     return getCount(q);
 }
@@ -597,6 +719,14 @@ export async function getMonthlyUpdatesCount() {
     const now = new Date();
     const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("updates", adminCtx.branchId, (d) => {
+        const dt = toJsDate(d.createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      });
+    }
 
     const q = query(
         collection(db, "updates"),
@@ -607,11 +737,19 @@ export async function getMonthlyUpdatesCount() {
 }
 
 export async function getActiveUsersCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => String(d.role || '').toLowerCase() !== 'admin' && d.status === 'approved');
+    }
     const q = query(collection(db, "users"), where("status", "==", "approved"));
     return getCount(q);
 }
 
 export async function getInactiveUsersCount() {
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => String(d.role || '').toLowerCase() !== 'admin' && d.status === 'inactive');
+    }
     const q = query(collection(db, "users"), where("status", "==", "inactive"));
     return getCount(q);
 }
@@ -620,6 +758,16 @@ export async function getMonthlyActiveUsersCount() {
     const now = new Date();
     const startDate = new Date(now.getFullYear(), now.getMonth(), 1);
     const endDate = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+
+    const adminCtx = await getServerAdminContext();
+    if (adminCtx?.isBranchAdmin) {
+      return getBranchScopedCount("users", adminCtx.branchId, (d) => {
+        if (String(d.role || '').toLowerCase() === 'admin' || d.status !== 'approved') return false;
+        const dt = toJsDate(d.createdAt);
+        return Boolean(dt && dt >= startDate && dt < endDate);
+      });
+    }
+
     const q = query(collection(db, "users"), where("status", "==", "approved"), where("createdAt", ">=", startDate), where("createdAt", "<", endDate));
     return getCount(q);
 }
@@ -643,6 +791,7 @@ const getFiscalYearBoundaries = (date: Date) => {
 
 export async function getMonthlyUserStats() {
     try {
+        const adminCtx = await getServerAdminContext();
         const now = new Date();
         const { fiscalYearStart, fiscalYearEnd } = getFiscalYearBoundaries(now);
 
@@ -652,7 +801,8 @@ export async function getMonthlyUserStats() {
             where("createdAt", "<=", fiscalYearEnd)
         );
         const allUsersSnapshot = await getDocs(allUsersQuery);
-        const allUsers = allUsersSnapshot.docs.map(doc => {
+        const allUsers = allUsersSnapshot.docs
+          .map(doc => {
             const data = doc.data();
             const createdAtData = data.createdAt;
             const createdAtDate = createdAtData instanceof Timestamp
@@ -661,8 +811,12 @@ export async function getMonthlyUserStats() {
             return {
                 ...data,
                 createdAt: createdAtDate
-            };
-        });
+            } as Record<string, any> & { createdAt: Date };
+          })
+          .filter((u: any) => {
+            if (!adminCtx?.isBranchAdmin) return true;
+            return String(u.role || '').toLowerCase() !== 'admin' && recordMatchesBranch(u, adminCtx.branchId);
+          });
 
         const monthNames = ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
         

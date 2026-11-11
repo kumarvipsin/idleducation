@@ -7,6 +7,7 @@ import {
   deleteEnrollment 
 } from '@/app/actions/enrollment';
 import { type EnrollmentRecord } from '@/types/enrollment';
+import { normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -67,10 +68,9 @@ const BRANCH_TABS = [
 
 export default function AdminEnrollmentsPage() {
   const { user } = useAuth();
-  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
-  const branchAdminKey = isBranchAdmin
-    ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!)
-    : null;
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminKey = isBranchAdmin ? normalizedBranchId : null;
 
   const [enrollments, setEnrollments] = useState<EnrollmentRecord[]>([]);
   const [loading, setLoading] = useState(true);
@@ -92,7 +92,7 @@ export default function AdminEnrollmentsPage() {
   const fetchEnrollmentsData = async () => {
     setLoading(true);
     try {
-      const res = await getEnrollments();
+      const res = await getEnrollments(isBranchAdmin && branchAdminKey ? branchAdminKey : undefined);
       if (res.success && res.data) {
         setEnrollments(res.data as EnrollmentRecord[]);
       } else {
@@ -106,8 +106,10 @@ export default function AdminEnrollmentsPage() {
   };
 
   useEffect(() => {
-    fetchEnrollmentsData();
-  }, []);
+    if (user) {
+      fetchEnrollmentsData();
+    }
+  }, [user?.uid, branchAdminKey]);
 
   // Compute counts per branch tab
   const branchCounts = useMemo(() => {
@@ -130,10 +132,7 @@ export default function AdminEnrollmentsPage() {
     return enrollments.filter(item => {
       // 1. Branch Tab
       if (isBranchAdmin && branchAdminKey) {
-        const match = BRANCH_TABS.find(t => t.key === branchAdminKey)?.slugMatch || 'mangol';
-        const branchStr = (item.branch || '').toLowerCase();
-        const slugStr = (item.branchSlug || '').toLowerCase();
-        if (!branchStr.includes(match) && !slugStr.includes(match)) {
+        if (!recordMatchesBranch(item, branchAdminKey)) {
           return false;
         }
       } else if (activeTab !== 'all') {

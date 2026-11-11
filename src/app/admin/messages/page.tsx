@@ -14,6 +14,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { useAuth } from '@/context/auth-context';
+import { getBranchDisplayName, normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
 
 interface Submission {
   id: string;
@@ -23,25 +25,45 @@ interface Submission {
   countryCode?: string;
   phone: string;
   state: string;
+  branch?: string;
+  branchId?: string;
+  branchName?: string;
   message: string;
   createdAt: string;
 }
 
 export default function AdminMessagesPage() {
+  const { user, loading: authLoading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? normalizedBranchId : null;
+  const branchDisplayName = isBranchAdmin
+    ? user?.branchName || getBranchDisplayName(branchAdminBranchId, true)
+    : null;
+
   const [submissions, setSubmissions] = useState<Submission[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (authLoading || !user) return;
     const fetchSubmissions = async () => {
       setLoading(true);
-      const result = await getContactSubmissions();
+      const scopeArg = isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined;
+      const result = await getContactSubmissions(scopeArg);
       if (result.success && result.data) {
-        setSubmissions(result.data as Submission[]);
+        const list = result.data as Submission[];
+        setSubmissions(
+          isBranchAdmin && branchAdminBranchId
+            ? list.filter((item) => recordMatchesBranch(item as any, branchAdminBranchId))
+            : list
+        );
+      } else {
+        setSubmissions([]);
       }
       setLoading(false);
     };
     fetchSubmissions();
-  }, []);
+  }, [authLoading, user?.uid, isBranchAdmin, branchAdminBranchId]);
 
   const renderSkeleton = () => (
      [...Array(5)].map((_, i) => (
@@ -58,8 +80,19 @@ export default function AdminMessagesPage() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Contact Form Submissions</CardTitle>
-        <CardDescription>Recent messages from the contact us page.</CardDescription>
+        <CardTitle>
+          Contact Form Submissions
+          {branchDisplayName && (
+            <span className="ml-2 inline-flex items-center rounded-md border border-[#E5EAF2] bg-[#EFF6FF] px-2.5 py-0.5 text-xs font-semibold text-[#2864E8] align-middle">
+              {branchDisplayName}
+            </span>
+          )}
+        </CardTitle>
+        <CardDescription>
+          {branchDisplayName
+            ? `Showing contact enquiries submitted for ${branchDisplayName}.`
+            : 'Recent messages from the contact us page.'}
+        </CardDescription>
       </CardHeader>
       <CardContent>
         <ScrollArea className="w-full whitespace-nowrap">

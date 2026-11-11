@@ -10,6 +10,7 @@ import { format } from 'date-fns';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Building2 } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
+import { normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
 import {
   Accordion,
   AccordionContent,
@@ -31,9 +32,10 @@ interface Enquiry {
 }
 
 export default function AdminEnquiriesPage() {
-  const { user } = useAuth();
-  const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
-  const branchAdminBranchId = isBranchAdmin ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!) : null;
+  const { user, loading: authLoading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? normalizedBranchId : null;
 
   const [enquiries, setEnquiries] = useState<Enquiry[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,29 +48,23 @@ export default function AdminEnquiriesPage() {
   }, [isBranchAdmin, branchAdminBranchId]);
 
   useEffect(() => {
+    if (authLoading || !user) return;
     const fetchEnquiries = async () => {
       setLoading(true);
-      const result = await getStudentEnquiries();
+      const result = await getStudentEnquiries(isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined);
       if (result.success && result.data) {
         setEnquiries(result.data as Enquiry[]);
       }
       setLoading(false);
     };
     fetchEnquiries();
-  }, []);
+  }, [authLoading, user?.uid, isBranchAdmin, branchAdminBranchId]);
 
   const filteredEnquiries = useMemo(() => {
     return enquiries.filter(item => {
       const targetBranch = isBranchAdmin ? branchAdminBranchId : selectedBranch;
       if (!targetBranch || targetBranch === 'all') return true;
-      const b = (item.branch || '').toLowerCase();
-      if (targetBranch === 'mangolpuri' || targetBranch === 'mangol-puri') {
-        return b.includes('mangol');
-      }
-      if (targetBranch === 'budh-vihar') return b.includes('budh');
-      if (targetBranch === 'krishan-vihar') return b.includes('krishan');
-      if (targetBranch === 'mukherjee-nagar') return b.includes('mukherjee');
-      return b.includes(targetBranch.toLowerCase());
+      return recordMatchesBranch(item, targetBranch);
     });
   }, [enquiries, isBranchAdmin, branchAdminBranchId, selectedBranch]);
 

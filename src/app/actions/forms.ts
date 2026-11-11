@@ -7,6 +7,7 @@ import { collection, addDoc, serverTimestamp, getDocs, query, orderBy, limit } f
 import { format } from "date-fns";
 import Razorpay from 'razorpay';
 import { uploadFileToGCS } from '@/lib/gcs';
+import { normalizeBranchId } from '@/lib/branch-utils';
 
 const freeSessionSchema = z.object({
   studentName: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -81,6 +82,8 @@ const contactFormSchema = z.object({
   phone: z.string().min(10, { message: "Please enter a valid phone number." }),
   country: z.string().optional(),
   state: z.string().optional(),
+  branch: z.string().optional(),
+  branchId: z.string().optional(),
   message: z.string().optional(),
 });
 type ContactFormValues = z.infer<typeof contactFormSchema>;
@@ -92,8 +95,10 @@ export async function submitContactForm(data: ContactFormValues) {
   }
 
   try {
+    const normalizedBranchId = normalizeBranchId(validation.data.branchId || validation.data.branch);
     await addDoc(collection(db, "contactSubmissions"), {
       ...validation.data,
+      ...(normalizedBranchId ? { branchId: normalizedBranchId } : {}),
       createdAt: serverTimestamp(),
     });
     return { success: true, message: "Your message has been sent successfully!" };

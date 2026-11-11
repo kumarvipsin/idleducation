@@ -12,6 +12,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { CheckCheck } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/auth-context';
+import { getBranchDisplayName, normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
 
 interface Booking {
   id: string;
@@ -22,11 +24,22 @@ interface Booking {
   mobile: string;
   sessionMode: 'online' | 'offline';
   state: string;
+  branch?: string;
+  branchId?: string;
+  branchName?: string;
   createdAt: string;
   status?: 'new' | 'seen';
 }
 
 export default function AdminDemoPage() {
+  const { user, loading: authLoading } = useAuth();
+  const normalizedBranchId = normalizeBranchId(user?.branchId);
+  const isBranchAdmin = Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchAdminBranchId = isBranchAdmin ? normalizedBranchId : null;
+  const branchDisplayName = isBranchAdmin
+    ? user?.branchName || getBranchDisplayName(branchAdminBranchId, true)
+    : null;
+
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(true);
   const [hasNewBookings, setHasNewBookings] = useState(false);
@@ -34,21 +47,32 @@ export default function AdminDemoPage() {
 
   const fetchBookings = async () => {
     setLoading(true);
-    const result = await getSessionBookings();
+    const scopeArg = isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined;
+    const result = await getSessionBookings(scopeArg);
     if (result.success && result.data) {
-      const bookingsData = result.data as Booking[];
+      const rawBookings = result.data as Booking[];
+      const bookingsData =
+        isBranchAdmin && branchAdminBranchId
+          ? rawBookings.filter((item) => recordMatchesBranch(item as any, branchAdminBranchId))
+          : rawBookings;
       setBookings(bookingsData);
       setHasNewBookings(bookingsData.some(b => b.status === 'new'));
+    } else {
+      setBookings([]);
+      setHasNewBookings(false);
     }
     setLoading(false);
   };
 
   useEffect(() => {
-    fetchBookings();
-  }, []);
+    if (!authLoading && user) {
+      fetchBookings();
+    }
+  }, [authLoading, user?.uid, branchAdminBranchId]);
 
   const handleMarkAllAsSeen = async () => {
-    const result = await markAllBookingsAsSeen();
+    const scopeArg = isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : undefined;
+    const result = await markAllBookingsAsSeen(scopeArg);
     if (result.success) {
       toast({ title: "Success", description: result.message });
       fetchBookings(); // Refresh the list
@@ -75,8 +99,19 @@ export default function AdminDemoPage() {
        <Card>
           <CardHeader className="flex flex-row items-start justify-between">
             <div>
-              <CardTitle>Free Demo Bookings</CardTitle>
-              <CardDescription>Recent submissions from the landing page form.</CardDescription>
+              <CardTitle>
+                Free Demo Bookings
+                {branchDisplayName && (
+                  <span className="ml-2 inline-flex items-center rounded-md border border-[#E5EAF2] bg-[#EFF6FF] px-2.5 py-0.5 text-xs font-semibold text-[#2864E8] align-middle">
+                    {branchDisplayName}
+                  </span>
+                )}
+              </CardTitle>
+              <CardDescription>
+                {branchDisplayName
+                  ? `Showing free demo bookings registered for ${branchDisplayName}.`
+                  : 'Recent submissions from the landing page form.'}
+              </CardDescription>
             </div>
             {hasNewBookings && (
               <Button size="sm" onClick={handleMarkAllAsSeen}>

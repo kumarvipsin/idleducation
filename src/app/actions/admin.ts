@@ -7,14 +7,38 @@ import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, query, where,
 import { uploadFileToGCS } from '@/lib/gcs';
 import { serializeFirestoreData } from './utils';
 import { signUpUser } from './auth';
+import { getServerAdminContext, scopeRecordsToBranchAdmin, type ServerAdminContext } from '@/lib/server-admin-auth';
+import { getBranchDisplayName, normalizeBranchId, recordMatchesBranch } from '@/lib/branch-utils';
+
+function assertRecordInAdminBranch(
+  adminCtx: ServerAdminContext | null,
+  docData: Record<string, any> | null | undefined,
+  resourceLabel = 'record'
+): string | null {
+  if (!adminCtx) {
+    return 'Unauthorized: Valid administrator session required.';
+  }
+  if (!adminCtx.isBranchAdmin) return null;
+  if (!docData || !recordMatchesBranch(docData, adminCtx.branchId)) {
+    return `Forbidden: Cannot access or modify a ${resourceLabel} outside ${adminCtx.branchName}.`;
+  }
+  return null;
+}
 
 // User Management
-export async function getPendingUsers() {
+export async function getPendingUsers(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required.", data: [] };
+    }
     const usersQuery = query(collection(db, "users"), where("status", "==", "pending"), orderBy("createdAt", "desc"));
     const querySnapshot = await getDocs(usersQuery);
     const users = querySnapshot.docs.map(doc => ({ id: doc.id, ...serializeFirestoreData(doc.data()) }));
-    return { success: true, data: users };
+    const scoped = scopeRecordsToBranchAdmin(users, adminCtx, { narrowBranchId }).filter((u: any) =>
+      adminCtx.isBranchAdmin ? String(u.role || '').toLowerCase() !== 'admin' : true
+    );
+    return { success: true, data: scoped };
   } catch (error) {
     console.error("Error fetching pending users:", error);
     return { success: false, message: "Failed to fetch pending users." };
@@ -23,7 +47,17 @@ export async function getPendingUsers() {
 
 export async function approveUser(userId: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const userDocRef = doc(db, "users", userId);
+    if (adminCtx.isBranchAdmin) {
+      const snap = await getDoc(userDocRef);
+      if (!snap.exists()) return { success: false, message: "User not found." };
+      const err = assertRecordInAdminBranch(adminCtx, snap.data(), 'user');
+      if (err) return { success: false, message: err };
+    }
     await updateDoc(userDocRef, { status: 'approved' });
     return { success: true, message: "User approved successfully!" };
   } catch (error) {
@@ -34,14 +68,20 @@ export async function approveUser(userId: string) {
 
 export async function denyUser(userId: string) {
   try {
+    const adminCtx = await getServerAdminContext();
     const userDocRef = doc(db, "users", userId);
     const userDoc = await getDoc(userDocRef);
 
     if (userDoc.exists()) {
       const userData = userDoc.data();
+      const err = assertRecordInAdminBranch(adminCtx, userData, 'user');
+      if (err) return { success: false, message: err };
+
+      const normalizedBranchId = normalizeBranchId(userData.branchId || userData.branchName || userData.branch);
       // Add to deniedUsers collection
       await setDoc(doc(db, "deniedUsers", userId), {
         ...userData,
+        ...(normalizedBranchId ? { branchId: normalizedBranchId } : {}),
         deniedAt: serverTimestamp(),
       });
       // Delete from users collection
@@ -58,7 +98,21 @@ export async function denyUser(userId: string) {
 
 export async function deleteUser(userId: string) {
     try {
+        const adminCtx = await getServerAdminContext();
+        if (!adminCtx) {
+          return { success: false, message: "Unauthorized: Valid administrator session required." };
+        }
         const userDocRef = doc(db, "users", userId);
+        if (adminCtx.isBranchAdmin) {
+          const snap = await getDoc(userDocRef);
+          if (!snap.exists()) return { success: false, message: "User not found." };
+          const data = snap.data();
+          if (String(data?.role || '').toLowerCase() === 'admin') {
+            return { success: false, message: "Forbidden: Branch admins cannot delete admin accounts." };
+          }
+          const err = assertRecordInAdminBranch(adminCtx, data, 'user');
+          if (err) return { success: false, message: err };
+        }
         await deleteDoc(userDocRef);
         // Note: This action does not delete the user from Firebase Authentication.
         // That would require privileged access not available here.
@@ -72,7 +126,17 @@ export async function deleteUser(userId: string) {
 
 export async function setUserStatus(userId: string, status: 'approved' | 'inactive') {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const userDocRef = doc(db, "users", userId);
+    if (adminCtx.isBranchAdmin) {
+      const snap = await getDoc(userDocRef);
+      if (!snap.exists()) return { success: false, message: "User not found." };
+      const err = assertRecordInAdminBranch(adminCtx, snap.data(), 'user');
+      if (err) return { success: false, message: err };
+    }
     await updateDoc(userDocRef, { status });
     return { success: true, message: `User status updated to ${status}.` };
   } catch (error) {
@@ -83,6 +147,10 @@ export async function setUserStatus(userId: string, status: 'approved' | 'inacti
 
 
 export async function editTeacher(teacherId: string, formData: FormData) {
+  const adminCtx = await getServerAdminContext();
+  if (!adminCtx) {
+    return { success: false, message: "Unauthorized: Valid administrator session required." };
+  }
   const rawData = Object.fromEntries(formData.entries());
   const photoFile = rawData.photo as File | null;
 
@@ -99,6 +167,14 @@ export async function editTeacher(teacherId: string, formData: FormData) {
   };
 
   try {
+    const docRef = doc(db, "users", teacherId);
+    if (adminCtx.isBranchAdmin) {
+      const snap = await getDoc(docRef);
+      if (!snap.exists()) return { success: false, message: "Teacher not found." };
+      const err = assertRecordInAdminBranch(adminCtx, snap.data(), 'teacher');
+      if (err) return { success: false, message: err };
+    }
+
     if (photoFile && photoFile.size > 0) {
       const destination = `teacher_photos/${teacherId}-${photoFile.name}`;
       teacherData.photoURL = await uploadFileToGCS(photoFile, destination);
@@ -106,7 +182,6 @@ export async function editTeacher(teacherId: string, formData: FormData) {
         teacherData.photoURL = '';
     }
 
-    const docRef = doc(db, "users", teacherId);
     await updateDoc(docRef, teacherData);
     
     return { success: true, message: "Teacher updated successfully." };
@@ -125,6 +200,13 @@ const addAdminSchema = z.object({
 });
 
 export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
+  const adminCtx = await getServerAdminContext();
+  if (!adminCtx) {
+    return { success: false, message: "Unauthorized: Valid administrator session required." };
+  }
+  if (adminCtx.isBranchAdmin) {
+    return { success: false, message: "Forbidden: Only Super Admin can create administrator accounts." };
+  }
   const validation = addAdminSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, message: validation.error.errors.map(e => e.message).join(', ') };
@@ -137,9 +219,10 @@ export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
   if (result.success && result.uid) {
     await approveUser(result.uid);
     if (validation.data.branchId) {
+      const normalizedBranchId = normalizeBranchId(validation.data.branchId) || validation.data.branchId;
       await updateDoc(doc(db, "users", result.uid), {
-        branchId: validation.data.branchId,
-        branchName: validation.data.branchName || (validation.data.branchId === 'all' ? 'All Branches' : validation.data.branchId),
+        branchId: normalizedBranchId,
+        branchName: validation.data.branchName || getBranchDisplayName(normalizedBranchId, true),
       });
     }
   }
@@ -151,7 +234,24 @@ export async function addAdmin(data: z.infer<typeof addAdminSchema>) {
 // Teacher-Student Assignment
 export async function assignTeachersToStudent(studentId: string, teacherIds: string[]) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const studentDocRef = doc(db, "users", studentId);
+    if (adminCtx.isBranchAdmin) {
+      const studentSnap = await getDoc(studentDocRef);
+      if (!studentSnap.exists()) return { success: false, message: "Student not found." };
+      const err = assertRecordInAdminBranch(adminCtx, studentSnap.data(), 'student');
+      if (err) return { success: false, message: err };
+
+      for (const tId of teacherIds) {
+        const teacherSnap = await getDoc(doc(db, "users", tId));
+        if (!teacherSnap.exists()) return { success: false, message: "Assigned teacher not found." };
+        const tErr = assertRecordInAdminBranch(adminCtx, teacherSnap.data(), 'teacher');
+        if (tErr) return { success: false, message: tErr };
+      }
+    }
     await updateDoc(studentDocRef, { teacherIds: teacherIds });
     return { success: true, message: "Teachers assigned successfully!" };
   } catch (error) {
@@ -194,15 +294,30 @@ const updateSchema = z.object({
 });
 type UpdateValues = z.infer<typeof updateSchema>;
 
-export async function addUpdate(data: UpdateValues) {
+export async function addUpdate(data: UpdateValues, narrowBranchId?: string) {
   const validation = updateSchema.safeParse(data);
   if (!validation.success) {
     return { success: false, message: "Invalid data provided." };
   }
 
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
+    const targetBranch = adminCtx.isBranchAdmin
+      ? adminCtx.branchId
+      : normalizeBranchId(narrowBranchId);
+    const hasBranchScope = Boolean(targetBranch && targetBranch !== 'all');
     await addDoc(collection(db, "updates"), {
       ...validation.data,
+      ...(hasBranchScope && targetBranch
+        ? {
+            branchId: targetBranch,
+            branchName: getBranchDisplayName(targetBranch, true),
+            createdByUid: adminCtx.uid,
+          }
+        : {}),
       createdAt: serverTimestamp(),
     });
     return { success: true, message: "Update posted successfully!" };
@@ -219,7 +334,17 @@ export async function editUpdate(id: string, data: UpdateValues) {
   }
 
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const updateDocRef = doc(db, "updates", id);
+    if (adminCtx.isBranchAdmin) {
+      const snap = await getDoc(updateDocRef);
+      if (!snap.exists()) return { success: false, message: "Update not found." };
+      const err = assertRecordInAdminBranch(adminCtx, snap.data(), 'update');
+      if (err) return { success: false, message: err };
+    }
     await updateDoc(updateDocRef, {
       ...validation.data,
     });
@@ -232,7 +357,17 @@ export async function editUpdate(id: string, data: UpdateValues) {
 
 export async function deleteUpdate(id: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
     const updateDocRef = doc(db, "updates", id);
+    if (adminCtx.isBranchAdmin) {
+      const snap = await getDoc(updateDocRef);
+      if (!snap.exists()) return { success: false, message: "Update not found." };
+      const err = assertRecordInAdminBranch(adminCtx, snap.data(), 'update');
+      if (err) return { success: false, message: err };
+    }
     await deleteDoc(updateDocRef);
     return { success: true, message: "Update deleted successfully!" };
   } catch (error) {
@@ -242,13 +377,23 @@ export async function deleteUpdate(id: string) {
 }
 
 // Session Bookings Management
-export async function markAllBookingsAsSeen() {
+export async function markAllBookingsAsSeen(narrowBranchId?: string) {
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
+    const effectiveBranch = adminCtx.isBranchAdmin
+      ? adminCtx.branchId
+      : normalizeBranchId(narrowBranchId);
     const newBookingsQuery = query(collection(db, "sessionBookings"), where("status", "==", "new"));
     const querySnapshot = await getDocs(newBookingsQuery);
     const batch = writeBatch(db);
-    querySnapshot.docs.forEach(doc => {
-      batch.update(doc.ref, { status: 'seen' });
+    querySnapshot.docs.forEach(docSnap => {
+      if (effectiveBranch && effectiveBranch !== 'all' && !recordMatchesBranch(docSnap.data(), effectiveBranch)) {
+        return;
+      }
+      batch.update(docSnap.ref, { status: 'seen' });
     });
     await batch.commit();
     return { success: true, message: "All new bookings marked as seen." };
@@ -503,6 +648,14 @@ export async function deleteGalleryImage(id: string) {
 }
 
 export async function editAdminProfile(userId: string, formData: FormData) {
+  const adminCtx = await getServerAdminContext();
+  if (!adminCtx) {
+    return { success: false, message: "Unauthorized: Valid administrator session required." };
+  }
+  if (adminCtx.isBranchAdmin && userId !== adminCtx.uid) {
+    return { success: false, message: "Forbidden: You can only update your own branch admin profile." };
+  }
+
   const rawData = Object.fromEntries(formData.entries());
   const photoFile = rawData.photo as File | null;
   const dataToUpdate: any = {};
@@ -513,8 +666,16 @@ export async function editAdminProfile(userId: string, formData: FormData) {
   if (rawData.address) dataToUpdate.address = rawData.address as string;
   if (rawData.dob) dataToUpdate.dob = rawData.dob as string;
   if (rawData.bloodGroup) dataToUpdate.bloodGroup = rawData.bloodGroup as string;
-  if (rawData.branchId !== undefined) dataToUpdate.branchId = rawData.branchId as string;
-  if (rawData.branchName !== undefined) dataToUpdate.branchName = rawData.branchName as string;
+  if (!adminCtx?.isBranchAdmin) {
+    if (rawData.branchId !== undefined) {
+      const normalized = normalizeBranchId(rawData.branchId as string);
+      dataToUpdate.branchId = normalized || (rawData.branchId as string);
+      if (rawData.branchName === undefined && normalized) {
+        dataToUpdate.branchName = getBranchDisplayName(normalized, true);
+      }
+    }
+    if (rawData.branchName !== undefined) dataToUpdate.branchName = rawData.branchName as string;
+  }
   
   try {
     if (photoFile && photoFile.size > 0) {
@@ -582,6 +743,18 @@ export async function editStudentProfile(studentId: string, formData: FormData) 
   };
 
   try {
+    const adminCtx = await getServerAdminContext();
+    if (!adminCtx) {
+      return { success: false, message: "Unauthorized: Valid administrator session required." };
+    }
+    const docRef = doc(db, "users", studentId);
+    if (adminCtx.isBranchAdmin) {
+      const snap = await getDoc(docRef);
+      if (!snap.exists()) return { success: false, message: "Student not found." };
+      const err = assertRecordInAdminBranch(adminCtx, snap.data(), 'student');
+      if (err) return { success: false, message: err };
+    }
+
     if (photoFile && photoFile.size > 0) {
       const destination = `profile_photos/${studentId}-${photoFile.name}`;
       studentData.photoURL = await uploadFileToGCS(photoFile, destination);
@@ -589,7 +762,6 @@ export async function editStudentProfile(studentId: string, formData: FormData) 
         studentData.photoURL = '';
     }
 
-    const docRef = doc(db, "users", studentId);
     await updateDoc(docRef, studentData);
     
     return { success: true, message: "Student profile updated successfully." };

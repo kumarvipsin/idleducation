@@ -11,6 +11,7 @@ import {
   getBranchYearlyReport,
   getFeePayments,
 } from '@/app/actions/fee-management';
+import { getServerAdminContext } from '@/lib/server-admin-auth';
 
 export const metadata: Metadata = {
   title: 'Fee Management System | IDL Education Admin',
@@ -23,8 +24,9 @@ export default async function AdminFeesPage({
   searchParams?: Promise<{ tab?: string; branch?: string; month?: string }>;
 }) {
   const sp = searchParams ? await searchParams : {};
+  const adminCtx = await getServerAdminContext();
   const initialTab = sp.tab || 'overview';
-  const initialBranch = sp.branch || ''; // Default is empty so user manually selects
+  const initialBranch = adminCtx?.isBranchAdmin ? adminCtx.branchId : (sp.branch || ''); // Enforce branch admin scope server-side
   const currentMonth = await getCurrentMonth();
   const initialMonth = sp.month && sp.month <= currentMonth && sp.month >= '2026-04' ? sp.month : currentMonth;
 

@@ -22,8 +22,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
   const competitiveExams = allCategories.filter(c => c.group === 'competitive');
   const foundationExams = allCategories.filter(c => c.group === 'foundation');
 
-  const teachersResult = await getTeachers();
-  const allTeachers = teachersResult.success ? teachersResult.data : [];
+  const teachersResult = await getTeachers({ publicDirectory: true });
+  const allTeachers = teachersResult.success && Array.isArray(teachersResult.data) ? teachersResult.data : [];
 
   const teachersForCategory = category.teacherIds
     ? allTeachers.filter((teacher: any) => category.teacherIds?.includes(teacher.id))
