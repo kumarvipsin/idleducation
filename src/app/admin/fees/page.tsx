@@ -34,8 +34,10 @@ export default async function AdminFeesPage({
     getFeeBatches(undefined, initialBranch),
     getFeeStudents({ branchId: initialBranch }),
     getMonthlyLedger(initialMonth, { branchId: initialBranch }),
-    getBranchYearlyReport('2026-27'),
-    getFeePayments({ month: initialMonth }),
+    initialBranch && initialBranch !== 'none'
+      ? getBranchYearlyReport('2026-27')
+      : Promise.resolve({ success: true, data: null }),
+    getFeePayments({ month: initialMonth, branchId: initialBranch }),
   ]);
 
   return (
@@ -48,7 +50,7 @@ export default async function AdminFeesPage({
       initialBatches={batchesRes.data}
       initialStudents={studentsRes.data}
       initialLedger={ledgerRes.data}
-      initialYearlyReport={yearlyRes.data}
+      initialYearlyReport={yearlyRes.data ?? undefined}
       initialPayments={paymentsRes.data}
     />
   );

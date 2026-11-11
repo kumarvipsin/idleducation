@@ -189,12 +189,19 @@ export async function clearAllFeeData(): Promise<{ success: boolean; message: st
   }
 }
 
+function isEmptyBranchSelection(branchId?: string): boolean {
+  return branchId !== undefined && (branchId === '' || branchId === 'none');
+}
+
 // =============================================================
 // 1. CLASSES MANAGEMENT
 // =============================================================
 
 export async function getFeeClasses(branchId?: string): Promise<{ success: boolean; data: FeeClass[] }> {
   try {
+    if (isEmptyBranchSelection(branchId)) {
+      return { success: true, data: [] };
+    }
     const dbData = loadDatabase();
     let classes = [...dbData.classes];
     if (branchId && branchId !== 'all') {
@@ -326,6 +333,9 @@ export async function getFeeBatches(
   branchId?: string
 ): Promise<{ success: boolean; data: FeeBatch[] }> {
   try {
+    if (isEmptyBranchSelection(branchId)) {
+      return { success: true, data: [] };
+    }
     const dbData = loadDatabase();
     let batches = [...dbData.batches];
     if (classId && classId !== 'all') {
@@ -645,6 +655,9 @@ export async function getFeeStudents(filters?: {
   month?: string;
 }): Promise<{ success: boolean; data: FeeStudent[] }> {
   try {
+    if (isEmptyBranchSelection(filters?.branchId)) {
+      return { success: true, data: [] };
+    }
     const dbData = loadDatabase();
     let students = [...dbData.students];
 
@@ -1785,6 +1798,9 @@ export async function getMonthlyLedger(
   }
 ): Promise<{ success: boolean; data: (FeeLedgerEntry & { student: FeeStudent })[] }> {
   try {
+    if (isEmptyBranchSelection(filters?.branchId)) {
+      return { success: true, data: [] };
+    }
     const dbData = loadDatabase();
     const currentMonth = await getCurrentMonth();
     // Clamp to current month so future months cannot be accessed
@@ -2365,6 +2381,9 @@ export async function getFeePayments(filters?: {
   month?: string;
 }): Promise<{ success: boolean; data: FeePayment[] }> {
   try {
+    if (isEmptyBranchSelection(filters?.branchId)) {
+      return { success: true, data: [] };
+    }
     const dbData = loadDatabase();
     let payments = [...dbData.payments];
 
@@ -2531,6 +2550,30 @@ export async function getFeeDashboardStats(
     const rawMonth = month || currentMonth;
     const effectiveMonth = rawMonth > currentMonth ? currentMonth : rawMonth;
     const currentMonthLabel = await getMonthLabel(effectiveMonth);
+
+    if (isEmptyBranchSelection(branchId)) {
+      return {
+        success: true,
+        data: {
+          totalStudents: 0,
+          activeStudents: 0,
+          disabledStudents: 0,
+          totalClasses: 0,
+          totalBatches: 0,
+          currentMonth: effectiveMonth,
+          currentMonthLabel,
+          totalExpectedFee: 0,
+          totalReceivedFee: 0,
+          totalPendingFee: 0,
+          totalAdvanceFee: 0,
+          overdueCount: 0,
+          collectionRate: 0,
+          classBreakdown: [],
+          branchBreakdown: [],
+          recentPayments: [],
+        },
+      };
+    }
 
     // Make sure monthly ledger exists for all branches
     await getMonthlyLedger(effectiveMonth);

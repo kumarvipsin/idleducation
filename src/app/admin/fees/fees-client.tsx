@@ -129,7 +129,9 @@ import {
   Layers,
   History,
   Building2,
+  Globe,
   Check,
+  ChevronLeft,
   ChevronRight,
   TrendingUp,
   Sparkles,
@@ -196,6 +198,7 @@ export function FeesClient({
   const [selectedBranch, setSelectedBranch] = useState<string>(
     branchAdminBranchId || initialBranch
   );
+  const hasBranchSelection = Boolean(selectedBranch && selectedBranch !== 'none');
 
   useEffect(() => {
     if (isBranchAdmin && branchAdminBranchId && selectedBranch !== branchAdminBranchId) {
@@ -204,6 +207,11 @@ export function FeesClient({
     }
   }, [isBranchAdmin, branchAdminBranchId]);
   const [selectedMonth, setSelectedMonth] = useState<string>(initialMonth);
+  const [isBranchPickerOpen, setIsBranchPickerOpen] = useState<boolean>(false);
+  const [isMonthPickerOpen, setIsMonthPickerOpen] = useState<boolean>(false);
+  const [monthPickerYear, setMonthPickerYear] = useState<number>(
+    () => parseInt((initialMonth || '2026-11').split('-')[0], 10) || 2026
+  );
   const [activeTab, setActiveTab] = useState<string>(initialTab);
   const [studentSearch, setStudentSearch] = useState<string>('');
   const [isStudentSearchOpen, setIsStudentSearchOpen] = useState<boolean>(false);
@@ -245,33 +253,75 @@ export function FeesClient({
     return options;
   }, [initialMonth]);
 
+  const allowedMonthSet = React.useMemo(
+    () => new Set(monthOptions.map(m => m.value)),
+    [monthOptions]
+  );
+  const minPickerYear = monthOptions.length > 0 ? parseInt(monthOptions[0].value.split('-')[0], 10) : 2026;
+  const maxPickerYear = monthOptions.length > 0 ? parseInt(monthOptions[monthOptions.length - 1].value.split('-')[0], 10) : 2026;
+
+  const emptyStatsForMonth = (monthStr: string, monthLabelStr?: string): FeeDashboardStats => ({
+    totalStudents: 0,
+    activeStudents: 0,
+    disabledStudents: 0,
+    totalClasses: 0,
+    totalBatches: 0,
+    currentMonth: monthStr,
+    currentMonthLabel: monthLabelStr || monthOptions.find(m => m.value === monthStr)?.label || monthStr,
+    totalExpectedFee: 0,
+    totalReceivedFee: 0,
+    totalPendingFee: 0,
+    totalAdvanceFee: 0,
+    overdueCount: 0,
+    collectionRate: 0,
+    classBreakdown: [],
+    branchBreakdown: [],
+    recentPayments: [],
+  });
+
   // Refresh data function
   const refreshAllData = (month = selectedMonth, branch = selectedBranch) => {
-    startTransition(async () => {
-      const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments] = await Promise.all([
-        getFeeDashboardStats(month, branch),
-        getFeeClasses(branch),
-        getFeeBatches(undefined, branch),
-        getFeeStudents({ branchId: branch }),
-        getMonthlyLedger(month, { branchId: branch }),
-        getBranchYearlyReport('2026-27'),
-        getFeePayments({ month }),
-      ]);
+    if (!branch || branch === 'none') {
+      setStats(prev => emptyStatsForMonth(month, month === prev.currentMonth ? prev.currentMonthLabel : undefined));
+      setClasses([]);
+      setBatches([]);
+      setStudents([]);
+      setLedger([]);
+      setYearlyReport(null);
+      setMonthPayments([]);
+      setSelectedStudentProfile(null);
+      return;
+    }
 
-      if (newStats.success) setStats(newStats.data);
-      if (newClasses.success) setClasses(newClasses.data);
-      if (newBatches.success) setBatches(newBatches.data);
-      if (newStudents.success) {
-        setStudents(newStudents.data);
-        setSelectedStudentProfile(prev => {
-          if (!prev) return null;
-          const updated = newStudents.data.find(s => s.id === prev.id);
-          return updated || prev;
-        });
+    startTransition(async () => {
+      try {
+        const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments] = await Promise.all([
+          getFeeDashboardStats(month, branch),
+          getFeeClasses(branch),
+          getFeeBatches(undefined, branch),
+          getFeeStudents({ branchId: branch }),
+          getMonthlyLedger(month, { branchId: branch }),
+          getBranchYearlyReport('2026-27'),
+          getFeePayments({ month, branchId: branch }),
+        ]);
+
+        if (newStats?.success) setStats(newStats.data);
+        if (newClasses?.success) setClasses(newClasses.data);
+        if (newBatches?.success) setBatches(newBatches.data);
+        if (newStudents?.success) {
+          setStudents(newStudents.data);
+          setSelectedStudentProfile(prev => {
+            if (!prev) return null;
+            const updated = newStudents.data.find(s => s.id === prev.id);
+            return updated || prev;
+          });
+        }
+        if (newLedger?.success) setLedger(newLedger.data);
+        if (newYearly?.success) setYearlyReport(newYearly.data);
+        if (newPayments?.success) setMonthPayments(newPayments.data);
+      } catch (err) {
+        console.error('Failed to refresh fee dashboard data:', err);
       }
-      if (newLedger.success) setLedger(newLedger.data);
-      if (newYearly.success) setYearlyReport(newYearly.data);
-      if (newPayments.success) setMonthPayments(newPayments.data);
     });
   };
 
@@ -283,9 +333,26 @@ export function FeesClient({
   // MODAL STATES
   // --------------------------------------------------------------------------
 
+  // Shared Card Modal Styles (Create Class / Create Batch / Enroll Student)
+  const FORM_CARD_SURFACE_CLS = "w-[94vw] rounded-2xl p-5 bg-white dark:bg-slate-950 border border-[#E2E8F0] dark:border-slate-800 shadow-[0_24px_56px_-12px_rgba(11,31,75,0.16),0_6px_18px_-4px_rgba(15,23,42,0.07),0_0_0_1px_rgba(15,23,42,0.03)] font-sans antialiased [&>button:last-child]:border-slate-200/90 [&>button:last-child]:text-slate-400 [&>button:last-child]:hover:text-[#0B1F4B] [&>button:last-child]:hover:border-slate-300 [&>button:last-child]:hover:bg-slate-50 [&>button:last-child]:shadow-[0_1px_2px_rgba(15,23,42,0.04)] [&>button:last-child]:transition-colors";
+  const FORM_CARD_DIALOG_CLS = `max-w-[440px] ${FORM_CARD_SURFACE_CLS}`;
+  const FORM_CARD_WIDE_DIALOG_CLS = `max-w-[490px] sm:max-w-[580px] ${FORM_CARD_SURFACE_CLS}`;
+  const FORM_CARD_HEADER_CLS = "pb-3 border-b border-[#EEF2F7] dark:border-slate-800/80 shrink-0 text-left pr-9";
+  const FORM_CARD_TITLE_CLS = "text-[16px] sm:text-[17px] font-bold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-snug";
+  const FORM_CARD_DESC_CLS = "text-[11.5px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed mt-0.5";
+  const FORM_CARD_LABEL_CLS = "text-xs font-medium text-slate-400 dark:text-slate-500 tracking-[0.005em]";
+  const FORM_CARD_FIELD_CLS = "h-9 text-xs sm:text-[13px] md:text-[13px] font-semibold !rounded-none !border-0 !border-b border-slate-200/85 dark:border-slate-800 !bg-transparent px-0 hover:!border-b-slate-300 dark:hover:!border-b-slate-700 focus:!bg-transparent focus:!border-b-[#2864E8] focus-visible:ring-0 focus-visible:!border-b-[#2864E8] placeholder:font-normal placeholder:text-slate-400/65 dark:placeholder:text-slate-600 text-[#0B1F4B] dark:text-slate-100 transition-colors duration-150 !shadow-none";
+  const FORM_CARD_SELECT_TRIGGER_CLS = `${FORM_CARD_FIELD_CLS} focus:outline-none focus:ring-0 focus-visible:outline-none data-[state=open]:!border-b-[#2864E8] data-[state=open]:!bg-transparent data-[placeholder]:font-normal data-[placeholder]:text-slate-400/65 dark:data-[placeholder]:text-slate-600 [&>svg]:text-slate-400 data-[state=open]:[&>svg]:text-[#2864E8] [&>svg]:transition-[transform,color] [&>svg]:duration-150 data-[state=open]:[&>svg]:rotate-180`;
+  const FORM_CARD_SELECT_CONTENT_CLS = "rounded-xl border border-slate-200/95 dark:border-slate-800 bg-white dark:bg-slate-950 p-1 shadow-[0_14px_34px_-8px_rgba(11,31,75,0.14),0_2px_8px_rgba(15,23,42,0.05)]";
+  const FORM_CARD_SELECT_ITEM_CLS = "text-xs sm:text-[13px] font-medium text-slate-700 dark:text-slate-200 rounded-lg py-1.5 sm:py-2 focus:bg-blue-50/90 focus:text-[#2864E8] data-[state=checked]:text-[#2864E8] data-[state=checked]:font-semibold dark:focus:bg-blue-950/40 dark:focus:text-blue-400 cursor-pointer";
+  const FORM_CARD_ADD_BTN_CLS = "h-9 px-3 rounded-[5px] text-xs font-semibold border border-[#2864E8]/25 bg-[#2864E8]/[0.06] hover:bg-[#2864E8]/[0.11] text-[#2864E8] dark:bg-blue-950/30 dark:border-blue-800/60 dark:text-blue-400 dark:hover:bg-blue-950/50 flex items-center gap-1.5 shadow-[0_1px_2px_rgba(15,23,42,0.02)] transition-colors duration-150 cursor-pointer shrink-0";
+  const ENROLL_FIELD_CLS = FORM_CARD_FIELD_CLS;
+  const ENROLL_SELECT_TRIGGER_CLS = FORM_CARD_SELECT_TRIGGER_CLS;
+  const ENROLL_ADD_BTN_CLS = FORM_CARD_ADD_BTN_CLS;
+  const FORM_CARD_SUBMIT_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_6px_rgba(40,100,232,0.22),0_1px_2px_rgba(15,23,42,0.08)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.28),0_1px_3px_rgba(15,23,42,0.1)] flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-[0.995]";
+
   // 1. Create Class Modal
-  const [isClassModalOpen, setIsClassModalOpen] = useState(false);
-  const [classForm, setClassForm] = useState<{
+  const EMPTY_CLASS_FORM: {
     name: string;
     code: string;
     division: string;
@@ -294,16 +361,18 @@ export function FeesClient({
     description: string;
     defaultMonthlyFee: number;
     order?: number | '';
-  }>({
+  } = {
     name: '',
     code: '',
     division: '',
     branchId: '',
-    academicSession: '2026-27',
+    academicSession: '',
     description: '',
     defaultMonthlyFee: 0,
     order: '',
-  });
+  };
+  const [isClassModalOpen, setIsClassModalOpen] = useState(false);
+  const [classForm, setClassForm] = useState({ ...EMPTY_CLASS_FORM });
 
   // 2. Create Batch Modal
   const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
@@ -827,23 +896,18 @@ export function FeesClient({
       order: classForm.order !== '' && classForm.order !== undefined ? Number(classForm.order) : undefined,
     };
 
-    const res = await createFeeClass(payload);
-    if (res.success) {
-      toast({ title: 'Success', description: res.message });
-      setIsClassModalOpen(false);
-      setClassForm({
-        name: '',
-        code: '',
-        division: '',
-        branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
-        academicSession: '2026-27',
-        description: '',
-        defaultMonthlyFee: 0,
-        order: '',
-      });
-      refreshAllData();
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
+    try {
+      const res = await createFeeClass(payload);
+      if (res.success) {
+        toast({ title: 'Success', description: res.message });
+        setIsClassModalOpen(false);
+        setClassForm({ ...EMPTY_CLASS_FORM });
+        refreshAllData();
+      } else {
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to create class' });
     }
   };
 
@@ -1411,17 +1475,21 @@ export function FeesClient({
     };
 
     startTransition(async () => {
-      const res = await updateFeeStudent(editingStudent.id, payload);
-      if (res.success) {
-        toast({ title: 'Student Updated', description: res.message });
-        setIsEditStudentOpen(false);
-        setEditingStudent(null);
-        if (selectedStudentProfile && selectedStudentProfile.id === editingStudent.id && res.data) {
-          setSelectedStudentProfile(res.data);
+      try {
+        const res = await updateFeeStudent(editingStudent.id, payload);
+        if (res.success) {
+          toast({ title: 'Student Updated', description: res.message });
+          setIsEditStudentOpen(false);
+          setEditingStudent(null);
+          if (selectedStudentProfile && selectedStudentProfile.id === editingStudent.id && res.data) {
+            setSelectedStudentProfile(res.data);
+          }
+          refreshAllData();
+        } else {
+          toast({ variant: 'destructive', title: 'Error', description: res.message });
         }
-        refreshAllData();
-      } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      } catch (err: any) {
+        toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to update student' });
       }
     });
   };
@@ -1429,12 +1497,16 @@ export function FeesClient({
   // Handle Clear All Data
   const handleClearAllData = async () => {
     setIsResetConfirmOpen(false);
-    const res = await clearAllFeeData();
-    if (res.success) {
-      toast({ title: 'Data Cleared', description: res.message });
-      refreshAllData();
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
+    try {
+      const res = await clearAllFeeData();
+      if (res.success) {
+        toast({ title: 'Data Cleared', description: res.message });
+        refreshAllData();
+      } else {
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to clear fee data' });
     }
   };
 
@@ -2808,6 +2880,11 @@ export function FeesClient({
   // Fetch real-time data when in reports tab or switching branch report mode
   useEffect(() => {
     let isMounted = true;
+    if (!hasBranchSelection) {
+      setYearlyReport(null);
+      setIsLoadingYearly(false);
+      return;
+    }
     if (activeTab === 'reports' || branchReportMode === 'yearly') {
       setIsLoadingYearly(true);
       getBranchYearlyReport('2026-27')
@@ -2828,41 +2905,22 @@ export function FeesClient({
     return () => {
       isMounted = false;
     };
-  }, [activeTab, branchReportMode]);
+  }, [activeTab, branchReportMode, hasBranchSelection]);
 
   // Students excluded for current month
   const excludedStudentsForMonth = React.useMemo(() => {
+    if (!hasBranchSelection) return [];
     return students.filter(s => {
       if (selectedBranch !== 'all' && s.branchId !== selectedBranch) return false;
       return s.excludedMonths?.includes(selectedMonth);
     });
-  }, [students, selectedBranch, selectedMonth]);
+  }, [students, selectedBranch, selectedMonth, hasBranchSelection]);
 
-  // Open Create Class Modal (sets default branch if a specific branch is selected, or leaves empty if 'all')
+  // Open Create Class Modal (always starts with blank branch & academic session)
   const openCreateClassModal = () => {
-    setClassForm({
-      name: '',
-      code: '',
-      division: '',
-      branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
-      academicSession: '2026-27',
-      description: '',
-      defaultMonthlyFee: 0,
-    });
+    setClassForm({ ...EMPTY_CLASS_FORM });
     setIsClassModalOpen(true);
   };
-
-  // Sync Create Class modal branch with currently active branch filter
-  useEffect(() => {
-    if (isClassModalOpen) {
-      if (selectedBranch && selectedBranch !== 'all') {
-        setClassForm(prev => ({
-          ...prev,
-          branchId: selectedBranch,
-        }));
-      }
-    }
-  }, [isClassModalOpen, selectedBranch]);
 
   // Open Create Student Modal with clean defaults and dynamic watermarks
   const openCreateStudentModal = () => {
@@ -2935,28 +2993,32 @@ export function FeesClient({
     setStudentDeleteModal({ isOpen: false, student: null, source: 'students' });
 
     startTransition(async () => {
-      if (mode === 'month_only') {
-        const res = await deleteStudentFromMonth(student.id, month);
-        if (res.success) {
-          toast({ title: 'Removed from Month', description: res.message });
-          if (selectedStudentProfile?.id === student.id) {
-            setSelectedStudentProfile(null);
+      try {
+        if (mode === 'month_only') {
+          const res = await deleteStudentFromMonth(student.id, month);
+          if (res.success) {
+            toast({ title: 'Removed from Month', description: res.message });
+            if (selectedStudentProfile?.id === student.id) {
+              setSelectedStudentProfile(null);
+            }
+            refreshAllData();
+          } else {
+            toast({ variant: 'destructive', title: 'Error', description: res.message });
           }
-          refreshAllData();
         } else {
-          toast({ variant: 'destructive', title: 'Error', description: res.message });
-        }
-      } else {
-        const res = await deleteFeeStudent(student.id);
-        if (res.success) {
-          toast({ title: 'Student Deleted', description: res.message });
-          if (selectedStudentProfile?.id === student.id) {
-            setSelectedStudentProfile(null);
+          const res = await deleteFeeStudent(student.id);
+          if (res.success) {
+            toast({ title: 'Student Deleted', description: res.message });
+            if (selectedStudentProfile?.id === student.id) {
+              setSelectedStudentProfile(null);
+            }
+            refreshAllData();
+          } else {
+            toast({ variant: 'destructive', title: 'Error', description: res.message });
           }
-          refreshAllData();
-        } else {
-          toast({ variant: 'destructive', title: 'Error', description: res.message });
         }
+      } catch (err: any) {
+        toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to delete student' });
       }
     });
   };
@@ -2964,18 +3026,23 @@ export function FeesClient({
   // Restore student to month handler
   const handleRestoreStudent = async (studentId: string, month: string) => {
     startTransition(async () => {
-      const res = await restoreStudentToMonth(studentId, month);
-      if (res.success) {
-        toast({ title: 'Student Restored', description: res.message });
-        refreshAllData();
-      } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      try {
+        const res = await restoreStudentToMonth(studentId, month);
+        if (res.success) {
+          toast({ title: 'Student Restored', description: res.message });
+          refreshAllData();
+        } else {
+          toast({ variant: 'destructive', title: 'Error', description: res.message });
+        }
+      } catch (err: any) {
+        toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to restore student' });
       }
     });
   };
 
   // Filtered classes matching active branch selection, arranged by order number
   const filteredClasses = React.useMemo(() => {
+    if (!hasBranchSelection) return [];
     let list = classes;
     if (selectedBranch && selectedBranch !== 'all') {
       list = list.filter(
@@ -2991,10 +3058,11 @@ export function FeesClient({
       if (ordA !== ordB) return ordA - ordB;
       return a.name.localeCompare(b.name, undefined, { numeric: true });
     });
-  }, [classes, selectedBranch]);
+  }, [classes, selectedBranch, hasBranchSelection]);
 
   // Filtered batches for student directory filter (respects selected branch & class filter)
   const availableBatchesForStudentFilter = React.useMemo(() => {
+    if (!hasBranchSelection) return [];
     let list = batches;
     if (selectedBranch && selectedBranch !== 'all') {
       list = list.filter(
@@ -3014,7 +3082,7 @@ export function FeesClient({
       if (ordA !== ordB) return ordA - ordB;
       return a.name.localeCompare(b.name, undefined, { numeric: true });
     });
-  }, [batches, selectedBranch, classFilter, classes]);
+  }, [batches, selectedBranch, classFilter, classes, hasBranchSelection]);
 
   const formatAdmDate = (d?: string) => {
     if (!d) return '—';
@@ -3050,6 +3118,7 @@ export function FeesClient({
 
   // Filtered Students (Respects admission date, month exclusions, and month status when in 'month' scope)
   const filteredStudents = students.filter(s => {
+    if (!hasBranchSelection) return false;
     if (selectedBranch !== 'all' && s.branchId !== selectedBranch) return false;
     if (classFilter !== 'all' && s.classId !== classFilter) return false;
     if (batchFilter !== 'all' && s.batchId !== batchFilter) return false;
@@ -3117,51 +3186,177 @@ export function FeesClient({
                 <span className="text-[10px] bg-blue-500/40 text-blue-100 px-1.5 py-0.5 rounded font-mono">Branch Admin</span>
               </div>
             ) : (
-              <div className="flex items-center gap-1.5 px-1 py-0.5 hover:opacity-80 transition-opacity cursor-pointer group shrink-0">
-                <Building2 className="w-3.5 h-3.5 text-blue-300 shrink-0" />
-                <Select value={selectedBranch || 'none'} onValueChange={(val) => setSelectedBranch(val === 'none' ? '' : val)}>
-                  <SelectTrigger className="h-6 border-0 bg-transparent text-xs font-semibold text-white/95 shadow-none px-0 gap-1 hover:text-white transition-colors focus:bg-transparent focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none">
-                    <SelectValue placeholder="Select Branch">
+              <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label="Select branch"
+                    className="flex items-center gap-1.5 px-1 py-0.5 h-6 bg-transparent text-xs font-semibold text-white/95 hover:text-white hover:opacity-85 transition-opacity cursor-pointer group shrink-0 border-0 shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                  >
+                    <Building2 className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                    <span className="whitespace-nowrap">
                       {!selectedBranch || selectedBranch === 'none'
                         ? 'Select Branch'
                         : selectedBranch === 'all'
                           ? 'All Branches'
                           : IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'Select Branch'}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-                    <SelectItem value="none" className="text-xs text-slate-500">
-                      Select Branch
-                    </SelectItem>
-                    <SelectItem value="all" className="text-xs font-bold text-[#2864E8]">
-                      🌐 All Branches
-                    </SelectItem>
-                    {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => (
-                      <SelectItem key={b.id} value={b.id} className="text-xs font-medium">
-                        🏢 {b.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                    </span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 opacity-90' : ''}`}
+                    />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="center"
+                  sideOffset={8}
+                  className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                >
+                  {/* First Option: All Branches */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedBranch('all');
+                      setIsBranchPickerOpen(false);
+                    }}
+                    className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                      selectedBranch === 'all'
+                        ? 'bg-blue-100/80 dark:bg-blue-950/60 text-[#2864E8] dark:text-blue-400 font-semibold'
+                        : 'bg-blue-50/75 hover:bg-blue-100/70 dark:bg-blue-950/35 dark:hover:bg-blue-950/55 text-[#2864E8] dark:text-blue-400 font-semibold'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2 min-w-0">
+                      <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                      <span className="truncate">All Branches</span>
+                    </span>
+                    {selectedBranch === 'all' && (
+                      <Check className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                    )}
+                  </button>
+
+                  <div className="my-1.5 border-t border-slate-100 dark:border-slate-800/80" />
+
+                  {/* Individual Branches */}
+                  <div className="space-y-0.5">
+                    {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => {
+                      const isSelected = selectedBranch === b.id;
+                      return (
+                        <button
+                          key={b.id}
+                          type="button"
+                          onClick={() => {
+                            setSelectedBranch(b.id);
+                            setIsBranchPickerOpen(false);
+                          }}
+                          className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                            isSelected
+                              ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
+                              : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                          }`}
+                        >
+                          <span className="flex items-center gap-2 min-w-0">
+                            <Building2
+                              className={`w-3.5 h-3.5 shrink-0 ${
+                                isSelected ? 'text-[#2864E8] dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'
+                              }`}
+                            />
+                            <span className="truncate">{b.name}</span>
+                          </span>
+                          {isSelected && (
+                            <Check className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </PopoverContent>
+              </Popover>
             )}
 
             {/* 2. Date / Month Selector */}
-            <div className="flex items-center gap-1.5 px-1 py-0.5 hover:opacity-80 transition-opacity cursor-pointer group shrink-0">
-              <Calendar className="w-3.5 h-3.5 text-blue-300 shrink-0" />
-              <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-                <SelectTrigger className="h-6 border-0 bg-transparent text-xs font-semibold text-white/95 shadow-none px-0 gap-1 hover:text-white transition-colors focus:bg-transparent focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none">
-                  <SelectValue placeholder="Select Month" />
-                </SelectTrigger>
-                <SelectContent className="rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-                  {monthOptions.map(m => (
-                    <SelectItem key={m.value} value={m.value} className="text-xs font-medium">
-                      {m.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
+            <Popover
+              open={isMonthPickerOpen}
+              onOpenChange={(open) => {
+                setIsMonthPickerOpen(open);
+                if (open) {
+                  const parsedYear = parseInt((selectedMonth || initialMonth || '2026-11').split('-')[0], 10);
+                  if (!Number.isNaN(parsedYear)) setMonthPickerYear(parsedYear);
+                }
+              }}
+            >
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Select billing month and year"
+                  className="flex items-center gap-1.5 px-1 py-0.5 h-6 bg-transparent text-xs font-semibold text-white/95 hover:text-white hover:opacity-85 transition-opacity cursor-pointer group shrink-0 border-0 shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                >
+                  <Calendar className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                  <span className="whitespace-nowrap">{selectedMonthLabel || 'Select Month'}</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 shrink-0 ${isMonthPickerOpen ? 'rotate-180 opacity-90' : ''}`}
+                  />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="center"
+                sideOffset={8}
+                className="w-[236px] p-2.5 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+              >
+                {/* Compact Year Selector */}
+                <div className="flex items-center justify-between px-1 pb-2 mb-2 border-b border-slate-100 dark:border-slate-800/80">
+                  <button
+                    type="button"
+                    disabled={monthPickerYear <= minPickerYear}
+                    onClick={() => setMonthPickerYear(y => Math.max(minPickerYear, y - 1))}
+                    aria-label="Previous year"
+                    className="h-6 w-6 rounded-md flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  >
+                    <ChevronLeft className="w-3.5 h-3.5" />
+                  </button>
+                  <span className="text-xs font-bold text-slate-900 dark:text-white tracking-tight tabular-nums select-none">
+                    {monthPickerYear}
+                  </span>
+                  <button
+                    type="button"
+                    disabled={monthPickerYear >= maxPickerYear}
+                    onClick={() => setMonthPickerYear(y => Math.min(maxPickerYear, y + 1))}
+                    aria-label="Next year"
+                    className="h-6 w-6 rounded-md flex items-center justify-center text-slate-500 hover:text-slate-900 hover:bg-slate-100 dark:text-slate-400 dark:hover:text-white dark:hover:bg-slate-800 disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed transition-colors cursor-pointer"
+                  >
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Clean 3x4 Month Grid */}
+                <div className="grid grid-cols-3 gap-1">
+                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((monthName, idx) => {
+                    const monthValue = `${monthPickerYear}-${String(idx + 1).padStart(2, '0')}`;
+                    const isSelected = selectedMonth === monthValue;
+                    const isEnabled = allowedMonthSet.has(monthValue);
+
+                    return (
+                      <button
+                        key={monthValue}
+                        type="button"
+                        disabled={!isEnabled}
+                        onClick={() => {
+                          setSelectedMonth(monthValue);
+                          setIsMonthPickerOpen(false);
+                        }}
+                        className={`h-8 rounded-lg text-xs transition-all flex items-center justify-center select-none ${
+                          isSelected
+                            ? 'bg-[#2864E8] text-white font-semibold shadow-xs hover:bg-[#1E4ED8] cursor-pointer'
+                            : isEnabled
+                              ? 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-[#2864E8] dark:hover:text-blue-400 cursor-pointer'
+                              : 'text-slate-300 dark:text-slate-600 font-normal cursor-not-allowed'
+                        }`}
+                      >
+                        {monthName}
+                      </button>
+                    );
+                  })}
+                </div>
+              </PopoverContent>
+            </Popover>
 
             {/* 3. Sync (Scan) Button */}
             <Button
@@ -3193,9 +3388,9 @@ export function FeesClient({
           <div className="flex items-center shrink-0">
             <Button
               asChild
-              variant="outline"
+              variant="ghost"
               size="sm"
-              className="h-8 px-2.5 sm:px-3 rounded-xl border-white/20 bg-white/10 hover:bg-white/20 hover:border-white/30 text-white text-xs font-semibold transition-all shadow-xs shrink-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none"
+              className="h-8 px-2.5 sm:px-3 !rounded-[5px] border-0 bg-white/10 hover:bg-white/20 text-white hover:text-white text-xs font-semibold transition-all shadow-none shrink-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none"
             >
               <Link href="/admin/dashboard" className="flex items-center gap-1.5">
                 <ArrowLeft className="w-3.5 h-3.5" />
@@ -3319,7 +3514,7 @@ export function FeesClient({
                 >
                   <IndianRupee className="w-[15px] h-[15px] shrink-0" />
                   <span>FEE COLLECTION</span>
-                  {stats.overdueCount > 0 && (
+                  {hasBranchSelection && stats.overdueCount > 0 && (
                     <span className="ml-1 min-w-[15px] h-[15px] px-1 rounded-full bg-rose-500 text-white text-[9px] font-bold inline-flex items-center justify-center leading-none shadow-2xs">
                       {stats.overdueCount}
                     </span>
@@ -3412,7 +3607,7 @@ export function FeesClient({
                         </CardDescription>
                       </div>
                       <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums uppercase tracking-wider whitespace-nowrap">
-                        TOTAL CLASSES {classes.length}
+                        TOTAL CLASSES {hasBranchSelection ? filteredClasses.length : 0}
                       </span>
                     </div>
                   </CardHeader>
@@ -3430,23 +3625,20 @@ export function FeesClient({
                           </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
-                          {stats.classBreakdown.length === 0 ? (
+                          {!hasBranchSelection ? (
+                            <tr>
+                              <td colSpan={6} className="py-10 text-center text-slate-400">
+                                <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                                <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view class-wise fee data.</p>
+                              </td>
+                            </tr>
+                          ) : stats.classBreakdown.length === 0 ? (
                             <tr>
                               <td colSpan={6} className="py-10 text-center text-slate-400">
                                 <GraduationCap className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">Abhi koi class create nahi hui hai</p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">Classes & Batches tab me jaakar apni pehli class banayein.</p>
-                                <Button
-                                  size="sm"
-                                  onClick={() => {
-                                    setActiveTab('classes');
-                                    openCreateClassModal();
-                                  }}
-                                  className="mt-3 h-8 px-3.5 rounded-xl text-xs font-semibold bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-2xs cursor-pointer transition-colors"
-                                >
-                                  <Plus className="w-3.5 h-3.5 mr-1" />
-                                  Create First Class
-                                </Button>
+                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
+                                <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes for this branch.</p>
                               </td>
                             </tr>
                           ) : (
@@ -3485,7 +3677,7 @@ export function FeesClient({
                 </Card>
 
                 {/* Overdue Alert Section */}
-                {stats.overdueCount > 0 && (
+                {hasBranchSelection && stats.overdueCount > 0 && (
                   <Card className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-amber-50/20 dark:bg-amber-950/10 shadow-none">
                     <CardHeader className="py-2 px-3.5 sm:px-4 border-b border-slate-200/60 dark:border-slate-800/60">
                       <div className="flex items-center justify-between">
@@ -3635,8 +3827,18 @@ export function FeesClient({
                     </div>
                   </CardHeader>
                   <CardContent className="p-2.5 sm:p-3 space-y-1.5">
-                    {stats.recentPayments.length === 0 ? (
-                      <p className="text-xs text-slate-400 text-center py-3 font-medium">No recent payments recorded.</p>
+                    {!hasBranchSelection ? (
+                      <div className="py-6 text-center text-slate-400 px-2">
+                        <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">Select a branch to view recent receipts.</p>
+                      </div>
+                    ) : stats.recentPayments.length === 0 ? (
+                      <div className="py-6 text-center text-slate-400 px-2">
+                        <Receipt className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No recent receipts</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">Recent fee payments will appear here.</p>
+                      </div>
                     ) : (
                       stats.recentPayments.slice(0, 6).map(pay => (
                         <div
@@ -3811,7 +4013,7 @@ export function FeesClient({
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                {excludedStudentsForMonth.length > 0 && (
+                {hasBranchSelection && excludedStudentsForMonth.length > 0 && (
                   <div className="m-3.5 p-3 rounded-xl bg-amber-50/80 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 flex flex-wrap items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200">
                     <div className="flex items-center gap-2">
                       <Info className="w-4 h-4 text-amber-600 shrink-0" />
@@ -3852,31 +4054,49 @@ export function FeesClient({
                     </thead>
                     <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
                       {(() => {
-                        const filteredLedger = ledger.filter(entry => {
-                          if (ledgerStatusFilter !== 'all' && entry.status !== ledgerStatusFilter) return false;
-                          if (studentSearch.trim()) {
-                            const q = studentSearch.toLowerCase().trim();
-                            return (
-                              entry.student.name.toLowerCase().includes(q) ||
-                              entry.student.rollNumber.toLowerCase().includes(q) ||
-                              entry.student.contact1.includes(q)
-                            );
-                          }
-                          return true;
-                        });
+                        const filteredLedger = !hasBranchSelection
+                          ? []
+                          : ledger.filter(entry => {
+                              if (ledgerStatusFilter !== 'all' && entry.status !== ledgerStatusFilter) return false;
+                              if (studentSearch.trim()) {
+                                const q = studentSearch.toLowerCase().trim();
+                                return (
+                                  entry.student.name.toLowerCase().includes(q) ||
+                                  entry.student.rollNumber.toLowerCase().includes(q) ||
+                                  entry.student.contact1.includes(q)
+                                );
+                              }
+                              return true;
+                            });
 
                         if (filteredLedger.length === 0) {
                           const monthName = monthOptions.find(m => m.value === selectedMonth)?.label || selectedMonth;
                           return (
                             <tr>
                               <td colSpan={8} className="py-12 text-center text-slate-400">
-                                <Calendar className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
-                                  {monthName} me koi student admitted / enrolled nahi hai
-                                </p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">
-                                  Jis student ki admission date is mahine ya isse pehle hogi, unka fee record yahan automatically dikhega.
-                                </p>
+                                {!hasBranchSelection ? (
+                                  <>
+                                    <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                    <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
+                                      No branch selected
+                                    </p>
+                                    <p className="text-[11px] text-slate-400 mt-0.5">
+                                      Please select a branch from the top dropdown to view fee collection ledger.
+                                    </p>
+                                  </>
+                                ) : (
+                                  <>
+                                    <IndianRupee className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                    <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
+                                      {ledgerStatusFilter !== 'all' || studentSearch.trim() ? 'No matching records' : 'No fee records found'}
+                                    </p>
+                                    <p className="text-[11px] text-slate-400 mt-0.5">
+                                      {ledgerStatusFilter !== 'all' || studentSearch.trim()
+                                        ? 'Try adjusting your status filter or search query.'
+                                        : `Enrolled students and fee records for ${monthName} will appear here.`}
+                                    </p>
+                                  </>
+                                )}
                               </td>
                             </tr>
                           );
@@ -3888,23 +4108,21 @@ export function FeesClient({
                           const batch = batches.find(b => b.id === entry.batchId);
                           const branch = IDL_BRANCHES.find(b => b.id === entry.branchId);
                           const student = entry.student;
+                          const isYearlyFee = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage);
 
                           return (
                             <tr
                               key={entry.id}
                               className={`transition-colors duration-150 ${isOver
                                 ? 'bg-rose-50/15 hover:bg-rose-50/30 dark:bg-rose-950/10 dark:hover:bg-rose-950/20'
-                                : 'bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40'
+                                : isYearlyFee
+                                  ? 'bg-[#FFFBEB] hover:bg-[#FEF3C7]/45 dark:bg-amber-950/15 dark:hover:bg-amber-950/25'
+                                  : 'bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40'
                                 }`}
                             >
                               <td className="py-3 px-3.5 pl-5 whitespace-nowrap align-middle">
                                 <div className="font-semibold text-slate-900 dark:text-white text-[13.5px] sm:text-[14px] flex items-center gap-1.5 whitespace-nowrap tracking-tight leading-none h-[18px]">
                                   <span>{student.name}</span>
-                                  {(student.feeType === 'yearly_package' || Boolean(student.yearlyPackage)) && (
-                                    <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-0.5">
-                                      <span className="w-2 h-2 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_7px_2px_rgba(139,92,246,0.75)] animate-pulse" />
-                                    </span>
-                                  )}
                                 </div>
                                 <div className="text-[11.5px] text-slate-500 dark:text-slate-400 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
                                   Father : <span className="font-medium text-slate-700 dark:text-slate-300 capitalize ml-1">{student.fatherName || '—'}</span>
@@ -4092,16 +4310,18 @@ export function FeesClient({
           {/* TAB 3: CLASS & BATCH MANAGEMENT */}
           {/* ------------------------------------------------------------------ */}
           <TabsContent value="classes" className="space-y-4 font-['Inter_Tight',sans-serif]">
-            {filteredClasses.length === 0 ? (
-              <button
-                type="button"
-                onClick={openCreateClassModal}
-                title="Create Class"
-                aria-label="Create Class"
-                className="w-full h-40 sm:h-48 flex items-center justify-center rounded-2xl border border-dashed border-slate-300 dark:border-slate-800 bg-slate-50/50 hover:bg-slate-100/70 dark:bg-slate-900/30 dark:hover:bg-slate-900/60 hover:border-[#2864E8]/60 transition-all cursor-pointer group"
-              >
-                <Plus className="w-8 h-8 text-slate-400 group-hover:text-[#2864E8] group-hover:scale-110 transition-all" />
-              </button>
+            {!hasBranchSelection ? (
+              <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
+                <Building2 className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
+                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view classes and batches.</p>
+              </div>
+            ) : filteredClasses.length === 0 ? (
+              <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
+                <School className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
+                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
+                <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes and batches for this branch.</p>
+              </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
                 {filteredClasses.map(cls => {
@@ -4231,9 +4451,11 @@ export function FeesClient({
                           {clsBatches.length === 0 ? (
                             <div
                               onClick={() => openCreateBatchModal(cls.id)}
-                              className="text-xs text-slate-400 hover:text-[#2864E8] dark:hover:text-[#4B82F6] bg-slate-50/70 dark:bg-slate-800/40 hover:bg-blue-50/40 p-3 rounded-xl text-center font-medium cursor-pointer transition-colors border border-dashed border-slate-200 dark:border-slate-700/60"
+                              className="py-5 px-3 rounded-xl text-center cursor-pointer transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80"
                             >
-                              No batches created yet. Click &ldquo;+ Add Batch&rdquo; to create one.
+                              <Layers className="w-7 h-7 mx-auto text-slate-300 dark:text-slate-700 mb-1.5" />
+                              <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No batches added yet</p>
+                              <p className="text-[11px] text-slate-400 mt-0.5">Click + above to create a batch for this class.</p>
                             </div>
                           ) : activeBatch ? (
                             <div className="border-t border-slate-100 dark:border-slate-800/80 pt-2.5 space-y-2">
@@ -4315,7 +4537,7 @@ export function FeesClient({
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                   <div>
                     <CardTitle className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight uppercase">
-                      STUDENT DIRECTORY ({filteredStudents.length})
+                      STUDENT DIRECTORY ({hasBranchSelection ? filteredStudents.length : 0})
                     </CardTitle>
                     <CardDescription className="text-xs text-slate-400 font-normal mt-0.5">
                       Manage student profiles, fees and enrolment details.
@@ -4456,7 +4678,7 @@ export function FeesClient({
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                {excludedStudentsForMonth.length > 0 && (
+                {hasBranchSelection && excludedStudentsForMonth.length > 0 && (
                   <div className="m-3 p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60 flex flex-wrap items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200">
                     <div className="flex items-center gap-2">
                       <Info className="w-4 h-4 text-amber-600 shrink-0" />
@@ -4497,22 +4719,28 @@ export function FeesClient({
                       {filteredStudents.length === 0 ? (
                         <tr>
                           <td colSpan={6} className="py-12 text-center text-slate-400">
-                            <Users className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                            <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">Abhi koi student register nahi hai</p>
-                            <p className="text-[11px] text-slate-400 mt-0.5 max-w-sm mx-auto">
-                              {classes.length === 0
-                                ? "Student add karne se pehle kripya 'Classes & Batches' tab me jakar Class aur Batch create karein."
-                                : "Naya student add karne ke liye upar 'Enroll New Student' button par click karein."}
-                            </p>
-                            {classes.length > 0 && (
-                              <Button
-                                size="sm"
-                                onClick={openCreateStudentModal}
-                                className="mt-3 h-8 px-3.5 rounded-xl text-xs font-semibold bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-2xs cursor-pointer transition-colors"
-                              >
-                                <Plus className="w-3.5 h-3.5 mr-1" />
-                                Enroll First Student
-                              </Button>
+                            {!hasBranchSelection ? (
+                              <>
+                                <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                                <p className="text-[11px] text-slate-400 mt-0.5 max-w-sm mx-auto">
+                                  Please select a branch from the top dropdown to view student directory.
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <Users className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
+                                  {classFilter !== 'all' || batchFilter !== 'all' || statusFilter !== 'all' || studentSearch.trim()
+                                    ? 'No matching students'
+                                    : 'No students enrolled yet'}
+                                </p>
+                                <p className="text-[11px] text-slate-400 mt-0.5">
+                                  {classFilter !== 'all' || batchFilter !== 'all' || statusFilter !== 'all' || studentSearch.trim()
+                                    ? 'Try adjusting your class, batch, status or search filter.'
+                                    : 'Click + Student above to enroll students in this branch.'}
+                                </p>
+                              </>
                             )}
                           </td>
                         </tr>
@@ -4525,6 +4753,7 @@ export function FeesClient({
                           const studentLedgerEntry = ledger.find(l => l.studentId === student.id && (!selectedMonth || l.month === selectedMonth));
                           const dueDateStr = studentLedgerEntry ? studentLedgerEntry.dueDate : `2026-11-${String(student.dueDayOfMonth || 5).padStart(2, '0')}`;
                           const isOver = studentLedgerEntry ? ((studentLedgerEntry.isOverdue || studentLedgerEntry.status === 'OVERDUE') && studentLedgerEntry.status !== 'PAID') : false;
+                          const isYearlyFee = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage);
                           const genderLabel = student.gender
                             ? student.gender.charAt(0).toUpperCase() + student.gender.slice(1).toLowerCase()
                             : '';
@@ -4534,17 +4763,14 @@ export function FeesClient({
                               key={student.id}
                               className={`transition-colors duration-150 ${isOver
                                 ? 'bg-rose-50/15 hover:bg-rose-50/30 dark:bg-rose-950/10 dark:hover:bg-rose-950/20'
-                                : 'bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40'
+                                : isYearlyFee
+                                  ? 'bg-[#FFFBEB] hover:bg-[#FEF3C7]/45 dark:bg-amber-950/15 dark:hover:bg-amber-950/25'
+                                  : 'bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40'
                                 }`}
                             >
                               <td className="py-3 px-3.5 pl-5 whitespace-nowrap align-middle">
                                 <div className="font-semibold text-slate-900 dark:text-white text-[13.5px] sm:text-[14px] flex items-center gap-1.5 whitespace-nowrap tracking-tight leading-none h-[18px]">
                                   <span>{student.name}</span>
-                                  {(student.feeType === 'yearly_package' || Boolean(student.yearlyPackage)) && (
-                                    <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-0.5">
-                                      <span className="w-2 h-2 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_7px_2px_rgba(139,92,246,0.75)] animate-pulse" />
-                                    </span>
-                                  )}
                                 </div>
                                 <div className="text-[11.5px] text-slate-500 dark:text-slate-400 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
                                   Father : <span className="font-medium text-slate-700 dark:text-slate-300 capitalize ml-1">{student.fatherName || '—'}</span>
@@ -4909,7 +5135,20 @@ export function FeesClient({
                 {branchReportMode === 'monthly' && (
                   <>
                     {/* Case A: All Branches Monthly Comparison */}
-                    {selectedBranch === 'all' ? (
+                    {!hasBranchSelection ? (
+                      <div className="py-12 text-center text-slate-400 px-4">
+                        <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view monthly financial reports.</p>
+                      </div>
+                    ) : selectedBranch === 'all' ? (
+                      (stats.branchBreakdown.length === 0 || (stats.totalStudents === 0 && stats.totalExpectedFee === 0 && stats.totalReceivedFee === 0 && classes.length === 0)) ? (
+                        <div className="py-12 text-center text-slate-400 px-4">
+                          <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No report data available</p>
+                          <p className="text-[11px] text-slate-400 mt-0.5">Add classes and students to view the monthly branch report.</p>
+                        </div>
+                      ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full text-left text-xs sm:text-sm">
                           <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
@@ -4997,6 +5236,7 @@ export function FeesClient({
                           </tfoot>
                         </table>
                       </div>
+                      )
                     ) : (
                       /* Case B: Particular Branch Selected -> Only That Branch's Month Report */
                       <div className="p-4 sm:p-5 space-y-5">
@@ -5014,6 +5254,16 @@ export function FeesClient({
                               (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri') ||
                               (selectedBranch === 'mangol-puri' && c.branchId === 'mangolpuri')
                           );
+
+                          if ((curBranch?.studentCount || 0) === 0 && (curBranch?.expectedFee || 0) === 0 && (curBranch?.receivedFee || 0) === 0 && branchClasses.length === 0) {
+                            return (
+                              <div className="py-10 text-center text-slate-400">
+                                <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No report data available</p>
+                                <p className="text-[11px] text-slate-400 mt-0.5">Add classes and students to view the monthly report for this branch.</p>
+                              </div>
+                            );
+                          }
 
                           return (
                             <div className="space-y-5">
@@ -5123,8 +5373,10 @@ export function FeesClient({
                                   <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
                                     {branchClasses.length === 0 ? (
                                       <tr>
-                                        <td colSpan={4} className="py-6 text-center text-xs text-slate-400">
-                                          No classes registered under this branch yet.
+                                        <td colSpan={4} className="py-10 text-center text-slate-400">
+                                          <GraduationCap className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
+                                          <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes for this branch.</p>
                                         </td>
                                       </tr>
                                     ) : (
@@ -5161,13 +5413,26 @@ export function FeesClient({
                 {/* ------------------------------------------------------------ */}
                 {branchReportMode === 'yearly' && (
                   <>
-                    {isLoadingYearly ? (
+                    {!hasBranchSelection ? (
+                      <div className="py-12 text-center text-slate-400 px-4">
+                        <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view yearly financial reports.</p>
+                      </div>
+                    ) : isLoadingYearly ? (
                       <div className="p-12 text-center text-xs font-semibold text-slate-500 flex items-center justify-center gap-2">
                         <RefreshCw className="w-4 h-4 animate-spin text-[#2864E8]" />
                         <span>Loading Yearly Academic Session Data...</span>
                       </div>
                     ) : selectedBranch === 'all' ? (
                       /* Case C: All Branches Yearly Comparison */
+                      (!yearlyReport || yearlyReport.branches.length === 0 || (yearlyReport.totals.activeStudents === 0 && yearlyReport.totals.annualExpected === 0 && yearlyReport.totals.annualReceived === 0)) ? (
+                        <div className="py-12 text-center text-slate-400 px-4">
+                          <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No yearly data available</p>
+                          <p className="text-[11px] text-slate-400 mt-0.5">Enroll students or record payments to view the annual session report.</p>
+                        </div>
+                      ) : (
                       <div className="overflow-x-auto">
                         <table className="w-full text-left text-xs sm:text-sm">
                           <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
@@ -5240,6 +5505,7 @@ export function FeesClient({
                           </tfoot>
                         </table>
                       </div>
+                      )
                     ) : (
                       /* Case D: Particular Branch Selected -> Month-by-Month Trend for Full Year */
                       <div className="p-5 space-y-6">
@@ -5250,11 +5516,13 @@ export function FeesClient({
                               (selectedBranch === 'mangol-puri' && b.branchId === 'mangolpuri')
                           );
 
-                          if (!curBranchYearly) {
+                          if (!curBranchYearly || (curBranchYearly.activeStudents === 0 && curBranchYearly.annualExpected === 0 && curBranchYearly.annualReceived === 0)) {
                             return (
-                              <p className="text-center text-xs text-slate-400 py-6">
-                                No yearly record available for this branch.
-                              </p>
+                              <div className="py-10 text-center text-slate-400">
+                                <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No yearly data available</p>
+                                <p className="text-[11px] text-slate-400 mt-0.5">Enroll students or record payments to view the yearly report for this branch.</p>
+                              </div>
                             );
                           }
 
@@ -5436,71 +5704,67 @@ export function FeesClient({
         {/* MODAL 1: CREATE CLASS (Matching CREATE ACADEMIC BATCH Design System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isClassModalOpen} onOpenChange={setIsClassModalOpen}>
-          <FormModalDialogContent
-            maxWidthClass="max-w-[480px] sm:max-w-[530px]"
-            hideCloseButton={true}
-            className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] !rounded-[6px] sm:!rounded-[8px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col overflow-hidden max-h-[90vh]"
-          >
-            {/* Header: Height exactly matching name field height (h-[34px] sm:h-[36px]) */}
-            <div className="h-[34px] sm:h-[36px] flex items-center justify-between px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0">
-              <span className="text-[12px] sm:text-[12.5px] font-bold tracking-[0.05em] uppercase text-slate-800 dark:text-slate-100 block">
-                CREATE ACADEMIC CLASS
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsClassModalOpen(false)}
-                className="w-6 h-6 -mr-1 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
-              </button>
-            </div>
-
-            <DialogHeader className="sr-only">
-              <DialogTitle>Create Academic Class</DialogTitle>
-              <DialogDescription>Define a new class/course and assign it to an IDL Education branch.</DialogDescription>
+          <DialogContent className={FORM_CARD_DIALOG_CLS}>
+            <DialogHeader className={FORM_CARD_HEADER_CLS}>
+              <div>
+                <DialogTitle className={FORM_CARD_TITLE_CLS}>
+                  Create Academic Class
+                </DialogTitle>
+                <DialogDescription className={FORM_CARD_DESC_CLS}>
+                  Define a new academic class and assign it to a branch.
+                </DialogDescription>
+              </div>
             </DialogHeader>
 
-            <form
-              onSubmit={handleCreateClass}
-              className="p-4 sm:p-5 space-y-3 sm:space-y-3.5 overflow-y-auto"
-              autoComplete="off"
-            >
+            <form onSubmit={handleCreateClass} className="space-y-3 pt-1" autoComplete="off">
               {/* Row 1: Class Name & Class Division */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Input
-                    placeholder="Class Name *"
+                    placeholder="e.g. Class 9, Class 10"
                     value={classForm.name}
                     onChange={e => setClassForm({ ...classForm, name: e.target.value })}
                     required
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class Division <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Input
-                    placeholder="Class Division *"
+                    placeholder="e.g. Alpha, Sec A"
                     value={classForm.division}
                     onChange={e => setClassForm({ ...classForm, division: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
               {/* Row 2: Branch & Academic Session */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Select
                     value={classForm.branchId}
                     onValueChange={val => setClassForm({ ...classForm, branchId: val })}
                   >
-                    <SelectTrigger className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 [&>span]:text-[13px] sm:[&>span]:text-[13.5px] md:[&>span]:text-[14px] [&>span]:font-medium [&>span]:text-slate-900 dark:[&>span]:text-slate-100 data-[placeholder]:!text-slate-400 [&[data-placeholder]>span]:!text-slate-400 [&[data-placeholder]>span]:!text-[9.5px] sm:[&[data-placeholder]>span]:!text-[10px] [&[data-placeholder]>span]:!font-normal focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none flex items-center justify-between">
-                      <SelectValue placeholder="Branch *" />
+                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
+                      <SelectValue placeholder="Select branch" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                       {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => (
-                        <SelectItem key={b.id} value={b.id} className="text-[13px] sm:text-[13.5px] md:text-[14px] font-medium py-1.5 sm:py-2">
+                        <SelectItem
+                          key={b.id}
+                          value={b.id}
+                          className={FORM_CARD_SELECT_ITEM_CLS}
+                        >
                           {b.name}
                         </SelectItem>
                       ))}
@@ -5508,76 +5772,71 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Academic Session
+                  </Label>
                   <Input
-                    placeholder="Academic Session (e.g. 2026-27)"
+                    placeholder="e.g. 2026-27"
                     value={classForm.academicSession}
                     onChange={e => setClassForm({ ...classForm, academicSession: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
-              {/* Row 3: Display Order */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    type="number"
-                    min="1"
-                    placeholder="Card Order Number (e.g. 1, 2)"
-                    value={classForm.order !== undefined ? classForm.order : ''}
-                    onChange={e => setClassForm({ ...classForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
+              {/* Row 3: Card Order Number */}
+              <div className="space-y-1.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Card Order Number <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                </Label>
+                <Input
+                  type="number"
+                  min="1"
+                  placeholder="e.g. 1, 2"
+                  value={classForm.order !== undefined ? classForm.order : ''}
+                  onChange={e => setClassForm({ ...classForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
+                  className={FORM_CARD_FIELD_CLS}
+                />
               </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="w-full h-9 sm:h-9 text-[11.5px] sm:text-[12px] font-bold tracking-[0.06em] uppercase rounded-[5px] sm:rounded-[6px] bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 sm:mt-1.5 group"
-              >
-                <span>CREATE CLASS</span>
-                <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
-              </Button>
+              <DialogFooter className="pt-2">
+                <Button
+                  type="submit"
+                  disabled={isPending}
+                  className={FORM_CARD_SUBMIT_BTN_CLS}
+                >
+                  <span>CREATE CLASS</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                </Button>
+              </DialogFooter>
             </form>
-          </FormModalDialogContent>
+          </DialogContent>
         </Dialog>
 
         {/* -------------------------------------------------------------------- */}
         {/* MODAL 2: CREATE BATCH (Restyled to match Contact Us Design System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isBatchModalOpen} onOpenChange={setIsBatchModalOpen}>
-          <FormModalDialogContent
-            maxWidthClass="max-w-[480px] sm:max-w-[530px]"
-            hideCloseButton={true}
-            className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] !rounded-[6px] sm:!rounded-[8px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col overflow-hidden max-h-[90vh]"
-          >
-            {/* Header: Height exactly matching name field height (h-[34px] sm:h-[36px]) */}
-            <div className="h-[34px] sm:h-[36px] flex items-center justify-between px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0">
-              <span className="text-[12px] sm:text-[12.5px] font-bold tracking-[0.05em] uppercase text-slate-800 dark:text-slate-100 block">
-                CREATE ACADEMIC BATCH
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsBatchModalOpen(false)}
-                className="w-6 h-6 -mr-1 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
-              </button>
-            </div>
-
-            <DialogHeader className="sr-only">
-              <DialogTitle>Create Academic Batch</DialogTitle>
-              <DialogDescription>Define a new academic batch and timing.</DialogDescription>
+          <DialogContent className={`${FORM_CARD_DIALOG_CLS} max-h-[90dvh] overflow-y-auto`}>
+            <DialogHeader className={FORM_CARD_HEADER_CLS}>
+              <div>
+                <DialogTitle className={FORM_CARD_TITLE_CLS}>
+                  Create Academic Batch
+                </DialogTitle>
+                <DialogDescription className={FORM_CARD_DESC_CLS}>
+                  Define a new academic batch, schedule, and fee structure.
+                </DialogDescription>
+              </div>
             </DialogHeader>
 
-            <form onSubmit={handleCreateBatch} className="p-4 sm:p-5 space-y-3 sm:space-y-3.5 overflow-y-auto">
-              {/* Row 1: Select Class (1st) & Batch Name (2nd) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+            <form onSubmit={handleCreateBatch} className="space-y-3 pt-1" autoComplete="off">
+              {/* Row 1: Class & Batch Name */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Select
                     value={batchForm.classId || undefined}
                     onValueChange={val => {
@@ -5591,12 +5850,16 @@ export function FeesClient({
                       }));
                     }}
                   >
-                    <SelectTrigger className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 [&>span]:text-[13px] sm:[&>span]:text-[13.5px] md:[&>span]:text-[14px] [&>span]:font-medium [&>span]:text-slate-900 dark:[&>span]:text-slate-100 data-[placeholder]:!text-slate-400 [&[data-placeholder]>span]:!text-slate-400 [&[data-placeholder]>span]:!text-[9.5px] sm:[&[data-placeholder]>span]:!text-[10px] [&[data-placeholder]>span]:!font-normal focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none flex items-center justify-between">
-                      <SelectValue placeholder="Class *" />
+                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
+                      <SelectValue placeholder="Select class" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                       {(classes.length > 0 ? classes : filteredClasses).map(c => (
-                        <SelectItem key={c.id} value={c.id} className="text-[13px] sm:text-[13.5px] md:text-[14px] font-medium py-1.5 sm:py-2">
+                        <SelectItem
+                          key={c.id}
+                          value={c.id}
+                          className={FORM_CARD_SELECT_ITEM_CLS}
+                        >
                           {c.name}
                         </SelectItem>
                       ))}
@@ -5604,23 +5867,29 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Input
-                    placeholder="Batch Name *"
+                    placeholder="e.g. Alpha, Batch A1"
                     value={batchForm.name}
                     onChange={e => setBatchForm({ ...batchForm, name: e.target.value })}
                     required
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
               {/* Row 2: Batch Start Date & Batch End Date */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Start Date
+                  </Label>
                   <Input
                     type={batchForm.startDate ? "date" : "text"}
-                    placeholder="Batch Start Date (DD/MM/YYYY)"
+                    placeholder="DD/MM/YYYY"
                     value={batchForm.startDate || ''}
                     onFocus={e => (e.target.type = 'date')}
                     onBlur={e => {
@@ -5637,14 +5906,17 @@ export function FeesClient({
                         duration: durationStr,
                       });
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none cursor-pointer"
+                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch End Date
+                  </Label>
                   <Input
                     type={batchForm.endDate ? "date" : "text"}
-                    placeholder="Batch End Date (DD/MM/YYYY)"
+                    placeholder="DD/MM/YYYY"
                     value={batchForm.endDate || ''}
                     onFocus={e => (e.target.type = 'date')}
                     onBlur={e => {
@@ -5661,41 +5933,50 @@ export function FeesClient({
                         duration: durationStr,
                       });
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none cursor-pointer"
+                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
                   />
                 </div>
               </div>
 
-              {/* Row 3: Class Timings & Batch Order Number */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              {/* Row 3: Class Timings & Batch Order */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class Timings
+                  </Label>
                   <Input
-                    placeholder="Class Timings (e.g. 04:00 PM - 06:00 PM)"
+                    placeholder="e.g. 4:00 - 6:00 PM"
                     value={batchForm.classTime}
                     onChange={e => setBatchForm({ ...batchForm, classTime: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Order <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                  </Label>
                   <Input
                     type="number"
                     min="1"
-                    placeholder="Batch Order Number (e.g. 1, 2)"
+                    placeholder="e.g. 1, 2"
                     value={batchForm.order !== undefined ? batchForm.order : ''}
                     onChange={e => setBatchForm({ ...batchForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
-              {/* Row 4: Default Batch Fees (Monthly Fee & Yearly Fee) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              {/* Row 4: Batch Monthly Fee & Batch Yearly Fee */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Monthly Fee (₹)
+                  </Label>
                   <Input
                     type="number"
                     min="0"
-                    placeholder="Batch Monthly Fee (₹)"
+                    placeholder="e.g. 1500"
                     value={batchForm.monthlyFee !== undefined && batchForm.monthlyFee > 0 ? batchForm.monthlyFee : ''}
                     onChange={e => {
                       const m = e.target.value === '' ? 0 : Number(e.target.value);
@@ -5705,15 +5986,18 @@ export function FeesClient({
                         courseFee: m > 0 ? m * 12 : 0,
                       }));
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Yearly Fee (₹)
+                  </Label>
                   <Input
                     type="number"
                     min="0"
-                    placeholder="Batch Yearly Fee (₹)"
+                    placeholder="e.g. 18000"
                     value={batchForm.courseFee !== undefined && batchForm.courseFee > 0 ? batchForm.courseFee : ''}
                     onChange={e => {
                       const y = e.target.value === '' ? 0 : Number(e.target.value);
@@ -5723,16 +6007,19 @@ export function FeesClient({
                         monthlyFee: y > 0 ? Math.round(y / 12) : 0,
                       }));
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
-              {/* Row 5: Batch Subjects (Manual with + option) */}
-              <div className="space-y-2 pt-1">
+              {/* Row 5: Subjects */}
+              <div className="space-y-1.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                </Label>
                 <div className="flex items-center gap-2">
                   <Input
-                    placeholder="Enter Subject (e.g. Physics, Maths)..."
+                    placeholder="e.g. Physics, Maths"
                     value={newBatchSubjectInput}
                     onChange={e => setNewBatchSubjectInput(e.target.value)}
                     onKeyDown={e => {
@@ -5741,12 +6028,12 @@ export function FeesClient({
                         handleAddBatchSubject();
                       }
                     }}
-                    className="h-[34px] sm:h-[36px] flex-1 border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={`${FORM_CARD_FIELD_CLS} flex-1`}
                   />
                   <button
                     type="button"
                     onClick={() => handleAddBatchSubject()}
-                    className="h-[28px] sm:h-[30px] px-2.5 rounded-md text-[11px] font-bold bg-[#2864E8]/10 hover:bg-[#2864E8]/20 text-[#2864E8] flex items-center gap-1 transition-colors cursor-pointer shrink-0"
+                    className={FORM_CARD_ADD_BTN_CLS}
                     title="Add Subject"
                     aria-label="Add Subject"
                   >
@@ -5760,7 +6047,7 @@ export function FeesClient({
                     {batchForm.subjects.map((sub, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] bg-slate-50 dark:bg-slate-900 text-xs font-medium text-[#0B1F4B] dark:text-slate-200 border border-slate-200 dark:border-slate-800"
                       >
                         <span>{sub}</span>
                         <button
@@ -5768,6 +6055,7 @@ export function FeesClient({
                           onClick={() => handleDeleteBatchSubject(idx)}
                           className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
                           title="Remove Subject"
+                          aria-label={`Remove ${sub}`}
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -5777,26 +6065,27 @@ export function FeesClient({
                 )}
               </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={isSubmittingBatch || isPending}
-                className="group w-full h-[36px] sm:h-[38px] !rounded-[4px] sm:!rounded-[6px] font-bold text-[11px] sm:text-[11.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_rgba(40,100,232,0.25)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.35)] uppercase flex items-center justify-center gap-1.5 transition-all cursor-pointer !mt-4"
-              >
-                {isSubmittingBatch ? (
-                  <>
-                    <RefreshCw className="w-3.5 h-3.5 animate-spin" />
-                    <span>CREATING BATCH...</span>
-                  </>
-                ) : (
-                  <>
-                    <span>CREATE BATCH</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
-                  </>
-                )}
-              </Button>
+              <DialogFooter className="pt-2">
+                <Button
+                  type="submit"
+                  disabled={isSubmittingBatch || isPending}
+                  className={FORM_CARD_SUBMIT_BTN_CLS}
+                >
+                  {isSubmittingBatch ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin shrink-0" />
+                      <span>CREATING BATCH...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>CREATE BATCH</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                    </>
+                  )}
+                </Button>
+              </DialogFooter>
             </form>
-          </FormModalDialogContent>
+          </DialogContent>
         </Dialog>
 
         {/* -------------------------------------------------------------------- */}
@@ -6147,7 +6436,7 @@ export function FeesClient({
               <Button
                 type="submit"
                 disabled={isPending}
-                className="w-full h-9 sm:h-9 text-[11.5px] sm:text-[12px] font-bold tracking-[0.06em] uppercase rounded-[5px] sm:rounded-[6px] bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-none transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 sm:mt-1.5 group"
+                className="group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 sm:mt-1.5"
               >
                 <span>SAVE CLASS CHANGES</span>
                 <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
@@ -6160,106 +6449,132 @@ export function FeesClient({
         {/* MODAL 3: ENROLL NEW STUDENT (1:1 Exact Match with Edit Student Details & Student Profile Visual System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isStudentModalOpen} onOpenChange={open => !open && setIsStudentModalOpen(false)}>
-          <DialogContent onOpenAutoFocus={(e) => e.preventDefault()} className="max-w-[490px] sm:max-w-[530px] w-[92vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/90 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.15),0_4px_16px_rgba(15,23,42,0.06)] overflow-hidden max-h-[92vh] flex flex-col">
-            {/* Header: Clean Title without Icon + Compact Student ID & Joined Date */}
-            <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
+          <DialogContent
+            onOpenAutoFocus={(e) => e.preventDefault()}
+            className={`${FORM_CARD_WIDE_DIALOG_CLS} !p-4 sm:!p-5 overflow-hidden max-h-[94dvh] flex flex-col text-left`}
+          >
+            {/* Header: Card Title + Inline Student ID, Join Date & Due Date */}
+            <DialogHeader className="pb-2.5 border-b border-[#EEF2F7] dark:border-slate-800/80 shrink-0 text-left">
               <div>
-                <DialogTitle className="text-[17px] sm:text-[18px] font-semibold tracking-tight text-slate-900 dark:text-white">
+                <DialogTitle className={`${FORM_CARD_TITLE_CLS} pr-9`}>
                   Enroll New Student
                 </DialogTitle>
-                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1 flex items-center gap-2 sm:gap-2.5 whitespace-nowrap overflow-x-auto no-scrollbar">
-                  <span className="font-semibold text-slate-500 dark:text-slate-400">ID :</span>
-                  <input
-                    type="text"
-                    placeholder={studentIdWatermark}
-                    value={studentForm.rollNumber || ""}
-                    onChange={e => {
-                      setIsCustomRollNumber(true);
-                      setStudentForm({ ...studentForm, rollNumber: e.target.value });
-                    }}
-                    style={{ width: `${Math.max(9, (studentForm.rollNumber || studentIdWatermark).length)}ch` }}
-                    className="font-semibold text-slate-800 dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/80 dark:placeholder:text-slate-500 transition-colors"
-                  />
-                  <span className="text-slate-400 dark:text-slate-600 select-none">•</span>
-                  <span className="font-semibold text-slate-500 dark:text-slate-400">JOIN :</span>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    placeholder={todayDateWatermark}
-                    value={studentForm.joiningDate || ""}
-                    onChange={e => {
-                      const formatted = handleDateTyping(e.target.value, studentForm.joiningDate);
-                      setStudentForm(prev => ({
-                        ...prev,
-                        joiningDate: formatted,
-                      }));
-                    }}
-                    onBlur={e => {
-                      const normalized = normalizeDateBlur(e.target.value);
-                      setStudentForm(prev => ({
-                        ...prev,
-                        joiningDate: normalized,
-                      }));
-                    }}
-                    style={{ width: "10ch" }}
-                    className="font-semibold text-slate-800 dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/80 dark:placeholder:text-slate-500 transition-colors"
-                  />
-                  <span className="text-slate-400 dark:text-slate-600 select-none">•</span>
-                  <span className="font-semibold text-slate-500 dark:text-slate-400">DUE :</span>
-                  <input
-                    type="text"
-                    inputMode="numeric"
-                    placeholder={defaultDueDateWatermark}
-                    value={studentForm.dueDate || ""}
-                    onChange={e => {
-                      const formatted = handleDateTyping(e.target.value, studentForm.dueDate);
-                      setStudentForm({ ...studentForm, dueDate: formatted });
-                    }}
-                    onBlur={e => {
-                      const normalized = normalizeDateBlur(e.target.value);
-                      setStudentForm({ ...studentForm, dueDate: normalized });
-                    }}
-                    style={{ width: "10ch" }}
-                    className="font-semibold text-slate-800 dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/80 dark:placeholder:text-slate-500 transition-colors"
-                  />
+                <div className="text-[10.5px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-1 flex flex-wrap items-center gap-x-1.5 sm:gap-x-2.5 gap-y-0.5">
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">ID :</span>
+                    <input
+                      type="text"
+                      placeholder={studentIdWatermark}
+                      value={studentForm.rollNumber || ""}
+                      onChange={e => {
+                        setIsCustomRollNumber(true);
+                        setStudentForm({ ...studentForm, rollNumber: e.target.value });
+                      }}
+                      style={{ width: `${Math.max(9, (studentForm.rollNumber || studentIdWatermark).length)}ch` }}
+                      className="font-semibold text-[#0B1F4B] dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/90 dark:placeholder:text-slate-500 transition-colors"
+                    />
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-600 select-none">•</span>
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">JOIN :</span>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder={todayDateWatermark}
+                      value={studentForm.joiningDate || ""}
+                      onChange={e => {
+                        const formatted = handleDateTyping(e.target.value, studentForm.joiningDate);
+                        setStudentForm(prev => ({
+                          ...prev,
+                          joiningDate: formatted,
+                        }));
+                      }}
+                      onBlur={e => {
+                        const normalized = normalizeDateBlur(e.target.value);
+                        setStudentForm(prev => ({
+                          ...prev,
+                          joiningDate: normalized,
+                        }));
+                      }}
+                      style={{ width: "10ch" }}
+                      className="font-semibold text-[#0B1F4B] dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/90 dark:placeholder:text-slate-500 transition-colors"
+                    />
+                  </span>
+                  <span className="text-slate-300 dark:text-slate-600 select-none">•</span>
+                  <span className="inline-flex items-center gap-1 whitespace-nowrap">
+                    <span className="font-semibold text-slate-500 dark:text-slate-400">DUE :</span>
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      placeholder={defaultDueDateWatermark}
+                      value={studentForm.dueDate || ""}
+                      onChange={e => {
+                        const formatted = handleDateTyping(e.target.value, studentForm.dueDate);
+                        setStudentForm({ ...studentForm, dueDate: formatted });
+                      }}
+                      onBlur={e => {
+                        const normalized = normalizeDateBlur(e.target.value);
+                        setStudentForm({ ...studentForm, dueDate: normalized });
+                      }}
+                      style={{ width: "10ch" }}
+                      className="font-semibold text-[#0B1F4B] dark:text-slate-100 bg-transparent border-0 p-0 m-0 focus:outline-none focus:ring-0 font-mono cursor-text selection:bg-[#2864E8]/20 placeholder:font-normal placeholder:text-slate-400/90 dark:placeholder:text-slate-500 transition-colors"
+                    />
+                  </span>
                 </div>
               </div>
             </DialogHeader>
 
-            <form onSubmit={handleCreateStudent} noValidate className="flex flex-col flex-1 min-h-0 overflow-hidden pt-1 text-left" autoComplete="off">
-              <div className="flex-1 overflow-y-auto pr-1 pb-1 space-y-2.5">
-                {/* Personal Information & Academic Inputs (Matching Contact Form / Clean Underline UI) */}
-                <div className="py-2 border-b border-slate-100 dark:border-slate-800/80 space-y-3 sm:space-y-3.5">
-                  {/* Row 1: Student Full Name, Father/Guardian Name, Father/Guardian Occ. */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                    <input
-                      placeholder="Full Name *"
+            <form onSubmit={handleCreateStudent} noValidate className="flex flex-col flex-1 min-h-0 overflow-hidden pt-0.5 text-left" autoComplete="off">
+              <div className="flex-1 overflow-y-auto no-scrollbar pb-1 space-y-2">
+                {/* Row 1: Student Full Name, Father/Guardian Name, Father/Guardian Occ. */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Full Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
+                    <Input
+                      placeholder="e.g. Diya Tiwari"
                       value={studentForm.name}
                       onChange={e => setStudentForm({ ...studentForm, name: toTitleCase(e.target.value) })}
-                      className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150"
-                    />
-
-                    <input
-                      placeholder="Father / Guardian Name *"
-                      value={studentForm.fatherName}
-                      onChange={e => setStudentForm({ ...studentForm, fatherName: toTitleCase(e.target.value) })}
-                      className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150"
-                    />
-
-                    <input
-                      placeholder="Father / Guardian Occ."
-                      value={studentForm.fatherOccupation || ""}
-                      onChange={e => setStudentForm({ ...studentForm, fatherOccupation: toTitleCase(e.target.value) })}
-                      className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150"
+                      className={ENROLL_FIELD_CLS}
                     />
                   </div>
 
-                  {/* Row 2: Date of Birth, Gender, Blood Group */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                    <input
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Father / Guardian Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
+                    <Input
+                      placeholder="e.g. Rajender Tiwari"
+                      value={studentForm.fatherName}
+                      onChange={e => setStudentForm({ ...studentForm, fatherName: toTitleCase(e.target.value) })}
+                      className={ENROLL_FIELD_CLS}
+                    />
+                  </div>
+
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Father / Guardian Occ.
+                    </Label>
+                    <Input
+                      placeholder="e.g. Business"
+                      value={studentForm.fatherOccupation || ""}
+                      onChange={e => setStudentForm({ ...studentForm, fatherOccupation: toTitleCase(e.target.value) })}
+                      className={ENROLL_FIELD_CLS}
+                    />
+                  </div>
+                </div>
+
+                {/* Row 2: Date of Birth, Gender, Blood Group */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      DOB (DD-MM-YYYY)
+                    </Label>
+                    <Input
                       type="text"
                       inputMode="numeric"
-                      placeholder="DOB (DD-MM-YYYY)"
+                      placeholder="DD-MM-YYYY"
                       value={studentForm.dob || ""}
                       onChange={e => {
                         const formatted = handleDateTyping(e.target.value, studentForm.dob);
@@ -6269,108 +6584,146 @@ export function FeesClient({
                         const normalized = normalizeDateBlur(e.target.value);
                         setStudentForm({ ...studentForm, dob: normalized });
                       }}
-                      className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150 font-mono"
+                      className={`${ENROLL_FIELD_CLS} font-mono`}
                     />
+                  </div>
 
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Gender <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
                     <Select
                       value={studentForm.gender || ""}
                       onValueChange={(val: any) => setStudentForm({ ...studentForm, gender: val })}
                     >
-                      <SelectTrigger className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 data-[placeholder]:text-slate-500/75 dark:data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal focus:outline-none focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:shadow-none focus-visible:outline-none focus-visible:ring-0 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 data-[state=open]:!ring-0 data-[state=open]:border-[#2864E8] dark:data-[state=open]:border-[#2864E8] shadow-none flex items-center justify-between cursor-pointer [&>span]:truncate [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:text-slate-400 [&>svg]:opacity-70 transition-colors duration-150">
-                        <SelectValue placeholder="Gender *" />
+                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
+                        <SelectValue placeholder="Select gender" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="male" className="text-xs">Male</SelectItem>
-                        <SelectItem value="female" className="text-xs">Female</SelectItem>
+                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
+                        <SelectItem value="male" className={FORM_CARD_SELECT_ITEM_CLS}>Male</SelectItem>
+                        <SelectItem value="female" className={FORM_CARD_SELECT_ITEM_CLS}>Female</SelectItem>
                       </SelectContent>
                     </Select>
+                  </div>
 
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Blood Group
+                    </Label>
                     <Select
                       value={studentForm.bloodGroup || ""}
                       onValueChange={(val: string) => setStudentForm({ ...studentForm, bloodGroup: val })}
                     >
-                      <SelectTrigger className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 data-[placeholder]:text-slate-500/75 dark:data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal focus:outline-none focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:shadow-none focus-visible:outline-none focus-visible:ring-0 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 data-[state=open]:!ring-0 data-[state=open]:border-[#2864E8] dark:data-[state=open]:border-[#2864E8] shadow-none flex items-center justify-between cursor-pointer [&>span]:truncate [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:text-slate-400 [&>svg]:opacity-70 transition-colors duration-150">
-                        <SelectValue placeholder="Blood Group" />
+                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
+                        <SelectValue placeholder="Select group" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                         {['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'].map(bg => (
-                          <SelectItem key={bg} value={bg} className="text-xs">{bg}</SelectItem>
+                          <SelectItem key={bg} value={bg} className={FORM_CARD_SELECT_ITEM_CLS}>{bg}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
                   </div>
+                </div>
 
-                  {/* Row 3: Father Contact, Mother Contact, Student Contact with +91 Prefix */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
-                    <div className="relative h-[34px] w-full flex items-center">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-medium text-slate-400 select-none pointer-events-none">
+                {/* Row 3: Father Contact, Mother Contact, Phone Number with +91 Prefix */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Father Contact
+                    </Label>
+                    <div className="relative">
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 dark:text-slate-500 select-none pointer-events-none">
                         +91
                       </span>
-                      <input
+                      <Input
                         type="tel"
                         maxLength={10}
-                        placeholder="Father Contact"
+                        placeholder="10-digit no."
                         value={studentForm.fatherContact || ""}
                         onChange={e => setStudentForm({ ...studentForm, fatherContact: e.target.value.replace(/\D/g, "") })}
-                        className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none pl-[26px] pr-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150 font-mono"
+                        className={`${ENROLL_FIELD_CLS} !pl-7 font-mono`}
                       />
                     </div>
+                  </div>
 
-                    <div className="relative h-[34px] w-full flex items-center">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-medium text-slate-400 select-none pointer-events-none">
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Mother Contact
+                    </Label>
+                    <div className="relative">
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 dark:text-slate-500 select-none pointer-events-none">
                         +91
                       </span>
-                      <input
+                      <Input
                         type="tel"
                         maxLength={10}
-                        placeholder="Mother Contact"
+                        placeholder="10-digit no."
                         value={studentForm.motherContact || ""}
                         onChange={e => setStudentForm({ ...studentForm, motherContact: e.target.value.replace(/\D/g, ""), contact2: e.target.value.replace(/\D/g, "") })}
-                        className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none pl-[26px] pr-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150 font-mono"
+                        className={`${ENROLL_FIELD_CLS} !pl-7 font-mono`}
                       />
                     </div>
+                  </div>
 
-                    <div className="relative h-[34px] w-full flex items-center">
-                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-[12px] font-medium text-slate-400 select-none pointer-events-none">
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Phone Number <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
+                    <div className="relative">
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-400 dark:text-slate-500 select-none pointer-events-none">
                         +91
                       </span>
-                      <input
+                      <Input
                         type="tel"
                         maxLength={10}
-                        placeholder="Phone Number *"
+                        placeholder="10-digit no."
                         value={studentForm.contact1}
                         onChange={e => setStudentForm({ ...studentForm, contact1: e.target.value.replace(/\D/g, "") })}
-                        className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none pl-[26px] pr-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150 font-mono"
+                        className={`${ENROLL_FIELD_CLS} !pl-7 font-mono`}
                       />
                     </div>
                   </div>
+                </div>
 
-                  {/* Residential Address: Full-width underline field */}
-                  <div>
-                    <input
-                      placeholder="Residential Address (House no, colony, landmark, PIN)"
-                      value={studentForm.address}
-                      onChange={e => setStudentForm({ ...studentForm, address: toTitleCase(e.target.value) })}
-                      className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 placeholder:text-slate-500/75 dark:placeholder:text-slate-400/80 placeholder:font-normal focus:outline-none focus:ring-0 focus:border-[#2864E8] dark:focus:border-[#2864E8] shadow-none flex items-center leading-none transition-colors duration-150"
-                    />
-                  </div>
+                {/* Row 4: Residential Address */}
+                <div className="space-y-1">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Residential Address
+                  </Label>
+                  <Input
+                    placeholder="House no, colony, landmark, PIN"
+                    value={studentForm.address}
+                    onChange={e => setStudentForm({ ...studentForm, address: toTitleCase(e.target.value) })}
+                    className={ENROLL_FIELD_CLS}
+                  />
+                </div>
 
-                  {/* Academic Details (Branch, Class, Batch) in clean 3-column row */}
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-3.5">
+                {/* Row 5: Academic Details (Branch, Class, Batch) */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
                     <Select
                       value={studentForm.branchId}
                       onValueChange={val => setStudentForm({ ...studentForm, branchId: val, classId: "", batchId: "" })}
                     >
-                      <SelectTrigger className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 data-[placeholder]:text-slate-500/75 dark:data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal focus:outline-none focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:shadow-none focus-visible:outline-none focus-visible:ring-0 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 data-[state=open]:!ring-0 data-[state=open]:border-[#2864E8] dark:data-[state=open]:border-[#2864E8] shadow-none flex items-center justify-between cursor-pointer [&>span]:truncate [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:text-slate-400 [&>svg]:opacity-70 transition-colors duration-150">
-                        <SelectValue placeholder="Branch *" />
+                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
+                        <SelectValue placeholder="Select branch" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                         {IDL_BRANCHES.filter(b => b.id !== "all").map(b => (
-                          <SelectItem key={b.id} value={b.id} className="text-xs">{b.name}</SelectItem>
+                          <SelectItem key={b.id} value={b.id} className={FORM_CARD_SELECT_ITEM_CLS}>{b.name}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                  </div>
 
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
                     <Select
                       value={studentForm.classId}
                       onValueChange={val => {
@@ -6388,18 +6741,23 @@ export function FeesClient({
                         }));
                       }}
                     >
-                      <SelectTrigger className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 data-[placeholder]:text-slate-500/75 dark:data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal focus:outline-none focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:shadow-none focus-visible:outline-none focus-visible:ring-0 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 data-[state=open]:!ring-0 data-[state=open]:border-[#2864E8] dark:data-[state=open]:border-[#2864E8] shadow-none flex items-center justify-between cursor-pointer [&>span]:truncate [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:text-slate-400 [&>svg]:opacity-70 transition-colors duration-150">
-                        <SelectValue placeholder="Class *" />
+                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
+                        <SelectValue placeholder="Select class" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                         {classes
                           .filter(c => !studentForm.branchId || c.branchId === studentForm.branchId || c.branchId === "all")
                           .map(c => (
-                            <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
+                            <SelectItem key={c.id} value={c.id} className={FORM_CARD_SELECT_ITEM_CLS}>{c.name}</SelectItem>
                           ))}
                       </SelectContent>
                     </Select>
+                  </div>
 
+                  <div className="space-y-1">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Batch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    </Label>
                     <Select
                       value={studentForm.batchId}
                       onValueChange={val => {
@@ -6414,9 +6772,6 @@ export function FeesClient({
 
                         setStudentForm(prev => {
                           let pct = prev.scholarshipPercent || 0;
-                          const isYr = prev.feeType === 'yearly_package';
-                          const stdFee = isYr ? actualYearlyFee : actualMonthlyFee;
-                          const disc = Math.round((stdFee * pct) / 100);
                           return {
                             ...prev,
                             batchId: val,
@@ -6430,29 +6785,29 @@ export function FeesClient({
                         });
                       }}
                     >
-                      <SelectTrigger className="h-[34px] w-full border-0 border-b border-slate-200 dark:border-slate-800 !bg-transparent rounded-none px-0 text-[12.5px] font-normal text-slate-800 dark:text-slate-100 data-[placeholder]:text-slate-500/75 dark:data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal focus:outline-none focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:shadow-none focus-visible:outline-none focus-visible:ring-0 !ring-0 !ring-offset-0 focus:!ring-0 focus-visible:!ring-0 data-[state=open]:!ring-0 data-[state=open]:border-[#2864E8] dark:data-[state=open]:border-[#2864E8] shadow-none flex items-center justify-between cursor-pointer [&>span]:truncate [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:text-slate-400 [&>svg]:opacity-70 transition-colors duration-150">
-                        <SelectValue placeholder="Batch *" />
+                      <SelectTrigger className={ENROLL_SELECT_TRIGGER_CLS}>
+                        <SelectValue placeholder="Select batch" />
                       </SelectTrigger>
-                      <SelectContent>
+                      <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                         {batches
                           .filter(b => b.classId === studentForm.classId)
                           .map(b => (
-                            <SelectItem key={b.id} value={b.id} className="text-xs">{b.name}</SelectItem>
+                            <SelectItem key={b.id} value={b.id} className={FORM_CARD_SELECT_ITEM_CLS}>{b.name}</SelectItem>
                           ))}
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
 
-                {/* Fee Breakdown Card: Clean, Compact Premium Styling */}
-                <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50/70 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-800/80 space-y-1.5 text-xs">
-                  <div className="flex items-center justify-between text-[10.5px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                {/* Fee Breakdown Card */}
+                <div className="p-3 rounded-xl bg-[#F8FAFC] dark:bg-slate-900/40 border border-[#E2E8F0] dark:border-slate-800/80 space-y-1.5 text-xs">
+                  <div className="flex items-center justify-between text-[10.5px] font-semibold uppercase tracking-wider text-[#0B1F4B] dark:text-slate-300">
                     <span className="whitespace-nowrap shrink-0">
                       Fee Breakdown
                     </span>
 
                     {/* Monthly / Yearly Selection Option */}
-                    <div className="inline-flex items-center p-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-700/80 shadow-2xs">
+                    <div className="inline-flex items-center p-0.5 rounded-md bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-700/80 shadow-2xs">
                       <button
                         type="button"
                         onClick={() => handleToggleStudentFeeType('monthly')}
@@ -6476,11 +6831,11 @@ export function FeesClient({
                     </div>
                   </div>
 
-                  <div className="space-y-1 pt-0.5">
+                  <div className="space-y-1.5 pt-0.5">
                     {/* Standard Fee */}
                     <div className="flex justify-between items-baseline text-slate-600 dark:text-slate-400 text-[12px]">
                       <span className="font-normal">Standard Fee:</span>
-                      <div className="inline-flex items-baseline justify-end font-medium text-slate-800 dark:text-slate-200 font-mono text-[12px] whitespace-nowrap">
+                      <div className="inline-flex items-baseline justify-end font-medium text-[#0B1F4B] dark:text-slate-200 font-mono text-[12px] whitespace-nowrap">
                         <span className="text-slate-500 dark:text-slate-400 select-none mr-1">₹</span>
                         <input
                           type="text"
@@ -6530,7 +6885,7 @@ export function FeesClient({
                               ).length
                             )}ch`
                           }}
-                          className="text-right p-0 m-0 border-0 bg-transparent font-medium text-slate-800 dark:text-slate-200 font-mono placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:ring-0 leading-none"
+                          className="text-right p-0 m-0 border-0 bg-transparent font-medium text-[#0B1F4B] dark:text-slate-200 font-mono placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:ring-0 leading-none"
                         />
                         <span className="text-slate-400 dark:text-slate-500 text-[11px] select-none ml-1">
                           {studentForm.feeType === 'yearly_package' ? '/yr' : '/mo'}
@@ -6638,9 +6993,9 @@ export function FeesClient({
                     )}
                   </div>
 
-                  {/* Net Payable Fee Highlight matching Profile View */}
-                  <div className="flex justify-between items-baseline pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
-                    <span className="font-semibold text-slate-900 dark:text-white text-[12px] sm:text-[12.5px]">Net Payable Fee:</span>
+                  {/* Net Payable Fee Highlight */}
+                  <div className="flex justify-between items-baseline pt-2 border-t border-[#E2E8F0] dark:border-slate-800">
+                    <span className="font-semibold text-[#0B1F4B] dark:text-white text-[12px] sm:text-[12.5px]">Net Payable Fee:</span>
                     <div className="inline-flex items-baseline justify-end text-[#2864E8] font-mono tracking-tight whitespace-nowrap">
                       <span className="text-[13px] sm:text-[14px] font-bold mr-1 select-none">₹</span>
                       <input
@@ -6694,13 +7049,13 @@ export function FeesClient({
                   if (batchSubjects.length === 0) return null;
 
                   return (
-                    <div className="py-1.5 space-y-1 text-xs">
+                    <div className="space-y-1.5 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] uppercase font-semibold text-slate-400 dark:text-slate-500 tracking-wider">
+                        <Label className={FORM_CARD_LABEL_CLS}>
                           Enrolled Subjects ({studentForm.subjects?.length || 0})
-                        </span>
+                        </Label>
                       </div>
-                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-0.5">
+                      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 pt-0.5">
                         {batchSubjects.map(sub => {
                           const active = studentForm.subjects?.includes(sub);
                           return (
@@ -6722,7 +7077,7 @@ export function FeesClient({
                               }}
                               title={active ? `Click to remove ${sub}` : `Click to add ${sub}`}
                               className={`inline-flex items-center gap-1.5 text-xs transition-colors cursor-pointer ${active
-                                ? "font-medium text-slate-900 dark:text-slate-100"
+                                ? "font-medium text-[#0B1F4B] dark:text-slate-100"
                                 : "font-normal text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300"
                                 }`}
                             >
@@ -6739,11 +7094,14 @@ export function FeesClient({
                   );
                 })()}
 
-                {/* Additional Subjects (Optional for individual student) - Exactly matches Batch Subject Input Pattern */}
-                <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800/80">
-                  <div className="flex items-center gap-2">
+                {/* Additional Subjects (Optional) */}
+                <div className="space-y-1">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Additional Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                  </Label>
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
                     <Input
-                      placeholder="Enter Additional Subject (e.g. Computer Science)..."
+                      placeholder="e.g. Computer Science"
                       value={newEnrollAddlSubjectName}
                       onChange={e => setNewEnrollAddlSubjectName(toTitleCase(e.target.value))}
                       onKeyDown={e => {
@@ -6752,11 +7110,11 @@ export function FeesClient({
                           handleAddEnrollAddlSubject();
                         }
                       }}
-                      className="h-[34px] sm:h-[36px] flex-1 border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                      className={`${ENROLL_FIELD_CLS} flex-1 min-w-[160px]`}
                     />
-                    <div className="flex items-center gap-1 border-b border-slate-200/90 dark:border-slate-700/80 h-[34px] sm:h-[36px] px-1 w-[75px] sm:w-[85px] shrink-0">
-                      <span className="text-slate-400 text-xs font-mono">₹</span>
-                      <input
+                    <div className="relative w-[84px] sm:w-[92px] shrink-0">
+                      <span className="absolute left-0 top-1/2 -translate-y-1/2 text-xs font-mono text-slate-400 select-none pointer-events-none">₹</span>
+                      <Input
                         type="text"
                         inputMode="numeric"
                         placeholder="Fee"
@@ -6768,18 +7126,18 @@ export function FeesClient({
                             handleAddEnrollAddlSubject();
                           }
                         }}
-                        className="w-full text-xs font-semibold text-indigo-600 dark:text-indigo-400 bg-transparent border-0 p-0 focus:outline-none focus:ring-0 placeholder:text-slate-400 placeholder:font-normal font-mono"
+                        className={`${ENROLL_FIELD_CLS} !pl-3.5 font-mono text-indigo-600 dark:text-indigo-400`}
                       />
                     </div>
                     <button
                       type="button"
                       onClick={() => handleAddEnrollAddlSubject()}
-                      className="h-[28px] sm:h-[30px] px-2.5 rounded-md text-[11px] font-bold bg-[#2864E8]/10 hover:bg-[#2864E8]/20 text-[#2864E8] flex items-center gap-1 transition-colors cursor-pointer shrink-0"
-                      title="Add adition sub."
-                      aria-label="Add adition sub."
+                      className={ENROLL_ADD_BTN_CLS}
+                      title="Add Additional Subject"
+                      aria-label="Add Additional Subject"
                     >
                       <Plus className="w-3.5 h-3.5" />
-                      <span>Add adition sub.</span>
+                      <span>Add Subject</span>
                     </button>
                   </div>
 
@@ -6788,10 +7146,10 @@ export function FeesClient({
                       {studentForm.additionalSubjects.map((sub, idx) => (
                         <span
                           key={sub.id || idx}
-                          className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/40 text-[11px] font-semibold text-slate-800 dark:text-slate-200 border border-indigo-200 dark:border-indigo-800"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] bg-indigo-50/70 dark:bg-indigo-950/40 text-xs font-medium text-[#0B1F4B] dark:text-slate-200 border border-indigo-200/80 dark:border-indigo-800"
                         >
                           <span>{sub.name}</span>
-                          <span className="font-mono text-indigo-600 dark:text-indigo-400 font-bold flex items-center">
+                          <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold flex items-center text-[11px]">
                             <span>(+₹</span>
                             <input
                               type="text"
@@ -6803,7 +7161,7 @@ export function FeesClient({
                                 handleUpdateEnrollAddlSubject(sub.id, 'fee', val);
                               }}
                               style={{ width: `${Math.max(1, String(sub.fee || 0).length)}ch` }}
-                              className="p-0 m-0 border-0 bg-transparent text-indigo-600 dark:text-indigo-400 font-mono font-bold text-[11px] focus:outline-none focus:ring-0 text-center"
+                              className="p-0 m-0 border-0 bg-transparent text-indigo-600 dark:text-indigo-400 font-mono font-semibold text-[11px] focus:outline-none focus:ring-0 text-center"
                               title="Edit fee"
                             />
                             <span>/mo)</span>
@@ -6811,8 +7169,9 @@ export function FeesClient({
                           <button
                             type="button"
                             onClick={() => handleRemoveEnrollAddlSubject(sub.id)}
-                            className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer ml-0.5"
+                            className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
                             title="Remove Subject"
+                            aria-label={`Remove ${sub.name}`}
                           >
                             <X className="w-3 h-3" />
                           </button>
@@ -6823,17 +7182,16 @@ export function FeesClient({
                 </div>
               </div>
 
-              {/* Submit Button (Pinned Bottom Action Footer) - Compact & Elegant */}
-              <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 shrink-0">
+              <DialogFooter className="pt-2.5 border-t border-[#EEF2F7] dark:border-slate-800/80 shrink-0">
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="group w-full h-[38px] rounded-lg font-semibold text-[12px] tracking-[0.06em] uppercase bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  className={FORM_CARD_SUBMIT_BTN_CLS}
                 >
                   <span>ENROLL STUDENT</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
+                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
                 </Button>
-              </div>
+              </DialogFooter>
             </form>
           </DialogContent>
         </Dialog>
@@ -7491,7 +7849,7 @@ export function FeesClient({
                 <Button
                   type="submit"
                   disabled={isPending}
-                  className="group w-full h-8 rounded-lg font-bold text-xs uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(0,0,0,0.05),0_2px_8px_-2px_rgba(40,100,232,0.35)] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  className="group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
                   <span>SAVE STUDENT CHANGES</span>
                   <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
@@ -7785,9 +8143,9 @@ export function FeesClient({
                         ? !collectForm.totalYearlyFee || collectForm.totalYearlyFee <= 0
                         : !collectForm.amount || collectForm.amount <= 0)
                     }
-                    className={`w-full h-11 text-xs sm:text-[13px] uppercase tracking-wider rounded-[5px] flex items-center justify-center gap-2 transition-all cursor-pointer shadow-none active:scale-[0.995] ${!collectForm.paymentMode
-                      ? 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 font-semibold cursor-not-allowed shadow-none'
-                      : 'bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-bold shadow-[0_1px_2px_rgba(0,0,0,0.05),0_2px_8px_-2px_rgba(40,100,232,0.35)]'
+                    className={`w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-none active:scale-[0.995] ${!collectForm.paymentMode
+                      ? 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 cursor-not-allowed shadow-none'
+                      : 'bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)]'
                       }`}
                   >
                     {isRecordingPayment ? (
@@ -8876,7 +9234,7 @@ export function FeesClient({
                       type="button"
                       disabled={isReverting}
                       onClick={handleMarkEntireMonthUnpaid}
-                      className="w-full h-9 rounded-lg px-4 text-xs font-semibold uppercase tracking-wide bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white shadow-[0_1px_2px_rgba(15,23,42,0.06)] flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                      className="w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white shadow-[0_1px_2px_rgba(15,23,42,0.06)] flex items-center justify-center gap-2 transition-all cursor-pointer"
                     >
                       {isReverting ? (
                         <>
@@ -9520,19 +9878,11 @@ export function FeesClient({
                   </div>
 
                   {/* Footer */}
-                  <DialogFooter className="pt-2.5 border-t border-slate-100 dark:border-slate-800 shrink-0 flex items-center justify-end gap-2">
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => setTransferModal(prev => ({ ...prev, isOpen: false }))}
-                      className="h-9 px-4 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100"
-                    >
-                      Cancel
-                    </Button>
+                  <DialogFooter className="pt-2.5 border-t border-slate-100 dark:border-slate-800 shrink-0">
                     <Button
                       type="submit"
                       disabled={transferModal.isSubmitting || isSameBatch || !transferModal.targetBatchId}
-                      className="h-9 px-4 rounded-xl text-xs font-bold bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-xs disabled:opacity-50"
+                      className="w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] flex items-center justify-center gap-2 cursor-pointer transition-all disabled:opacity-50"
                     >
                       {transferModal.isSubmitting ? (
                         <span className="flex items-center gap-1.5">
