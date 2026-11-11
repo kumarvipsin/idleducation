@@ -22,8 +22,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import type { UserRole } from '@/lib/attendance-store';
+
 export default function AttendanceSettingsPage() {
-  const { resetToSeedData, clearAllDemoData, isDemoData, currentRole } = useAttendance();
+  const { resetToSeedData, clearAllDemoData, isDemoData, currentRole, setCurrentRole } = useAttendance();
   const [threshold, setThreshold] = useState('75');
   const [instituteName, setInstituteName] = useState('IDL EDUCATION');
   const [tagline, setTagline] = useState('Learn Today, Lead Tomorrow');
@@ -141,9 +144,22 @@ export default function AttendanceSettingsPage() {
               <UserCheck className="h-4 w-4 text-purple-600" />
               Role-Based Access Control (RBAC) Matrix
             </CardTitle>
-            <CardDescription className="text-xs">
-              Current active preview role: <span className="font-bold text-blue-700">{currentRole}</span> (switch roles in top navigation bar)
-            </CardDescription>
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <CardDescription className="text-xs">
+                Current active preview role: <span className="font-bold text-blue-700">{currentRole}</span>
+              </CardDescription>
+              <Select value={currentRole} onValueChange={(val) => setCurrentRole(val as UserRole)}>
+                <SelectTrigger className="h-8 w-[160px] text-xs font-semibold">
+                  <SelectValue placeholder="Switch role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Super Admin">Super Admin</SelectItem>
+                  <SelectItem value="Admin">Admin</SelectItem>
+                  <SelectItem value="Teacher">Teacher</SelectItem>
+                  <SelectItem value="Staff">Staff</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </CardHeader>
           <CardContent className="p-0 overflow-x-auto text-xs">
             <table className="w-full text-left border-collapse">

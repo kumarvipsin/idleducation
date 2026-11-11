@@ -26,7 +26,11 @@ export default async function AdminFeesPage({
   const sp = searchParams ? await searchParams : {};
   const adminCtx = await getServerAdminContext();
   const initialTab = sp.tab || 'overview';
-  const initialBranch = adminCtx?.isBranchAdmin ? adminCtx.branchId : (sp.branch || ''); // Enforce branch admin scope server-side
+  const initialBranch = adminCtx?.isBranchAdmin
+    ? adminCtx.branchId
+    : adminCtx?.isSuperAdmin
+      ? sp.branch || 'all'
+      : ''; // Enforce branch admin scope server-side and default Super Admin to All Branches
   const currentMonth = await getCurrentMonth();
   const initialMonth = sp.month && sp.month <= currentMonth && sp.month >= '2026-04' ? sp.month : currentMonth;
 

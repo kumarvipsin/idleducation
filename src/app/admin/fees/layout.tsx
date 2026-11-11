@@ -13,7 +13,7 @@ const inter = Inter({
 export default function FeesLayout({ children }: { children: React.ReactNode }) {
   return (
     <div
-      className={`${inter.variable} ${inter.className} min-h-screen bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 antialiased`}
+      className={`${inter.variable} ${inter.className} min-h-[calc(100svh-68px)] flex-1 bg-slate-50/60 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 antialiased`}
       style={{
         fontFamily: `'Inter', ${inter.style.fontFamily}, sans-serif`,
         ['--font-sans' as string]: `'Inter', ${inter.style.fontFamily}, sans-serif`,

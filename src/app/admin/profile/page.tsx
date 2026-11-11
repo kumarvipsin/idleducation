@@ -1,255 +1,371 @@
 'use client';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { useAuth } from "@/context/auth-context";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Mail, Shield, Phone, Home, Calendar as CalendarIcon, Droplets, User as UserIcon, Edit, ShieldCheck, BadgeCheck, Clock, CheckCircle2, Sparkles, MapPin, Globe } from "lucide-react";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { useState } from "react";
-import { ProfileEditForm } from "./profile-edit-form";
-import { GcsImage } from "@/components/gcs-image";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
-import placeholderImages from '@/app/lib/placeholder-images.json';
-import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
+
+import { useState } from 'react';
+import { format } from 'date-fns';
+import { Pencil } from 'lucide-react';
+import { useAuth, type UserProfile } from '@/context/auth-context';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { GcsImage } from '@/components/gcs-image';
+import { ProfileEditForm } from './profile-edit-form';
+import { getBranchDisplayName, normalizeBranchId } from '@/lib/branch-utils';
+import { auth } from '@/lib/firebase';
+import { cn } from '@/lib/utils';
+
+interface DetailEntry {
+  label: string;
+  value: string;
+  tone?: 'default' | 'positive' | 'warning' | 'neutral';
+}
+
+function getInitials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean);
+  if (parts.length >= 2) {
+    return `${parts[0][0]}${parts[parts.length - 1][0]}`.toUpperCase();
+  }
+  return parts[0]?.charAt(0).toUpperCase() || 'A';
+}
+
+function formatLastActiveTimestamp(rawValue: string | null | undefined): string | null {
+  if (!rawValue || typeof rawValue !== 'string') return null;
+  const parsed = new Date(rawValue);
+  if (Number.isNaN(parsed.getTime())) return null;
+  return format(parsed, 'MMM d, yyyy, h:mm a');
+}
+
+function resolveAccountStatus(status: string | null | undefined): { label: string; isActive: boolean } | null {
+  if (!status || typeof status !== 'string') return null;
+  const normalized = status.trim().toLowerCase();
+  if (!normalized) return null;
+  if (normalized === 'inactive' || normalized === 'denied') {
+    return { label: 'Inactive', isActive: false };
+  }
+  if (normalized === 'pending') {
+    return { label: 'Pending', isActive: false };
+  }
+  if (normalized === 'approved' || normalized === 'active') {
+    return { label: 'Active', isActive: true };
+  }
+  return null;
+}
+
+function TwoColumnSection({
+  title,
+  entries,
+  fullWidthEntry,
+  emptyMessage,
+}: {
+  title: string;
+  entries: DetailEntry[];
+  fullWidthEntry?: DetailEntry | null;
+  emptyMessage?: string;
+}) {
+  const rows: DetailEntry[][] = [];
+  for (let i = 0; i < entries.length; i += 2) {
+    rows.push(entries.slice(i, i + 2));
+  }
+
+  return (
+    <section className="px-6 py-6 sm:px-8 sm:py-7">
+      <h2 className="text-[15px] font-semibold tracking-tight text-[#0B1B43] mb-5">{title}</h2>
+      {rows.length === 0 && !fullWidthEntry ? (
+        <p className="text-sm text-[#64748B]">{emptyMessage || 'No details available.'}</p>
+      ) : (
+        <div className="divide-y divide-[#E8EDF3]">
+          {rows.map((pair, rowIndex) => (
+            <div
+              key={rowIndex}
+              className={cn(
+                'grid grid-cols-1 md:grid-cols-2',
+                rowIndex > 0 && 'pt-5',
+                rowIndex < rows.length - 1 || fullWidthEntry ? 'pb-5' : ''
+              )}
+            >
+              <div className="min-w-0 md:pr-8">
+                <p className="text-xs font-medium text-[#64748B] mb-1.5">{pair[0].label}</p>
+                <ValueText entry={pair[0]} />
+              </div>
+              {pair[1] && (
+                <div className="min-w-0 pt-4 mt-4 border-t border-[#E8EDF3] md:pt-0 md:mt-0 md:border-t-0 md:pl-8 md:border-l md:border-[#E8EDF3]">
+                  <p className="text-xs font-medium text-[#64748B] mb-1.5">{pair[1].label}</p>
+                  <ValueText entry={pair[1]} />
+                </div>
+              )}
+            </div>
+          ))}
+          {fullWidthEntry && (
+            <div className={cn('min-w-0', rows.length > 0 && 'pt-5')}>
+              <p className="text-xs font-medium text-[#64748B] mb-1.5">{fullWidthEntry.label}</p>
+              <ValueText entry={fullWidthEntry} />
+            </div>
+          )}
+        </div>
+      )}
+    </section>
+  );
+}
+
+function ValueText({ entry }: { entry: DetailEntry }) {
+  return (
+    <p
+      className={cn(
+        'text-sm font-medium break-words',
+        entry.tone === 'positive'
+          ? 'text-emerald-700'
+          : entry.tone === 'warning'
+            ? 'text-amber-700'
+            : entry.tone === 'neutral'
+              ? 'text-[#475569]'
+              : 'text-[#0B1B43]'
+      )}
+    >
+      {entry.value}
+    </p>
+  );
+}
 
 export default function AdminProfilePage() {
   const { user, loading, login } = useAuth();
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
-  const handleUpdateSuccess = (updatedUser: any) => {
-    login(updatedUser);
+  const handleUpdateSuccess = (updatedUser: UserProfile) => {
+    login({
+      ...user,
+      ...updatedUser,
+      emailVerified: updatedUser.emailVerified ?? user?.emailVerified,
+      twoFactorEnabled: updatedUser.twoFactorEnabled ?? user?.twoFactorEnabled,
+      lastSignInTime: updatedUser.lastSignInTime ?? user?.lastSignInTime,
+    });
     setIsEditDialogOpen(false);
-  }
-  
-  const SectionHeader = ({ title, icon }: { title: string, icon: React.ReactNode }) => (
-    <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 bg-primary/10 rounded-xl text-primary shadow-sm">
-            {icon}
-        </div>
-        <h3 className="text-sm font-black uppercase tracking-[0.2em] text-foreground">{title}</h3>
-    </div>
-  );
-
-  const InfoCard = ({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | null | undefined }) => (
-    <div className="group p-4 md:p-5 rounded-[1.5rem] border border-muted-foreground/5 bg-card hover:bg-muted/30 transition-all duration-500 shadow-sm hover:shadow-lg">
-        <div className="flex items-start gap-4 md:gap-5">
-            <div className="text-primary mt-1 p-2 bg-primary/5 rounded-lg transition-all duration-500 group-hover:scale-110 group-hover:bg-primary group-hover:text-white">
-                {icon}
-            </div>
-            <div className="flex-1 min-w-0">
-                <p className="text-[9px] font-black uppercase tracking-[0.1em] text-muted-foreground/60 mb-1">{label}</p>
-                <p className="font-bold text-sm text-foreground break-words">{value || 'Not provided'}</p>
-            </div>
-        </div>
-    </div>
-  );
+  };
 
   if (loading) {
     return (
-      <div className="space-y-8 max-w-6xl mx-auto p-4 md:p-0">
-          <Skeleton className="h-64 w-full rounded-[2.5rem]" />
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              <div className="lg:col-span-1 space-y-8">
-                  <Skeleton className="h-80 w-full rounded-[2rem]" />
-              </div>
-              <div className="lg:col-span-2 space-y-8">
-                  <Skeleton className="h-[500px] w-full rounded-[2.5rem]" />
-              </div>
+      <div className="w-full max-w-5xl mx-auto bg-white border border-[#E8EDF3] rounded-lg divide-y divide-[#E8EDF3]">
+        <div className="px-6 py-6 sm:px-8 sm:py-7 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-16 w-16 rounded-full shrink-0" />
+            <div className="space-y-2">
+              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-4 w-32" />
+            </div>
           </div>
+          <Skeleton className="h-9 w-28 rounded-md" />
+        </div>
+        <div className="px-6 py-6 sm:px-8 sm:py-7 space-y-4">
+          <Skeleton className="h-5 w-40" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
+        <div className="px-6 py-6 sm:px-8 sm:py-7 space-y-4">
+          <Skeleton className="h-5 w-40" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Skeleton className="h-12 w-full" />
+            <Skeleton className="h-12 w-full" />
+          </div>
+        </div>
       </div>
     );
   }
 
   if (!user) {
     return (
-        <div className="flex items-center justify-center min-h-[400px]">
-            <p className="text-muted-foreground font-black text-sm uppercase tracking-widest">User session expired. Please re-authenticate.</p>
-        </div>
+      <div className="w-full max-w-5xl mx-auto bg-white border border-[#E8EDF3] rounded-lg px-6 py-12 text-center">
+        <p className="text-sm font-medium text-[#64748B]">
+          Your session has expired. Please sign in again to view this profile.
+        </p>
+      </div>
     );
   }
 
+  const displayName = (user.name || user.email?.split('@')[0] || 'Administrator').trim();
+  const initials = getInitials(displayName);
+  const normalizedBranchId = normalizeBranchId(user.branchId);
+  const isBranchAdmin = user.role === 'admin' && Boolean(normalizedBranchId && normalizedBranchId !== 'all');
+  const branchDisplayName = isBranchAdmin
+    ? user.branchName || (normalizedBranchId ? getBranchDisplayName(normalizedBranchId, true) : '')
+    : '';
+  const accountRole =
+    user.role === 'admin'
+      ? isBranchAdmin
+        ? 'Branch Admin'
+        : 'Super Admin'
+      : user.role
+        ? `${user.role.charAt(0).toUpperCase()}${user.role.slice(1)}`
+        : 'Administrator';
+  const accountRoleDetail =
+    isBranchAdmin && branchDisplayName ? `${accountRole} (${branchDisplayName})` : accountRole;
+
+  const accountStatus = resolveAccountStatus(user.status);
+
+  const firebaseUser = auth.currentUser?.uid === user.uid ? auth.currentUser : null;
+  const emailVerified =
+    typeof firebaseUser?.emailVerified === 'boolean'
+      ? firebaseUser.emailVerified
+      : typeof user.emailVerified === 'boolean'
+        ? user.emailVerified
+        : undefined;
+  const twoFactorEnabled = typeof user.twoFactorEnabled === 'boolean' ? user.twoFactorEnabled : undefined;
+  const lastActiveFormatted = formatLastActiveTimestamp(
+    firebaseUser?.metadata?.lastSignInTime || user.lastSignInTime
+  );
+
+  const personalEntries: DetailEntry[] = [
+    { label: 'Full Name', value: displayName },
+    { label: 'Account Role', value: accountRoleDetail },
+  ];
+
+  const contactEntries: DetailEntry[] = [
+    { label: 'Email Address', value: user.email || 'Not provided' },
+    { label: 'Phone Number', value: user.phone?.trim() || 'Not provided' },
+  ];
+
+  const trimmedAddress = user.address?.trim() || '';
+  const addressEntry: DetailEntry | null = trimmedAddress
+    ? { label: 'Primary Address', value: trimmedAddress }
+    : null;
+
+  const securityEntries: DetailEntry[] = [];
+  if (typeof emailVerified === 'boolean') {
+    securityEntries.push({
+      label: 'Email Verification Status',
+      value: emailVerified ? 'Verified' : 'Not Verified',
+      tone: emailVerified ? 'positive' : 'warning',
+    });
+  }
+  if (typeof twoFactorEnabled === 'boolean') {
+    securityEntries.push({
+      label: 'Two-Factor Authentication Status',
+      value: twoFactorEnabled ? 'Enabled' : 'Not Enabled',
+      tone: twoFactorEnabled ? 'positive' : 'neutral',
+    });
+  }
+  if (lastActiveFormatted) {
+    securityEntries.push({
+      label: 'Last Active',
+      value: lastActiveFormatted,
+      tone: 'default',
+    });
+  }
+  if (accountStatus) {
+    securityEntries.push({
+      label: 'Account Status',
+      value: accountStatus.label,
+      tone: accountStatus.isActive ? 'positive' : 'neutral',
+    });
+  }
+
   return (
-    <div className="space-y-6 md:space-y-10 max-w-6xl mx-auto p-2 md:p-0 animate-fade-in-up">
-        {/* Advanced Profile Header */}
-        <Card className="relative overflow-hidden rounded-[2rem] md:rounded-[2.5rem] border-none shadow-2xl bg-white dark:bg-gray-900 group/header">
-            <div className="absolute inset-0 z-0 h-48 md:h-72">
-                <Image
-                    src={placeholderImages.profile_banner.src}
-                    alt="Administrative Workspace"
+    <div className="w-full max-w-5xl mx-auto bg-white">
+      <div className="border border-[#E8EDF3] rounded-lg bg-white divide-y divide-[#E8EDF3]">
+        {/* 1. Profile Header */}
+        <section className="px-6 py-6 sm:px-8 sm:py-7">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
+            <div className="flex items-center gap-4 sm:gap-5 min-w-0">
+              <Avatar className="h-16 w-16 sm:h-[72px] sm:w-[72px] rounded-full border border-[#E8EDF3] shrink-0">
+                {user.photoURL ? (
+                  <GcsImage
+                    filePath={user.photoURL}
+                    alt={displayName}
                     fill
-                    className="object-cover opacity-90 transition-transform duration-1000 group-hover/header:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-gray-900 via-transparent to-transparent" />
-            </div>
-            
-            <CardContent className="relative z-10 pt-32 md:pt-56 pb-6 md:pb-10 px-4 md:px-12">
-                <div className="flex flex-col md:flex-row items-center md:items-end gap-6 md:gap-8 bg-white/40 dark:bg-black/20 backdrop-blur-3xl p-6 md:p-8 rounded-[2rem] border border-white/30 dark:border-white/10 shadow-2xl">
-                    <div className="relative shrink-0 -mt-20 md:-mt-24">
-                        <div className="absolute inset-0 bg-primary/20 rounded-full blur-2xl animate-pulse" />
-                        <Avatar className="w-32 h-32 md:w-48 md:h-48 border-[6px] border-white dark:border-gray-800 shadow-[0_20px_50px_rgba(0,0,0,0.2)] transition-transform duration-500 hover:scale-105">
-                            {user.photoURL ? (
-                                <GcsImage filePath={user.photoURL} alt={user.name || 'Admin'} fill className="object-cover" />
-                            ) : (
-                                <AvatarFallback className="text-5xl md:text-6xl bg-primary text-white font-black">
-                                    {user.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                                </AvatarFallback>
-                            )}
-                        </Avatar>
-                        <div className="absolute bottom-2 right-2 md:bottom-4 md:right-4 bg-emerald-500 border-[3px] border-white dark:border-gray-800 w-5 h-5 md:w-7 md:h-7 rounded-full shadow-xl ring-4 ring-emerald-500/20" title="Active Admin Session" />
-                    </div>
-                    
-                    <div className="flex-1 text-center md:text-left space-y-3">
-                        <div className="space-y-1">
-                            <div className="flex flex-col md:flex-row md:items-center gap-2 md:gap-3">
-                                <h1 className="text-2xl md:text-5xl font-black tracking-tighter text-foreground drop-shadow-sm">{user.name}</h1>
-                                <Badge className="w-fit mx-auto md:mx-0 bg-primary text-white border-none font-black text-[8px] md:text-[9px] tracking-[0.2em] uppercase px-3 py-1 shadow-lg shadow-primary/20">
-                                    <ShieldCheck className="w-3 h-3 mr-1.5 md:mr-2" /> {user.role} PRIVILEGES
-                                </Badge>
-                            </div>
-                            <p className="text-muted-foreground font-bold flex items-center justify-center md:justify-start gap-2 text-sm md:text-base">
-                                <Mail className="w-4 h-4 text-primary shrink-0" /> <span className="truncate max-w-[200px] md:max-w-none">{user.email}</span>
-                            </p>
-                        </div>
-                        
-                        <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-4 pt-1">
-                            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-muted rounded-full border text-[8px] md:text-[10px] font-black text-muted-foreground uppercase tracking-widest">
-                                <Clock className="w-3 h-3" /> Last Active: Just Now
-                            </div>
-                            <div className="flex items-center gap-1.5 px-2.5 py-1 bg-primary/5 rounded-full border border-primary/10 text-[8px] md:text-[10px] font-black text-primary uppercase tracking-widest">
-                                <CheckCircle2 className="w-3 h-3" /> System Verified
-                            </div>
-                        </div>
-                    </div>
+                    className="object-cover"
+                  />
+                ) : (
+                  <AvatarFallback className="bg-[#0B1B43] text-white text-lg sm:text-xl font-semibold">
+                    {initials}
+                  </AvatarFallback>
+                )}
+              </Avatar>
 
-                    <div className="shrink-0 w-full md:w-auto pb-2">
-                        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-                            <DialogTrigger asChild>
-                                <Button className="w-full md:w-auto rounded-xl md:rounded-2xl font-black px-8 shadow-[0_15px_30px_-5px_rgba(var(--primary),0.3)] transition-all duration-300 hover:shadow-[0_20px_40px_-5px_rgba(var(--primary),0.4)] active:scale-95 group h-12 md:h-14 bg-primary text-white">
-                                    <Edit className="w-4 h-4 md:w-5 md:h-5 mr-2 md:mr-3 transition-transform group-hover:rotate-[15deg] group-hover:scale-110" />
-                                    MODIFY PROFILE
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="sm:max-w-2xl rounded-[1.5rem] md:rounded-[2.5rem] p-0 overflow-hidden border-none shadow-2xl">
-                                <DialogHeader className="p-6 md:p-8 pb-0">
-                                    <DialogTitle className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-3">
-                                        <div className="p-2 bg-primary/10 rounded-xl text-primary"><Edit className="w-5 h-5 md:w-6 md:h-6"/></div>
-                                        Administrative Sync
-                                    </DialogTitle>
-                                    <DialogDescription className="font-bold text-xs md:text-sm mt-2">Update your organizational credentials and personal telemetry.</DialogDescription>
-                                </DialogHeader>
-                                <div className="p-6 md:p-8">
-                                    <ProfileEditForm user={user} onSuccess={handleUpdateSuccess} />
-                                </div>
-                            </DialogContent>
-                        </Dialog>
-                    </div>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-[#0B1B43] truncate">
+                  {displayName}
+                </h1>
+                <div className="mt-1.5 flex flex-wrap items-center gap-x-2.5 gap-y-1">
+                  <span className="text-sm font-medium text-[#64748B]">{accountRole}</span>
+                  {accountStatus && (
+                    <>
+                      <span className="text-[#CBD5E1]" aria-hidden="true">
+                        •
+                      </span>
+                      <span
+                        data-testid="profile-account-status"
+                        className="inline-flex items-center gap-1.5 rounded-md border border-[#E8EDF3] bg-[#F8FAFC] px-2 py-0.5 text-xs font-medium text-[#0B1B43]"
+                      >
+                        <span
+                          className={cn(
+                            'h-1.5 w-1.5 rounded-full',
+                            accountStatus.isActive ? 'bg-emerald-600' : 'bg-slate-400'
+                          )}
+                        />
+                        {accountStatus.label}
+                      </span>
+                    </>
+                  )}
                 </div>
-            </CardContent>
-        </Card>
-
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-10">
-            {/* Sidebar Stats & Security */}
-            <div className="lg:col-span-4 space-y-6 md:space-y-10">
-                <Card className="rounded-[2rem] md:rounded-[2.5rem] shadow-xl border-muted-foreground/10 bg-white dark:bg-card overflow-hidden transition-all duration-500 hover:shadow-2xl">
-                    <CardHeader className="bg-muted/30 pb-4 border-b p-6 md:p-8">
-                        <CardTitle className="text-[10px] md:text-xs font-black flex items-center gap-3 uppercase tracking-[0.2em] text-primary">
-                            <BadgeCheck className="w-5 h-5" />
-                            Security Integrity
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent className="p-6 md:p-8 space-y-6 md:space-y-8">
-                        <div className="flex items-center justify-between">
-                            <span className="text-[9px] md:text-[10px] font-black text-muted-foreground uppercase tracking-widest">Authentication</span>
-                            <Badge className="bg-emerald-500 text-white border-none font-black text-[8px] md:text-[9px] tracking-[0.2em] px-3">PROTECTED</Badge>
-                        </div>
-                        <Separator className="opacity-50" />
-                        <div className="space-y-4 md:space-y-5">
-                            {[
-                                { label: "Email Authentication", active: true },
-                                { label: "Two-Factor Protection", active: true },
-                                { label: "Biometric Integration", active: false },
-                                { label: "Admin Root Privileges", active: true },
-                            ].map((item, i) => (
-                                <div key={i} className="flex items-center gap-4 group">
-                                    <div className={cn(
-                                        "w-9 h-9 md:w-10 md:h-10 rounded-xl flex items-center justify-center transition-all duration-300",
-                                        item.active ? "bg-emerald-50 text-emerald-500 group-hover:bg-emerald-500 group-hover:text-white" : "bg-muted text-muted-foreground opacity-50"
-                                    )}>
-                                        {item.active ? <CheckCircle2 className="w-4 h-4 md:w-5 md:h-5" /> : <Clock className="w-4 h-4 md:w-5 md:h-5" />}
-                                    </div>
-                                    <span className={cn("text-xs font-bold transition-colors", item.active ? "text-foreground" : "text-muted-foreground")}>{item.label}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </CardContent>
-                </Card>
-
-                <Card className="rounded-[2rem] md:rounded-[2.5rem] shadow-2xl border-none bg-gradient-to-br from-primary to-indigo-900 text-white overflow-hidden group/logs relative p-[1px]">
-                    <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/logs:opacity-100 transition-opacity duration-500" />
-                    <CardContent className="relative z-10 p-8 md:p-10 space-y-6 bg-primary dark:bg-gray-950 rounded-[calc(2rem-1px)] md:rounded-[calc(2.5rem-1px)] h-full">
-                        <div className="p-3 md:p-4 bg-white/10 rounded-2xl w-fit group-hover/logs:scale-110 group-hover/logs:rotate-[10deg] transition-all duration-500">
-                            <Shield className="w-6 h-6 md:w-8 md:h-8 text-white" />
-                        </div>
-                        <div className="space-y-2">
-                            <h3 className="text-xl md:text-2xl font-black tracking-tighter">Command Center</h3>
-                            <p className="text-[10px] md:text-xs font-bold text-white/60 leading-relaxed uppercase tracking-wide">Secure access tunnel verified. No anomalies detected in current node.</p>
-                        </div>
-                        <Button variant="outline" className="w-full bg-white/5 border-white/10 hover:bg-white text-white hover:text-primary font-black text-[9px] md:text-[10px] tracking-[0.25em] rounded-xl md:rounded-2xl h-11 md:h-12">
-                            SYSTEM LOGS
-                        </Button>
-                    </CardContent>
-                </Card>
+              </div>
             </div>
 
-            {/* Main Information Hub */}
-            <div className="lg:col-span-8">
-                <Card className="rounded-[2rem] md:rounded-[3rem] shadow-2xl border-muted-foreground/10 bg-white dark:bg-card overflow-hidden">
-                    <CardContent className="p-6 md:p-12 space-y-8 md:space-y-12">
-                        {/* Section: Personal Hub */}
-                        <div className="space-y-6 md:space-y-8">
-                            <SectionHeader title="Personal Intelligence" icon={<UserIcon size={20} />} />
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                                <InfoCard icon={<UserIcon size={20} />} label="Administrative Name" value={user.name} />
-                                <InfoCard icon={<CalendarIcon size={20} />} label="Legacy Birth Date" value={user.dob ? format(new Date(user.dob), "MMMM do, yyyy") : null} />
-                                <InfoCard icon={<Droplets size={20} />} label="Blood Group Index" value={user.bloodGroup} />
-                                <InfoCard icon={<Shield size={20} />} label="Assigned Command Role" value={user.role} />
-                            </div>
-                        </div>
-
-                        <Separator className="opacity-50" />
-
-                        {/* Section: Connectivity Hub */}
-                        <div className="space-y-6 md:space-y-8">
-                            <SectionHeader title="Connectivity & Node" icon={<Phone size={20} />} />
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                                <InfoCard icon={<Mail size={20} />} label="Verified Communications" value={user.email} />
-                                <InfoCard icon={<Phone size={20} />} label="Secure Line Index" value={user.phone} />
-                                <div className="sm:col-span-2">
-                                    <InfoCard icon={<MapPin size={20} />} label="Primary Strategic Address" value={user.address} />
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div className="pt-4 flex flex-col sm:flex-row justify-between items-center bg-muted/20 p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] border border-muted-foreground/5 gap-4">
-                            <div className="flex items-center gap-4">
-                                <div className="p-2.5 md:p-3 bg-primary/10 rounded-xl md:rounded-2xl text-primary shrink-0"><Globe className="w-5 h-5 md:w-6 md:h-6"/></div>
-                                <div>
-                                    <p className="text-[10px] md:text-xs font-black uppercase tracking-widest text-foreground">Global Registry</p>
-                                    <p className="text-[9px] md:text-[10px] font-bold text-muted-foreground">ID: {user.uid.substring(0, 16)}...</p>
-                                </div>
-                            </div>
-                            <Badge variant="outline" className="font-bold text-[8px] md:text-[9px] tracking-[0.2em] border-primary/20 text-primary px-3 md:px-4 py-1.5 rounded-lg md:rounded-xl uppercase">UTC-8 Zone</Badge>
-                        </div>
-                    </CardContent>
-                </Card>
+            <div className="shrink-0">
+              <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full sm:w-auto h-9 px-4 rounded-md border-[#CBD5E1] bg-white hover:bg-[#F8FAFC] text-[#0B1B43] hover:text-[#2563EB] hover:border-[#93C5FD] text-sm font-medium shadow-none transition-colors"
+                  >
+                    <Pencil className="w-3.5 h-3.5 mr-2 text-[#2563EB]" />
+                    Edit Profile
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-lg rounded-lg border border-[#E8EDF3] bg-white p-6 shadow-md">
+                  <DialogHeader className="pb-2">
+                    <DialogTitle className="text-lg font-semibold tracking-tight text-[#0B1B43]">
+                      Edit Profile
+                    </DialogTitle>
+                    <DialogDescription className="text-xs text-[#64748B]">
+                      Update your administrator profile photo and contact information.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <ProfileEditForm
+                    user={user}
+                    onSuccess={handleUpdateSuccess}
+                    onCancel={() => setIsEditDialogOpen(false)}
+                  />
+                </DialogContent>
+              </Dialog>
             </div>
-        </div>
+          </div>
+        </section>
+
+        {/* 2. Personal Information */}
+        <TwoColumnSection title="Personal Information" entries={personalEntries} />
+
+        {/* 3. Contact Information */}
+        <TwoColumnSection
+          title="Contact Information"
+          entries={contactEntries}
+          fullWidthEntry={addressEntry}
+        />
+
+        {/* 4. Account & Security */}
+        <TwoColumnSection
+          title="Account & Security"
+          entries={securityEntries}
+          emptyMessage="Security metadata is not available for the current session."
+        />
+      </div>
     </div>
   );
 }

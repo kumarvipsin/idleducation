@@ -28,6 +28,9 @@ interface SessionPayload {
   email: string;
   issuedAt: number;
   exp: number;
+  emailVerified?: boolean;
+  twoFactorEnabled?: boolean;
+  lastSignInTime?: string | null;
 }
 
 function getSigningKey(): Buffer {
@@ -84,7 +87,13 @@ function verifyToken(token: string | undefined | null): SessionPayload | null {
  */
 export async function verifyFirebaseIdToken(
   idToken: string
-): Promise<{ uid: string; email: string } | null> {
+): Promise<{
+  uid: string;
+  email: string;
+  emailVerified?: boolean;
+  twoFactorEnabled?: boolean;
+  lastSignInTime?: string | null;
+} | null> {
   if (!idToken || typeof idToken !== 'string') return null;
   try {
     const endpoint = `https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${encodeURIComponent(
@@ -102,9 +111,17 @@ export async function verifyFirebaseIdToken(
     const userRecord = Array.isArray(data?.users) ? data.users[0] : null;
     if (!userRecord?.localId) return null;
 
+    const lastLoginMs = Number(userRecord.lastLoginAt);
+    const lastSignInTime = Number.isFinite(lastLoginMs) && lastLoginMs > 0
+      ? new Date(lastLoginMs).toISOString()
+      : null;
+
     return {
       uid: String(userRecord.localId),
       email: String(userRecord.email || ''),
+      emailVerified: typeof userRecord.emailVerified === 'boolean' ? userRecord.emailVerified : undefined,
+      twoFactorEnabled: Array.isArray(userRecord.mfaInfo) ? userRecord.mfaInfo.length > 0 : false,
+      lastSignInTime,
     };
   } catch {
     return null;
@@ -117,6 +134,9 @@ export async function verifyFirebaseIdToken(
 export async function setServerUserSessionCookie(params: {
   uid: string;
   email?: string | null;
+  emailVerified?: boolean;
+  twoFactorEnabled?: boolean;
+  lastSignInTime?: string | null;
 }): Promise<void> {
   if (!params.uid) return;
   const cookieStore = await cookies();
@@ -129,6 +149,9 @@ export async function setServerUserSessionCookie(params: {
     email: params.email || '',
     issuedAt: now,
     exp: now + SESSION_TTL_MS,
+    ...(typeof params.emailVerified === 'boolean' ? { emailVerified: params.emailVerified } : {}),
+    ...(typeof params.twoFactorEnabled === 'boolean' ? { twoFactorEnabled: params.twoFactorEnabled } : {}),
+    ...(params.lastSignInTime ? { lastSignInTime: params.lastSignInTime } : {}),
   });
 
   cookieStore.set(SESSION_COOKIE_NAME, token, {
@@ -253,6 +276,9 @@ export async function getVerifiedSessionUserProfile(): Promise<Record<string, an
           branchId: 'all',
           branchName: 'All Branches (Super Admin)',
           status: 'approved',
+          ...(typeof payload.emailVerified === 'boolean' ? { emailVerified: payload.emailVerified } : {}),
+          ...(typeof payload.twoFactorEnabled === 'boolean' ? { twoFactorEnabled: payload.twoFactorEnabled } : {}),
+          ...(payload.lastSignInTime ? { lastSignInTime: payload.lastSignInTime } : {}),
         };
       }
       return null;
@@ -285,6 +311,10 @@ export async function getVerifiedSessionUserProfile(): Promise<Record<string, an
       role: String(userData.role || 'student').toLowerCase(),
       branchId,
       branchName,
+      status: userData.status || 'approved',
+      ...(typeof payload.emailVerified === 'boolean' ? { emailVerified: payload.emailVerified } : {}),
+      ...(typeof payload.twoFactorEnabled === 'boolean' ? { twoFactorEnabled: payload.twoFactorEnabled } : {}),
+      ...(payload.lastSignInTime ? { lastSignInTime: payload.lastSignInTime } : {}),
     };
   } catch {
     return null;

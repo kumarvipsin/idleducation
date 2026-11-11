@@ -2,7 +2,7 @@
 "use client";
 
 import React, { createContext, useState, useContext, useEffect, ReactNode } from 'react';
-import { onAuthStateChanged, signOut, type User as FirebaseUser } from 'firebase/auth';
+import { multiFactor, onAuthStateChanged, signOut, type User as FirebaseUser } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { doc, getDoc, Timestamp, setDoc, serverTimestamp } from 'firebase/firestore';
@@ -15,6 +15,15 @@ export interface UserProfile extends Partial<FirebaseUser> {
   name: string | null;
   branchId?: string | null;
   branchName?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  status?: string | null;
+  emailVerified?: boolean;
+  twoFactorEnabled?: boolean;
+  lastSignInTime?: string | null;
+  dob?: string | Date | null;
+  bloodGroup?: string | null;
+  createdAt?: string | null;
 }
 
 interface AuthContextType {
@@ -68,6 +77,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (runVersion !== authMutationVersionRef.current) return;
         
         let userProfile: UserProfile | null = null;
+        let twoFactorEnabled: boolean | undefined;
+        try {
+          const enrolledFactors = multiFactor(firebaseUser)?.enrolledFactors;
+          if (Array.isArray(enrolledFactors)) {
+            twoFactorEnabled = enrolledFactors.length > 0;
+          }
+        } catch {
+          const mfaInfo = (firebaseUser as any)?.reloadUserInfo?.mfaInfo;
+          if (Array.isArray(mfaInfo)) {
+            twoFactorEnabled = mfaInfo.length > 0;
+          }
+        }
+        const securityMeta: Partial<UserProfile> = {
+          ...(typeof firebaseUser.emailVerified === 'boolean'
+            ? { emailVerified: firebaseUser.emailVerified }
+            : {}),
+          ...(typeof twoFactorEnabled === 'boolean' ? { twoFactorEnabled } : {}),
+          ...(firebaseUser.metadata?.lastSignInTime
+            ? { lastSignInTime: firebaseUser.metadata.lastSignInTime }
+            : {}),
+        };
         
         if (userDoc.exists()) {
             const userData = userDoc.data();
@@ -86,6 +116,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 role: isAdminRole ? 'admin' : userData.role,
                 branchId: branchId,
                 branchName: branchName,
+                status: userData.status || 'approved',
+                ...securityMeta,
             };
         } else if (firebaseUser.email === process.env.NEXT_PUBLIC_ADMIN_EMAIL || firebaseUser.email === 'aksias.sos@outlook.com') {
              userProfile = {
@@ -95,6 +127,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
               role: 'admin',
               branchId: 'all',
               branchName: 'All Branches (Super Admin)',
+              status: 'approved',
+              ...securityMeta,
             };
             const adminData = {
               uid: firebaseUser.uid,

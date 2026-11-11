@@ -18,7 +18,7 @@ import {
   SidebarTrigger,
   SidebarMenuBadge,
 } from '@/components/ui/sidebar';
-import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2, Bot, Building2 } from 'lucide-react';
+import { BookOpen, LayoutDashboard, User, LogOut, Users, Shield, Settings, Database, SlidersHorizontal, ShoppingCart, Settings2, File, CreditCard, GraduationCap, Briefcase, MessageSquare, Mail, Presentation, Bell, FileText, MessageCircle as FeedbackIcon, Award, LifeBuoy, Video, Star, Image as ImageIcon, Tags, ChevronDown, BookCheck, UserCircle, HandHeart, IndianRupee, Menu, Home, Layers, Heart, DollarSign, Activity, ClipboardList, CalendarDays, BookMarked, Clock, AlertTriangle, PhoneCall, Share2, Bot, Building2, Radio, CalendarCheck, BarChart3, History } from 'lucide-react';
 import { useAuth } from '@/context/auth-context';
 import withAuth from '@/components/with-auth';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -86,62 +86,97 @@ function AdminLayout({
     router.push('/');
   };
 
-  if (pathname?.startsWith('/admin/attendance') || pathname?.startsWith('/admin/fees')) {
-    return <>{children}</>;
-  }
+  const isFeesPage = Boolean(pathname?.startsWith('/admin/fees'));
+  const isAttendancePage = Boolean(pathname?.startsWith('/admin/attendance'));
+  const isProfileActive = Boolean(pathname?.startsWith('/admin/profile'));
+  const [accordionValue, setAccordionValue] = React.useState<string>(
+    isFeesPage ? 'fee-management' : isAttendancePage ? 'attendance' : 'user-management'
+  );
+
+  React.useEffect(() => {
+    if (isFeesPage) {
+      setAccordionValue('fee-management');
+    } else if (isAttendancePage) {
+      setAccordionValue('attendance');
+    }
+  }, [isFeesPage, isAttendancePage]);
 
   return (
     <>
     <Header />
     <SidebarProvider>
-      <div className={isBranchAdmin ? "flex min-h-[calc(100svh-68px)] w-full bg-[#F8FAFC]" : "flex min-h-screen w-full pt-[68px]"}>
+      <div
+        className={
+          isFeesPage || isAttendancePage || isBranchAdmin
+            ? "flex min-h-[calc(100svh-68px)] w-full bg-[#F8FAFC] dark:bg-slate-950"
+            : "flex min-h-[calc(100svh-68px)] w-full bg-muted/20"
+        }
+      >
         <Sidebar className={isBranchAdmin ? "md:top-[68px] md:h-[calc(100svh-68px)] border-r border-[#E5EAF2] bg-white" : "md:top-[68px] md:h-[calc(100svh-68px)]"}>
-          <SidebarHeader className={isBranchAdmin ? "pt-[76px] md:pt-3 px-3 pb-2" : "pt-[76px] md:pt-2"}>
-            {isBranchAdmin && (
-              <Link
-                href="/admin/profile"
-                className={
-                  pathname.startsWith('/admin/profile')
-                    ? "group flex items-center gap-3 rounded-xl border border-[#2864E8] bg-[#EFF6FF]/60 p-3 ring-1 ring-[#2864E8]/20 transition-colors"
-                    : "group flex items-center gap-3 rounded-xl border border-[#E5EAF2] bg-[#F8FAFC] p-3 transition-colors hover:border-[#2864E8]/40 hover:bg-white"
-                }
-              >
-                <Avatar className="h-10 w-10 shrink-0 border border-[#E5EAF2]">
-                  <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Branch Admin'} />
-                  <AvatarFallback className="bg-[#0B1B43] text-white text-sm font-semibold">
-                    {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-[13.5px] font-semibold text-[#172033] leading-tight">
-                    {user?.name || 'Branch Admin'}
-                  </p>
-                  <p className="text-[11px] font-medium text-[#64748B] mt-0.5">
-                    Branch Admin
-                  </p>
-                  <div className="mt-1.5 inline-flex max-w-full items-center gap-1.5 rounded-md bg-[#EFF6FF] px-2 py-0.5 text-[11px] font-semibold text-[#2864E8]">
-                    <Building2 className="h-3 w-3 shrink-0" />
-                    <span className="truncate">{branchName}</span>
-                  </div>
+          {isBranchAdmin && (
+          <SidebarHeader className="pt-[76px] md:pt-3 px-3 pb-2">
+            <Link
+              href="/admin/profile"
+              className={
+                pathname.startsWith('/admin/profile')
+                  ? "group flex items-center gap-3 rounded-xl border border-[#2864E8] bg-[#EFF6FF]/60 p-3 ring-1 ring-[#2864E8]/20 transition-colors"
+                  : "group flex items-center gap-3 rounded-xl border border-[#E5EAF2] bg-[#F8FAFC] p-3 transition-colors hover:border-[#2864E8]/40 hover:bg-white"
+              }
+            >
+              <Avatar className="h-10 w-10 shrink-0 border border-[#E5EAF2]">
+                <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Branch Admin'} />
+                <AvatarFallback className="bg-[#0B1B43] text-white text-sm font-semibold">
+                  {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
+                </AvatarFallback>
+              </Avatar>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[13.5px] font-semibold text-[#172033] leading-tight">
+                  {user?.name || 'Branch Admin'}
+                </p>
+                <p className="text-[11px] font-medium text-[#64748B] mt-0.5">
+                  Branch Admin
+                </p>
+                <div className="mt-1.5 inline-flex max-w-full items-center gap-1.5 rounded-md bg-[#EFF6FF] px-2 py-0.5 text-[11px] font-semibold text-[#2864E8]">
+                  <Building2 className="h-3 w-3 shrink-0" />
+                  <span className="truncate">{branchName}</span>
                 </div>
-              </Link>
-            )}
+              </div>
+            </Link>
           </SidebarHeader>
-          <SidebarContent className={isBranchAdmin ? "px-2 py-2" : "mt-2"}>
+          )}
+          <SidebarContent className={isBranchAdmin ? "px-2 py-2" : "px-1 pt-1 pb-2"}>
             <SidebarMenu>
                 {!isBranchAdmin && (
-                <SidebarMenuItem>
-                    <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/profile')} className="h-auto py-2">
+                <SidebarMenuItem className="mb-1">
+                    <SidebarMenuButton
+                      asChild
+                      isActive={isProfileActive}
+                      className={
+                        isProfileActive
+                          ? "h-auto py-2 hover:bg-sidebar-primary hover:text-sidebar-primary-foreground"
+                          : "h-auto py-2"
+                      }
+                    >
                     <Link href="/admin/profile">
                         <Avatar className="h-10 w-10">
-                        <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Admin'} />
-                        <AvatarFallback>
+                        <AvatarImage src={user?.photoURL ?? ''} alt={user?.name ?? 'Super Admin'} />
+                        <AvatarFallback
+                          className={
+                            isProfileActive
+                              ? "bg-white text-[#0B1B43] font-semibold"
+                              : "bg-muted text-[#0B1B43] font-semibold"
+                          }
+                        >
                             {user?.name ? user.name.charAt(0).toUpperCase() : 'A'}
                         </AvatarFallback>
                         </Avatar>
-                        <div className="flex flex-col">
-                        <span className="font-semibold">{user?.name}</span>
-                        <span className="text-xs text-muted-foreground capitalize">{user?.role}</span>
+                        <div className="flex flex-col min-w-0">
+                        <span className={isProfileActive ? "font-semibold text-white truncate" : "font-semibold text-[#0B1B43] truncate"}>
+                          {user?.name}
+                        </span>
+                        <span className={isProfileActive ? "text-xs text-blue-100/90" : "text-xs text-muted-foreground"}>
+                          Super Admin
+                        </span>
                         </div>
                     </Link>
                     </SidebarMenuButton>
@@ -222,7 +257,7 @@ function AdminLayout({
                 )}
              </SidebarMenu>
             {!isBranchAdmin && (
-            <SidebarMenuAccordion defaultValue="user-management">
+            <SidebarMenuAccordion value={accordionValue} onValueChange={setAccordionValue}>
                 <SidebarMenuSub value="user-management">
                     <SidebarMenuSubButton>
                         <Users />
@@ -269,40 +304,88 @@ function AdminLayout({
                                 <span>Overview</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/mark'}>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/live')}>
+                            <Link href="/admin/attendance/live">
+                                <Radio />
+                                <span>Live Attendance</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/schedule')}>
+                            <Link href="/admin/attendance/schedule">
+                                <CalendarDays />
+                                <span>Class Schedule</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/mark')}>
                             <Link href="/admin/attendance/mark">
                                 <ClipboardList />
                                 <span>Mark Attendance</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/weekly'}>
-                            <Link href="/admin/attendance/weekly">
-                                <CalendarDays />
-                                <span>Weekly Reports</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/monthly'}>
-                            <Link href="/admin/attendance/monthly">
-                                <CalendarDays />
-                                <span>Monthly Reports</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/students'}>
-                            <Link href="/admin/attendance/students">
-                                <Users />
-                                <span>Students</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/classes'}>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/classes')}>
                             <Link href="/admin/attendance/classes">
                                 <BookMarked />
                                 <span>Classes & Batches</span>
                             </Link>
                         </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance/subjects'}>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/students') || pathname.startsWith('/admin/attendance/student/')}>
+                            <Link href="/admin/attendance/students">
+                                <Users />
+                                <span>Students</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/teachers')}>
+                            <Link href="/admin/attendance/teachers">
+                                <Briefcase />
+                                <span>Teachers</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/subjects')}>
                             <Link href="/admin/attendance/subjects">
                                 <BookOpen />
-                                <span>Subjects</span>
+                                <span>Class/Batch</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/leave')}>
+                            <Link href="/admin/attendance/leave">
+                                <CalendarCheck />
+                                <span>Leave Management</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/holidays')}>
+                            <Link href="/admin/attendance/holidays">
+                                <Building2 />
+                                <span>Holidays / Class Off</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/reports')}>
+                            <Link href="/admin/attendance/reports">
+                                <BarChart3 />
+                                <span>Reports & Analytics</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/weekly')}>
+                            <Link href="/admin/attendance/weekly">
+                                <CalendarDays />
+                                <span>Weekly Reports</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/monthly')}>
+                            <Link href="/admin/attendance/monthly">
+                                <CalendarDays />
+                                <span>Monthly Reports</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/audit-log')}>
+                            <Link href="/admin/attendance/audit-log">
+                                <History />
+                                <span>Admin Audit Log</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/settings')}>
+                            <Link href="/admin/attendance/settings">
+                                <Settings />
+                                <span>Settings & Demo Data</span>
                             </Link>
                         </SidebarMenuButton>
                     </SidebarMenuSubItem>
@@ -314,7 +397,7 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/fees'}>
+                        <SidebarMenuButton asChild isActive={isFeesPage}>
                             <Link href="/admin/fees">
                                 <SlidersHorizontal />
                                 <span>Fee Dashboard</span>
@@ -551,7 +634,17 @@ function AdminLayout({
                   )}
             </div>
           </header>
-          <main className={isBranchAdmin ? "flex-1 min-w-0 px-4 pt-3 pb-6 md:px-6 md:pt-4 md:pb-6 bg-[#F8FAFC]" : "flex-1 min-w-0 p-4 md:p-6 bg-muted/20"}>
+          <main
+            className={
+              isFeesPage || isAttendancePage
+                ? "flex-1 min-w-0 bg-slate-50/60 dark:bg-slate-950"
+                : isProfileActive
+                  ? "flex-1 min-w-0 px-4 pt-4 pb-8 md:px-8 md:pt-6 md:pb-10 bg-white"
+                  : isBranchAdmin
+                    ? "flex-1 min-w-0 px-4 pt-3 pb-6 md:px-6 md:pt-4 md:pb-6 bg-[#F8FAFC]"
+                    : "flex-1 min-w-0 px-4 pt-3 pb-6 md:px-6 md:pt-4 md:pb-6 bg-muted/20"
+            }
+          >
             {isBranchAdmin && !isBranchRouteAllowed ? (
               <div className="flex min-h-[50vh] items-center justify-center">
                 <div className="rounded-xl border border-[#E5EAF2] bg-white px-6 py-4 text-sm font-medium text-[#64748B] shadow-sm">

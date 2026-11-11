@@ -3,7 +3,14 @@
 
 import { z } from "zod";
 import { auth, db } from "@/lib/firebase";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  multiFactor,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+  signOut,
+  type User as FirebaseUser,
+} from "firebase/auth";
 import { collection, addDoc, serverTimestamp, setDoc, doc, getDoc, updateDoc } from "firebase/firestore";
 import { uploadFileToGCS } from '@/lib/gcs';
 
@@ -23,6 +30,35 @@ const loginSchema = z.object({
 });
 type LoginValues = z.infer<typeof loginSchema>;
 
+function extractFirebaseSecurityMeta(firebaseUser: FirebaseUser): {
+  emailVerified?: boolean;
+  twoFactorEnabled?: boolean;
+  lastSignInTime?: string | null;
+} {
+  let twoFactorEnabled: boolean | undefined;
+  try {
+    const enrolledFactors = multiFactor(firebaseUser)?.enrolledFactors;
+    if (Array.isArray(enrolledFactors)) {
+      twoFactorEnabled = enrolledFactors.length > 0;
+    }
+  } catch {
+    const mfaInfo = (firebaseUser as any)?.reloadUserInfo?.mfaInfo;
+    if (Array.isArray(mfaInfo)) {
+      twoFactorEnabled = mfaInfo.length > 0;
+    }
+  }
+
+  return {
+    ...(typeof firebaseUser.emailVerified === 'boolean'
+      ? { emailVerified: firebaseUser.emailVerified }
+      : {}),
+    ...(typeof twoFactorEnabled === 'boolean' ? { twoFactorEnabled } : {}),
+    ...(firebaseUser.metadata?.lastSignInTime
+      ? { lastSignInTime: firebaseUser.metadata.lastSignInTime }
+      : {}),
+  };
+}
+
 export async function loginUser(data: LoginValues) {
   console.log('[actions.ts] loginUser: Initiating login process for', data.email);
   const validation = loginSchema.safeParse(data);
@@ -38,7 +74,8 @@ export async function loginUser(data: LoginValues) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     console.log('[actions.ts] loginUser: Firebase sign-in successful for UID:', user.uid);
-    
+    const securityMeta = extractFirebaseSecurityMeta(user);
+
     let userProfile;
     const userDocRef = doc(db, "users", user.uid);
     let userDoc = await getDoc(userDocRef);
@@ -67,7 +104,9 @@ export async function loginUser(data: LoginValues) {
             role: 'admin',
             branchId: 'all',
             branchName: 'All Branches (Super Admin)',
+            status: userData?.status || 'approved',
             ...serializeFirestoreData(userData),
+            ...securityMeta,
         };
         console.log('[actions.ts] loginUser: Admin user profile loaded.', userProfile);
 
@@ -100,6 +139,8 @@ export async function loginUser(data: LoginValues) {
                 role: isAdminRole ? 'admin' : userData.role,
                 branchId: branchId,
                 branchName: branchName,
+                status: userData.status || 'approved',
+                ...securityMeta,
             };
             console.log('[actions.ts] loginUser: User profile created.', userProfile);
         } else {
@@ -109,7 +150,11 @@ export async function loginUser(data: LoginValues) {
         }
     }
 
-    await setServerUserSessionCookie({ uid: user.uid, email: user.email });
+    await setServerUserSessionCookie({
+      uid: user.uid,
+      email: user.email,
+      ...securityMeta,
+    });
     console.log('[actions.ts] loginUser: Login successful, returning user profile.');
     return { success: true, message: "Login successful!", user: userProfile };
 
@@ -406,7 +451,13 @@ export async function syncServerSessionFromIdToken(idToken: string) {
   if (!verified) {
     return { success: false, user: null };
   }
-  await setServerUserSessionCookie({ uid: verified.uid, email: verified.email });
+  await setServerUserSessionCookie({
+    uid: verified.uid,
+    email: verified.email,
+    ...(typeof verified.emailVerified === 'boolean' ? { emailVerified: verified.emailVerified } : {}),
+    ...(typeof verified.twoFactorEnabled === 'boolean' ? { twoFactorEnabled: verified.twoFactorEnabled } : {}),
+    ...(verified.lastSignInTime ? { lastSignInTime: verified.lastSignInTime } : {}),
+  });
   const profile = await getVerifiedSessionUserProfile();
   return { success: Boolean(profile), user: profile };
 }

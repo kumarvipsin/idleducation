@@ -29,12 +29,8 @@ import { IDL_PAID_STAMP_DATA_URL } from '@/lib/receipt-stamp';
 import {
   getFeeDashboardStats,
   getFeeClasses,
-  createFeeClass,
-  updateFeeClass,
   deleteFeeClass,
   getFeeBatches,
-  createFeeBatch,
-  updateFeeBatch,
   deleteFeeBatch,
   getFeeStudents,
   createFeeStudent,
@@ -108,7 +104,13 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
-import { FormModalDialogContent } from '@/components/ui/form-modal-dialog';
+import {
+  BranchToolbarControl,
+  ClassBatchCardsGrid,
+  ClassBatchModals,
+  ClassBatchQuickActions,
+  useClassBatchController,
+} from '@/components/admin/class-batch-manager';
 import { useToast } from '@/hooks/use-toast';
 import {
   Users,
@@ -148,7 +150,6 @@ import {
   CalendarX2,
   UserX,
   Info,
-  ArrowLeft,
   ArrowRight,
   ArrowRightLeft,
   Shield,
@@ -198,9 +199,9 @@ export function FeesClient({
   const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
   const branchAdminBranchId = isBranchAdmin ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!) : null;
 
-  // Filters - By default no branch selected so user manually chooses
+  // Filters - Super Admin defaults to All Branches; Branch Admins stay locked to their assigned branch
   const [selectedBranch, setSelectedBranch] = useState<string>(
-    branchAdminBranchId || initialBranch
+    branchAdminBranchId || initialBranch || (!isBranchAdmin && user?.role === 'admin' ? 'all' : '')
   );
   const hasBranchSelection = Boolean(selectedBranch && selectedBranch !== 'none');
 
@@ -208,10 +209,11 @@ export function FeesClient({
     if (isBranchAdmin && branchAdminBranchId && selectedBranch !== branchAdminBranchId) {
       setSelectedBranch(branchAdminBranchId);
       refreshAllData(selectedMonth, branchAdminBranchId);
+    } else if (!isBranchAdmin && user?.role === 'admin' && !selectedBranch) {
+      setSelectedBranch('all');
     }
-  }, [isBranchAdmin, branchAdminBranchId]);
+  }, [isBranchAdmin, branchAdminBranchId, user?.role]);
   const [selectedMonth, setSelectedMonth] = useState<string>(initialMonth);
-  const [isBranchPickerOpen, setIsBranchPickerOpen] = useState<boolean>(false);
   const [isMonthPickerOpen, setIsMonthPickerOpen] = useState<boolean>(false);
   const [isDataGroupOpen, setIsDataGroupOpen] = useState<boolean>(false);
   const [monthPickerYear, setMonthPickerYear] = useState<number>(
@@ -337,28 +339,39 @@ export function FeesClient({
     });
   };
 
+  const latestFilterRef = useRef({ month: selectedMonth, branch: selectedBranch });
+  latestFilterRef.current = { month: selectedMonth, branch: selectedBranch };
+
   useEffect(() => {
     refreshAllData(selectedMonth, selectedBranch);
   }, [selectedMonth, selectedBranch]);
+
+  // Auto-sync report data when returning to the tab or periodically while active
+  useEffect(() => {
+    const syncLatest = () => {
+      const { month, branch } = latestFilterRef.current;
+      if (branch && branch !== 'none' && document.visibilityState === 'visible') {
+        refreshAllData(month, branch);
+      }
+    };
+    const handleVisibilityOrFocus = () => {
+      if (document.visibilityState === 'visible') syncLatest();
+    };
+    window.addEventListener('focus', handleVisibilityOrFocus);
+    document.addEventListener('visibilitychange', handleVisibilityOrFocus);
+    const intervalId = window.setInterval(syncLatest, 45000);
+    return () => {
+      window.removeEventListener('focus', handleVisibilityOrFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityOrFocus);
+      window.clearInterval(intervalId);
+    };
+  }, []);
 
   // --------------------------------------------------------------------------
   // MODAL STATES
   // --------------------------------------------------------------------------
 
-  // Shared Card Modal Styles (Create Class / Create Batch / Enroll Student)
-  const FORM_CARD_SURFACE_CLS = "w-[94vw] rounded-2xl p-5 bg-white dark:bg-slate-950 border border-[#E2E8F0] dark:border-slate-800 shadow-[0_24px_56px_-12px_rgba(11,31,75,0.16),0_6px_18px_-4px_rgba(15,23,42,0.07),0_0_0_1px_rgba(15,23,42,0.03)] font-sans antialiased [&>button:last-child]:border-slate-200/90 [&>button:last-child]:text-slate-400 [&>button:last-child]:hover:text-[#0B1F4B] [&>button:last-child]:hover:border-slate-300 [&>button:last-child]:hover:bg-slate-50 [&>button:last-child]:shadow-[0_1px_2px_rgba(15,23,42,0.04)] [&>button:last-child]:transition-colors";
-  const FORM_CARD_DIALOG_CLS = `max-w-[440px] ${FORM_CARD_SURFACE_CLS}`;
-  const FORM_CARD_WIDE_DIALOG_CLS = `max-w-[480px] sm:max-w-[500px] ${FORM_CARD_SURFACE_CLS}`;
-  const FORM_CARD_HEADER_CLS = "pb-3 border-b border-[#EEF2F7] dark:border-slate-800/80 shrink-0 text-left pr-9";
-  const FORM_CARD_TITLE_CLS = "text-[16px] sm:text-[17px] font-bold text-[#0B1F4B] dark:text-white tracking-[-0.015em] leading-snug";
-  const FORM_CARD_DESC_CLS = "text-[11.5px] text-slate-500 dark:text-slate-400 font-normal leading-relaxed mt-0.5";
-  const FORM_CARD_LABEL_CLS = "text-xs font-medium text-slate-400 dark:text-slate-500 tracking-[0.005em]";
-  const FORM_CARD_FIELD_CLS = "h-9 text-xs sm:text-[13px] md:text-[13px] font-semibold !rounded-none !border-0 !border-b border-slate-200/85 dark:border-slate-800 !bg-transparent px-0 hover:!border-b-slate-300 dark:hover:!border-b-slate-700 focus:!bg-transparent focus:!border-b-[#2864E8] focus-visible:ring-0 focus-visible:!border-b-[#2864E8] placeholder:font-normal placeholder:text-slate-400/65 dark:placeholder:text-slate-600 text-[#0B1F4B] dark:text-slate-100 transition-colors duration-150 !shadow-none";
-  const FORM_CARD_SELECT_TRIGGER_CLS = `${FORM_CARD_FIELD_CLS} focus:outline-none focus:ring-0 focus-visible:outline-none data-[state=open]:!border-b-[#2864E8] data-[state=open]:!bg-transparent data-[placeholder]:font-normal data-[placeholder]:text-slate-400/65 dark:data-[placeholder]:text-slate-600 [&>svg]:text-slate-400 data-[state=open]:[&>svg]:text-[#2864E8] [&>svg]:transition-[transform,color] [&>svg]:duration-150 data-[state=open]:[&>svg]:rotate-180`;
-  const FORM_CARD_SELECT_CONTENT_CLS = "rounded-xl border border-slate-200/95 dark:border-slate-800 bg-white dark:bg-slate-950 p-1 shadow-[0_14px_34px_-8px_rgba(11,31,75,0.14),0_2px_8px_rgba(15,23,42,0.05)]";
-  const FORM_CARD_SELECT_ITEM_CLS = "text-xs sm:text-[13px] font-medium text-slate-700 dark:text-slate-200 rounded-lg py-1.5 sm:py-2 focus:bg-blue-50/90 focus:text-[#2864E8] data-[state=checked]:text-[#2864E8] data-[state=checked]:font-semibold dark:focus:bg-blue-950/40 dark:focus:text-blue-400 cursor-pointer";
-  const CIRCLE_PLUS_BTN_BASE_CLS = "rounded-full border inline-flex items-center justify-center shrink-0 transition-colors duration-150 cursor-pointer";
-  const FORM_CARD_SUBMIT_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-[0.06em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_-1px_rgba(40,100,232,0.26),0_1px_2px_rgba(23,32,51,0.08)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.3),0_1px_3px_rgba(23,32,51,0.1)] flex items-center justify-center gap-2 transition-all duration-150 cursor-pointer active:scale-[0.995]";
+
 
   // Shared Student Profile / Enroll / Edit Modal Tokens (1:1 Visual Consistency)
   const STUDENT_MODAL_DIALOG_CLS = "max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col font-['Inter_Tight',sans-serif]";
@@ -367,119 +380,6 @@ export function FeesClient({
   const STUDENT_MODAL_MONO_INPUT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums placeholder:font-normal placeholder:text-slate-400/80 p-0 m-0 mt-0.5 h-[19px] leading-tight transition-colors";
   const STUDENT_MODAL_SELECT_CLS = "w-full bg-transparent border-0 border-b border-transparent hover:border-slate-300 dark:hover:border-slate-700 focus:border-[#2864E8] dark:focus:border-[#2864E8] focus:outline-none focus:ring-0 text-[12.5px] font-medium text-slate-700 dark:text-slate-200 data-[placeholder]:text-slate-400/80 data-[placeholder]:font-normal p-0 m-0 mt-0.5 h-[19px] shadow-none flex items-center justify-between cursor-pointer transition-colors [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-slate-400 [&>svg]:opacity-60 hover:[&>svg]:text-[#2864E8] hover:[&>svg]:opacity-100";
   const STUDENT_MODAL_FOOTER_BTN_CLS = "group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] flex items-center justify-center gap-1.5 transition-all cursor-pointer";
-
-  // 1. Create Class Modal
-  const EMPTY_CLASS_FORM: {
-    name: string;
-    code: string;
-    division: string;
-    branchId: string;
-    academicSession: string;
-    description: string;
-    defaultMonthlyFee: number;
-    order?: number | '';
-  } = {
-    name: '',
-    code: '',
-    division: '',
-    branchId: '',
-    academicSession: '',
-    description: '',
-    defaultMonthlyFee: 0,
-    order: '',
-  };
-  const [isClassModalOpen, setIsClassModalOpen] = useState(false);
-  const [classForm, setClassForm] = useState({ ...EMPTY_CLASS_FORM });
-
-  // 2. Create Batch Modal
-  const [isBatchModalOpen, setIsBatchModalOpen] = useState(false);
-  const [isSubmittingBatch, setIsSubmittingBatch] = useState(false);
-  const [batchForm, setBatchForm] = useState<{
-    classId: string;
-    branchId: string;
-    name: string;
-    duration: string;
-    classTime: string;
-    subjects: string[];
-    monthlyFee: number;
-    courseFee?: number;
-    startDate?: string;
-    endDate?: string;
-    order?: number | '';
-  }>({
-    classId: '',
-    branchId: '',
-    name: '',
-    duration: '',
-    classTime: '',
-    subjects: [],
-    monthlyFee: 0,
-    courseFee: 0,
-    startDate: '',
-    endDate: '',
-    order: '',
-  });
-  const [newBatchSubjectInput, setNewBatchSubjectInput] = useState('');
-  const [isBatchSubjectInputOpen, setIsBatchSubjectInputOpen] = useState(false);
-  const batchSubjectInputRef = useRef<HTMLInputElement | null>(null);
-  const [editingBatchSubIdx, setEditingBatchSubIdx] = useState<number | null>(null);
-  const [editingBatchSubName, setEditingBatchSubName] = useState('');
-  const [isCustomBatchFee, setIsCustomBatchFee] = useState(false);
-  const [selectedBatchPerClass, setSelectedBatchPerClass] = useState<Record<string, string>>({});
-
-  // 2B. Edit Batch Modal
-  const [isEditBatchOpen, setIsEditBatchOpen] = useState(false);
-  const [editingBatch, setEditingBatch] = useState<FeeBatch | null>(null);
-  const [editBatchForm, setEditBatchForm] = useState<{
-    classId: string;
-    branchId: string;
-    name: string;
-    duration: string;
-    classTime: string;
-    subjects: string[];
-    monthlyFee: number;
-    courseFee?: number;
-    startDate?: string;
-    endDate?: string;
-    order?: number | '';
-  }>({
-    classId: '',
-    branchId: 'mukherjee-nagar',
-    name: '',
-    duration: '',
-    classTime: '',
-    subjects: [],
-    monthlyFee: 0,
-    startDate: '',
-    endDate: '',
-    order: '',
-  });
-  const [newEditBatchSubjectInput, setNewEditBatchSubjectInput] = useState('');
-  const [editingEditBatchSubIdx, setEditingEditBatchSubIdx] = useState<number | null>(null);
-  const [editingEditBatchSubName, setEditingEditBatchSubName] = useState('');
-
-  // 1B. Edit Class Modal
-  const [isEditClassOpen, setIsEditClassOpen] = useState(false);
-  const [editingClass, setEditingClass] = useState<FeeClass | null>(null);
-  const [editClassForm, setEditClassForm] = useState<{
-    name: string;
-    division?: string;
-    code: string;
-    branchId: string;
-    academicSession: string;
-    description: string;
-    defaultMonthlyFee: number;
-    order?: number | '';
-  }>({
-    name: '',
-    division: '',
-    code: '',
-    branchId: 'mukherjee-nagar',
-    academicSession: '2026-27',
-    description: '',
-    defaultMonthlyFee: 0,
-    order: '',
-  });
 
   // 3. Register Student Modal
   type EnrollStudentFormState = {
@@ -668,6 +568,26 @@ export function FeesClient({
     name: string;
   } | null>(null);
 
+  // Shared Class & Batch Controller (reused with Attendance Class/Batch)
+  const classBatch = useClassBatchController({
+    classes,
+    selectedBranch,
+    hasBranchSelection,
+    onRefresh: () => refreshAllData(),
+    onBatchUpdated: async (batchId) => {
+      if (selectedStudentProfile && selectedStudentProfile.batchId === batchId) {
+        const sRes = await getFeeStudents();
+        if (sRes.success) {
+          const found = sRes.data.find(s => s.id === selectedStudentProfile.id);
+          if (found) setSelectedStudentProfile(found);
+        }
+      }
+    },
+    onRequestDelete: (target) => setDeleteTarget(target),
+    isBranchAdmin,
+    branchAdminBranchId: branchAdminBranchId || undefined,
+  });
+
   // 8B. Student Delete Options Modal (Month Only vs All Months)
   const [studentDeleteModal, setStudentDeleteModal] = useState<{
     isOpen: boolean;
@@ -848,10 +768,7 @@ export function FeesClient({
         isCollectFeeOpen ||
         isReceiptOpen ||
         isStudentModalOpen ||
-        isClassModalOpen ||
-        isBatchModalOpen ||
-        isEditBatchOpen ||
-        isEditClassOpen ||
+        classBatch.hasOpenModal ||
         isEditStudentOpen ||
         isRevertModalOpen ||
         !!revertPaymentTarget ||
@@ -875,10 +792,7 @@ export function FeesClient({
     isCollectFeeOpen,
     isReceiptOpen,
     isStudentModalOpen,
-    isClassModalOpen,
-    isBatchModalOpen,
-    isEditBatchOpen,
-    isEditClassOpen,
+    classBatch.hasOpenModal,
     isEditStudentOpen,
     isRevertModalOpen,
     revertPaymentTarget,
@@ -895,392 +809,6 @@ export function FeesClient({
   // --------------------------------------------------------------------------
   // HANDLERS
   // --------------------------------------------------------------------------
-
-  // Handle Class Creation
-  const handleCreateClass = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!classForm.name.trim()) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Class Name is required.' });
-      return;
-    }
-    if (!classForm.branchId) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please select a Branch for this class.' });
-      return;
-    }
-
-    // Auto-generate code from class name since code field was removed from form
-    const autoCode =
-      classForm.code?.trim() ||
-      classForm.name
-        .replace(/[^a-zA-Z0-9]/g, '')
-        .slice(0, 10)
-        .toUpperCase() ||
-      'CLASS';
-
-    const payload = {
-      ...classForm,
-      code: autoCode,
-      division: classForm.division?.trim() || '',
-      academicSession: classForm.academicSession?.trim() || '2026-27',
-      description: classForm.description || '',
-      defaultMonthlyFee: 0,
-      order: classForm.order !== '' && classForm.order !== undefined ? Number(classForm.order) : undefined,
-    };
-
-    try {
-      const res = await createFeeClass(payload);
-      if (res.success) {
-        toast({ title: 'Success', description: res.message });
-        setIsClassModalOpen(false);
-        setClassForm({ ...EMPTY_CLASS_FORM });
-        refreshAllData();
-      } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
-      }
-    } catch (err: any) {
-      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to create class' });
-    }
-  };
-
-  // Helper for formatting batch date range
-  const formatBatchDateString = (dateStr?: string) => {
-    if (!dateStr) return '';
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return dateStr;
-    const [y, m, d] = parts;
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthIdx = parseInt(m, 10) - 1;
-    return `${d} ${monthNames[monthIdx] || m} ${y}`;
-  };
-
-  // Helper for parsing date range from batch duration string
-  const parseDateRangeFromDuration = (durationStr?: string) => {
-    if (!durationStr) return { startDate: '', endDate: '' };
-    const monthMap: Record<string, string> = {
-      jan: '01', feb: '02', mar: '03', apr: '04', may: '05', jun: '06',
-      jul: '07', aug: '08', sep: '09', oct: '10', nov: '11', dec: '12',
-    };
-    const parsePart = (str: string): string => {
-      const m = str.trim().match(/(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/);
-      if (!m) return '';
-      const day = m[1].padStart(2, '0');
-      const mon = monthMap[m[2].toLowerCase().slice(0, 3)];
-      const year = m[3];
-      if (mon && year) return `${year}-${mon}-${day}`;
-      return '';
-    };
-
-    const normalized = durationStr.replace(/–/g, '-');
-    if (normalized.includes('-')) {
-      const [startRaw, endRaw] = normalized.split('-');
-      return {
-        startDate: parsePart(startRaw),
-        endDate: parsePart(endRaw),
-      };
-    }
-    if (normalized.startsWith('From ')) {
-      return { startDate: parsePart(normalized.replace('From ', '')), endDate: '' };
-    }
-    if (normalized.startsWith('Till ')) {
-      return { startDate: '', endDate: parsePart(normalized.replace('Till ', '')) };
-    }
-    return { startDate: '', endDate: '' };
-  };
-
-  // Handle Batch Creation
-  const handleCreateBatch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!batchForm.name.trim()) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please enter Batch Name.' });
-      return;
-    }
-    if (!batchForm.classId) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please select a Class.' });
-      return;
-    }
-
-    setIsSubmittingBatch(true);
-    try {
-      const durationStr = batchForm.startDate && batchForm.endDate
-        ? `${formatBatchDateString(batchForm.startDate)} – ${formatBatchDateString(batchForm.endDate)}`
-        : batchForm.startDate ? `From ${formatBatchDateString(batchForm.startDate)}`
-          : batchForm.duration || '';
-
-      const matchedClass = classes.find(c => c.id === batchForm.classId);
-      const rawMonthly = Number(batchForm.monthlyFee) || 0;
-      const rawYearly = Number(batchForm.courseFee) || 0;
-      const resolvedMonthlyFee = rawMonthly > 0
-        ? rawMonthly
-        : (rawYearly > 0 ? Math.round(rawYearly / 12) : (matchedClass?.defaultMonthlyFee || 0));
-      const resolvedCourseFee = rawYearly > 0
-        ? rawYearly
-        : (resolvedMonthlyFee > 0 ? resolvedMonthlyFee * 12 : undefined);
-
-      const finalSubjects = parseSubjectEntries(newBatchSubjectInput, batchForm.subjects);
-
-      const payload = {
-        classId: batchForm.classId,
-        branchId: matchedClass?.branchId || batchForm.branchId || (selectedBranch && selectedBranch !== 'all' ? selectedBranch : 'mukherjee-nagar'),
-        name: batchForm.name.trim(),
-        subjects: finalSubjects,
-        monthlyFee: resolvedMonthlyFee,
-        courseFee: resolvedCourseFee,
-        duration: durationStr,
-        startDate: batchForm.startDate || undefined,
-        endDate: batchForm.endDate || undefined,
-        classTime: batchForm.classTime?.trim() || undefined,
-        order: batchForm.order !== '' && batchForm.order !== undefined ? Number(batchForm.order) : undefined,
-        createdAt: new Date().toISOString(),
-      };
-
-      const res = await createFeeBatch(payload);
-      if (res.success) {
-        toast({ title: 'Success', description: res.message });
-        setIsBatchModalOpen(false);
-        setBatchForm({
-          classId: '',
-          branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
-          name: '',
-          duration: '',
-          classTime: '',
-          subjects: [],
-          monthlyFee: 0,
-          courseFee: 0,
-          startDate: '',
-          endDate: '',
-          order: '',
-        });
-        setNewBatchSubjectInput('');
-        setIsBatchSubjectInputOpen(false);
-        setEditingBatchSubIdx(null);
-        setIsCustomBatchFee(false);
-        refreshAllData(selectedMonth, selectedBranch);
-      } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
-      }
-    } catch (err: any) {
-      toast({ variant: 'destructive', title: 'Error', description: err.message || 'Failed to create batch' });
-    } finally {
-      setIsSubmittingBatch(false);
-    }
-  };
-
-  // Parse comma-separated subjects while deduplicating case-insensitively
-  const parseSubjectEntries = (raw: string, existing: string[] = []): string[] => {
-    const result = [...existing];
-    for (const part of raw.split(',')) {
-      const clean = part.trim();
-      if (clean && !result.some(s => s.toLowerCase() === clean.toLowerCase())) {
-        result.push(clean);
-      }
-    }
-    return result;
-  };
-
-  // Handlers for dynamic batch subjects creation, editing & deletion
-  const handleAddBatchSubject = (subjectToAdd?: string) => {
-    const raw = subjectToAdd !== undefined ? subjectToAdd : newBatchSubjectInput;
-    const trimmed = raw.trim();
-    if (!trimmed) return;
-    const updatedSubjects = parseSubjectEntries(raw, batchForm.subjects);
-    if (updatedSubjects.length === batchForm.subjects.length) {
-      toast({ title: 'Notice', description: `"${trimmed}" is already added to this batch.` });
-      return;
-    }
-    setBatchForm(prev => ({
-      ...prev,
-      subjects: updatedSubjects,
-    }));
-    setNewBatchSubjectInput('');
-  };
-
-  const handleDeleteBatchSubject = (idx: number) => {
-    const updatedSubjects = batchForm.subjects.filter((_, i) => i !== idx);
-    setBatchForm(prev => ({
-      ...prev,
-      subjects: updatedSubjects,
-    }));
-    if (editingBatchSubIdx === idx) {
-      setEditingBatchSubIdx(null);
-    }
-  };
-
-  const handleSaveEditBatchSubject = (idx: number) => {
-    const trimmed = editingBatchSubName.trim();
-    if (!trimmed) {
-      setEditingBatchSubIdx(null);
-      return;
-    }
-    const updatedSubjects = [...batchForm.subjects];
-    updatedSubjects[idx] = trimmed;
-    setBatchForm(prev => ({ ...prev, subjects: updatedSubjects }));
-    setEditingBatchSubIdx(null);
-    setEditingBatchSubName('');
-  };
-
-  // Open Edit Batch Modal
-  const openEditBatchModal = (batch: FeeBatch) => {
-    setEditingBatch(batch);
-    const parsed = parseDateRangeFromDuration(batch.duration);
-    const sDate = batch.startDate || parsed.startDate;
-    const eDate = batch.endDate || parsed.endDate;
-    const mFee = batch.monthlyFee || 0;
-    const cFee = batch.courseFee || (mFee > 0 ? mFee * 12 : 0);
-
-    setEditBatchForm({
-      classId: batch.classId,
-      branchId: batch.branchId || 'mukherjee-nagar',
-      name: batch.name,
-      duration: batch.duration || '',
-      classTime: batch.classTime || '',
-      subjects: batch.subjects ? [...batch.subjects] : [],
-      monthlyFee: mFee,
-      courseFee: cFee,
-      startDate: sDate,
-      endDate: eDate,
-      order: batch.order !== undefined && batch.order !== null ? batch.order : '',
-    });
-    setNewEditBatchSubjectInput('');
-    setEditingEditBatchSubIdx(null);
-    setEditingEditBatchSubName('');
-    setIsEditBatchOpen(true);
-  };
-
-  const handleAddEditBatchSubject = (subjectName?: string) => {
-    const nameToAdd = (subjectName || newEditBatchSubjectInput).trim();
-    if (!nameToAdd) return;
-    if (editBatchForm.subjects.some(s => s.toLowerCase() === nameToAdd.toLowerCase())) {
-      toast({ variant: 'destructive', title: 'Subject exists', description: `"${nameToAdd}" is already in this batch.` });
-      return;
-    }
-    setEditBatchForm(prev => ({
-      ...prev,
-      subjects: [...prev.subjects, nameToAdd],
-    }));
-    if (!subjectName) setNewEditBatchSubjectInput('');
-  };
-
-  const handleDeleteEditBatchSubject = (idx: number) => {
-    setEditBatchForm(prev => ({
-      ...prev,
-      subjects: prev.subjects.filter((_, i) => i !== idx),
-    }));
-    if (editingEditBatchSubIdx === idx) {
-      setEditingEditBatchSubIdx(null);
-    }
-  };
-
-  const handleSaveSubjectInEditBatch = (idx: number) => {
-    const trimmed = editingEditBatchSubName.trim();
-    if (!trimmed) {
-      setEditingEditBatchSubIdx(null);
-      return;
-    }
-    const updatedSubjects = [...editBatchForm.subjects];
-    updatedSubjects[idx] = trimmed;
-    setEditBatchForm(prev => ({ ...prev, subjects: updatedSubjects }));
-    setEditingEditBatchSubIdx(null);
-    setEditingEditBatchSubName('');
-  };
-
-  // Handle Batch Update
-  const handleUpdateBatch = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingBatch) return;
-    if (!editBatchForm.name.trim() || !editBatchForm.classId) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please select a Class and enter Batch Name.' });
-      return;
-    }
-
-    const durationStr = editBatchForm.startDate && editBatchForm.endDate
-      ? `${formatBatchDateString(editBatchForm.startDate)} – ${formatBatchDateString(editBatchForm.endDate)}`
-      : editBatchForm.startDate ? `From ${formatBatchDateString(editBatchForm.startDate)}`
-        : editBatchForm.endDate ? `Till ${formatBatchDateString(editBatchForm.endDate)}`
-          : editBatchForm.duration || '';
-
-    const rawMonthly = Number(editBatchForm.monthlyFee) || 0;
-    const rawYearly = Number(editBatchForm.courseFee) || 0;
-    const resolvedMonthlyFee = rawMonthly > 0
-      ? rawMonthly
-      : (rawYearly > 0 ? Math.round(rawYearly / 12) : 0);
-    const resolvedCourseFee = rawYearly > 0
-      ? rawYearly
-      : (resolvedMonthlyFee > 0 ? resolvedMonthlyFee * 12 : undefined);
-
-    const pendingSub = newEditBatchSubjectInput.trim();
-    const finalSubjects = pendingSub && !editBatchForm.subjects.some(s => s.toLowerCase() === pendingSub.toLowerCase())
-      ? [...editBatchForm.subjects, pendingSub]
-      : editBatchForm.subjects;
-
-    const payload = {
-      ...editBatchForm,
-      subjects: finalSubjects,
-      monthlyFee: resolvedMonthlyFee,
-      courseFee: resolvedCourseFee,
-      duration: durationStr,
-      order: editBatchForm.order !== '' && editBatchForm.order !== undefined ? Number(editBatchForm.order) : undefined,
-    };
-
-    const res = await updateFeeBatch(editingBatch.id, payload);
-    if (res.success) {
-      toast({ title: 'Batch Updated', description: res.message });
-      setIsEditBatchOpen(false);
-      setEditingBatch(null);
-      refreshAllData();
-      if (selectedStudentProfile && selectedStudentProfile.batchId === editingBatch.id) {
-        getFeeStudents().then(sRes => {
-          if (sRes.success) {
-            const found = sRes.data.find(s => s.id === selectedStudentProfile.id);
-            if (found) setSelectedStudentProfile(found);
-          }
-        });
-      }
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
-    }
-  };
-
-  // Open Edit Class Modal
-  const openEditClassModal = (cls: FeeClass) => {
-    setEditingClass(cls);
-    setEditClassForm({
-      name: cls.name,
-      division: cls.division || '',
-      code: cls.code || cls.name.replace(/\s+/g, '').toUpperCase(),
-      branchId: cls.branchId || 'mukherjee-nagar',
-      academicSession: cls.academicSession || '2026-27',
-      description: cls.description || '',
-      defaultMonthlyFee: cls.defaultMonthlyFee || 0,
-      order: cls.order !== undefined && cls.order !== null ? cls.order : '',
-    });
-    setIsEditClassOpen(true);
-  };
-
-  // Handle Class Update
-  const handleUpdateClass = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!editingClass) return;
-    if (!editClassForm.name.trim()) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Class Name is required.' });
-      return;
-    }
-
-    const payload = {
-      ...editClassForm,
-      code: editClassForm.code || editingClass.code || editClassForm.name.replace(/\s+/g, '').toUpperCase(),
-      order: editClassForm.order !== '' && editClassForm.order !== undefined ? Number(editClassForm.order) : undefined,
-    };
-
-    const res = await updateFeeClass(editingClass.id, payload);
-    if (res.success) {
-      toast({ title: 'Class Updated', description: res.message });
-      setIsEditClassOpen(false);
-      setEditingClass(null);
-      refreshAllData();
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
-    }
-  };
 
   // Handle Student Creation
   const handleCreateStudent = async (e: React.FormEvent) => {
@@ -2965,12 +2493,6 @@ export function FeesClient({
     });
   }, [students, selectedBranch, selectedMonth, hasBranchSelection]);
 
-  // Open Create Class Modal (always starts with blank branch & academic session)
-  const openCreateClassModal = () => {
-    setClassForm({ ...EMPTY_CLASS_FORM });
-    setIsClassModalOpen(true);
-  };
-
   // Open Create Student Modal with clean defaults and dynamic watermarks
   const openCreateStudentModal = () => {
     setIsCustomRollNumber(false);
@@ -2983,34 +2505,6 @@ export function FeesClient({
     setNewEnrollAddlSubjectName('');
     setNewEnrollAddlSubjectFee('');
     setIsStudentModalOpen(true);
-  };
-
-  // Open Create Batch Modal with clean defaults (auto-selects class if only 1 exists)
-  const openCreateBatchModal = (initialClassId?: string) => {
-    const available = filteredClasses.length > 0 ? filteredClasses : classes;
-    const targetClassId = initialClassId || (available.length === 1 ? available[0].id : (classes.length === 1 ? classes[0].id : ''));
-    const matchedClass = classes.find(c => c.id === targetClassId);
-    const defaultBranch = matchedClass?.branchId || (selectedBranch && selectedBranch !== 'all' ? selectedBranch : (classes[0]?.branchId || 'mukherjee-nagar'));
-    const defaultFee = matchedClass?.defaultMonthlyFee || 0;
-
-    setBatchForm({
-      classId: targetClassId,
-      branchId: defaultBranch,
-      name: '',
-      duration: '',
-      classTime: '',
-      subjects: [],
-      monthlyFee: defaultFee,
-      courseFee: defaultFee > 0 ? defaultFee * 12 : 0,
-      startDate: '',
-      endDate: '',
-      order: '',
-    });
-    setNewBatchSubjectInput('');
-    setIsBatchSubjectInputOpen(false);
-    setEditingBatchSubIdx(null);
-    setIsCustomBatchFee(false);
-    setIsBatchModalOpen(true);
   };
 
   // Handle student delete option choice (month_only vs all_months)
@@ -3067,26 +2561,6 @@ export function FeesClient({
       }
     });
   };
-
-  // Filtered classes matching active branch selection, arranged by order number
-  const filteredClasses = React.useMemo(() => {
-    if (!hasBranchSelection) return [];
-    let list = classes;
-    if (selectedBranch && selectedBranch !== 'all') {
-      list = list.filter(
-        c =>
-          c.branchId === selectedBranch ||
-          (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri') ||
-          (selectedBranch === 'mangol-puri' && c.branchId === 'mangolpuri')
-      );
-    }
-    return [...list].sort((a, b) => {
-      const ordA = a.order !== undefined && a.order !== null ? Number(a.order) : 999999;
-      const ordB = b.order !== undefined && b.order !== null ? Number(b.order) : 999999;
-      if (ordA !== ordB) return ordA - ordB;
-      return a.name.localeCompare(b.name, undefined, { numeric: true });
-    });
-  }, [classes, selectedBranch, hasBranchSelection]);
 
   // Filtered batches for student directory filter (respects selected branch & class filter)
   const availableBatchesForStudentFilter = React.useMemo(() => {
@@ -3597,128 +3071,25 @@ export function FeesClient({
     return true;
   });
 
+  const toolbarControlClass =
+    'h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0';
+
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Top Sticky Deep Dark Navy App Header with Controls in ONE Line */}
-      <header className="sticky top-0 z-40 w-full bg-[#071942] border-b border-white/[0.08] shadow-[0_2px_12px_rgba(7,25,66,0.25)]">
-        <div className="max-w-7xl mx-auto flex items-center justify-between px-3 sm:px-6 lg:px-8 py-2 sm:py-2.5 gap-2 sm:gap-4">
-          {/* Left: Original IDL Brand Logo (White with Yellow Dot) & System Title */}
-          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <Link href="/admin/fees" className="flex items-center gap-2 sm:gap-3 group">
-              <img
-                src="/idllogo-white.png"
-                alt="IDL Education"
-                className="h-8 sm:h-10 w-auto object-contain shrink-0 group-hover:opacity-95 transition-opacity"
-              />
-              <div className="h-6 sm:h-7 w-px bg-white/30 shrink-0" />
-              <div className="flex flex-col justify-center leading-none">
-                <span className="text-white font-extrabold text-sm sm:text-base md:text-[17px] lg:text-lg tracking-tight whitespace-nowrap">
-                  Fee Management
-                </span>
-                <span className="text-emerald-400 font-semibold text-[7.5px] sm:text-[8px] md:text-[8.5px] tracking-tight whitespace-nowrap flex items-center gap-1 mt-0.5">
-                  <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                  Live Fee Management System
-                </span>
-              </div>
-            </Link>
-          </div>
-
-          {/* Center: The 4 Controls in ONE Line (Pure Icon + Text, No Box, No Background, No Outline) */}
-          <div className="flex items-center flex-nowrap gap-1.5 sm:gap-3 md:gap-4 overflow-x-auto no-scrollbar py-0.5 shrink min-w-0 max-w-[130px] sm:max-w-none">
-            {/* 1. Branch Selector */}
-            {isBranchAdmin ? (
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/10 text-white shrink-0">
-                <Building2 className="w-3.5 h-3.5 text-blue-200 shrink-0" />
-                <span className="text-xs font-semibold">{user?.branchName || 'Mangol Puri Branch'}</span>
-                <span className="text-[10px] bg-blue-500/40 text-blue-100 px-1.5 py-0.5 rounded font-mono">Branch Admin</span>
-              </div>
-            ) : (
-              <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
-                <PopoverTrigger asChild>
-                  <button
-                    type="button"
-                    aria-label="Select branch"
-                    className="flex items-center gap-1.5 px-1 py-0.5 h-6 bg-transparent text-xs font-semibold text-white/95 hover:text-white hover:opacity-85 transition-opacity cursor-pointer group shrink-0 border-0 shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
-                  >
-                    <Building2 className="w-3.5 h-3.5 text-blue-300 shrink-0" />
-                    <span className="whitespace-nowrap">
-                      {!selectedBranch || selectedBranch === 'none'
-                        ? 'Select Branch'
-                        : selectedBranch === 'all'
-                          ? 'All Branches'
-                          : IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'Select Branch'}
-                    </span>
-                    <ChevronDown
-                      className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 opacity-90' : ''}`}
-                    />
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent
-                  align="center"
-                  sideOffset={8}
-                  className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
-                >
-                  {/* First Option: All Branches */}
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedBranch('all');
-                      setIsBranchPickerOpen(false);
-                    }}
-                    className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
-                      selectedBranch === 'all'
-                        ? 'bg-blue-100/80 dark:bg-blue-950/60 text-[#2864E8] dark:text-blue-400 font-semibold'
-                        : 'bg-blue-50/75 hover:bg-blue-100/70 dark:bg-blue-950/35 dark:hover:bg-blue-950/55 text-[#2864E8] dark:text-blue-400 font-semibold'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2 min-w-0">
-                      <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                      <span className="truncate">All Branches</span>
-                    </span>
-                    {selectedBranch === 'all' && (
-                      <Check className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                    )}
-                  </button>
-
-                  <div className="my-1.5 border-t border-slate-100 dark:border-slate-800/80" />
-
-                  {/* Individual Branches */}
-                  <div className="space-y-0.5">
-                    {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => {
-                      const isSelected = selectedBranch === b.id;
-                      return (
-                        <button
-                          key={b.id}
-                          type="button"
-                          onClick={() => {
-                            setSelectedBranch(b.id);
-                            setIsBranchPickerOpen(false);
-                          }}
-                          className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
-                            isSelected
-                              ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
-                              : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
-                          }`}
-                        >
-                          <span className="flex items-center gap-2 min-w-0">
-                            <Building2
-                              className={`w-3.5 h-3.5 shrink-0 ${
-                                isSelected ? 'text-[#2864E8] dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'
-                              }`}
-                            />
-                            <span className="truncate">{b.name}</span>
-                          </span>
-                          {isSelected && (
-                            <Check className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            )}
-
+    <div className="min-h-[calc(100svh-68px)] flex-1 flex flex-col">
+      {/* Left-aligned borderless/bg-less Fee Management controls under Main Site Header */}
+      <section
+        aria-label="Fee management toolbar"
+        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-[68px] z-40"
+      >
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
+          {/* 1. Branch Selector */}
+          <BranchToolbarControl
+            selectedBranch={selectedBranch}
+            onSelectBranch={setSelectedBranch}
+            isBranchAdmin={isBranchAdmin}
+            branchName={user?.branchName}
+            controlClassName={toolbarControlClass}
+          />
             {/* 2. Date / Month Selector */}
             <Popover
               open={isMonthPickerOpen}
@@ -3734,12 +3105,12 @@ export function FeesClient({
                 <button
                   type="button"
                   aria-label="Select billing month and year"
-                  className="flex items-center gap-1.5 px-1 py-0.5 h-6 bg-transparent text-xs font-semibold text-white/95 hover:text-white hover:opacity-85 transition-opacity cursor-pointer group shrink-0 border-0 shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                  className={toolbarControlClass}
                 >
-                  <Calendar className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                  <Calendar className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   <span className="whitespace-nowrap">{selectedMonthLabel || 'Select Month'}</span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 shrink-0 ${isMonthPickerOpen ? 'rotate-180 opacity-90' : ''}`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isMonthPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
                   />
                 </button>
               </PopoverTrigger>
@@ -3805,18 +3176,17 @@ export function FeesClient({
               </PopoverContent>
             </Popover>
 
-            {/* 3. Sync (Scan) Button */}
-            <Button
-              variant="ghost"
-              size="sm"
+            {/* 3. Sync Button */}
+            <button
+              type="button"
               onClick={() => refreshAllData()}
               disabled={isPending}
-              className="h-6 px-1.5 sm:px-2 bg-transparent hover:bg-transparent hover:opacity-80 text-white/90 hover:text-white text-xs font-semibold gap-1.5 transition-all shadow-none border-0 shrink-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none cursor-pointer"
+              className={`${toolbarControlClass} disabled:opacity-50 disabled:cursor-not-allowed`}
               title="Refresh fee data"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-blue-300 ${isPending ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0 ${isPending ? 'animate-spin' : ''}`} />
               <span>Sync</span>
-            </Button>
+            </button>
 
             {/* 4. Reset & Restore Folder Group */}
             <Popover
@@ -3830,24 +3200,24 @@ export function FeesClient({
                 <button
                   type="button"
                   aria-label="Reset and Restore data folder"
-                  className="flex items-center gap-1.5 px-1 py-0.5 h-6 bg-transparent text-xs font-semibold text-white/95 hover:text-white hover:opacity-85 transition-opacity cursor-pointer group shrink-0 border-0 shadow-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+                  className={toolbarControlClass}
                   title="Reset & Restore data options"
                 >
-                  <Folder className="w-3.5 h-3.5 text-blue-300 shrink-0" />
+                  <Folder className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   <span className="whitespace-nowrap">Reset &amp; Restore</span>
                   {resetBackupStatus.hasBackup && (
                     <span
-                      className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"
+                      className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0"
                       aria-hidden="true"
                     />
                   )}
                   <ChevronDown
-                    className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 shrink-0 ${isDataGroupOpen ? 'rotate-180 opacity-90' : ''}`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isDataGroupOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
                   />
                 </button>
               </PopoverTrigger>
               <PopoverContent
-                align="end"
+                align="start"
                 sideOffset={8}
                 className="w-[244px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
               >
@@ -3916,24 +3286,8 @@ export function FeesClient({
                 </div>
               </PopoverContent>
             </Popover>
-          </div>
-
-          {/* Right: Admin Dashboard Link */}
-          <div className="flex items-center shrink-0">
-            <Button
-              asChild
-              variant="ghost"
-              size="sm"
-              className="h-8 px-2.5 sm:px-3 !rounded-[5px] border-0 bg-white/10 hover:bg-white/20 text-white hover:text-white text-xs font-semibold transition-all shadow-none shrink-0 focus:outline-none focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 ring-0 ring-offset-0 outline-none"
-            >
-              <Link href="/admin/dashboard" className="flex items-center gap-1.5">
-                <ArrowLeft className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">Admin Dashboard</span>
-              </Link>
-            </Button>
-          </div>
         </div>
-      </header>
+      </section>
 
       {/* Main Content Area */}
       <div className="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl flex-1 space-y-6 pb-12">
@@ -4085,41 +3439,23 @@ export function FeesClient({
             </div>
 
             {/* Quick Action Controls (CLASS first, BATCH second, STUDENT third, circular outline around icons) */}
-            <div className="flex items-center gap-3 sm:gap-4 shrink-0 px-1">
-              <button
-                type="button"
-                onClick={openCreateClassModal}
-                className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
-                title="Add Class"
-              >
-                <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
-                  <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
-                </span>
-                <span>CLASS</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => openCreateBatchModal()}
-                className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
-                title="Add Batch"
-              >
-                <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
-                  <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
-                </span>
-                <span>BATCH</span>
-              </button>
-              <button
-                type="button"
-                onClick={openCreateStudentModal}
-                className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
-                title="Add Student"
-              >
-                <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
-                  <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
-                </span>
-                <span>STUDENT</span>
-              </button>
-            </div>
+            <ClassBatchQuickActions
+              onCreateClass={classBatch.openCreateClassModal}
+              onCreateBatch={() => classBatch.openCreateBatchModal()}
+              extraActions={
+                <button
+                  type="button"
+                  onClick={openCreateStudentModal}
+                  className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
+                  title="Add Student"
+                >
+                  <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
+                    <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
+                  </span>
+                  <span>STUDENT</span>
+                </button>
+              }
+            />
           </div>
 
           {/* ------------------------------------------------------------------ */}
@@ -4141,7 +3477,7 @@ export function FeesClient({
                         </CardDescription>
                       </div>
                       <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 tabular-nums uppercase tracking-wider whitespace-nowrap">
-                        TOTAL CLASSES {hasBranchSelection ? filteredClasses.length : 0}
+                        TOTAL CLASSES {hasBranchSelection ? classBatch.filteredClasses.length : 0}
                       </span>
                     </div>
                   </CardHeader>
@@ -4844,222 +4180,19 @@ export function FeesClient({
           {/* TAB 3: CLASS & BATCH MANAGEMENT */}
           {/* ------------------------------------------------------------------ */}
           <TabsContent value="classes" className="space-y-4 font-['Inter_Tight',sans-serif]">
-            {!hasBranchSelection ? (
-              <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
-                <Building2 className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
-                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view classes and batches.</p>
-              </div>
-            ) : filteredClasses.length === 0 ? (
-              <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
-                <School className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
-                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes and batches for this branch.</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-                {filteredClasses.map(cls => {
-                  const clsBatches = batches
-                    .filter(b => b.classId === cls.id)
-                    .sort((a, b) => {
-                      const ordA = a.order !== undefined && a.order !== null ? Number(a.order) : 999999;
-                      const ordB = b.order !== undefined && b.order !== null ? Number(b.order) : 999999;
-                      if (ordA !== ordB) return ordA - ordB;
-                      return a.name.localeCompare(b.name, undefined, { numeric: true });
-                    });
-                  const branch = IDL_BRANCHES.find(b => b.id === cls.branchId);
-                  const activeBatchId = selectedBatchPerClass[cls.id] || clsBatches[0]?.id;
-                  const activeBatch = clsBatches.find(b => b.id === activeBatchId) || clsBatches[0];
-
-                  return (
-                    <Card
-                      key={cls.id}
-                      className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-md hover:border-slate-300/80 transition-all overflow-hidden flex flex-col justify-between"
-                    >
-                      <div>
-                        {/* 1. Header: Branch Name primary, Edit & Delete top-right, Compact metadata row, Subtle stats */}
-                        <div className="p-3.5 sm:p-4 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                              <h3 className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
-                                {branch?.name.replace(' Branch', '') || cls.branchId}
-                              </h3>
-                            </div>
-
-                            <div className="flex items-center gap-1 shrink-0">
-                              <button
-                                type="button"
-                                onClick={() => openEditClassModal(cls)}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-[#2864E8] hover:bg-blue-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Edit Class Details"
-                              >
-                                <Edit className="w-3.5 h-3.5" />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setDeleteTarget({ type: 'class', id: cls.id, name: cls.name })}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Delete Class"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          </div>
-
-                          {/* Metadata Row: Class Name • Course/Stream • Academic Year */}
-                          <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium flex-wrap">
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">{cls.name}</span>
-                            {cls.division && !cls.name.toLowerCase().includes(cls.division.toLowerCase()) && (
-                              <>
-                                <span className="text-slate-300 dark:text-slate-600">•</span>
-                                <span className="uppercase text-slate-600 dark:text-slate-300 font-semibold">{cls.division}</span>
-                              </>
-                            )}
-                            <span className="text-slate-300 dark:text-slate-600">•</span>
-                            <span className="tabular-nums">{cls.academicSession || '2026-27'}</span>
-                          </div>
-
-                          {/* 2. Compact Statistics */}
-                          <div className="flex items-center gap-3 pt-1 text-[11px] text-slate-500 dark:text-slate-400">
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#2864E8]" />
-                              <span>Batches:</span>
-                              <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{clsBatches.length}</span>
-                            </div>
-                            <span className="text-slate-300 dark:text-slate-700">•</span>
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                              <span>Enrolled Students:</span>
-                              <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{cls.studentCount || 0}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* 3. Batches Content Area */}
-                        <div className="p-3.5 sm:p-4 space-y-3">
-                          {/* Batch Navigation Header */}
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center shrink-0">
-                              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                                Batches
-                              </span>
-                            </div>
-
-                            {/* Batch text tabs */}
-                            {clsBatches.length > 0 && (
-                              <div className="flex-1 flex items-center overflow-x-auto no-scrollbar mx-2 py-0.5">
-                                <div className="inline-flex items-center gap-3">
-                                  {clsBatches.map(b => {
-                                    const isActive = b.id === activeBatch?.id;
-                                    return (
-                                      <button
-                                        key={b.id}
-                                        type="button"
-                                        onClick={() => setSelectedBatchPerClass(prev => ({ ...prev, [cls.id]: b.id }))}
-                                        className={`text-[12px] transition-colors cursor-pointer shrink-0 whitespace-nowrap bg-transparent p-0 ${isActive
-                                          ? "font-bold text-[#2864E8] dark:text-[#4B82F6]"
-                                          : "font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                                          }`}
-                                      >
-                                        {b.name}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Add Batch Button */}
-                            <button
-                              type="button"
-                              onClick={() => openCreateBatchModal(cls.id)}
-                              className="h-7 w-7 rounded-lg text-[#2864E8] hover:text-[#1E4ED8] hover:bg-blue-50 dark:hover:bg-blue-950/40 flex items-center justify-center transition-colors cursor-pointer shrink-0"
-                              title="Add Batch"
-                              aria-label="Add Batch"
-                            >
-                              <Plus className="w-4 h-4" />
-                            </button>
-                          </div>
-
-                          {clsBatches.length === 0 ? (
-                            <div
-                              onClick={() => openCreateBatchModal(cls.id)}
-                              className="py-5 px-3 rounded-xl text-center cursor-pointer transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80"
-                            >
-                              <Layers className="w-7 h-7 mx-auto text-slate-300 dark:text-slate-700 mb-1.5" />
-                              <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No batches added yet</p>
-                              <p className="text-[11px] text-slate-400 mt-0.5">Click + above to create a batch for this class.</p>
-                            </div>
-                          ) : activeBatch ? (
-                            <div className="border-t border-slate-100 dark:border-slate-800/80 pt-2.5 space-y-2">
-                              {/* 4. Selected Batch Top Row: Batch Name & Students Count on left, Fee & Actions on right */}
-                              <div className="flex items-center justify-between gap-2">
-                                <div className="flex items-center gap-1.5 min-w-0">
-                                  <span className="text-[13.5px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
-                                    {activeBatch.name}
-                                  </span>
-                                  <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-normal tabular-nums whitespace-nowrap">
-                                    {students.filter(s => s.batchId === activeBatch.id).length} students
-                                  </span>
-                                </div>
-
-                                <div className="flex items-center gap-2 shrink-0">
-                                  <span className="font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums tracking-tight">
-                                    ₹{Number(activeBatch.monthlyFee || 0).toLocaleString('en-IN')}<span className="text-[10.5px] text-slate-400 font-normal ml-0.5">/mo</span>
-                                  </span>
-                                  <div className="flex items-center gap-0.5 border-l border-slate-200/80 dark:border-slate-700/60 pl-1.5">
-                                    <button
-                                      type="button"
-                                      onClick={() => openEditBatchModal(activeBatch)}
-                                      className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-[#2864E8] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                      title="Edit Batch"
-                                    >
-                                      <Edit className="w-3 h-3" />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => setDeleteTarget({ type: 'batch', id: activeBatch.id, name: activeBatch.name })}
-                                      className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                      title="Delete Batch"
-                                    >
-                                      <Trash2 className="w-3 h-3" />
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Second Section: Timing, Dates, Subjects */}
-                              <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">
-                                {/* Schedule Row */}
-                                {(activeBatch.classTime || activeBatch.duration) && (
-                                  <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-                                    <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                                    <span>{activeBatch.classTime || ''}</span>
-                                    {activeBatch.duration && <span className="text-slate-400 font-normal">• {activeBatch.duration}</span>}
-                                  </div>
-                                )}
-
-                                {/* Subjects */}
-                                {activeBatch.subjects && activeBatch.subjects.length > 0 && (
-                                  <div className="flex items-center gap-1.5 text-[11px] pt-0.5">
-                                    <span className="text-slate-400 font-normal shrink-0">Subjects:</span>
-                                    <span className="text-slate-700 dark:text-slate-300 font-medium truncate" title={activeBatch.subjects.join(', ')}>
-                                      {activeBatch.subjects.join(', ')}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ) : null}
-                        </div>
-                      </div>
-                    </Card>
-                  );
-                })}
-              </div>
-            )}
+            <ClassBatchCardsGrid
+              filteredClasses={classBatch.filteredClasses}
+              batches={batches}
+              students={students}
+              hasBranchSelection={hasBranchSelection}
+              selectedBatchPerClass={classBatch.selectedBatchPerClass}
+              onSelectBatch={classBatch.setSelectedBatchPerClass}
+              onEditClass={classBatch.openEditClassModal}
+              onDeleteClass={cls => setDeleteTarget({ type: 'class', id: cls.id, name: cls.name })}
+              onCreateBatch={classBatch.openCreateBatchModal}
+              onEditBatch={classBatch.openEditBatchModal}
+              onDeleteBatch={batch => setDeleteTarget({ type: 'batch', id: batch.id, name: batch.name })}
+            />
           </TabsContent>
 
           {/* ------------------------------------------------------------------ */}
@@ -5092,12 +4225,12 @@ export function FeesClient({
                         <SelectValue placeholder="CLASS">
                           {classFilter === 'all'
                             ? 'CLASS'
-                            : filteredClasses.find(c => c.id === classFilter)?.name.toUpperCase() || 'CLASS'}
+                            : classBatch.filteredClasses.find(c => c.id === classFilter)?.name.toUpperCase() || 'CLASS'}
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all" className="text-xs font-semibold">All Classes</SelectItem>
-                        {filteredClasses.map(c => (
+                        {classBatch.filteredClasses.map(c => (
                           <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
                         ))}
                       </SelectContent>
@@ -5646,18 +4779,6 @@ export function FeesClient({
                         <span>Yearly</span>
                       </button>
                     </div>
-
-                    {/* Real-time Sync Button */}
-                    <button
-                      type="button"
-                      onClick={() => refreshAllData(selectedMonth, selectedBranch)}
-                      disabled={isPending}
-                      className="h-7 inline-flex items-center gap-1 px-2 text-xs font-semibold text-slate-500 hover:text-[#2864E8] dark:text-slate-400 transition-colors cursor-pointer rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800"
-                      title="Refresh branch report data in real time"
-                    >
-                      <RefreshCw className={`w-3 h-3 text-[#2864E8] ${isPending ? 'animate-spin' : ''}`} />
-                      <span className="hidden sm:inline">Sync</span>
-                    </button>
                   </div>
                 </div>
               </CardHeader>
@@ -6234,769 +5355,13 @@ export function FeesClient({
           </TabsContent>
         </Tabs>
 
-        {/* -------------------------------------------------------------------- */}
-        {/* MODAL 1: CREATE CLASS (Matching CREATE ACADEMIC BATCH Design System) */}
-        {/* -------------------------------------------------------------------- */}
-        <Dialog open={isClassModalOpen} onOpenChange={setIsClassModalOpen}>
-          <DialogContent className={FORM_CARD_DIALOG_CLS}>
-            <DialogHeader className={FORM_CARD_HEADER_CLS}>
-              <div>
-                <DialogTitle className={FORM_CARD_TITLE_CLS}>
-                  Create Academic Class
-                </DialogTitle>
-                <DialogDescription className={FORM_CARD_DESC_CLS}>
-                  Define a new academic class and assign it to a branch.
-                </DialogDescription>
-              </div>
-            </DialogHeader>
-
-            <form onSubmit={handleCreateClass} className="space-y-3 pt-1" autoComplete="off">
-              {/* Row 1: Class Name & Class Division */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Class Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                  </Label>
-                  <Input
-                    placeholder="e.g. Class 9, Class 10"
-                    value={classForm.name}
-                    onChange={e => setClassForm({ ...classForm, name: e.target.value })}
-                    required
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Class Division <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                  </Label>
-                  <Input
-                    placeholder="e.g. Alpha, Sec A"
-                    value={classForm.division}
-                    onChange={e => setClassForm({ ...classForm, division: e.target.value })}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-              </div>
-
-              {/* Row 2: Branch & Academic Session */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                  </Label>
-                  <Select
-                    value={classForm.branchId}
-                    onValueChange={val => setClassForm({ ...classForm, branchId: val })}
-                  >
-                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
-                      <SelectValue placeholder="Select branch" />
-                    </SelectTrigger>
-                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                      {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => (
-                        <SelectItem
-                          key={b.id}
-                          value={b.id}
-                          className={FORM_CARD_SELECT_ITEM_CLS}
-                        >
-                          {b.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Academic Session
-                  </Label>
-                  <Input
-                    placeholder="e.g. 2026-27"
-                    value={classForm.academicSession}
-                    onChange={e => setClassForm({ ...classForm, academicSession: e.target.value })}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-              </div>
-
-              {/* Row 3: Card Order Number */}
-              <div className="space-y-1.5">
-                <Label className={FORM_CARD_LABEL_CLS}>
-                  Card Order Number <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
-                </Label>
-                <Input
-                  type="number"
-                  min="1"
-                  placeholder="e.g. 1, 2"
-                  value={classForm.order !== undefined ? classForm.order : ''}
-                  onChange={e => setClassForm({ ...classForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                  className={FORM_CARD_FIELD_CLS}
-                />
-              </div>
-
-              <DialogFooter className="pt-2">
-                <Button
-                  type="submit"
-                  disabled={isPending}
-                  className={FORM_CARD_SUBMIT_BTN_CLS}
-                >
-                  <span>CREATE CLASS</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-
-        {/* -------------------------------------------------------------------- */}
-        {/* MODAL 2: CREATE BATCH (Restyled to match Contact Us Design System) */}
-        {/* -------------------------------------------------------------------- */}
-        <Dialog open={isBatchModalOpen} onOpenChange={setIsBatchModalOpen}>
-          <DialogContent className={`${FORM_CARD_DIALOG_CLS} max-h-[90dvh] overflow-y-auto`}>
-            <DialogHeader className={FORM_CARD_HEADER_CLS}>
-              <div>
-                <DialogTitle className={FORM_CARD_TITLE_CLS}>
-                  Create Academic Batch
-                </DialogTitle>
-                <DialogDescription className={FORM_CARD_DESC_CLS}>
-                  Define a new academic batch, schedule, and fee structure.
-                </DialogDescription>
-              </div>
-            </DialogHeader>
-
-            <form onSubmit={handleCreateBatch} className="space-y-3 pt-1" autoComplete="off">
-              {/* Row 1: Class & Batch Name */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                  </Label>
-                  <Select
-                    value={batchForm.classId || undefined}
-                    onValueChange={val => {
-                      const matchedClass = classes.find(c => c.id === val);
-                      setBatchForm(prev => ({
-                        ...prev,
-                        classId: val,
-                        branchId: matchedClass?.branchId || prev.branchId,
-                        monthlyFee: prev.monthlyFee || matchedClass?.defaultMonthlyFee || 0,
-                        courseFee: prev.courseFee || ((prev.monthlyFee || matchedClass?.defaultMonthlyFee || 0) * 12),
-                      }));
-                    }}
-                  >
-                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
-                      <SelectValue placeholder="Select class" />
-                    </SelectTrigger>
-                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                      {(classes.length > 0 ? classes : filteredClasses).map(c => (
-                        <SelectItem
-                          key={c.id}
-                          value={c.id}
-                          className={FORM_CARD_SELECT_ITEM_CLS}
-                        >
-                          {c.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                  </Label>
-                  <Input
-                    placeholder="e.g. Alpha, Batch A1"
-                    value={batchForm.name}
-                    onChange={e => setBatchForm({ ...batchForm, name: e.target.value })}
-                    required
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-              </div>
-
-              {/* Row 2: Batch Start Date & Batch End Date */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch Start Date
-                  </Label>
-                  <Input
-                    type={batchForm.startDate ? "date" : "text"}
-                    placeholder="DD/MM/YYYY"
-                    value={batchForm.startDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
-                    onChange={e => {
-                      const newStart = e.target.value;
-                      const durationStr = newStart && batchForm.endDate
-                        ? `${formatBatchDateString(newStart)} – ${formatBatchDateString(batchForm.endDate)}`
-                        : newStart ? `From ${formatBatchDateString(newStart)}` : '';
-                      setBatchForm({
-                        ...batchForm,
-                        startDate: newStart,
-                        duration: durationStr,
-                      });
-                    }}
-                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch End Date
-                  </Label>
-                  <Input
-                    type={batchForm.endDate ? "date" : "text"}
-                    placeholder="DD/MM/YYYY"
-                    value={batchForm.endDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
-                    onChange={e => {
-                      const newEnd = e.target.value;
-                      const durationStr = batchForm.startDate && newEnd
-                        ? `${formatBatchDateString(batchForm.startDate)} – ${formatBatchDateString(newEnd)}`
-                        : newEnd ? `Till ${formatBatchDateString(newEnd)}` : '';
-                      setBatchForm({
-                        ...batchForm,
-                        endDate: newEnd,
-                        duration: durationStr,
-                      });
-                    }}
-                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
-                  />
-                </div>
-              </div>
-
-              {/* Row 3: Class Timings & Batch Order */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Class Timings
-                  </Label>
-                  <Input
-                    placeholder="e.g. 4:00 - 6:00 PM"
-                    value={batchForm.classTime}
-                    onChange={e => setBatchForm({ ...batchForm, classTime: e.target.value })}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch Order <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
-                  </Label>
-                  <Input
-                    type="number"
-                    min="1"
-                    placeholder="e.g. 1, 2"
-                    value={batchForm.order !== undefined ? batchForm.order : ''}
-                    onChange={e => setBatchForm({ ...batchForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-              </div>
-
-              {/* Row 4: Batch Monthly Fee & Batch Yearly Fee */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch Monthly Fee (₹)
-                  </Label>
-                  <Input
-                    type="number"
-                    min="0"
-                    placeholder="e.g. 1500"
-                    value={batchForm.monthlyFee !== undefined && batchForm.monthlyFee > 0 ? batchForm.monthlyFee : ''}
-                    onChange={e => {
-                      const m = e.target.value === '' ? 0 : Number(e.target.value);
-                      setBatchForm(prev => ({
-                        ...prev,
-                        monthlyFee: m,
-                        courseFee: m > 0 ? m * 12 : 0,
-                      }));
-                    }}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch Yearly Fee (₹)
-                  </Label>
-                  <Input
-                    type="number"
-                    min="0"
-                    placeholder="e.g. 18000"
-                    value={batchForm.courseFee !== undefined && batchForm.courseFee > 0 ? batchForm.courseFee : ''}
-                    onChange={e => {
-                      const y = e.target.value === '' ? 0 : Number(e.target.value);
-                      setBatchForm(prev => ({
-                        ...prev,
-                        courseFee: y,
-                        monthlyFee: y > 0 ? Math.round(y / 12) : 0,
-                      }));
-                    }}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
-              </div>
-
-              {/* Row 5: Subjects */}
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
-                  </Label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      if (!isBatchSubjectInputOpen) {
-                        setIsBatchSubjectInputOpen(true);
-                        requestAnimationFrame(() => batchSubjectInputRef.current?.focus());
-                      } else if (newBatchSubjectInput.trim()) {
-                        handleAddBatchSubject();
-                        requestAnimationFrame(() => batchSubjectInputRef.current?.focus());
-                      } else {
-                        setIsBatchSubjectInputOpen(false);
-                      }
-                    }}
-                    className={`${CIRCLE_PLUS_BTN_BASE_CLS} w-4 h-4 ${
-                      isBatchSubjectInputOpen
-                        ? 'border-[#2864E8]/70 text-[#2864E8] bg-[#2864E8]/[0.06] dark:border-blue-500/70 dark:text-blue-400'
-                        : 'border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:border-[#2864E8] hover:text-[#2864E8] hover:bg-[#2864E8]/[0.06]'
-                    }`}
-                    title={isBatchSubjectInputOpen && !newBatchSubjectInput.trim() ? 'Hide subject field' : 'Add Subject'}
-                    aria-label="Add Subject"
-                    aria-expanded={isBatchSubjectInputOpen}
-                  >
-                    <Plus className="w-2.5 h-2.5 stroke-[2.2]" />
-                  </button>
-                </div>
-
-                {isBatchSubjectInputOpen && (
-                  <Input
-                    ref={batchSubjectInputRef}
-                    placeholder="e.g. Physics, Maths"
-                    value={newBatchSubjectInput}
-                    onChange={e => setNewBatchSubjectInput(e.target.value)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleAddBatchSubject();
-                      }
-                    }}
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                )}
-
-                {batchForm.subjects && batchForm.subjects.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                    {batchForm.subjects.map((sub, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] bg-slate-50 dark:bg-slate-900 text-xs font-medium text-[#0B1F4B] dark:text-slate-200 border border-slate-200 dark:border-slate-800"
-                      >
-                        <span>{sub}</span>
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteBatchSubject(idx)}
-                          className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
-                          title="Remove Subject"
-                          aria-label={`Remove ${sub}`}
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              <DialogFooter className="pt-2">
-                <Button
-                  type="submit"
-                  disabled={isSubmittingBatch || isPending}
-                  className={FORM_CARD_SUBMIT_BTN_CLS}
-                >
-                  {isSubmittingBatch ? (
-                    <>
-                      <RefreshCw className="w-3.5 h-3.5 animate-spin shrink-0" />
-                      <span>CREATING BATCH...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>CREATE BATCH</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
-                    </>
-                  )}
-                </Button>
-              </DialogFooter>
-            </form>
-          </DialogContent>
-        </Dialog>
-
-        {/* -------------------------------------------------------------------- */}
-        {/* MODAL 2B: EDIT BATCH */}
-        {/* -------------------------------------------------------------------- */}
-        {/* -------------------------------------------------------------------- */}
-        {/* MODAL 2B: EDIT BATCH DETAILS (Matching CREATE ACADEMIC BATCH Design System) */}
-        {/* -------------------------------------------------------------------- */}
-        <Dialog open={isEditBatchOpen} onOpenChange={setIsEditBatchOpen}>
-          <FormModalDialogContent
-            maxWidthClass="max-w-[480px] sm:max-w-[530px]"
-            hideCloseButton={true}
-            className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] !rounded-[6px] sm:!rounded-[8px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col overflow-hidden max-h-[90vh]"
-          >
-            {/* Header: Height exactly matching name field height (h-[34px] sm:h-[36px]) */}
-            <div className="h-[34px] sm:h-[36px] flex items-center justify-between px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0">
-              <span className="text-[12px] sm:text-[12.5px] font-bold tracking-[0.05em] uppercase text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                <Edit className="w-3.5 h-3.5 text-[#2864E8]" />
-                EDIT BATCH DETAILS
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsEditBatchOpen(false)}
-                className="w-6 h-6 -mr-1 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
-              </button>
-            </div>
-
-            <DialogHeader className="sr-only">
-              <DialogTitle>Edit Batch Details</DialogTitle>
-              <DialogDescription>Update batch details and schedule</DialogDescription>
-            </DialogHeader>
-
-            <form onSubmit={handleUpdateBatch} className="p-4 sm:p-5 space-y-3 sm:space-y-3.5 overflow-y-auto text-left" autoComplete="off">
-              {/* Row 1: Select Class (1st) & Batch Name (2nd) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Select
-                    value={editBatchForm.classId || undefined}
-                    onValueChange={val => {
-                      const targetCls = classes.find(c => c.id === val);
-                      setEditBatchForm(prev => ({
-                        ...prev,
-                        classId: val,
-                        branchId: targetCls?.branchId || prev.branchId,
-                      }));
-                    }}
-                  >
-                    <SelectTrigger className="h-[32px] sm:h-[35px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 [&>span]:text-[13px] sm:[&>span]:text-[13.5px] md:[&>span]:text-[14px] [&>span]:font-medium [&>span]:text-slate-900 dark:[&>span]:text-slate-100 data-[placeholder]:!text-slate-400 [&[data-placeholder]>span]:!text-slate-400 [&[data-placeholder]>span]:!text-[9.5px] sm:[&[data-placeholder]>span]:!text-[10px] [&[data-placeholder]>span]:!font-normal focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none flex items-center justify-between">
-                      <SelectValue placeholder="Class *" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {(classes.length > 0 ? classes : filteredClasses).map(c => (
-                        <SelectItem key={c.id} value={c.id} className="text-[13px] sm:text-[13.5px] md:text-[14px] font-medium py-1.5 sm:py-2">
-                          {c.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1">
-                  <Input
-                    placeholder="Batch Name *"
-                    value={editBatchForm.name}
-                    onChange={e => setEditBatchForm({ ...editBatchForm, name: e.target.value })}
-                    required
-                    className="h-[32px] sm:h-[35px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-              </div>
-
-              {/* Row 2: Start Date & End Date (No heading label, clean underline inputs) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    type={editBatchForm.startDate ? "date" : "text"}
-                    placeholder="Batch Start Date (DD/MM/YYYY)"
-                    value={editBatchForm.startDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
-                    onChange={e => {
-                      const newStart = e.target.value;
-                      const durationStr = newStart && editBatchForm.endDate
-                        ? `${formatBatchDateString(newStart)} – ${formatBatchDateString(editBatchForm.endDate)}`
-                        : newStart ? `From ${formatBatchDateString(newStart)}` : '';
-                      setEditBatchForm({
-                        ...editBatchForm,
-                        startDate: newStart,
-                        duration: durationStr,
-                      });
-                    }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none cursor-pointer"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <Input
-                    type={editBatchForm.endDate ? "date" : "text"}
-                    placeholder="Batch End Date (DD/MM/YYYY)"
-                    value={editBatchForm.endDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
-                    onChange={e => {
-                      const newEnd = e.target.value;
-                      const durationStr = editBatchForm.startDate && newEnd
-                        ? `${formatBatchDateString(editBatchForm.startDate)} – ${formatBatchDateString(newEnd)}`
-                        : newEnd ? `Till ${formatBatchDateString(newEnd)}` : '';
-                      setEditBatchForm({
-                        ...editBatchForm,
-                        endDate: newEnd,
-                        duration: durationStr,
-                      });
-                    }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none cursor-pointer"
-                  />
-                </div>
-              </div>
-
-              {/* Row 3: Class Timings & Batch Order Number */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    placeholder="Class Timings (e.g. 04:00 PM - 06:00 PM)"
-                    value={editBatchForm.classTime}
-                    onChange={e => setEditBatchForm({ ...editBatchForm, classTime: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <Input
-                    type="number"
-                    min="1"
-                    placeholder="Batch Order Number (e.g. 1, 2)"
-                    value={editBatchForm.order !== undefined ? editBatchForm.order : ''}
-                    onChange={e => setEditBatchForm({ ...editBatchForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-              </div>
-
-              {/* Row 4: Default Batch Fees (Monthly Fee & Yearly Fee) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    type="number"
-                    min="0"
-                    placeholder="Batch Monthly Fee (₹)"
-                    value={editBatchForm.monthlyFee !== undefined && editBatchForm.monthlyFee > 0 ? editBatchForm.monthlyFee : ''}
-                    onChange={e => {
-                      const m = e.target.value === '' ? 0 : Number(e.target.value);
-                      setEditBatchForm(prev => ({
-                        ...prev,
-                        monthlyFee: m,
-                        courseFee: m > 0 ? m * 12 : 0,
-                      }));
-                    }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <Input
-                    type="number"
-                    min="0"
-                    placeholder="Batch Yearly Fee (₹)"
-                    value={editBatchForm.courseFee !== undefined && editBatchForm.courseFee > 0 ? editBatchForm.courseFee : ''}
-                    onChange={e => {
-                      const y = e.target.value === '' ? 0 : Number(e.target.value);
-                      setEditBatchForm(prev => ({
-                        ...prev,
-                        courseFee: y,
-                        monthlyFee: y > 0 ? Math.round(y / 12) : 0,
-                      }));
-                    }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-              </div>
-
-              {/* Row 5: Batch Subjects (Manual with + option) */}
-              <div className="space-y-2 pt-1">
-                <div className="flex items-center gap-2">
-                  <Input
-                    placeholder="Enter Subject (e.g. Physics, Maths)..."
-                    value={newEditBatchSubjectInput}
-                    onChange={e => setNewEditBatchSubjectInput(e.target.value)}
-                    onKeyDown={e => {
-                      if (e.key === 'Enter') {
-                        e.preventDefault();
-                        handleAddEditBatchSubject();
-                      }
-                    }}
-                    className="h-[34px] sm:h-[36px] flex-1 border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => handleAddEditBatchSubject()}
-                    className="h-[28px] sm:h-[30px] px-2.5 rounded-md text-[11px] font-bold bg-[#2864E8]/10 hover:bg-[#2864E8]/20 text-[#2864E8] flex items-center gap-1 transition-colors cursor-pointer shrink-0"
-                    title="Add Subject"
-                    aria-label="Add Subject"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add Subject</span>
-                  </button>
-                </div>
-
-                {editBatchForm.subjects && editBatchForm.subjects.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                    {editBatchForm.subjects.map((sub, idx) => (
-                      <span
-                        key={idx}
-                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
-                      >
-                        <span>{sub}</span>
-                        <button
-                          type="button"
-                          onClick={() => handleDeleteEditBatchSubject(idx)}
-                          className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
-                          title="Remove Subject"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </span>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="group w-full h-[36px] sm:h-[38px] !rounded-[4px] sm:!rounded-[6px] font-bold text-[11px] sm:text-[11.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_rgba(40,100,232,0.25)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.35)] uppercase flex items-center justify-center gap-1.5 transition-all cursor-pointer !mt-4"
-              >
-                <span>SAVE BATCH CHANGES</span>
-                <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
-              </Button>
-            </form>
-          </FormModalDialogContent>
-        </Dialog>
-
-        {/* -------------------------------------------------------------------- */}
-        {/* MODAL 1B: EDIT CLASS DETAILS (Matching CREATE ACADEMIC BATCH Design System) */}
-        {/* -------------------------------------------------------------------- */}
-        <Dialog open={isEditClassOpen} onOpenChange={setIsEditClassOpen}>
-          <FormModalDialogContent
-            maxWidthClass="max-w-[480px] sm:max-w-[530px]"
-            hideCloseButton={true}
-            className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] !rounded-[6px] sm:!rounded-[8px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col overflow-hidden max-h-[90vh]"
-          >
-            {/* Header: Height exactly matching name field height (h-[34px] sm:h-[36px]) */}
-            <div className="h-[34px] sm:h-[36px] flex items-center justify-between px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0">
-              <span className="text-[12px] sm:text-[12.5px] font-bold tracking-[0.05em] uppercase text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                <Edit className="w-3.5 h-3.5 text-[#2864E8]" />
-                EDIT CLASS DETAILS
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsEditClassOpen(false)}
-                className="w-6 h-6 -mr-1 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
-              </button>
-            </div>
-
-            <DialogHeader className="sr-only">
-              <DialogTitle>Edit Class Details</DialogTitle>
-              <DialogDescription>Update class name, division, branch, or academic session.</DialogDescription>
-            </DialogHeader>
-
-            <form onSubmit={handleUpdateClass} className="p-4 sm:p-5 space-y-3 sm:space-y-3.5 overflow-y-auto" autoComplete="off">
-              {/* Row 1: Class Name & Class Division */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    placeholder="Class Name *"
-                    value={editClassForm.name}
-                    onChange={e => setEditClassForm({ ...editClassForm, name: e.target.value })}
-                    required
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <Input
-                    placeholder="Class Division *"
-                    value={editClassForm.division || ''}
-                    onChange={e => setEditClassForm({ ...editClassForm, division: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-              </div>
-
-              {/* Row 2: Branch & Academic Session */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Select
-                    value={editClassForm.branchId}
-                    onValueChange={val => setEditClassForm({ ...editClassForm, branchId: val })}
-                  >
-                    <SelectTrigger className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 [&>span]:text-[13px] sm:[&>span]:text-[13.5px] md:[&>span]:text-[14px] [&>span]:font-medium [&>span]:text-slate-900 dark:[&>span]:text-slate-100 data-[placeholder]:!text-slate-400 [&[data-placeholder]>span]:!text-slate-400 [&[data-placeholder]>span]:!text-[9.5px] sm:[&[data-placeholder]>span]:!text-[10px] [&[data-placeholder]>span]:!font-normal focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none flex items-center justify-between">
-                      <SelectValue placeholder="Branch *" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => (
-                        <SelectItem key={b.id} value={b.id} className="text-[13px] sm:text-[13.5px] md:text-[14px] font-medium py-1.5 sm:py-2">
-                          {b.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-1">
-                  <Input
-                    placeholder="Academic Session (e.g. 2026-27)"
-                    value={editClassForm.academicSession}
-                    onChange={e => setEditClassForm({ ...editClassForm, academicSession: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-              </div>
-
-              {/* Row 3: Display Order */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    type="number"
-                    min="1"
-                    placeholder="Card Order Number (e.g. 1, 2)"
-                    value={editClassForm.order !== undefined ? editClassForm.order : ''}
-                    onChange={e => setEditClassForm({ ...editClassForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
-              </div>
-
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                disabled={isPending}
-                className="group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 sm:mt-1.5"
-              >
-                <span>SAVE CLASS CHANGES</span>
-                <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
-              </Button>
-            </form>
-          </FormModalDialogContent>
-        </Dialog>
-
+        <ClassBatchModals
+          controller={classBatch}
+          classes={classes}
+          isPending={isPending}
+          isBranchAdmin={isBranchAdmin}
+          branchAdminBranchId={branchAdminBranchId || undefined}
+        />
         {/* -------------------------------------------------------------------- */}
         {/* MODAL 3: ENROLL NEW STUDENT (1:1 Exact Match with Edit Student Details & Student Profile Visual System) */}
         {/* -------------------------------------------------------------------- */}
