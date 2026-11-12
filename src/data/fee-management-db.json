@@ -1,75 +1,7 @@
 {
-  "classes": [
-    {
-      "id": "cls-bv-seed-1794466079830",
-      "name": "BV Seed Class 1794466079830",
-      "code": "BVCLS1794466079830",
-      "branchId": "budh-vihar",
-      "academicSession": "2026-27",
-      "division": "SECONDARY",
-      "description": "",
-      "defaultMonthlyFee": 2000,
-      "order": 99,
-      "createdAt": "2026-11-12T06:48:16.557Z"
-    }
-  ],
-  "batches": [
-    {
-      "id": "bat-bv-seed-1794466079830",
-      "name": "BV Seed Batch 1794466079830",
-      "code": "BVBAT1794466079830",
-      "classId": "cls-bv-seed-1794466079830",
-      "branchId": "budh-vihar",
-      "monthlyFee": 2000,
-      "timing": "4 PM",
-      "teacherName": "Test Teacher",
-      "status": "active",
-      "createdAt": "2026-11-12T06:48:16.557Z"
-    }
-  ],
-  "students": [
-    {
-      "id": "stu-bv-seed-1794466079830",
-      "registrationNo": "IDL-BV-1794466079830",
-      "name": "BV Fee Student 1794466079830",
-      "fatherName": "BV Father",
-      "motherName": "BV Mother",
-      "gender": "female",
-      "phone": "9999001122",
-      "branchId": "budh-vihar",
-      "classId": "cls-bv-seed-1794466079830",
-      "batchId": "bat-bv-seed-1794466079830",
-      "admissionDate": "2026-04-01",
-      "monthlyFee": 2000,
-      "discountAmount": 0,
-      "netMonthlyFee": 2000,
-      "dueDayOfMonth": 5,
-      "status": "ACTIVE",
-      "createdAt": "2026-11-12T06:48:16.557Z",
-      "updatedAt": "2026-11-12T06:48:16.557Z"
-    }
-  ],
-  "ledger": [
-    {
-      "id": "led-stu-1794213160355-2026-11",
-      "studentId": "stu-1794213160355",
-      "branchId": "rambagh",
-      "classId": "class-12",
-      "batchId": "batch-cbse-12",
-      "month": "2026-11",
-      "monthLabel": "November 2026",
-      "baseAmount": 3000,
-      "discountAmount": 250,
-      "netDueAmount": 2750,
-      "carriedForwardDue": 0,
-      "paidAmount": 0,
-      "balanceAmount": 2750,
-      "advanceAmount": 0,
-      "dueDate": "2026-11-05",
-      "status": "OVERDUE",
-      "isOverdue": true,
-      "updatedAt": "2026-11-09T08:32:40.378Z"
-    }
-  ],
+  "classes": [],
+  "batches": [],
+  "students": [],
+  "ledger": [],
   "payments": []
 }

@@ -4040,7 +4040,7 @@ export function FeesClient({
                 </span>
               </div>
               <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
-                ₹{stats.totalExpectedFee.toLocaleString('en-IN')}
+                ₹{Number(stats.totalExpectedFee ?? 0).toLocaleString('en-IN')}
               </div>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
                 Active billable students: {stats.activeStudents}
@@ -4058,7 +4058,7 @@ export function FeesClient({
                 </span>
               </div>
               <div className="text-[24px] sm:text-[25px] font-bold text-emerald-600 dark:text-emerald-400 tracking-tight mt-1.5 tabular-nums leading-tight">
-                ₹{stats.totalReceivedFee.toLocaleString('en-IN')}
+                ₹{Number(stats.totalReceivedFee ?? 0).toLocaleString('en-IN')}
               </div>
               <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80 font-normal mt-0.5 truncate">
                 {stats.collectionRate}% collected this month
@@ -4076,7 +4076,7 @@ export function FeesClient({
                 </span>
               </div>
               <div className="text-[24px] sm:text-[25px] font-bold text-amber-600 dark:text-amber-400 tracking-tight mt-1.5 tabular-nums leading-tight">
-                ₹{stats.totalPendingFee.toLocaleString('en-IN')}
+                ₹{Number(stats.totalPendingFee ?? 0).toLocaleString('en-IN')}
               </div>
               <p className="text-[11px] text-amber-700/80 dark:text-amber-400/80 font-normal mt-0.5 truncate">
                 Due to be collected
@@ -4283,13 +4283,13 @@ export function FeesClient({
                                     </span>
                                   </td>
                                   <td className="py-3 px-3.5 text-right font-semibold text-slate-900 dark:text-slate-100 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{item.expectedFee.toLocaleString('en-IN')}
+                                    ₹{Number(item.expectedFee ?? 0).toLocaleString('en-IN')}
                                   </td>
                                   <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{item.receivedFee.toLocaleString('en-IN')}
+                                    ₹{Number(item.receivedFee ?? 0).toLocaleString('en-IN')}
                                   </td>
                                   <td className="py-3 px-3.5 text-right pr-5 font-bold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{item.pendingFee.toLocaleString('en-IN')}
+                                    ₹{Number(item.pendingFee ?? 0).toLocaleString('en-IN')}
                                   </td>
                                 </tr>
                               );
@@ -4822,11 +4822,11 @@ export function FeesClient({
                               </td>
                               <td className="py-3 px-3.5 text-right whitespace-nowrap align-middle">
                                 <div className="font-medium text-slate-900 dark:text-white text-[13.5px] font-mono tabular-nums tracking-tight whitespace-nowrap leading-none h-[18px] flex items-center justify-end">
-                                  ₹{entry.netDueAmount.toLocaleString('en-IN')}
+                                  ₹{Number(entry.netDueAmount ?? 0).toLocaleString('en-IN')}
                                 </div>
-                                {entry.carriedForwardDue > 0 ? (
+                                {Number(entry.carriedForwardDue ?? 0) > 0 ? (
                                   <div className="text-[10px] text-amber-700 dark:text-amber-300 font-medium bg-amber-50/80 dark:bg-amber-950/40 rounded px-1.5 py-0.5 inline-block border border-amber-200/60 mt-1 whitespace-nowrap tabular-nums leading-none">
-                                    Fee: ₹{(entry.baseAmount - entry.discountAmount).toLocaleString('en-IN')} + Prev Due: ₹{entry.carriedForwardDue.toLocaleString('en-IN')}
+                                    Fee: ₹{Number((entry.baseAmount ?? 0) - (entry.discountAmount ?? 0)).toLocaleString('en-IN')} + Prev Due: ₹{Number(entry.carriedForwardDue ?? 0).toLocaleString('en-IN')}
                                   </div>
                                 ) : null}
                               </td>
@@ -4834,20 +4834,20 @@ export function FeesClient({
                                 <div className="font-medium text-[13.5px] font-mono tabular-nums tracking-tight whitespace-nowrap leading-none h-[18px] flex items-center justify-end">
                                   <span
                                     className={
-                                      entry.balanceAmount <= 0
+                                      Number(entry.balanceAmount ?? 0) <= 0
                                         ? 'text-slate-400 dark:text-slate-500'
                                         : isOver
                                           ? 'text-rose-600 dark:text-rose-400'
                                           : 'text-amber-600 dark:text-amber-400'
                                     }
                                   >
-                                    ₹{entry.balanceAmount.toLocaleString('en-IN')}
+                                    ₹{Number(entry.balanceAmount ?? 0).toLocaleString('en-IN')}
                                   </span>
                                 </div>
                               </td>
                               <td className="py-3 px-3.5 text-right whitespace-nowrap align-middle">
                                 <div className="font-medium text-emerald-600 dark:text-emerald-400 text-[13.5px] font-mono tabular-nums tracking-tight whitespace-nowrap leading-none h-[18px] flex items-center justify-end">
-                                  ₹{entry.paidAmount.toLocaleString('en-IN')}
+                                  ₹{Number(entry.paidAmount ?? 0).toLocaleString('en-IN')}
                                 </div>
                                 {(() => {
                                   const isYearly = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage);
@@ -5470,7 +5470,7 @@ export function FeesClient({
                               </td>
                               <td className="py-3 px-3.5 text-right whitespace-nowrap align-middle">
                                 <div className="font-medium text-slate-900 dark:text-white text-[13.5px] font-mono tabular-nums tracking-tight whitespace-nowrap leading-none h-[18px] flex items-center justify-end">
-                                  <span>₹{student.netFee.toLocaleString('en-IN')}</span>
+                                  <span>₹{Number(student.netFee ?? student.baseFee ?? 0).toLocaleString('en-IN')}</span>
                                   <span className="text-[10.5px] text-slate-400 dark:text-slate-500 font-normal ml-0.5">/mo</span>
                                 </div>
                                 {Boolean((student.scholarshipPercent && student.scholarshipPercent > 0) || (student.discountAmount && student.discountAmount > 0)) && (
@@ -8143,8 +8143,8 @@ export function FeesClient({
                 {/* Partial Payment Reminder (if student has already paid part of fee) */}
                 {collectTarget.paidAmount > 0 && (
                   <div className="flex items-center justify-between text-[11px] px-3 py-1.5 rounded-[5px] bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/70 dark:border-amber-900/40 text-amber-800 dark:text-amber-300 font-medium">
-                    <span>Already Paid: <strong className="font-semibold text-emerald-700 dark:text-emerald-400">₹{collectTarget.paidAmount.toLocaleString('en-IN')}</strong></span>
-                    <span>Balance Due: <strong className="font-semibold text-rose-700 dark:text-rose-400">₹{collectTarget.balanceAmount.toLocaleString('en-IN')}</strong></span>
+                    <span>Already Paid: <strong className="font-semibold text-emerald-700 dark:text-emerald-400">₹{Number(collectTarget.paidAmount ?? 0).toLocaleString('en-IN')}</strong></span>
+                    <span>Balance Due: <strong className="font-semibold text-rose-700 dark:text-rose-400">₹{Number(collectTarget.balanceAmount ?? 0).toLocaleString('en-IN')}</strong></span>
                   </div>
                 )}
 
@@ -8588,11 +8588,11 @@ export function FeesClient({
                       <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
                         <span className="font-normal text-[12px]">Standard Fee:</span>
                         <span className="font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums text-[12px]">
-                          ₹{Number(selectedStudentProfile.feeType === "yearly_package"
+                          ₹{Number((selectedStudentProfile.feeType === "yearly_package"
                             ? (selectedStudentProfile.yearlyPackage?.totalYearlyFee
-                              ? (selectedStudentProfile.yearlyPackage.totalYearlyFee + (selectedStudentProfile.discountAmount * (selectedStudentProfile.yearlyPackage.courseMonths || 12)))
-                              : selectedStudentProfile.baseFee * 12)
-                            : selectedStudentProfile.baseFee).toLocaleString('en-IN')}
+                              ? (selectedStudentProfile.yearlyPackage.totalYearlyFee + ((selectedStudentProfile.discountAmount ?? 0) * (selectedStudentProfile.yearlyPackage.courseMonths || 12)))
+                              : (selectedStudentProfile.baseFee ?? 0) * 12)
+                            : selectedStudentProfile.baseFee) ?? 0).toLocaleString('en-IN')}
                           <span className="text-[10px] text-slate-400 font-normal ml-0.5">
                             {selectedStudentProfile.feeType === "yearly_package" ? "/yr" : "/mo"}
                           </span>
@@ -8601,10 +8601,10 @@ export function FeesClient({
                       <div className="flex justify-between items-center text-slate-500 dark:text-slate-400">
                         <span className="font-normal text-[12px]">Scholarship:</span>
                         <span className="font-medium text-emerald-600 dark:text-emerald-400 font-mono tabular-nums text-[12px]">
-                          {selectedStudentProfile.scholarshipPercent}% (-₹
-                          {Number(selectedStudentProfile.feeType === "yearly_package"
-                            ? selectedStudentProfile.discountAmount * (selectedStudentProfile.yearlyPackage?.courseMonths || 12)
-                            : selectedStudentProfile.discountAmount).toLocaleString('en-IN')})
+                          {selectedStudentProfile.scholarshipPercent ?? 0}% (-₹
+                          {Number((selectedStudentProfile.feeType === "yearly_package"
+                            ? (selectedStudentProfile.discountAmount ?? 0) * (selectedStudentProfile.yearlyPackage?.courseMonths || 12)
+                            : selectedStudentProfile.discountAmount) ?? 0).toLocaleString('en-IN')})
                         </span>
                       </div>
 
@@ -8634,9 +8634,9 @@ export function FeesClient({
                     <div className="flex justify-between items-baseline pt-1.5 border-t border-slate-100 dark:border-slate-800">
                       <span className="font-semibold text-slate-900 dark:text-white text-[12.5px] tracking-tight">Net Payable Fee:</span>
                       <span className="text-[#2864E8] font-bold text-[16px] font-mono tabular-nums tracking-tight">
-                        ₹{Number(selectedStudentProfile.feeType === "yearly_package"
-                          ? (selectedStudentProfile.yearlyPackage?.totalYearlyFee || (selectedStudentProfile.netFee * 12))
-                          : selectedStudentProfile.netFee).toLocaleString('en-IN')}
+                        ₹{Number((selectedStudentProfile.feeType === "yearly_package"
+                          ? (selectedStudentProfile.yearlyPackage?.totalYearlyFee || ((selectedStudentProfile.netFee ?? selectedStudentProfile.baseFee ?? 0) * 12))
+                          : (selectedStudentProfile.netFee ?? selectedStudentProfile.baseFee)) ?? 0).toLocaleString('en-IN')}
                         <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 ml-0.5">
                           {selectedStudentProfile.feeType === "yearly_package" ? "/year" : "/month"}
                         </span>
@@ -9235,21 +9235,21 @@ export function FeesClient({
                     <div className="flex justify-between items-center gap-3 text-slate-500 dark:text-slate-400">
                       <span className="font-normal text-[12px] shrink-0">Net Monthly Due:</span>
                       <span className="font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums text-[12px] text-right">
-                        ₹{revertTarget.netDueAmount.toLocaleString('en-IN')}
+                        ₹{Number(revertTarget.netDueAmount ?? 0).toLocaleString('en-IN')}
                       </span>
                     </div>
                     {revertYearlyMeta && (
                       <div className="flex justify-between items-center gap-3 text-slate-500 dark:text-slate-400">
                         <span className="font-normal text-[12px] shrink-0">Yearly Package Total:</span>
                         <span className="font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums text-[12px] text-right">
-                          ₹{revertYearlyMeta.totalYearlyFee.toLocaleString('en-IN')}
+                          ₹{Number(revertYearlyMeta.totalYearlyFee ?? 0).toLocaleString('en-IN')}
                         </span>
                       </div>
                     )}
                     <div className="flex justify-between items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-slate-500 dark:text-slate-400">
                       <span className="font-normal text-[12px] shrink-0">Currently Recorded Paid:</span>
                       <span className="font-semibold text-emerald-600 dark:text-emerald-400 font-mono tabular-nums text-[13px] text-right">
-                        ₹{revertTarget.paidAmount.toLocaleString('en-IN')}
+                        ₹{Number(revertTarget.paidAmount ?? 0).toLocaleString('en-IN')}
                       </span>
                     </div>
                     <div className="flex justify-between items-center gap-3 text-slate-500 dark:text-slate-400">
