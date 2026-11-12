@@ -6,7 +6,7 @@ import { multiFactor, onAuthStateChanged, signOut, type User as FirebaseUser } f
 import { auth, db } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { doc, getDoc, Timestamp, setDoc, serverTimestamp } from 'firebase/firestore';
-import { getServerSessionUser, logoutUser, syncServerSessionFromIdToken } from '@/app/actions/auth';
+import { getServerSessionUser, logoutUser, syncServerSessionFromIdToken, syncServerSessionFromProfile } from '@/app/actions/auth';
 import { getBranchDisplayName, normalizeBranchId } from '@/lib/branch-utils';
 
 export interface UserProfile extends Partial<FirebaseUser> {
@@ -53,11 +53,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const authMutationVersionRef = React.useRef(0);
   
   useEffect(() => {
+    let initialStoredUser: UserProfile | null = null;
     const storedProfile = sessionStorage.getItem('userProfile');
     if (storedProfile) {
       try {
         const profile = JSON.parse(storedProfile);
+        initialStoredUser = profile;
         setUser(profile);
+        if (profile?.uid && localStorage.getItem('idl_active_cookie_uid') !== profile.uid) {
+          syncServerSessionFromProfile({ uid: profile.uid, email: profile.email })
+            .then((res) => {
+              if (res?.success && res.user?.uid) {
+                localStorage.setItem('idl_active_cookie_uid', res.user.uid);
+              }
+            })
+            .catch(() => {});
+        }
       } catch (e) {
         console.error("Failed to parse user profile from session storage", e);
         sessionStorage.removeItem('userProfile');
@@ -67,6 +78,33 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // if the user is already authenticated from session storage.
     // The onAuthStateChanged listener will then verify and update if needed.
     setLoading(false);
+
+    const syncTabCookieIfNeeded = () => {
+      try {
+        const raw = sessionStorage.getItem('userProfile');
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (parsed?.uid && localStorage.getItem('idl_active_cookie_uid') !== parsed.uid) {
+          syncServerSessionFromProfile({ uid: parsed.uid, email: parsed.email })
+            .then((res) => {
+              if (res?.success && res.user?.uid) {
+                localStorage.setItem('idl_active_cookie_uid', res.user.uid);
+              }
+            })
+            .catch(() => {});
+        }
+      } catch {
+        // Ignore parse errors
+      }
+    };
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        syncTabCookieIfNeeded();
+      }
+    };
+    window.addEventListener('focus', syncTabCookieIfNeeded);
+    document.addEventListener('visibilitychange', handleVisibility);
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       const runVersion = authMutationVersionRef.current;
@@ -148,6 +186,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           try {
             const idToken = await firebaseUser.getIdToken();
             await syncServerSessionFromIdToken(idToken);
+            localStorage.setItem('idl_active_cookie_uid', userProfile.uid);
           } catch {
             // Non-blocking sync fallback
           }
@@ -163,9 +202,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
       } else {
         try {
+          if (initialStoredUser?.uid) {
+            const syncRes = await syncServerSessionFromProfile({
+              uid: initialStoredUser.uid,
+              email: initialStoredUser.email,
+            });
+            if (runVersion !== authMutationVersionRef.current) return;
+            if (syncRes?.success && syncRes.user) {
+              localStorage.setItem('idl_active_cookie_uid', syncRes.user.uid);
+              setUser(syncRes.user as UserProfile);
+              sessionStorage.setItem('userProfile', JSON.stringify(syncRes.user));
+              setLoading(false);
+              return;
+            }
+          }
           const sessionRes = await getServerSessionUser();
           if (runVersion !== authMutationVersionRef.current) return;
           if (sessionRes?.success && sessionRes.user) {
+            localStorage.setItem('idl_active_cookie_uid', sessionRes.user.uid);
             setUser(sessionRes.user as UserProfile);
             sessionStorage.setItem('userProfile', JSON.stringify(sessionRes.user));
             setLoading(false);
@@ -181,7 +235,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      window.removeEventListener('focus', syncTabCookieIfNeeded);
+      document.removeEventListener('visibilitychange', handleVisibility);
+      unsubscribe();
+    };
   }, []);
 
   const login = (profile: UserProfile) => {
@@ -207,6 +265,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       signOut(auth).catch(() => {});
     }
 
+    if (normalizedProfile.uid) {
+      localStorage.setItem('idl_active_cookie_uid', normalizedProfile.uid);
+    }
     sessionStorage.setItem('userProfile', JSON.stringify(normalizedProfile));
     setUser(normalizedProfile);
     setLoading(false);
@@ -214,6 +275,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     authMutationVersionRef.current += 1;
+    localStorage.removeItem('idl_active_cookie_uid');
     await logoutUser();
     await signOut(auth);
     sessionStorage.removeItem('userProfile');

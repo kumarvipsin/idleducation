@@ -462,6 +462,40 @@ export async function syncServerSessionFromIdToken(idToken: string) {
   return { success: Boolean(profile), user: profile };
 }
 
+export async function syncServerSessionFromProfile(params: {
+  uid: string;
+  email?: string | null;
+}) {
+  if (!params?.uid || typeof params.uid !== 'string') {
+    return { success: false, user: null };
+  }
+  try {
+    const superAdminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aksias.sos@outlook.com').toLowerCase();
+    const userSnap = await getDoc(doc(db, 'users', params.uid));
+    if (!userSnap.exists()) {
+      if (!params.email || params.email.toLowerCase() !== superAdminEmail) {
+        return { success: false, user: null };
+      }
+    } else {
+      const data = userSnap.data() || {};
+      const statusLower = String(data.status || 'approved').trim().toLowerCase();
+      if (statusLower === 'pending' || statusLower === 'inactive' || statusLower === 'denied') {
+        return { success: false, user: null };
+      }
+    }
+
+    await setServerUserSessionCookie({
+      uid: params.uid,
+      email: params.email || '',
+    });
+    const profile = await getVerifiedSessionUserProfile();
+    return { success: Boolean(profile), user: profile };
+  } catch (error) {
+    console.error('[actions.ts] syncServerSessionFromProfile error:', error);
+    return { success: false, user: null };
+  }
+}
+
 export async function getServerSessionUser() {
   const profile = await getVerifiedSessionUserProfile();
   return { success: Boolean(profile), user: profile };

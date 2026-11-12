@@ -39,11 +39,11 @@ import { normalizeBranchId } from '@/lib/branch-utils';
 
 async function resolveEffectiveFeeBranch(requestedBranchId?: string): Promise<string | undefined> {
   const adminCtx = await getServerAdminContext();
-  if (!adminCtx) {
-    return 'none';
-  }
-  if (adminCtx.isBranchAdmin) {
+  if (adminCtx?.isBranchAdmin) {
     return adminCtx.branchId;
+  }
+  if (!adminCtx && (!requestedBranchId || requestedBranchId === 'none')) {
+    return 'none';
   }
   return requestedBranchId;
 }
@@ -425,9 +425,10 @@ export async function createFeeClass(data: {
 }): Promise<{ success: boolean; message: string; data?: FeeClass }> {
   try {
     const adminCtx = await getServerAdminContext();
+    const normalizedInputBranch = normalizeBranchId(data.branchId);
     const resolvedBranchId = adminCtx?.isBranchAdmin
       ? adminCtx.branchId
-      : (data.branchId || 'mukherjee-nagar');
+      : ((normalizedInputBranch && normalizedInputBranch !== 'all' ? normalizedInputBranch : data.branchId) || 'mukherjee-nagar');
 
     const id = `cls-${Date.now()}`;
     const newClass: FeeClass = {
@@ -577,7 +578,9 @@ export async function createFeeBatch(data: {
   try {
     const dbData = loadDatabase();
     const targetCls = dbData.classes.find(c => c.id === data.classId);
-    const resolvedBranch = targetCls?.branchId || data.branchId || 'mukherjee-nagar';
+    const rawBranch = targetCls?.branchId || data.branchId || 'mukherjee-nagar';
+    const normBranch = normalizeBranchId(rawBranch);
+    const resolvedBranch = normBranch && normBranch !== 'all' ? normBranch : rawBranch;
 
     const id = `batch-${Date.now()}`;
     const rawMonthly = Number(data.monthlyFee) || 0;
@@ -991,8 +994,13 @@ export async function createFeeStudent(data: {
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const resolvedBranchId = adminCtx?.isBranchAdmin ? adminCtx.branchId : data.branchId;
     const dbData = loadDatabase();
+    const targetCls = dbData.classes.find(c => c.id === data.classId);
+    const rawBranch = data.branchId || targetCls?.branchId || 'mukherjee-nagar';
+    const normBranch = normalizeBranchId(rawBranch);
+    const resolvedBranchId = adminCtx?.isBranchAdmin
+      ? adminCtx.branchId
+      : (normBranch && normBranch !== 'all' ? normBranch : rawBranch);
     const id = `stu-${Date.now()}`;
     const branchCode =
       IDL_BRANCHES.find(b => feeRecordMatchesBranch(b.id, resolvedBranchId))?.code.replace('IDL-', '') || 'DL';

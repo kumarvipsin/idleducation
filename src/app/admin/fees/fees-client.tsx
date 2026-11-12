@@ -24,6 +24,7 @@ import {
   BranchYearlyData,
 } from '@/types/fee-management';
 import { useAuth } from '@/context/auth-context';
+import { syncServerSessionFromProfile } from '@/app/actions/auth';
 import { IDL_RECEIPT_LOGO_DATA_URL } from '@/lib/receipt-logo';
 import { IDL_PAID_STAMP_DATA_URL } from '@/lib/receipt-stamp';
 import {
@@ -197,9 +198,40 @@ export function FeesClient({
   const isBranchAdmin = Boolean(user?.branchId && user?.branchId !== 'all');
   const branchAdminBranchId = isBranchAdmin ? (user!.branchId === 'mangol-puri' ? 'mangolpuri' : user!.branchId!) : null;
 
+  const normalizeClientBranch = (id?: string | null): string => {
+    if (!id) return '';
+    const clean = id.trim().toLowerCase();
+    if (clean === 'mangol-puri' || clean === 'mangol puri' || clean === 'mangolpuri') return 'mangolpuri';
+    return clean;
+  };
+
+  const branchIdsMatch = (a?: string | null, b?: string | null): boolean => {
+    const na = normalizeClientBranch(a);
+    const nb = normalizeClientBranch(b);
+    if (!na || !nb) return false;
+    if (na === 'all' || nb === 'all') return true;
+    return na === nb;
+  };
+
+  const ensureActiveServerSession = async () => {
+    try {
+      if (user?.uid && typeof window !== 'undefined') {
+        const activeCookieUid = localStorage.getItem('idl_active_cookie_uid');
+        if (activeCookieUid !== user.uid) {
+          const syncRes = await syncServerSessionFromProfile({ uid: user.uid, email: user.email });
+          if (syncRes?.success && syncRes.user?.uid) {
+            localStorage.setItem('idl_active_cookie_uid', syncRes.user.uid);
+          }
+        }
+      }
+    } catch {
+      // Non-blocking session sync
+    }
+  };
+
   // Filters - Super Admin defaults to All Branches; Branch Admins stay locked to their assigned branch
   const [selectedBranch, setSelectedBranch] = useState<string>(
-    branchAdminBranchId || initialBranch || (!isBranchAdmin && user?.role === 'admin' ? 'all' : '')
+    branchAdminBranchId || initialBranch || (!isBranchAdmin && user?.role === 'admin' ? 'all' : 'all')
   );
   const hasBranchSelection = Boolean(selectedBranch && selectedBranch !== 'none');
 
@@ -209,8 +241,9 @@ export function FeesClient({
       refreshAllData(selectedMonth, branchAdminBranchId);
     } else if (!isBranchAdmin && user?.role === 'admin' && !selectedBranch) {
       setSelectedBranch('all');
+      refreshAllData(selectedMonth, 'all');
     }
-  }, [isBranchAdmin, branchAdminBranchId, user?.role]);
+  }, [isBranchAdmin, branchAdminBranchId, user?.role, user?.uid]);
   const [selectedMonth, setSelectedMonth] = useState<string>(initialMonth);
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState<boolean>(false);
   const [isMonthPickerOpen, setIsMonthPickerOpen] = useState<boolean>(false);
@@ -306,11 +339,13 @@ export function FeesClient({
 
     startTransition(async () => {
       try {
+        await ensureActiveServerSession();
+        const directoryScopeBranch = isBranchAdmin ? branch : 'all';
         const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments, backupStatus] = await Promise.all([
           getFeeDashboardStats(month, branch),
-          getFeeClasses(branch),
-          getFeeBatches(undefined, branch),
-          getFeeStudents({ branchId: branch }),
+          getFeeClasses(directoryScopeBranch),
+          getFeeBatches(undefined, directoryScopeBranch),
+          getFeeStudents({ branchId: directoryScopeBranch }),
           getMonthlyLedger(month, { branchId: branch }),
           getBranchYearlyReport('2026-27'),
           getFeePayments({ month, branchId: branch }),
@@ -953,12 +988,26 @@ export function FeesClient({
     };
 
     try {
+      await ensureActiveServerSession();
       const res = await createFeeClass(payload);
       if (res.success) {
         toast({ title: 'Success', description: res.message });
         setIsClassModalOpen(false);
         setClassForm({ ...EMPTY_CLASS_FORM });
-        refreshAllData();
+        if (res.data) {
+          setClasses(prev => [
+            { ...res.data!, batchCount: 0, studentCount: 0 },
+            ...prev.filter(c => c.id !== res.data!.id),
+          ]);
+        }
+        const nextBranch =
+          !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+            ? 'all'
+            : selectedBranch;
+        if (nextBranch !== selectedBranch) {
+          setSelectedBranch(nextBranch);
+        }
+        refreshAllData(selectedMonth, nextBranch);
       } else {
         toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
@@ -1058,13 +1107,25 @@ export function FeesClient({
         createdAt: new Date().toISOString(),
       };
 
+      await ensureActiveServerSession();
       const res = await createFeeBatch(payload);
       if (res.success) {
         toast({ title: 'Success', description: res.message });
         setIsBatchModalOpen(false);
+        if (res.data) {
+          setBatches(prev => [res.data!, ...prev.filter(b => b.id !== res.data!.id)]);
+          setSelectedBatchPerClass(prev => ({ ...prev, [payload.classId]: res.data!.id }));
+        }
+        const nextBranch =
+          !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+            ? 'all'
+            : selectedBranch;
+        if (nextBranch !== selectedBranch) {
+          setSelectedBranch(nextBranch);
+        }
         setBatchForm({
           classId: '',
-          branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
+          branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
           name: '',
           duration: '',
           classTime: '',
@@ -1079,7 +1140,7 @@ export function FeesClient({
         setIsBatchSubjectInputOpen(false);
         setEditingBatchSubIdx(null);
         setIsCustomBatchFee(false);
-        refreshAllData(selectedMonth, selectedBranch);
+        refreshAllData(selectedMonth, nextBranch);
       } else {
         toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
@@ -1310,13 +1371,12 @@ export function FeesClient({
   // Handle Student Creation
   const handleCreateStudent = async (e: React.FormEvent) => {
     e.preventDefault();
-    const resolvedContact1 = studentForm.contact1.trim() || (studentForm.fatherContact || '').trim();
+    const resolvedContact1 =
+      studentForm.contact1.trim() ||
+      (studentForm.fatherContact || '').trim() ||
+      (studentForm.motherContact || '').trim();
     if (!studentForm.name.trim() || !resolvedContact1 || !studentForm.branchId || !studentForm.classId || !studentForm.batchId) {
       toast({ variant: 'destructive', title: 'Error', description: 'Name, Contact, Branch, Class, and Batch are mandatory.' });
-      return;
-    }
-    if (!studentForm.gender) {
-      toast({ variant: 'destructive', title: 'Error', description: 'Please select Gender.' });
       return;
     }
 
@@ -1372,19 +1432,30 @@ export function FeesClient({
       } : undefined,
     };
 
+    await ensureActiveServerSession();
     const res = await createFeeStudent(payload);
     if (res.success) {
       toast({ title: 'Student Enrolled', description: res.message });
       setIsStudentModalOpen(false);
+      if (res.data) {
+        setStudents(prev => [res.data!, ...prev.filter(s => s.id !== res.data!.id)]);
+      }
+      const nextBranch =
+        !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+          ? 'all'
+          : selectedBranch;
+      if (nextBranch !== selectedBranch) {
+        setSelectedBranch(nextBranch);
+      }
       setStudentForm({
         ...EMPTY_STUDENT_FORM,
-        branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
+        branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
       });
       setEnrollStudentSubjectTab('enrolled');
       setShowEnrollAddSubjectInput(false);
       setNewEnrollAddlSubjectName('');
       setNewEnrollAddlSubjectFee('');
-      refreshAllData();
+      refreshAllData(selectedMonth, nextBranch);
     } else {
       toast({ variant: 'destructive', title: 'Error', description: res.message });
     }
@@ -2985,23 +3056,48 @@ export function FeesClient({
   const excludedStudentsForMonth = React.useMemo(() => {
     if (!hasBranchSelection) return [];
     return students.filter(s => {
-      if (selectedBranch !== 'all' && s.branchId !== selectedBranch) return false;
+      if (selectedBranch !== 'all' && !branchIdsMatch(s.branchId, selectedBranch)) return false;
       return s.excludedMonths?.includes(selectedMonth);
     });
   }, [students, selectedBranch, selectedMonth, hasBranchSelection]);
 
-  // Open Create Class Modal (always starts with blank branch & academic session)
+  // Open Create Class Modal (pre-fills branch if a single branch is active in toolbar)
   const openCreateClassModal = () => {
-    setClassForm({ ...EMPTY_CLASS_FORM });
+    const defaultBranchId = isBranchAdmin && branchAdminBranchId
+      ? branchAdminBranchId
+      : (selectedBranch && selectedBranch !== 'all' && selectedBranch !== 'none' ? selectedBranch : '');
+    setClassForm({
+      ...EMPTY_CLASS_FORM,
+      branchId: defaultBranchId,
+      academicSession: '2026-27',
+    });
     setIsClassModalOpen(true);
   };
 
   // Open Create Student Modal with clean defaults and dynamic watermarks
   const openCreateStudentModal = () => {
     setIsCustomRollNumber(false);
+    const defaultBranchId = isBranchAdmin && branchAdminBranchId
+      ? branchAdminBranchId
+      : (selectedBranch && selectedBranch !== 'all' && selectedBranch !== 'none' ? selectedBranch : '');
+    const branchClasses = defaultBranchId
+      ? classes.filter(c => branchIdsMatch(c.branchId, defaultBranchId) || c.branchId === 'all')
+      : [];
+    const autoClass = branchClasses.length === 1 ? branchClasses[0] : undefined;
+    const classBatches = autoClass ? batches.filter(b => b.classId === autoClass.id) : [];
+    const autoBatch = classBatches.length === 1 ? classBatches[0] : undefined;
+    const autoMonthlyFee = autoBatch?.monthlyFee || autoClass?.defaultMonthlyFee || 0;
+    const autoYearlyFee = autoBatch?.courseFee || (autoMonthlyFee * 12);
+
     setStudentForm({
       ...EMPTY_STUDENT_FORM,
-      branchId: selectedBranch && selectedBranch !== 'all' ? selectedBranch : '',
+      branchId: defaultBranchId,
+      classId: autoClass?.id || '',
+      batchId: autoBatch?.id || '',
+      baseFee: autoMonthlyFee,
+      yearlyStandardFee: autoYearlyFee,
+      totalYearlyFee: autoYearlyFee,
+      subjects: autoBatch?.subjects ? [...autoBatch.subjects] : [],
     });
     setEnrollStudentSubjectTab('enrolled');
     setShowEnrollAddSubjectInput(false);
@@ -3015,7 +3111,9 @@ export function FeesClient({
     const available = filteredClasses.length > 0 ? filteredClasses : classes;
     const targetClassId = initialClassId || (available.length === 1 ? available[0].id : (classes.length === 1 ? classes[0].id : ''));
     const matchedClass = classes.find(c => c.id === targetClassId);
-    const defaultBranch = matchedClass?.branchId || (selectedBranch && selectedBranch !== 'all' ? selectedBranch : (classes[0]?.branchId || 'mukherjee-nagar'));
+    const defaultBranch = matchedClass?.branchId
+      || (isBranchAdmin && branchAdminBranchId ? branchAdminBranchId : '')
+      || (selectedBranch && selectedBranch !== 'all' && selectedBranch !== 'none' ? selectedBranch : '');
     const defaultFee = matchedClass?.defaultMonthlyFee || 0;
 
     setBatchForm({
@@ -3591,7 +3689,7 @@ export function FeesClient({
   // Filtered Students (Respects admission date, month exclusions, and month status when in 'month' scope)
   const filteredStudents = students.filter(s => {
     if (!hasBranchSelection) return false;
-    if (selectedBranch !== 'all' && s.branchId !== selectedBranch) return false;
+    if (selectedBranch !== 'all' && !branchIdsMatch(s.branchId, selectedBranch)) return false;
     if (classFilter !== 'all' && s.classId !== classFilter) return false;
     if (batchFilter !== 'all' && s.batchId !== batchFilter) return false;
 
@@ -6346,8 +6444,46 @@ export function FeesClient({
             </DialogHeader>
 
             <form onSubmit={handleCreateBatch} className="space-y-3 pt-1" autoComplete="off">
-              {/* Row 1: Class & Batch Name */}
+              {/* Row 1: Branch & Class */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
+                  <Select
+                    value={batchForm.branchId || undefined}
+                    onValueChange={val => {
+                      const branchClasses = classes.filter(c => branchIdsMatch(c.branchId, val));
+                      const nextClass =
+                        branchClasses.length === 1
+                          ? branchClasses[0]
+                          : branchClasses.find(c => c.id === batchForm.classId);
+                      setBatchForm(prev => ({
+                        ...prev,
+                        branchId: val,
+                        classId: nextClass ? nextClass.id : '',
+                        monthlyFee: prev.monthlyFee || nextClass?.defaultMonthlyFee || 0,
+                        courseFee: prev.courseFee || ((prev.monthlyFee || nextClass?.defaultMonthlyFee || 0) * 12),
+                      }));
+                    }}
+                  >
+                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
+                      <SelectValue placeholder="Select branch" />
+                    </SelectTrigger>
+                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
+                      {IDL_BRANCHES.filter(b => b.id !== 'all' && (!isBranchAdmin || branchIdsMatch(b.id, branchAdminBranchId))).map(b => (
+                        <SelectItem
+                          key={b.id}
+                          value={b.id}
+                          className={FORM_CARD_SELECT_ITEM_CLS}
+                        >
+                          {b.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="space-y-1.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
@@ -6369,31 +6505,45 @@ export function FeesClient({
                       <SelectValue placeholder="Select class" />
                     </SelectTrigger>
                     <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
-                      {(classes.length > 0 ? classes : filteredClasses).map(c => (
-                        <SelectItem
-                          key={c.id}
-                          value={c.id}
-                          className={FORM_CARD_SELECT_ITEM_CLS}
-                        >
-                          {c.name}
-                        </SelectItem>
-                      ))}
+                      {(() => {
+                        const allAvailable = classes.length > 0 ? classes : filteredClasses;
+                        const branchScoped =
+                          batchForm.branchId && batchForm.branchId !== 'all'
+                            ? allAvailable.filter(c => branchIdsMatch(c.branchId, batchForm.branchId))
+                            : allAvailable;
+                        const listToRender = branchScoped.length > 0 ? branchScoped : allAvailable;
+                        return listToRender.map(c => {
+                          const brLabel = IDL_BRANCHES.find(b => branchIdsMatch(b.id, c.branchId))?.name.replace(' Branch', '');
+                          return (
+                            <SelectItem
+                              key={c.id}
+                              value={c.id}
+                              className={FORM_CARD_SELECT_ITEM_CLS}
+                            >
+                              {(!batchForm.branchId || batchForm.branchId === 'all' || branchScoped.length === 0) && brLabel
+                                ? `${c.name} (${brLabel})`
+                                : c.name}
+                            </SelectItem>
+                          );
+                        });
+                      })()}
                     </SelectContent>
                   </Select>
                 </div>
+              </div>
 
-                <div className="space-y-1.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Batch Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
-                  </Label>
-                  <Input
-                    placeholder="e.g. Alpha, Batch A1"
-                    value={batchForm.name}
-                    onChange={e => setBatchForm({ ...batchForm, name: e.target.value })}
-                    required
-                    className={FORM_CARD_FIELD_CLS}
-                  />
-                </div>
+              {/* Row 1B: Batch Name */}
+              <div className="space-y-1.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Batch Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                </Label>
+                <Input
+                  placeholder="e.g. Alpha, Batch A1"
+                  value={batchForm.name}
+                  onChange={e => setBatchForm({ ...batchForm, name: e.target.value })}
+                  required
+                  className={FORM_CARD_FIELD_CLS}
+                />
               </div>
 
               {/* Row 2: Batch Start Date & Batch End Date */}
@@ -7192,7 +7342,6 @@ export function FeesClient({
                         placeholder="Emergency Phone"
                         value={studentForm.contact1}
                         onChange={e => setStudentForm({ ...studentForm, contact1: e.target.value.replace(/\D/g, "") })}
-                        required
                         className={STUDENT_MODAL_MONO_INPUT_CLS}
                       />
                     </div>
@@ -7219,13 +7368,35 @@ export function FeesClient({
                       </span>
                       <Select
                         value={studentForm.branchId}
-                        onValueChange={val => setStudentForm({ ...studentForm, branchId: val, classId: "", batchId: "" })}
+                        onValueChange={val => {
+                          const branchClasses = classes.filter(c => branchIdsMatch(c.branchId, val) || c.branchId === "all");
+                          const autoClass = branchClasses.length === 1 ? branchClasses[0] : undefined;
+                          const classBatches = autoClass ? batches.filter(b => b.classId === autoClass.id) : [];
+                          const autoBatch = classBatches.length === 1 ? classBatches[0] : undefined;
+                          const actualMonthlyFee = autoBatch?.monthlyFee || autoClass?.defaultMonthlyFee || 0;
+                          setStudentForm(prev => {
+                            const cMonths = prev.yearlyCourseMonths || 12;
+                            const actualYearlyFee = autoBatch?.courseFee || (actualMonthlyFee * cMonths);
+                            return {
+                              ...prev,
+                              branchId: val,
+                              classId: autoClass?.id || "",
+                              batchId: autoBatch?.id || "",
+                              baseFee: actualMonthlyFee,
+                              yearlyStandardFee: actualYearlyFee,
+                              totalYearlyFee: actualYearlyFee,
+                              discountAmount: 0,
+                              scholarshipPercent: 0,
+                              subjects: autoBatch?.subjects ? [...autoBatch.subjects] : [],
+                            };
+                          });
+                        }}
                       >
                         <SelectTrigger className={STUDENT_MODAL_SELECT_CLS}>
                           <SelectValue placeholder="Branch" />
                         </SelectTrigger>
                         <SelectContent>
-                          {IDL_BRANCHES.filter(b => b.id !== "all").map(b => (
+                          {IDL_BRANCHES.filter(b => b.id !== "all" && (!isBranchAdmin || branchIdsMatch(b.id, branchAdminBranchId))).map(b => (
                             <SelectItem key={b.id} value={b.id} className="text-xs">{b.name}</SelectItem>
                           ))}
                         </SelectContent>
@@ -7240,20 +7411,23 @@ export function FeesClient({
                         value={studentForm.classId}
                         onValueChange={val => {
                           const c = classes.find(item => item.id === val);
-                          const clsFee = c?.defaultMonthlyFee || 0;
+                          const classBatches = batches.filter(b => b.classId === val);
+                          const autoBatch = classBatches.length === 1 ? classBatches[0] : undefined;
+                          const clsFee = autoBatch?.monthlyFee || c?.defaultMonthlyFee || 0;
                           setStudentForm(prev => {
                             const cMonths = prev.yearlyCourseMonths || 12;
+                            const actualYearlyFee = autoBatch?.courseFee || (clsFee * cMonths);
                             return {
                               ...prev,
                               classId: val,
                               branchId: prev.branchId || (c?.branchId && c.branchId !== 'all' ? c.branchId : prev.branchId),
-                              batchId: "",
+                              batchId: autoBatch?.id || "",
                               baseFee: clsFee,
-                              yearlyStandardFee: clsFee * cMonths,
-                              totalYearlyFee: clsFee * cMonths,
+                              yearlyStandardFee: actualYearlyFee,
+                              totalYearlyFee: actualYearlyFee,
                               discountAmount: 0,
                               scholarshipPercent: 0,
-                              subjects: [],
+                              subjects: autoBatch?.subjects ? [...autoBatch.subjects] : [],
                             };
                           });
                         }}
@@ -7263,10 +7437,15 @@ export function FeesClient({
                         </SelectTrigger>
                         <SelectContent>
                           {classes
-                            .filter(c => !studentForm.branchId || c.branchId === studentForm.branchId || c.branchId === "all")
-                            .map(c => (
-                              <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
-                            ))}
+                            .filter(c => !studentForm.branchId || branchIdsMatch(c.branchId, studentForm.branchId) || c.branchId === "all")
+                            .map(c => {
+                              const brLabel = IDL_BRANCHES.find(b => branchIdsMatch(b.id, c.branchId))?.name.replace(' Branch', '');
+                              return (
+                                <SelectItem key={c.id} value={c.id} className="text-xs">
+                                  {!studentForm.branchId && brLabel ? `${c.name} (${brLabel})` : c.name}
+                                </SelectItem>
+                              );
+                            })}
                         </SelectContent>
                       </Select>
                     </div>
