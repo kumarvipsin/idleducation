@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { User, Users, GraduationCap, Phone, Globe, MapPin, Sparkles, Send, CheckCircle, Award, Trophy, IndianRupee, Calendar } from "lucide-react";
+import { User, Users, GraduationCap, Phone, Globe, MapPin, Sparkles, Send, CheckCircle, Award, Trophy, IndianRupee, Calendar, Building2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm, type SubmitHandler } from "react-hook-form";
@@ -24,9 +24,17 @@ const scholarshipSchema = z.object({
   mobile: z.string().regex(/^\d{10}$/, { message: "Please enter a valid 10-digit mobile number." }),
   country: z.string().min(1, { message: "Please select a country." }),
   state: z.string().min(1, { message: "Please select a state." }),
+  branch: z.string().optional(),
 });
 
 type ScholarshipFormValues = z.infer<typeof scholarshipSchema>;
+
+const delhiBranches = [
+  "Mukherjee Nagar, Delhi-110009",
+  "Mangol Puri, Delhi-110083",
+  "Krishan Vihar, Delhi-110086",
+  "Budh Vihar, Delhi-110086",
+];
 
 const scholarshipClasses = [
   "JEE",
@@ -64,8 +72,11 @@ export default function ScholarshipPage() {
       mobile: '',
       country: 'India',
       state: '',
+      branch: '',
     },
   });
+
+  const selectedState = form.watch('state');
 
   useEffect(() => {
     const today = new Date();
@@ -94,7 +105,7 @@ export default function ScholarshipPage() {
 
   const onSubmit: SubmitHandler<ScholarshipFormValues> = async (data) => {
     try {
-      const result = await registerForScholarship(data);
+      const result = await registerForScholarship({ ...data, mode: 'Offline' });
       if (result.success) {
         setIsSuccessOpen(true);
         form.reset();
@@ -312,7 +323,15 @@ export default function ScholarshipPage() {
                               <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
                                 <MapPin className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
                               </div>
-                              <Select onValueChange={field.onChange} value={field.value}>
+                              <Select
+                                onValueChange={(val) => {
+                                  field.onChange(val);
+                                  if (val !== 'Delhi') {
+                                    form.setValue('branch', '');
+                                  }
+                                }}
+                                value={field.value}
+                              >
                                 <FormControl>
                                   <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
                                     <SelectValue placeholder="State *" />
@@ -328,6 +347,33 @@ export default function ScholarshipPage() {
                         )}
                       />
                     </div>
+
+                    {selectedState === 'Delhi' && (
+                      <FormField
+                        control={form.control}
+                        name="branch"
+                        render={({ field }) => (
+                          <FormItem className="space-y-0">
+                            <div className="relative group h-full">
+                              <div className="absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none z-10">
+                                <Building2 className="h-4 w-4 text-slate-400 group-focus-within:text-primary transition-colors" />
+                              </div>
+                              <Select onValueChange={field.onChange} value={field.value || ''}>
+                                <FormControl>
+                                  <SelectTrigger className="pl-12 h-14 bg-transparent border-0 rounded-none font-bold text-[13px] shadow-none focus:ring-0 focus:ring-offset-0">
+                                    <SelectValue placeholder="Preferred Branch (Delhi)" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  {delhiBranches.map(b => <SelectItem key={b} value={b} className="text-xs font-bold">{b}</SelectItem>)}
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <FormMessage className="text-[10px] px-4 pb-2" />
+                          </FormItem>
+                        )}
+                      />
+                    )}
                   </div>
 
                   {/* Footer / Submit Button */}

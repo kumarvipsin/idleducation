@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { usePathname } from 'next/navigation';
 import { AttendanceProvider, useAttendance } from '@/context/attendance-context';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
 
@@ -53,18 +52,11 @@ function ToastContainer() {
 }
 
 function MainAttendanceShell({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname() || '';
-  const isFullBleedClassBatch = pathname.startsWith('/admin/attendance/subjects');
-
   return (
     <div className="min-h-[calc(100svh-68px)] flex-1 min-w-0 bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 antialiased">
-      {isFullBleedClassBatch ? (
-        <div className="flex-1 min-w-0 flex flex-col">{children}</div>
-      ) : (
-        <div className="flex-1 min-w-0 overflow-x-hidden p-4 sm:p-6 lg:p-8">
-          {children}
-        </div>
-      )}
+      <div className="flex-1 min-w-0 overflow-x-hidden p-4 sm:p-6 lg:p-8">
+        {children}
+      </div>
       <ToastContainer />
     </div>
   );

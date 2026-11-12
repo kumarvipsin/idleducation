@@ -1,10 +1,9 @@
 'use client';
 
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
   Briefcase,
-  Building2,
   Check,
   CheckCircle2,
   Edit3,
@@ -22,6 +21,8 @@ import {
   X,
   XCircle,
 } from 'lucide-react';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
 import {
   CartesianGrid,
   Cell,
@@ -129,9 +130,11 @@ export function BranchAdminDashboard() {
 
   const [data, setData] = useState<BranchDashboardPayload | null>(null);
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [busyTeacherId, setBusyTeacherId] = useState<string | null>(null);
+  const isMountedRef = useRef(true);
+  const inFlightRef = useRef(false);
+  const queuedRefreshRef = useRef(false);
 
   // Branch updates create/edit dialog state
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
@@ -140,25 +143,110 @@ export function BranchAdminDashboard() {
   const [updateDescription, setUpdateDescription] = useState('');
   const [savingUpdate, setSavingUpdate] = useState(false);
 
-  const loadDashboard = useCallback(async (isManualRefresh = false) => {
-    if (isManualRefresh) setRefreshing(true);
-    else setLoading(true);
-    setErrorMsg(null);
+  useEffect(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
 
-    const res = await getBranchDashboardData(branchScope);
-    if (res.success && res.data) {
-      setData(res.data);
-    } else {
-      setErrorMsg(res.message || 'Unable to load branch dashboard metrics.');
+  const loadDashboard = useCallback(async (silent = false) => {
+    if (inFlightRef.current) {
+      queuedRefreshRef.current = true;
+      return;
     }
 
-    setLoading(false);
-    setRefreshing(false);
+    inFlightRef.current = true;
+    if (!silent) {
+      setLoading(true);
+      setErrorMsg(null);
+    }
+
+    try {
+      const res = await getBranchDashboardData(branchScope);
+      if (!isMountedRef.current) return;
+      if (res.success && res.data) {
+        setData(res.data);
+        setErrorMsg(null);
+      } else if (!silent) {
+        setErrorMsg(res.message || 'Unable to load branch dashboard metrics.');
+      }
+    } finally {
+      inFlightRef.current = false;
+      if (isMountedRef.current && !silent) {
+        setLoading(false);
+      }
+      if (isMountedRef.current && queuedRefreshRef.current) {
+        queuedRefreshRef.current = false;
+        void loadDashboard(true);
+      }
+    }
   }, [branchScope]);
 
   useEffect(() => {
-    loadDashboard(false);
+    void loadDashboard(false);
   }, [loadDashboard]);
+
+  // Real-time auto-refresh whenever branch-scoped Firestore collections change, on tab focus, and periodically
+  useEffect(() => {
+    if (!branchScope) return;
+
+    let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+    const scheduleAutoRefresh = () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => {
+        void loadDashboard(true);
+      }, 300);
+    };
+
+    const collectionsToWatch = [
+      'users',
+      'deniedUsers',
+      'sessionBookings',
+      'contactSubmissions',
+      'updates',
+    ] as const;
+
+    const unsubscribers = collectionsToWatch.map((colName) => {
+      let initialized = false;
+      return onSnapshot(
+        collection(db, colName),
+        () => {
+          if (!initialized) {
+            initialized = true;
+            return;
+          }
+          scheduleAutoRefresh();
+        },
+        () => {
+          // Listener errors fall back gracefully to interval/focus refresh without surfacing noise
+        }
+      );
+    });
+
+    const handleVisibilityOrFocus = () => {
+      if (typeof document === 'undefined' || document.visibilityState === 'visible') {
+        scheduleAutoRefresh();
+      }
+    };
+
+    window.addEventListener('focus', handleVisibilityOrFocus);
+    document.addEventListener('visibilitychange', handleVisibilityOrFocus);
+
+    const intervalId = setInterval(() => {
+      if (typeof document === 'undefined' || document.visibilityState === 'visible') {
+        void loadDashboard(true);
+      }
+    }, 30000);
+
+    return () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      unsubscribers.forEach((unsub) => unsub());
+      window.removeEventListener('focus', handleVisibilityOrFocus);
+      document.removeEventListener('visibilitychange', handleVisibilityOrFocus);
+      clearInterval(intervalId);
+    };
+  }, [branchScope, loadDashboard]);
 
   const handleTeacherDecision = async (teacherId: string, decision: 'approve' | 'deny') => {
     setBusyTeacherId(teacherId);
@@ -397,13 +485,6 @@ export function BranchAdminDashboard() {
   if (loading) {
     return (
       <div>
-        <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1.5">
-            <Skeleton className="h-7 w-64 bg-[#E5EAF2]" />
-            <Skeleton className="h-4 w-80 bg-[#E5EAF2]" />
-          </div>
-          <Skeleton className="h-9 w-28 bg-[#E5EAF2]" />
-        </div>
         <div className="space-y-6">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 8 }).map((_, idx) => (
@@ -434,7 +515,7 @@ export function BranchAdminDashboard() {
           </div>
           <Button
             variant="outline"
-            onClick={() => loadDashboard(true)}
+            onClick={() => loadDashboard(false)}
             className="border-[#E5EAF2] text-[#172033]"
           >
             <RefreshCw className="mr-2 h-4 w-4" />
@@ -447,38 +528,6 @@ export function BranchAdminDashboard() {
 
   return (
     <div>
-      {/* Branch Overview Header (does not duplicate sidebar user profile) */}
-      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-[#0B1B43] leading-tight">
-              {data.admin.branchName} Dashboard
-            </h1>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[#E5EAF2] bg-white px-2.5 py-0.5 text-xs font-semibold text-[#2864E8]">
-              <Building2 className="h-3.5 w-3.5" />
-              Branch Isolated
-            </span>
-          </div>
-          <p className="mt-1 text-sm text-[#64748B]">
-            Live operational overview scoped exclusively to {data.admin.branchDisplayName}.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2 shrink-0">
-          <Button
-            type="button"
-            variant="outline"
-            size="sm"
-            onClick={() => loadDashboard(true)}
-            disabled={refreshing}
-            className="h-9 rounded-lg border-[#E5EAF2] bg-white px-3 text-xs font-semibold text-[#172033] hover:bg-[#F8FAFC]"
-          >
-            <RefreshCw className={`mr-1.5 h-3.5 w-3.5 text-[#64748B] ${refreshing ? 'animate-spin' : ''}`} />
-            Refresh
-          </Button>
-        </div>
-      </div>
-
       <div className="space-y-6">
       {/* Primary 8 Metric Cards in Responsive 4-Column Grid */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

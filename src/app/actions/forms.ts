@@ -53,6 +53,7 @@ const scholarshipSchema = z.object({
   state: z.string().min(1, { message: "Please select a state." }),
   city: z.string().optional(),
   branch: z.string().optional(),
+  branchId: z.string().optional(),
   mode: z.string().optional().default('Offline'),
   message: z.string().optional(),
 });
@@ -65,8 +66,10 @@ export async function registerForScholarship(data: ScholarshipFormValues) {
     }
 
     try {
+        const normalizedBranchId = normalizeBranchId(validation.data.branchId || validation.data.branch);
         await addDoc(collection(db, "scholarshipRegistrations"), {
             ...validation.data,
+            ...(normalizedBranchId && normalizedBranchId !== 'all' ? { branchId: normalizedBranchId } : {}),
             createdAt: serverTimestamp(),
         });
         return { success: true, message: "You have successfully registered for the scholarship!" };
