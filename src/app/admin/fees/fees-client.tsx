@@ -25,6 +25,8 @@ import {
 } from '@/types/fee-management';
 import { useAuth } from '@/context/auth-context';
 import { syncServerSessionFromProfile } from '@/app/actions/auth';
+import { db } from '@/lib/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 import { IDL_RECEIPT_LOGO_DATA_URL } from '@/lib/receipt-logo';
 import { IDL_PAID_STAMP_DATA_URL } from '@/lib/receipt-stamp';
 import {
@@ -357,13 +359,13 @@ export function FeesClient({
         await ensureActiveServerSession();
         const directoryScopeBranch = isBranchAdmin ? branch : 'all';
         const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments, backupStatus] = await Promise.all([
-          getFeeDashboardStats(month, branch),
-          getFeeClasses(directoryScopeBranch),
-          getFeeBatches(undefined, directoryScopeBranch),
-          getFeeStudents({ branchId: directoryScopeBranch }),
-          getMonthlyLedger(month, { branchId: branch }),
-          getBranchYearlyReport('2026-27'),
-          getFeePayments({ month, branchId: branch }),
+          getFeeDashboardStats(month, branch, { forceFresh: true }),
+          getFeeClasses(directoryScopeBranch, { forceFresh: true }),
+          getFeeBatches(undefined, directoryScopeBranch, { forceFresh: true }),
+          getFeeStudents({ branchId: directoryScopeBranch, forceFresh: true }),
+          getMonthlyLedger(month, { branchId: branch, forceFresh: true }),
+          getBranchYearlyReport('2026-27', { forceFresh: true }),
+          getFeePayments({ month, branchId: branch, forceFresh: true }),
           getResetBackupStatus(),
         ]);
 
@@ -411,10 +413,36 @@ export function FeesClient({
     window.addEventListener('focus', handleVisibilityOrFocus);
     document.addEventListener('visibilitychange', handleVisibilityOrFocus);
     const intervalId = window.setInterval(syncLatest, 45000);
+
+    // Real-time Firestore listener so permanent/temporary deletes, edits & payments reflect instantly
+    let isFirstSnapshot = true;
+    let snapshotTimer: number | null = null;
+    const unsubscribeRealtime = onSnapshot(
+      collection(db, 'feeManagement'),
+      () => {
+        if (isFirstSnapshot) {
+          isFirstSnapshot = false;
+          return;
+        }
+        if (snapshotTimer) window.clearTimeout(snapshotTimer);
+        snapshotTimer = window.setTimeout(() => {
+          const { month, branch } = latestFilterRef.current;
+          if (branch && branch !== 'none') {
+            refreshAllData(month, branch);
+          }
+        }, 200);
+      },
+      () => {
+        // Non-fatal fallback to polling if real-time listener is unavailable
+      }
+    );
+
     return () => {
       window.removeEventListener('focus', handleVisibilityOrFocus);
       document.removeEventListener('visibilitychange', handleVisibilityOrFocus);
       window.clearInterval(intervalId);
+      if (snapshotTimer) window.clearTimeout(snapshotTimer);
+      unsubscribeRealtime();
     };
   }, []);
 
@@ -466,6 +494,8 @@ export function FeesClient({
     order: '',
   };
   const [isClassModalOpen, setIsClassModalOpen] = useState(false);
+  const [isSubmittingClass, setIsSubmittingClass] = useState(false);
+  const [isSubmittingStudent, setIsSubmittingStudent] = useState(false);
   const [classForm, setClassForm] = useState({ ...EMPTY_CLASS_FORM });
 
   // 2. Create Batch Modal
@@ -1004,6 +1034,7 @@ export function FeesClient({
       order: classForm.order !== '' && classForm.order !== undefined ? Number(classForm.order) : undefined,
     };
 
+    setIsSubmittingClass(true);
     try {
       await ensureActiveServerSession();
       const res = await createFeeClass(payload);
@@ -1030,6 +1061,8 @@ export function FeesClient({
       }
     } catch (err: any) {
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to create class' });
+    } finally {
+      setIsSubmittingClass(false);
     }
   };
 
@@ -1418,11 +1451,12 @@ export function FeesClient({
     const effectiveJoiningDate = studentForm.joiningDate?.trim() || todayDateWatermark;
     const effectiveDueDate = studentForm.dueDate?.trim() || defaultDueDateWatermark;
 
-    let dueDay = Number(studentForm.dueDayOfMonth) || 5;
+    let dueDay = Math.min(31, Math.max(1, Number(studentForm.dueDayOfMonth) || 5));
     if (effectiveDueDate) {
-      const p = effectiveDueDate.split('-');
-      if (p.length > 0 && !isNaN(parseInt(p[0], 10))) {
-        dueDay = parseInt(p[0], 10);
+      const p = effectiveDueDate.trim().replace(/\//g, '-').split('-');
+      const rawDay = p.length === 3 && p[0].length === 4 ? parseInt(p[2], 10) : parseInt(p[0], 10);
+      if (!isNaN(rawDay) && rawDay >= 1 && rawDay <= 31) {
+        dueDay = rawDay;
       }
     }
 
@@ -1449,32 +1483,39 @@ export function FeesClient({
       } : undefined,
     };
 
-    await ensureActiveServerSession();
-    const res = await createFeeStudent(payload);
-    if (res.success) {
-      toast({ title: 'Student Enrolled', description: res.message });
-      setIsStudentModalOpen(false);
-      if (res.data) {
-        setStudents(prev => [res.data!, ...prev.filter(s => s.id !== res.data!.id)]);
+    setIsSubmittingStudent(true);
+    try {
+      await ensureActiveServerSession();
+      const res = await createFeeStudent(payload);
+      if (res.success) {
+        toast({ title: 'Student Enrolled', description: res.message });
+        setIsStudentModalOpen(false);
+        if (res.data) {
+          setStudents(prev => [res.data!, ...prev.filter(s => s.id !== res.data!.id)]);
+        }
+        const nextBranch =
+          !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+            ? 'all'
+            : selectedBranch;
+        if (nextBranch !== selectedBranch) {
+          setSelectedBranch(nextBranch);
+        }
+        setStudentForm({
+          ...EMPTY_STUDENT_FORM,
+          branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
+        });
+        setEnrollStudentSubjectTab('enrolled');
+        setShowEnrollAddSubjectInput(false);
+        setNewEnrollAddlSubjectName('');
+        setNewEnrollAddlSubjectFee('');
+        refreshAllData(selectedMonth, nextBranch);
+      } else {
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
-      const nextBranch =
-        !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
-          ? 'all'
-          : selectedBranch;
-      if (nextBranch !== selectedBranch) {
-        setSelectedBranch(nextBranch);
-      }
-      setStudentForm({
-        ...EMPTY_STUDENT_FORM,
-        branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
-      });
-      setEnrollStudentSubjectTab('enrolled');
-      setShowEnrollAddSubjectInput(false);
-      setNewEnrollAddlSubjectName('');
-      setNewEnrollAddlSubjectFee('');
-      refreshAllData(selectedMonth, nextBranch);
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to enroll student' });
+    } finally {
+      setIsSubmittingStudent(false);
     }
   };
 
@@ -1586,11 +1627,12 @@ export function FeesClient({
       ? editStudentForm.totalYearlyFee
       : Math.round(effectiveYearlyStandard * (1 - (editStudentForm.scholarshipPercent || 0) / 100));
 
-    let dueDay = Number(editStudentForm.dueDayOfMonth) || 5;
+    let dueDay = Math.min(31, Math.max(1, Number(editStudentForm.dueDayOfMonth) || 5));
     if (editStudentForm.dueDate) {
-      const p = editStudentForm.dueDate.split('-');
-      if (p.length > 0 && !isNaN(parseInt(p[0], 10))) {
-        dueDay = parseInt(p[0], 10);
+      const p = editStudentForm.dueDate.trim().replace(/\//g, '-').split('-');
+      const rawDay = p.length === 3 && p[0].length === 4 ? parseInt(p[2], 10) : parseInt(p[0], 10);
+      if (!isNaN(rawDay) && rawDay >= 1 && rawDay <= 31) {
+        dueDay = rawDay;
       }
     }
 
@@ -1944,13 +1986,13 @@ export function FeesClient({
           prev.filter(p => !(p.studentId === targetStudentId && p.month === targetMonth))
         );
         setIsRevertModalOpen(false);
-        setRevertTarget(null);
-        setRevertTargetPayments([]);
-        if (typeof document !== 'undefined') {
-          document.body.style.pointerEvents = '';
-        }
-        refreshAllData();
-      } else {
+      setRevertTarget(null);
+      setRevertTargetPayments([]);
+      if (typeof document !== 'undefined') {
+        document.body.style.pointerEvents = '';
+      }
+      await refreshAllData();
+    } else {
         toast({ variant: 'destructive', title: 'Action Failed', description: res.message });
       }
     } catch (err: any) {
@@ -1969,7 +2011,7 @@ export function FeesClient({
         toast({ title: 'Payment Reverted', description: res.message });
         setMonthPayments(prev => prev.filter(p => p.id !== paymentId));
         if (isRevertModalOpen && revertTarget) {
-          const updatedRes = await getFeePayments({ studentId: revertTarget.studentId, month: revertTarget.month });
+          const updatedRes = await getFeePayments({ studentId: revertTarget.studentId, month: revertTarget.month, forceFresh: true });
           if (updatedRes.success) {
             setRevertTargetPayments(updatedRes.data);
             if (updatedRes.data.length === 0) {
@@ -1986,7 +2028,7 @@ export function FeesClient({
         if (typeof document !== 'undefined') {
           document.body.style.pointerEvents = '';
         }
-        refreshAllData();
+        await refreshAllData();
       } else {
         toast({ variant: 'destructive', title: 'Revert Failed', description: res.message });
       }
@@ -2542,19 +2584,36 @@ export function FeesClient({
   // Handle Delete Confirmed
   const handleExecuteDelete = async () => {
     if (!deleteTarget) return;
-    const { type, id, name } = deleteTarget;
+    const { type, id } = deleteTarget;
     setDeleteTarget(null);
 
-    let res: { success: boolean; message: string };
-    if (type === 'class') res = await deleteFeeClass(id);
-    else if (type === 'batch') res = await deleteFeeBatch(id);
-    else res = await deleteFeeStudent(id);
+    try {
+      await ensureActiveServerSession();
+      let res: { success: boolean; message: string };
+      if (type === 'class') res = await deleteFeeClass(id);
+      else if (type === 'batch') res = await deleteFeeBatch(id);
+      else res = await deleteFeeStudent(id);
 
-    if (res.success) {
-      toast({ title: 'Deleted', description: res.message });
-      refreshAllData();
-    } else {
-      toast({ variant: 'destructive', title: 'Deletion Blocked', description: res.message });
+      if (res.success) {
+        if (type === 'class') {
+          setClasses(prev => prev.filter(c => c.id !== id));
+        } else if (type === 'batch') {
+          setBatches(prev => prev.filter(b => b.id !== id));
+        } else {
+          setStudents(prev => prev.filter(s => s.id !== id));
+          setLedger(prev => prev.filter(l => l.studentId !== id));
+          setMonthPayments(prev => prev.filter(p => p.studentId !== id));
+          if (selectedStudentProfile?.id === id) {
+            setSelectedStudentProfile(null);
+          }
+        }
+        toast({ title: 'Deleted', description: res.message });
+        refreshAllData();
+      } else {
+        toast({ variant: 'destructive', title: 'Deletion Blocked', description: res.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to delete record' });
     }
   };
 
@@ -2564,15 +2623,48 @@ export function FeesClient({
     const { student, targetStatus } = statusOptionsModal;
     setStatusOptionsModal({ isOpen: false, student: null, targetStatus: 'disabled' });
 
-    const res = await toggleStudentStatus(student.id, targetStatus, {
-      month: selectedMonth,
-      mode,
-    });
-    if (res.success) {
-      toast({ title: 'Status Updated', description: res.message });
-      refreshAllData();
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
+    try {
+      await ensureActiveServerSession();
+      const res = await toggleStudentStatus(student.id, targetStatus, {
+        month: selectedMonth,
+        mode,
+      });
+      if (res.success) {
+        setStudents(prev =>
+          prev.map(s => {
+            if (s.id !== student.id) return s;
+            const updatedHistory = [...(s.statusHistory || [])];
+            if (mode === 'all_months') {
+              return {
+                ...s,
+                status: targetStatus,
+                statusHistory: [{ month: '2026-04', status: targetStatus, updatedAt: new Date().toISOString() }],
+              };
+            }
+            const existingHIdx = updatedHistory.findIndex(h => h.month === selectedMonth);
+            if (existingHIdx !== -1) {
+              updatedHistory[existingHIdx] = { month: selectedMonth, status: targetStatus, updatedAt: new Date().toISOString() };
+            } else {
+              updatedHistory.push({ month: selectedMonth, status: targetStatus, updatedAt: new Date().toISOString() });
+            }
+            updatedHistory.sort((a, b) => a.month.localeCompare(b.month));
+            return {
+              ...s,
+              statusHistory: updatedHistory,
+              status: targetStatus === 'active' ? 'active' : s.status,
+            };
+          })
+        );
+        if (targetStatus === 'disabled') {
+          setLedger(prev => prev.filter(l => !(l.studentId === student.id && l.month === selectedMonth && l.paidAmount === 0)));
+        }
+        toast({ title: 'Status Updated', description: res.message });
+        refreshAllData();
+      } else {
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to update status' });
     }
   };
 
@@ -2907,7 +2999,7 @@ export function FeesClient({
     return val;
   };
 
-  // Helper: Auto-generates student ID matching date format DDMMYYYY-101, 102...
+  // Helper: Auto-generates student ID matching date format DDMMYY-101, 102... (6 digits prefix, dash, 3 digits suffix)
   const generateNextStudentId = (joiningDateStr?: string, studentsList: FeeStudent[] = []): string => {
     const now = new Date();
     let day = String(now.getDate()).padStart(2, '0');
@@ -2930,7 +3022,7 @@ export function FeesClient({
       }
     }
 
-    const datePrefix = `${day}${month}${year}`;
+    const datePrefix = `${day}${month}${year.slice(-2)}`;
     const prefixMatch = `${datePrefix}-`;
     let maxSeq = 100;
 
@@ -2947,7 +3039,33 @@ export function FeesClient({
     return `${datePrefix}-${maxSeq + 1}`;
   };
 
-  // Dynamic watermarks for admission
+  // Helper: Smart Student ID Typing (only numeric digits, 6 digits prefix, auto dash '-', max 3 digits suffix: XXXXXX-YYY)
+  const handleStudentIdTyping = (input: string, prev: string = ''): string => {
+    if (input.length < prev.length) {
+      if (prev.endsWith('-') && !input.endsWith('-')) {
+        return input.slice(0, -1);
+      }
+      return input;
+    }
+
+    const digits = input.replace(/\D/g, '').slice(0, 9);
+    if (!digits) return '';
+
+    if (digits.length < 6) {
+      return digits;
+    }
+
+    const prefix = digits.slice(0, 6);
+    const suffix = digits.slice(6, 9);
+
+    if (suffix.length > 0) {
+      return `${prefix}-${suffix}`;
+    }
+
+    return `${prefix}-`;
+  };
+
+  // Dynamic fallback dates for admission submission
   const todayDateWatermark = React.useMemo(() => {
     const today = new Date();
     return `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
@@ -2958,27 +3076,7 @@ export function FeesClient({
     return `05-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
   }, []);
 
-  const studentIdWatermark = React.useMemo(() => {
-    const joinDateToUse = studentForm.joiningDate?.trim() || todayDateWatermark;
-    const clean = joinDateToUse.replace(/\//g, '-');
-    const parts = clean.split('-');
-    let day = String(new Date().getDate()).padStart(2, '0');
-    let month = String(new Date().getMonth() + 1).padStart(2, '0');
-    let year = String(new Date().getFullYear());
-
-    if (parts.length === 3) {
-      if (parts[0].length === 4) {
-        year = parts[0];
-        month = parts[1].padStart(2, '0');
-        day = parts[2].padStart(2, '0');
-      } else {
-        day = parts[0].padStart(2, '0');
-        month = parts[1].padStart(2, '0');
-        year = parts[2].length === 2 ? `20${parts[2]}` : parts[2];
-      }
-    }
-    return `${day}${month}${year}-`;
-  }, [studentForm.joiningDate, todayDateWatermark]);
+  const studentIdWatermark = "";
 
   // Scope for Students tab: 'month' (shows only students active in selectedMonth) or 'all' (shows all registered students)
   const [studentMonthScope, setStudentMonthScope] = useState<'month' | 'all'>('month');
@@ -3160,52 +3258,77 @@ export function FeesClient({
     const month = selectedMonth;
     setStudentDeleteModal({ isOpen: false, student: null, source: 'students' });
 
-    startTransition(async () => {
-      try {
-        if (mode === 'month_only') {
-          const res = await deleteStudentFromMonth(student.id, month);
-          if (res.success) {
-            toast({ title: 'Removed from Month', description: res.message });
-            if (selectedStudentProfile?.id === student.id) {
-              setSelectedStudentProfile(null);
-            }
-            refreshAllData();
-          } else {
-            toast({ variant: 'destructive', title: 'Error', description: res.message });
-          }
-        } else {
-          const res = await deleteFeeStudent(student.id);
-          if (res.success) {
-            toast({ title: 'Student Deleted', description: res.message });
-            if (selectedStudentProfile?.id === student.id) {
-              setSelectedStudentProfile(null);
-            }
-            refreshAllData();
-          } else {
-            toast({ variant: 'destructive', title: 'Error', description: res.message });
-          }
-        }
-      } catch (err: any) {
-        toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to delete student' });
-      }
-    });
-  };
-
-  // Restore student to month handler
-  const handleRestoreStudent = async (studentId: string, month: string) => {
-    startTransition(async () => {
-      try {
-        const res = await restoreStudentToMonth(studentId, month);
+    try {
+      await ensureActiveServerSession();
+      if (mode === 'month_only') {
+        const res = await deleteStudentFromMonth(student.id, month);
         if (res.success) {
-          toast({ title: 'Student Restored', description: res.message });
+          // Real-time local removal for selected month while keeping student profile & other months safe
+          setStudents(prev =>
+            prev.map(s =>
+              s.id === student.id
+                ? {
+                    ...s,
+                    excludedMonths: Array.from(new Set([...(s.excludedMonths || []), month])),
+                  }
+                : s
+            )
+          );
+          setLedger(prev => prev.filter(l => !(l.studentId === student.id && l.month === month)));
+          setMonthPayments(prev => prev.filter(p => !(p.studentId === student.id && p.month === month)));
+          if (selectedStudentProfile?.id === student.id) {
+            setSelectedStudentProfile(null);
+          }
+          toast({ title: 'Removed from Month', description: res.message });
           refreshAllData();
         } else {
           toast({ variant: 'destructive', title: 'Error', description: res.message });
         }
-      } catch (err: any) {
-        toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to restore student' });
+      } else {
+        const res = await deleteFeeStudent(student.id);
+        if (res.success) {
+          // Real-time permanent removal across students, ledger, and payment receipts
+          setStudents(prev => prev.filter(s => s.id !== student.id));
+          setLedger(prev => prev.filter(l => l.studentId !== student.id));
+          setMonthPayments(prev => prev.filter(p => p.studentId !== student.id));
+          if (selectedStudentProfile?.id === student.id) {
+            setSelectedStudentProfile(null);
+          }
+          toast({ title: 'Student Deleted', description: res.message });
+          refreshAllData();
+        } else {
+          toast({ variant: 'destructive', title: 'Error', description: res.message });
+        }
       }
-    });
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to delete student' });
+    }
+  };
+
+  // Restore student to month handler
+  const handleRestoreStudent = async (studentId: string, month: string) => {
+    try {
+      await ensureActiveServerSession();
+      const res = await restoreStudentToMonth(studentId, month);
+      if (res.success) {
+        setStudents(prev =>
+          prev.map(s =>
+            s.id === studentId
+              ? {
+                  ...s,
+                  excludedMonths: (s.excludedMonths || []).filter(m => m !== month),
+                }
+              : s
+          )
+        );
+        toast({ title: 'Student Restored', description: res.message });
+        refreshAllData();
+      } else {
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      }
+    } catch (err: any) {
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to restore student' });
+    }
   };
 
   // Filtered classes matching active branch selection, arranged by order number
@@ -6433,11 +6556,20 @@ export function FeesClient({
               <DialogFooter className="pt-2">
                 <Button
                   type="submit"
-                  disabled={isPending}
+                  disabled={isSubmittingClass}
                   className={FORM_CARD_SUBMIT_BTN_CLS}
                 >
-                  <span>CREATE CLASS</span>
-                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                  {isSubmittingClass ? (
+                    <>
+                      <RefreshCw className="w-3.5 h-3.5 animate-spin shrink-0" />
+                      <span>CREATING CLASS...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>CREATE CLASS</span>
+                      <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                    </>
+                  )}
                 </Button>
               </DialogFooter>
             </form>
@@ -6768,7 +6900,7 @@ export function FeesClient({
               <DialogFooter className="pt-2">
                 <Button
                   type="submit"
-                  disabled={isSubmittingBatch || isPending}
+                  disabled={isSubmittingBatch}
                   className={FORM_CARD_SUBMIT_BTN_CLS}
                 >
                   {isSubmittingBatch ? (
@@ -7025,7 +7157,6 @@ export function FeesClient({
               {/* Submit Button */}
               <Button
                 type="submit"
-                disabled={isPending}
                 className="group w-full h-[36px] sm:h-[38px] !rounded-[4px] sm:!rounded-[6px] font-bold text-[11px] sm:text-[11.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_rgba(40,100,232,0.25)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.35)] uppercase flex items-center justify-center gap-1.5 transition-all cursor-pointer !mt-4"
               >
                 <span>SAVE BATCH CHANGES</span>
@@ -7135,7 +7266,6 @@ export function FeesClient({
               {/* Submit Button */}
               <Button
                 type="submit"
-                disabled={isPending}
                 className="group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 sm:mt-1.5"
               >
                 <span>SAVE CLASS CHANGES</span>
@@ -7183,19 +7313,21 @@ export function FeesClient({
                     <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
                       <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">ID:</span>
                       <span className="inline-grid items-center">
-                        <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium uppercase text-[11.5px] pointer-events-none select-none min-w-[4ch]">
-                          {studentForm.rollNumber || studentIdWatermark}
+                        <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium uppercase text-[11.5px] pointer-events-none select-none min-w-[10ch]">
+                          {studentForm.rollNumber || "          "}
                         </span>
                         <input
                           type="text"
                           size={1}
-                          placeholder={studentIdWatermark}
+                          inputMode="numeric"
+                          placeholder=""
                           value={studentForm.rollNumber || ""}
                           onChange={e => {
+                            const formatted = handleStudentIdTyping(e.target.value, studentForm.rollNumber);
                             setIsCustomRollNumber(true);
-                            setStudentForm({ ...studentForm, rollNumber: e.target.value });
+                            setStudentForm({ ...studentForm, rollNumber: formatted });
                           }}
-                          className="col-start-1 row-start-1 w-full min-w-0 font-medium text-slate-700 dark:text-slate-200 placeholder:text-slate-500/90 dark:placeholder:text-slate-400 placeholder:font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                          className="col-start-1 row-start-1 w-full min-w-0 font-medium text-slate-700 dark:text-slate-200 bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
                         />
                       </span>
                     </span>
@@ -7204,13 +7336,13 @@ export function FeesClient({
                       <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">JOIN:</span>
                       <span className="inline-grid items-center">
                         <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium text-[11.5px] pointer-events-none select-none tabular-nums">
-                          {studentForm.joiningDate || todayDateWatermark}
+                          {studentForm.joiningDate || "DD-MM-YYYY"}
                         </span>
                         <input
                           type="text"
                           size={1}
                           inputMode="numeric"
-                          placeholder={todayDateWatermark}
+                          placeholder="DD-MM-YYYY"
                           value={studentForm.joiningDate || ""}
                           onChange={e => {
                             const formatted = handleDateTyping(e.target.value, studentForm.joiningDate);
@@ -7226,7 +7358,7 @@ export function FeesClient({
                               joiningDate: normalized,
                             }));
                           }}
-                          className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 placeholder:text-slate-500/90 dark:placeholder:text-slate-400 placeholder:font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                          className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
                         />
                       </span>
                     </span>
@@ -7235,13 +7367,13 @@ export function FeesClient({
                       <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">DUE:</span>
                       <span className="inline-grid items-center">
                         <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium text-[11.5px] pointer-events-none select-none tabular-nums">
-                          {studentForm.dueDate || defaultDueDateWatermark}
+                          {studentForm.dueDate || "DD-MM-YYYY"}
                         </span>
                         <input
                           type="text"
                           size={1}
                           inputMode="numeric"
-                          placeholder={defaultDueDateWatermark}
+                          placeholder="DD-MM-YYYY"
                           value={studentForm.dueDate || ""}
                           onChange={e => {
                             const formatted = handleDateTyping(e.target.value, studentForm.dueDate);
@@ -7251,7 +7383,7 @@ export function FeesClient({
                             const normalized = normalizeDateBlur(e.target.value);
                             setStudentForm({ ...studentForm, dueDate: normalized });
                           }}
-                          className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 placeholder:text-slate-500/90 dark:placeholder:text-slate-400 placeholder:font-medium bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
+                          className="col-start-1 row-start-1 w-full min-w-0 font-medium tabular-nums text-slate-700 dark:text-slate-300 placeholder:text-slate-400 dark:placeholder:text-slate-500 placeholder:font-normal bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
                         />
                       </span>
                     </span>
@@ -7566,10 +7698,10 @@ export function FeesClient({
               <div className="pt-2 mt-1 border-t border-slate-100 dark:border-slate-800/80 shrink-0">
                 <Button
                   type="submit"
-                  disabled={isPending}
+                  disabled={isSubmittingStudent}
                   className={STUDENT_MODAL_FOOTER_BTN_CLS}
                 >
-                  <span>ENROLL STUDENT</span>
+                  <span>{isSubmittingStudent ? 'ENROLLING...' : 'ENROLL STUDENT'}</span>
                   <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
                 </Button>
               </div>
@@ -7621,15 +7753,19 @@ export function FeesClient({
                         <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
                           <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500 shrink-0">ID:</span>
                           <span className="inline-grid items-center">
-                            <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium uppercase text-[11.5px] pointer-events-none select-none min-w-[4ch]">
-                              {editStudentForm.rollNumber || "ID"}
+                            <span aria-hidden="true" className="invisible col-start-1 row-start-1 whitespace-pre font-mono font-medium uppercase text-[11.5px] pointer-events-none select-none min-w-[10ch]">
+                              {editStudentForm.rollNumber || "          "}
                             </span>
                             <input
                               type="text"
                               size={1}
-                              placeholder="ID"
+                              inputMode="numeric"
+                              placeholder=""
                               value={editStudentForm.rollNumber || ""}
-                              onChange={e => setEditStudentForm({ ...editStudentForm, rollNumber: e.target.value })}
+                              onChange={e => {
+                                const formatted = handleStudentIdTyping(e.target.value, editStudentForm.rollNumber);
+                                setEditStudentForm({ ...editStudentForm, rollNumber: formatted });
+                              }}
                               className="col-start-1 row-start-1 w-full min-w-0 font-medium text-slate-700 dark:text-slate-200 bg-transparent border-0 border-b border-transparent hover:border-slate-300 focus:border-[#2864E8] focus:outline-none p-0 m-0 font-mono uppercase cursor-text selection:bg-[#2864E8]/20 text-[11.5px]"
                             />
                           </span>
@@ -7961,7 +8097,6 @@ export function FeesClient({
               <div className="pt-2 mt-1 border-t border-slate-100 dark:border-slate-800/80 shrink-0">
                 <Button
                   type="submit"
-                  disabled={isPending}
                   className={STUDENT_MODAL_FOOTER_BTN_CLS}
                 >
                   <span>SAVE STUDENT CHANGES</span>

@@ -35,6 +35,16 @@ import type {
   BranchYearlyMonthPoint,
 } from '@/types/fee-management';
 import { IDL_BRANCHES, getStudentStatusForMonth, getActiveAdditionalSubjectsForMonth } from '@/types/fee-management';
+import {
+  getMonthSequence,
+  clampDueDateForMonth,
+  normalizeIsoDateString,
+  addMonthsToYYYYMM,
+} from '@/lib/fee-pure-helpers';
+import {
+  getPreviousMonth,
+  syncMonthlyStudentLedgersAndPriorPayments,
+} from '@/lib/fee-ledger-sync';
 import { getServerAdminContext } from '@/lib/server-admin-auth';
 import { normalizeBranchId } from '@/lib/branch-utils';
 
@@ -395,17 +405,6 @@ export async function getCurrentMonth(): Promise<string> {
   return `${year}-${month}`;
 }
 
-function getPreviousMonth(monthStr: string): string {
-  const [y, m] = monthStr.split('-').map(Number);
-  let prevYear = y;
-  let prevMonth = m - 1;
-  if (prevMonth === 0) {
-    prevMonth = 12;
-    prevYear -= 1;
-  }
-  return `${prevYear}-${String(prevMonth).padStart(2, '0')}`;
-}
-
 function getNextMonth(monthStr: string): string {
   const [y, m] = monthStr.split('-').map(Number);
   let nextYear = y;
@@ -415,23 +414,6 @@ function getNextMonth(monthStr: string): string {
     nextYear += 1;
   }
   return `${nextYear}-${String(nextMonth).padStart(2, '0')}`;
-}
-
-function getMonthSequence(startMonth: string, endMonth: string): string[] {
-  const [sY, sM] = startMonth.split('-').map(Number);
-  const [eY, eM] = endMonth.split('-').map(Number);
-  const seq: string[] = [];
-  let y = sY;
-  let m = sM;
-  while (y < eY || (y === eY && m <= eM)) {
-    seq.push(`${y}-${String(m).padStart(2, '0')}`);
-    m++;
-    if (m > 12) {
-      m = 1;
-      y++;
-    }
-  }
-  return seq;
 }
 
 // Academic session months starting strictly from April 2026 (2026-04) up to current month (future months locked)
@@ -562,13 +544,16 @@ function isEmptyBranchSelection(branchId?: string): boolean {
 // 1. CLASSES MANAGEMENT
 // =============================================================
 
-export async function getFeeClasses(branchId?: string): Promise<{ success: boolean; data: FeeClass[] }> {
+export async function getFeeClasses(
+  branchId?: string,
+  options?: { forceFresh?: boolean }
+): Promise<{ success: boolean; data: FeeClass[] }> {
   try {
     const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: options?.forceFresh });
     let classes = [...dbData.classes];
     if (effectiveBranch && effectiveBranch !== 'all') {
       classes = classes.filter(c => feeRecordMatchesBranch(c.branchId, effectiveBranch));
@@ -713,14 +698,15 @@ export async function deleteFeeClass(id: string): Promise<{ success: boolean; me
 
 export async function getFeeBatches(
   classId?: string,
-  branchId?: string
+  branchId?: string,
+  options?: { forceFresh?: boolean }
 ): Promise<{ success: boolean; data: FeeBatch[] }> {
   try {
     const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: options?.forceFresh });
     let batches = [...dbData.batches];
     if (classId && classId !== 'all') {
       batches = batches.filter(b => b.classId === classId);
@@ -1044,13 +1030,14 @@ export async function getFeeStudents(filters?: {
   status?: StudentStatus;
   search?: string;
   month?: string;
+  forceFresh?: boolean;
 }): Promise<{ success: boolean; data: FeeStudent[] }> {
   try {
     const effectiveBranch = await resolveEffectiveFeeBranch(filters?.branchId);
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: filters?.forceFresh });
     let students = [...dbData.students];
 
     // Filter by admission month and exclusions if month filter is provided
@@ -1098,16 +1085,6 @@ export async function getFeeStudents(filters?: {
   }
 }
 
-function addMonthsToYYYYMM(baseMonth: string, addCount: number): string {
-  const parts = (baseMonth || '2026-11').split('-');
-  let y = parseInt(parts[0], 10) || 2026;
-  let m = (parseInt(parts[1], 10) || 1) - 1; // 0-indexed
-  m += addCount;
-  y += Math.floor(m / 12);
-  m = ((m % 12) + 12) % 12;
-  return `${y}-${String(m + 1).padStart(2, '0')}`;
-}
-
 function generateStudentRollNumber(joiningDateStr?: string, existingStudents: FeeStudent[] = []): string {
   const now = new Date();
   let day = String(now.getDate()).padStart(2, '0');
@@ -1130,7 +1107,7 @@ function generateStudentRollNumber(joiningDateStr?: string, existingStudents: Fe
     }
   }
 
-  const datePrefix = `${day}${month}${year}`;
+  const datePrefix = `${day}${month}${year.slice(-2)}`;
   const prefixMatch = `${datePrefix}-`;
   let maxSeq = 100;
 
@@ -1202,8 +1179,10 @@ export async function createFeeStudent(data: {
     let courseMonths = 12;
     let totalYearlyFee = 0;
 
-    const joiningDateStr = data.joiningDate || new Date().toISOString().split('T')[0];
+    const todayStr = new Date().toISOString().split('T')[0];
+    const joiningDateStr = normalizeIsoDateString(data.joiningDate, todayStr);
     const joiningMonth = joiningDateStr.slice(0, 7);
+    const safeDueDay = Math.min(31, Math.max(1, Number(data.dueDayOfMonth) || 5));
 
     // Process & sanitize additional subjects
     const rawAddl = Array.isArray(data.additionalSubjects) ? data.additionalSubjects : [];
@@ -1272,8 +1251,10 @@ export async function createFeeStudent(data: {
       additionalSubjects: sanitizedAddl,
       additionalFee: totalAddlFee,
       joiningDate: joiningDateStr,
-      dueDayOfMonth: isYearly ? (parseInt((joiningDateStr || '2026-11-01').split('-')[2], 10) || 1) : (data.dueDayOfMonth || 5),
-      dueDate: isYearly ? `${joiningMonth}-${String(parseInt((joiningDateStr || '2026-11-01').split('-')[2], 10) || 1).padStart(2, '0')}` : `${joiningMonth}-${String(data.dueDayOfMonth || 5).padStart(2, '0')}`,
+      dueDayOfMonth: isYearly ? (parseInt((joiningDateStr || '2026-11-01').split('-')[2], 10) || 1) : safeDueDay,
+      dueDate: isYearly
+        ? clampDueDateForMonth(joiningMonth, parseInt((joiningDateStr || '2026-11-01').split('-')[2], 10) || 1)
+        : clampDueDateForMonth(joiningMonth, safeDueDay),
       feeType: isYearly ? 'yearly_package' : (data.feeType || 'monthly'),
       paymentCycleMonths: isYearly ? courseMonths : (data.paymentCycleMonths || 1),
       baseFee,
@@ -1296,15 +1277,16 @@ export async function createFeeStudent(data: {
 
     dbData.students.unshift(newStudent);
 
-    const studentJoiningMonth = (newStudent.joiningDate || '2026-11-01').slice(0, 7);
-    const dayStr = String(newStudent.dueDayOfMonth).padStart(2, '0');
+    const studentJoiningMonth = (newStudent.joiningDate || todayStr).slice(0, 7);
 
+    let priorPaidCount = 0;
+    let currentMonthLabel = '';
     if (isYearly) {
       // Auto-create ledger entries for all course months and mark them as PAID
       for (let i = 0; i < courseMonths; i++) {
         const curMonth = addMonthsToYYYYMM(studentJoiningMonth, i);
         const curMonthLabel = await getMonthLabel(curMonth);
-        const curDueDate = `${curMonth}-${dayStr}`;
+        const curDueDate = clampDueDateForMonth(curMonth, newStudent.dueDayOfMonth || 1);
 
         const entry: FeeLedgerEntry = {
           id: `led-${newStudent.id}-${curMonth}`,
@@ -1345,7 +1327,7 @@ export async function createFeeStudent(data: {
         monthLabel: `${await getMonthLabel(joiningMonth)} (Yearly Package)`,
         amount: totalYearlyFee || (newStudent.netFee * courseMonths),
         paymentMode: 'cash',
-        paymentDate: newStudent.joiningDate || new Date().toISOString().split('T')[0],
+        paymentDate: newStudent.joiningDate || todayStr,
         transactionRef: 'YEARLY-PACKAGE-LUMPSUM',
         remarks: `Upfront Yearly Package (${courseMonths} Months). Equal Monthly: ₹${newStudent.netFee}/mo with ${newStudent.scholarshipPercent}% Scholarship.`,
         collectedBy: 'Admin Desk',
@@ -1353,40 +1335,29 @@ export async function createFeeStudent(data: {
       };
       dbData.payments.unshift(newPayment);
     } else {
-      // Auto-create ledger entry for student's admission month (joiningMonth)
-      const monthLabel = await getMonthLabel(joiningMonth);
-      const dueDate = `${joiningMonth}-${dayStr}`;
-      const todayStr = new Date().toISOString().split('T')[0];
-
-      const newLedgerEntry: FeeLedgerEntry = {
-        id: `led-${newStudent.id}-${joiningMonth}`,
-        studentId: newStudent.id,
-        branchId: newStudent.branchId,
-        classId: newStudent.classId,
-        batchId: newStudent.batchId,
-        month: joiningMonth,
-        monthLabel,
-        baseAmount: newStudent.baseFee,
-        discountAmount: newStudent.discountAmount,
-        netDueAmount: newStudent.netFee,
-        carriedForwardDue: 0,
-        paidAmount: 0,
-        balanceAmount: newStudent.netFee,
-        advanceAmount: 0,
-        dueDate,
-        status: todayStr > dueDate && newStudent.netFee > 0 ? 'OVERDUE' : 'PENDING',
-        isOverdue: todayStr > dueDate && newStudent.netFee > 0,
-        updatedAt: new Date().toISOString(),
-      };
-
-      dbData.ledger.unshift(newLedgerEntry);
+      const currentMonth = await getCurrentMonth();
+      const syncRes = syncMonthlyStudentLedgersAndPriorPayments({
+        dbData,
+        student: newStudent,
+        currentMonth,
+        todayStr,
+        currentMonthLabel: await getMonthLabel(currentMonth),
+      });
+      priorPaidCount = syncRes.priorMonthsAutoPaid;
+      currentMonthLabel = syncRes.currentMonthLabel;
     }
 
     await saveDatabase(dbData);
 
     return {
       success: true,
-      message: `Student "${newStudent.name}" enrolled successfully with Roll No: ${newStudent.rollNumber}.${isYearly ? ` Yearly package of ${courseMonths} months auto-set to PAID with ${newStudent.scholarshipPercent}% scholarship applied.` : ''}`,
+      message: `Student "${newStudent.name}" enrolled successfully with Roll No: ${newStudent.rollNumber}.${
+        isYearly
+          ? ` Yearly package of ${courseMonths} months auto-set to PAID with ${newStudent.scholarshipPercent}% scholarship applied.`
+          : priorPaidCount > 0
+            ? ` ${priorPaidCount} prior month(s) auto-collected on due date; ${currentMonthLabel} kept open for manual/online collection.`
+            : ''
+      }`,
       data: newStudent,
     };
   } catch (error: any) {
@@ -1430,9 +1401,17 @@ export async function updateFeeStudent(
       .reduce((sum, s) => sum + (Number(s.fee) || 0), 0);
     const netFee = Math.max(0, baseFee - discountAmount) + totalAddlFee;
 
+    const todayStr = new Date().toISOString().split('T')[0];
+    const normalizedJoiningDate = data.joiningDate
+      ? normalizeIsoDateString(data.joiningDate, current.joiningDate || todayStr)
+      : current.joiningDate;
+    const clampedDueDay = Math.min(31, Math.max(1, Number(data.dueDayOfMonth ?? current.dueDayOfMonth) || 5));
+
     const updatedStudent: FeeStudent = {
       ...current,
       ...data,
+      joiningDate: normalizedJoiningDate,
+      dueDayOfMonth: clampedDueDay,
       baseFee,
       scholarshipPercent,
       discountAmount,
@@ -1444,49 +1423,32 @@ export async function updateFeeStudent(
 
     dbData.students[idx] = updatedStudent;
 
-    // Prune any legacy ledger entries prior to new admission month if admission date was changed
+    // Prune any legacy ledger entries & auto prior-month receipts prior to new admission month if admission date moved forward
     if (data.joiningDate) {
-      const newJoiningMonth = data.joiningDate.slice(0, 7);
+      const newJoiningMonth = normalizedJoiningDate.slice(0, 7);
       dbData.ledger = dbData.ledger.filter(l => !(l.studentId === id && l.month < newJoiningMonth));
+      dbData.payments = dbData.payments.filter(
+        p => !(p.studentId === id && p.transactionRef === 'AUTO-PRIOR-MONTH' && p.month < newJoiningMonth)
+      );
     }
 
-    // Keep active monthly ledgers in sync
+    // Keep active monthly ledgers & prior-month collection in sync
     const currentMonth = await getCurrentMonth();
-    const ledgerIdx = dbData.ledger.findIndex(l => l.studentId === id && l.month === currentMonth);
-    if (ledgerIdx !== -1) {
-      const led = dbData.ledger[ledgerIdx];
-      const newNetDue = netFee + led.carriedForwardDue;
-      const newBalance = Math.max(0, newNetDue - led.paidAmount);
-      const newAdvance = Math.max(0, led.paidAmount - newNetDue);
-      const dayStr = String(data.dueDayOfMonth || updatedStudent.dueDayOfMonth || 5).padStart(2, '0');
-      const todayStr = new Date().toISOString().split('T')[0];
-      const newDueDate = `${currentMonth}-${dayStr}`;
+    const isYearlyUpdated =
+      data.feeType === 'yearly_package' ||
+      Boolean(data.yearlyPackage) ||
+      updatedStudent.feeType === 'yearly_package' ||
+      Boolean(updatedStudent.yearlyPackage);
 
-      let newStatus: LedgerStatus = 'PENDING';
-      if (newBalance === 0 && newAdvance > 0) newStatus = 'ADVANCE';
-      else if (newBalance === 0 && led.paidAmount > 0) newStatus = 'PAID';
-      else if (led.paidAmount > 0 && newBalance > 0) newStatus = 'PARTIAL';
-      else if (todayStr > newDueDate && newBalance > 0) newStatus = 'OVERDUE';
-
-      dbData.ledger[ledgerIdx] = {
-        ...led,
-        branchId: updatedStudent.branchId,
-        classId: updatedStudent.classId,
-        batchId: updatedStudent.batchId,
-        baseAmount: baseFee,
-        discountAmount,
-        netDueAmount: newNetDue,
-        balanceAmount: newBalance,
-        advanceAmount: newAdvance,
-        dueDate: newDueDate,
-        status: newStatus,
-        isOverdue: todayStr > newDueDate && newBalance > 0,
-        updatedAt: new Date().toISOString(),
-      };
-    }
-
-    // If updated to yearly package, ensure course months are created and marked PAID
-    if (data.feeType === 'yearly_package' || data.yearlyPackage || updatedStudent.feeType === 'yearly_package' || Boolean(updatedStudent.yearlyPackage)) {
+    if (!isYearlyUpdated) {
+      syncMonthlyStudentLedgersAndPriorPayments({
+        dbData,
+        student: updatedStudent,
+        currentMonth,
+        todayStr,
+        currentMonthLabel: await getMonthLabel(currentMonth),
+      });
+    } else {
       const courseMonths = Math.max(1, Number(data.yearlyPackage?.courseMonths || updatedStudent.yearlyPackage?.courseMonths) || 12);
       const startMonth = (updatedStudent.joiningDate || current.joiningDate || '2026-11-01').slice(0, 7);
       const joinDay = parseInt((updatedStudent.joiningDate || current.joiningDate || '2026-11-01').split('-')[2], 10) || 1;
@@ -2114,9 +2076,13 @@ export async function deleteStudentFromMonth(
   month: string
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = await loadDatabase({ forceFresh: true });
     const student = dbData.students.find(s => s.id === studentId);
     if (!student) return { success: false, message: 'Student not found.' };
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(student.branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Student belongs to a different branch.' };
+    }
 
     const monthLabel = await getMonthLabel(month);
 
@@ -2155,9 +2121,13 @@ export async function restoreStudentToMonth(
   month: string
 ): Promise<{ success: boolean; message: string }> {
   try {
+    const adminCtx = await getServerAdminContext();
     const dbData = await loadDatabase({ forceFresh: true });
     const student = dbData.students.find(s => s.id === studentId);
     if (!student) return { success: false, message: 'Student not found.' };
+    if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(student.branchId, adminCtx.branchId)) {
+      return { success: false, message: 'Forbidden: Student belongs to a different branch.' };
+    }
 
     const monthLabel = await getMonthLabel(month);
 
@@ -2167,8 +2137,8 @@ export async function restoreStudentToMonth(
     student.updatedAt = new Date().toISOString();
     await saveDatabase(dbData);
 
-    // Reconstruct monthly ledger for this month
-    await getMonthlyLedger(month);
+    // Reconstruct monthly ledger for this month cleanly
+    await getMonthlyLedger(month, { branchId: student.branchId, forceFresh: true });
 
     return {
       success: true,
@@ -2216,6 +2186,7 @@ export async function getMonthlyLedger(
     classId?: string;
     batchId?: string;
     status?: LedgerStatus;
+    forceFresh?: boolean;
   }
 ): Promise<{ success: boolean; data: (FeeLedgerEntry & { student: FeeStudent })[] }> {
   try {
@@ -2223,7 +2194,7 @@ export async function getMonthlyLedger(
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: filters?.forceFresh });
     const currentMonth = await getCurrentMonth();
     // Clamp to current month so future months cannot be accessed
     const effectiveMonth = month > currentMonth ? currentMonth : month;
@@ -2305,8 +2276,7 @@ export async function getMonthlyLedger(
 
         if (!entry) {
           const curMLabel = await getMonthLabel(curM);
-          const dayStr = String(student.dueDayOfMonth).padStart(2, '0');
-          const dueDate = `${curM}-${dayStr}`;
+          const dueDate = clampDueDateForMonth(curM, student.dueDayOfMonth || 5);
 
           let paidAmount = 0;
           let advanceAmount = 0;
@@ -2330,7 +2300,7 @@ export async function getMonthlyLedger(
           else if (paidAmount > 0 && balanceAmount > 0) status = 'PARTIAL';
           else if (todayStr > dueDate && balanceAmount > 0) status = 'OVERDUE';
 
-          entry = {
+          const newEntry: FeeLedgerEntry = {
             id: `led-${student.id}-${curM}`,
             studentId: student.id,
             branchId: student.branchId,
@@ -2350,9 +2320,10 @@ export async function getMonthlyLedger(
             isOverdue: todayStr > dueDate && balanceAmount > 0,
             updatedAt: new Date().toISOString(),
           };
+          entry = newEntry;
 
-          if (!dbData.ledger.some(l => l.id === entry.id || (l.studentId === student.id && l.month === curM))) {
-            dbData.ledger.push(entry);
+          if (!dbData.ledger.some(l => l.id === newEntry.id || (l.studentId === student.id && l.month === curM))) {
+            dbData.ledger.push(newEntry);
             modified = true;
           }
         } else {
@@ -2369,7 +2340,7 @@ export async function getMonthlyLedger(
           // Keep carriedForwardDue and netDueAmount accurately in sync
           if (entry.carriedForwardDue !== carriedForward) {
             entry.carriedForwardDue = carriedForward;
-            entry.netDueAmount = student.netFee + carriedForward;
+            entry.netDueAmount = monthlyNet + carriedForward;
             entry.balanceAmount = Math.max(0, entry.netDueAmount - entry.paidAmount);
             entry.advanceAmount = Math.max(0, entry.paidAmount - entry.netDueAmount);
             if (entry.balanceAmount === 0 && entry.advanceAmount > 0) entry.status = 'ADVANCE';
@@ -2570,8 +2541,8 @@ export async function lookupStudentForFeePayment(
 
     let dueAmount = student.netFee;
     let paidAmount = 0;
-    let status: 'PAID' | 'PENDING' | 'OVERDUE' | 'PARTIAL' = 'PENDING';
-    let dueDate = `${currentMonth}-${String(student.dueDayOfMonth || 5).padStart(2, '0')}`;
+    let status: 'PAID' | 'PENDING' | 'OVERDUE' | 'PARTIAL' = dueAmount === 0 ? 'PAID' : 'PENDING';
+    let dueDate = clampDueDateForMonth(currentMonth, student.dueDayOfMonth || 5);
 
     if (ledgerEntry) {
       dueAmount = Math.max(0, ledgerEntry.balanceAmount !== undefined ? ledgerEntry.balanceAmount : ledgerEntry.netDueAmount);
@@ -2803,13 +2774,14 @@ export async function getFeePayments(filters?: {
   branchId?: string;
   studentId?: string;
   month?: string;
+  forceFresh?: boolean;
 }): Promise<{ success: boolean; data: FeePayment[] }> {
   try {
     const effectiveBranch = await resolveEffectiveFeeBranch(filters?.branchId);
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: filters?.forceFresh });
     let payments = [...dbData.payments];
 
     if (effectiveBranch && effectiveBranch !== 'all') {
@@ -2968,7 +2940,8 @@ export async function markMonthUnpaid(
 
 export async function getFeeDashboardStats(
   month?: string,
-  branchId?: string
+  branchId?: string,
+  options?: { forceFresh?: boolean }
 ): Promise<{ success: boolean; data: FeeDashboardStats }> {
   try {
     const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
@@ -3002,9 +2975,9 @@ export async function getFeeDashboardStats(
     }
 
     // Make sure monthly ledger exists for all branches
-    await getMonthlyLedger(effectiveMonth);
+    await getMonthlyLedger(effectiveMonth, { forceFresh: options?.forceFresh });
 
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: options?.forceFresh });
     // Filter students strictly by admission date (joiningDate <= effectiveMonth) and not excluded for this month
     const allStudentsForMonth = dbData.students.filter(s => {
       const jMonth = (s.joiningDate || '2026-11-01').slice(0, 7);
@@ -3105,6 +3078,8 @@ export async function getFeeDashboardStats(
       const bStudents = dbData.students.filter(s => {
         const bMatch = s.branchId === branch.id || (branch.id === 'mangolpuri' && s.branchId === 'mangol-puri') || (branch.id === 'mangol-puri' && s.branchId === 'mangolpuri');
         if (!bMatch) return false;
+        if (s.excludedMonths?.includes(effectiveMonth)) return false;
+        if (getStudentStatusForMonth(s, effectiveMonth) === 'disabled') return false;
         const jMonth = (s.joiningDate || '2026-11-01').slice(0, 7);
         return jMonth <= effectiveMonth;
       });
@@ -3200,13 +3175,16 @@ export async function getFeeDashboardStats(
 /**
  * Calculates academic year / session performance for all branches and month-by-month trends.
  */
-export async function getBranchYearlyReport(session = '2026-27'): Promise<{
+export async function getBranchYearlyReport(
+  session = '2026-27',
+  options?: { forceFresh?: boolean }
+): Promise<{
   success: boolean;
   data: BranchYearlyReportResult;
 }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = await loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: options?.forceFresh });
 
     // Full Academic Session 2026-27 (12 months: April 2026 to March 2027)
     const sessionMonths = [

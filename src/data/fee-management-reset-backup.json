@@ -1,112 +1,178 @@
 {
-  "savedAt": "2026-11-12T06:54:36.929Z",
+  "savedAt": "2026-11-12T17:53:30.249Z",
   "data": {
     "classes": [
       {
-        "id": "cls-bv-seed-1794466407879",
-        "name": "BV Seed Class 1794466407879",
-        "code": "BVCLS1794466407879",
-        "branchId": "budh-vihar",
+        "id": "cls-1794483582417",
+        "order": 1,
+        "name": "Class 9",
         "academicSession": "2026-27",
-        "division": "SECONDARY",
+        "code": "CLASS9",
+        "defaultMonthlyFee": 0,
+        "branchId": "mangolpuri",
+        "division": "FOUNDATION",
         "description": "",
-        "defaultMonthlyFee": 2000,
-        "order": 99,
-        "createdAt": "2026-11-12T06:53:51.959Z"
+        "createdAt": "2026-11-12T11:39:42.417Z"
+      },
+      {
+        "academicSession": "2026-27",
+        "name": "Class 9",
+        "id": "cls-1794481416254",
+        "order": 1,
+        "description": "",
+        "branchId": "budh-vihar",
+        "division": "FOUNDATION",
+        "code": "CLASS9",
+        "defaultMonthlyFee": 0,
+        "createdAt": "2026-11-12T11:03:36.254Z"
+      },
+      {
+        "createdAt": "2026-11-12T11:03:23.243Z",
+        "description": "",
+        "name": "Class 10",
+        "order": 2,
+        "defaultMonthlyFee": 0,
+        "academicSession": "2026-27",
+        "code": "CLASS10",
+        "division": "FOUNDATION",
+        "branchId": "budh-vihar",
+        "id": "cls-1794481403243"
+      },
+      {
+        "createdAt": "2026-11-12T11:00:32.828Z",
+        "name": "Class 12",
+        "order": 4,
+        "defaultMonthlyFee": 0,
+        "code": "CLASS12",
+        "academicSession": "2026-27",
+        "updatedAt": "2026-11-12T11:00:45.370Z",
+        "description": "",
+        "id": "cls-1794481232828",
+        "division": "SECONDARY",
+        "branchId": "budh-vihar"
       }
     ],
     "batches": [
       {
-        "id": "bat-bv-seed-1794466407879",
-        "classId": "cls-bv-seed-1794466407879",
-        "branchId": "budh-vihar",
-        "name": "BV Seed Batch 1794466407879",
-        "duration": "1 Year (Apr 2026 - Mar 2027)",
-        "classTime": "04:00 PM - 05:00 PM",
+        "endDate": "2027-03-31",
+        "classTime": "5:00 to 6:00",
+        "monthlyFee": 1500,
+        "startDate": "2026-04-01",
+        "courseFee": 18000,
+        "duration": "01 Apr 2026 – 31 Mar 2027",
+        "name": "Batch A3",
+        "id": "batch-1794483744330",
+        "createdAt": "2026-11-12T11:42:24.072Z",
+        "branchId": "mangolpuri",
         "subjects": [
-          "Maths",
-          "Science"
+          "MATH",
+          "SCIENCE",
+          "SOCIAL SCIENCE"
         ],
-        "monthlyFee": 2000,
-        "order": 99,
-        "createdAt": "2026-11-12T06:53:51.960Z"
-      }
-    ],
-    "students": [
-      {
-        "id": "stu-bv-seed-1794466407879",
-        "rollNumber": "IDL-BV-1794466407879",
-        "name": "BV Fee Student 1794466407879",
-        "fatherName": "BV Father",
-        "dob": "2010-01-01",
-        "gender": "female",
-        "address": "Budh Vihar, Delhi",
-        "contact1": "9999001122",
-        "contact2": "9999001133",
-        "fatherContact": "9999001122",
-        "motherContact": "9999001133",
-        "branchId": "budh-vihar",
-        "classId": "cls-bv-seed-1794466407879",
-        "batchId": "bat-bv-seed-1794466407879",
-        "subjects": [
-          "Maths",
-          "Science"
-        ],
-        "joiningDate": "2026-11-01",
-        "dueDayOfMonth": 5,
-        "feeType": "monthly",
-        "paymentCycleMonths": 1,
-        "baseFee": 2000,
-        "scholarshipPercent": 0,
-        "discountAmount": 0,
-        "netFee": 2000,
-        "status": "active",
-        "createdAt": "2026-11-12T06:53:51.960Z",
-        "updatedAt": "2026-11-12T06:53:51.960Z"
-      }
-    ],
-    "ledger": [
-      {
-        "id": "led-stu-1794213160355-2026-11",
-        "studentId": "stu-1794213160355",
-        "branchId": "rambagh",
-        "classId": "class-12",
-        "batchId": "batch-cbse-12",
-        "month": "2026-11",
-        "monthLabel": "November 2026",
-        "baseAmount": 3000,
-        "discountAmount": 250,
-        "netDueAmount": 2750,
-        "carriedForwardDue": 0,
-        "paidAmount": 0,
-        "balanceAmount": 2750,
-        "advanceAmount": 0,
-        "dueDate": "2026-11-05",
-        "status": "OVERDUE",
-        "isOverdue": true,
-        "updatedAt": "2026-11-09T08:32:40.378Z"
+        "order": 1,
+        "classId": "cls-1794483582417"
       },
       {
-        "id": "led-stu-bv-seed-1794466407879-2026-11",
-        "studentId": "stu-bv-seed-1794466407879",
+        "name": "Batch A3",
+        "monthlyFee": 1800,
+        "classTime": "04:00 - 06:00",
+        "startDate": "2026-04-01",
+        "classId": "cls-1794481403243",
+        "endDate": "2027-03-31",
+        "courseFee": 21600,
+        "duration": "01 Apr 2026 – 31 Mar 2027",
+        "order": 2,
         "branchId": "budh-vihar",
-        "classId": "cls-bv-seed-1794466407879",
-        "batchId": "bat-bv-seed-1794466407879",
-        "month": "2026-11",
-        "monthLabel": "November 2026",
-        "baseAmount": 2000,
-        "discountAmount": 0,
-        "netDueAmount": 2000,
-        "carriedForwardDue": 0,
-        "paidAmount": 0,
-        "balanceAmount": 2000,
-        "advanceAmount": 0,
-        "dueDate": "2026-11-05",
-        "status": "OVERDUE",
-        "isOverdue": true,
-        "updatedAt": "2026-11-12T06:53:53.881Z"
+        "id": "batch-1794481857017",
+        "subjects": [
+          "Maths",
+          "Science",
+          "English/Socil Studies"
+        ],
+        "createdAt": "2026-11-12T11:10:56.723Z"
+      },
+      {
+        "startDate": "2026-04-01",
+        "classId": "cls-1794481403243",
+        "duration": "01 Apr 2026 – 31 Mar 2027",
+        "id": "batch-1794481728396",
+        "classTime": "04:00 - 06:00",
+        "subjects": [
+          "Maths",
+          "Science",
+          "English",
+          "Socil Studies"
+        ],
+        "monthlyFee": 2400,
+        "order": 1,
+        "branchId": "budh-vihar",
+        "name": "Batch A1",
+        "createdAt": "2026-11-12T11:08:48.174Z",
+        "courseFee": 28800,
+        "endDate": "2027-03-31"
+      },
+      {
+        "updatedAt": "2026-11-12T11:11:13.809Z",
+        "endDate": "2027-03-31",
+        "classTime": "04:00 - 06:00",
+        "order": 2,
+        "startDate": "2026-04-01",
+        "name": "Batch A3",
+        "courseFee": 21600,
+        "duration": "01 Apr 2026 – 31 Mar 2027",
+        "subjects": [
+          "Maths",
+          "Science",
+          "English/Socil Studies"
+        ],
+        "classId": "cls-1794481416254",
+        "createdAt": "2026-11-12T11:07:33.758Z",
+        "branchId": "budh-vihar",
+        "id": "batch-1794481653983",
+        "monthlyFee": 1800
+      },
+      {
+        "branchId": "budh-vihar",
+        "subjects": [
+          "Maths",
+          "Science",
+          "English",
+          "Socil Studies"
+        ],
+        "endDate": "2027-03-31",
+        "updatedAt": "2026-11-12T11:05:26.694Z",
+        "id": "batch-1794481494384",
+        "classTime": "04:00 - 06:00",
+        "startDate": "2026-04-01",
+        "duration": "01 Apr 2026 – 31 Mar 2027",
+        "order": 1,
+        "name": "Batch A1",
+        "monthlyFee": 2400,
+        "courseFee": 28800,
+        "createdAt": "2026-11-12T11:04:54.145Z",
+        "classId": "cls-1794481416254"
+      },
+      {
+        "updatedAt": "2026-11-12T11:02:55.743Z",
+        "classTime": "04:00 - 06:00",
+        "monthlyFee": 1000,
+        "order": 1,
+        "classId": "cls-1794481232828",
+        "startDate": "2026-04-01",
+        "id": "batch-1794481309216",
+        "branchId": "budh-vihar",
+        "subjects": [
+          "Economics"
+        ],
+        "endDate": "2027-03-31",
+        "courseFee": 12000,
+        "createdAt": "2026-11-12T11:01:48.992Z",
+        "name": "ECO",
+        "duration": "01 Apr 2026 – 31 Mar 2027"
       }
     ],
+    "students": [],
+    "ledger": [],
     "payments": []
   }
 }
