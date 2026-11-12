@@ -262,12 +262,24 @@ export function FeesClient({
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [ledgerStatusFilter, setLedgerStatusFilter] = useState<string>('all');
 
+  const dedupeLedgerRows = (rows: (FeeLedgerEntry & { student: FeeStudent })[]) => {
+    const seen = new Set<string>();
+    const out: (FeeLedgerEntry & { student: FeeStudent })[] = [];
+    for (const r of rows || []) {
+      const k = r.id || `${r.studentId}-${r.month}`;
+      if (seen.has(k)) continue;
+      seen.add(k);
+      out.push(r);
+    }
+    return out;
+  };
+
   // Live Data States
   const [stats, setStats] = useState<FeeDashboardStats>(initialStats);
   const [classes, setClasses] = useState<FeeClass[]>(initialClasses);
   const [batches, setBatches] = useState<FeeBatch[]>(initialBatches);
   const [students, setStudents] = useState<FeeStudent[]>(initialStudents);
-  const [ledger, setLedger] = useState<(FeeLedgerEntry & { student: FeeStudent })[]>(initialLedger);
+  const [ledger, setLedger] = useState<(FeeLedgerEntry & { student: FeeStudent })[]>(() => dedupeLedgerRows(initialLedger));
   const [monthPayments, setMonthPayments] = useState<FeePayment[]>(initialPayments);
 
   // Academic session months strictly from 1 April 2026 up to current month (future months locked)
@@ -318,8 +330,11 @@ export function FeesClient({
     recentPayments: [],
   });
 
+  const refreshSeqRef = useRef<number>(0);
+
   // Refresh data function
   const refreshAllData = (month = selectedMonth, branch = selectedBranch) => {
+    const seq = ++refreshSeqRef.current;
     if (!branch || branch === 'none') {
       setStats(prev => emptyStatsForMonth(month, month === prev.currentMonth ? prev.currentMonthLabel : undefined));
       setClasses([]);
@@ -331,7 +346,7 @@ export function FeesClient({
       setSelectedStudentProfile(null);
       getResetBackupStatus()
         .then(status => {
-          if (status?.success) setResetBackupStatus(status);
+          if (seq === refreshSeqRef.current && status?.success) setResetBackupStatus(status);
         })
         .catch(() => {});
       return;
@@ -352,6 +367,8 @@ export function FeesClient({
           getResetBackupStatus(),
         ]);
 
+        if (seq !== refreshSeqRef.current) return;
+
         if (newStats?.success) setStats(newStats.data);
         if (newClasses?.success) setClasses(newClasses.data);
         if (newBatches?.success) setBatches(newBatches.data);
@@ -363,7 +380,7 @@ export function FeesClient({
             return updated || prev;
           });
         }
-        if (newLedger?.success) setLedger(newLedger.data);
+        if (newLedger?.success) setLedger(dedupeLedgerRows(newLedger.data));
         if (newYearly?.success) setYearlyReport(newYearly.data);
         if (newPayments?.success) setMonthPayments(newPayments.data);
         if (backupStatus?.success) setResetBackupStatus(backupStatus);

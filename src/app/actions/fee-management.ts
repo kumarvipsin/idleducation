@@ -9,6 +9,7 @@ import {
   doc,
   getDocs,
   getDoc,
+  setDoc,
   addDoc,
   updateDoc,
   deleteDoc,
@@ -87,19 +88,54 @@ export interface ResetBackupStatus {
   message?: string;
 }
 
-function loadDatabase(): FeeDatabase {
+const FEE_DB_COLLECTION = 'feeManagement';
+const FEE_DB_DOC_KEYS = ['classes', 'batches', 'students', 'ledger', 'payments'] as const;
+const FEE_RESET_BACKUP_DOC_ID = 'resetBackup';
+const FEE_DB_CACHE_TTL_MS = 2000;
+
+let feeDbCache: { data: FeeDatabase; loadedAt: number } | null = null;
+let feeDbInFlight: Promise<FeeDatabase> | null = null;
+
+function emptyFeeDatabase(): FeeDatabase {
+  return {
+    classes: [],
+    batches: [],
+    students: [],
+    ledger: [],
+    payments: [],
+  };
+}
+
+function invalidateFeeDbCache(): void {
+  feeDbCache = null;
+  feeDbInFlight = null;
+}
+
+function stripUndefinedDeep<T>(value: T): T {
+  if (Array.isArray(value)) {
+    return value
+      .filter((item) => item !== undefined)
+      .map((item) => stripUndefinedDeep(item)) as unknown as T;
+  }
+  if (value && typeof value === 'object') {
+    const out: Record<string, unknown> = {};
+    for (const [key, val] of Object.entries(value as Record<string, unknown>)) {
+      if (val !== undefined) {
+        out[key] = stripUndefinedDeep(val);
+      }
+    }
+    return out as T;
+  }
+  if (typeof value === 'number' && !Number.isFinite(value)) {
+    return 0 as unknown as T;
+  }
+  return value;
+}
+
+function loadDatabaseFromDisk(): FeeDatabase {
   try {
     if (!fs.existsSync(DB_PATH)) {
-      const initial: FeeDatabase = {
-        classes: [],
-        batches: [],
-        students: [],
-        ledger: [],
-        payments: [],
-      };
-      fs.mkdirSync(path.dirname(DB_PATH), { recursive: true });
-      fs.writeFileSync(DB_PATH, JSON.stringify(initial, null, 2), 'utf-8');
-      return initial;
+      return emptyFeeDatabase();
     }
     const raw = fs.readFileSync(DB_PATH, 'utf-8');
     const parsed = JSON.parse(raw);
@@ -111,15 +147,93 @@ function loadDatabase(): FeeDatabase {
       payments: parsed.payments || [],
     };
   } catch (err) {
-    console.error('Failed to load fee database from file, fallback:', err);
-    return {
-      classes: [],
-      batches: [],
-      students: [],
-      ledger: [],
-      payments: [],
-    };
+    console.error('Failed to load fee database from disk mirror:', err);
+    return emptyFeeDatabase();
   }
+}
+
+async function persistDatabaseToFirestore(data: FeeDatabase): Promise<FeeDatabase> {
+  const normalized = normalizeDatabase(data);
+  const sanitized = stripUndefinedDeep(normalized);
+  const nowIso = new Date().toISOString();
+
+  await Promise.all(
+    FEE_DB_DOC_KEYS.map((key) =>
+      setDoc(doc(db, FEE_DB_COLLECTION, key), {
+        items: sanitized[key],
+        updatedAt: nowIso,
+      })
+    )
+  );
+
+  feeDbCache = { data: normalized, loadedAt: Date.now() };
+  return normalized;
+}
+
+function cloneFeeDatabase(data: FeeDatabase): FeeDatabase {
+  return {
+    classes: data.classes.map((c) => ({ ...c })),
+    batches: data.batches.map((b) => ({ ...b })),
+    students: data.students.map((s) => ({ ...s })),
+    ledger: data.ledger.map((l) => ({ ...l })),
+    payments: data.payments.map((p) => ({ ...p })),
+  };
+}
+
+async function loadDatabase(options?: { forceFresh?: boolean }): Promise<FeeDatabase> {
+  const forceFresh = Boolean(options?.forceFresh);
+  if (!forceFresh && feeDbCache && Date.now() - feeDbCache.loadedAt < FEE_DB_CACHE_TTL_MS) {
+    return cloneFeeDatabase(feeDbCache.data);
+  }
+  if (!forceFresh && feeDbInFlight) {
+    const shared = await feeDbInFlight;
+    return cloneFeeDatabase(shared);
+  }
+
+  const fetchPromise = (async (): Promise<FeeDatabase> => {
+    try {
+      const snaps = await Promise.all(
+        FEE_DB_DOC_KEYS.map((key) => getDoc(doc(db, FEE_DB_COLLECTION, key)))
+      );
+
+      const anyExists = snaps.some((snap) => snap.exists());
+      if (!anyExists) {
+        const diskSeed = normalizeDatabase(loadDatabaseFromDisk());
+        if (hasDatabaseData(summarizeDatabase(diskSeed))) {
+          await persistDatabaseToFirestore(diskSeed);
+          return diskSeed;
+        }
+        const empty = emptyFeeDatabase();
+        feeDbCache = { data: empty, loadedAt: Date.now() };
+        return empty;
+      }
+
+      const loaded: FeeDatabase = {
+        classes: snaps[0].exists() && Array.isArray(snaps[0].data()?.items) ? snaps[0].data()!.items : [],
+        batches: snaps[1].exists() && Array.isArray(snaps[1].data()?.items) ? snaps[1].data()!.items : [],
+        students: snaps[2].exists() && Array.isArray(snaps[2].data()?.items) ? snaps[2].data()!.items : [],
+        ledger: snaps[3].exists() && Array.isArray(snaps[3].data()?.items) ? snaps[3].data()!.items : [],
+        payments: snaps[4].exists() && Array.isArray(snaps[4].data()?.items) ? snaps[4].data()!.items : [],
+      };
+      const normalized = normalizeDatabase(loaded);
+      feeDbCache = { data: normalized, loadedAt: Date.now() };
+      return normalized;
+    } catch (err) {
+      console.error('Failed to load fee database from Firestore:', err);
+      const diskFallback = normalizeDatabase(loadDatabaseFromDisk());
+      return diskFallback;
+    } finally {
+      if (!forceFresh) {
+        feeDbInFlight = null;
+      }
+    }
+  })();
+
+  if (!forceFresh) {
+    feeDbInFlight = fetchPromise;
+  }
+  const result = await fetchPromise;
+  return cloneFeeDatabase(result);
 }
 
 /**
@@ -152,13 +266,51 @@ function hasDatabaseData(counts: FeeDatabaseCounts): boolean {
   );
 }
 
+function dedupeById<T extends { id?: string }>(items: unknown): T[] {
+  if (!Array.isArray(items)) return [];
+  const seen = new Set<string>();
+  const out: T[] = [];
+  for (const item of items) {
+    if (!item || typeof item !== 'object') continue;
+    const id = (item as T).id;
+    if (typeof id === 'string' && id) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+    }
+    out.push(item as T);
+  }
+  return out;
+}
+
+function dedupeLedgerEntries(items: unknown): FeeLedgerEntry[] {
+  if (!Array.isArray(items)) return [];
+  const byKey = new Map<string, FeeLedgerEntry>();
+  for (const rawItem of items) {
+    if (!rawItem || typeof rawItem !== 'object') continue;
+    const entry = rawItem as FeeLedgerEntry;
+    const key = entry.studentId && entry.month ? `${entry.studentId}::${entry.month}` : entry.id;
+    if (!key) continue;
+    const existing = byKey.get(key);
+    if (!existing) {
+      byKey.set(key, entry);
+      continue;
+    }
+    const existingScore = (existing.paidAmount || 0) + (existing.status === 'PAID' || existing.status === 'ADVANCE' ? 100000 : 0);
+    const nextScore = (entry.paidAmount || 0) + (entry.status === 'PAID' || entry.status === 'ADVANCE' ? 100000 : 0);
+    if (nextScore > existingScore) {
+      byKey.set(key, entry);
+    }
+  }
+  return Array.from(byKey.values());
+}
+
 function normalizeDatabase(raw: Partial<FeeDatabase> | null | undefined): FeeDatabase {
   return {
-    classes: Array.isArray(raw?.classes) ? raw.classes : [],
-    batches: Array.isArray(raw?.batches) ? raw.batches : [],
-    students: Array.isArray(raw?.students) ? raw.students : [],
-    ledger: Array.isArray(raw?.ledger) ? raw.ledger : [],
-    payments: Array.isArray(raw?.payments) ? raw.payments : [],
+    classes: dedupeById<FeeClass>(raw?.classes),
+    batches: dedupeById<FeeBatch>(raw?.batches),
+    students: dedupeById<FeeStudent>(raw?.students),
+    ledger: dedupeLedgerEntries(raw?.ledger),
+    payments: dedupeById<FeePayment>(raw?.payments),
   };
 }
 
@@ -179,11 +331,52 @@ function readResetBackupFile(): FeeResetBackupFile | null {
   }
 }
 
-function saveDatabase(data: FeeDatabase): void {
+async function saveDatabase(data: FeeDatabase): Promise<void> {
+  invalidateFeeDbCache();
+  const normalized = await persistDatabaseToFirestore(data);
+  // Keep local JSON mirror only as non-fatal dev convenience; deployed App Hosting containers can have read-only/ephemeral FS.
   try {
-    writeJsonAtomic(DB_PATH, data);
+    writeJsonAtomic(DB_PATH, normalized);
+  } catch {
+    // Non-fatal mirror failure in serverless/standalone runtime
+  }
+}
+
+async function loadResetBackup(): Promise<FeeResetBackupFile | null> {
+  try {
+    const snap = await getDoc(doc(db, FEE_DB_COLLECTION, FEE_RESET_BACKUP_DOC_ID));
+    if (snap.exists()) {
+      const parsed = snap.data() as Partial<FeeResetBackupFile>;
+      const normalizedData = normalizeDatabase(parsed?.data);
+      if (hasDatabaseData(summarizeDatabase(normalizedData))) {
+        return {
+          savedAt: typeof parsed?.savedAt === 'string' && parsed.savedAt ? parsed.savedAt : new Date().toISOString(),
+          data: normalizedData,
+        };
+      }
+    }
   } catch (err) {
-    console.error('Failed to save fee database to disk:', err);
+    console.error('Failed to read reset backup from Firestore:', err);
+  }
+
+  const diskBackup = readResetBackupFile();
+  if (diskBackup) {
+    try {
+      await setDoc(doc(db, FEE_DB_COLLECTION, FEE_RESET_BACKUP_DOC_ID), stripUndefinedDeep(diskBackup));
+    } catch {
+      // Non-fatal seed sync
+    }
+    return diskBackup;
+  }
+  return null;
+}
+
+async function saveResetBackup(payload: FeeResetBackupFile): Promise<void> {
+  await setDoc(doc(db, FEE_DB_COLLECTION, FEE_RESET_BACKUP_DOC_ID), stripUndefinedDeep(payload));
+  try {
+    writeJsonAtomic(RESET_BACKUP_PATH, payload);
+  } catch {
+    // Non-fatal mirror failure
   }
 }
 
@@ -280,7 +473,7 @@ export async function clearAllFeeData(): Promise<{
     if (adminCtx?.isBranchAdmin) {
       return { success: false, message: 'Forbidden: Only Super Admin can reset system fee data.' };
     }
-    const currentDb = normalizeDatabase(loadDatabase());
+    const currentDb = normalizeDatabase(await loadDatabase({ forceFresh: true }));
     const counts = summarizeDatabase(currentDb);
     let backupSaved = false;
 
@@ -291,17 +484,11 @@ export async function clearAllFeeData(): Promise<{
         savedAt: new Date().toISOString(),
         data: currentDb,
       };
-      writeJsonAtomic(RESET_BACKUP_PATH, backupPayload);
+      await saveResetBackup(backupPayload);
       backupSaved = true;
     }
 
-    writeJsonAtomic(DB_PATH, {
-      classes: [],
-      batches: [],
-      students: [],
-      ledger: [],
-      payments: [],
-    });
+    await saveDatabase(emptyFeeDatabase());
 
     return {
       success: true,
@@ -317,7 +504,7 @@ export async function clearAllFeeData(): Promise<{
 
 export async function getResetBackupStatus(): Promise<ResetBackupStatus> {
   try {
-    const backup = readResetBackupFile();
+    const backup = await loadResetBackup();
     if (!backup) {
       return { success: true, hasBackup: false };
     }
@@ -346,7 +533,7 @@ export async function restoreResetFeeData(): Promise<{
     if (adminCtx?.isBranchAdmin) {
       return { success: false, message: 'Forbidden: Only Super Admin can restore system fee data.' };
     }
-    const backup = readResetBackupFile();
+    const backup = await loadResetBackup();
     if (!backup) {
       return {
         success: false,
@@ -354,7 +541,7 @@ export async function restoreResetFeeData(): Promise<{
       };
     }
 
-    writeJsonAtomic(DB_PATH, backup.data);
+    await saveDatabase(backup.data);
     const counts = summarizeDatabase(backup.data);
 
     return {
@@ -381,7 +568,7 @@ export async function getFeeClasses(branchId?: string): Promise<{ success: boole
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     let classes = [...dbData.classes];
     if (effectiveBranch && effectiveBranch !== 'all') {
       classes = classes.filter(c => feeRecordMatchesBranch(c.branchId, effectiveBranch));
@@ -444,9 +631,9 @@ export async function createFeeClass(data: {
       createdAt: new Date().toISOString(),
     };
 
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     dbData.classes.unshift(newClass);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -465,7 +652,7 @@ export async function updateFeeClass(
 ): Promise<{ success: boolean; message: string }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.classes.findIndex(c => c.id === id);
     if (idx === -1) return { success: false, message: 'Class not found.' };
     if (adminCtx?.isBranchAdmin && !feeRecordMatchesBranch(dbData.classes[idx].branchId, adminCtx.branchId)) {
@@ -487,7 +674,7 @@ export async function updateFeeClass(
       order: data.order !== undefined ? (data.order !== null && !isNaN(Number(data.order)) ? Number(data.order) : undefined) : dbData.classes[idx].order,
       updatedAt: new Date().toISOString(),
     };
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return { success: true, message: 'Class updated successfully.' };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to update class.' };
@@ -497,7 +684,7 @@ export async function updateFeeClass(
 export async function deleteFeeClass(id: string): Promise<{ success: boolean; message: string }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const target = dbData.classes.find(c => c.id === id);
     if (adminCtx?.isBranchAdmin && (!target || !feeRecordMatchesBranch(target.branchId, adminCtx.branchId))) {
       return { success: false, message: 'Forbidden: Class belongs to a different branch.' };
@@ -513,7 +700,7 @@ export async function deleteFeeClass(id: string): Promise<{ success: boolean; me
     }
 
     dbData.classes = dbData.classes.filter(c => c.id !== id);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return { success: true, message: 'Class deleted successfully.' };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to delete class.' };
@@ -533,7 +720,7 @@ export async function getFeeBatches(
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     let batches = [...dbData.batches];
     if (classId && classId !== 'all') {
       batches = batches.filter(b => b.classId === classId);
@@ -576,7 +763,7 @@ export async function createFeeBatch(data: {
   createdAt?: string;
 }): Promise<{ success: boolean; message: string; data?: FeeBatch }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const targetCls = dbData.classes.find(c => c.id === data.classId);
     const rawBranch = targetCls?.branchId || data.branchId || 'mukherjee-nagar';
     const normBranch = normalizeBranchId(rawBranch);
@@ -605,7 +792,7 @@ export async function createFeeBatch(data: {
     };
 
     dbData.batches.unshift(newBatch);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -622,7 +809,7 @@ export async function updateFeeBatch(
   data: Partial<FeeBatch>
 ): Promise<{ success: boolean; message: string }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.batches.findIndex(b => b.id === id);
     if (idx === -1) return { success: false, message: 'Batch not found.' };
 
@@ -807,7 +994,7 @@ export async function updateFeeBatch(
       });
     }
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     const syncNote = updatedStudentCount > 0
       ? ` Changes automatically synced to ${updatedStudentCount} enrolled student${updatedStudentCount > 1 ? 's' : ''}.`
@@ -825,7 +1012,7 @@ export async function updateFeeBatch(
 export async function deleteFeeBatch(id: string): Promise<{ success: boolean; message: string }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const targetBatch = dbData.batches.find(b => b.id === id);
     if (adminCtx?.isBranchAdmin && (!targetBatch || !feeRecordMatchesBranch(targetBatch.branchId, adminCtx.branchId))) {
       return { success: false, message: 'Forbidden: Batch belongs to a different branch.' };
@@ -839,7 +1026,7 @@ export async function deleteFeeBatch(id: string): Promise<{ success: boolean; me
     }
 
     dbData.batches = dbData.batches.filter(b => b.id !== id);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return { success: true, message: 'Batch deleted successfully.' };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to delete batch.' };
@@ -863,7 +1050,7 @@ export async function getFeeStudents(filters?: {
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     let students = [...dbData.students];
 
     // Filter by admission month and exclusions if month filter is provided
@@ -994,7 +1181,7 @@ export async function createFeeStudent(data: {
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const targetCls = dbData.classes.find(c => c.id === data.classId);
     const rawBranch = data.branchId || targetCls?.branchId || 'mukherjee-nagar';
     const normBranch = normalizeBranchId(rawBranch);
@@ -1195,7 +1382,7 @@ export async function createFeeStudent(data: {
       dbData.ledger.unshift(newLedgerEntry);
     }
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -1213,7 +1400,7 @@ export async function updateFeeStudent(
 ): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.students.findIndex(s => s.id === id);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
@@ -1381,7 +1568,7 @@ export async function updateFeeStudent(
       }
     }
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return { success: true, message: 'Student details updated successfully.', data: updatedStudent };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to update student.' };
@@ -1399,7 +1586,7 @@ export async function addStudentAdditionalSubject(data: {
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.students.findIndex(s => s.id === data.studentId);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
@@ -1451,7 +1638,7 @@ export async function addStudentAdditionalSubject(data: {
       };
     }
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return { success: true, message: `Added ${newSub.name} (+₹${newSub.fee}/mo) successfully.`, data: updatedStudent };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to add additional subject.' };
@@ -1469,7 +1656,7 @@ export async function removeStudentAdditionalSubject(data: {
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.students.findIndex(s => s.id === data.studentId);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
@@ -1528,7 +1715,7 @@ export async function removeStudentAdditionalSubject(data: {
       };
     }
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return {
       success: true,
       message: `Removed ${sub.name} starting from ${await getMonthLabel(effectiveMonth)}. History preserved.`,
@@ -1557,7 +1744,7 @@ export async function transferFeeStudent(data: {
 }): Promise<{ success: boolean; message: string; data?: FeeStudent }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.students.findIndex(s => s.id === data.studentId);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
@@ -1675,7 +1862,7 @@ export async function transferFeeStudent(data: {
       c.studentCount = dbData.students.filter(s => s.classId === c.id && s.status === 'active').length;
     });
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -1702,7 +1889,7 @@ export async function collectYearlyPackagePayment(data: {
   receipt?: FeePayment;
 }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const student = dbData.students.find(s => s.id === data.studentId);
     if (!student) return { success: false, message: 'Student not found.' };
 
@@ -1811,7 +1998,7 @@ export async function collectYearlyPackagePayment(data: {
     };
     dbData.payments.unshift(newPayment);
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return {
       success: true,
       message: `Yearly package of ₹${totalFee.toLocaleString('en-IN')} recorded successfully. All ${courseMonths} months set to PAID with ${scholarshipPercent}% Scholarship applied.`,
@@ -1832,7 +2019,7 @@ export async function toggleStudentStatus(
   }
 ): Promise<{ success: boolean; message: string }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.students.findIndex(s => s.id === id);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
@@ -1907,7 +2094,7 @@ export async function toggleStudentStatus(
     }
 
     student.updatedAt = now;
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     const actionWord = newStatus === 'disabled' ? 'PAUSED' : 'ACTIVATED';
     const scopeWord = mode === 'all_months' ? 'sabhi mahino ke liye' : `${monthLabel} se aage ke liye`;
@@ -1927,7 +2114,7 @@ export async function deleteStudentFromMonth(
   month: string
 ): Promise<{ success: boolean; message: string }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const student = dbData.students.find(s => s.id === studentId);
     if (!student) return { success: false, message: 'Student not found.' };
 
@@ -1951,7 +2138,7 @@ export async function deleteStudentFromMonth(
       p => !(p.studentId === studentId && p.month === month)
     );
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -1968,7 +2155,7 @@ export async function restoreStudentToMonth(
   month: string
 ): Promise<{ success: boolean; message: string }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const student = dbData.students.find(s => s.id === studentId);
     if (!student) return { success: false, message: 'Student not found.' };
 
@@ -1978,7 +2165,7 @@ export async function restoreStudentToMonth(
       student.excludedMonths = student.excludedMonths.filter(m => m !== month);
     }
     student.updatedAt = new Date().toISOString();
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     // Reconstruct monthly ledger for this month
     await getMonthlyLedger(month);
@@ -1996,7 +2183,7 @@ export async function restoreStudentToMonth(
 export async function deleteFeeStudent(id: string): Promise<{ success: boolean; message: string }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const idx = dbData.students.findIndex(s => s.id === id);
     if (idx === -1) return { success: false, message: 'Student not found.' };
 
@@ -2007,7 +2194,7 @@ export async function deleteFeeStudent(id: string): Promise<{ success: boolean; 
     dbData.students = dbData.students.filter(s => s.id !== id);
     dbData.ledger = dbData.ledger.filter(l => l.studentId !== id);
     dbData.payments = dbData.payments.filter(p => p.studentId !== id);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -2036,7 +2223,7 @@ export async function getMonthlyLedger(
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     const currentMonth = await getCurrentMonth();
     // Clamp to current month so future months cannot be accessed
     const effectiveMonth = month > currentMonth ? currentMonth : month;
@@ -2164,8 +2351,10 @@ export async function getMonthlyLedger(
             updatedAt: new Date().toISOString(),
           };
 
-          dbData.ledger.push(entry);
-          modified = true;
+          if (!dbData.ledger.some(l => l.id === entry.id || (l.studentId === student.id && l.month === curM))) {
+            dbData.ledger.push(entry);
+            modified = true;
+          }
         } else {
           // If unpaid entry exists, keep netDueAmount synced with additional fee for that month
           if (entry.paidAmount === 0 && entry.status !== 'PAID') {
@@ -2237,7 +2426,7 @@ export async function getMonthlyLedger(
     }
 
     if (modified) {
-      saveDatabase(dbData);
+      await saveDatabase(dbData);
     }
 
     // Filter ledgers
@@ -2329,7 +2518,7 @@ export async function lookupStudentForFeePayment(
       return { success: false, message: 'Kripya apna 10-digit registered primary mobile number enter karein.' };
     }
 
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     const cleanQId = qId.replace(/[^a-z0-9]/g, '');
 
     const student = dbData.students.find(s => {
@@ -2480,7 +2669,7 @@ export async function collectFeePayment(data: {
   updatedLedger?: FeeLedgerEntry;
 }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const amount = Number(data.amount);
     if (amount <= 0) {
       return { success: false, message: 'Payment amount must be greater than zero.' };
@@ -2566,7 +2755,7 @@ export async function collectFeePayment(data: {
     };
 
     dbData.payments.unshift(newPayment);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -2585,7 +2774,7 @@ export async function updatePaymentDate(
   newPaymentDate: string
 ): Promise<{ success: boolean; message: string; updatedPayment?: FeePayment }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const payment = dbData.payments.find(p => p.id === paymentId);
     if (!payment) return { success: false, message: 'Receipt not found.' };
 
@@ -2599,7 +2788,7 @@ export async function updatePaymentDate(
       ledger.updatedAt = new Date().toISOString();
     }
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
     return {
       success: true,
       message: `Receipt ${payment.receiptNumber} ki collection date badal kar "${newPaymentDate}" kar di gayi hai (Purani date: ${oldDate}).`,
@@ -2620,7 +2809,7 @@ export async function getFeePayments(filters?: {
     if (isEmptyBranchSelection(effectiveBranch)) {
       return { success: true, data: [] };
     }
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     let payments = [...dbData.payments];
 
     if (effectiveBranch && effectiveBranch !== 'all') {
@@ -2667,7 +2856,7 @@ export async function revertFeePayment(paymentId: string): Promise<{
   updatedLedger?: FeeLedgerEntry;
 }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const paymentIndex = dbData.payments.findIndex(p => p.id === paymentId);
     if (paymentIndex === -1) {
       return { success: false, message: 'Payment receipt not found.' };
@@ -2710,7 +2899,7 @@ export async function revertFeePayment(paymentId: string): Promise<{
 
     // Remove the payment from payments array
     dbData.payments.splice(paymentIndex, 1);
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -2732,7 +2921,7 @@ export async function markMonthUnpaid(
   updatedLedger?: FeeLedgerEntry;
 }> {
   try {
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase({ forceFresh: true });
     const student = dbData.students.find(s => s.id === studentId);
     const studentName = student?.name || 'Student';
 
@@ -2760,7 +2949,7 @@ export async function markMonthUnpaid(
     );
     const removedCount = countBefore - dbData.payments.length;
 
-    saveDatabase(dbData);
+    await saveDatabase(dbData);
 
     return {
       success: true,
@@ -2815,7 +3004,7 @@ export async function getFeeDashboardStats(
     // Make sure monthly ledger exists for all branches
     await getMonthlyLedger(effectiveMonth);
 
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
     // Filter students strictly by admission date (joiningDate <= effectiveMonth) and not excluded for this month
     const allStudentsForMonth = dbData.students.filter(s => {
       const jMonth = (s.joiningDate || '2026-11-01').slice(0, 7);
@@ -3017,7 +3206,7 @@ export async function getBranchYearlyReport(session = '2026-27'): Promise<{
 }> {
   try {
     const adminCtx = await getServerAdminContext();
-    const dbData = loadDatabase();
+    const dbData = await loadDatabase();
 
     // Full Academic Session 2026-27 (12 months: April 2026 to March 2027)
     const sessionMonths = [
