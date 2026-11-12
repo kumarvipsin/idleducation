@@ -175,6 +175,12 @@ export async function clearServerUserSessionCookie(): Promise<void> {
   }
 }
 
+const ADMIN_CTX_CACHE = new Map<
+  string,
+  { ctx: ServerAdminContext | null; expiresAt: number }
+>();
+const ADMIN_CTX_CACHE_TTL_MS = 30 * 1000;
+
 /**
  * Resolves the authoritative admin context from Firestore for a verified UID.
  * Never trusts client-provided branchId or role values.
@@ -185,12 +191,22 @@ export async function resolveAdminContextForUid(
 ): Promise<ServerAdminContext | null> {
   if (!uid) return null;
 
-  const superAdminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aksias.sos@outlook.com').toLowerCase();
-  const userSnap = await getDoc(doc(db, 'users', uid));
+  const now = Date.now();
+  const cached = ADMIN_CTX_CACHE.get(uid);
+  if (cached && cached.expiresAt > now) {
+    return cached.ctx;
+  }
 
-  if (!userSnap.exists()) {
+  const superAdminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aksias.sos@outlook.com').toLowerCase();
+  let userSnap;
+  try {
+    userSnap = await getDoc(doc(db, 'users', uid));
+  } catch (err) {
+    if (cached?.ctx) {
+      return cached.ctx;
+    }
     if (fallbackEmail && fallbackEmail.toLowerCase() === superAdminEmail) {
-      return {
+      const saCtx: ServerAdminContext = {
         uid,
         email: fallbackEmail,
         name: 'Admin',
@@ -200,7 +216,28 @@ export async function resolveAdminContextForUid(
         branchId: 'all',
         branchName: 'All Branches (Super Admin)',
       };
+      ADMIN_CTX_CACHE.set(uid, { ctx: saCtx, expiresAt: now + ADMIN_CTX_CACHE_TTL_MS });
+      return saCtx;
     }
+    return null;
+  }
+
+  if (!userSnap.exists()) {
+    if (fallbackEmail && fallbackEmail.toLowerCase() === superAdminEmail) {
+      const saCtx: ServerAdminContext = {
+        uid,
+        email: fallbackEmail,
+        name: 'Admin',
+        role: 'admin',
+        isSuperAdmin: true,
+        isBranchAdmin: false,
+        branchId: 'all',
+        branchName: 'All Branches (Super Admin)',
+      };
+      ADMIN_CTX_CACHE.set(uid, { ctx: saCtx, expiresAt: now + ADMIN_CTX_CACHE_TTL_MS });
+      return saCtx;
+    }
+    ADMIN_CTX_CACHE.set(uid, { ctx: null, expiresAt: now + 5000 });
     return null;
   }
 
@@ -210,11 +247,13 @@ export async function resolveAdminContextForUid(
   const isConfiguredSuperAdminEmail = email.toLowerCase() === superAdminEmail;
 
   if (roleLower !== 'admin' && !isConfiguredSuperAdminEmail) {
+    ADMIN_CTX_CACHE.set(uid, { ctx: null, expiresAt: now + 5000 });
     return null;
   }
 
   const statusLower = String(data.status || 'approved').trim().toLowerCase();
   if (statusLower === 'pending' || statusLower === 'inactive' || statusLower === 'denied') {
+    ADMIN_CTX_CACHE.set(uid, { ctx: null, expiresAt: now + 5000 });
     return null;
   }
 
@@ -225,7 +264,7 @@ export async function resolveAdminContextForUid(
     ? 'All Branches (Super Admin)'
     : data.branchName || getBranchDisplayName(canonicalBranchId, true);
 
-  return {
+  const resolvedCtx: ServerAdminContext = {
     uid,
     email,
     name: String(data.name || 'Admin'),
@@ -235,6 +274,8 @@ export async function resolveAdminContextForUid(
     branchId: canonicalBranchId,
     branchName: resolvedBranchName,
   };
+  ADMIN_CTX_CACHE.set(uid, { ctx: resolvedCtx, expiresAt: now + ADMIN_CTX_CACHE_TTL_MS });
+  return resolvedCtx;
 }
 
 /**

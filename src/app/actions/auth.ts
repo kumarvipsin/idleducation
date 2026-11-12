@@ -20,6 +20,7 @@ import {
   clearServerUserSessionCookie,
   getServerAdminContext,
   getVerifiedSessionUserProfile,
+  resolveAdminContextForUid,
   setServerUserSessionCookie,
   verifyFirebaseIdToken,
 } from '@/lib/server-admin-auth';
@@ -470,23 +471,39 @@ export async function syncServerSessionFromProfile(params: {
     return { success: false, user: null };
   }
   try {
-    const superAdminEmail = (process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'aksias.sos@outlook.com').toLowerCase();
+    const adminCtx = await resolveAdminContextForUid(params.uid, params.email);
+    if (adminCtx) {
+      await setServerUserSessionCookie({
+        uid: adminCtx.uid,
+        email: adminCtx.email,
+      });
+      return {
+        success: true,
+        user: {
+          uid: adminCtx.uid,
+          email: adminCtx.email,
+          name: adminCtx.name,
+          role: adminCtx.role,
+          branchId: adminCtx.branchId,
+          branchName: adminCtx.branchName,
+          status: 'approved',
+        },
+      };
+    }
+
     const userSnap = await getDoc(doc(db, 'users', params.uid));
     if (!userSnap.exists()) {
-      if (!params.email || params.email.toLowerCase() !== superAdminEmail) {
-        return { success: false, user: null };
-      }
-    } else {
-      const data = userSnap.data() || {};
-      const statusLower = String(data.status || 'approved').trim().toLowerCase();
-      if (statusLower === 'pending' || statusLower === 'inactive' || statusLower === 'denied') {
-        return { success: false, user: null };
-      }
+      return { success: false, user: null };
+    }
+    const data = userSnap.data() || {};
+    const statusLower = String(data.status || 'approved').trim().toLowerCase();
+    if (statusLower === 'pending' || statusLower === 'inactive' || statusLower === 'denied') {
+      return { success: false, user: null };
     }
 
     await setServerUserSessionCookie({
       uid: params.uid,
-      email: params.email || '',
+      email: params.email || String(data.email || ''),
     });
     const profile = await getVerifiedSessionUserProfile();
     return { success: Boolean(profile), user: profile };
