@@ -63,6 +63,8 @@ import {
   restoreResetFeeData,
   type ResetBackupStatus,
   getBranchYearlyReport,
+  getFeeDashboardBundle,
+  type FeeDashboardBundle,
 } from '@/app/actions/fee-management';
 import {
   Card,
@@ -333,9 +335,11 @@ export function FeesClient({
   });
 
   const refreshSeqRef = useRef<number>(0);
+  const lastSelfWriteRef = useRef<number>(0);
+  const [syncState, setSyncState] = useState<'idle' | 'syncing' | 'saved' | 'failed'>('idle');
 
-  // Refresh data function
-  const refreshAllData = (month = selectedMonth, branch = selectedBranch) => {
+  // Refresh data function using consolidated single-request bundle
+  const refreshAllData = (month = selectedMonth, branch = selectedBranch, options?: { forceFresh?: boolean }) => {
     const seq = ++refreshSeqRef.current;
     if (!branch || branch === 'none') {
       setStats(prev => emptyStatsForMonth(month, month === prev.currentMonth ? prev.currentMonthLabel : undefined));
@@ -357,37 +361,48 @@ export function FeesClient({
     startTransition(async () => {
       try {
         await ensureActiveServerSession();
-        const directoryScopeBranch = isBranchAdmin ? branch : 'all';
-        const [newStats, newClasses, newBatches, newStudents, newLedger, newYearly, newPayments, backupStatus] = await Promise.all([
-          getFeeDashboardStats(month, branch, { forceFresh: true }),
-          getFeeClasses(directoryScopeBranch, { forceFresh: true }),
-          getFeeBatches(undefined, directoryScopeBranch, { forceFresh: true }),
-          getFeeStudents({ branchId: directoryScopeBranch, forceFresh: true }),
-          getMonthlyLedger(month, { branchId: branch, forceFresh: true }),
-          getBranchYearlyReport('2026-27', { forceFresh: true }),
-          getFeePayments({ month, branchId: branch, forceFresh: true }),
-          getResetBackupStatus(),
-        ]);
+        setSyncState('syncing');
+        const bundleRes = await getFeeDashboardBundle(month, branch, { forceFresh: options?.forceFresh });
 
         if (seq !== refreshSeqRef.current) return;
 
-        if (newStats?.success) setStats(newStats.data);
-        if (newClasses?.success) setClasses(newClasses.data);
-        if (newBatches?.success) setBatches(newBatches.data);
-        if (newStudents?.success) {
-          setStudents(newStudents.data);
-          setSelectedStudentProfile(prev => {
-            if (!prev) return null;
-            const updated = newStudents.data.find(s => s.id === prev.id);
-            return updated || prev;
-          });
+        if (bundleRes?.success && bundleRes.data) {
+          const {
+            stats: newStats,
+            classes: newClasses,
+            batches: newBatches,
+            students: newStudents,
+            ledger: newLedger,
+            yearlyReport: newYearly,
+            payments: newPayments,
+            backupStatus,
+          } = bundleRes.data;
+
+          if (newStats) setStats(newStats);
+          if (newClasses) setClasses(newClasses);
+          if (newBatches) setBatches(newBatches);
+          if (newStudents) {
+            setStudents(newStudents);
+            setSelectedStudentProfile(prev => {
+              if (!prev) return null;
+              const updated = newStudents.find(s => s.id === prev.id);
+              return updated || prev;
+            });
+          }
+          if (newLedger) setLedger(dedupeLedgerRows(newLedger));
+          if (newYearly) setYearlyReport(newYearly);
+          if (newPayments) setMonthPayments(newPayments);
+          if (backupStatus?.success) setResetBackupStatus(backupStatus);
+          setSyncState('saved');
+          setTimeout(() => {
+            setSyncState(s => (s === 'saved' ? 'idle' : s));
+          }, 2000);
+        } else {
+          setSyncState('failed');
         }
-        if (newLedger?.success) setLedger(dedupeLedgerRows(newLedger.data));
-        if (newYearly?.success) setYearlyReport(newYearly.data);
-        if (newPayments?.success) setMonthPayments(newPayments.data);
-        if (backupStatus?.success) setResetBackupStatus(backupStatus);
       } catch (err) {
-        console.error('Failed to refresh fee dashboard data:', err);
+        console.error('Failed to refresh fee dashboard bundle:', err);
+        setSyncState('failed');
       }
     });
   };
@@ -414,7 +429,7 @@ export function FeesClient({
     document.addEventListener('visibilitychange', handleVisibilityOrFocus);
     const intervalId = window.setInterval(syncLatest, 45000);
 
-    // Real-time Firestore listener so permanent/temporary deletes, edits & payments reflect instantly
+    // Real-time Firestore listener so permanent/temporary deletes, edits & payments reflect instantly without self-write echo loops
     let isFirstSnapshot = true;
     let snapshotTimer: number | null = null;
     const unsubscribeRealtime = onSnapshot(
@@ -424,13 +439,17 @@ export function FeesClient({
           isFirstSnapshot = false;
           return;
         }
+        // If this device just wrote to Firestore, skip the self-echo to avoid redundant refresh storms
+        if (Date.now() - lastSelfWriteRef.current < 2000) {
+          return;
+        }
         if (snapshotTimer) window.clearTimeout(snapshotTimer);
         snapshotTimer = window.setTimeout(() => {
           const { month, branch } = latestFilterRef.current;
           if (branch && branch !== 'none') {
             refreshAllData(month, branch);
           }
-        }, 200);
+        }, 300);
       },
       () => {
         // Non-fatal fallback to polling if real-time listener is unavailable
@@ -1034,32 +1053,49 @@ export function FeesClient({
       order: classForm.order !== '' && classForm.order !== undefined ? Number(classForm.order) : undefined,
     };
 
-    setIsSubmittingClass(true);
+    const optimisticId = `cls-opt-${Date.now()}`;
+    const optimisticClass: FeeClass = {
+      ...payload,
+      id: optimisticId,
+      batchCount: 0,
+      studentCount: 0,
+      createdAt: new Date().toISOString(),
+    };
+
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+    setClasses(prev => [{ ...optimisticClass }, ...prev.filter(c => c.id !== optimisticId)]);
+    setIsClassModalOpen(false);
+    setClassForm({ ...EMPTY_CLASS_FORM });
+
+    const nextBranch =
+      !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+        ? 'all'
+        : selectedBranch;
+    if (nextBranch !== selectedBranch) {
+      setSelectedBranch(nextBranch);
+    }
+
     try {
       await ensureActiveServerSession();
       const res = await createFeeClass(payload);
-      if (res.success) {
+      if (res.success && res.data) {
+        setClasses(prev => [
+          { ...res.data!, batchCount: 0, studentCount: 0 },
+          ...prev.filter(c => c.id !== optimisticId && c.id !== res.data!.id),
+        ]);
         toast({ title: 'Success', description: res.message });
-        setIsClassModalOpen(false);
-        setClassForm({ ...EMPTY_CLASS_FORM });
-        if (res.data) {
-          setClasses(prev => [
-            { ...res.data!, batchCount: 0, studentCount: 0 },
-            ...prev.filter(c => c.id !== res.data!.id),
-          ]);
-        }
-        const nextBranch =
-          !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
-            ? 'all'
-            : selectedBranch;
-        if (nextBranch !== selectedBranch) {
-          setSelectedBranch(nextBranch);
-        }
+        setSyncState('saved');
+        setTimeout(() => setSyncState(s => (s === 'saved' ? 'idle' : s)), 2000);
         refreshAllData(selectedMonth, nextBranch);
       } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
+        setClasses(prev => prev.filter(c => c.id !== optimisticId));
+        setSyncState('failed');
+        toast({ variant: 'destructive', title: 'Error', description: res?.message || 'Failed to create class' });
       }
     } catch (err: any) {
+      setClasses(prev => prev.filter(c => c.id !== optimisticId));
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to create class' });
     } finally {
       setIsSubmittingClass(false);
@@ -1124,8 +1160,7 @@ export function FeesClient({
     }
 
     setIsSubmittingBatch(true);
-    try {
-      const durationStr = batchForm.startDate && batchForm.endDate
+    const durationStr = batchForm.startDate && batchForm.endDate
         ? `${formatBatchDateString(batchForm.startDate)} – ${formatBatchDateString(batchForm.endDate)}`
         : batchForm.startDate ? `From ${formatBatchDateString(batchForm.startDate)}`
           : batchForm.duration || '';
@@ -1157,44 +1192,62 @@ export function FeesClient({
         createdAt: new Date().toISOString(),
       };
 
+    const optimisticId = `bat-opt-${Date.now()}`;
+    const optimisticBatch: FeeBatch = {
+      ...payload,
+      id: optimisticId,
+      classTime: payload.classTime || '',
+    };
+
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+    setBatches(prev => [optimisticBatch, ...prev.filter(b => b.id !== optimisticId)]);
+    setSelectedBatchPerClass(prev => ({ ...prev, [payload.classId]: optimisticId }));
+    setIsBatchModalOpen(false);
+
+    const nextBranch =
+      !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+        ? 'all'
+        : selectedBranch;
+    if (nextBranch !== selectedBranch) {
+      setSelectedBranch(nextBranch);
+    }
+    setBatchForm({
+      classId: '',
+      branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
+      name: '',
+      duration: '',
+      classTime: '',
+      subjects: [],
+      monthlyFee: 0,
+      courseFee: 0,
+      startDate: '',
+      endDate: '',
+      order: '',
+    });
+    setNewBatchSubjectInput('');
+    setIsBatchSubjectInputOpen(false);
+    setEditingBatchSubIdx(null);
+    setIsCustomBatchFee(false);
+
+    try {
       await ensureActiveServerSession();
       const res = await createFeeBatch(payload);
-      if (res.success) {
+      if (res.success && res.data) {
+        setBatches(prev => [res.data!, ...prev.filter(b => b.id !== optimisticId && b.id !== res.data!.id)]);
+        setSelectedBatchPerClass(prev => ({ ...prev, [payload.classId]: res.data!.id }));
         toast({ title: 'Success', description: res.message });
-        setIsBatchModalOpen(false);
-        if (res.data) {
-          setBatches(prev => [res.data!, ...prev.filter(b => b.id !== res.data!.id)]);
-          setSelectedBatchPerClass(prev => ({ ...prev, [payload.classId]: res.data!.id }));
-        }
-        const nextBranch =
-          !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
-            ? 'all'
-            : selectedBranch;
-        if (nextBranch !== selectedBranch) {
-          setSelectedBranch(nextBranch);
-        }
-        setBatchForm({
-          classId: '',
-          branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
-          name: '',
-          duration: '',
-          classTime: '',
-          subjects: [],
-          monthlyFee: 0,
-          courseFee: 0,
-          startDate: '',
-          endDate: '',
-          order: '',
-        });
-        setNewBatchSubjectInput('');
-        setIsBatchSubjectInputOpen(false);
-        setEditingBatchSubIdx(null);
-        setIsCustomBatchFee(false);
+        setSyncState('saved');
+        setTimeout(() => setSyncState(s => (s === 'saved' ? 'idle' : s)), 2000);
         refreshAllData(selectedMonth, nextBranch);
       } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
+        setBatches(prev => prev.filter(b => b.id !== optimisticId));
+        setSyncState('failed');
+        toast({ variant: 'destructive', title: 'Error', description: res?.message || 'Failed to create batch' });
       }
     } catch (err: any) {
+      setBatches(prev => prev.filter(b => b.id !== optimisticId));
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err.message || 'Failed to create batch' });
     } finally {
       setIsSubmittingBatch(false);
@@ -1357,22 +1410,44 @@ export function FeesClient({
       order: editBatchForm.order !== '' && editBatchForm.order !== undefined ? Number(editBatchForm.order) : undefined,
     };
 
-    const res = await updateFeeBatch(editingBatch.id, payload);
-    if (res.success) {
-      toast({ title: 'Batch Updated', description: res.message });
-      setIsEditBatchOpen(false);
-      setEditingBatch(null);
-      refreshAllData();
-      if (selectedStudentProfile && selectedStudentProfile.batchId === editingBatch.id) {
-        getFeeStudents().then(sRes => {
-          if (sRes.success) {
-            const found = sRes.data.find(s => s.id === selectedStudentProfile.id);
-            if (found) setSelectedStudentProfile(found);
-          }
-        });
+    // Optimistic Update: Batches state and Sync status
+    const prevBatches = batches;
+    const targetBatchId = editingBatch.id;
+    const optimisticBatch: FeeBatch = {
+      ...editingBatch,
+      ...payload,
+      updatedAt: new Date().toISOString(),
+    };
+
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+    setBatches(prev => prev.map(b => b.id === targetBatchId ? optimisticBatch : b));
+    setIsEditBatchOpen(false);
+    setEditingBatch(null);
+
+    try {
+      const res = await updateFeeBatch(targetBatchId, payload);
+      if (res.success) {
+        setSyncState('saved');
+        toast({ title: 'Batch Updated', description: res.message });
+        refreshAllData();
+        if (selectedStudentProfile && selectedStudentProfile.batchId === targetBatchId) {
+          getFeeStudents().then(sRes => {
+            if (sRes.success) {
+              const found = sRes.data.find(s => s.id === selectedStudentProfile.id);
+              if (found) setSelectedStudentProfile(found);
+            }
+          });
+        }
+      } else {
+        setBatches(prevBatches);
+        setSyncState('failed');
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
+    } catch (err: any) {
+      setBatches(prevBatches);
+      setSyncState('failed');
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to update batch' });
     }
   };
 
@@ -1407,14 +1482,36 @@ export function FeesClient({
       order: editClassForm.order !== '' && editClassForm.order !== undefined ? Number(editClassForm.order) : undefined,
     };
 
-    const res = await updateFeeClass(editingClass.id, payload);
-    if (res.success) {
-      toast({ title: 'Class Updated', description: res.message });
-      setIsEditClassOpen(false);
-      setEditingClass(null);
-      refreshAllData();
-    } else {
-      toast({ variant: 'destructive', title: 'Error', description: res.message });
+    // Optimistic Update: Classes state and Sync status
+    const prevClasses = classes;
+    const targetClassId = editingClass.id;
+    const optimisticClass: FeeClass = {
+      ...editingClass,
+      ...payload,
+      updatedAt: new Date().toISOString(),
+    };
+
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+    setClasses(prev => prev.map(c => c.id === targetClassId ? optimisticClass : c));
+    setIsEditClassOpen(false);
+    setEditingClass(null);
+
+    try {
+      const res = await updateFeeClass(targetClassId, payload);
+      if (res.success) {
+        setSyncState('saved');
+        toast({ title: 'Class Updated', description: res.message });
+        refreshAllData();
+      } else {
+        setClasses(prevClasses);
+        setSyncState('failed');
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
+      }
+    } catch (err: any) {
+      setClasses(prevClasses);
+      setSyncState('failed');
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to update class' });
     }
   };
 
@@ -1483,39 +1580,85 @@ export function FeesClient({
       } : undefined,
     };
 
-    setIsSubmittingStudent(true);
+    const calculatedNetFee = isYearly
+      ? Math.round(effectiveYearlyNet / cMonths)
+      : Math.max(0, (studentForm.baseFee || 0) - (studentForm.discountAmount || 0));
+
+    const tempStudentId = `opt-stu-${Date.now()}`;
+    const optimisticStudent: FeeStudent = {
+      id: tempStudentId,
+      branchId: payload.branchId,
+      classId: payload.classId,
+      batchId: payload.batchId,
+      rollNumber: effectiveRollNumber,
+      name: payload.name,
+      fatherName: payload.fatherName || '',
+      fatherOccupation: payload.fatherOccupation,
+      dob: payload.dob,
+      gender: payload.gender,
+      bloodGroup: payload.bloodGroup,
+      address: payload.address,
+      contact1: resolvedContact1,
+      fatherContact: payload.fatherContact,
+      motherContact: payload.motherContact,
+      contact2: payload.contact2,
+      joiningDate: payload.joiningDate,
+      dueDayOfMonth: dueDay,
+      baseFee: payload.baseFee,
+      scholarshipPercent: payload.scholarshipPercent,
+      discountAmount: payload.discountAmount,
+      netFee: calculatedNetFee,
+      paymentCycleMonths: payload.paymentCycleMonths || 1,
+      feeType: payload.feeType || 'monthly',
+      status: 'active',
+      subjects: payload.subjects || [],
+      additionalSubjects: payload.additionalSubjects || [],
+      yearlyPackage: payload.yearlyPackage,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    const previousStudents = students;
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+
+    // Optimistically prepend student and close modal instantly
+    setStudents(prev => [optimisticStudent, ...prev]);
+    setIsStudentModalOpen(false);
+
+    const nextBranch =
+      !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
+        ? 'all'
+        : selectedBranch;
+    if (nextBranch !== selectedBranch) {
+      setSelectedBranch(nextBranch);
+    }
+    setStudentForm({
+      ...EMPTY_STUDENT_FORM,
+      branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
+    });
+    setEnrollStudentSubjectTab('enrolled');
+    setShowEnrollAddSubjectInput(false);
+    setNewEnrollAddlSubjectName('');
+    setNewEnrollAddlSubjectFee('');
+
     try {
       await ensureActiveServerSession();
       const res = await createFeeStudent(payload);
-      if (res.success) {
+      if (res.success && res.data) {
+        setSyncState('saved');
         toast({ title: 'Student Enrolled', description: res.message });
-        setIsStudentModalOpen(false);
-        if (res.data) {
-          setStudents(prev => [res.data!, ...prev.filter(s => s.id !== res.data!.id)]);
-        }
-        const nextBranch =
-          !isBranchAdmin && selectedBranch !== 'all' && !branchIdsMatch(selectedBranch, payload.branchId)
-            ? 'all'
-            : selectedBranch;
-        if (nextBranch !== selectedBranch) {
-          setSelectedBranch(nextBranch);
-        }
-        setStudentForm({
-          ...EMPTY_STUDENT_FORM,
-          branchId: nextBranch && nextBranch !== 'all' ? nextBranch : '',
-        });
-        setEnrollStudentSubjectTab('enrolled');
-        setShowEnrollAddSubjectInput(false);
-        setNewEnrollAddlSubjectName('');
-        setNewEnrollAddlSubjectFee('');
+        setStudents(prev => [res.data!, ...prev.filter(s => s.id !== tempStudentId && s.id !== res.data!.id)]);
         refreshAllData(selectedMonth, nextBranch);
       } else {
-        toast({ variant: 'destructive', title: 'Error', description: res.message });
+        setStudents(previousStudents);
+        setSyncState('failed');
+        toast({ variant: 'destructive', title: 'Error', description: res.message || 'Failed to enroll student' });
       }
     } catch (err: any) {
+      setStudents(previousStudents);
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to enroll student' });
-    } finally {
-      setIsSubmittingStudent(false);
     }
   };
 
@@ -1654,24 +1797,54 @@ export function FeesClient({
       } : undefined,
     };
 
-    startTransition(async () => {
-      try {
-        const res = await updateFeeStudent(editingStudent.id, payload);
-        if (res.success) {
-          toast({ title: 'Student Updated', description: res.message });
-          setIsEditStudentOpen(false);
-          setEditingStudent(null);
-          if (selectedStudentProfile && selectedStudentProfile.id === editingStudent.id && res.data) {
+    const targetStudentId = editingStudent.id;
+    const calculatedNet = isYearly
+      ? Math.round(effectiveYearlyNet / cMonths)
+      : Math.max(0, (editStudentForm.baseFee || 0) - (editStudentForm.discountAmount || 0));
+
+    const optimisticStudent: FeeStudent = {
+      ...editingStudent,
+      ...payload,
+      netFee: calculatedNet,
+      updatedAt: new Date().toISOString(),
+    };
+
+    const previousStudents = students;
+    const previousProfile = selectedStudentProfile;
+
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+    setStudents(prev => prev.map(s => s.id === targetStudentId ? optimisticStudent : s));
+    if (selectedStudentProfile && selectedStudentProfile.id === targetStudentId) {
+      setSelectedStudentProfile(optimisticStudent);
+    }
+    setIsEditStudentOpen(false);
+    setEditingStudent(null);
+
+    try {
+      const res = await updateFeeStudent(targetStudentId, payload);
+      if (res.success) {
+        setSyncState('saved');
+        toast({ title: 'Student Updated', description: res.message });
+        if (res.data) {
+          setStudents(prev => prev.map(s => s.id === targetStudentId ? res.data! : s));
+          if (selectedStudentProfile && selectedStudentProfile.id === targetStudentId) {
             setSelectedStudentProfile(res.data);
           }
-          refreshAllData();
-        } else {
-          toast({ variant: 'destructive', title: 'Error', description: res.message });
         }
-      } catch (err: any) {
-        toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to update student' });
+        refreshAllData();
+      } else {
+        setStudents(previousStudents);
+        setSelectedStudentProfile(previousProfile);
+        setSyncState('failed');
+        toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
-    });
+    } catch (err: any) {
+      setStudents(previousStudents);
+      setSelectedStudentProfile(previousProfile);
+      setSyncState('failed');
+      toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to update student' });
+    }
   };
 
   const loadResetBackupStatus = async () => {
@@ -1769,6 +1942,8 @@ export function FeesClient({
         return;
       }
       setIsRecordingPayment(true);
+      lastSelfWriteRef.current = Date.now();
+      setSyncState('syncing');
       try {
         const res = await collectYearlyPackagePayment({
           studentId: collectTarget.studentId,
@@ -1781,6 +1956,7 @@ export function FeesClient({
           collectedBy: 'Admin Desk',
         });
         if (res.success && res.receipt) {
+          setSyncState('saved');
           toast({ title: 'Yearly Package Recorded', description: res.message });
           setIsCollectFeeOpen(false);
           if (typeof document !== 'undefined') {
@@ -1791,9 +1967,11 @@ export function FeesClient({
           setIsReceiptOpen(true);
           refreshAllData();
         } else {
+          setSyncState('failed');
           toast({ variant: 'destructive', title: 'Payment Failed', description: res.message });
         }
       } catch (err: any) {
+        setSyncState('failed');
         toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to record yearly package' });
       } finally {
         setIsRecordingPayment(false);
@@ -1808,6 +1986,8 @@ export function FeesClient({
     }
 
     setIsRecordingPayment(true);
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
     try {
       const res = await collectFeePayment({
         studentId: collectTarget.studentId,
@@ -1821,6 +2001,7 @@ export function FeesClient({
       });
 
       if (res.success && res.receipt) {
+        setSyncState('saved');
         toast({ title: 'Payment Recorded', description: res.message });
         setIsCollectFeeOpen(false);
         // Ensure body pointer-events is cleaned up immediately
@@ -1832,9 +2013,11 @@ export function FeesClient({
         setIsReceiptOpen(true);
         refreshAllData();
       } else {
+        setSyncState('failed');
         toast({ variant: 'destructive', title: 'Payment Failed', description: res.message });
       }
     } catch (err: any) {
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to record payment' });
     } finally {
       setIsRecordingPayment(false);
@@ -1976,26 +2159,31 @@ export function FeesClient({
   const handleMarkEntireMonthUnpaid = async () => {
     if (!revertTarget) return;
     setIsReverting(true);
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
     try {
       const targetStudentId = revertTarget.studentId;
       const targetMonth = revertTarget.month;
       const res = await markMonthUnpaid(targetStudentId, targetMonth);
       if (res.success) {
+        setSyncState('saved');
         toast({ title: 'Marked as Unpaid', description: res.message });
         setMonthPayments(prev =>
           prev.filter(p => !(p.studentId === targetStudentId && p.month === targetMonth))
         );
         setIsRevertModalOpen(false);
-      setRevertTarget(null);
-      setRevertTargetPayments([]);
-      if (typeof document !== 'undefined') {
-        document.body.style.pointerEvents = '';
-      }
-      await refreshAllData();
-    } else {
+        setRevertTarget(null);
+        setRevertTargetPayments([]);
+        if (typeof document !== 'undefined') {
+          document.body.style.pointerEvents = '';
+        }
+        await refreshAllData();
+      } else {
+        setSyncState('failed');
         toast({ variant: 'destructive', title: 'Action Failed', description: res.message });
       }
     } catch (err: any) {
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to mark unpaid' });
     } finally {
       setIsReverting(false);
@@ -2005,9 +2193,12 @@ export function FeesClient({
   // Revert Single Payment Receipt
   const handleRevertSinglePayment = async (paymentId: string) => {
     setIsReverting(true);
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
     try {
       const res = await revertFeePayment(paymentId);
       if (res.success) {
+        setSyncState('saved');
         toast({ title: 'Payment Reverted', description: res.message });
         setMonthPayments(prev => prev.filter(p => p.id !== paymentId));
         if (isRevertModalOpen && revertTarget) {
@@ -2030,9 +2221,11 @@ export function FeesClient({
         }
         await refreshAllData();
       } else {
+        setSyncState('failed');
         toast({ variant: 'destructive', title: 'Revert Failed', description: res.message });
       }
     } catch (err: any) {
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to revert payment' });
     } finally {
       setIsReverting(false);
@@ -2581,11 +2774,35 @@ export function FeesClient({
     }
   };
 
-  // Handle Delete Confirmed
+  // Handle Delete Confirmed (Optimistic removal with rollback)
   const handleExecuteDelete = async () => {
     if (!deleteTarget) return;
     const { type, id } = deleteTarget;
     setDeleteTarget(null);
+
+    const prevClasses = classes;
+    const prevBatches = batches;
+    const prevStudents = students;
+    const prevLedger = ledger;
+    const prevPayments = monthPayments;
+    const prevProfile = selectedStudentProfile;
+
+    lastSelfWriteRef.current = Date.now();
+    setSyncState('syncing');
+
+    // Optimistically remove from state immediately
+    if (type === 'class') {
+      setClasses(prev => prev.filter(c => c.id !== id));
+    } else if (type === 'batch') {
+      setBatches(prev => prev.filter(b => b.id !== id));
+    } else {
+      setStudents(prev => prev.filter(s => s.id !== id));
+      setLedger(prev => prev.filter(l => l.studentId !== id));
+      setMonthPayments(prev => prev.filter(p => p.studentId !== id));
+      if (selectedStudentProfile?.id === id) {
+        setSelectedStudentProfile(null);
+      }
+    }
 
     try {
       await ensureActiveServerSession();
@@ -2595,24 +2812,32 @@ export function FeesClient({
       else res = await deleteFeeStudent(id);
 
       if (res.success) {
-        if (type === 'class') {
-          setClasses(prev => prev.filter(c => c.id !== id));
-        } else if (type === 'batch') {
-          setBatches(prev => prev.filter(b => b.id !== id));
-        } else {
-          setStudents(prev => prev.filter(s => s.id !== id));
-          setLedger(prev => prev.filter(l => l.studentId !== id));
-          setMonthPayments(prev => prev.filter(p => p.studentId !== id));
-          if (selectedStudentProfile?.id === id) {
-            setSelectedStudentProfile(null);
-          }
-        }
+        setSyncState('saved');
         toast({ title: 'Deleted', description: res.message });
         refreshAllData();
       } else {
+        // Rollback
+        if (type === 'class') setClasses(prevClasses);
+        else if (type === 'batch') setBatches(prevBatches);
+        else {
+          setStudents(prevStudents);
+          setLedger(prevLedger);
+          setMonthPayments(prevPayments);
+          setSelectedStudentProfile(prevProfile);
+        }
+        setSyncState('failed');
         toast({ variant: 'destructive', title: 'Deletion Blocked', description: res.message });
       }
     } catch (err: any) {
+      if (type === 'class') setClasses(prevClasses);
+      else if (type === 'batch') setBatches(prevBatches);
+      else {
+        setStudents(prevStudents);
+        setLedger(prevLedger);
+        setMonthPayments(prevPayments);
+        setSelectedStudentProfile(prevProfile);
+      }
+      setSyncState('failed');
       toast({ variant: 'destructive', title: 'Error', description: err?.message || 'Failed to delete record' });
     }
   };
@@ -4053,16 +4278,36 @@ export function FeesClient({
               </PopoverContent>
             </Popover>
 
-            {/* 3. Sync Button */}
+            {/* 3. Sync Button with Real-time Optimistic Status */}
             <button
               type="button"
-              onClick={() => refreshAllData()}
-              disabled={isPending}
+              onClick={() => refreshAllData(undefined, undefined, { forceFresh: true })}
+              disabled={isPending || syncState === 'syncing'}
               className={`${toolbarControlClass} disabled:opacity-50 disabled:cursor-not-allowed`}
-              title="Refresh fee data"
+              title={
+                syncState === 'syncing' ? 'Saving changes to cloud...' :
+                syncState === 'saved' ? 'All changes saved to cloud' :
+                syncState === 'failed' ? 'Save failed - Click to retry sync' :
+                'Refresh fee data'
+              }
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0 ${isPending ? 'animate-spin' : ''}`} />
-              <span>Sync</span>
+              <RefreshCw className={`w-3.5 h-3.5 shrink-0 ${
+                syncState === 'failed' ? 'text-rose-500' :
+                syncState === 'saved' ? 'text-emerald-500' :
+                'text-[#2864E8] dark:text-blue-400'
+              } ${isPending || syncState === 'syncing' ? 'animate-spin' : ''}`} />
+              <span>
+                {syncState === 'syncing' ? 'Syncing...' :
+                 syncState === 'saved' ? 'Saved' :
+                 syncState === 'failed' ? 'Retry Sync' :
+                 'Sync'}
+              </span>
+              {syncState === 'saved' && (
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" aria-hidden="true" />
+              )}
+              {syncState === 'failed' && (
+                <span className="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0" aria-hidden="true" />
+              )}
             </button>
 
             {/* 4. Reset & Restore Folder Group */}
@@ -5678,17 +5923,27 @@ export function FeesClient({
               <CardHeader className="py-2.5 sm:py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
                   <div>
-                    <CardTitle className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight uppercase">
-                      BRANCH PERFORMANCE OVERVIEW
-                    </CardTitle>
-                    <CardDescription className="text-xs text-slate-400 font-normal mt-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#2864E8] shrink-0" />
+                      <CardTitle className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight uppercase">
+                        {!hasBranchSelection ? 'FINANCIAL REPORTS' : selectedBranch === 'all'
+                          ? (branchReportMode === 'monthly' ? 'ALL BRANCHES — MONTHLY FINANCIAL REPORT' : 'ALL BRANCHES — ANNUAL FINANCIAL REPORT')
+                          : (branchReportMode === 'monthly'
+                              ? `${(IDL_BRANCHES.find(b => b.id === selectedBranch || (selectedBranch === 'mangolpuri' && b.id === 'mangol-puri') || (selectedBranch === 'mangol-puri' && b.id === 'mangolpuri'))?.name || selectedBranch).toUpperCase()} — MONTHLY FINANCIAL REPORT`
+                              : `${(IDL_BRANCHES.find(b => b.id === selectedBranch || (selectedBranch === 'mangolpuri' && b.id === 'mangol-puri') || (selectedBranch === 'mangol-puri' && b.id === 'mangolpuri'))?.name || selectedBranch).toUpperCase()} — ANNUAL FINANCIAL REPORT`
+                            )}
+                      </CardTitle>
+                    </div>
+                    <CardDescription className="text-xs text-slate-400 font-normal mt-1 flex items-center gap-1.5 flex-wrap">
+                      <span className="font-medium text-slate-400 dark:text-slate-500">Period:</span>
                       <Popover open={isCalendarOpen} onOpenChange={setIsCalendarOpen}>
                         <PopoverTrigger asChild>
                           <button
                             type="button"
-                            className="group inline-flex items-center gap-1.5 text-xs font-normal text-slate-400 hover:text-[#2864E8] dark:text-slate-400 dark:hover:text-blue-400 transition-colors cursor-pointer select-none py-0 focus:outline-none"
+                            className="group inline-flex items-center gap-1.5 font-semibold text-[#2864E8] dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors cursor-pointer select-none py-0 focus:outline-none"
                             title="Click to view or change date range"
                           >
+                            <Calendar className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400" />
                             <span>{activeDateRangeLabel}</span>
                             <ChevronDown className="w-3 h-3 text-slate-400 group-hover:text-[#2864E8] transition-transform duration-200" />
                           </button>
@@ -5845,7 +6100,7 @@ export function FeesClient({
                   {/* FILTER CONTROLS ON THE RIGHT */}
                   <div className="flex items-center gap-2 sm:gap-2.5 shrink-0 justify-end">
                     {/* View Mode Toggle: Monthly vs Yearly */}
-                    <div className="inline-flex items-center gap-2">
+                    <div className="inline-flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200/80 dark:border-slate-700/80">
                       <button
                         type="button"
                         data-report-toggle="monthly"
@@ -5853,12 +6108,13 @@ export function FeesClient({
                           setBranchReportMode('monthly');
                           refreshAllData(selectedMonth, selectedBranch);
                         }}
-                        className={`h-7 flex items-center gap-1.5 px-1.5 text-xs transition-colors cursor-pointer bg-transparent border-0 shadow-none focus:outline-none focus:ring-0 ${branchReportMode === 'monthly'
-                          ? 'text-[#2864E8] font-bold'
-                          : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-medium'
-                          }`}
+                        className={`h-7 flex items-center gap-1.5 px-3 rounded-lg text-xs transition-all cursor-pointer ${
+                          branchReportMode === 'monthly'
+                            ? 'bg-white dark:bg-slate-900 text-[#2864E8] dark:text-blue-400 font-bold shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white font-medium'
+                        }`}
                       >
-                        <Calendar className={`w-3.5 h-3.5 ${branchReportMode === 'monthly' ? 'text-[#2864E8]' : 'text-slate-400'}`} />
+                        <Calendar className={`w-3.5 h-3.5 ${branchReportMode === 'monthly' ? 'text-[#2864E8] dark:text-blue-400' : 'text-slate-400'}`} />
                         <span>Monthly</span>
                       </button>
                       <button
@@ -5868,12 +6124,13 @@ export function FeesClient({
                           setBranchReportMode('yearly');
                           refreshAllData(selectedMonth, selectedBranch);
                         }}
-                        className={`h-7 flex items-center gap-1.5 px-1.5 text-xs transition-colors cursor-pointer bg-transparent border-0 shadow-none focus:outline-none focus:ring-0 ${branchReportMode === 'yearly'
-                          ? 'text-[#2864E8] font-bold'
-                          : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white font-medium'
-                          }`}
+                        className={`h-7 flex items-center gap-1.5 px-3 rounded-lg text-xs transition-all cursor-pointer ${
+                          branchReportMode === 'yearly'
+                            ? 'bg-white dark:bg-slate-900 text-[#2864E8] dark:text-blue-400 font-bold shadow-xs'
+                            : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white font-medium'
+                        }`}
                       >
-                        <BarChart3 className={`w-3.5 h-3.5 ${branchReportMode === 'yearly' ? 'text-[#2864E8]' : 'text-slate-400'}`} />
+                        <BarChart3 className={`w-3.5 h-3.5 ${branchReportMode === 'yearly' ? 'text-[#2864E8] dark:text-blue-400' : 'text-slate-400'}`} />
                         <span>Yearly</span>
                       </button>
                     </div>
@@ -5881,572 +6138,839 @@ export function FeesClient({
                 </div>
               </CardHeader>
 
-              <CardContent className="p-0">
-                {/* ------------------------------------------------------------ */}
-                {/* MODE 1: MONTHLY REPORT */}
-                {/* ------------------------------------------------------------ */}
-                {branchReportMode === 'monthly' && (
-                  <>
-                    {/* Case A: All Branches Monthly Comparison */}
-                    {!hasBranchSelection ? (
-                      <div className="py-12 text-center text-slate-400 px-4">
-                        <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view monthly financial reports.</p>
-                      </div>
-                    ) : selectedBranch === 'all' ? (
-                      (stats.branchBreakdown.length === 0 || (stats.totalStudents === 0 && stats.totalExpectedFee === 0 && stats.totalReceivedFee === 0 && classes.length === 0)) ? (
-                        <div className="py-12 text-center text-slate-400 px-4">
-                          <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No report data available</p>
-                          <p className="text-[11px] text-slate-400 mt-0.5">Add classes and students to view the monthly branch report.</p>
-                        </div>
-                      ) : (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs sm:text-sm">
-                          <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
-                            <tr>
-                              <th className="py-2.5 sm:py-3 px-3.5 pl-5 whitespace-nowrap">Branch Name</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap">Center Address</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">Active Students</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Expected Revenue</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Collected Revenue</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Pending Balance</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-center pr-5 whitespace-nowrap">Collection %</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
-                            {sortBranchesAlphabetical(stats.branchBreakdown).map(b => {
-                              const rate = b.expectedFee > 0 ? Math.round((b.receivedFee / b.expectedFee) * 100) : 0;
-                              const branchInfo = IDL_BRANCHES.find(br => br.id === b.branchId || (b.branchId === 'mangolpuri' && br.id === 'mangol-puri'));
-                              return (
-                                <tr key={b.branchId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                                  <td className="py-3 px-3.5 pl-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
-                                    {b.branchName}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-slate-400 dark:text-slate-500 text-[11px] font-normal whitespace-nowrap">
-                                    {branchInfo?.address || 'Delhi'}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-center whitespace-nowrap">
-                                    <span className="inline-flex items-center justify-center min-w-[22px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-600 dark:text-slate-300 tabular-nums">
-                                      {b.studentCount}
-                                    </span>
-                                  </td>
-                                  <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{b.expectedFee.toLocaleString('en-IN')}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{b.receivedFee.toLocaleString('en-IN')}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                    ₹{b.pendingFee.toLocaleString('en-IN')}
-                                  </td>
-                                  <td className="py-3 px-3.5 text-center pr-5 whitespace-nowrap">
-                                    <span className={`text-[12px] font-bold tabular-nums ${rate >= 75
-                                      ? 'text-emerald-600 dark:text-emerald-400'
-                                      : 'text-amber-600 dark:text-amber-400'
-                                      }`}>
-                                      {rate}%
-                                    </span>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                          <tfoot className="bg-slate-50/90 dark:bg-slate-800/60 border-t border-slate-200/80 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm">
-                            <tr>
-                              <td className="py-3 px-3.5 pl-5 font-bold text-slate-900 dark:text-white whitespace-nowrap">
-                                Total (All Branches)
-                              </td>
-                              <td className="py-3 px-3.5 text-slate-400 dark:text-slate-500 text-[11px] font-normal whitespace-nowrap">Delhi-NCR Network</td>
-                              <td className="py-3 px-3.5 text-center whitespace-nowrap">
-                                <span className="inline-flex items-center justify-center min-w-[22px] px-1.5 py-0.5 rounded-md bg-slate-200/70 dark:bg-slate-700 text-[11px] font-bold text-slate-800 dark:text-slate-100 tabular-nums">
-                                  {stats.branchBreakdown.reduce((sum, b) => sum + b.studentCount, 0)}
-                                </span>
-                              </td>
-                              <td className="py-3 px-3.5 text-right font-semibold text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                ₹{stats.branchBreakdown.reduce((sum, b) => sum + b.expectedFee, 0).toLocaleString('en-IN')}
-                              </td>
-                              <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                ₹{stats.branchBreakdown.reduce((sum, b) => sum + b.receivedFee, 0).toLocaleString('en-IN')}
-                              </td>
-                              <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                ₹{stats.branchBreakdown.reduce((sum, b) => sum + b.pendingFee, 0).toLocaleString('en-IN')}
-                              </td>
-                              <td className="py-3 px-3.5 text-center pr-5 whitespace-nowrap">
-                                {(() => {
-                                  const totExp = stats.branchBreakdown.reduce((sum, b) => sum + b.expectedFee, 0);
-                                  const totRec = stats.branchBreakdown.reduce((sum, b) => sum + b.receivedFee, 0);
-                                  const totRate = totExp > 0 ? Math.round((totRec / totExp) * 100) : 0;
-                                  return (
-                                    <span className="text-[12px] font-bold text-[#2864E8] dark:text-blue-400 tabular-nums">
-                                      {totRate}%
-                                    </span>
-                                  );
-                                })()}
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                      )
-                    ) : (
-                      /* Case B: Particular Branch Selected -> Only That Branch's Month Report */
-                      <div className="p-4 sm:p-5 space-y-5">
-                        {(() => {
-                          const curBranch = stats.branchBreakdown.find(
-                            b => b.branchId === selectedBranch ||
-                              (selectedBranch === 'mangolpuri' && b.branchId === 'mangol-puri') ||
-                              (selectedBranch === 'mangol-puri' && b.branchId === 'mangolpuri')
-                          );
-                          const rate = curBranch && curBranch.expectedFee > 0
-                            ? Math.round((curBranch.receivedFee / curBranch.expectedFee) * 100)
-                            : 0;
-                          const branchClasses = classes.filter(
-                            c => c.branchId === selectedBranch ||
-                              (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri') ||
-                              (selectedBranch === 'mangol-puri' && c.branchId === 'mangolpuri')
-                          );
+              <CardContent className="p-4 sm:p-6">
+                {!hasBranchSelection ? (
+                  <div className="py-16 text-center text-slate-400 px-4">
+                    <Building2 className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-700 mb-2.5" />
+                    <p className="font-semibold text-sm text-slate-700 dark:text-slate-200">No Branch Selected</p>
+                    <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
+                      Please select a branch or All Branches from the top toolbar to view comprehensive financial reports.
+                    </p>
+                  </div>
+                ) : branchReportMode === 'monthly' ? (
+                  /* ------------------------------------------------------------ */
+                  /* MODE 1 & 2: MONTHLY FINANCIAL REPORTS                        */
+                  /* ------------------------------------------------------------ */
+                  selectedBranch === 'all' ? (
+                    /* CASE A: ALL BRANCHES — MONTHLY REPORT */
+                    (() => {
+                      const allBranchesSorted = sortBranchesAlphabetical(stats.branchBreakdown);
+                      const totalStudents = allBranchesSorted.reduce((sum, b) => sum + b.studentCount, 0);
+                      const totalExpected = allBranchesSorted.reduce((sum, b) => sum + b.expectedFee, 0);
+                      const totalReceived = allBranchesSorted.reduce((sum, b) => sum + b.receivedFee, 0);
+                      const totalPending = allBranchesSorted.reduce((sum, b) => sum + b.pendingFee, 0);
+                      const totalRate = totalExpected > 0 ? Math.round((totalReceived / totalExpected) * 100) : 0;
 
-                          if ((curBranch?.studentCount || 0) === 0 && (curBranch?.expectedFee || 0) === 0 && (curBranch?.receivedFee || 0) === 0 && branchClasses.length === 0) {
-                            return (
-                              <div className="py-10 text-center text-slate-400">
-                                <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No report data available</p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">Add classes and students to view the monthly report for this branch.</p>
-                              </div>
-                            );
-                          }
+                      if (allBranchesSorted.length === 0 || (totalStudents === 0 && totalExpected === 0 && totalReceived === 0 && classes.length === 0)) {
+                        return (
+                          <div className="py-16 text-center text-slate-400 px-4">
+                            <BarChart3 className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-700 mb-2.5" />
+                            <p className="font-semibold text-sm text-slate-700 dark:text-slate-200">No Report Data Available</p>
+                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
+                              Add classes and enroll students to generate the monthly branch financial comparison report.
+                            </p>
+                          </div>
+                        );
+                      }
 
-                          return (
-                            <div className="space-y-5">
-                              {/* Branch KPI Metric Cards */}
-                              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Active Students</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-slate-900 dark:text-white mt-0.5 tracking-tight tabular-nums">
-                                      {curBranch?.studentCount || 0}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
-                                    <Users className="w-4 h-4" />
-                                  </div>
-                                </div>
-
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Expected Fee</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-slate-900 dark:text-white mt-0.5 tracking-tight tabular-nums">
-                                      ₹{(curBranch?.expectedFee || 0).toLocaleString('en-IN')}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400 shrink-0">
-                                    <IndianRupee className="w-4 h-4" />
-                                  </div>
-                                </div>
-
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Collected</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-emerald-600 dark:text-emerald-400 mt-0.5 tracking-tight tabular-nums">
-                                      ₹{(curBranch?.receivedFee || 0).toLocaleString('en-IN')}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-950/50 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
-                                    <CheckCircle2 className="w-4 h-4" />
-                                  </div>
-                                </div>
-
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Pending Dues</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-amber-600 dark:text-amber-400 mt-0.5 tracking-tight tabular-nums">
-                                      ₹{(curBranch?.pendingFee || 0).toLocaleString('en-IN')}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-amber-50 dark:bg-amber-950/50 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
-                                    <AlertTriangle className="w-4 h-4" />
-                                  </div>
-                                </div>
-
-                                {/* Collection % Tile with Round Circular Progress Graph */}
-                                <div className="p-2.5 sm:p-3 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs col-span-2 sm:col-span-1 flex flex-col items-center justify-center text-center">
-                                  <p className="text-[10.5px] font-semibold text-[#2864E8] dark:text-blue-400 uppercase tracking-wider mb-1">Collection %</p>
-                                  <div className="relative w-12 h-12 flex items-center justify-center">
-                                    <svg className="w-12 h-12 -rotate-90" viewBox="0 0 48 48">
-                                      <circle
-                                        cx="24"
-                                        cy="24"
-                                        r="19"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                        className="text-slate-100 dark:text-slate-800"
-                                      />
-                                      <circle
-                                        cx="24"
-                                        cy="24"
-                                        r="19"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                        strokeLinecap="round"
-                                        strokeDasharray={2 * Math.PI * 19}
-                                        strokeDashoffset={2 * Math.PI * 19 * (1 - Math.min(100, Math.max(0, rate)) / 100)}
-                                        className={`${rate >= 75 ? 'text-emerald-500' : 'text-[#2864E8]'} transition-all duration-700 ease-out`}
-                                      />
-                                    </svg>
-                                    <span className="absolute text-[11px] font-bold text-slate-900 dark:text-white tabular-nums">
-                                      {rate}%
-                                    </span>
-                                  </div>
+                      return (
+                        <div className="space-y-6">
+                          {/* 1. Monthly Financial Executive Summary Cards */}
+                          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
+                            {/* Card 1: Active Students */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Active Students</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <Users className="w-3.5 h-3.5" />
                                 </div>
                               </div>
-
-                              {/* Branch Class Breakdown Table */}
-                              <div className="border border-slate-200/70 dark:border-slate-800 rounded-xl overflow-hidden shadow-2xs">
-                                <div className="px-4 py-2.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
-                                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                                    Active Classes in {IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || selectedBranch} ({branchClasses.length})
-                                  </span>
-                                  <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                                    Monthly Summary
-                                  </span>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  {totalStudents}
                                 </div>
-                                <table className="w-full text-left text-xs sm:text-sm">
-                                  <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
-                                    <tr>
-                                      <th className="py-2.5 sm:py-3 px-3.5 pl-4 whitespace-nowrap">Class / Course</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap">Session</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Standard Fee</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-center pr-4 whitespace-nowrap">Branch Status</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
-                                    {branchClasses.length === 0 ? (
-                                      <tr>
-                                        <td colSpan={4} className="py-10 text-center text-slate-400">
-                                          <GraduationCap className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
-                                          <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes for this branch.</p>
-                                        </td>
-                                      </tr>
-                                    ) : (
-                                      branchClasses.map(c => (
-                                        <tr key={c.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                                          <td className="py-3 px-3.5 pl-4 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
-                                            {c.name}
-                                          </td>
-                                          <td className="py-3 px-3.5 text-slate-400 dark:text-slate-500 text-[11px] font-normal whitespace-nowrap">{c.academicSession || '2026-27'}</td>
-                                          <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                            ₹{c.defaultMonthlyFee.toLocaleString('en-IN')}
-                                          </td>
-                                          <td className="py-3 px-3.5 text-center pr-4 whitespace-nowrap">
-                                            <span className="inline-flex px-2 py-0.5 rounded-md text-[10.5px] font-semibold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50">
-                                              Active
-                                            </span>
-                                          </td>
-                                        </tr>
-                                      ))
-                                    )}
-                                  </tbody>
-                                </table>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  Across all {allBranchesSorted.length} centers
+                                </p>
                               </div>
                             </div>
-                          );
-                        })()}
-                      </div>
-                    )}
-                  </>
-                )}
 
-                {/* ------------------------------------------------------------ */}
-                {/* MODE 2: YEARLY REPORT (ACADEMIC SESSION 2026-27) */}
-                {/* ------------------------------------------------------------ */}
-                {branchReportMode === 'yearly' && (
-                  <>
-                    {!hasBranchSelection ? (
-                      <div className="py-12 text-center text-slate-400 px-4">
-                        <Building2 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view yearly financial reports.</p>
-                      </div>
-                    ) : isLoadingYearly ? (
-                      <div className="p-12 text-center text-xs font-semibold text-slate-500 flex items-center justify-center gap-2">
-                        <RefreshCw className="w-4 h-4 animate-spin text-[#2864E8]" />
-                        <span>Loading Yearly Academic Session Data...</span>
-                      </div>
-                    ) : selectedBranch === 'all' ? (
-                      /* Case C: All Branches Yearly Comparison */
-                      (!yearlyReport || yearlyReport.branches.length === 0 || (yearlyReport.totals.activeStudents === 0 && yearlyReport.totals.annualExpected === 0 && yearlyReport.totals.annualReceived === 0)) ? (
-                        <div className="py-12 text-center text-slate-400 px-4">
-                          <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No yearly data available</p>
-                          <p className="text-[11px] text-slate-400 mt-0.5">Enroll students or record payments to view the annual session report.</p>
-                        </div>
-                      ) : (
-                      <div className="overflow-x-auto">
-                        <table className="w-full text-left text-xs sm:text-sm">
-                          <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
-                            <tr>
-                              <th className="py-2.5 sm:py-3 px-3.5 pl-5 whitespace-nowrap">Branch Name</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap">Center Address</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">Enrolled Students</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Annual Expected</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Annual Collected</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Annual Pending</th>
-                              <th className="py-2.5 sm:py-3 px-3.5 text-center pr-5 whitespace-nowrap">Annual Rate %</th>
-                            </tr>
-                          </thead>
-                          <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
-                            {sortBranchesAlphabetical(yearlyReport?.branches || []).map(b => (
-                              <tr key={b.branchId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                                <td className="py-3 px-3.5 pl-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
-                                  {b.branchName}
-                                </td>
-                                <td className="py-3 px-3.5 text-slate-400 dark:text-slate-500 text-[11px] font-normal whitespace-nowrap">
-                                  {b.address}
-                                </td>
-                                <td className="py-3 px-3.5 text-center font-medium text-slate-700 dark:text-slate-300 text-[13px] tabular-nums whitespace-nowrap">
-                                  {b.activeStudents}
-                                </td>
-                                <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                  ₹{b.annualExpected.toLocaleString('en-IN')}
-                                </td>
-                                <td className="py-3 px-3.5 text-right font-semibold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap">
-                                  ₹{b.annualReceived.toLocaleString('en-IN')}
-                                </td>
-                                <td className="py-3 px-3.5 text-right font-semibold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap">
-                                  ₹{b.annualPending.toLocaleString('en-IN')}
-                                </td>
-                                <td className="py-3 px-3.5 text-center pr-5 whitespace-nowrap">
-                                  <span className={`text-[12px] font-bold tabular-nums ${b.annualRate >= 75
-                                    ? 'text-emerald-600 dark:text-emerald-400'
-                                    : 'text-amber-600 dark:text-amber-400'
-                                    }`}>
-                                    {b.annualRate}%
-                                  </span>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                          <tfoot className="bg-slate-50/90 dark:bg-slate-900/80 border-t border-slate-200/70 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm">
-                            <tr>
-                              <td className="py-3 px-3.5 pl-5 font-bold text-slate-900 dark:text-white text-[13px] whitespace-nowrap">
-                                Total Institute (Annual 2026–27)
-                              </td>
-                              <td className="py-3 px-3.5 text-slate-400 dark:text-slate-500 text-[11px] font-normal whitespace-nowrap">Delhi-NCR Network</td>
-                              <td className="py-3 px-3.5 text-center font-bold text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap">
-                                {yearlyReport?.totals.activeStudents || 0}
-                              </td>
-                              <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap">
-                                ₹{(yearlyReport?.totals.annualExpected || 0).toLocaleString('en-IN')}
-                              </td>
-                              <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap">
-                                ₹{(yearlyReport?.totals.annualReceived || 0).toLocaleString('en-IN')}
-                              </td>
-                              <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap">
-                                ₹{(yearlyReport?.totals.annualPending || 0).toLocaleString('en-IN')}
-                              </td>
-                              <td className="py-3 px-3.5 text-center pr-5 whitespace-nowrap">
-                                <span className="text-[12px] font-bold text-[#2864E8] dark:text-blue-400 tabular-nums">
-                                  {yearlyReport?.totals.annualRate || 0}%
+                            {/* Card 2: Expected Revenue */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Expected Revenue</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <IndianRupee className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  ₹{totalExpected.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  Billed for {selectedMonthLabel}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 3: Collected Revenue */}
+                            <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Collected Revenue</span>
+                                <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                  ₹{totalReceived.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-emerald-600/80 dark:text-emerald-400/80 mt-0.5 truncate">
+                                  {totalRate}% collection achieved
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 4: Pending Balance */}
+                            <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Pending Balance</span>
+                                <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                  <AlertTriangle className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-amber-600 dark:text-amber-400 tabular-nums">
+                                  ₹{totalPending.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
+                                  Outstanding dues
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 5: Collection Rate */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs col-span-2 sm:col-span-1 flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-[#2864E8] dark:text-blue-400 uppercase">Collection Rate</span>
+                                <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center text-[#2864E8] dark:text-blue-400">
+                                  <TrendingUp className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-[#2864E8] dark:text-blue-400 tabular-nums">
+                                  {totalRate}%
+                                </div>
+                                <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                  <div
+                                    className={`h-full rounded-full transition-all duration-500 ${totalRate >= 75 ? 'bg-emerald-500' : 'bg-[#2864E8]'}`}
+                                    style={{ width: `${Math.min(100, Math.max(0, totalRate))}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 2. Branch Comparison Table */}
+                          <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-2xs">
+                            <div className="px-4 py-3 bg-slate-50/70 dark:bg-slate-800/40 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Building2 className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                                <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                  Branch Performance Comparison — {selectedMonthLabel}
                                 </span>
-                              </td>
-                            </tr>
-                          </tfoot>
-                        </table>
-                      </div>
-                      )
-                    ) : (
-                      /* Case D: Particular Branch Selected -> Month-by-Month Trend for Full Year */
-                      <div className="p-5 space-y-6">
-                        {(() => {
-                          const curBranchYearly = yearlyReport?.branches.find(
-                            b => b.branchId === selectedBranch ||
-                              (selectedBranch === 'mangolpuri' && b.branchId === 'mangol-puri') ||
-                              (selectedBranch === 'mangol-puri' && b.branchId === 'mangolpuri')
-                          );
-
-                          if (!curBranchYearly || (curBranchYearly.activeStudents === 0 && curBranchYearly.annualExpected === 0 && curBranchYearly.annualReceived === 0)) {
-                            return (
-                              <div className="py-10 text-center text-slate-400">
-                                <BarChart3 className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
-                                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No yearly data available</p>
-                                <p className="text-[11px] text-slate-400 mt-0.5">Enroll students or record payments to view the yearly report for this branch.</p>
                               </div>
-                            );
-                          }
+                              <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                                {allBranchesSorted.length} Active Centers
+                              </span>
+                            </div>
 
-                          return (
-                            <div className="space-y-5">
-                              {/* Branch Annual KPI Metric Cards */}
-                              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Enrolled Students</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-slate-900 dark:text-white tracking-tight mt-0.5 tabular-nums">
-                                      {curBranchYearly.activeStudents}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 shrink-0">
-                                    <Users className="w-3.5 h-3.5" />
-                                  </div>
-                                </div>
-
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Annual Expected</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-slate-900 dark:text-white tracking-tight mt-0.5 tabular-nums">
-                                      ₹{curBranchYearly.annualExpected.toLocaleString('en-IN')}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 shrink-0">
-                                    <IndianRupee className="w-3.5 h-3.5" />
-                                  </div>
-                                </div>
-
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-wider">Annual Received</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-emerald-600 dark:text-emerald-400 tracking-tight mt-0.5 tabular-nums">
-                                      ₹{curBranchYearly.annualReceived.toLocaleString('en-IN')}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/60 dark:border-emerald-800/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
-                                    <CheckCircle2 className="w-3.5 h-3.5" />
-                                  </div>
-                                </div>
-
-                                <div className="p-3 sm:p-3.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs flex items-center justify-between">
-                                  <div>
-                                    <p className="text-[10.5px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wider">Annual Pending</p>
-                                    <p className="text-lg sm:text-[19px] font-bold text-amber-600 dark:text-amber-400 tracking-tight mt-0.5 tabular-nums">
-                                      ₹{curBranchYearly.annualPending.toLocaleString('en-IN')}
-                                    </p>
-                                  </div>
-                                  <div className="w-8 h-8 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-200/60 dark:border-amber-800/40 flex items-center justify-center text-amber-600 dark:text-amber-400 shrink-0">
-                                    <AlertTriangle className="w-3.5 h-3.5" />
-                                  </div>
-                                </div>
-
-                                {/* Annual Rate Tile with Round Circular Progress Graph */}
-                                <div className="p-2 sm:p-2.5 rounded-2xl border border-slate-200/70 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xs col-span-2 sm:col-span-1 flex flex-col items-center justify-center text-center">
-                                  <p className="text-[10.5px] font-semibold text-[#2864E8] dark:text-blue-400 uppercase tracking-wider mb-1">Annual Rate</p>
-                                  <div className="relative w-12 h-12 flex items-center justify-center">
-                                    <svg className="w-12 h-12 -rotate-90" viewBox="0 0 48 48">
-                                      <circle
-                                        cx="24"
-                                        cy="24"
-                                        r="19"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                        className="text-slate-100 dark:text-slate-800"
-                                      />
-                                      <circle
-                                        cx="24"
-                                        cy="24"
-                                        r="19"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="4"
-                                        strokeLinecap="round"
-                                        strokeDasharray={2 * Math.PI * 19}
-                                        strokeDashoffset={2 * Math.PI * 19 * (1 - Math.min(100, Math.max(0, curBranchYearly.annualRate)) / 100)}
-                                        className={`${curBranchYearly.annualRate >= 75 ? 'text-emerald-500' : 'text-[#2864E8]'} transition-all duration-700 ease-out`}
-                                      />
-                                    </svg>
-                                    <span className="absolute text-[12px] font-bold text-slate-900 dark:text-white tabular-nums">
-                                      {curBranchYearly.annualRate}%
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Month-by-Month Table for this Branch */}
-                              <div className="border border-slate-200/70 dark:border-slate-800 rounded-xl overflow-hidden shadow-2xs">
-                                <div className="px-4 py-2.5 bg-slate-50/70 dark:bg-slate-800/50 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
-                                  <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                                    Month-by-Month Session Breakdown ({curBranchYearly.branchName})
-                                  </span>
-                                  <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                                    Session 2026-27 (Apr 2026 – Mar 2027)
-                                  </span>
-                                </div>
-                                <table className="w-full text-left text-xs sm:text-sm">
-                                  <thead className="bg-slate-50/70 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
-                                    <tr>
-                                      <th className="py-2.5 sm:py-3 px-3.5 pl-4 whitespace-nowrap">Month</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">Active Students</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Expected Revenue</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Collected Revenue</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Pending Balance</th>
-                                      <th className="py-2.5 sm:py-3 px-3.5 text-center pr-4 whitespace-nowrap">Collection %</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
-                                    {curBranchYearly.monthData.map(m => (
-                                      <tr key={m.month} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
-                                        <td className="py-3 px-3.5 pl-4 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
-                                          {m.monthLabel}
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left text-xs sm:text-sm">
+                                <thead className="bg-slate-50/90 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
+                                  <tr>
+                                    <th className="py-2.5 sm:py-3 px-4 sm:px-5 whitespace-nowrap">Branch Name</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">Active Students</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Expected Revenue</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Collected Revenue</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Pending Balance</th>
+                                    <th className="py-2.5 sm:py-3 px-4 sm:px-5 text-center whitespace-nowrap">Collection Rate</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                  {allBranchesSorted.map(b => {
+                                    const rate = b.expectedFee > 0 ? Math.round((b.receivedFee / b.expectedFee) * 100) : 0;
+                                    return (
+                                      <tr key={b.branchId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                                        <td className="py-3 px-4 sm:px-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
+                                          {b.branchName}
                                         </td>
-                                        <td className="py-3 px-3.5 text-center font-medium text-slate-700 dark:text-slate-300 text-[13px] tabular-nums whitespace-nowrap">
-                                          {m.studentCount}
+                                        <td className="py-3 px-3.5 text-center whitespace-nowrap font-mono tabular-nums text-slate-700 dark:text-slate-300 text-[13px]">
+                                          {b.studentCount}
                                         </td>
-                                        <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap tracking-tight">
-                                          ₹{m.expected.toLocaleString('en-IN')}
+                                        <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-slate-100 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                          ₹{b.expectedFee.toLocaleString('en-IN')}
                                         </td>
-                                        <td className="py-3 px-3.5 text-right font-semibold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums whitespace-nowrap">
-                                          ₹{m.received.toLocaleString('en-IN')}
+                                        <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                          ₹{b.receivedFee.toLocaleString('en-IN')}
                                         </td>
-                                        <td className="py-3 px-3.5 text-right font-semibold text-amber-600 dark:text-amber-400 text-[13px] tabular-nums whitespace-nowrap">
-                                          ₹{m.pending.toLocaleString('en-IN')}
+                                        <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                          ₹{b.pendingFee.toLocaleString('en-IN')}
                                         </td>
-                                        <td className="py-3 px-3.5 text-center pr-4 whitespace-nowrap">
-                                          <span className={`text-[12px] font-bold tabular-nums ${m.rate >= 75
-                                            ? 'text-emerald-600 dark:text-emerald-400'
-                                            : 'text-amber-600 dark:text-amber-400'
-                                            }`}>
-                                            {m.rate}%
+                                        <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                          <span className={`inline-flex items-center justify-center min-w-[50px] px-2 py-0.5 rounded-full text-[11px] font-bold font-mono tabular-nums ${
+                                            rate >= 75
+                                              ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50'
+                                              : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/50'
+                                          }`}>
+                                            {rate}%
                                           </span>
                                         </td>
                                       </tr>
-                                    ))}
-                                  </tbody>
-                                  <tfoot className="bg-slate-50/90 dark:bg-slate-900/80 border-t border-slate-200/70 dark:border-slate-800 text-slate-900 dark:text-white text-xs sm:text-sm">
+                                    );
+                                  })}
+                                </tbody>
+                                <tfoot className="bg-slate-50/90 dark:bg-slate-800/80 border-t-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm">
+                                  <tr>
+                                    <td className="py-3 px-4 sm:px-5 font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                                      Total (All Branches)
+                                    </td>
+                                    <td className="py-3 px-3.5 text-center font-bold text-slate-900 dark:text-white text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      {totalStudents}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-slate-900 dark:text-white text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{totalExpected.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{totalReceived.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{totalPending.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                      <span className="inline-flex items-center justify-center min-w-[50px] px-2.5 py-0.5 rounded-full text-[11.5px] font-bold font-mono tabular-nums bg-blue-50 dark:bg-blue-950/50 text-[#2864E8] dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60">
+                                        {totalRate}%
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tfoot>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()
+                  ) : (
+                    /* CASE B: INDIVIDUAL BRANCH — MONTHLY REPORT */
+                    (() => {
+                      const curBranch = stats.branchBreakdown.find(
+                        b => b.branchId === selectedBranch ||
+                          (selectedBranch === 'mangolpuri' && b.branchId === 'mangol-puri') ||
+                          (selectedBranch === 'mangol-puri' && b.branchId === 'mangolpuri')
+                      );
+                      const branchName = IDL_BRANCHES.find(
+                        b => b.id === selectedBranch ||
+                          (selectedBranch === 'mangolpuri' && b.id === 'mangol-puri') ||
+                          (selectedBranch === 'mangol-puri' && b.id === 'mangolpuri')
+                      )?.name || selectedBranch;
+
+                      const branchClasses = classes.filter(
+                        c => c.branchId === selectedBranch ||
+                          (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri') ||
+                          (selectedBranch === 'mangol-puri' && c.branchId === 'mangolpuri') ||
+                          c.branchId === 'all'
+                      );
+
+                      const studentCount = curBranch?.studentCount || 0;
+                      const expectedFee = curBranch?.expectedFee || 0;
+                      const receivedFee = curBranch?.receivedFee || 0;
+                      const pendingFee = curBranch?.pendingFee || 0;
+                      const rate = expectedFee > 0 ? Math.round((receivedFee / expectedFee) * 100) : 0;
+
+                      if (studentCount === 0 && expectedFee === 0 && receivedFee === 0 && branchClasses.length === 0) {
+                        return (
+                          <div className="py-16 text-center text-slate-400 px-4">
+                            <BarChart3 className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-700 mb-2.5" />
+                            <p className="font-semibold text-sm text-slate-700 dark:text-slate-200">No Report Data Available</p>
+                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
+                              Add classes and enroll students to view the monthly financial report for {branchName}.
+                            </p>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div className="space-y-6">
+                          {/* 1. Branch Monthly KPI Metric Cards */}
+                          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
+                            {/* Card 1: Active Students */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Active Students</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <Users className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  {studentCount}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  {branchName} Center
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 2: Monthly Expected Fee */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Monthly Expected</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <IndianRupee className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  ₹{expectedFee.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  Billed for {selectedMonthLabel}
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 3: Monthly Collected Fee */}
+                            <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Monthly Collected</span>
+                                <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                  ₹{receivedFee.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-emerald-600/80 dark:text-emerald-400/80 mt-0.5 truncate">
+                                  {rate}% collection achieved
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 4: Monthly Pending Dues */}
+                            <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Pending Dues</span>
+                                <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                  <AlertTriangle className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-amber-600 dark:text-amber-400 tabular-nums">
+                                  ₹{pendingFee.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
+                                  Remaining this month
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 5: Collection Rate */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs col-span-2 sm:col-span-1 flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-[#2864E8] dark:text-blue-400 uppercase">Collection Rate</span>
+                                <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center text-[#2864E8] dark:text-blue-400">
+                                  <TrendingUp className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-[#2864E8] dark:text-blue-400 tabular-nums">
+                                  {rate}%
+                                </div>
+                                <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                  <div
+                                    className={`h-full rounded-full transition-all duration-500 ${rate >= 75 ? 'bg-emerald-500' : 'bg-[#2864E8]'}`}
+                                    style={{ width: `${Math.min(100, Math.max(0, rate))}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 2. Active Classes Summary Table in this Branch */}
+                          <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-2xs">
+                            <div className="px-4 py-3 bg-slate-50/70 dark:bg-slate-800/40 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <GraduationCap className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                                <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                  Active Classes &amp; Courses in {branchName}
+                                </span>
+                              </div>
+                              <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                                {branchClasses.length} {branchClasses.length === 1 ? 'Class' : 'Classes'} Active
+                              </span>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left text-xs sm:text-sm">
+                                <thead className="bg-slate-50/90 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
+                                  <tr>
+                                    <th className="py-2.5 sm:py-3 px-4 sm:px-5 whitespace-nowrap">Class / Course</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap">Academic Session</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Standard Monthly Fee</th>
+                                    <th className="py-2.5 sm:py-3 px-4 sm:px-5 text-center whitespace-nowrap">Branch Status</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                  {branchClasses.length === 0 ? (
                                     <tr>
-                                      <td className="py-3 px-3.5 pl-4 font-bold text-slate-900 dark:text-white text-[13px] whitespace-nowrap">
-                                        Annual Total
+                                      <td colSpan={4} className="py-12 text-center text-slate-400">
+                                        <GraduationCap className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                                        <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes configured for this branch</p>
+                                        <p className="text-[11px] text-slate-400 mt-0.5">Use the + Class button in the toolbar to create classes for this branch.</p>
                                       </td>
-                                      <td className="py-3 px-3.5 text-center font-bold text-slate-900 dark:text-white text-[13px] tabular-nums whitespace-nowrap">
-                                        {curBranchYearly.activeStudents}
+                                    </tr>
+                                  ) : (
+                                    branchClasses.map(c => (
+                                      <tr key={c.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                                        <td className="py-3 px-4 sm:px-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
+                                          {c.name}
+                                        </td>
+                                        <td className="py-3 px-3.5 text-slate-500 dark:text-slate-400 text-[12px] font-medium whitespace-nowrap">
+                                          {c.academicSession || '2026-27'}
+                                        </td>
+                                        <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-slate-100 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                          ₹{c.defaultMonthlyFee.toLocaleString('en-IN')}
+                                        </td>
+                                        <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50">
+                                            Active
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    ))
+                                  )}
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })()
+                  )
+                ) : (
+                  /* ------------------------------------------------------------ */
+                  /* MODE 3 & 4: YEARLY FINANCIAL REPORTS                         */
+                  /* ------------------------------------------------------------ */
+                  isLoadingYearly ? (
+                    <div className="py-16 text-center text-xs font-semibold text-slate-500 flex items-center justify-center gap-2">
+                      <RefreshCw className="w-4 h-4 animate-spin text-[#2864E8]" />
+                      <span>Loading Yearly Academic Session Data...</span>
+                    </div>
+                  ) : selectedBranch === 'all' ? (
+                    /* CASE C: ALL BRANCHES — YEARLY REPORT */
+                    (!yearlyReport || yearlyReport.branches.length === 0 || (yearlyReport.totals.activeStudents === 0 && yearlyReport.totals.annualExpected === 0 && yearlyReport.totals.annualReceived === 0)) ? (
+                      <div className="py-16 text-center text-slate-400 px-4">
+                        <BarChart3 className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-700 mb-2.5" />
+                        <p className="font-semibold text-sm text-slate-700 dark:text-slate-200">No Yearly Data Available</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
+                          Enroll students or record payments to generate the annual session comparison report.
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="space-y-6">
+                        {/* 1. Institute-wide Annual Executive Summary Cards */}
+                        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
+                          {/* Card 1: Enrolled Students */}
+                          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Enrolled Students</span>
+                              <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                <Users className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                            <div className="mt-2.5">
+                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                {yearlyReport.totals.activeStudents}
+                              </div>
+                              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                Session 2026–27 total
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Card 2: Annual Expected */}
+                          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Annual Expected</span>
+                              <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                <IndianRupee className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                            <div className="mt-2.5">
+                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                ₹{yearlyReport.totals.annualExpected.toLocaleString('en-IN')}
+                              </div>
+                              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                12-Month academic session
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Card 3: Annual Collected */}
+                          <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Annual Collected</span>
+                              <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                <CheckCircle2 className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                            <div className="mt-2.5">
+                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                ₹{yearlyReport.totals.annualReceived.toLocaleString('en-IN')}
+                              </div>
+                              <p className="text-[11px] text-emerald-600/80 dark:text-emerald-400/80 mt-0.5 truncate">
+                                {yearlyReport.totals.annualRate}% collected to date
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Card 4: Annual Pending */}
+                          <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Annual Pending</span>
+                              <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                <AlertTriangle className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                            <div className="mt-2.5">
+                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-amber-600 dark:text-amber-400 tabular-nums">
+                                ₹{yearlyReport.totals.annualPending.toLocaleString('en-IN')}
+                              </div>
+                              <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
+                                Session balance due
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Card 5: Annual Rate */}
+                          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs col-span-2 sm:col-span-1 flex flex-col justify-between">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold tracking-wider text-[#2864E8] dark:text-blue-400 uppercase">Annual Rate</span>
+                              <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center text-[#2864E8] dark:text-blue-400">
+                                <TrendingUp className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                            <div className="mt-2.5">
+                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-[#2864E8] dark:text-blue-400 tabular-nums">
+                                {yearlyReport.totals.annualRate}%
+                              </div>
+                              <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                <div
+                                  className={`h-full rounded-full transition-all duration-500 ${yearlyReport.totals.annualRate >= 75 ? 'bg-emerald-500' : 'bg-[#2864E8]'}`}
+                                  style={{ width: `${Math.min(100, Math.max(0, yearlyReport.totals.annualRate))}%` }}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* 2. Branch-wise Annual Comparison Table */}
+                        <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-2xs">
+                          <div className="px-4 py-3 bg-slate-50/70 dark:bg-slate-800/40 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <BarChart3 className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                              <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                Branch Annual Comparison — Academic Session 2026–27
+                              </span>
+                            </div>
+                            <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                              April 2026 – March 2027
+                            </span>
+                          </div>
+
+                          <div className="overflow-x-auto">
+                            <table className="w-full text-left text-xs sm:text-sm">
+                              <thead className="bg-slate-50/90 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
+                                <tr>
+                                  <th className="py-2.5 sm:py-3 px-4 sm:px-5 whitespace-nowrap">Branch Name</th>
+                                  <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">Enrolled Students</th>
+                                  <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Annual Expected</th>
+                                  <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Annual Collected</th>
+                                  <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Annual Pending</th>
+                                  <th className="py-2.5 sm:py-3 px-4 sm:px-5 text-center whitespace-nowrap">Annual Collection Rate</th>
+                                </tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                {sortBranchesAlphabetical(yearlyReport.branches).map(b => (
+                                  <tr key={b.branchId} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                                    <td className="py-3 px-4 sm:px-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
+                                      {b.branchName}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-center font-mono tabular-nums text-slate-700 dark:text-slate-300 text-[13px]">
+                                      {b.activeStudents}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-slate-100 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{b.annualExpected.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{b.annualReceived.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{b.annualPending.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                      <span className={`inline-flex items-center justify-center min-w-[50px] px-2 py-0.5 rounded-full text-[11px] font-bold font-mono tabular-nums ${
+                                        b.annualRate >= 75
+                                          ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50'
+                                          : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/50'
+                                      }`}>
+                                        {b.annualRate}%
+                                      </span>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                              <tfoot className="bg-slate-50/90 dark:bg-slate-800/80 border-t-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm">
+                                <tr>
+                                  <td className="py-3 px-4 sm:px-5 font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                                    Total Institute (Annual 2026–27)
+                                  </td>
+                                  <td className="py-3 px-3.5 text-center font-bold text-slate-900 dark:text-white text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                    {yearlyReport.totals.activeStudents}
+                                  </td>
+                                  <td className="py-3 px-3.5 text-right font-bold text-slate-900 dark:text-white text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                    ₹{yearlyReport.totals.annualExpected.toLocaleString('en-IN')}
+                                  </td>
+                                  <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                    ₹{yearlyReport.totals.annualReceived.toLocaleString('en-IN')}
+                                  </td>
+                                  <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                    ₹{yearlyReport.totals.annualPending.toLocaleString('en-IN')}
+                                  </td>
+                                  <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                    <span className="inline-flex items-center justify-center min-w-[50px] px-2.5 py-0.5 rounded-full text-[11.5px] font-bold font-mono tabular-nums bg-blue-50 dark:bg-blue-950/50 text-[#2864E8] dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60">
+                                      {yearlyReport.totals.annualRate}%
+                                    </span>
+                                  </td>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    )
+                  ) : (
+                    /* CASE D: INDIVIDUAL BRANCH — YEARLY REPORT */
+                    (() => {
+                      const curBranchYearly = yearlyReport?.branches.find(
+                        b => b.branchId === selectedBranch ||
+                          (selectedBranch === 'mangolpuri' && b.branchId === 'mangol-puri') ||
+                          (selectedBranch === 'mangol-puri' && b.branchId === 'mangolpuri')
+                      );
+                      const branchName = IDL_BRANCHES.find(
+                        b => b.id === selectedBranch ||
+                          (selectedBranch === 'mangolpuri' && b.id === 'mangol-puri') ||
+                          (selectedBranch === 'mangol-puri' && b.id === 'mangolpuri')
+                      )?.name || selectedBranch;
+
+                      if (!curBranchYearly || (curBranchYearly.activeStudents === 0 && curBranchYearly.annualExpected === 0 && curBranchYearly.annualReceived === 0)) {
+                        return (
+                          <div className="py-16 text-center text-slate-400 px-4">
+                            <BarChart3 className="w-10 h-10 mx-auto text-slate-300 dark:text-slate-700 mb-2.5" />
+                            <p className="font-semibold text-sm text-slate-700 dark:text-slate-200">No Yearly Data Available</p>
+                            <p className="text-xs text-slate-400 dark:text-slate-500 mt-1 max-w-sm mx-auto">
+                              Enroll students or record payments to generate the yearly report for {branchName}.
+                            </p>
+                          </div>
+                        );
+                      }
+
+                      return (
+                        <div className="space-y-6">
+                          {/* 1. Branch Annual KPI Metric Cards */}
+                          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
+                            {/* Card 1: Enrolled Students */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Enrolled Students</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <Users className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  {curBranchYearly.activeStudents}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  {branchName} Center
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 2: Annual Expected */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Annual Expected</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <IndianRupee className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  ₹{curBranchYearly.annualExpected.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  Session 2026–27 expected
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 3: Annual Collected */}
+                            <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Annual Collected</span>
+                                <div className="w-7 h-7 rounded-lg bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                                  <CheckCircle2 className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-emerald-600 dark:text-emerald-400 tabular-nums">
+                                  ₹{curBranchYearly.annualReceived.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-emerald-600/80 dark:text-emerald-400/80 mt-0.5 truncate">
+                                  {curBranchYearly.annualRate}% collected to date
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 4: Annual Pending */}
+                            <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Annual Pending</span>
+                                <div className="w-7 h-7 rounded-lg bg-amber-100 dark:bg-amber-900/40 flex items-center justify-center text-amber-600 dark:text-amber-400">
+                                  <AlertTriangle className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-amber-600 dark:text-amber-400 tabular-nums">
+                                  ₹{curBranchYearly.annualPending.toLocaleString('en-IN')}
+                                </div>
+                                <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
+                                  Session balance due
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 5: Annual Rate */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs col-span-2 sm:col-span-1 flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-[#2864E8] dark:text-blue-400 uppercase">Annual Rate</span>
+                                <div className="w-7 h-7 rounded-lg bg-blue-50 dark:bg-blue-950/40 flex items-center justify-center text-[#2864E8] dark:text-blue-400">
+                                  <TrendingUp className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-[#2864E8] dark:text-blue-400 tabular-nums">
+                                  {curBranchYearly.annualRate}%
+                                </div>
+                                <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1.5">
+                                  <div
+                                    className={`h-full rounded-full transition-all duration-500 ${curBranchYearly.annualRate >= 75 ? 'bg-emerald-500' : 'bg-[#2864E8]'}`}
+                                    style={{ width: `${Math.min(100, Math.max(0, curBranchYearly.annualRate))}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 2. Month-by-Month Session Breakdown Table for this Branch */}
+                          <div className="border border-slate-200/80 dark:border-slate-800 rounded-xl overflow-hidden bg-white dark:bg-slate-900 shadow-2xs">
+                            <div className="px-4 py-3 bg-slate-50/70 dark:bg-slate-800/40 border-b border-slate-200/70 dark:border-slate-800 flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                <Calendar className="w-4 h-4 text-slate-500 dark:text-slate-400" />
+                                <span className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                                  Month-by-Month Session Breakdown — {branchName}
+                                </span>
+                              </div>
+                              <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
+                                Academic Session 2026-27 (Apr 2026 – Mar 2027)
+                              </span>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                              <table className="w-full text-left text-xs sm:text-sm">
+                                <thead className="bg-slate-50/90 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800">
+                                  <tr>
+                                    <th className="py-2.5 sm:py-3 px-4 sm:px-5 whitespace-nowrap">Month</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap">Active Students</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Expected Revenue</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Collected Revenue</th>
+                                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap">Pending Balance</th>
+                                    <th className="py-2.5 sm:py-3 px-4 sm:px-5 text-center whitespace-nowrap">Collection Rate</th>
+                                  </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/70">
+                                  {curBranchYearly.monthData.map(m => (
+                                    <tr key={m.month} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40 transition-colors">
+                                      <td className="py-3 px-4 sm:px-5 font-semibold text-slate-900 dark:text-white text-[13px] whitespace-nowrap tracking-tight">
+                                        {m.monthLabel}
                                       </td>
-                                      <td className="py-3 px-3.5 text-right text-slate-900 dark:text-white font-medium text-[13px] tabular-nums whitespace-nowrap">
-                                        ₹{curBranchYearly.annualExpected.toLocaleString('en-IN')}
+                                      <td className="py-3 px-3.5 text-center font-mono tabular-nums text-slate-700 dark:text-slate-300 text-[13px]">
+                                        {m.studentCount}
                                       </td>
-                                      <td className="py-3 px-3.5 text-right text-emerald-600 dark:text-emerald-400 font-bold text-[13px] tabular-nums whitespace-nowrap">
-                                        ₹{curBranchYearly.annualReceived.toLocaleString('en-IN')}
+                                      <td className="py-3 px-3.5 text-right font-medium text-slate-900 dark:text-slate-100 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                        ₹{m.expected.toLocaleString('en-IN')}
                                       </td>
-                                      <td className="py-3 px-3.5 text-right text-amber-600 dark:text-amber-400 font-bold text-[13px] tabular-nums whitespace-nowrap">
-                                        ₹{curBranchYearly.annualPending.toLocaleString('en-IN')}
+                                      <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                        ₹{m.received.toLocaleString('en-IN')}
                                       </td>
-                                      <td className="py-3 px-3.5 text-center pr-4 whitespace-nowrap">
-                                        <span className="text-[12px] font-bold text-[#2864E8] dark:text-blue-400 tabular-nums">
-                                          {curBranchYearly.annualRate}%
+                                      <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                        ₹{m.pending.toLocaleString('en-IN')}
+                                      </td>
+                                      <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                        <span className={`inline-flex items-center justify-center min-w-[50px] px-2 py-0.5 rounded-full text-[11px] font-bold font-mono tabular-nums ${
+                                          m.rate >= 75
+                                            ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/50'
+                                            : 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/50'
+                                        }`}>
+                                          {m.rate}%
                                         </span>
                                       </td>
                                     </tr>
-                                  </tfoot>
-                                </table>
-                              </div>
+                                  ))}
+                                </tbody>
+                                <tfoot className="bg-slate-50/90 dark:bg-slate-800/80 border-t-2 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-xs sm:text-sm">
+                                  <tr>
+                                    <td className="py-3 px-4 sm:px-5 font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                                      Annual Total ({branchName})
+                                    </td>
+                                    <td className="py-3 px-3.5 text-center font-bold text-slate-900 dark:text-white text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      {curBranchYearly.activeStudents}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-slate-900 dark:text-white text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{curBranchYearly.annualExpected.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-emerald-600 dark:text-emerald-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{curBranchYearly.annualReceived.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-3.5 text-right font-bold text-amber-600 dark:text-amber-400 text-[13px] font-mono tabular-nums whitespace-nowrap">
+                                      ₹{curBranchYearly.annualPending.toLocaleString('en-IN')}
+                                    </td>
+                                    <td className="py-3 px-4 sm:px-5 text-center whitespace-nowrap">
+                                      <span className="inline-flex items-center justify-center min-w-[50px] px-2.5 py-0.5 rounded-full text-[11.5px] font-bold font-mono tabular-nums bg-blue-50 dark:bg-blue-950/50 text-[#2864E8] dark:text-blue-400 border border-blue-200/60 dark:border-blue-800/60">
+                                        {curBranchYearly.annualRate}%
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tfoot>
+                              </table>
                             </div>
-                          );
-                        })()}
-                      </div>
-                    )}
-                  </>
+                          </div>
+                        </div>
+                      );
+                    })()
+                  )
                 )}
               </CardContent>
             </Card>

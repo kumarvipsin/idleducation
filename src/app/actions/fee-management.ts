@@ -162,13 +162,18 @@ function loadDatabaseFromDisk(): FeeDatabase {
   }
 }
 
-async function persistDatabaseToFirestore(data: FeeDatabase): Promise<FeeDatabase> {
+async function persistDatabaseToFirestore(
+  data: FeeDatabase,
+  dirtyKeys?: readonly (typeof FEE_DB_DOC_KEYS)[number][]
+): Promise<FeeDatabase> {
   const normalized = normalizeDatabase(data);
   const sanitized = stripUndefinedDeep(normalized);
   const nowIso = new Date().toISOString();
 
+  const keysToWrite = dirtyKeys && dirtyKeys.length > 0 ? dirtyKeys : FEE_DB_DOC_KEYS;
+
   await Promise.all(
-    FEE_DB_DOC_KEYS.map((key) =>
+    keysToWrite.map((key) =>
       setDoc(doc(db, FEE_DB_COLLECTION, key), {
         items: sanitized[key],
         updatedAt: nowIso,
@@ -341,9 +346,11 @@ function readResetBackupFile(): FeeResetBackupFile | null {
   }
 }
 
-async function saveDatabase(data: FeeDatabase): Promise<void> {
-  invalidateFeeDbCache();
-  const normalized = await persistDatabaseToFirestore(data);
+async function saveDatabase(
+  data: FeeDatabase,
+  dirtyKeys?: readonly (typeof FEE_DB_DOC_KEYS)[number][]
+): Promise<void> {
+  const normalized = await persistDatabaseToFirestore(data, dirtyKeys);
   // Keep local JSON mirror only as non-fatal dev convenience; deployed App Hosting containers can have read-only/ephemeral FS.
   try {
     writeJsonAtomic(DB_PATH, normalized);
@@ -618,7 +625,7 @@ export async function createFeeClass(data: {
 
     const dbData = await loadDatabase({ forceFresh: true });
     dbData.classes.unshift(newClass);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['classes']);
 
     return {
       success: true,
@@ -659,7 +666,7 @@ export async function updateFeeClass(
       order: data.order !== undefined ? (data.order !== null && !isNaN(Number(data.order)) ? Number(data.order) : undefined) : dbData.classes[idx].order,
       updatedAt: new Date().toISOString(),
     };
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['classes']);
     return { success: true, message: 'Class updated successfully.' };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to update class.' };
@@ -685,7 +692,7 @@ export async function deleteFeeClass(id: string): Promise<{ success: boolean; me
     }
 
     dbData.classes = dbData.classes.filter(c => c.id !== id);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['classes']);
     return { success: true, message: 'Class deleted successfully.' };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to delete class.' };
@@ -778,7 +785,7 @@ export async function createFeeBatch(data: {
     };
 
     dbData.batches.unshift(newBatch);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['batches']);
 
     return {
       success: true,
@@ -980,7 +987,7 @@ export async function updateFeeBatch(
       });
     }
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, updatedStudentCount > 0 ? ['batches', 'students', 'ledger'] : ['batches']);
 
     const syncNote = updatedStudentCount > 0
       ? ` Changes automatically synced to ${updatedStudentCount} enrolled student${updatedStudentCount > 1 ? 's' : ''}.`
@@ -1012,7 +1019,7 @@ export async function deleteFeeBatch(id: string): Promise<{ success: boolean; me
     }
 
     dbData.batches = dbData.batches.filter(b => b.id !== id);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['batches']);
     return { success: true, message: 'Batch deleted successfully.' };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to delete batch.' };
@@ -1347,7 +1354,7 @@ export async function createFeeStudent(data: {
       currentMonthLabel = syncRes.currentMonthLabel;
     }
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger', 'payments']);
 
     return {
       success: true,
@@ -1530,7 +1537,7 @@ export async function updateFeeStudent(
       }
     }
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, isYearlyUpdated ? ['students', 'ledger', 'payments'] : ['students', 'ledger']);
     return { success: true, message: 'Student details updated successfully.', data: updatedStudent };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to update student.' };
@@ -1600,7 +1607,7 @@ export async function addStudentAdditionalSubject(data: {
       };
     }
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger']);
     return { success: true, message: `Added ${newSub.name} (+₹${newSub.fee}/mo) successfully.`, data: updatedStudent };
   } catch (error: any) {
     return { success: false, message: error.message || 'Failed to add additional subject.' };
@@ -1677,7 +1684,7 @@ export async function removeStudentAdditionalSubject(data: {
       };
     }
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger']);
     return {
       success: true,
       message: `Removed ${sub.name} starting from ${await getMonthLabel(effectiveMonth)}. History preserved.`,
@@ -1824,7 +1831,7 @@ export async function transferFeeStudent(data: {
       c.studentCount = dbData.students.filter(s => s.classId === c.id && s.status === 'active').length;
     });
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['classes', 'students', 'ledger']);
 
     return {
       success: true,
@@ -1960,7 +1967,7 @@ export async function collectYearlyPackagePayment(data: {
     };
     dbData.payments.unshift(newPayment);
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['ledger', 'payments']);
     return {
       success: true,
       message: `Yearly package of ₹${totalFee.toLocaleString('en-IN')} recorded successfully. All ${courseMonths} months set to PAID with ${scholarshipPercent}% Scholarship applied.`,
@@ -2056,7 +2063,7 @@ export async function toggleStudentStatus(
     }
 
     student.updatedAt = now;
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger']);
 
     const actionWord = newStatus === 'disabled' ? 'PAUSED' : 'ACTIVATED';
     const scopeWord = mode === 'all_months' ? 'sabhi mahino ke liye' : `${monthLabel} se aage ke liye`;
@@ -2104,7 +2111,7 @@ export async function deleteStudentFromMonth(
       p => !(p.studentId === studentId && p.month === month)
     );
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger', 'payments']);
 
     return {
       success: true,
@@ -2135,7 +2142,7 @@ export async function restoreStudentToMonth(
       student.excludedMonths = student.excludedMonths.filter(m => m !== month);
     }
     student.updatedAt = new Date().toISOString();
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger']);
 
     // Reconstruct monthly ledger for this month cleanly
     await getMonthlyLedger(month, { branchId: student.branchId, forceFresh: true });
@@ -2164,7 +2171,7 @@ export async function deleteFeeStudent(id: string): Promise<{ success: boolean; 
     dbData.students = dbData.students.filter(s => s.id !== id);
     dbData.ledger = dbData.ledger.filter(l => l.studentId !== id);
     dbData.payments = dbData.payments.filter(p => p.studentId !== id);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['students', 'ledger', 'payments']);
 
     return {
       success: true,
@@ -2397,7 +2404,7 @@ export async function getMonthlyLedger(
     }
 
     if (modified) {
-      await saveDatabase(dbData);
+      await saveDatabase(dbData, ['ledger']);
     }
 
     // Filter ledgers
@@ -2726,7 +2733,7 @@ export async function collectFeePayment(data: {
     };
 
     dbData.payments.unshift(newPayment);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['ledger', 'payments']);
 
     return {
       success: true,
@@ -2759,7 +2766,7 @@ export async function updatePaymentDate(
       ledger.updatedAt = new Date().toISOString();
     }
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['ledger', 'payments']);
     return {
       success: true,
       message: `Receipt ${payment.receiptNumber} ki collection date badal kar "${newPaymentDate}" kar di gayi hai (Purani date: ${oldDate}).`,
@@ -2871,7 +2878,7 @@ export async function revertFeePayment(paymentId: string): Promise<{
 
     // Remove the payment from payments array
     dbData.payments.splice(paymentIndex, 1);
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['ledger', 'payments']);
 
     return {
       success: true,
@@ -2921,7 +2928,7 @@ export async function markMonthUnpaid(
     );
     const removedCount = countBefore - dbData.payments.length;
 
-    await saveDatabase(dbData);
+    await saveDatabase(dbData, ['ledger', 'payments']);
 
     return {
       success: true,
@@ -3319,5 +3326,118 @@ export async function getBranchYearlyReport(
         },
       },
     };
+  }
+}
+
+// =============================================================
+// 7. CONSOLIDATED REAL-TIME DASHBOARD BUNDLE (OPTIMIZED DATA LAYER)
+// =============================================================
+
+export interface FeeDashboardBundle {
+  stats: FeeDashboardStats;
+  classes: FeeClass[];
+  batches: FeeBatch[];
+  students: FeeStudent[];
+  ledger: (FeeLedgerEntry & { student: FeeStudent })[];
+  yearlyReport: BranchYearlyReportResult;
+  payments: FeePayment[];
+  backupStatus: ResetBackupStatus;
+}
+
+/**
+ * Consolidated high-performance server action that retrieves all data needed by the fee management dashboard
+ * in a SINGLE network roundtrip with 1 Firestore load, reducing network chatter from 7 HTTP POSTs to 1.
+ */
+export async function getFeeDashboardBundle(
+  month?: string,
+  branchId?: string,
+  options?: { forceFresh?: boolean }
+): Promise<{ success: boolean; data?: FeeDashboardBundle; message?: string }> {
+  try {
+    const adminCtx = await getServerAdminContext();
+    const effectiveBranch = await resolveEffectiveFeeBranch(branchId);
+    const directoryScopeBranch = adminCtx?.isBranchAdmin ? effectiveBranch : 'all';
+    const currentMonth = await getCurrentMonth();
+    const effectiveMonth = month || currentMonth;
+
+    if (isEmptyBranchSelection(effectiveBranch)) {
+      const emptyMonthLabel = await getMonthLabel(effectiveMonth);
+      const backupStatus = await getResetBackupStatus();
+      return {
+        success: true,
+        data: {
+          stats: {
+            totalStudents: 0,
+            activeStudents: 0,
+            disabledStudents: 0,
+            totalClasses: 0,
+            totalBatches: 0,
+            currentMonth: effectiveMonth,
+            currentMonthLabel: emptyMonthLabel,
+            totalExpectedFee: 0,
+            totalReceivedFee: 0,
+            totalPendingFee: 0,
+            totalAdvanceFee: 0,
+            overdueCount: 0,
+            collectionRate: 0,
+            classBreakdown: [],
+            branchBreakdown: [],
+            recentPayments: [],
+          },
+          classes: [],
+          batches: [],
+          students: [],
+          ledger: [],
+          yearlyReport: {
+            session: '2026-27',
+            sessionLabel: 'Session 2026-27',
+            branches: [],
+            totals: {
+              annualExpected: 0,
+              annualReceived: 0,
+              annualPending: 0,
+              annualRate: 0,
+              activeStudents: 0,
+            },
+          },
+          payments: [],
+          backupStatus,
+        },
+      };
+    }
+
+    // Step 1: Ensure monthly ledger is constructed with forceFresh if requested
+    const ledgerRes = await getMonthlyLedger(effectiveMonth, {
+      branchId: effectiveBranch,
+      forceFresh: options?.forceFresh,
+    });
+
+    // Step 2: All subsequent data views reuse the fresh in-memory cache with zero extra Firestore reads
+    const [statsRes, classesRes, batchesRes, studentsRes, yearlyRes, paymentsRes, backupStatus] = await Promise.all([
+      getFeeDashboardStats(effectiveMonth, effectiveBranch, { forceFresh: false }),
+      getFeeClasses(directoryScopeBranch, { forceFresh: false }),
+      getFeeBatches(undefined, directoryScopeBranch, { forceFresh: false }),
+      getFeeStudents({ branchId: directoryScopeBranch, forceFresh: false }),
+      getBranchYearlyReport('2026-27', { forceFresh: false }),
+      getFeePayments({ month: effectiveMonth, branchId: effectiveBranch, forceFresh: false }),
+      getResetBackupStatus(),
+    ]);
+
+    return {
+      success: true,
+      data: {
+        stats: statsRes.data,
+        classes: classesRes.data,
+        batches: batchesRes.data,
+        students: studentsRes.data,
+        ledger: ledgerRes.data,
+        yearlyReport: yearlyRes.data,
+        payments: paymentsRes.data,
+        backupStatus,
+      },
+    };
+  } catch (error: any) {
+    console.error('Error fetching fee dashboard bundle:', error);
+    return { success: false, message: error.message || 'Failed to fetch fee dashboard bundle.' };
   }
 }
