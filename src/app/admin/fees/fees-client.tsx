@@ -581,6 +581,8 @@ export function FeesClient({
     order: '',
   });
   const [newEditBatchSubjectInput, setNewEditBatchSubjectInput] = useState('');
+  const [isEditBatchSubjectInputOpen, setIsEditBatchSubjectInputOpen] = useState(false);
+  const editBatchSubjectInputRef = useRef<HTMLInputElement | null>(null);
   const [editingEditBatchSubIdx, setEditingEditBatchSubIdx] = useState<number | null>(null);
   const [editingEditBatchSubName, setEditingEditBatchSubName] = useState('');
 
@@ -1315,10 +1317,12 @@ export function FeesClient({
     const eDate = batch.endDate || parsed.endDate;
     const mFee = batch.monthlyFee || 0;
     const cFee = batch.courseFee || (mFee > 0 ? mFee * 12 : 0);
+    const matchedClass = classes.find(c => c.id === batch.classId);
+    const resolvedBranchId = batch.branchId || matchedClass?.branchId || 'budh-vihar';
 
     setEditBatchForm({
       classId: batch.classId,
-      branchId: batch.branchId || 'mukherjee-nagar',
+      branchId: resolvedBranchId,
       name: batch.name,
       duration: batch.duration || '',
       classTime: batch.classTime || '',
@@ -1330,6 +1334,7 @@ export function FeesClient({
       order: batch.order !== undefined && batch.order !== null ? batch.order : '',
     });
     setNewEditBatchSubjectInput('');
+    setIsEditBatchSubjectInputOpen(false);
     setEditingEditBatchSubIdx(null);
     setEditingEditBatchSubName('');
     setIsEditBatchOpen(true);
@@ -5261,14 +5266,6 @@ export function FeesClient({
                                   >
                                     {entry.status === 'PAID' ? 'RECEIVED' : entry.status}
                                   </span>
-                                  {entry.forwardedToNextMonth && entry.forwardedAmount ? (
-                                    <span
-                                      className="text-[10px] font-medium bg-blue-50/60 dark:bg-blue-950/30 text-[#2864E8] dark:text-blue-300 border border-blue-200/60 dark:border-blue-800/50 py-0.5 px-2 text-center max-w-[155px] leading-tight rounded-md whitespace-nowrap"
-                                      title={`Unpaid ₹${entry.forwardedAmount} agle mahine (${entry.forwardedMonthLabel || 'Next Month'}) ke fee bill me add ho chuka hai`}
-                                    >
-                                      ➡️ Added to {entry.forwardedMonthLabel || 'Next Month'}
-                                    </span>
-                                  ) : null}
                                 </div>
                               </td>
                               <td className="py-3 px-3.5 text-right pr-5 whitespace-nowrap align-middle">
@@ -5283,25 +5280,13 @@ export function FeesClient({
                                       FEE RECEIPT
                                     </button>
                                   ) : (
-                                    <div className="flex items-center justify-end gap-1.5 flex-nowrap">
-                                      <Button
-                                        size="sm"
-                                        onClick={() => openCollectFeeModal(entry)}
-                                        className="h-[34px] min-w-[88px] px-2.5 rounded-[5px] text-[11px] font-semibold tracking-wider uppercase bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-none whitespace-nowrap flex items-center justify-center cursor-pointer transition-colors"
-                                      >
-                                        COLLECT FEE
-                                      </Button>
-                                      {entry.paidAmount > 0 && (
-                                        <button
-                                          type="button"
-                                          onClick={() => openRevertModal(entry)}
-                                          className="h-[34px] w-[34px] rounded-[5px] border border-slate-200/80 dark:border-slate-700/80 text-rose-500 hover:text-rose-600 hover:bg-rose-50/60 dark:hover:bg-rose-950/30 flex items-center justify-center transition-colors cursor-pointer"
-                                          title="Mark Unpaid / Revert"
-                                        >
-                                          <RotateCcw className="w-3 h-3" />
-                                        </button>
-                                      )}
-                                    </div>
+                                    <Button
+                                      size="sm"
+                                      onClick={() => openCollectFeeModal(entry)}
+                                      className="h-[34px] min-w-[88px] px-2.5 rounded-[5px] text-[11px] font-semibold tracking-wider uppercase bg-[#2864E8] hover:bg-[#1E4ED8] text-white shadow-none whitespace-nowrap flex items-center justify-center cursor-pointer transition-colors"
+                                    >
+                                      COLLECT FEE
+                                    </Button>
                                   )}
                                 </div>
                               </td>
@@ -6981,8 +6966,8 @@ export function FeesClient({
         {/* MODAL 1: CREATE CLASS (Matching CREATE ACADEMIC BATCH Design System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isClassModalOpen} onOpenChange={setIsClassModalOpen}>
-          <DialogContent className={FORM_CARD_DIALOG_CLS}>
-            <DialogHeader className={FORM_CARD_HEADER_CLS}>
+          <DialogContent className={`${FORM_CARD_DIALOG_CLS} !pt-3.5 !pb-3.5 !px-4 sm:!px-5`}>
+            <DialogHeader className={`${FORM_CARD_HEADER_CLS} !pb-2`}>
               <div>
                 <DialogTitle className={FORM_CARD_TITLE_CLS}>
                   Create Academic Class
@@ -6993,10 +6978,10 @@ export function FeesClient({
               </div>
             </DialogHeader>
 
-            <form onSubmit={handleCreateClass} className="space-y-3 pt-1" autoComplete="off">
+            <form onSubmit={handleCreateClass} className="space-y-2 pt-0.5" autoComplete="off">
               {/* Row 1: Class Name & Class Division */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Class Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
@@ -7009,7 +6994,7 @@ export function FeesClient({
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Class Division <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
@@ -7023,8 +7008,8 @@ export function FeesClient({
               </div>
 
               {/* Row 2: Branch & Academic Session */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
@@ -7049,7 +7034,7 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Academic Session
                   </Label>
@@ -7063,7 +7048,7 @@ export function FeesClient({
               </div>
 
               {/* Row 3: Card Order Number */}
-              <div className="space-y-1.5">
+              <div className="space-y-0.5">
                 <Label className={FORM_CARD_LABEL_CLS}>
                   Card Order Number <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
                 </Label>
@@ -7077,7 +7062,7 @@ export function FeesClient({
                 />
               </div>
 
-              <DialogFooter className="pt-2">
+              <DialogFooter className="pt-1.5">
                 <Button
                   type="submit"
                   disabled={isSubmittingClass}
@@ -7104,8 +7089,8 @@ export function FeesClient({
         {/* MODAL 2: CREATE BATCH (Restyled to match Contact Us Design System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isBatchModalOpen} onOpenChange={setIsBatchModalOpen}>
-          <DialogContent className={`${FORM_CARD_DIALOG_CLS} max-h-[90dvh] overflow-y-auto`}>
-            <DialogHeader className={FORM_CARD_HEADER_CLS}>
+          <DialogContent className={`${FORM_CARD_DIALOG_CLS} !pt-3.5 !pb-3.5 !px-4 sm:!px-5 max-h-[90dvh] overflow-y-auto`}>
+            <DialogHeader className={`${FORM_CARD_HEADER_CLS} !pb-2`}>
               <div>
                 <DialogTitle className={FORM_CARD_TITLE_CLS}>
                   Create Academic Batch
@@ -7116,10 +7101,10 @@ export function FeesClient({
               </div>
             </DialogHeader>
 
-            <form onSubmit={handleCreateBatch} className="space-y-3 pt-1" autoComplete="off">
+            <form onSubmit={handleCreateBatch} className="space-y-2 pt-0.5" autoComplete="off">
               {/* Row 1: Branch & Class */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
@@ -7157,7 +7142,7 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
@@ -7206,7 +7191,7 @@ export function FeesClient({
               </div>
 
               {/* Row 1B: Batch Name */}
-              <div className="space-y-1.5">
+              <div className="space-y-0.5">
                 <Label className={FORM_CARD_LABEL_CLS}>
                   Batch Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                 </Label>
@@ -7220,8 +7205,8 @@ export function FeesClient({
               </div>
 
               {/* Row 2: Batch Start Date & Batch End Date */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Batch Start Date
                   </Label>
@@ -7248,7 +7233,7 @@ export function FeesClient({
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Batch End Date
                   </Label>
@@ -7277,8 +7262,8 @@ export function FeesClient({
               </div>
 
               {/* Row 3: Class Timings & Batch Order */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Class Timings
                   </Label>
@@ -7290,7 +7275,7 @@ export function FeesClient({
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Batch Order <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
                   </Label>
@@ -7306,8 +7291,8 @@ export function FeesClient({
               </div>
 
               {/* Row 4: Batch Monthly Fee & Batch Yearly Fee */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Batch Monthly Fee (₹)
                   </Label>
@@ -7328,7 +7313,7 @@ export function FeesClient({
                   />
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Batch Yearly Fee (₹)
                   </Label>
@@ -7351,7 +7336,7 @@ export function FeesClient({
               </div>
 
               {/* Row 5: Subjects */}
-              <div className="space-y-1.5">
+              <div className="space-y-1">
                 <div className="flex items-center gap-1.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
                     Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
@@ -7399,7 +7384,7 @@ export function FeesClient({
                 )}
 
                 {batchForm.subjects && batchForm.subjects.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                     {batchForm.subjects.map((sub, idx) => (
                       <span
                         key={idx}
@@ -7421,7 +7406,7 @@ export function FeesClient({
                 )}
               </div>
 
-              <DialogFooter className="pt-2">
+              <DialogFooter className="pt-1.5">
                 <Button
                   type="submit"
                   disabled={isSubmittingBatch}
@@ -7448,80 +7433,129 @@ export function FeesClient({
         {/* MODAL 2B: EDIT BATCH */}
         {/* -------------------------------------------------------------------- */}
         {/* -------------------------------------------------------------------- */}
-        {/* MODAL 2B: EDIT BATCH DETAILS (Matching CREATE ACADEMIC BATCH Design System) */}
+        {/* MODAL 2B: EDIT BATCH (Matching CREATE ACADEMIC BATCH Design System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isEditBatchOpen} onOpenChange={setIsEditBatchOpen}>
-          <FormModalDialogContent
-            maxWidthClass="max-w-[480px] sm:max-w-[530px]"
-            hideCloseButton={true}
-            className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] !rounded-[6px] sm:!rounded-[8px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col overflow-hidden max-h-[90vh]"
-          >
-            {/* Header: Height exactly matching name field height (h-[34px] sm:h-[36px]) */}
-            <div className="h-[34px] sm:h-[36px] flex items-center justify-between px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0">
-              <span className="text-[12px] sm:text-[12.5px] font-bold tracking-[0.05em] uppercase text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                <Edit className="w-3.5 h-3.5 text-[#2864E8]" />
-                EDIT BATCH DETAILS
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsEditBatchOpen(false)}
-                className="w-6 h-6 -mr-1 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
-              </button>
-            </div>
-
-            <DialogHeader className="sr-only">
-              <DialogTitle>Edit Batch Details</DialogTitle>
-              <DialogDescription>Update batch details and schedule</DialogDescription>
+          <DialogContent className={`${FORM_CARD_DIALOG_CLS} !pt-3.5 !pb-3.5 !px-4 sm:!px-5 max-h-[90dvh] overflow-y-auto`}>
+            <DialogHeader className={`${FORM_CARD_HEADER_CLS} !pb-2`}>
+              <div>
+                <DialogTitle className={FORM_CARD_TITLE_CLS}>
+                  Edit Academic Batch
+                </DialogTitle>
+                <DialogDescription className={FORM_CARD_DESC_CLS}>
+                  Update academic batch schedule, timings, and fee structure.
+                </DialogDescription>
+              </div>
             </DialogHeader>
 
-            <form onSubmit={handleUpdateBatch} className="p-4 sm:p-5 space-y-3 sm:space-y-3.5 overflow-y-auto text-left" autoComplete="off">
-              {/* Row 1: Select Class (1st) & Batch Name (2nd) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+            <form onSubmit={handleUpdateBatch} className="space-y-2 pt-0.5" autoComplete="off">
+              {/* Row 1: Branch & Class */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Select
-                    value={editBatchForm.classId || undefined}
+                    value={editBatchForm.branchId || undefined}
                     onValueChange={val => {
-                      const targetCls = classes.find(c => c.id === val);
+                      const branchClasses = classes.filter(c => branchIdsMatch(c.branchId, val));
+                      const nextClass =
+                        branchClasses.length === 1
+                          ? branchClasses[0]
+                          : branchClasses.find(c => c.id === editBatchForm.classId);
                       setEditBatchForm(prev => ({
                         ...prev,
-                        classId: val,
-                        branchId: targetCls?.branchId || prev.branchId,
+                        branchId: val,
+                        classId: nextClass ? nextClass.id : prev.classId,
                       }));
                     }}
                   >
-                    <SelectTrigger className="h-[32px] sm:h-[35px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 [&>span]:text-[13px] sm:[&>span]:text-[13.5px] md:[&>span]:text-[14px] [&>span]:font-medium [&>span]:text-slate-900 dark:[&>span]:text-slate-100 data-[placeholder]:!text-slate-400 [&[data-placeholder]>span]:!text-slate-400 [&[data-placeholder]>span]:!text-[9.5px] sm:[&[data-placeholder]>span]:!text-[10px] [&[data-placeholder]>span]:!font-normal focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none flex items-center justify-between">
-                      <SelectValue placeholder="Class *" />
+                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
+                      <SelectValue placeholder="Select branch" />
                     </SelectTrigger>
-                    <SelectContent>
-                      {(classes.length > 0 ? classes : filteredClasses).map(c => (
-                        <SelectItem key={c.id} value={c.id} className="text-[13px] sm:text-[13.5px] md:text-[14px] font-medium py-1.5 sm:py-2">
-                          {c.name}
+                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
+                      {IDL_BRANCHES.filter(b => b.id !== 'all' && (!isBranchAdmin || branchIdsMatch(b.id, branchAdminBranchId))).map(b => (
+                        <SelectItem
+                          key={b.id}
+                          value={b.id}
+                          className={FORM_CARD_SELECT_ITEM_CLS}
+                        >
+                          {b.name}
                         </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
                 </div>
 
-                <div className="space-y-1">
-                  <Input
-                    placeholder="Batch Name *"
-                    value={editBatchForm.name}
-                    onChange={e => setEditBatchForm({ ...editBatchForm, name: e.target.value })}
-                    required
-                    className="h-[32px] sm:h-[35px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
+                  <Select
+                    value={editBatchForm.classId || undefined}
+                    onValueChange={val => {
+                      const matchedClass = classes.find(c => c.id === val);
+                      setEditBatchForm(prev => ({
+                        ...prev,
+                        classId: val,
+                        branchId: matchedClass?.branchId || prev.branchId,
+                      }));
+                    }}
+                  >
+                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
+                      <SelectValue placeholder="Select class" />
+                    </SelectTrigger>
+                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
+                      {(() => {
+                        const allAvailable = classes.length > 0 ? classes : filteredClasses;
+                        const branchScoped =
+                          editBatchForm.branchId && editBatchForm.branchId !== 'all'
+                            ? allAvailable.filter(c => branchIdsMatch(c.branchId, editBatchForm.branchId))
+                            : allAvailable;
+                        const listToRender = branchScoped.length > 0 ? branchScoped : allAvailable;
+                        return listToRender.map(c => {
+                          const brLabel = IDL_BRANCHES.find(b => branchIdsMatch(b.id, c.branchId))?.name.replace(' Branch', '');
+                          return (
+                            <SelectItem
+                              key={c.id}
+                              value={c.id}
+                              className={FORM_CARD_SELECT_ITEM_CLS}
+                            >
+                              {(!editBatchForm.branchId || editBatchForm.branchId === 'all' || branchScoped.length === 0) && brLabel
+                                ? `${c.name} (${brLabel})`
+                                : c.name}
+                            </SelectItem>
+                          );
+                        });
+                      })()}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
-              {/* Row 2: Start Date & End Date (No heading label, clean underline inputs) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              {/* Row 1B: Batch Name */}
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Batch Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                </Label>
+                <Input
+                  placeholder="e.g. Alpha, Batch A1"
+                  value={editBatchForm.name}
+                  onChange={e => setEditBatchForm({ ...editBatchForm, name: e.target.value })}
+                  required
+                  className={FORM_CARD_FIELD_CLS}
+                />
+              </div>
+
+              {/* Row 2: Batch Start Date & Batch End Date */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Start Date
+                  </Label>
                   <Input
                     type={editBatchForm.startDate ? "date" : "text"}
-                    placeholder="Batch Start Date (DD/MM/YYYY)"
+                    placeholder="DD/MM/YYYY"
                     value={editBatchForm.startDate || ''}
                     onFocus={e => (e.target.type = 'date')}
                     onBlur={e => {
@@ -7538,14 +7572,17 @@ export function FeesClient({
                         duration: durationStr,
                       });
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none cursor-pointer"
+                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch End Date
+                  </Label>
                   <Input
                     type={editBatchForm.endDate ? "date" : "text"}
-                    placeholder="Batch End Date (DD/MM/YYYY)"
+                    placeholder="DD/MM/YYYY"
                     value={editBatchForm.endDate || ''}
                     onFocus={e => (e.target.type = 'date')}
                     onBlur={e => {
@@ -7562,41 +7599,50 @@ export function FeesClient({
                         duration: durationStr,
                       });
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none cursor-pointer"
+                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
                   />
                 </div>
               </div>
 
-              {/* Row 3: Class Timings & Batch Order Number */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              {/* Row 3: Class Timings & Batch Order */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class Timings
+                  </Label>
                   <Input
-                    placeholder="Class Timings (e.g. 04:00 PM - 06:00 PM)"
+                    placeholder="e.g. 4:00 - 6:00 PM"
                     value={editBatchForm.classTime}
                     onChange={e => setEditBatchForm({ ...editBatchForm, classTime: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Order <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                  </Label>
                   <Input
                     type="number"
                     min="1"
-                    placeholder="Batch Order Number (e.g. 1, 2)"
-                    value={editBatchForm.order !== undefined ? editBatchForm.order : ''}
+                    placeholder="e.g. 1, 2"
+                    value={editBatchForm.order !== undefined && editBatchForm.order !== null ? editBatchForm.order : ''}
                     onChange={e => setEditBatchForm({ ...editBatchForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
-              {/* Row 4: Default Batch Fees (Monthly Fee & Yearly Fee) */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              {/* Row 4: Batch Monthly Fee & Batch Yearly Fee */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Monthly Fee (₹)
+                  </Label>
                   <Input
                     type="number"
                     min="0"
-                    placeholder="Batch Monthly Fee (₹)"
+                    placeholder="e.g. 1500"
                     value={editBatchForm.monthlyFee !== undefined && editBatchForm.monthlyFee > 0 ? editBatchForm.monthlyFee : ''}
                     onChange={e => {
                       const m = e.target.value === '' ? 0 : Number(e.target.value);
@@ -7606,15 +7652,18 @@ export function FeesClient({
                         courseFee: m > 0 ? m * 12 : 0,
                       }));
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Batch Yearly Fee (₹)
+                  </Label>
                   <Input
                     type="number"
                     min="0"
-                    placeholder="Batch Yearly Fee (₹)"
+                    placeholder="e.g. 18000"
                     value={editBatchForm.courseFee !== undefined && editBatchForm.courseFee > 0 ? editBatchForm.courseFee : ''}
                     onChange={e => {
                       const y = e.target.value === '' ? 0 : Number(e.target.value);
@@ -7624,16 +7673,47 @@ export function FeesClient({
                         monthlyFee: y > 0 ? Math.round(y / 12) : 0,
                       }));
                     }}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
-              {/* Row 5: Batch Subjects (Manual with + option) */}
-              <div className="space-y-2 pt-1">
-                <div className="flex items-center gap-2">
+              {/* Row 5: Subjects */}
+              <div className="space-y-1">
+                <div className="flex items-center gap-1.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Subjects <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                  </Label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!isEditBatchSubjectInputOpen) {
+                        setIsEditBatchSubjectInputOpen(true);
+                        requestAnimationFrame(() => editBatchSubjectInputRef.current?.focus());
+                      } else if (newEditBatchSubjectInput.trim()) {
+                        handleAddEditBatchSubject();
+                        requestAnimationFrame(() => editBatchSubjectInputRef.current?.focus());
+                      } else {
+                        setIsEditBatchSubjectInputOpen(false);
+                      }
+                    }}
+                    className={`${CIRCLE_PLUS_BTN_BASE_CLS} w-4 h-4 ${
+                      isEditBatchSubjectInputOpen
+                        ? 'border-[#2864E8]/70 text-[#2864E8] bg-[#2864E8]/[0.06] dark:border-blue-500/70 dark:text-blue-400'
+                        : 'border-slate-300 dark:border-slate-700 text-slate-400 dark:text-slate-500 hover:border-[#2864E8] hover:text-[#2864E8] hover:bg-[#2864E8]/[0.06]'
+                    }`}
+                    title={isEditBatchSubjectInputOpen && !newEditBatchSubjectInput.trim() ? 'Hide subject field' : 'Add Subject'}
+                    aria-label="Add Subject"
+                    aria-expanded={isEditBatchSubjectInputOpen}
+                  >
+                    <Plus className="w-2.5 h-2.5 stroke-[2.2]" />
+                  </button>
+                </div>
+
+                {isEditBatchSubjectInputOpen && (
                   <Input
-                    placeholder="Enter Subject (e.g. Physics, Maths)..."
+                    ref={editBatchSubjectInputRef}
+                    placeholder="e.g. Physics, Maths"
                     value={newEditBatchSubjectInput}
                     onChange={e => setNewEditBatchSubjectInput(e.target.value)}
                     onKeyDown={e => {
@@ -7642,26 +7722,16 @@ export function FeesClient({
                         handleAddEditBatchSubject();
                       }
                     }}
-                    className="h-[34px] sm:h-[36px] flex-1 border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
-                  <button
-                    type="button"
-                    onClick={() => handleAddEditBatchSubject()}
-                    className="h-[28px] sm:h-[30px] px-2.5 rounded-md text-[11px] font-bold bg-[#2864E8]/10 hover:bg-[#2864E8]/20 text-[#2864E8] flex items-center gap-1 transition-colors cursor-pointer shrink-0"
-                    title="Add Subject"
-                    aria-label="Add Subject"
-                  >
-                    <Plus className="w-3.5 h-3.5" />
-                    <span>Add Subject</span>
-                  </button>
-                </div>
+                )}
 
                 {editBatchForm.subjects && editBatchForm.subjects.length > 0 && (
-                  <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                  <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
                     {editBatchForm.subjects.map((sub, idx) => (
                       <span
                         key={idx}
-                        className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-[11px] font-semibold text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-700"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[5px] bg-slate-50 dark:bg-slate-900 text-xs font-medium text-[#0B1F4B] dark:text-slate-200 border border-slate-200 dark:border-slate-800"
                       >
                         <span>{sub}</span>
                         <button
@@ -7669,6 +7739,7 @@ export function FeesClient({
                           onClick={() => handleDeleteEditBatchSubject(idx)}
                           className="text-slate-400 hover:text-rose-600 transition-colors cursor-pointer"
                           title="Remove Subject"
+                          aria-label={`Remove ${sub}`}
                         >
                           <X className="w-3 h-3" />
                         </button>
@@ -7678,84 +7749,84 @@ export function FeesClient({
                 )}
               </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="group w-full h-[36px] sm:h-[38px] !rounded-[4px] sm:!rounded-[6px] font-bold text-[11px] sm:text-[11.5px] tracking-[0.08em] bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_2px_8px_rgba(40,100,232,0.25)] hover:shadow-[0_4px_12px_rgba(40,100,232,0.35)] uppercase flex items-center justify-center gap-1.5 transition-all cursor-pointer !mt-4"
-              >
-                <span>SAVE BATCH CHANGES</span>
-                <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
-              </Button>
+              <DialogFooter className="pt-1.5">
+                <Button
+                  type="submit"
+                  className={FORM_CARD_SUBMIT_BTN_CLS}
+                >
+                  <span>SAVE BATCH CHANGES</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                </Button>
+              </DialogFooter>
             </form>
-          </FormModalDialogContent>
+          </DialogContent>
         </Dialog>
 
         {/* -------------------------------------------------------------------- */}
-        {/* MODAL 1B: EDIT CLASS DETAILS (Matching CREATE ACADEMIC BATCH Design System) */}
+        {/* MODAL 1B: EDIT CLASS (Matching CREATE ACADEMIC CLASS Design System) */}
         {/* -------------------------------------------------------------------- */}
         <Dialog open={isEditClassOpen} onOpenChange={setIsEditClassOpen}>
-          <FormModalDialogContent
-            maxWidthClass="max-w-[480px] sm:max-w-[530px]"
-            hideCloseButton={true}
-            className="w-[94vw] sm:w-[92vw] p-0 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.18),0_2px_8px_rgba(15,23,42,0.06)] !rounded-[6px] sm:!rounded-[8px] border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-950 flex flex-col overflow-hidden max-h-[90vh]"
-          >
-            {/* Header: Height exactly matching name field height (h-[34px] sm:h-[36px]) */}
-            <div className="h-[34px] sm:h-[36px] flex items-center justify-between px-4 sm:px-5 border-b border-slate-100 dark:border-slate-800/80 bg-white dark:bg-slate-950 shrink-0">
-              <span className="text-[12px] sm:text-[12.5px] font-bold tracking-[0.05em] uppercase text-slate-800 dark:text-slate-100 flex items-center gap-1.5">
-                <Edit className="w-3.5 h-3.5 text-[#2864E8]" />
-                EDIT CLASS DETAILS
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsEditClassOpen(false)}
-                className="w-6 h-6 -mr-1 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-                aria-label="Close"
-              >
-                <X className="w-3.5 h-3.5 stroke-[2.2]" />
-              </button>
-            </div>
-
-            <DialogHeader className="sr-only">
-              <DialogTitle>Edit Class Details</DialogTitle>
-              <DialogDescription>Update class name, division, branch, or academic session.</DialogDescription>
+          <DialogContent className={`${FORM_CARD_DIALOG_CLS} !pt-3.5 !pb-3.5 !px-4 sm:!px-5`}>
+            <DialogHeader className={`${FORM_CARD_HEADER_CLS} !pb-2`}>
+              <div>
+                <DialogTitle className={FORM_CARD_TITLE_CLS}>
+                  Edit Academic Class
+                </DialogTitle>
+                <DialogDescription className={FORM_CARD_DESC_CLS}>
+                  Update academic class details and branch assignment.
+                </DialogDescription>
+              </div>
             </DialogHeader>
 
-            <form onSubmit={handleUpdateClass} className="p-4 sm:p-5 space-y-3 sm:space-y-3.5 overflow-y-auto" autoComplete="off">
+            <form onSubmit={handleUpdateClass} className="space-y-2 pt-0.5" autoComplete="off">
               {/* Row 1: Class Name & Class Division */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class Name <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Input
-                    placeholder="Class Name *"
+                    placeholder="e.g. Class 9, Class 10"
                     value={editClassForm.name}
                     onChange={e => setEditClassForm({ ...editClassForm, name: e.target.value })}
                     required
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Class Division <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Input
-                    placeholder="Class Division *"
+                    placeholder="e.g. Alpha, Sec A"
                     value={editClassForm.division || ''}
                     onChange={e => setEditClassForm({ ...editClassForm, division: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
               {/* Row 2: Branch & Academic Session */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Branch <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                  </Label>
                   <Select
                     value={editClassForm.branchId}
                     onValueChange={val => setEditClassForm({ ...editClassForm, branchId: val })}
                   >
-                    <SelectTrigger className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 [&>span]:text-[13px] sm:[&>span]:text-[13.5px] md:[&>span]:text-[14px] [&>span]:font-medium [&>span]:text-slate-900 dark:[&>span]:text-slate-100 data-[placeholder]:!text-slate-400 [&[data-placeholder]>span]:!text-slate-400 [&[data-placeholder]>span]:!text-[9.5px] sm:[&[data-placeholder]>span]:!text-[10px] [&[data-placeholder]>span]:!font-normal focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none flex items-center justify-between">
-                      <SelectValue placeholder="Branch *" />
+                    <SelectTrigger className={FORM_CARD_SELECT_TRIGGER_CLS}>
+                      <SelectValue placeholder="Select branch" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className={FORM_CARD_SELECT_CONTENT_CLS}>
                       {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => (
-                        <SelectItem key={b.id} value={b.id} className="text-[13px] sm:text-[13.5px] md:text-[14px] font-medium py-1.5 sm:py-2">
+                        <SelectItem
+                          key={b.id}
+                          value={b.id}
+                          className={FORM_CARD_SELECT_ITEM_CLS}
+                        >
                           {b.name}
                         </SelectItem>
                       ))}
@@ -7763,40 +7834,45 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-0.5">
+                  <Label className={FORM_CARD_LABEL_CLS}>
+                    Academic Session
+                  </Label>
                   <Input
-                    placeholder="Academic Session (e.g. 2026-27)"
+                    placeholder="e.g. 2026-27"
                     value={editClassForm.academicSession}
                     onChange={e => setEditClassForm({ ...editClassForm, academicSession: e.target.value })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
 
-              {/* Row 3: Display Order */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-3.5">
-                <div className="space-y-1">
-                  <Input
-                    type="number"
-                    min="1"
-                    placeholder="Card Order Number (e.g. 1, 2)"
-                    value={editClassForm.order !== undefined ? editClassForm.order : ''}
-                    onChange={e => setEditClassForm({ ...editClassForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
-                    className="h-[34px] sm:h-[36px] w-full border-0 border-b border-slate-200/90 dark:border-slate-700/80 !bg-transparent rounded-none px-0 text-[13px] sm:text-[13.5px] md:text-[14px] font-medium text-slate-900 dark:text-slate-100 placeholder:text-[9.5px] sm:placeholder:text-[10px] placeholder:text-slate-400 focus:outline-none focus:ring-0 focus:border-slate-300 dark:focus:border-slate-600 focus:shadow-none focus-visible:outline-none focus-visible:ring-0 focus-visible:shadow-none shadow-none"
-                  />
-                </div>
+              {/* Row 3: Card Order Number */}
+              <div className="space-y-0.5">
+                <Label className={FORM_CARD_LABEL_CLS}>
+                  Card Order Number <span className="text-slate-400 dark:text-slate-500 font-normal">(Optional)</span>
+                </Label>
+                <Input
+                  type="number"
+                  min="1"
+                  placeholder="e.g. 1, 2"
+                  value={editClassForm.order !== undefined && editClassForm.order !== null ? editClassForm.order : ''}
+                  onChange={e => setEditClassForm({ ...editClassForm, order: e.target.value === '' ? '' : Number(e.target.value) })}
+                  className={FORM_CARD_FIELD_CLS}
+                />
               </div>
 
-              {/* Submit Button */}
-              <Button
-                type="submit"
-                className="group w-full h-9 !rounded-[5px] text-xs font-semibold uppercase tracking-wider bg-[#2864E8] hover:bg-[#1E4ED8] active:bg-[#1842BE] text-white shadow-[0_1px_2px_rgba(15,23,42,0.08)] transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-1 sm:mt-1.5"
-              >
-                <span>SAVE CLASS CHANGES</span>
-                <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150" />
-              </Button>
+              <DialogFooter className="pt-1.5">
+                <Button
+                  type="submit"
+                  className={FORM_CARD_SUBMIT_BTN_CLS}
+                >
+                  <span>SAVE CLASS CHANGES</span>
+                  <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform duration-150 shrink-0" />
+                </Button>
+              </DialogFooter>
             </form>
-          </FormModalDialogContent>
+          </DialogContent>
         </Dialog>
 
         {/* -------------------------------------------------------------------- */}
