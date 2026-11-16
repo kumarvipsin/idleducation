@@ -325,10 +325,28 @@ function AdminLayout({
                                 <span>Overview</span>
                             </Link>
                         </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/classes')}>
+                            <Link href="/admin/attendance/classes">
+                                <BookMarked />
+                                <span>Classes & Batches</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/students') || pathname.startsWith('/admin/attendance/student/')}>
+                            <Link href="/admin/attendance/students">
+                                <Users />
+                                <span>Students</span>
+                            </Link>
+                        </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/live')}>
                             <Link href="/admin/attendance/live">
                                 <Radio />
                                 <span>Live Attendance</span>
+                            </Link>
+                        </SidebarMenuButton>
+                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/reports') || pathname.startsWith('/admin/attendance/weekly') || pathname.startsWith('/admin/attendance/monthly')}>
+                            <Link href="/admin/attendance/reports">
+                                <FileText />
+                                <span>Weekly & Monthly Reports</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/schedule')}>
@@ -341,18 +359,6 @@ function AdminLayout({
                             <Link href="/admin/attendance/mark">
                                 <ClipboardList />
                                 <span>Mark Attendance</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/classes')}>
-                            <Link href="/admin/attendance/classes">
-                                <BookMarked />
-                                <span>Classes & Batches</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/students') || pathname.startsWith('/admin/attendance/student/')}>
-                            <Link href="/admin/attendance/students">
-                                <Users />
-                                <span>Students</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/teachers')}>
@@ -377,24 +383,6 @@ function AdminLayout({
                             <Link href="/admin/attendance/holidays">
                                 <Building2 />
                                 <span>Holidays / Class Off</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/reports')}>
-                            <Link href="/admin/attendance/reports">
-                                <BarChart3 />
-                                <span>Reports & Analytics</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/weekly')}>
-                            <Link href="/admin/attendance/weekly">
-                                <CalendarDays />
-                                <span>Weekly Reports</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/monthly')}>
-                            <Link href="/admin/attendance/monthly">
-                                <CalendarDays />
-                                <span>Monthly Reports</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/audit-log')}>

@@ -1,7 +1,7 @@
 // IDL EDUCATION - Attendance Management System Data Store
 // Core domain entities, calculations, audit logging, and reactive state management
 
-export type StudentStatus = 'not_arrived' | 'present' | 'late' | 'absent' | 'leave' | 'left';
+export type StudentStatus = 'not_arrived' | 'present' | 'late' | 'absent' | 'leave' | 'left' | 'live';
 
 export type CallStatus = 'Not Contacted' | 'Contacted' | 'Busy' | 'Not Reachable' | 'Call Back Requested';
 
@@ -40,7 +40,10 @@ export interface TStudent {
   className: string; // e.g. "9th"
   batchId: string;
   batchName: string; // e.g. "9A"
+  branchId?: string;
   admissionDate: string; // "YYYY-MM-DD" e.g. "2026-08-10"
+  dueDate?: string; // "YYYY-MM-DD" e.g. "2026-09-10"
+  dueDayOfMonth?: number;
   exitDate?: string;
   status: 'active' | 'archived';
   dob?: string;
@@ -64,6 +67,12 @@ export interface TClass {
   batches: string[];
   status: 'active' | 'archived';
   description?: string;
+  division?: string;
+  branchId?: string;
+  academicSession?: string;
+  order?: number;
+  defaultMonthlyFee?: number;
+  studentCount?: number;
   createdAt?: string;
   isDemo?: boolean;
 }
@@ -73,10 +82,17 @@ export interface TBatch {
   name: string; // "9A", "9B", "10A", etc.
   classId: string;
   className: string;
-  room: string;
+  room?: string;
   status: 'active' | 'archived';
   startDate?: string;
   endDate?: string;
+  duration?: string;
+  classTime?: string;
+  order?: number;
+  monthlyFee?: number;
+  courseFee?: number;
+  subjects?: string[];
+  branchId?: string;
   description?: string;
   createdAt?: string;
   isDemo?: boolean;
@@ -494,19 +510,41 @@ export function isHolidayOnDate(
 // -----------------------------------------------------------------------------
 
 export const SEED_CLASSES: TClass[] = [
-  { id: 'c9', name: '9th', displayName: 'Class 9th (CBSE)', batches: ['9A', '9B'], status: 'active', createdAt: '2026-03-01', isDemo: true },
-  { id: 'c10', name: '10th', displayName: 'Class 10th (CBSE Board)', batches: ['10A', '10B'], status: 'active', createdAt: '2026-03-01', isDemo: true },
-  { id: 'c11', name: '11th', displayName: 'Class 11th (JEE/NEET)', batches: ['11A'], status: 'active', createdAt: '2026-03-01', isDemo: true },
-  { id: 'c12', name: '12th', displayName: 'Class 12th (Board & Entrance)', batches: ['12A'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  // 1. Budh Vihar
+  { id: 'c9', name: '9th', displayName: 'Class 9th (CBSE)', division: 'CBSE', branchId: 'budh-vihar', academicSession: '2026-27', order: 1, batches: ['9A', '9B'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c10', name: '10th', displayName: 'Class 10th (CBSE Board)', division: 'CBSE Board', branchId: 'budh-vihar', academicSession: '2026-27', order: 2, batches: ['10A', '10B'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+
+  // 2. Krishan Vihar
+  { id: 'c11', name: '11th', displayName: 'Class 11th (JEE/NEET)', division: 'JEE/NEET', branchId: 'krishan-vihar', academicSession: '2026-27', order: 1, batches: ['11A'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c12', name: '12th', displayName: 'Class 12th (Board & Entrance)', division: 'Board & Entrance', branchId: 'krishan-vihar', academicSession: '2026-27', order: 2, batches: ['12A'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+
+  // 3. Mangol Puri
+  { id: 'c9-mp', name: '9th', displayName: 'Class 9th (FOUNDATION)', division: 'FOUNDATION', branchId: 'mangolpuri', academicSession: '2026-27', order: 1, batches: ['9-MP'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c10-mp', name: '10th', displayName: 'Class 10th (BOARD PREP)', division: 'BOARD PREP', branchId: 'mangolpuri', academicSession: '2026-27', order: 2, batches: ['10-MP'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+
+  // 4. Mukherjee Nagar
+  { id: 'c11-mn', name: '11th', displayName: 'Class 11th (NEET TARGET)', division: 'NEET TARGET', branchId: 'mukherjee-nagar', academicSession: '2026-27', order: 1, batches: ['11-MN'], status: 'active', createdAt: '2026-03-01', isDemo: true },
+  { id: 'c12-mn', name: '12th', displayName: 'Class 12th (JEE ADVANCED)', division: 'JEE ADVANCED', branchId: 'mukherjee-nagar', academicSession: '2026-27', order: 2, batches: ['12-MN'], status: 'active', createdAt: '2026-03-01', isDemo: true },
 ];
 
 export const SEED_BATCHES: TBatch[] = [
-  { id: '9A', name: '9A', classId: 'c9', className: '9th', room: 'Room 101', status: 'active', startDate: '2026-04-01', description: 'Morning foundational batch', isDemo: true },
-  { id: '9B', name: '9B', classId: 'c9', className: '9th', room: 'Room 102', status: 'active', startDate: '2026-04-01', description: 'Afternoon standard batch', isDemo: true },
-  { id: '10A', name: '10A', classId: 'c10', className: '10th', room: 'Hall A', status: 'active', startDate: '2026-03-25', description: 'Board examination primary batch', isDemo: true },
-  { id: '10B', name: '10B', classId: 'c10', className: '10th', room: 'Hall B', status: 'active', startDate: '2026-04-01', description: 'Board examination evening batch', isDemo: true },
-  { id: '11A', name: '11A', classId: 'c11', className: '11th', room: 'Lab 1', status: 'active', startDate: '2026-04-01', description: 'Science & Entrance intensive', isDemo: true },
-  { id: '12A', name: '12A', classId: 'c12', className: '12th', room: 'Auditorium', status: 'active', startDate: '2026-04-01', description: 'Target 2027 competitive batch', isDemo: true },
+  // Budh Vihar
+  { id: '9A', name: 'Batch 9A', classId: 'c9', className: '9th', room: 'Room 101', status: 'active', branchId: 'budh-vihar', classTime: '04:00 PM - 06:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 2400, courseFee: 28800, subjects: ['Maths', 'Science', 'English', 'Social Studies'], startDate: '2026-04-01', description: 'Morning foundational batch', isDemo: true },
+  { id: '9B', name: 'Batch 9B', classId: 'c9', className: '9th', room: 'Room 102', status: 'active', branchId: 'budh-vihar', classTime: '06:00 PM - 08:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 2400, courseFee: 28800, subjects: ['Maths', 'Science', 'English', 'Social Studies'], startDate: '2026-04-01', description: 'Afternoon standard batch', isDemo: true },
+  { id: '10A', name: 'Batch 10A', classId: 'c10', className: '10th', room: 'Hall A', status: 'active', branchId: 'budh-vihar', classTime: '04:00 PM - 06:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 2600, courseFee: 31200, subjects: ['Maths', 'Science', 'English', 'Social Studies'], startDate: '2026-03-25', description: 'Board examination primary batch', isDemo: true },
+  { id: '10B', name: 'Batch 10B', classId: 'c10', className: '10th', room: 'Hall B', status: 'active', branchId: 'budh-vihar', classTime: '06:00 PM - 08:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 2600, courseFee: 31200, subjects: ['Maths', 'Science', 'English', 'Social Studies'], startDate: '2026-04-01', description: 'Board examination evening batch', isDemo: true },
+
+  // Krishan Vihar
+  { id: '11A', name: 'Batch 11A', classId: 'c11', className: '11th', room: 'Lab 1', status: 'active', branchId: 'krishan-vihar', classTime: '03:00 PM - 05:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 3000, courseFee: 36000, subjects: ['Physics', 'Chemistry', 'Mathematics', 'Biology'], startDate: '2026-04-01', description: 'Science & Entrance intensive', isDemo: true },
+  { id: '12A', name: 'Batch 12A', classId: 'c12', className: '12th', room: 'Auditorium', status: 'active', branchId: 'krishan-vihar', classTime: '05:00 PM - 07:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 3200, courseFee: 38400, subjects: ['Physics', 'Chemistry', 'Mathematics', 'Biology'], startDate: '2026-04-01', description: 'Target 2027 competitive batch', isDemo: true },
+
+  // Mangol Puri
+  { id: '9-MP', name: 'Batch 9-MP', classId: 'c9-mp', className: '9th', room: 'Room 201', status: 'active', branchId: 'mangolpuri', classTime: '04:00 PM - 06:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 2200, courseFee: 26400, subjects: ['Maths', 'Science', 'English'], startDate: '2026-04-01', description: 'Mangol Puri Foundation Batch', isDemo: true },
+  { id: '10-MP', name: 'Batch 10-MP', classId: 'c10-mp', className: '10th', room: 'Room 202', status: 'active', branchId: 'mangolpuri', classTime: '06:00 PM - 08:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 2400, courseFee: 28800, subjects: ['Maths', 'Science', 'English'], startDate: '2026-04-01', description: 'Mangol Puri Board Prep Batch', isDemo: true },
+
+  // Mukherjee Nagar
+  { id: '11-MN', name: 'Batch 11-MN', classId: 'c11-mn', className: '11th', room: 'Hall 1', status: 'active', branchId: 'mukherjee-nagar', classTime: '08:00 AM - 10:00 AM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 3500, courseFee: 42000, subjects: ['Physics', 'Chemistry', 'Biology'], startDate: '2026-04-01', description: 'Mukherjee Nagar NEET Target Batch', isDemo: true },
+  { id: '12-MN', name: 'Batch 12-MN', classId: 'c12-mn', className: '12th', room: 'Hall 2', status: 'active', branchId: 'mukherjee-nagar', classTime: '10:00 AM - 12:00 PM', duration: '01 Apr 2026 – 31 Mar 2027', monthlyFee: 3800, courseFee: 45600, subjects: ['Physics', 'Chemistry', 'Mathematics'], startDate: '2026-04-01', description: 'Mukherjee Nagar JEE Advanced Batch', isDemo: true },
 ];
 
 export const SEED_TEACHERS: TTeacher[] = [
@@ -570,125 +608,801 @@ export const SEED_AUDIT_LOGS: TAuditLog[] = [
   },
 ];
 
-// Generate 20-35 students per batch to reach 245 active students
+// Generate exactly 4 realistic students per batch across all branches
 export function generateSeedStudents(): TStudent[] {
-  const students: TStudent[] = [];
-  
-  const studentNames9A = [
-    'Aarav Sharma', 'Bhavya Singh', 'Karan Mehta', 'Neha Sharma', 'Rohan Verma',
-    'Sakshi Gupta', 'Aman Kumar', 'Mohit Verma', 'Ananya Patel', 'Devansh Joshi',
-    'Ishita Roy', 'Kabir Malhotra', 'Meera Nair', 'Pranav Rao', 'Riya Choudhary',
-    'Siddharth Jain', 'Tanvi Bhatia', 'Utkarsh Saxena', 'Vanshika Tiwari', 'Yash Mittal'
-  ];
-
-  const studentNames9B = [
-    'Diya Singh', 'Rohit Kumar', 'Aditi Chauhan', 'Ayush Bajpai', 'Chirag Sethi',
-    'Deepak Yadav', 'Divya Rajput', 'Gaurav Aggarwal', 'Harshita Pandey', 'Jatin Goyal',
-    'Khushi Kaushik', 'Lakshay Chhabra', 'Mansi Rawat', 'Nikhil Soni', 'Pooja Kashyap',
-    'Rahul Saini', 'Shreya Mishra', 'Tushar Garg', 'Varun Singhania', 'Zoya Khan', 'Ravi Kant'
-  ];
-
-  const studentNames10A = [
-    'Aryan Kapoor', 'Akash Tripathi', 'Disha Mathur', 'Farhan Ali', 'Isha Batra',
-    'Keshav Goyal', 'Lavanya Saxena', 'Manish Bisht', 'Muskan Arora', 'Naman Agrawal',
-    'Ojasvi Sen', 'Parth Shukla', 'Payal Ghosh', 'Raghav Bansal', 'Riddhi Chopra',
-    'Rishabh Tyagi', 'Samaira Dutta', 'Saurabh Chandra', 'Shubham Jindal', 'Simran Bedi',
-    'Sneha Bhattacharya', 'Sparsh Khandelwal', 'Tarun Nanda', 'Vaibhav Rastogi', 'Vidhi Singla',
-    'Vipin Mishra', 'Vivek Dubey', 'Yuvraj Thakur'
-  ];
-
-  // Batch 9A (20 students)
-  studentNames9A.forEach((name, idx) => {
-    students.push({
-      id: `s-9a-${idx + 1}`,
-      name,
-      rollNo: idx + 1,
+  const students: TStudent[] = [
+    // -------------------------------------------------------------
+    // BUDH VIHAR BRANCH (Total: 16 Students, 4 per batch)
+    // -------------------------------------------------------------
+    // Class 9th — Batch 9A
+    {
+      id: 's-bv-9a-1',
+      name: 'Aarav Sharma',
+      rollNo: 1,
       classId: 'c9',
       className: '9th',
       batchId: '9A',
-      batchName: '9A',
-      admissionDate: idx === 6 ? '2026-08-10' : '2026-04-01',
+      batchName: 'Batch 9A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
       status: 'active',
-      dob: '2011-05-14',
-      phone: `+91 98110 ${10000 + idx}`,
-      parentName: `${name.split(' ')[1] || 'Kumar'} (Father)`,
-      parentPhone: `+91 99110 ${20000 + idx}`,
-      address: 'Preet Vihar, New Delhi',
+      dob: '2011-04-12',
+      gender: 'Male',
+      phone: '+91 98110 11001',
+      parentName: 'Rajesh Sharma (Father)',
+      parentPhone: '+91 99110 11001',
+      address: 'Budh Vihar Phase-1, Delhi',
       createdAt: '2026-04-01',
-    });
-  });
+    },
+    {
+      id: 's-bv-9a-2',
+      name: 'Bhavya Singh',
+      rollNo: 2,
+      classId: 'c9',
+      className: '9th',
+      batchId: '9A',
+      batchName: 'Batch 9A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-06-25',
+      gender: 'Female',
+      phone: '+91 98110 11002',
+      parentName: 'Manoj Singh (Father)',
+      parentPhone: '+91 99110 11002',
+      address: 'Budh Vihar Phase-2, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-bv-9a-3',
+      name: 'Karan Mehta',
+      rollNo: 3,
+      classId: 'c9',
+      className: '9th',
+      batchId: '9A',
+      batchName: 'Batch 9A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-08-14',
+      gender: 'Male',
+      phone: '+91 98110 11003',
+      parentName: 'Sunita Mehta (Mother)',
+      parentPhone: '+91 99110 11003',
+      address: 'Sector 24, Rohini, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-bv-9a-4',
+      name: 'Neha Sharma',
+      rollNo: 4,
+      classId: 'c9',
+      className: '9th',
+      batchId: '9A',
+      batchName: 'Batch 9A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-09-19',
+      gender: 'Female',
+      phone: '+91 98110 11004',
+      parentName: 'Pawan Sharma (Father)',
+      parentPhone: '+91 99110 11004',
+      address: 'Budh Vihar Main Road, Delhi',
+      createdAt: '2026-04-01',
+    },
 
-  // Batch 9B (21 students)
-  studentNames9B.forEach((name, idx) => {
-    students.push({
-      id: `s-9b-${idx + 1}`,
-      name,
-      rollNo: idx + 1,
+    // Class 9th — Batch 9B
+    {
+      id: 's-bv-9b-1',
+      name: 'Diya Singh',
+      rollNo: 1,
       classId: 'c9',
       className: '9th',
       batchId: '9B',
-      batchName: '9B',
+      batchName: 'Batch 9B',
+      branchId: 'budh-vihar',
       admissionDate: '2026-04-01',
       status: 'active',
-      dob: '2011-08-20',
-      phone: `+91 98111 ${10000 + idx}`,
-      parentName: `${name.split(' ')[1] || 'Singh'} (Parent)`,
-      parentPhone: `+91 99111 ${20000 + idx}`,
-      address: 'Laxmi Nagar, New Delhi',
+      dob: '2011-05-18',
+      gender: 'Female',
+      phone: '+91 98110 12001',
+      parentName: 'Vikram Singh (Father)',
+      parentPhone: '+91 99110 12001',
+      address: 'Budh Vihar Phase-1, Delhi',
       createdAt: '2026-04-01',
-    });
-  });
+    },
+    {
+      id: 's-bv-9b-2',
+      name: 'Rohit Kumar',
+      rollNo: 2,
+      classId: 'c9',
+      className: '9th',
+      batchId: '9B',
+      batchName: 'Batch 9B',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-07-22',
+      gender: 'Male',
+      phone: '+91 98110 12002',
+      parentName: 'Ajay Kumar (Father)',
+      parentPhone: '+91 99110 12002',
+      address: 'Pooth Kalan, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-bv-9b-3',
+      name: 'Aditi Chauhan',
+      rollNo: 3,
+      classId: 'c9',
+      className: '9th',
+      batchId: '9B',
+      batchName: 'Batch 9B',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-10-05',
+      gender: 'Female',
+      phone: '+91 98110 12003',
+      parentName: 'Ramesh Chauhan (Father)',
+      parentPhone: '+91 99110 12003',
+      address: 'Vijay Vihar, Rohini, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-bv-9b-4',
+      name: 'Ayush Bajpai',
+      rollNo: 4,
+      classId: 'c9',
+      className: '9th',
+      batchId: '9B',
+      batchName: 'Batch 9B',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-11-12',
+      gender: 'Male',
+      phone: '+91 98110 12004',
+      parentName: 'Santosh Bajpai (Father)',
+      parentPhone: '+91 99110 12004',
+      address: 'Budh Vihar Phase-2, Delhi',
+      createdAt: '2026-04-01',
+    },
 
-  // Batch 10A (28 students)
-  studentNames10A.forEach((name, idx) => {
-    students.push({
-      id: `s-10a-${idx + 1}`,
-      name,
-      rollNo: idx + 1,
+    // Class 10th — Batch 10A
+    {
+      id: 's-bv-10a-1',
+      name: 'Aryan Kapoor',
+      rollNo: 1,
       classId: 'c10',
       className: '10th',
       batchId: '10A',
-      batchName: '10A',
+      batchName: 'Batch 10A',
+      branchId: 'budh-vihar',
       admissionDate: '2026-03-25',
       status: 'active',
-      dob: '2010-09-12',
-      phone: `+91 98112 ${10000 + idx}`,
-      parentName: `${name.split(' ')[1] || 'Sharma'} (Parent)`,
-      parentPhone: `+91 99112 ${20000 + idx}`,
-      address: 'Mayur Vihar, New Delhi',
+      dob: '2010-03-15',
+      gender: 'Male',
+      phone: '+91 98110 13001',
+      parentName: 'Sanjay Kapoor (Father)',
+      parentPhone: '+91 99110 13001',
+      address: 'Budh Vihar Phase-1, Delhi',
       createdAt: '2026-03-25',
-    });
-  });
+    },
+    {
+      id: 's-bv-10a-2',
+      name: 'Akash Tripathi',
+      rollNo: 2,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10A',
+      batchName: 'Batch 10A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-03-25',
+      status: 'active',
+      dob: '2010-06-11',
+      gender: 'Male',
+      phone: '+91 98110 13002',
+      parentName: 'Vinod Tripathi (Father)',
+      parentPhone: '+91 99110 13002',
+      address: 'Rithala, Rohini, Delhi',
+      createdAt: '2026-03-25',
+    },
+    {
+      id: 's-bv-10a-3',
+      name: 'Disha Mathur',
+      rollNo: 3,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10A',
+      batchName: 'Batch 10A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-03-25',
+      status: 'active',
+      dob: '2010-08-20',
+      gender: 'Female',
+      phone: '+91 98110 13003',
+      parentName: 'Kavita Mathur (Mother)',
+      parentPhone: '+91 99110 13003',
+      address: 'Budh Vihar, Delhi',
+      createdAt: '2026-03-25',
+    },
+    {
+      id: 's-bv-10a-4',
+      name: 'Farhan Ali',
+      rollNo: 4,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10A',
+      batchName: 'Batch 10A',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-03-25',
+      status: 'active',
+      dob: '2010-10-03',
+      gender: 'Male',
+      phone: '+91 98110 13004',
+      parentName: 'Imran Ali (Father)',
+      parentPhone: '+91 99110 13004',
+      address: 'Mangolpuri Block E, Delhi',
+      createdAt: '2026-03-25',
+    },
 
-  // Additional batches to bring total to 245
-  const remainingCount = 245 - students.length;
-  const batchesPool = [
-    { batch: '10B', classId: 'c10', className: '10th' },
-    { batch: '11A', classId: 'c11', className: '11th' },
-    { batch: '12A', classId: 'c12', className: '12th' },
-  ];
-
-  for (let i = 0; i < remainingCount; i++) {
-    const target = batchesPool[i % batchesPool.length];
-    const roll = Math.floor(i / batchesPool.length) + 1;
-    students.push({
-      id: `s-${target.batch.toLowerCase()}-${roll}`,
-      name: `Student ${target.batch}-${roll}`,
-      rollNo: roll,
-      classId: target.classId,
-      className: target.className,
-      batchId: target.batch,
-      batchName: target.batch,
+    // Class 10th — Batch 10B
+    {
+      id: 's-bv-10b-1',
+      name: 'Isha Batra',
+      rollNo: 1,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10B',
+      batchName: 'Batch 10B',
+      branchId: 'budh-vihar',
       admissionDate: '2026-04-01',
       status: 'active',
-      dob: '2009-02-18',
-      phone: `+91 98200 ${10000 + i}`,
-      parentName: `Parent of ${target.batch}-${roll}`,
-      parentPhone: `+91 99200 ${20000 + i}`,
-      address: 'Delhi NCR',
+      dob: '2010-04-18',
+      gender: 'Female',
+      phone: '+91 98110 14001',
+      parentName: 'Kamal Batra (Father)',
+      parentPhone: '+91 99110 14001',
+      address: 'Budh Vihar Phase-1, Delhi',
       createdAt: '2026-04-01',
-    });
-  }
+    },
+    {
+      id: 's-bv-10b-2',
+      name: 'Keshav Goyal',
+      rollNo: 2,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10B',
+      batchName: 'Batch 10B',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-05-29',
+      gender: 'Male',
+      phone: '+91 98110 14002',
+      parentName: 'Praveen Goyal (Father)',
+      parentPhone: '+91 99110 14002',
+      address: 'Sector 23, Rohini, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-bv-10b-3',
+      name: 'Lavanya Saxena',
+      rollNo: 3,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10B',
+      batchName: 'Batch 10B',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-09-08',
+      gender: 'Female',
+      phone: '+91 98110 14003',
+      parentName: 'Alok Saxena (Father)',
+      parentPhone: '+91 99110 14003',
+      address: 'Budh Vihar, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-bv-10b-4',
+      name: 'Manish Bisht',
+      rollNo: 4,
+      classId: 'c10',
+      className: '10th',
+      batchId: '10B',
+      batchName: 'Batch 10B',
+      branchId: 'budh-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-11-21',
+      gender: 'Male',
+      phone: '+91 98110 14004',
+      parentName: 'Harish Bisht (Father)',
+      parentPhone: '+91 99110 14004',
+      address: 'Begumpur, Delhi',
+      createdAt: '2026-04-01',
+    },
+
+    // -------------------------------------------------------------
+    // KRISHAN VIHAR BRANCH (Total: 8 Students, 4 per batch)
+    // -------------------------------------------------------------
+    // Class 11th — Batch 11A
+    {
+      id: 's-kv-11a-1',
+      name: 'Rohan Verma',
+      rollNo: 1,
+      classId: 'c11',
+      className: '11th',
+      batchId: '11A',
+      batchName: 'Batch 11A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-02-14',
+      gender: 'Male',
+      phone: '+91 98110 21001',
+      parentName: 'Satish Verma (Father)',
+      parentPhone: '+91 99110 21001',
+      address: 'Krishan Vihar Main, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-kv-11a-2',
+      name: 'Sakshi Gupta',
+      rollNo: 2,
+      classId: 'c11',
+      className: '11th',
+      batchId: '11A',
+      batchName: 'Batch 11A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-04-19',
+      gender: 'Female',
+      phone: '+91 98110 21002',
+      parentName: 'Ashok Gupta (Father)',
+      parentPhone: '+91 99110 21002',
+      address: 'Sultanpuri Road, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-kv-11a-3',
+      name: 'Aman Kumar',
+      rollNo: 3,
+      classId: 'c11',
+      className: '11th',
+      batchId: '11A',
+      batchName: 'Batch 11A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-07-28',
+      gender: 'Male',
+      phone: '+91 98110 21003',
+      parentName: 'Naresh Kumar (Father)',
+      parentPhone: '+91 99110 21003',
+      address: 'Krishan Vihar Pocket A, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-kv-11a-4',
+      name: 'Mohit Verma',
+      rollNo: 4,
+      classId: 'c11',
+      className: '11th',
+      batchId: '11A',
+      batchName: 'Batch 11A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-10-15',
+      gender: 'Male',
+      phone: '+91 98110 21004',
+      parentName: 'Rajiv Verma (Father)',
+      parentPhone: '+91 99110 21004',
+      address: 'Rohini Sector 20, Delhi',
+      createdAt: '2026-04-01',
+    },
+
+    // Class 12th — Batch 12A
+    {
+      id: 's-kv-12a-1',
+      name: 'Devansh Joshi',
+      rollNo: 1,
+      classId: 'c12',
+      className: '12th',
+      batchId: '12A',
+      batchName: 'Batch 12A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-01-20',
+      gender: 'Male',
+      phone: '+91 98110 22001',
+      parentName: 'Dinesh Joshi (Father)',
+      parentPhone: '+91 99110 22001',
+      address: 'Krishan Vihar, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-kv-12a-2',
+      name: 'Ishita Roy',
+      rollNo: 2,
+      classId: 'c12',
+      className: '12th',
+      batchId: '12A',
+      batchName: 'Batch 12A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-03-14',
+      gender: 'Female',
+      phone: '+91 98110 22002',
+      parentName: 'Subhash Roy (Father)',
+      parentPhone: '+91 99110 22002',
+      address: 'Rohini Sector 21, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-kv-12a-3',
+      name: 'Kabir Malhotra',
+      rollNo: 3,
+      classId: 'c12',
+      className: '12th',
+      batchId: '12A',
+      batchName: 'Batch 12A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-06-30',
+      gender: 'Male',
+      phone: '+91 98110 22003',
+      parentName: 'Anil Malhotra (Father)',
+      parentPhone: '+91 99110 22003',
+      address: 'Krishan Vihar Phase-2, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-kv-12a-4',
+      name: 'Meera Nair',
+      rollNo: 4,
+      classId: 'c12',
+      className: '12th',
+      batchId: '12A',
+      batchName: 'Batch 12A',
+      branchId: 'krishan-vihar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-09-09',
+      gender: 'Female',
+      phone: '+91 98110 22004',
+      parentName: 'Geetha Nair (Mother)',
+      parentPhone: '+91 99110 22004',
+      address: 'Rohini Sector 22, Delhi',
+      createdAt: '2026-04-01',
+    },
+
+    // -------------------------------------------------------------
+    // MANGOL PURI BRANCH (Total: 8 Students, 4 per batch)
+    // -------------------------------------------------------------
+    // Class 9th — Batch 9-MP
+    {
+      id: 's-mp-9-1',
+      name: 'Pranav Rao',
+      rollNo: 1,
+      classId: 'c9-mp',
+      className: '9th',
+      batchId: '9-MP',
+      batchName: 'Batch 9-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-03-24',
+      gender: 'Male',
+      phone: '+91 98110 31001',
+      parentName: 'Kishore Rao (Father)',
+      parentPhone: '+91 99110 31001',
+      address: 'Mangolpuri Block A, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mp-9-2',
+      name: 'Riya Choudhary',
+      rollNo: 2,
+      classId: 'c9-mp',
+      className: '9th',
+      batchId: '9-MP',
+      batchName: 'Batch 9-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-06-17',
+      gender: 'Female',
+      phone: '+91 98110 31002',
+      parentName: 'Mukesh Choudhary (Father)',
+      parentPhone: '+91 99110 31002',
+      address: 'Mangolpuri Block B, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mp-9-3',
+      name: 'Siddharth Jain',
+      rollNo: 3,
+      classId: 'c9-mp',
+      className: '9th',
+      batchId: '9-MP',
+      batchName: 'Batch 9-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-08-05',
+      gender: 'Male',
+      phone: '+91 98110 31003',
+      parentName: 'Vipul Jain (Father)',
+      parentPhone: '+91 99110 31003',
+      address: 'Mangolpuri Industrial Area, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mp-9-4',
+      name: 'Tanvi Bhatia',
+      rollNo: 4,
+      classId: 'c9-mp',
+      className: '9th',
+      batchId: '9-MP',
+      batchName: 'Batch 9-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2011-10-27',
+      gender: 'Female',
+      phone: '+91 98110 31004',
+      parentName: 'Rekha Bhatia (Mother)',
+      parentPhone: '+91 99110 31004',
+      address: 'Mangolpuri Block D, Delhi',
+      createdAt: '2026-04-01',
+    },
+
+    // Class 10th — Batch 10-MP
+    {
+      id: 's-mp-10-1',
+      name: 'Utkarsh Saxena',
+      rollNo: 1,
+      classId: 'c10-mp',
+      className: '10th',
+      batchId: '10-MP',
+      batchName: 'Batch 10-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-02-18',
+      gender: 'Male',
+      phone: '+91 98110 32001',
+      parentName: 'Mahesh Saxena (Father)',
+      parentPhone: '+91 99110 32001',
+      address: 'Mangolpuri Block C, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mp-10-2',
+      name: 'Vanshika Tiwari',
+      rollNo: 2,
+      classId: 'c10-mp',
+      className: '10th',
+      batchId: '10-MP',
+      batchName: 'Batch 10-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-05-14',
+      gender: 'Female',
+      phone: '+91 98110 32002',
+      parentName: 'Pradeep Tiwari (Father)',
+      parentPhone: '+91 99110 32002',
+      address: 'Avantika, Rohini Sector 1, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mp-10-3',
+      name: 'Yash Mittal',
+      rollNo: 3,
+      classId: 'c10-mp',
+      className: '10th',
+      batchId: '10-MP',
+      batchName: 'Batch 10-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-07-29',
+      gender: 'Male',
+      phone: '+91 98110 32003',
+      parentName: 'Sunil Mittal (Father)',
+      parentPhone: '+91 99110 32003',
+      address: 'Mangolpuri Block K, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mp-10-4',
+      name: 'Zoya Khan',
+      rollNo: 4,
+      classId: 'c10-mp',
+      className: '10th',
+      batchId: '10-MP',
+      batchName: 'Batch 10-MP',
+      branchId: 'mangolpuri',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2010-12-04',
+      gender: 'Female',
+      phone: '+91 98110 32004',
+      parentName: 'Tariq Khan (Father)',
+      parentPhone: '+91 99110 32004',
+      address: 'Mangolpuri Block H, Delhi',
+      createdAt: '2026-04-01',
+    },
+
+    // -------------------------------------------------------------
+    // MUKHERJEE NAGAR BRANCH (Total: 8 Students, 4 per batch)
+    // -------------------------------------------------------------
+    // Class 11th — Batch 11-MN
+    {
+      id: 's-mn-11-1',
+      name: 'Raghav Bansal',
+      rollNo: 1,
+      classId: 'c11-mn',
+      className: '11th',
+      batchId: '11-MN',
+      batchName: 'Batch 11-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-03-09',
+      gender: 'Male',
+      phone: '+91 98110 41001',
+      parentName: 'Hari Bansal (Father)',
+      parentPhone: '+91 99110 41001',
+      address: 'Commercial Complex, Mukherjee Nagar, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mn-11-2',
+      name: 'Riddhi Chopra',
+      rollNo: 2,
+      classId: 'c11-mn',
+      className: '11th',
+      batchId: '11-MN',
+      batchName: 'Batch 11-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-06-22',
+      gender: 'Female',
+      phone: '+91 98110 41002',
+      parentName: 'Deepak Chopra (Father)',
+      parentPhone: '+91 99110 41002',
+      address: 'Batra Cinema Road, Mukherjee Nagar, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mn-11-3',
+      name: 'Rishabh Tyagi',
+      rollNo: 3,
+      classId: 'c11-mn',
+      className: '11th',
+      batchId: '11-MN',
+      batchName: 'Batch 11-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-08-16',
+      gender: 'Male',
+      phone: '+91 98110 41003',
+      parentName: 'Devendra Tyagi (Father)',
+      parentPhone: '+91 99110 41003',
+      address: 'Indra Vihar, Mukherjee Nagar, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mn-11-4',
+      name: 'Samaira Dutta',
+      rollNo: 4,
+      classId: 'c11-mn',
+      className: '11th',
+      batchId: '11-MN',
+      batchName: 'Batch 11-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2009-11-30',
+      gender: 'Female',
+      phone: '+91 98110 41004',
+      parentName: 'Gautam Dutta (Father)',
+      parentPhone: '+91 99110 41004',
+      address: 'Hudson Lane, Kingsway Camp, Delhi',
+      createdAt: '2026-04-01',
+    },
+
+    // Class 12th — Batch 12-MN
+    {
+      id: 's-mn-12-1',
+      name: 'Saurabh Chandra',
+      rollNo: 1,
+      classId: 'c12-mn',
+      className: '12th',
+      batchId: '12-MN',
+      batchName: 'Batch 12-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-02-11',
+      gender: 'Male',
+      phone: '+91 98110 42001',
+      parentName: 'Bipin Chandra (Father)',
+      parentPhone: '+91 99110 42001',
+      address: 'Mukherjee Nagar West, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mn-12-2',
+      name: 'Shubham Jindal',
+      rollNo: 2,
+      classId: 'c12-mn',
+      className: '12th',
+      batchId: '12-MN',
+      batchName: 'Batch 12-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-04-25',
+      gender: 'Male',
+      phone: '+91 98110 42002',
+      parentName: 'Omprakash Jindal (Father)',
+      parentPhone: '+91 99110 42002',
+      address: 'Nehru Vihar, Mukherjee Nagar, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mn-12-3',
+      name: 'Simran Bedi',
+      rollNo: 3,
+      classId: 'c12-mn',
+      className: '12th',
+      batchId: '12-MN',
+      batchName: 'Batch 12-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-07-19',
+      gender: 'Female',
+      phone: '+91 98110 42003',
+      parentName: 'Harpreet Bedi (Father)',
+      parentPhone: '+91 99110 42003',
+      address: 'Model Town-3, Delhi',
+      createdAt: '2026-04-01',
+    },
+    {
+      id: 's-mn-12-4',
+      name: 'Yuvraj Thakur',
+      rollNo: 4,
+      classId: 'c12-mn',
+      className: '12th',
+      batchId: '12-MN',
+      batchName: 'Batch 12-MN',
+      branchId: 'mukherjee-nagar',
+      admissionDate: '2026-04-01',
+      status: 'active',
+      dob: '2008-10-08',
+      gender: 'Male',
+      phone: '+91 98110 42004',
+      parentName: 'Ranveer Thakur (Father)',
+      parentPhone: '+91 99110 42004',
+      address: 'Mukherjee Nagar Main, Delhi',
+      createdAt: '2026-04-01',
+    },
+  ];
 
   return students.map(s => ({ ...s, isDemo: true }));
 }
@@ -848,67 +1562,65 @@ export const SEED_SCHEDULE_ITEMS: TScheduleItem[] = [
   },
 ];
 
-// Active Live Class Session: 9th A Mathematics (Ongoing)
+// Active Live Attendance: Initial populated session across seeded students
 export function generateInitialLiveSession(students: TStudent[]): TClassSession {
-  const batch9AStudents = students.filter(s => s.batchId === '9A' && s.status === 'active');
+  const activeStudents = students.filter(s => s.status === 'active');
   const studentRecords: Record<string, TStudentSessionRecord> = {};
 
-  // First 6 students present as per reference UI
-  const presentPreset = [
-    { name: 'Aarav Sharma', checkIn: '04:00 PM' },
-    { name: 'Bhavya Singh', checkIn: '04:01 PM' },
-    { name: 'Karan Mehta', checkIn: '04:05 PM' },
-    { name: 'Neha Sharma', checkIn: '04:10 PM' },
-    { name: 'Rohan Verma', checkIn: '04:12 PM' },
-    { name: 'Sakshi Gupta', checkIn: '04:15 PM' },
-  ];
+  activeStudents.forEach((st, idx) => {
+    // Distribute realistic initial statuses across all batches:
+    // Roll 1: present, Roll 2: present, Roll 3: absent, Roll 4: present/leave
+    const mod = (st.rollNo || (idx % 4) + 1) % 4;
+    let stStatus: StudentStatus = 'present';
+    let checkIn: string | undefined = '09:00 AM';
 
-  batch9AStudents.forEach(st => {
-    const matched = presentPreset.find(p => p.name === st.name);
-    if (matched) {
-      const timing = calculateStudentAttendanceTiming('04:00 PM', '06:00 PM', matched.checkIn);
-      studentRecords[st.id] = {
-        studentId: st.id,
-        studentName: st.name,
-        rollNo: st.rollNo,
-        status: 'present',
-        checkInTime: matched.checkIn,
-        attendedMinutes: timing.attendedMinutes,
-        missedMinutes: timing.missedMinutes,
-        extraMinutes: timing.extraMinutes,
-        isOngoing: true,
-        isDemo: true,
-      };
+    if (mod === 1) {
+      stStatus = 'present';
+      checkIn = '04:00 PM';
+    } else if (mod === 2) {
+      stStatus = 'present';
+      checkIn = '04:05 PM';
+    } else if (mod === 3) {
+      stStatus = 'absent';
+      checkIn = undefined;
     } else {
-      // Remaining students start as NOT ARRIVED (strictly complying with user requirement)
-      studentRecords[st.id] = {
-        studentId: st.id,
-        studentName: st.name,
-        rollNo: st.rollNo,
-        status: 'not_arrived',
-        attendedMinutes: 0,
-        missedMinutes: 0,
-        extraMinutes: 0,
-        isDemo: true,
-      };
+      stStatus = (idx % 8 === 0) ? 'leave' : 'present';
+      checkIn = stStatus === 'leave' ? undefined : '04:12 PM';
     }
+
+    const timing = checkIn
+      ? calculateStudentAttendanceTiming('04:00 PM', '06:00 PM', checkIn)
+      : { attendedMinutes: 0, missedMinutes: 0, extraMinutes: 0 };
+
+    studentRecords[st.id] = {
+      studentId: st.id,
+      studentName: st.name,
+      rollNo: st.rollNo,
+      status: stStatus,
+      checkInTime: checkIn,
+      attendedMinutes: timing.attendedMinutes,
+      missedMinutes: timing.missedMinutes,
+      extraMinutes: timing.extraMinutes,
+      isOngoing: stStatus === 'present',
+      isDemo: true,
+    };
   });
 
   return {
-    id: 'session-live-9a-maths',
-    scheduleId: 'sch-4',
+    id: 'session-live-master',
+    scheduleId: 'sch-live-master',
     date: '2026-09-11',
-    classId: 'c9',
-    className: '9th',
-    batchId: '9A',
-    batchName: '9A',
-    subject: 'Mathematics',
-    teacherName: 'Amod Sharma',
-    scheduledStartTime: '04:00 PM',
+    classId: 'all',
+    className: 'All Classes',
+    batchId: 'all',
+    batchName: 'All Batches',
+    subject: 'Live Sessions',
+    teacherName: 'Faculty Team',
+    scheduledStartTime: '09:00 AM',
     scheduledEndTime: '06:00 PM',
-    scheduledDurationMinutes: 120,
+    scheduledDurationMinutes: 540,
     sessionStatus: 'Ongoing',
-    startedAt: '04:00 PM',
+    startedAt: '09:00 AM',
     studentRecords,
     isDemo: true,
   };
@@ -1760,7 +2472,7 @@ export function calculateDashboardStats(params: {
     if (!session.studentRecords) continue;
     for (const [stId, rec] of Object.entries(session.studentRecords)) {
       const st = (rec.status || '').toLowerCase();
-      if (st === 'present' || st === 'late' || st === 'left') {
+      if (st === 'present' || st === 'late' || st === 'left' || st === 'live') {
         presentStudentIds.add(stId);
         absentStudentIds.delete(stId);
       } else if (st === 'leave') {
@@ -1887,7 +2599,7 @@ export function calculateDashboardStats(params: {
     for (const rec of Object.values(sess.studentRecords || {})) {
       const st = (rec.status || '').toLowerCase();
       existing.total++;
-      if (st === 'present' || st === 'late' || st === 'left') {
+      if (st === 'present' || st === 'late' || st === 'left' || st === 'live') {
         existing.present++;
         existing.attended += rec.attendedMinutes > 0 ? rec.attendedMinutes : (sess.scheduledDurationMinutes || 60);
       }
@@ -2041,7 +2753,7 @@ export function calculateInstituteReports(params: {
       stStat.scheduledMins += duration;
       stStat.total++;
 
-      if (st === 'present' || st === 'late' || st === 'left') {
+      if (st === 'present' || st === 'late' || st === 'left' || st === 'live') {
         totalPresentMarks++;
         const attMins = rec.attendedMinutes > 0 ? rec.attendedMinutes : duration;
         totalAttendedMinutes += attMins;

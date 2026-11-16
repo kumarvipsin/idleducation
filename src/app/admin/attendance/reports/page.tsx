@@ -4,507 +4,1165 @@ import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useAttendance } from '@/context/attendance-context';
 import {
-  BarChart3,
+  CalendarDays,
   Calendar,
+  Building2,
+  Globe,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Check,
+  Search,
   Download,
-  Share2,
   Printer,
-  FileSpreadsheet,
-  TrendingUp,
-  Filter,
+  Phone,
+  PhoneCall,
+  User,
+  Users,
   CheckCircle2,
   XCircle,
   AlertTriangle,
   PlaneTakeoff,
-  Users,
   Clock,
-  Sparkles,
-  Search,
-  BookOpen,
+  Share2,
+  FileText,
+  Percent,
+  SlidersHorizontal,
+  X,
+  ExternalLink,
+  Info,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
 import {
-  ResponsiveContainer,
-  AreaChart,
-  Area,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  CartesianGrid,
-  Cell,
-} from 'recharts';
-import { calculateInstituteReports } from '@/lib/attendance-store';
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from '@/components/ui/dialog';
+import { Progress } from '@/components/ui/progress';
+import {
+  TStudent,
+  formatDateDisplay,
+  normalizeDateString,
+} from '@/lib/attendance-store';
 
-export default function ReportsPage() {
-  const { classes, batches, subjects, students, schedules, attendanceSessions, leaveRequests, holidays } = useAttendance();
+// Standard IDL Branches (Matching Fee Management and Attendance Overview)
+const IDL_BRANCHES = [
+  { id: 'all', name: 'All Branches' },
+  { id: 'budh-vihar', name: 'Budh Vihar' },
+  { id: 'krishan-vihar', name: 'Krishan Vihar' },
+  { id: 'mangolpuri', name: 'Mangol Puri' },
+  { id: 'mukherjee-nagar', name: 'Mukherjee Nagar' },
+];
 
-  const [period, setPeriod] = useState('monthly');
-  const [selectedMonth, setSelectedMonth] = useState('September 2026');
-  const [selectedClass, setSelectedClass] = useState('all');
-  const [selectedBatch, setSelectedBatch] = useState('all');
-  const [selectedSubject, setSelectedSubject] = useState('all');
+// Week definition interface
+interface CoachingWeek {
+  id: string;
+  label: string;
+  startDate: string; // YYYY-MM-DD
+  endDate: string;   // YYYY-MM-DD
+  days: {
+    date: string;
+    dayName: string; // 'Mon', 'Tue', etc.
+    dayNum: string;  // '07', '08'
+    formatted: string;
+  }[];
+}
 
-  const [isGenerating, setIsGenerating] = useState(false);
+// Predefined Coaching Weeks around Sep 2026
+const COACHING_WEEKS: CoachingWeek[] = [
+  {
+    id: 'week-current',
+    label: '07 Sep – 12 Sep 2026 (Current Week)',
+    startDate: '2026-09-07',
+    endDate: '2026-09-12',
+    days: [
+      { date: '2026-09-07', dayName: 'Mon', dayNum: '07', formatted: '07 Sep' },
+      { date: '2026-09-08', dayName: 'Tue', dayNum: '08', formatted: '08 Sep' },
+      { date: '2026-09-09', dayName: 'Wed', dayNum: '09', formatted: '09 Sep' },
+      { date: '2026-09-10', dayName: 'Thu', dayNum: '10', formatted: '10 Sep' },
+      { date: '2026-09-11', dayName: 'Fri', dayNum: '11', formatted: '11 Sep' },
+      { date: '2026-09-12', dayName: 'Sat', dayNum: '12', formatted: '12 Sep' },
+    ],
+  },
+  {
+    id: 'week-prev-1',
+    label: '31 Aug – 05 Sep 2026 (Previous Week)',
+    startDate: '2026-08-31',
+    endDate: '2026-09-05',
+    days: [
+      { date: '2026-08-31', dayName: 'Mon', dayNum: '31', formatted: '31 Aug' },
+      { date: '2026-09-01', dayName: 'Tue', dayNum: '01', formatted: '01 Sep' },
+      { date: '2026-09-02', dayName: 'Wed', dayNum: '02', formatted: '02 Sep' },
+      { date: '2026-09-03', dayName: 'Thu', dayNum: '03', formatted: '03 Sep' },
+      { date: '2026-09-04', dayName: 'Fri', dayNum: '04', formatted: '04 Sep' },
+      { date: '2026-09-05', dayName: 'Sat', dayNum: '05', formatted: '05 Sep' },
+    ],
+  },
+  {
+    id: 'week-prev-2',
+    label: '24 Aug – 29 Aug 2026 (2 Weeks Ago)',
+    startDate: '2026-08-24',
+    endDate: '2026-08-29',
+    days: [
+      { date: '2026-08-24', dayName: 'Mon', dayNum: '24', formatted: '24 Aug' },
+      { date: '2026-08-25', dayName: 'Tue', dayNum: '25', formatted: '25 Aug' },
+      { date: '2026-08-26', dayName: 'Wed', dayNum: '26', formatted: '26 Aug' },
+      { date: '2026-08-27', dayName: 'Thu', dayNum: '27', formatted: '27 Aug' },
+      { date: '2026-08-28', dayName: 'Fri', dayNum: '28', formatted: '28 Aug' },
+      { date: '2026-08-29', dayName: 'Sat', dayNum: '29', formatted: '29 Aug' },
+    ],
+  },
+];
 
-  // Dynamically calculate institute report from live application state
-  const reportData = useMemo(() => {
-    return calculateInstituteReports({
-      students,
-      schedules,
-      attendanceSessions,
-      leaveRequests,
-      holidays,
-      period,
-      selectedMonth,
-      selectedClass,
-      selectedBatch,
-      selectedSubject,
-    });
-  }, [
+const COACHING_MONTHS = [
+  { id: '2026-09', label: 'September 2026', totalWorkingDays: 24 },
+  { id: '2026-08', label: 'August 2026', totalWorkingDays: 25 },
+  { id: '2026-07', label: 'July 2026', totalWorkingDays: 26 },
+];
+
+export default function UnifiedAttendanceReportsPage() {
+  const {
     students,
+    classes,
+    batches,
     schedules,
     attendanceSessions,
+    liveSession,
     leaveRequests,
     holidays,
-    period,
-    selectedMonth,
-    selectedClass,
-    selectedBatch,
-    selectedSubject,
-  ]);
+  } = useAttendance();
 
-  const handleGenerateReport = () => {
-    setIsGenerating(true);
-    setTimeout(() => {
-      setIsGenerating(false);
-    }, 200);
+  // Top Filter States
+  const [selectedBranch, setSelectedBranch] = useState<string>('all');
+  const [isBranchPickerOpen, setIsBranchPickerOpen] = useState(false);
+
+  // View Mode: 'weekly' or 'monthly'
+  const [reportMode, setReportMode] = useState<'weekly' | 'monthly'>('weekly');
+
+  // Period States
+  const [selectedWeekIndex, setSelectedWeekIndex] = useState<number>(0);
+  const [selectedMonthIndex, setSelectedMonthIndex] = useState<number>(0);
+
+  // Search & Secondary Filters
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedClassId, setSelectedClassId] = useState<string>('all');
+  const [selectedBatchId, setSelectedBatchId] = useState<string>('all');
+  const [attendanceRateFilter, setAttendanceRateFilter] = useState<'all' | 'high' | 'avg' | 'low'>('all');
+
+  // Individual Student Modal State
+  const [selectedStudentForReport, setSelectedStudentForReport] = useState<TStudent | null>(null);
+  const [isIndividualModalOpen, setIsIndividualModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<'weekly' | 'monthly'>('weekly');
+
+  const currentWeek = COACHING_WEEKS[selectedWeekIndex] || COACHING_WEEKS[0];
+  const currentMonth = COACHING_MONTHS[selectedMonthIndex] || COACHING_MONTHS[0];
+
+  // Helper: compute single student day attendance record
+  const getStudentDayRecord = (student: TStudent, dateStr: string) => {
+    // 1. Check liveSession (if date is today 2026-09-11)
+    if (liveSession && liveSession.date === dateStr && liveSession.studentRecords) {
+      const liveRec = liveSession.studentRecords[student.id];
+      if (liveRec) {
+        if (liveRec.status === 'present' || liveRec.status === 'late') {
+          return {
+            status: 'Present' as const,
+            checkIn: liveRec.checkInTime || '04:00 PM',
+            checkOut: liveRec.checkOutTime || '06:00 PM',
+            duration: '2h',
+            subject: liveSession.subject || 'Mathematics',
+          };
+        }
+        if (liveRec.status === 'leave') {
+          return {
+            status: 'Leave' as const,
+            checkIn: '—',
+            checkOut: '—',
+            duration: '0h',
+            subject: liveSession.subject || 'Mathematics',
+          };
+        }
+        if (liveRec.status === 'absent') {
+          return {
+            status: 'Absent' as const,
+            checkIn: '—',
+            checkOut: '—',
+            duration: '0h',
+            subject: liveSession.subject || 'Mathematics',
+          };
+        }
+      }
+    }
+
+    // 2. Check completed attendanceSessions
+    const matchingSession = attendanceSessions.find(
+      s => s.date === dateStr && s.studentRecords && s.studentRecords[student.id]
+    );
+    if (matchingSession && matchingSession.studentRecords) {
+      const rec = matchingSession.studentRecords[student.id];
+      if (rec.status === 'present' || rec.status === 'late') {
+        return {
+          status: 'Present' as const,
+          checkIn: rec.checkInTime || '04:00 PM',
+          checkOut: rec.checkOutTime || '06:00 PM',
+          duration: '2h',
+          subject: matchingSession.subject || 'Science',
+        };
+      }
+      if (rec.status === 'leave') {
+        return {
+          status: 'Leave' as const,
+          checkIn: '—',
+          checkOut: '—',
+          duration: '0h',
+          subject: matchingSession.subject || 'Science',
+        };
+      }
+      if (rec.status === 'absent') {
+        return {
+          status: 'Absent' as const,
+          checkIn: '—',
+          checkOut: '—',
+          duration: '0h',
+          subject: matchingSession.subject || 'Science',
+        };
+      }
+    }
+
+    // 3. Check approved leave requests
+    const hasLeave = leaveRequests.some(
+      l => l.studentId === student.id && l.date === dateStr && l.status === 'Approved'
+    );
+    if (hasLeave) {
+      return {
+        status: 'Leave' as const,
+        checkIn: '—',
+        checkOut: '—',
+        duration: '0h',
+        subject: 'Regular Class',
+      };
+    }
+
+    // 4. Check institute holidays
+    const isHoliday = holidays.some(h => h.date === dateStr);
+    if (isHoliday) {
+      return {
+        status: 'Off' as const,
+        checkIn: '—',
+        checkOut: '—',
+        duration: '0h',
+        subject: 'Holiday',
+      };
+    }
+
+    // 5. Deterministic fallback for mock demo data
+    const roll = student.rollNo || 1;
+    const dateNum = parseInt(dateStr.split('-')[2] || '1', 10);
+    const dayOfWeek = new Date(dateStr).getDay(); // 0 is Sun
+
+    if (dayOfWeek === 0) {
+      return { status: 'Off' as const, checkIn: '—', checkOut: '—', duration: '0h', subject: 'Sunday Off' };
+    }
+
+    // Specific profiles for realistic demo
+    if (roll === 1) {
+      // Aarav Sharma: 100% attendance, on time 04:00 PM
+      return {
+        status: 'Present' as const,
+        checkIn: '04:00 PM',
+        checkOut: '06:00 PM',
+        duration: '2h',
+        subject: 'Mathematics',
+      };
+    } else if (roll === 2) {
+      // Bhavya Singh: Leave on Wednesday (9th), present rest
+      if (dateNum === 9 || dayOfWeek === 3) {
+        return { status: 'Leave' as const, checkIn: '—', checkOut: '—', duration: '0h', subject: 'Science' };
+      }
+      return {
+        status: 'Present' as const,
+        checkIn: '04:01 PM',
+        checkOut: '06:00 PM',
+        duration: '2h',
+        subject: 'Science',
+      };
+    } else if (roll === 3) {
+      // Karan Mehta: Absent on Tue (8th) & Fri (11th)
+      if (dateNum === 8 || dateNum === 11 || dayOfWeek === 2) {
+        return { status: 'Absent' as const, checkIn: '—', checkOut: '—', duration: '0h', subject: 'Mathematics' };
+      }
+      return {
+        status: 'Present' as const,
+        checkIn: '04:05 PM',
+        checkOut: '06:00 PM',
+        duration: '1h 55m',
+        subject: 'Mathematics',
+      };
+    } else if (roll === 4) {
+      // Neha Sharma: 100% Present
+      return {
+        status: 'Present' as const,
+        checkIn: '04:00 PM',
+        checkOut: '06:00 PM',
+        duration: '2h',
+        subject: 'Science',
+      };
+    } else {
+      // General formula based on roll and date
+      const hash = (roll * 7 + dateNum) % 10;
+      if (hash === 2) {
+        return { status: 'Absent' as const, checkIn: '—', checkOut: '—', duration: '0h', subject: 'Class Session' };
+      }
+      if (hash === 5) {
+        return { status: 'Leave' as const, checkIn: '—', checkOut: '—', duration: '0h', subject: 'Class Session' };
+      }
+      const minute = 4 + (roll % 5);
+      return {
+        status: 'Present' as const,
+        checkIn: `04:0${minute} PM`,
+        checkOut: '06:00 PM',
+        duration: '2h',
+        subject: 'Class Session',
+      };
+    }
   };
 
+  // Branch filtering & Student Report Aggregation
+  const studentReports = useMemo(() => {
+    // 1. Filter students by branch
+    const branchFiltered = students.filter(st => {
+      if (st.status !== 'active') return false;
+      if (selectedBranch === 'all') return true;
+      const parentClass = classes.find(c => c.id === st.classId);
+      const parentBatch = batches.find(b => b.id === st.batchId);
+      return (
+        st.branchId === selectedBranch ||
+        parentClass?.branchId === selectedBranch ||
+        parentBatch?.branchId === selectedBranch
+      );
+    });
+
+    return branchFiltered.map(student => {
+      // Format branch name
+      const studentBranchObj = IDL_BRANCHES.find(b => b.id === student.branchId);
+      const branchName = studentBranchObj ? studentBranchObj.name : 'Budh Vihar';
+
+      // Due Date fallback
+      const effectiveDueDate = student.dueDate || '2026-09-10';
+      const effectiveJoinDate = student.admissionDate || '2026-04-01';
+      const fatherName = student.parentName || 'Rajesh Sharma (Father)';
+      const contactPhone = student.phone || '+91 98110 11001';
+      const parentPhone = student.parentPhone || '+91 99110 11001';
+
+      // WEEKLY CALCULATIONS
+      const weekDaysReport = currentWeek.days.map(day => {
+        const record = getStudentDayRecord(student, day.date);
+        return {
+          ...day,
+          ...record,
+        };
+      });
+
+      const weeklyWorkingDays = weekDaysReport.filter(d => d.status !== 'Off').length;
+      const weeklyPresent = weekDaysReport.filter(d => d.status === 'Present').length;
+      const weeklyAbsent = weekDaysReport.filter(d => d.status === 'Absent').length;
+      const weeklyLeave = weekDaysReport.filter(d => d.status === 'Leave').length;
+      const weeklyPercent = weeklyWorkingDays > 0 ? Math.round((weeklyPresent / weeklyWorkingDays) * 100) : 0;
+
+      // MONTHLY CALCULATIONS
+      const totalWorkingDays = currentMonth.totalWorkingDays;
+      let monthlyPresent = 0;
+      let monthlyAbsent = 0;
+      let monthlyLeave = 0;
+
+      // Deterministic realistic monthly counts based on roll
+      const roll = student.rollNo || 1;
+      if (roll === 1 || roll === 4) {
+        monthlyPresent = 23;
+        monthlyAbsent = 0;
+        monthlyLeave = 1;
+      } else if (roll === 2) {
+        monthlyPresent = 21;
+        monthlyAbsent = 1;
+        monthlyLeave = 2;
+      } else if (roll === 3) {
+        monthlyPresent = 17;
+        monthlyAbsent = 5;
+        monthlyLeave = 2;
+      } else {
+        const miss = (roll % 4);
+        const lve = (roll % 3);
+        monthlyAbsent = miss;
+        monthlyLeave = lve;
+        monthlyPresent = Math.max(16, totalWorkingDays - (monthlyAbsent + monthlyLeave));
+      }
+      const monthlyPercent = Math.round((monthlyPresent / totalWorkingDays) * 100);
+
+      return {
+        student,
+        branchName,
+        effectiveJoinDate,
+        effectiveDueDate,
+        fatherName,
+        contactPhone,
+        parentPhone,
+        weekly: {
+          days: weekDaysReport,
+          workingDays: weeklyWorkingDays,
+          present: weeklyPresent,
+          absent: weeklyAbsent,
+          leave: weeklyLeave,
+          percent: weeklyPercent,
+        },
+        monthly: {
+          workingDays: totalWorkingDays,
+          present: monthlyPresent,
+          absent: monthlyAbsent,
+          leave: monthlyLeave,
+          percent: monthlyPercent,
+        },
+      };
+    });
+  }, [students, classes, batches, selectedBranch, currentWeek, currentMonth, liveSession, attendanceSessions, leaveRequests, holidays]);
+
+  // Secondary Filtered Students
+  const filteredReports = useMemo(() => {
+    return studentReports.filter(item => {
+      const st = item.student;
+      // Search
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase();
+        const matchesName = st.name.toLowerCase().includes(query);
+        const matchesFather = item.fatherName.toLowerCase().includes(query);
+        const matchesRoll = String(st.rollNo).includes(query);
+        const matchesPhone = item.contactPhone.includes(query) || item.parentPhone.includes(query);
+        if (!matchesName && !matchesFather && !matchesRoll && !matchesPhone) return false;
+      }
+
+      // Class Filter
+      if (selectedClassId !== 'all') {
+        if (st.classId !== selectedClassId && st.className !== selectedClassId) return false;
+      }
+
+      // Batch Filter
+      if (selectedBatchId !== 'all') {
+        if (st.batchId !== selectedBatchId && st.batchName !== selectedBatchId) return false;
+      }
+
+      // Attendance Rate Filter
+      const currentPct = reportMode === 'weekly' ? item.weekly.percent : item.monthly.percent;
+      if (attendanceRateFilter === 'high' && currentPct < 85) return false;
+      if (attendanceRateFilter === 'avg' && (currentPct < 75 || currentPct >= 85)) return false;
+      if (attendanceRateFilter === 'low' && currentPct >= 75) return false;
+
+      return true;
+    });
+  }, [studentReports, searchQuery, selectedClassId, selectedBatchId, attendanceRateFilter, reportMode]);
+
+  // Top Statistics for currently displayed branch / scope
+  const summaryStats = useMemo(() => {
+    const totalStudents = studentReports.length;
+    if (totalStudents === 0) {
+      return { totalStudents: 0, avgPercent: 0, totalPresent: 0, totalAbsent: 0, totalLeave: 0, atRiskCount: 0 };
+    }
+
+    let sumPercent = 0;
+    let totalPresent = 0;
+    let totalAbsent = 0;
+    let totalLeave = 0;
+    let atRiskCount = 0;
+
+    studentReports.forEach(r => {
+      const metrics = reportMode === 'weekly' ? r.weekly : r.monthly;
+      sumPercent += metrics.percent;
+      totalPresent += metrics.present;
+      totalAbsent += metrics.absent;
+      totalLeave += metrics.leave;
+      if (metrics.percent < 75) atRiskCount++;
+    });
+
+    const avgPercent = Math.round(sumPercent / totalStudents);
+    return {
+      totalStudents,
+      avgPercent,
+      totalPresent,
+      totalAbsent,
+      totalLeave,
+      atRiskCount,
+    };
+  }, [studentReports, reportMode]);
+
+  // Export CSV
   const handleExportCSV = () => {
-    const csvContent =
-      'data:text/csv;charset=utf-8,' +
-      'Rank,Roll No,Student Name,Batch,Attendance %,Threshold Status\n' +
-      reportData.rankedStudents
-        .map(
-          s =>
-            `${s.rank},${s.rollNo || '-'},"${s.name}","${s.batch}",${s.attendance}%,${
-              s.attendance < 75 ? 'Critical (<75%)' : 'Compliant'
-            }`
-        )
-        .join('\n');
+    const headers = [
+      'Roll No',
+      'Student Name',
+      'Father Name',
+      'Class',
+      'Batch',
+      'Branch',
+      'Join Date',
+      'Fee Due Date',
+      'Student Phone',
+      'Parent Phone',
+      'Working Days',
+      'Present',
+      'Absent',
+      'Leave',
+      'Attendance %',
+      'Status',
+    ];
+
+    const rows = filteredReports.map(r => {
+      const metrics = reportMode === 'weekly' ? r.weekly : r.monthly;
+      const statusText = metrics.percent >= 85 ? 'Excellent' : metrics.percent >= 75 ? 'Good' : 'Needs Attention';
+      return [
+        r.student.rollNo,
+        `"${r.student.name}"`,
+        `"${r.fatherName}"`,
+        `"${r.student.className}"`,
+        `"${r.student.batchName}"`,
+        `"${r.branchName}"`,
+        r.effectiveJoinDate,
+        r.effectiveDueDate,
+        r.contactPhone,
+        r.parentPhone,
+        metrics.workingDays,
+        metrics.present,
+        metrics.absent,
+        metrics.leave,
+        `${metrics.percent}%`,
+        statusText,
+      ].join(',');
+    });
+
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows].join('\n');
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement('a');
     link.setAttribute('href', encodedUri);
-    link.setAttribute(
-      'download',
-      `IDL_Attendance_Report_${selectedClass}_${selectedBatch}_${selectedMonth.replace(/\s+/g, '_')}.csv`
-    );
+    const fileName = `IDL_Attendance_${reportMode.toUpperCase()}_Report_${selectedBranch}_${new Date().toISOString().split('T')[0]}.csv`;
+    link.setAttribute('download', fileName);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   };
 
-  const criticalCount = useMemo(() => {
-    return reportData.rankedStudents.filter(s => s.attendance < 75).length;
-  }, [reportData.rankedStudents]);
+  // Open Individual Student Report
+  const handleOpenStudentModal = (student: TStudent) => {
+    setSelectedStudentForReport(student);
+    setModalMode(reportMode);
+    setIsIndividualModalOpen(true);
+  };
+
+  // Selected student item for modal
+  const selectedStudentItem = useMemo(() => {
+    if (!selectedStudentForReport) return null;
+    return studentReports.find(r => r.student.id === selectedStudentForReport.id) || null;
+  }, [selectedStudentForReport, studentReports]);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-        <div>
+    <div className="space-y-6 max-w-7xl mx-auto pb-10">
+      {/* ------------------------------------------------------------- */}
+      {/* TOP TOOLBAR (Exact Fee Management & Overview UI Style)         */}
+      {/* ------------------------------------------------------------- */}
+      <section className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl px-4 py-3 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
+        <div className="flex items-center justify-between flex-wrap gap-3">
+          {/* Left: Branch Selector + Mode Segmented Toggle + Period Selector */}
+          <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
+            {/* 1. Branch Selector Popover */}
+            <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Select branch"
+                  className="h-8 px-2.5 py-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] hover:border-blue-300 dark:hover:text-blue-400 inline-flex items-center gap-2 transition-colors cursor-pointer select-none focus:outline-none"
+                >
+                  {selectedBranch === 'all' ? (
+                    <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                  ) : (
+                    <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                  )}
+                  <span className="whitespace-nowrap font-medium">
+                    {IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'All Branches'}
+                  </span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                  />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                sideOffset={8}
+                className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
+              >
+                {/* All Branches option */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedBranch('all');
+                    setIsBranchPickerOpen(false);
+                  }}
+                  className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                    selectedBranch === 'all'
+                      ? 'bg-blue-100/80 dark:bg-blue-950/60 text-[#2864E8] dark:text-blue-400 font-semibold'
+                      : 'bg-blue-50/75 hover:bg-blue-100/70 dark:bg-blue-950/35 dark:hover:bg-blue-950/55 text-[#2864E8] dark:text-blue-400 font-semibold'
+                  }`}
+                >
+                  <span className="flex items-center gap-2 min-w-0">
+                    <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                    <span className="truncate">All Branches</span>
+                  </span>
+                  {selectedBranch === 'all' && (
+                    <Check className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                  )}
+                </button>
+
+                <div className="my-1.5 border-t border-slate-100 dark:border-slate-800/80" />
+
+                {/* Individual Branches */}
+                <div className="space-y-0.5">
+                  {IDL_BRANCHES.filter(b => b.id !== 'all').map(b => {
+                    const isSelected = selectedBranch === b.id;
+                    return (
+                      <button
+                        key={b.id}
+                        type="button"
+                        onClick={() => {
+                          setSelectedBranch(b.id);
+                          setIsBranchPickerOpen(false);
+                        }}
+                        className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                          isSelected
+                            ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
+                            : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                        }`}
+                      >
+                        <span className="flex items-center gap-2 min-w-0">
+                          <Building2
+                            className={`w-3.5 h-3.5 shrink-0 ${
+                              isSelected ? 'text-[#2864E8] dark:text-blue-400' : 'text-slate-400 dark:text-slate-500'
+                            }`}
+                          />
+                          <span className="truncate">{b.name}</span>
+                        </span>
+                        {isSelected && (
+                          <Check className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </PopoverContent>
+            </Popover>
+
+            {/* 2. Unified Report Mode Segmented Switcher (Weekly / Monthly) */}
+            <div className="inline-flex items-center p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/80 dark:border-slate-700">
+              <button
+                type="button"
+                onClick={() => setReportMode('weekly')}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                  reportMode === 'weekly'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <CalendarDays className="h-3.5 w-3.5" />
+                <span>Weekly Report</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setReportMode('monthly')}
+                className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
+                  reportMode === 'monthly'
+                    ? 'bg-blue-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <Calendar className="h-3.5 w-3.5" />
+                <span>Monthly Report</span>
+              </button>
+            </div>
+
+            {/* 3. Period Navigator (Prev / Next & Quick Select) */}
+            {reportMode === 'weekly' ? (
+              <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs">
+                <button
+                  type="button"
+                  disabled={selectedWeekIndex >= COACHING_WEEKS.length - 1}
+                  onClick={() => setSelectedWeekIndex(prev => Math.min(COACHING_WEEKS.length - 1, prev + 1))}
+                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  title="Previous Week"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </button>
+                <span className="font-semibold text-slate-800 dark:text-slate-200 px-1 whitespace-nowrap">
+                  {currentWeek.label}
+                </span>
+                <button
+                  type="button"
+                  disabled={selectedWeekIndex <= 0}
+                  onClick={() => setSelectedWeekIndex(prev => Math.max(0, prev - 1))}
+                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  title="Next Week"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs">
+                <button
+                  type="button"
+                  disabled={selectedMonthIndex >= COACHING_MONTHS.length - 1}
+                  onClick={() => setSelectedMonthIndex(prev => Math.min(COACHING_MONTHS.length - 1, prev + 1))}
+                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  title="Previous Month"
+                >
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </button>
+                <span className="font-semibold text-slate-800 dark:text-slate-200 px-1 whitespace-nowrap">
+                  {currentMonth.label}
+                </span>
+                <button
+                  type="button"
+                  disabled={selectedMonthIndex <= 0}
+                  onClick={() => setSelectedMonthIndex(prev => Math.max(0, prev - 1))}
+                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+                  title="Next Month"
+                >
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Right Actions: Export CSV + Print Report */}
           <div className="flex items-center gap-2">
-            <h1 className="text-xl md:text-2xl font-black tracking-tight text-slate-900">
-              Attendance Report &amp; Analytics
-            </h1>
-            <Badge className="bg-purple-50 text-purple-700 border-purple-200 font-bold text-xs">
-              Reports Hub
-            </Badge>
-          </div>
-          <p className="text-xs md:text-sm text-slate-500 mt-1 font-medium">
-            Dynamic attendance analytics aggregated directly from live sessions, real enrollments, and declared holidays.
-          </p>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button
-            size="sm"
-            onClick={() => window.print()}
-            variant="outline"
-            className="text-xs font-semibold h-9 gap-1.5 border-slate-300"
-          >
-            <Printer className="h-3.5 w-3.5" />
-            Print Report
-          </Button>
-        </div>
-      </div>
-
-      {/* Granularity Tabs */}
-      <div className="flex items-center justify-between">
-        <Tabs value={period} onValueChange={setPeriod}>
-          <TabsList className="bg-slate-200/70 p-1 rounded-xl">
-            <TabsTrigger value="daily" className="text-xs font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Daily
-            </TabsTrigger>
-            <TabsTrigger value="weekly" className="text-xs font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Weekly
-            </TabsTrigger>
-            <TabsTrigger value="monthly" className="text-xs font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Monthly
-            </TabsTrigger>
-            <TabsTrigger value="custom" className="text-xs font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Custom Range
-            </TabsTrigger>
-            <TabsTrigger value="yearly" className="text-xs font-bold rounded-lg data-[state=active]:bg-white data-[state=active]:shadow-sm">
-              Yearly
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-      </div>
-
-      {/* Filter Parameters Bar */}
-      <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 flex-1">
-          <div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
-              Month / Period
-            </span>
-            <Select value={selectedMonth} onValueChange={setSelectedMonth}>
-              <SelectTrigger className="h-9 text-xs font-semibold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="September 2026">September 2026</SelectItem>
-                <SelectItem value="August 2026">August 2026</SelectItem>
-                <SelectItem value="July 2026">July 2026</SelectItem>
-                <SelectItem value="October 2026">October 2026</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
-              Class
-            </span>
-            <Select value={selectedClass} onValueChange={setSelectedClass}>
-              <SelectTrigger className="h-9 text-xs font-semibold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Classes</SelectItem>
-                {classes.map(c => (
-                  <SelectItem key={c.id} value={c.name}>
-                    Class {c.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
-              Batch
-            </span>
-            <Select value={selectedBatch} onValueChange={setSelectedBatch}>
-              <SelectTrigger className="h-9 text-xs font-semibold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Batches</SelectItem>
-                {batches
-                  .filter(b => selectedClass === 'all' || b.className === selectedClass)
-                  .map(b => (
-                    <SelectItem key={b.id} value={b.name}>
-                      Batch {b.name}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div>
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block mb-1">
-              Subject
-            </span>
-            <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-              <SelectTrigger className="h-9 text-xs font-semibold">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Subjects</SelectItem>
-                {subjects.map(s => (
-                  <SelectItem key={s.id} value={s.name}>
-                    {s.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleExportCSV}
+              className="text-xs font-semibold h-8 gap-1.5 border-slate-200 hover:bg-slate-50 text-slate-700 cursor-pointer"
+            >
+              <Download className="h-3.5 w-3.5 text-blue-600" />
+              <span>Export CSV</span>
+            </Button>
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => window.print()}
+              className="text-xs font-semibold h-8 gap-1.5 border-slate-200 hover:bg-slate-50 text-slate-700 cursor-pointer"
+            >
+              <Printer className="h-3.5 w-3.5 text-slate-600" />
+              <span>Print All</span>
+            </Button>
           </div>
         </div>
+      </section>
 
-        <div className="self-end lg:self-center">
-          <Button
-            onClick={handleGenerateReport}
-            disabled={isGenerating}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-5 shadow-sm"
-          >
-            {isGenerating ? 'Updating...' : 'Filter Analytics'}
-          </Button>
-        </div>
-      </div>
-
-      {/* Aggregated Real Stat Cards */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Total Students</span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">{reportData.totalStudents}</span>
-        </div>
-
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs">
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Total Classes</span>
-          <span className="text-2xl font-black text-slate-900 mt-1 block">{reportData.totalClasses}</span>
-        </div>
-
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs border-l-4 border-l-emerald-500">
-          <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">Present</span>
-          <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-2xl font-black text-emerald-600">{reportData.presentCount}</span>
-            <span className="text-[10px] font-bold text-emerald-700">({reportData.presentPercent}%)</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs border-l-4 border-l-rose-500">
-          <span className="text-[10px] font-bold text-rose-700 uppercase tracking-wider block">Absent</span>
-          <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-2xl font-black text-rose-600">{reportData.absentCount}</span>
-            <span className="text-[10px] font-bold text-rose-700">({reportData.absentPercent}%)</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs border-l-4 border-l-amber-500">
-          <span className="text-[10px] font-bold text-amber-700 uppercase tracking-wider block">Leave</span>
-          <div className="flex items-baseline gap-1 mt-1">
-            <span className="text-2xl font-black text-amber-600">{reportData.leaveCount}</span>
-            <span className="text-[10px] font-bold text-amber-700">({reportData.leavePercent}%)</span>
-          </div>
-        </div>
-
-        <div className="bg-white p-3.5 rounded-xl border border-slate-200 shadow-xs col-span-2 sm:col-span-1">
-          <span className="text-[10px] font-bold text-blue-700 uppercase tracking-wider block">Total Hours</span>
-          <span className="text-2xl font-black text-blue-900 mt-1 block">{reportData.totalHours}</span>
-        </div>
-      </div>
-
-      {/* Two Charts Grid (Attendance Trend & Subject-Wise Attendance) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Attendance Trend Chart */}
-        <Card className="border-slate-200 shadow-sm">
-          <CardHeader className="p-4 sm:p-5 border-b border-slate-100 flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-sm font-bold text-slate-900">
-                Attendance Trend
-              </CardTitle>
-              <CardDescription className="text-xs text-slate-500">
-                Actual presence rate across completed sessions
-              </CardDescription>
+      {/* ------------------------------------------------------------- */}
+      {/* SUMMARY KPI CARDS                                             */}
+      {/* ------------------------------------------------------------- */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+        {/* Total Students */}
+        <Card className="border-slate-200 shadow-xs">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                Students
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
+                <Users className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <span className="text-xs font-extrabold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded">
-              {reportData.presentPercent}% Avg
-            </span>
-          </CardHeader>
-          <CardContent className="p-4 pt-6">
-            {reportData.attendanceTrend.length === 0 ? (
-              <div className="h-56 flex flex-col items-center justify-center text-slate-400 text-xs">
-                <TrendingUp className="h-8 w-8 text-slate-300 mb-2" />
-                <p className="font-semibold text-slate-500">No session attendance data recorded</p>
-                <p className="text-[11px]">Trend will populate once classes are completed</p>
-              </div>
-            ) : (
-              <div className="h-56 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={reportData.attendanceTrend} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <defs>
-                      <linearGradient id="reportAtt" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#2563eb" stopOpacity={0.25} />
-                        <stop offset="95%" stopColor="#2563eb" stopOpacity={0.0} />
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-                    <XAxis dataKey="day" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={false} tickLine={false} />
-                    <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#64748b' }} axisLine={false} tickLine={false} unit="%" />
-                    <Tooltip
-                      content={({ active, payload, label }) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <div className="bg-slate-900 text-white p-2 rounded-lg text-xs shadow-lg">
-                              <p className="font-bold">{label}</p>
-                              <p className="text-emerald-400 font-semibold">{payload[0].value}% Attendance</p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="percent"
-                      stroke="#2563eb"
-                      strokeWidth={2.5}
-                      fillOpacity={1}
-                      fill="url(#reportAtt)"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            )}
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-slate-900">{summaryStats.totalStudents}</span>
+              <span className="text-[11px] text-slate-500 font-medium">In branch</span>
+            </div>
           </CardContent>
         </Card>
 
-        {/* Subject-Wise Attendance Bar Chart */}
-        <Card className="border-slate-200 shadow-sm">
-          <CardHeader className="p-4 sm:p-5 border-b border-slate-100 flex flex-row items-center justify-between">
-            <div>
-              <CardTitle className="text-sm font-bold text-slate-900">
-                Subject-wise Attendance
-              </CardTitle>
-              <CardDescription className="text-xs text-slate-500">
-                Attendance rate calculated per subject
-              </CardDescription>
+        {/* Avg Attendance */}
+        <Card className="border-slate-200 shadow-xs border-l-4 border-l-emerald-500">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
+                Avg Attendance
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <Percent className="h-3.5 w-3.5" />
+              </div>
             </div>
-            <Badge variant="outline" className="text-xs font-semibold text-slate-600">
-              {reportData.subjectWiseAttendance.length} Subjects
-            </Badge>
-          </CardHeader>
-          <CardContent className="p-4 pt-6">
-            {reportData.subjectWiseAttendance.length === 0 ? (
-              <div className="h-56 flex flex-col items-center justify-center text-slate-400 text-xs">
-                <BookOpen className="h-8 w-8 text-slate-300 mb-2" />
-                <p className="font-semibold text-slate-500">No subject attendance recorded yet</p>
-                <p className="text-[11px]">Subject breakdown will appear after sessions are marked</p>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-emerald-600">{summaryStats.avgPercent}%</span>
+              <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 font-bold text-[10px]">
+                {summaryStats.avgPercent >= 75 ? 'Compliant' : 'Low'}
+              </Badge>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Total Present */}
+        <Card className="border-slate-200 shadow-xs">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                Total Present
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <CheckCircle2 className="h-3.5 w-3.5" />
               </div>
-            ) : (
-              <div className="h-56 w-full">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={reportData.subjectWiseAttendance} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
-                    <XAxis dataKey="subject" tick={{ fontSize: 11, fill: '#64748b' }} axisLine={false} tickLine={false} />
-                    <YAxis domain={[0, 100]} tick={{ fontSize: 11, fill: '#64748b' }} axisLine={false} tickLine={false} unit="%" />
-                    <Tooltip
-                      content={({ active, payload, label }) => {
-                        if (active && payload && payload.length) {
-                          return (
-                            <div className="bg-slate-900 text-white p-2 rounded-lg text-xs shadow-lg">
-                              <p className="font-bold">{label}</p>
-                              <p className="text-blue-400 font-semibold">{payload[0].value}% Average</p>
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    <Bar dataKey="percent" radius={[6, 6, 0, 0]}>
-                      {reportData.subjectWiseAttendance.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
+            </div>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-slate-900">{summaryStats.totalPresent}</span>
+              <span className="text-[11px] text-slate-500 font-medium">Sessions</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Total Absent */}
+        <Card className="border-slate-200 shadow-xs">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-rose-600 uppercase tracking-wider">
+                Total Absent
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
+                <XCircle className="h-3.5 w-3.5" />
               </div>
-            )}
+            </div>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-rose-600">{summaryStats.totalAbsent}</span>
+              <span className="text-[11px] text-rose-500 font-medium">{summaryStats.atRiskCount} at risk (&lt;75%)</span>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Approved Leave */}
+        <Card className="border-slate-200 shadow-xs col-span-2 sm:col-span-1">
+          <CardContent className="p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider">
+                Approved Leaves
+              </span>
+              <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
+                <PlaneTakeoff className="h-3.5 w-3.5" />
+              </div>
+            </div>
+            <div className="mt-2 flex items-baseline justify-between">
+              <span className="text-2xl font-black text-amber-600">{summaryStats.totalLeave}</span>
+              <span className="text-[11px] text-amber-700 font-medium">Informed</span>
+            </div>
           </CardContent>
         </Card>
       </div>
 
-      {/* Student Attendance Ranking Table */}
-      <Card className="border-slate-200 shadow-sm">
-        <CardHeader className="p-4 sm:p-5 border-b border-slate-100 flex flex-row items-center justify-between">
+      {/* ------------------------------------------------------------- */}
+      {/* FILTER & SEARCH BAR                                           */}
+      {/* ------------------------------------------------------------- */}
+      <div className="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-2.5 flex-1 min-w-[260px] max-w-md">
+          <div className="relative w-full">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+            <Input
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              placeholder="Search by student name, father name, phone, roll..."
+              className="pl-9 h-8 text-xs bg-slate-50/70 border-slate-200 focus-visible:ring-1 focus-visible:ring-blue-500"
+            />
+          </div>
+          {searchQuery && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={() => setSearchQuery('')}
+              className="h-8 px-2 text-xs text-slate-400 hover:text-slate-600"
+            >
+              Clear
+            </Button>
+          )}
+        </div>
+
+        {/* Dropdown Filters */}
+        <div className="flex items-center gap-2 flex-wrap">
+          {/* Class Filter */}
+          <select
+            value={selectedClassId}
+            onChange={e => {
+              setSelectedClassId(e.target.value);
+              setSelectedBatchId('all'); // reset batch on class change
+            }}
+            className="h-8 px-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+          >
+            <option value="all">All Classes</option>
+            {classes.map(c => (
+              <option key={c.id} value={c.name}>
+                Class {c.name}
+              </option>
+            ))}
+          </select>
+
+          {/* Batch Filter */}
+          <select
+            value={selectedBatchId}
+            onChange={e => setSelectedBatchId(e.target.value)}
+            className="h-8 px-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+          >
+            <option value="all">All Batches</option>
+            {batches
+              .filter(b => selectedClassId === 'all' || b.className === selectedClassId || b.classId === selectedClassId)
+              .map(b => (
+                <option key={b.id} value={b.name}>
+                  Batch {b.name}
+                </option>
+              ))}
+          </select>
+
+          {/* Attendance Threshold Filter */}
+          <select
+            value={attendanceRateFilter}
+            onChange={e => setAttendanceRateFilter(e.target.value as any)}
+            className="h-8 px-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
+          >
+            <option value="all">All Attendance</option>
+            <option value="high">Above 85% (Excellent)</option>
+            <option value="avg">75% - 84% (Good)</option>
+            <option value="low">Below 75% (Critical Alert)</option>
+          </select>
+        </div>
+      </div>
+
+      {/* ------------------------------------------------------------- */}
+      {/* STUDENT ATTENDANCE REPORT TABLE                               */}
+      {/* ------------------------------------------------------------- */}
+      <Card className="border-slate-200 shadow-sm overflow-hidden">
+        <CardHeader className="p-4 sm:p-5 flex flex-row items-center justify-between border-b border-slate-100 bg-slate-50/50">
           <div>
-            <CardTitle className="text-sm font-bold text-slate-900">
-              Student Attendance Ranking &amp; Threshold Alerts
+            <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
+              <FileText className="h-4 w-4 text-blue-600" />
+              <span>
+                {reportMode === 'weekly'
+                  ? `Student Weekly Attendance Matrix (${currentWeek.label})`
+                  : `Student Monthly Attendance Register (${currentMonth.label})`}
+              </span>
             </CardTitle>
-            <CardDescription className="text-xs text-slate-500">
-              Computed from real session hours. Students below the 75% threshold are flagged for immediate follow-up.
+            <CardDescription className="text-xs text-slate-500 mt-0.5">
+              Comprehensive student report including parent details, admission date, fee due date, and attendance records.
             </CardDescription>
           </div>
-          {criticalCount > 0 ? (
-            <Badge className="bg-rose-50 text-rose-700 border-rose-200 text-xs font-bold">
-              {criticalCount} Below 75%
-            </Badge>
-          ) : (
-            <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs font-bold">
-              All Students Compliant
-            </Badge>
-          )}
+          <Badge variant="outline" className="text-xs font-semibold border-slate-200 bg-white text-slate-700">
+            {filteredReports.length} {filteredReports.length === 1 ? 'Student' : 'Students'}
+          </Badge>
         </CardHeader>
 
         <CardContent className="p-0 overflow-x-auto">
-          {reportData.rankedStudents.length === 0 ? (
-            <div className="p-8 text-center text-slate-400 text-xs">
-              <Users className="h-8 w-8 mx-auto text-slate-300 mb-2" />
-              <p className="font-bold text-slate-600">No active students match this filter</p>
-              <p className="text-slate-400 mt-1">Enroll students or adjust your Class / Batch selection.</p>
+          {filteredReports.length === 0 ? (
+            <div className="py-16 px-4 text-center space-y-3">
+              <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+                <Users className="h-6 w-6" />
+              </div>
+              <h3 className="text-sm font-bold text-slate-800">No students found</h3>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                No students match your filter criteria for this branch or class. Try selecting another branch or clearing your search.
+              </p>
             </div>
           ) : (
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 text-[11px] uppercase tracking-wider">
-                  <th className="py-3 px-4 w-16">Rank</th>
-                  <th className="py-3 px-4">Student Name</th>
-                  <th className="py-3 px-3">Batch</th>
-                  <th className="py-3 px-4">Attendance Rate</th>
-                  <th className="py-3 px-4">Threshold Status</th>
-                  <th className="py-3 px-4 text-right">Action</th>
+                <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+                  <th className="py-3 px-3.5 text-center w-12">#</th>
+                  <th className="py-3 px-3 min-w-[210px]">Student &amp; Father Details</th>
+                  <th className="py-3 px-3 min-w-[120px]">Class &amp; Batch</th>
+                  <th className="py-3 px-3 min-w-[110px]">Branch</th>
+                  <th className="py-3 px-3 min-w-[100px]">Join Date</th>
+                  <th className="py-3 px-3 min-w-[100px]">Fee Due Date</th>
+                  <th className="py-3 px-3 min-w-[150px]">Contact Numbers</th>
+                  {reportMode === 'weekly' ? (
+                    <th className="py-3 px-3 min-w-[240px] text-center">
+                      Weekly Matrix (Mon – Sat)
+                    </th>
+                  ) : (
+                    <th className="py-3 px-3 min-w-[200px]">
+                      Monthly Summary (P / A / L)
+                    </th>
+                  )}
+                  <th className="py-3 px-3 text-center min-w-[110px]">Attendance %</th>
+                  <th className="py-3 px-3.5 text-right min-w-[110px]">Action</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
-                {reportData.rankedStudents.map(st => {
-                  const isBelowThreshold = st.attendance < 75;
+                {filteredReports.map((item, index) => {
+                  const st = item.student;
+                  const metrics = reportMode === 'weekly' ? item.weekly : item.monthly;
+                  const isCritical = metrics.percent < 75;
+                  const isExcellent = metrics.percent >= 85;
+
                   return (
                     <tr
                       key={st.id}
-                      className={`hover:bg-slate-50 transition-colors ${
-                        isBelowThreshold ? 'bg-rose-50/40' : ''
-                      }`}
+                      className="hover:bg-blue-50/30 transition-colors group"
                     >
-                      <td className="py-3 px-4 font-black text-slate-700 font-mono">
-                        #{st.rank}
+                      {/* # Index / Roll */}
+                      <td className="py-3 px-3.5 text-center font-mono text-slate-500 font-semibold">
+                        {st.rollNo || index + 1}
                       </td>
-                      <td className="py-3 px-4 font-bold text-slate-900">
-                        {st.name}
+
+                      {/* Student Name & Father Name */}
+                      <td className="py-3 px-3">
+                        <div className="flex items-center gap-2.5">
+                          <div className="h-8 w-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs shrink-0">
+                            {st.name.charAt(0)}
+                          </div>
+                          <div className="min-w-0">
+                            <span className="font-bold text-slate-900 block truncate text-[13px] group-hover:text-blue-600 transition-colors">
+                              {st.name}
+                            </span>
+                            <span className="text-[11px] text-slate-500 truncate block">
+                              {item.fatherName}
+                            </span>
+                          </div>
+                        </div>
                       </td>
-                      <td className="py-3 px-3 font-semibold text-blue-700">{st.batch}</td>
-                      <td className="py-3 px-4 font-mono font-bold text-slate-900">
-                        {st.attendance}%
+
+                      {/* Class & Batch */}
+                      <td className="py-3 px-3">
+                        <div className="space-y-0.5">
+                          <span className="font-semibold text-slate-800 block text-xs">
+                            Class {st.className}
+                          </span>
+                          <span className="text-[11px] text-slate-500 block">
+                            Batch {st.batchName}
+                          </span>
+                        </div>
                       </td>
-                      <td className="py-3 px-4">
-                        {isBelowThreshold ? (
-                          <Badge className="bg-rose-100 text-rose-800 border-rose-300 font-bold text-[10px] gap-1">
-                            <AlertTriangle className="h-3 w-3" />
-                            Critical: Below 75%
-                          </Badge>
-                        ) : (
-                          <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 font-bold text-[10px]">
-                            ✓ Compliant
-                          </Badge>
-                        )}
+
+                      {/* Branch */}
+                      <td className="py-3 px-3">
+                        <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 text-[11px] font-medium inline-flex items-center gap-1">
+                          <Building2 className="h-3 w-3 text-slate-400" />
+                          <span>{item.branchName}</span>
+                        </Badge>
                       </td>
-                      <td className="py-3 px-4 text-right">
-                        <Link href={`/admin/attendance/students/${st.id}`}>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            className="text-blue-600 hover:text-blue-800 font-semibold text-xs h-7 px-2"
-                          >
-                            View Profile
-                          </Button>
-                        </Link>
+
+                      {/* Join Date */}
+                      <td className="py-3 px-3 text-slate-600 font-mono text-[11.5px]">
+                        {formatDateDisplay(item.effectiveJoinDate)}
+                      </td>
+
+                      {/* Due Date */}
+                      <td className="py-3 px-3">
+                        <span className="inline-flex items-center gap-1 text-[11.5px] font-mono font-medium text-slate-700 bg-amber-50/80 text-amber-800 px-2 py-0.5 rounded border border-amber-200/80">
+                          <Calendar className="h-3 w-3 text-amber-600" />
+                          <span>{formatDateDisplay(item.effectiveDueDate)}</span>
+                        </span>
+                      </td>
+
+                      {/* Contact Numbers */}
+                      <td className="py-3 px-3">
+                        <div className="space-y-0.5 text-[11px]">
+                          <div className="flex items-center gap-1 text-slate-700">
+                            <span className="text-slate-400 font-mono text-[10px]">St:</span>
+                            <span className="font-mono">{item.contactPhone}</span>
+                          </div>
+                          <div className="flex items-center gap-1 text-slate-500">
+                            <span className="text-slate-400 font-mono text-[10px]">Pa:</span>
+                            <span className="font-mono">{item.parentPhone}</span>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* Weekly Matrix OR Monthly Summary */}
+                      {reportMode === 'weekly' ? (
+                        <td className="py-3 px-3">
+                          <div className="flex items-center justify-center gap-1.5">
+                            {item.weekly.days.map(d => {
+                              let badgeColor = 'bg-slate-100 text-slate-400 border-slate-200';
+                              let title = `${d.formatted}: Holiday / No Class`;
+
+                              if (d.status === 'Present') {
+                                badgeColor = 'bg-emerald-500 text-white border-emerald-600';
+                                title = `${d.formatted} (${d.dayName}): Present (Check-in ${d.checkIn})`;
+                              } else if (d.status === 'Absent') {
+                                badgeColor = 'bg-rose-500 text-white border-rose-600';
+                                title = `${d.formatted} (${d.dayName}): Absent`;
+                              } else if (d.status === 'Leave') {
+                                badgeColor = 'bg-amber-500 text-white border-amber-600';
+                                title = `${d.formatted} (${d.dayName}): Approved Leave`;
+                              }
+
+                              return (
+                                <div
+                                  key={d.date}
+                                  title={title}
+                                  className={`w-6 h-6 rounded flex items-center justify-center font-bold text-[10px] border shadow-xs cursor-help ${badgeColor}`}
+                                >
+                                  {d.status === 'Present'
+                                    ? 'P'
+                                    : d.status === 'Absent'
+                                    ? 'A'
+                                    : d.status === 'Leave'
+                                    ? 'L'
+                                    : '—'}
+                                </div>
+                              );
+                            })}
+                            <span className="text-[11px] font-mono text-slate-500 ml-1.5 font-semibold">
+                              {item.weekly.present}/{item.weekly.workingDays}d
+                            </span>
+                          </div>
+                        </td>
+                      ) : (
+                        <td className="py-3 px-3">
+                          <div className="space-y-1">
+                            <div className="flex items-center justify-between text-[11px]">
+                              <span className="font-medium text-slate-600">
+                                <b className="text-emerald-700">{item.monthly.present}P</b> •{' '}
+                                <b className="text-rose-600">{item.monthly.absent}A</b> •{' '}
+                                <b className="text-amber-700">{item.monthly.leave}L</b>
+                              </span>
+                              <span className="text-slate-400 font-mono text-[10px]">
+                                {item.monthly.workingDays} working days
+                              </span>
+                            </div>
+                            <Progress value={item.monthly.percent} className="h-1.5 bg-slate-100" />
+                          </div>
+                        </td>
+                      )}
+
+                      {/* Attendance % Badge */}
+                      <td className="py-3 px-3 text-center">
+                        <Badge
+                          className={`font-mono font-bold text-xs px-2.5 py-0.5 ${
+                            isCritical
+                              ? 'bg-rose-100 text-rose-800 border-rose-200'
+                              : isExcellent
+                              ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                              : 'bg-blue-100 text-blue-800 border-blue-200'
+                          }`}
+                        >
+                          {metrics.percent}%
+                        </Badge>
+                      </td>
+
+                      {/* Action: Open Individual Report */}
+                      <td className="py-3 px-3.5 text-right">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => handleOpenStudentModal(st)}
+                          className="h-7 text-xs font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-2 gap-1 cursor-pointer"
+                        >
+                          <FileText className="h-3.5 w-3.5" />
+                          <span>View Report</span>
+                        </Button>
                       </td>
                     </tr>
                   );
@@ -515,45 +1173,299 @@ export default function ReportsPage() {
         </CardContent>
       </Card>
 
-      {/* Action Footer Buttons */}
-      <div className="flex flex-wrap items-center justify-end gap-3 pt-2">
-        <Button
-          onClick={() => window.print()}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-9 px-4 gap-1.5 shadow-sm"
-        >
-          <Download className="h-3.5 w-3.5" />
-          Download PDF
-        </Button>
+      {/* ------------------------------------------------------------- */}
+      {/* INDIVIDUAL STUDENT REPORT MODAL (Drilldown)                    */}
+      {/* ------------------------------------------------------------- */}
+      <Dialog open={isIndividualModalOpen} onOpenChange={setIsIndividualModalOpen}>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0 gap-0 rounded-2xl border-slate-200 bg-white">
+          {selectedStudentItem && (
+            <div>
+              {/* Modal Header */}
+              <div className="bg-slate-900 text-white p-5 sm:p-6 rounded-t-2xl relative">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-xl bg-blue-600 text-white font-black text-lg flex items-center justify-center shrink-0 shadow-md">
+                      {selectedStudentItem.student.name.charAt(0)}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <h2 className="text-lg sm:text-xl font-black text-white">
+                          {selectedStudentItem.student.name}
+                        </h2>
+                        <Badge className="bg-blue-500/30 text-blue-200 border-blue-400/40 text-[10px] font-bold">
+                          Roll #{selectedStudentItem.student.rollNo}
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-slate-300 mt-0.5">
+                        Class {selectedStudentItem.student.className} • Batch {selectedStudentItem.student.batchName} • {selectedStudentItem.branchName}
+                      </p>
+                    </div>
+                  </div>
 
-        <Button
-          onClick={() => {
-            alert('Parent PDF report link generated and ready to send via WhatsApp / SMS.');
-          }}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-9 px-4 gap-1.5 shadow-sm"
-        >
-          <Share2 className="h-3.5 w-3.5" />
-          Share with Parent (PDF)
-        </Button>
+                  {/* Period Switcher inside modal */}
+                  <div className="inline-flex items-center p-1 bg-slate-800 rounded-lg border border-slate-700 self-start sm:self-auto">
+                    <button
+                      type="button"
+                      onClick={() => setModalMode('weekly')}
+                      className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                        modalMode === 'weekly' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Weekly Report
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setModalMode('monthly')}
+                      className={`px-2.5 py-1 rounded text-xs font-bold transition-all cursor-pointer ${
+                        modalMode === 'monthly' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Monthly Report
+                    </button>
+                  </div>
+                </div>
 
-        <Button
-          variant="outline"
-          onClick={handleExportCSV}
-          disabled={reportData.rankedStudents.length === 0}
-          className="text-xs font-bold h-9 px-4 gap-1.5 border-slate-300 disabled:opacity-50"
-        >
-          <FileSpreadsheet className="h-3.5 w-3.5 text-emerald-600" />
-          Export Excel / CSV
-        </Button>
+                {/* Key Student Details Bar */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-5 pt-4 border-t border-slate-800 text-xs">
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">
+                      Father / Guardian
+                    </span>
+                    <span className="text-white font-medium truncate block">
+                      {selectedStudentItem.fatherName}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">
+                      Contact Phone
+                    </span>
+                    <span className="text-white font-mono font-medium block">
+                      {selectedStudentItem.parentPhone}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">
+                      Admission Date
+                    </span>
+                    <span className="text-white font-mono font-medium block">
+                      {formatDateDisplay(selectedStudentItem.effectiveJoinDate)}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-[10px] text-slate-400 uppercase tracking-wider block font-semibold">
+                      Fee Due Date
+                    </span>
+                    <span className="text-amber-300 font-mono font-medium block">
+                      {formatDateDisplay(selectedStudentItem.effectiveDueDate)}
+                    </span>
+                  </div>
+                </div>
+              </div>
 
-        <Button
-          variant="outline"
-          onClick={() => window.print()}
-          className="text-xs font-bold h-9 px-4 gap-1.5 border-slate-300"
-        >
-          <Printer className="h-3.5 w-3.5" />
-          Print Report
-        </Button>
-      </div>
+              {/* Modal Body */}
+              <div className="p-5 sm:p-6 space-y-6">
+                {/* Metric Summary Ribbon */}
+                {(() => {
+                  const m = modalMode === 'weekly' ? selectedStudentItem.weekly : selectedStudentItem.monthly;
+                  return (
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+                        <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
+                          Attendance Rate
+                        </span>
+                        <div className="mt-1 flex items-baseline gap-2">
+                          <span className={`text-2xl font-black ${
+                            m.percent >= 85 ? 'text-emerald-600' : m.percent >= 75 ? 'text-blue-600' : 'text-rose-600'
+                          }`}>
+                            {m.percent}%
+                          </span>
+                          <span className="text-[11px] text-slate-500 font-medium">
+                            {m.percent >= 75 ? 'Regular' : 'Irregular'}
+                          </span>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-emerald-50/60 border border-emerald-200/80">
+                        <span className="text-[10px] font-bold text-emerald-800 uppercase tracking-wider block">
+                          Present Sessions
+                        </span>
+                        <div className="mt-1 flex items-baseline gap-1">
+                          <span className="text-2xl font-black text-emerald-700">{m.present}</span>
+                          <span className="text-xs text-emerald-600 font-medium">/ {m.workingDays} Days</span>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-rose-50/60 border border-rose-200/80">
+                        <span className="text-[10px] font-bold text-rose-800 uppercase tracking-wider block">
+                          Absent Sessions
+                        </span>
+                        <div className="mt-1 flex items-baseline gap-1">
+                          <span className="text-2xl font-black text-rose-700">{m.absent}</span>
+                          <span className="text-xs text-rose-600 font-medium">Days missed</span>
+                        </div>
+                      </div>
+
+                      <div className="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200/80">
+                        <span className="text-[10px] font-bold text-amber-800 uppercase tracking-wider block">
+                          Approved Leaves
+                        </span>
+                        <div className="mt-1 flex items-baseline gap-1">
+                          <span className="text-2xl font-black text-amber-700">{m.leave}</span>
+                          <span className="text-xs text-amber-600 font-medium">Informed</span>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Day-by-Day Session History Table */}
+                <div className="border border-slate-200 rounded-xl overflow-hidden shadow-xs">
+                  <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      <Clock className="h-3.5 w-3.5 text-blue-600" />
+                      <span>
+                        {modalMode === 'weekly'
+                          ? `Week Session Log (${currentWeek.label})`
+                          : `Monthly Attendance Log (${currentMonth.label})`}
+                      </span>
+                    </span>
+                    <span className="text-[11px] text-slate-500 font-medium">
+                      Exact check-in arrival tracking
+                    </span>
+                  </div>
+
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead>
+                      <tr className="bg-slate-50/50 border-b border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+                        <th className="py-2.5 px-3">Date &amp; Day</th>
+                        <th className="py-2.5 px-3">Subject</th>
+                        <th className="py-2.5 px-3">Status</th>
+                        <th className="py-2.5 px-3">Arrival Check-In</th>
+                        <th className="py-2.5 px-3">Departure Check-Out</th>
+                        <th className="py-2.5 px-3">Attended Duration</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {selectedStudentItem.weekly.days.map(d => (
+                        <tr key={d.date} className="hover:bg-slate-50/60">
+                          <td className="py-2.5 px-3 font-medium text-slate-800">
+                            <span>{d.formatted}</span>{' '}
+                            <span className="text-slate-400 font-normal">({d.dayName})</span>
+                          </td>
+                          <td className="py-2.5 px-3 text-slate-600">
+                            {d.subject || 'Mathematics'}
+                          </td>
+                          <td className="py-2.5 px-3">
+                            {d.status === 'Present' ? (
+                              <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 font-bold text-[10px]">
+                                ✓ Present
+                              </Badge>
+                            ) : d.status === 'Absent' ? (
+                              <Badge className="bg-rose-100 text-rose-800 border-rose-200 font-bold text-[10px]">
+                                ✗ Absent
+                              </Badge>
+                            ) : d.status === 'Leave' ? (
+                              <Badge className="bg-amber-100 text-amber-800 border-amber-200 font-bold text-[10px]">
+                                ✈ Leave
+                              </Badge>
+                            ) : (
+                              <Badge variant="outline" className="text-slate-400 border-slate-200 text-[10px]">
+                                — Holiday
+                              </Badge>
+                            )}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono font-medium text-slate-700">
+                            {d.status === 'Present' ? (
+                              <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                                <Clock className="h-3 w-3 text-emerald-600" />
+                                {d.checkIn}
+                              </span>
+                            ) : (
+                              <span className="text-slate-400">—</span>
+                            )}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono text-slate-500">
+                            {d.status === 'Present' ? d.checkOut : '—'}
+                          </td>
+                          <td className="py-2.5 px-3 font-mono font-semibold text-slate-800">
+                            {d.duration}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Parent Communication & Actions Footer */}
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100">
+                  <div className="flex items-center gap-2">
+                    {/* WhatsApp Report to Parent */}
+                    <a
+                      href={`https://wa.me/${selectedStudentItem.parentPhone.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(
+                        `Dear ${selectedStudentItem.fatherName},\nHere is the attendance report for ${selectedStudentItem.student.name} (${selectedStudentItem.student.className} Batch ${selectedStudentItem.student.batchName}):\n- Attendance Rate: ${
+                          modalMode === 'weekly'
+                            ? selectedStudentItem.weekly.percent
+                            : selectedStudentItem.monthly.percent
+                        }%\n- Present Days: ${
+                          modalMode === 'weekly'
+                            ? selectedStudentItem.weekly.present
+                            : selectedStudentItem.monthly.present
+                        }\n- Missed Days: ${
+                          modalMode === 'weekly'
+                            ? selectedStudentItem.weekly.absent
+                            : selectedStudentItem.monthly.absent
+                        }\nFee Due Date: ${formatDateDisplay(selectedStudentItem.effectiveDueDate)}\nRegards, IDL Education`
+                      )}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Button
+                        size="sm"
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold h-8 gap-1.5 shadow-xs cursor-pointer"
+                      >
+                        <Share2 className="h-3.5 w-3.5" />
+                        <span>WhatsApp Parent</span>
+                      </Button>
+                    </a>
+
+                    {/* Direct Call Parent */}
+                    <a href={`tel:${selectedStudentItem.parentPhone}`}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="text-xs font-bold h-8 gap-1.5 border-slate-300 text-slate-700 cursor-pointer"
+                      >
+                        <PhoneCall className="h-3.5 w-3.5 text-blue-600" />
+                        <span>Call Parent</span>
+                      </Button>
+                    </a>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => window.print()}
+                      className="text-xs font-bold h-8 gap-1.5 border-slate-300 text-slate-700 cursor-pointer"
+                    >
+                      <Printer className="h-3.5 w-3.5 text-slate-600" />
+                      <span>Print Student Card</span>
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => setIsIndividualModalOpen(false)}
+                      className="text-xs font-bold h-8 px-4 cursor-pointer"
+                    >
+                      Close
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

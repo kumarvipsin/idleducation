@@ -124,8 +124,10 @@ interface AttendanceContextType {
 
   // Live Attendance Actions
   markStudentPresent: (studentId: string, customTime?: string) => void;
-  markStudentStatus: (studentId: string, status: StudentStatus, reason?: string) => void;
+  markStudentStatus: (studentId: string, status: StudentStatus, reason?: string, customTime?: string) => void;
+  updateStudentCheckInTime: (studentId: string, checkInTime: string) => void;
   bulkMarkPresent: (studentIds: string[]) => void;
+  resetLiveAttendance: () => void;
   markStudentExit: (studentId: string, customTime?: string) => void;
   markExitAllPresent: (customTime?: string) => void;
   endLiveSession: () => void;
@@ -182,7 +184,7 @@ interface AttendanceContextType {
 
 const AttendanceContext = createContext<AttendanceContextType | null>(null);
 
-const STORAGE_KEY = 'idl_attendance_state_v2';
+const STORAGE_KEY = 'idl_attendance_state_v6';
 
 export function AttendanceProvider({ children }: { children: React.ReactNode }) {
   const [currentRole, setCurrentRole] = useState<UserRole>('Super Admin');
@@ -1445,84 +1447,185 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
     showToast(`Marked present at ${time}.`);
   };
 
-  const markStudentStatus = (studentId: string, status: StudentStatus, reason?: string) => {
-    if (!liveSession) return;
+  const markStudentStatus = (
+    studentId: string,
+    status: StudentStatus,
+    reason?: string,
+    customTime?: string
+  ) => {
+    const student = students.find(s => s.id === studentId);
+    const nowTime = getCurrentTimeFormatted();
+    const todayStr = new Date().toISOString().split('T')[0];
+
     setLiveSession(prev => {
-      if (!prev) return prev;
-      const rec = prev.studentRecords[studentId];
-      if (!rec) return prev;
+      const currentSession: TClassSession = prev || {
+        id: `session-live-${Date.now()}`,
+        scheduleId: 'sch-live-general',
+        date: todayStr,
+        classId: student?.classId || 'all',
+        className: student?.className || 'General',
+        batchId: student?.batchId || 'all',
+        batchName: student?.batchName || 'General',
+        subject: 'General Class Session',
+        teacherName: 'Amod Sharma',
+        scheduledStartTime: '09:00 AM',
+        scheduledEndTime: '06:00 PM',
+        scheduledDurationMinutes: 540,
+        sessionStatus: 'Ongoing',
+        startedAt: nowTime,
+        studentRecords: {},
+        isDemo: true,
+      };
+
+      const existingRec = currentSession.studentRecords[studentId] || {
+        studentId,
+        studentName: student?.name || 'Student',
+        rollNo: student?.rollNo || 0,
+        status: 'not_arrived' as StudentStatus,
+        attendedMinutes: 0,
+        missedMinutes: 0,
+        extraMinutes: 0,
+      };
+
+      const isLiveOrPresent = status === 'present' || status === 'live';
+      const checkIn = isLiveOrPresent ? (customTime || existingRec.checkInTime || nowTime) : undefined;
+      const timing = calculateStudentAttendanceTiming(
+        currentSession.scheduledStartTime,
+        currentSession.scheduledEndTime,
+        checkIn
+      );
+
       return {
-        ...prev,
+        ...currentSession,
         studentRecords: {
-          ...prev.studentRecords,
+          ...currentSession.studentRecords,
           [studentId]: {
-            ...rec,
+            ...existingRec,
             status,
-            leaveReason: status === 'leave' ? reason : undefined,
-            absenceRemark: status === 'absent' ? reason : undefined,
-            checkInTime: status === 'present' ? (rec.checkInTime || getCurrentTimeFormatted()) : undefined,
-            isOngoing: status === 'present',
+            leaveReason: status === 'leave' ? (reason || 'Informed Leave') : undefined,
+            absenceRemark: status === 'absent' ? (reason || 'Unexcused Absence') : undefined,
+            checkInTime: checkIn,
+            attendedMinutes: isLiveOrPresent ? timing.attendedMinutes : 0,
+            missedMinutes: isLiveOrPresent ? timing.missedMinutes : 0,
+            extraMinutes: isLiveOrPresent ? timing.extraMinutes : 0,
+            isOngoing: isLiveOrPresent,
           },
         },
       };
     });
 
-    if (status === 'absent') {
-      const student = students.find(s => s.id === studentId);
-      if (student) {
-        setAbsentFollowUps(prev => {
-          if (prev.some(f => f.studentId === studentId && f.date === liveSession.date)) return prev;
-          return [
-            {
-              id: `af-${Date.now()}-${studentId}`,
-              date: liveSession.date,
-              studentId: student.id,
-              studentName: student.name,
-              classId: student.classId,
-              className: student.className,
-              batchId: student.batchId,
-              batchName: student.batchName,
-              subject: liveSession.subject,
-              missedHours: `${Math.round(liveSession.scheduledDurationMinutes / 60)}h`,
-              callStatus: 'Not Contacted',
-              contactNumber: student.parentPhone,
-              remark: 'Marked absent in live session.',
-            },
-            ...prev,
-          ];
-        });
-      }
+    if (status === 'absent' && student) {
+      setAbsentFollowUps(prev => {
+        if (prev.some(f => f.studentId === studentId && f.date === todayStr)) return prev;
+        return [
+          {
+            id: `af-${Date.now()}-${studentId}`,
+            date: todayStr,
+            studentId: student.id,
+            studentName: student.name,
+            classId: student.classId,
+            className: student.className,
+            batchId: student.batchId,
+            batchName: student.batchName,
+            subject: 'Class Attendance',
+            missedHours: '2h',
+            callStatus: 'Not Contacted',
+            contactNumber: student.parentPhone,
+            remark: 'Marked absent in live attendance.',
+          },
+          ...prev,
+        ];
+      });
     }
+
+    const label = status === 'live' ? 'Live (In Class)' : status.charAt(0).toUpperCase() + status.slice(1);
+    const timeDetail = (status === 'present' || status === 'live') && customTime ? ` at ${customTime}` : '';
+    showToast(`${student?.name || 'Student'} marked as ${label}${timeDetail}.`);
+  };
+
+  const updateStudentCheckInTime = (studentId: string, checkInTime: string) => {
+    markStudentStatus(studentId, 'present', undefined, checkInTime);
   };
 
   const bulkMarkPresent = (studentIds: string[]) => {
-    if (!liveSession) return;
     const nowTime = getCurrentTimeFormatted();
+    const todayStr = new Date().toISOString().split('T')[0];
+
     setLiveSession(prev => {
-      if (!prev) return prev;
-      const updatedRecords = { ...prev.studentRecords };
+      const currentSession: TClassSession = prev || {
+        id: `session-live-${Date.now()}`,
+        scheduleId: 'sch-live-general',
+        date: todayStr,
+        classId: 'all',
+        className: 'General',
+        batchId: 'all',
+        batchName: 'General',
+        subject: 'General Class Session',
+        teacherName: 'Amod Sharma',
+        scheduledStartTime: '09:00 AM',
+        scheduledEndTime: '06:00 PM',
+        scheduledDurationMinutes: 540,
+        sessionStatus: 'Ongoing',
+        startedAt: nowTime,
+        studentRecords: {},
+        isDemo: true,
+      };
+
+      const updatedRecords = { ...currentSession.studentRecords };
       studentIds.forEach(id => {
-        const rec = updatedRecords[id];
-        if (rec && rec.status !== 'present') {
-          const timing = calculateStudentAttendanceTiming(
-            prev.scheduledStartTime,
-            prev.scheduledEndTime,
-            nowTime
-          );
-          updatedRecords[id] = {
-            ...rec,
-            status: 'present',
-            checkInTime: nowTime,
-            attendedMinutes: timing.attendedMinutes,
-            missedMinutes: timing.missedMinutes,
-            extraMinutes: timing.extraMinutes,
-            isOngoing: true,
-          };
-        }
+        const student = students.find(s => s.id === id);
+        const existingRec = updatedRecords[id] || {
+          studentId: id,
+          studentName: student?.name || 'Student',
+          rollNo: student?.rollNo || 0,
+          status: 'not_arrived' as StudentStatus,
+          attendedMinutes: 0,
+          missedMinutes: 0,
+          extraMinutes: 0,
+        };
+
+        const timing = calculateStudentAttendanceTiming(
+          currentSession.scheduledStartTime,
+          currentSession.scheduledEndTime,
+          nowTime
+        );
+
+        updatedRecords[id] = {
+          ...existingRec,
+          status: 'present',
+          checkInTime: nowTime,
+          attendedMinutes: timing.attendedMinutes,
+          missedMinutes: timing.missedMinutes,
+          extraMinutes: timing.extraMinutes,
+          isOngoing: true,
+        };
       });
-      return { ...prev, studentRecords: updatedRecords };
+
+      return { ...currentSession, studentRecords: updatedRecords };
     });
-    showToast(`${studentIds.length} students checked in at ${nowTime}.`);
+    showToast(`${studentIds.length} students marked present.`);
+  };
+
+  const resetLiveAttendance = () => {
+    setLiveSession(prev => {
+      if (!prev) return null;
+      const cleared: Record<string, TStudentSessionRecord> = {};
+      Object.keys(prev.studentRecords).forEach(id => {
+        const rec = prev.studentRecords[id];
+        cleared[id] = {
+          ...rec,
+          status: 'not_arrived',
+          checkInTime: undefined,
+          checkOutTime: undefined,
+          attendedMinutes: 0,
+          missedMinutes: 0,
+          extraMinutes: 0,
+          isOngoing: false,
+        };
+      });
+      return { ...prev, studentRecords: cleared };
+    });
+    showToast('Live attendance reset.');
   };
 
   const markStudentExit = (studentId: string, customTime?: string) => {
@@ -2060,7 +2163,9 @@ export function AttendanceProvider({ children }: { children: React.ReactNode }) 
         forceDeleteSubject,
         markStudentPresent,
         markStudentStatus,
+        updateStudentCheckInTime,
         bulkMarkPresent,
+        resetLiveAttendance,
         markStudentExit,
         markExitAllPresent,
         endLiveSession,

@@ -265,6 +265,8 @@ export function FeesClient({
   const [batchFilter, setBatchFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [ledgerStatusFilter, setLedgerStatusFilter] = useState<string>('all');
+  const [ledgerClassFilter, setLedgerClassFilter] = useState<string>('all');
+  const [ledgerBatchFilter, setLedgerBatchFilter] = useState<string>('all');
 
   const dedupeLedgerRows = (rows: (FeeLedgerEntry & { student: FeeStudent })[]) => {
     const seen = new Set<string>();
@@ -3605,6 +3607,30 @@ export function FeesClient({
     });
   }, [batches, selectedBranch, classFilter, classes, hasBranchSelection]);
 
+  // Filtered batches for fee collection filter (respects selected branch & ledger class filter)
+  const availableBatchesForLedgerFilter = React.useMemo(() => {
+    if (!hasBranchSelection) return [];
+    let list = batches;
+    if (selectedBranch && selectedBranch !== 'all') {
+      list = list.filter(
+        b =>
+          b.branchId === selectedBranch ||
+          (selectedBranch === 'mangolpuri' && b.branchId === 'mangol-puri') ||
+          (selectedBranch === 'mangol-puri' && b.branchId === 'mangolpuri') ||
+          classes.some(c => c.id === b.classId && (c.branchId === selectedBranch || (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri')))
+      );
+    }
+    if (ledgerClassFilter !== 'all') {
+      list = list.filter(b => b.classId === ledgerClassFilter);
+    }
+    return [...list].sort((a, b) => {
+      const ordA = a.order !== undefined && a.order !== null ? Number(a.order) : 999999;
+      const ordB = b.order !== undefined && b.order !== null ? Number(b.order) : 999999;
+      if (ordA !== ordB) return ordA - ordB;
+      return a.name.localeCompare(b.name, undefined, { numeric: true });
+    });
+  }, [batches, selectedBranch, ledgerClassFilter, classes, hasBranchSelection]);
+
   const formatAdmDate = (d?: string) => {
     if (!d) return '—';
     const pure = d.split('T')[0];
@@ -4088,7 +4114,7 @@ export function FeesClient({
       );
     }
     return true;
-  });
+  }).sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
 
   const toolbarControlClass =
     'h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0';
@@ -4929,9 +4955,49 @@ export function FeesClient({
                     </CardDescription>
                   </div>
 
-                  {/* Filter Row: [ STATUS ] [ Search (Rightmost, Round) ] */}
+                  {/* Filter Row: [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
                   <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
-                    {/* STATUS */}
+                    {/* 1. CLASS (No icon, all capital, compact & refined) */}
+                    <Select
+                      value={ledgerClassFilter}
+                      onValueChange={(val) => {
+                        setLedgerClassFilter(val);
+                        setLedgerBatchFilter('all');
+                      }}
+                    >
+                      <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                        <SelectValue placeholder="CLASS">
+                          {ledgerClassFilter === 'all'
+                            ? 'CLASS'
+                            : filteredClasses.find(c => c.id === ledgerClassFilter)?.name.toUpperCase() || 'CLASS'}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all" className="text-xs font-semibold">All Classes</SelectItem>
+                        {filteredClasses.map(c => (
+                          <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {/* 2. BATCH (No icon, all capital, compact & refined) */}
+                    <Select value={ledgerBatchFilter} onValueChange={setLedgerBatchFilter}>
+                      <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                        <SelectValue placeholder="BATCH">
+                          {ledgerBatchFilter === 'all'
+                            ? 'BATCH'
+                            : availableBatchesForLedgerFilter.find(b => b.id === ledgerBatchFilter)?.name.toUpperCase() || 'BATCH'}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all" className="text-xs font-semibold">All Batches</SelectItem>
+                        {availableBatchesForLedgerFilter.map(b => (
+                          <SelectItem key={b.id} value={b.id} className="text-xs">{b.name}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
+                    {/* 3. STATUS */}
                     <Select value={ledgerStatusFilter} onValueChange={setLedgerStatusFilter}>
                       <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
                         <SelectValue placeholder="STATUS">
@@ -5072,6 +5138,14 @@ export function FeesClient({
                         const filteredLedger = !hasBranchSelection
                           ? []
                           : ledger.filter(entry => {
+                              if (ledgerClassFilter !== 'all') {
+                                const matchesClass = entry.classId === ledgerClassFilter || entry.student?.classId === ledgerClassFilter;
+                                if (!matchesClass) return false;
+                              }
+                              if (ledgerBatchFilter !== 'all') {
+                                const matchesBatch = entry.batchId === ledgerBatchFilter || entry.student?.batchId === ledgerBatchFilter;
+                                if (!matchesBatch) return false;
+                              }
                               if (ledgerStatusFilter !== 'all' && entry.status !== ledgerStatusFilter) return false;
                               if (studentSearch.trim()) {
                                 const q = studentSearch.toLowerCase().trim();
@@ -5082,7 +5156,8 @@ export function FeesClient({
                                 );
                               }
                               return true;
-                            });
+                            })
+                            .sort((a, b) => a.student.name.localeCompare(b.student.name, undefined, { sensitivity: 'base' }));
 
                         if (filteredLedger.length === 0) {
                           const monthName = monthOptions.find(m => m.value === selectedMonth)?.label || selectedMonth;
@@ -5103,11 +5178,11 @@ export function FeesClient({
                                   <>
                                     <IndianRupee className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
                                     <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
-                                      {ledgerStatusFilter !== 'all' || studentSearch.trim() ? 'No matching records' : 'No fee records found'}
+                                      {ledgerClassFilter !== 'all' || ledgerBatchFilter !== 'all' || ledgerStatusFilter !== 'all' || studentSearch.trim() ? 'No matching records' : 'No fee records found'}
                                     </p>
                                     <p className="text-[11px] text-slate-400 mt-0.5">
-                                      {ledgerStatusFilter !== 'all' || studentSearch.trim()
-                                        ? 'Try adjusting your status filter or search query.'
+                                      {ledgerClassFilter !== 'all' || ledgerBatchFilter !== 'all' || ledgerStatusFilter !== 'all' || studentSearch.trim()
+                                        ? 'Try adjusting your filters or search query.'
                                         : `Enrolled students and fee records for ${monthName} will appear here.`}
                                     </p>
                                   </>
@@ -6979,7 +7054,7 @@ export function FeesClient({
             </DialogHeader>
 
             <form onSubmit={handleCreateClass} className="space-y-2 pt-0.5" autoComplete="off">
-              {/* Row 1: Class Name & Class Division */}
+              {/* Row 1: Class Name & Class Title */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
                 <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
@@ -6996,10 +7071,10 @@ export function FeesClient({
 
                 <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
-                    Class Division <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    Class Title <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
                   <Input
-                    placeholder="e.g. Alpha, Sec A"
+                    placeholder="e.g. CBSE, FOUNDATION"
                     value={classForm.division}
                     onChange={e => setClassForm({ ...classForm, division: e.target.value })}
                     className={FORM_CARD_FIELD_CLS}
@@ -7779,7 +7854,7 @@ export function FeesClient({
             </DialogHeader>
 
             <form onSubmit={handleUpdateClass} className="space-y-2 pt-0.5" autoComplete="off">
-              {/* Row 1: Class Name & Class Division */}
+              {/* Row 1: Class Name & Class Title */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-2">
                 <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
@@ -7796,10 +7871,10 @@ export function FeesClient({
 
                 <div className="space-y-0.5">
                   <Label className={FORM_CARD_LABEL_CLS}>
-                    Class Division <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
+                    Class Title <span className="text-slate-400 dark:text-slate-500 font-normal">*</span>
                   </Label>
                   <Input
-                    placeholder="e.g. Alpha, Sec A"
+                    placeholder="e.g. CBSE, FOUNDATION"
                     value={editClassForm.division || ''}
                     onChange={e => setEditClassForm({ ...editClassForm, division: e.target.value })}
                     className={FORM_CARD_FIELD_CLS}
