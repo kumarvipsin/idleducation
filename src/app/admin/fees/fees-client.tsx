@@ -22,7 +22,10 @@ import {
   getActiveAdditionalSubjectsForMonth,
   BranchYearlyReportResult,
   BranchYearlyData,
+  StudentFeeStatement,
+  StudentFeeStatementMonthRow,
 } from '@/types/fee-management';
+import { getMonthSequence, clampDueDateForMonth } from '@/lib/fee-pure-helpers';
 import { useAuth } from '@/context/auth-context';
 import { syncServerSessionFromProfile } from '@/app/actions/auth';
 import { db } from '@/lib/firebase';
@@ -65,6 +68,7 @@ import {
   getBranchYearlyReport,
   getFeeDashboardBundle,
   type FeeDashboardBundle,
+  getStudentFeeStatement,
 } from '@/app/actions/fee-management';
 import {
   Card,
@@ -168,6 +172,7 @@ import {
   X,
   UserCheck,
   Star,
+  FileSpreadsheet,
 } from 'lucide-react';
 
 interface FeesClientProps {
@@ -791,6 +796,11 @@ export function FeesClient({
   const [editStudentSubjectTab, setEditStudentSubjectTab] = useState<'enrolled' | 'additional'>('enrolled');
   const [showAddSubjectInput, setShowAddSubjectInput] = useState(false);
 
+  // 7B. Student Fee Statement & Account History
+  const [activeStatement, setActiveStatement] = useState<StudentFeeStatement | null>(null);
+  const [isStatementLoading, setIsStatementLoading] = useState(false);
+  const [isStatementModalOpen, setIsStatementModalOpen] = useState(false);
+
   // 8. Delete Confirmation States
   const [deleteTarget, setDeleteTarget] = useState<{
     type: 'class' | 'batch' | 'student';
@@ -986,6 +996,7 @@ export function FeesClient({
         isRevertModalOpen ||
         !!revertPaymentTarget ||
         !!selectedStudentProfile ||
+        isStatementModalOpen ||
         !!deleteTarget ||
         studentDeleteModal.isOpen ||
         statusOptionsModal.isOpen ||
@@ -1013,6 +1024,7 @@ export function FeesClient({
     isRevertModalOpen,
     revertPaymentTarget,
     selectedStudentProfile,
+    isStatementModalOpen,
     deleteTarget,
     studentDeleteModal.isOpen,
     statusOptionsModal.isOpen,
@@ -1106,18 +1118,23 @@ export function FeesClient({
     }
   };
 
-  // Helper for formatting batch date range
+  // Helper for formatting batch date range (supports DD-MM-YYYY and YYYY-MM-DD)
   const formatBatchDateString = (dateStr?: string) => {
     if (!dateStr) return '';
-    const parts = dateStr.split('-');
+    const parts = dateStr.trim().replace(/\//g, '-').split('-');
     if (parts.length !== 3) return dateStr;
-    const [y, m, d] = parts;
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    if (parts[0].length === 4) {
+      const [y, m, d] = parts;
+      const monthIdx = parseInt(m, 10) - 1;
+      return `${d} ${monthNames[monthIdx] || m} ${y}`;
+    }
+    const [d, m, y] = parts;
     const monthIdx = parseInt(m, 10) - 1;
     return `${d} ${monthNames[monthIdx] || m} ${y}`;
   };
 
-  // Helper for parsing date range from batch duration string
+  // Helper for parsing date range from batch duration string (outputs DD-MM-YYYY)
   const parseDateRangeFromDuration = (durationStr?: string) => {
     if (!durationStr) return { startDate: '', endDate: '' };
     const monthMap: Record<string, string> = {
@@ -1130,7 +1147,7 @@ export function FeesClient({
       const day = m[1].padStart(2, '0');
       const mon = monthMap[m[2].toLowerCase().slice(0, 3)];
       const year = m[3];
-      if (mon && year) return `${year}-${mon}-${day}`;
+      if (mon && year) return `${day}-${mon}-${year}`;
       return '';
     };
 
@@ -1258,11 +1275,23 @@ export function FeesClient({
     }
   };
 
-  // Parse comma-separated subjects while deduplicating case-insensitively
+  // Helper: Auto-capitalizes first letter of each word (Title Case)
+  const toTitleCase = (str: string): string => {
+    if (!str) return '';
+    return str.replace(/(?:^|\s|[,.\-\/])([a-z])/g, match => match.toUpperCase());
+  };
+
+  // Helper: Capitalizes first letter of string
+  const capitalizeFirstLetter = (str: string): string => {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  // Parse comma-separated subjects while deduplicating case-insensitively & ensuring Title Case
   const parseSubjectEntries = (raw: string, existing: string[] = []): string[] => {
     const result = [...existing];
     for (const part of raw.split(',')) {
-      const clean = part.trim();
+      const clean = toTitleCase(part.trim());
       if (clean && !result.some(s => s.toLowerCase() === clean.toLowerCase())) {
         result.push(clean);
       }
@@ -1273,9 +1302,9 @@ export function FeesClient({
   // Handlers for dynamic batch subjects creation, editing & deletion
   const handleAddBatchSubject = (subjectToAdd?: string) => {
     const raw = subjectToAdd !== undefined ? subjectToAdd : newBatchSubjectInput;
-    const trimmed = raw.trim();
+    const trimmed = toTitleCase(raw.trim());
     if (!trimmed) return;
-    const updatedSubjects = parseSubjectEntries(raw, batchForm.subjects);
+    const updatedSubjects = parseSubjectEntries(trimmed, batchForm.subjects);
     if (updatedSubjects.length === batchForm.subjects.length) {
       toast({ title: 'Notice', description: `"${trimmed}" is already added to this batch.` });
       return;
@@ -2781,6 +2810,455 @@ export function FeesClient({
     }
   };
 
+  // Helper to open Student Fee Statement Modal (Admission / Batch Start to Current Month)
+  const handleOpenStatementModal = async (student: FeeStudent) => {
+    setActiveStatement(null);
+    setIsStatementLoading(true);
+    setIsStatementModalOpen(true);
+
+    try {
+      const res = await getStudentFeeStatement(student.id, { targetMonth: selectedMonth, forceFresh: false });
+      if (res.success && res.data) {
+        setActiveStatement(res.data);
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Statement Error',
+          description: res.message || 'Fee statement record load nahi ho paya.',
+        });
+      }
+    } catch (err) {
+      console.error('Error fetching student statement:', err);
+      toast({
+        variant: 'destructive',
+        title: 'Connection Error',
+        description: 'Server se student fee statement connect nahi ho paya.',
+      });
+    } finally {
+      setIsStatementLoading(false);
+    }
+  };
+
+  // Direct CSV Statement Export
+  const handleDownloadStatementCSV = (st: StudentFeeStatement) => {
+    try {
+      const lines: string[] = [];
+      lines.push('IDL EDUCATION - COMPLETE STUDENT FEE STATEMENT');
+      lines.push(`Generated On:,"${new Date().toLocaleString('en-IN')}"`);
+      lines.push('');
+      lines.push('STUDENT DETAILS');
+      lines.push(`Student Name:,"${st.student.name}"`);
+      lines.push(`Roll Number / ID:,"${st.student.rollNumber || st.student.id}"`);
+      lines.push(`Father / Guardian:,"${st.student.fatherName || '—'}"`);
+      lines.push(`Class:,"${st.className}"`);
+      lines.push(`Batch:,"${st.batchName}"`);
+      lines.push(`Branch:,"${st.branchName}"`);
+      lines.push(`Admission Date:,"${formatAdmDate(st.student.joiningDate)}"`);
+      lines.push(`Statement Range:,"${st.startMonthLabel} to ${st.endMonthLabel} (${st.totalMonths} Months)"`);
+      lines.push('');
+      lines.push('SUMMARY TOTALS');
+      lines.push(`Total Billed:,"INR ${st.totals.totalBilled}"`);
+      lines.push(`Total Discounts:,"INR ${st.totals.totalDiscounts}"`);
+      lines.push(`Total Paid:,"INR ${st.totals.totalPaid}"`);
+      lines.push(`Net Outstanding Balance:,"INR ${st.totals.totalBalance}"`);
+      lines.push('');
+      lines.push('MONTH-BY-MONTH LEDGER STATEMENT');
+      lines.push('S.No,Month,Due Date,Standard Base Fee,Additional Subjects Fee,Scholarship Discount,Net Due,Carried Arrears,Gross Payable,Amount Paid,Balance Remaining,Status,Payment Date,Receipt Number,Payment Mode,Reference / Txn');
+
+      st.rows.forEach((r, idx) => {
+        lines.push([
+          idx + 1,
+          `"${r.monthLabel}"`,
+          `"${formatAdmDate(r.dueDate)}"`,
+          r.baseAmount,
+          r.additionalSubjectFee,
+          r.discountAmount,
+          r.netDueAmount,
+          r.carriedForwardDue,
+          r.totalPayable,
+          r.paidAmount,
+          r.balanceAmount,
+          `"${r.status}"`,
+          `"${r.lastPaymentDate ? formatAdmDate(r.lastPaymentDate) : '—'}"`,
+          `"${r.receiptNumber || '—'}"`,
+          `"${r.paymentMode || '—'}"`,
+          `"${r.transactionRef || '—'}"`,
+        ].join(','));
+      });
+
+      lines.push('');
+      lines.push([
+        'TOTAL',
+        '',
+        '',
+        '',
+        '',
+        st.totals.totalDiscounts,
+        st.totals.totalBilled,
+        '',
+        '',
+        st.totals.totalPaid,
+        st.totals.totalBalance,
+        '',
+        '',
+        '',
+        '',
+        '',
+      ].join(','));
+
+      const csvContent = 'data:text/csv;charset=utf-8,' + encodeURIComponent(lines.join('\n'));
+      const link = document.createElement('a');
+      link.setAttribute('href', csvContent);
+      const safeName = st.student.name.replace(/\s+/g, '_');
+      const safeRoll = (st.student.rollNumber || st.student.id).replace(/\s+/g, '_');
+      link.setAttribute('download', `IDL_Fee_Statement_${safeRoll}_${safeName}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      toast({
+        title: 'CSV Statement Downloaded',
+        description: `${st.student.name} ka fee statement Excel/CSV file me download ho gaya hai.`,
+      });
+    } catch (err) {
+      console.error('Statement CSV error:', err);
+      toast({
+        variant: 'destructive',
+        title: 'CSV Export Failed',
+        description: 'Fee statement CSV export nahi ho paya.',
+      });
+    }
+  };
+
+  // Direct A4 Portrait PDF Statement Download
+  const handleDownloadStatementPDF = async (st: StudentFeeStatement) => {
+    try {
+      const { default: jsPDF } = await import('jspdf');
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pageWidth = 210;
+      const pageHeight = 297;
+      const margin = 12;
+      let y = 14;
+
+      // Header top bar
+      pdf.setFillColor(40, 100, 232); // #2864E8
+      pdf.rect(margin, y, pageWidth - margin * 2, 2.5, 'F');
+      y += 8;
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(16);
+      pdf.setTextColor(15, 23, 42); // slate-900
+      pdf.text('IDL EDUCATION', margin, y);
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8.5);
+      pdf.setTextColor(100, 116, 139);
+      pdf.text('Helpline: 011 45035713 • Email: info@idleducation.in • Website: idleducation.in', pageWidth - margin, y - 1, { align: 'right' });
+      y += 5;
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.setTextColor(40, 100, 232);
+      pdf.text('OFFICIAL STUDENT FEE STATEMENT & ACCOUNT HISTORY', margin, y);
+      y += 4;
+
+      // Divider
+      pdf.setDrawColor(226, 232, 240);
+      pdf.setLineWidth(0.3);
+      pdf.line(margin, y, pageWidth - margin, y);
+      y += 5;
+
+      // Student Details Box
+      pdf.setFillColor(248, 250, 252);
+      pdf.setDrawColor(226, 232, 240);
+      pdf.roundedRect(margin, y, pageWidth - margin * 2, 28, 2, 2, 'FD');
+
+      pdf.setFontSize(9);
+
+      // Column 1
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Student Name:', margin + 4, y + 6);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(st.student.name, margin + 30, y + 6);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Roll / ID:', margin + 4, y + 12);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(st.student.rollNumber || st.student.id, margin + 30, y + 12);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Father Name:', margin + 4, y + 18);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(st.student.fatherName || '—', margin + 30, y + 18);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Contact No:', margin + 4, y + 24);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(st.student.fatherContact || st.student.contact1 || '—', margin + 30, y + 24);
+
+      // Column 2
+      const col2X = margin + 100;
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Class & Batch:', col2X, y + 6);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(`${st.className} • ${st.batchName}`, col2X + 26, y + 6);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Branch Center:', col2X, y + 12);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(st.branchName, col2X + 26, y + 12);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Admission Date:', col2X, y + 18);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(formatAdmDate(st.student.joiningDate), col2X + 26, y + 18);
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(71, 85, 105);
+      pdf.text('Statement Period:', col2X, y + 24);
+      pdf.setFont('helvetica', 'normal');
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(`${st.startMonthLabel} to ${st.endMonthLabel} (${st.totalMonths} Mos)`, col2X + 26, y + 24);
+
+      y += 33;
+
+      // 4 Metric KPI Cards
+      const kpiW = (pageWidth - margin * 2 - 9) / 4;
+      const kpiH = 14;
+
+      // KPI 1: Billed
+      pdf.setFillColor(241, 245, 249);
+      pdf.roundedRect(margin, y, kpiW, kpiH, 1.5, 1.5, 'F');
+      pdf.setFontSize(7.5);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(100, 116, 139);
+      pdf.text('TOTAL BILLED', margin + 3, y + 4.5);
+      pdf.setFontSize(10.5);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text(`Rs. ${st.totals.totalBilled.toLocaleString('en-IN')}`, margin + 3, y + 10.5);
+
+      // KPI 2: Discount
+      const kpi2X = margin + kpiW + 3;
+      pdf.setFillColor(240, 253, 244);
+      pdf.roundedRect(kpi2X, y, kpiW, kpiH, 1.5, 1.5, 'F');
+      pdf.setFontSize(7.5);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(22, 101, 52);
+      pdf.text('DISCOUNTS', kpi2X + 3, y + 4.5);
+      pdf.setFontSize(10.5);
+      pdf.setTextColor(21, 128, 61);
+      pdf.text(`Rs. ${st.totals.totalDiscounts.toLocaleString('en-IN')}`, kpi2X + 3, y + 10.5);
+
+      // KPI 3: Paid
+      const kpi3X = kpi2X + kpiW + 3;
+      pdf.setFillColor(239, 246, 255);
+      pdf.roundedRect(kpi3X, y, kpiW, kpiH, 1.5, 1.5, 'F');
+      pdf.setFontSize(7.5);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(30, 64, 175);
+      pdf.text('TOTAL PAID', kpi3X + 3, y + 4.5);
+      pdf.setFontSize(10.5);
+      pdf.setTextColor(37, 99, 235);
+      pdf.text(`Rs. ${st.totals.totalPaid.toLocaleString('en-IN')}`, kpi3X + 3, y + 10.5);
+
+      // KPI 4: Balance
+      const kpi4X = kpi3X + kpiW + 3;
+      const isZeroBal = st.totals.totalBalance <= 0;
+      pdf.setFillColor(isZeroBal ? 240 : 255, isZeroBal ? 253 : 241, isZeroBal ? 244 : 242);
+      pdf.roundedRect(kpi4X, y, kpiW, kpiH, 1.5, 1.5, 'F');
+      pdf.setFontSize(7.5);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setTextColor(isZeroBal ? 22 : 159, isZeroBal ? 101 : 18, isZeroBal ? 52 : 57);
+      pdf.text('NET OUTSTANDING', kpi4X + 3, y + 4.5);
+      pdf.setFontSize(10.5);
+      pdf.setTextColor(isZeroBal ? 21 : 225, isZeroBal ? 128 : 29, isZeroBal ? 61 : 72);
+      pdf.text(`Rs. ${st.totals.totalBalance.toLocaleString('en-IN')}`, kpi4X + 3, y + 10.5);
+
+      y += 18;
+
+      // Table Headers
+      const colWidths = [8, 28, 20, 18, 16, 18, 18, 18, 24, 18];
+      const tableHeaders = ['#', 'Month', 'Due Date', 'Net Due', 'Arrears', 'Payable', 'Paid', 'Balance', 'Receipt / Ref', 'Status'];
+
+      pdf.setFillColor(30, 41, 59); // slate-800
+      pdf.rect(margin, y, pageWidth - margin * 2, 7, 'F');
+
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(7.5);
+      pdf.setTextColor(255, 255, 255);
+
+      let curX = margin;
+      colWidths.forEach((w, idx) => {
+        const isRight = idx >= 3 && idx <= 7;
+        if (isRight) {
+          pdf.text(tableHeaders[idx], curX + w - 2, y + 4.8, { align: 'right' });
+        } else if (idx === 0) {
+          pdf.text(tableHeaders[idx], curX + w / 2, y + 4.8, { align: 'center' });
+        } else {
+          pdf.text(tableHeaders[idx], curX + 2, y + 4.8);
+        }
+        curX += w;
+      });
+
+      y += 7;
+
+      // Rows
+      st.rows.forEach((row, rIdx) => {
+        if (y > pageHeight - 25) {
+          pdf.addPage();
+          y = 15;
+        }
+
+        const isEven = rIdx % 2 === 0;
+        pdf.setFillColor(isEven ? 255 : 248, isEven ? 255 : 250, isEven ? 255 : 252);
+        pdf.rect(margin, y, pageWidth - margin * 2, 6.5, 'F');
+
+        pdf.setDrawColor(241, 245, 249);
+        pdf.setLineWidth(0.2);
+        pdf.line(margin, y + 6.5, pageWidth - margin, y + 6.5);
+
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(7.5);
+        pdf.setTextColor(51, 65, 85);
+
+        let rx = margin;
+        // #
+        pdf.text(String(rIdx + 1), rx + colWidths[0] / 2, y + 4.5, { align: 'center' });
+        rx += colWidths[0];
+
+        // Month
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(15, 23, 42);
+        pdf.text(row.monthLabel, rx + 2, y + 4.5);
+        rx += colWidths[1];
+
+        // Due Date
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(100, 116, 139);
+        const dueText = formatAdmDate(row.dueDate);
+        pdf.text(dueText, rx + 2, y + 4.5);
+        rx += colWidths[2];
+
+        // Net Due
+        pdf.setTextColor(51, 65, 85);
+        pdf.text(`Rs. ${row.netDueAmount.toLocaleString('en-IN')}`, rx + colWidths[3] - 2, y + 4.5, { align: 'right' });
+        rx += colWidths[3];
+
+        // Arrears
+        pdf.setTextColor(row.carriedForwardDue > 0 ? 220 : 100, row.carriedForwardDue > 0 ? 38 : 116, row.carriedForwardDue > 0 ? 38 : 139);
+        pdf.text(`Rs. ${row.carriedForwardDue.toLocaleString('en-IN')}`, rx + colWidths[4] - 2, y + 4.5, { align: 'right' });
+        rx += colWidths[4];
+
+        // Payable
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(15, 23, 42);
+        pdf.text(`Rs. ${row.totalPayable.toLocaleString('en-IN')}`, rx + colWidths[5] - 2, y + 4.5, { align: 'right' });
+        rx += colWidths[5];
+
+        // Paid
+        pdf.setFont('helvetica', 'normal');
+        pdf.setTextColor(22, 101, 52);
+        pdf.text(`Rs. ${row.paidAmount.toLocaleString('en-IN')}`, rx + colWidths[6] - 2, y + 4.5, { align: 'right' });
+        rx += colWidths[6];
+
+        // Balance
+        pdf.setFont('helvetica', 'bold');
+        pdf.setTextColor(row.balanceAmount > 0 ? 225 : 22, row.balanceAmount > 0 ? 29 : 101, row.balanceAmount > 0 ? 72 : 52);
+        pdf.text(`Rs. ${row.balanceAmount.toLocaleString('en-IN')}`, rx + colWidths[7] - 2, y + 4.5, { align: 'right' });
+        rx += colWidths[7];
+
+        // Receipt
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(6.5);
+        pdf.setTextColor(100, 116, 139);
+        const rcText = row.receiptNumber || (row.lastPaymentDate ? formatAdmDate(row.lastPaymentDate) : '—');
+        pdf.text(rcText.length > 15 ? rcText.slice(0, 14) + '...' : rcText, rx + 2, y + 4.5);
+        rx += colWidths[8];
+
+        // Status
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(7);
+        if (row.status === 'PAID') {
+          pdf.setTextColor(22, 101, 52);
+        } else if (row.status === 'OVERDUE') {
+          pdf.setTextColor(225, 29, 72);
+        } else if (row.status === 'PARTIAL') {
+          pdf.setTextColor(217, 119, 6);
+        } else if (row.status === 'DISABLED' || row.status === 'PAUSED') {
+          pdf.setTextColor(100, 116, 139);
+        } else {
+          pdf.setTextColor(71, 85, 105);
+        }
+        pdf.text(row.status, rx + 2, y + 4.5);
+
+        y += 6.5;
+      });
+
+      // Summary Totals Row
+      y += 2;
+      pdf.setFillColor(241, 245, 249);
+      pdf.rect(margin, y, pageWidth - margin * 2, 7, 'F');
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(8);
+      pdf.setTextColor(15, 23, 42);
+      pdf.text('TOTAL SUMMARY', margin + 4, y + 5);
+
+      pdf.setTextColor(22, 101, 52);
+      pdf.text(`Rs. ${st.totals.totalPaid.toLocaleString('en-IN')}`, margin + colWidths[0] + colWidths[1] + colWidths[2] + colWidths[3] + colWidths[4] + colWidths[5] + colWidths[6] - 2, y + 5, { align: 'right' });
+      pdf.setTextColor(st.totals.totalBalance > 0 ? 225 : 22, st.totals.totalBalance > 0 ? 29 : 101, st.totals.totalBalance > 0 ? 72 : 52);
+      pdf.text(`Rs. ${st.totals.totalBalance.toLocaleString('en-IN')}`, margin + colWidths[0] + colWidths[1] + colWidths[2] + colWidths[3] + colWidths[4] + colWidths[5] + colWidths[6] + colWidths[7] - 2, y + 5, { align: 'right' });
+
+      y += 12;
+
+      // Footer
+      pdf.setDrawColor(226, 232, 240);
+      pdf.setLineWidth(0.3);
+      pdf.line(margin, y, pageWidth - margin, y);
+      y += 5;
+
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(7.5);
+      pdf.setTextColor(148, 163, 184);
+      pdf.text('This is an official system-generated fee statement from IDL Education. No physical signature is required.', margin, y);
+      pdf.text(`Generated: ${new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })}`, pageWidth - margin, y, { align: 'right' });
+
+      const safeName = st.student.name.replace(/\s+/g, '_');
+      const safeRoll = (st.student.rollNumber || st.student.id).replace(/\s+/g, '_');
+      pdf.save(`IDL_Fee_Statement_${safeRoll}_${safeName}.pdf`);
+
+      toast({
+        title: 'Fee Statement Downloaded',
+        description: `${st.student.name} ka official fee statement PDF download ho gaya hai.`,
+      });
+    } catch (err) {
+      console.error('Statement PDF error:', err);
+      toast({
+        variant: 'destructive',
+        title: 'PDF Generation Failed',
+        description: 'Fee statement PDF generate nahi ho payi.',
+      });
+    }
+  };
+
   // Handle Delete Confirmed (Optimistic removal with rollback)
   const handleExecuteDelete = async () => {
     if (!deleteTarget) return;
@@ -2888,10 +3366,14 @@ export function FeesClient({
           })
         );
         if (targetStatus === 'disabled') {
-          setLedger(prev => prev.filter(l => !(l.studentId === student.id && l.month === selectedMonth && l.paidAmount === 0)));
+          if (mode === 'all_months') {
+            setLedger(prev => prev.filter(l => !(l.studentId === student.id && l.paidAmount === 0)));
+          } else {
+            setLedger(prev => prev.filter(l => !(l.studentId === student.id && l.month >= selectedMonth && l.paidAmount === 0)));
+          }
         }
         toast({ title: 'Status Updated', description: res.message });
-        refreshAllData();
+        refreshAllData(selectedMonth, selectedBranch, { forceFresh: true });
       } else {
         toast({ variant: 'destructive', title: 'Error', description: res.message });
       }
@@ -3152,12 +3634,6 @@ export function FeesClient({
     }
   };
 
-  // Helper: Auto-capitalizes first letter of each word (Title Case)
-  const toTitleCase = (str: string): string => {
-    if (!str) return '';
-    return str.replace(/(?:^|\s|[,.\-\/])([a-z])/g, match => match.toUpperCase());
-  };
-
   // Helper: Smart Date Input Typing (DD-MM-YYYY auto dash & zero-padding)
   const handleDateTyping = (input: string, prev: string = ''): string => {
     if (input.length < prev.length) {
@@ -3336,28 +3812,33 @@ export function FeesClient({
   const [isLoadingYearly, setIsLoadingYearly] = useState<boolean>(false);
 
   // Manual / Premium Calendar Date Range Selection State
-  // Financial Year default is 01-Apr-2026 to 31-Mar-2027
-  const [customStartDate, setCustomStartDate] = useState<string>('');
-  const [customEndDate, setCustomEndDate] = useState<string>('');
+  // Strictly capped up to current active month (e.g. November 2026). Future dates/months are locked.
+  const [reportStartMonth, setReportStartMonth] = useState<string>('');
+  const [reportEndMonth, setReportEndMonth] = useState<string>('');
+  const [reportSession, setReportSession] = useState<string>('2026-27');
   const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false);
 
-  const formatDisplayDate = (dStr: string) => {
-    if (!dStr) return '';
-    const [y, m, d] = dStr.split('-').map(Number);
+  const formatMonthDateRange = (sM: string, eM: string) => {
+    const [sY, sMo] = sM.split('-').map(Number);
+    const [eY, eMo] = eM.split('-').map(Number);
     const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-    const monthName = monthNames[m - 1] || 'NOV';
-    const dayStr = String(d).padStart(2, '0');
-    return `${dayStr}-${monthName}-${y}`;
+    const sName = monthNames[sMo - 1] || 'APR';
+    const eName = monthNames[eMo - 1] || 'NOV';
+    const eLastDay = new Date(eY, eMo, 0).getDate();
+    return `FROM 01-${sName}-${sY} TO ${String(eLastDay).padStart(2, '0')}-${eName}-${eY}`;
   };
 
   const activeDateRangeLabel = React.useMemo(() => {
-    if (customStartDate && customEndDate) {
-      return `FROM ${formatDisplayDate(customStartDate)} TO ${formatDisplayDate(customEndDate)}`;
-    }
     if (branchReportMode === 'yearly') {
-      return 'FROM 01-APR-2026 TO 31-MAR-2027';
+      if (reportStartMonth && reportEndMonth && reportStartMonth !== reportEndMonth) {
+        return formatMonthDateRange(reportStartMonth, reportEndMonth);
+      }
+      return 'FROM 01-APR-2026 TO 30-NOV-2026';
     }
     // Monthly Default
+    if (reportStartMonth && reportEndMonth && reportStartMonth !== reportEndMonth) {
+      return formatMonthDateRange(reportStartMonth, reportEndMonth);
+    }
     const targetMonth = selectedMonth || initialMonth || '2026-11';
     const [yearStr, monthStr] = targetMonth.split('-');
     const year = parseInt(yearStr, 10);
@@ -3367,7 +3848,7 @@ export function FeesClient({
     const monthName = monthNames[month - 1] || 'NOV';
     const lastDayStr = String(lastDay).padStart(2, '0');
     return `FROM 01-${monthName}-${year} TO ${lastDayStr}-${monthName}-${year}`;
-  }, [customStartDate, customEndDate, branchReportMode, selectedMonth, initialMonth]);
+  }, [branchReportMode, reportStartMonth, reportEndMonth, selectedMonth, initialMonth]);
 
   // Fetch real-time data when in reports tab or switching branch report mode
   useEffect(() => {
@@ -3379,7 +3860,10 @@ export function FeesClient({
     }
     if (activeTab === 'reports' || branchReportMode === 'yearly') {
       setIsLoadingYearly(true);
-      getBranchYearlyReport('2026-27')
+      getBranchYearlyReport(reportSession, {
+        startMonth: reportStartMonth || undefined,
+        endMonth: reportEndMonth || undefined,
+      })
         .then(res => {
           if (isMounted && res.success) {
             setYearlyReport(res.data);
@@ -3397,7 +3881,7 @@ export function FeesClient({
     return () => {
       isMounted = false;
     };
-  }, [activeTab, branchReportMode, hasBranchSelection]);
+  }, [activeTab, branchReportMode, hasBranchSelection, reportSession, reportStartMonth, reportEndMonth]);
 
   // Students excluded for current month
   const excludedStudentsForMonth = React.useMemo(() => {
@@ -5952,6 +6436,16 @@ export function FeesClient({
                               </td>
                               <td className="py-3 px-3.5 text-right pr-5 whitespace-nowrap align-middle">
                                 <div className="flex items-center justify-end">
+                                  {/* Statement Icon (Left of View) */}
+                                  <button
+                                    type="button"
+                                    onClick={() => handleOpenStatementModal(student)}
+                                    className="h-[28px] w-[28px] rounded-md border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-500 hover:text-[#2864E8] dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/40 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-colors shadow-none mr-1.5 shrink-0"
+                                    title="Full Account Statement (Admission to Current Month)"
+                                  >
+                                    <FileSpreadsheet className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300 hover:text-[#2864E8]" />
+                                  </button>
+
                                   {/* View Profile */}
                                   <button
                                     type="button"
@@ -6009,149 +6503,171 @@ export function FeesClient({
                           </button>
                         </PopoverTrigger>
                         <PopoverContent align="start" className="w-80 p-4 bg-white dark:bg-slate-900 rounded-2xl shadow-xl border border-slate-200/90 dark:border-slate-800 z-50">
-                          <div className="space-y-3.5">
-                            <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-                              <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                                <Calendar className="w-3.5 h-3.5 text-[#2864E8]" /> Select Date Range
-                              </span>
-                              {(customStartDate || customEndDate) && (
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setCustomStartDate('');
-                                    setCustomEndDate('');
-                                    refreshAllData(selectedMonth, selectedBranch);
-                                  }}
-                                  className="text-[11px] font-semibold text-rose-600 hover:underline cursor-pointer"
-                                >
-                                  Reset
-                                </button>
-                              )}
-                            </div>
-
-                            {/* Quick Presets */}
-                            <div className="space-y-1.5">
-                              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Quick Presets</span>
-                              <div className="grid grid-cols-2 gap-1.5">
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setCustomStartDate('2026-04-01');
-                                    setCustomEndDate('2027-03-31');
-                                    setBranchReportMode('yearly');
-                                    setIsCalendarOpen(false);
-                                    refreshAllData(selectedMonth, selectedBranch);
-                                  }}
-                                  className="text-left px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-[#2864E8] dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                                >
-                                  FY 2026–27 (Full)
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setCustomStartDate('2026-11-01');
-                                    setCustomEndDate('2026-11-30');
-                                    setBranchReportMode('monthly');
-                                    setSelectedMonth('2026-11');
-                                    setIsCalendarOpen(false);
-                                    refreshAllData('2026-11', selectedBranch);
-                                  }}
-                                  className="text-left px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-[#2864E8] dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                                >
-                                  November 2026
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setCustomStartDate('2026-10-01');
-                                    setCustomEndDate('2026-10-31');
-                                    setBranchReportMode('monthly');
-                                    setSelectedMonth('2026-10');
-                                    setIsCalendarOpen(false);
-                                    refreshAllData('2026-10', selectedBranch);
-                                  }}
-                                  className="text-left px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-[#2864E8] dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                                >
-                                  October 2026
-                                </button>
-                                <button
-                                  type="button"
-                                  onClick={() => {
-                                    setCustomStartDate('2026-04-01');
-                                    setCustomEndDate('2026-11-30');
-                                    setBranchReportMode('yearly');
-                                    setIsCalendarOpen(false);
-                                    refreshAllData(selectedMonth, selectedBranch);
-                                  }}
-                                  className="text-left px-2.5 py-1.5 text-xs font-medium rounded-lg bg-slate-50 hover:bg-blue-50 hover:text-[#2864E8] dark:bg-slate-800 dark:hover:bg-slate-700 transition-colors cursor-pointer"
-                                >
-                                  YTD (Apr – Nov)
-                                </button>
+                          {branchReportMode === 'monthly' ? (
+                            /* MONTHLY REPORT: ONLY MONTH SELECTION */
+                            <div className="space-y-3.5">
+                              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+                                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                                  <Calendar className="w-3.5 h-3.5 text-[#2864E8]" /> Select Month
+                                </span>
+                                {(reportStartMonth || reportEndMonth || selectedMonth !== (initialMonth || '2026-11')) && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setReportStartMonth('');
+                                      setReportEndMonth('');
+                                      const defM = initialMonth || '2026-11';
+                                      setSelectedMonth(defM);
+                                      setIsCalendarOpen(false);
+                                      refreshAllData(defM, selectedBranch);
+                                    }}
+                                    className="text-[11px] font-semibold text-[#2864E8] hover:underline cursor-pointer"
+                                  >
+                                    Current Month
+                                  </button>
+                                )}
                               </div>
-                            </div>
 
-                            {/* Custom From / To */}
-                            <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Custom Range</span>
-                              <div className="grid grid-cols-2 gap-2">
-                                <div>
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">From Date</label>
-                                  <input
-                                    type="date"
-                                    value={customStartDate || (branchReportMode === 'yearly' ? '2026-04-01' : '2026-11-01')}
-                                    onChange={(e) => setCustomStartDate(e.target.value)}
-                                    className="w-full text-xs font-semibold px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#2864E8]"
-                                  />
-                                </div>
-                                <div>
-                                  <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">To Date</label>
-                                  <input
-                                    type="date"
-                                    value={customEndDate || (branchReportMode === 'yearly' ? '2027-03-31' : '2026-11-30')}
-                                    onChange={(e) => setCustomEndDate(e.target.value)}
-                                    className="w-full text-xs font-semibold px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#2864E8]"
-                                  />
+                              {/* 1. Quick Month Select Grid (strictly earliest data month to current month) */}
+                              <div className="space-y-1.5">
+                                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                  Available Months ({monthOptions[0]?.label?.slice(0, 3)} – {monthOptions[monthOptions.length - 1]?.label?.slice(0, 3)} 2026)
+                                </span>
+                                <div className="grid grid-cols-2 gap-1.5">
+                                  {monthOptions.map(m => {
+                                    const isCurrent = m.value === (initialMonth || '2026-11');
+                                    const isSelected = !reportStartMonth && selectedMonth === m.value;
+                                    return (
+                                      <button
+                                        key={m.value}
+                                        type="button"
+                                        onClick={() => {
+                                          setReportStartMonth('');
+                                          setReportEndMonth('');
+                                          setSelectedMonth(m.value);
+                                          setIsCalendarOpen(false);
+                                          refreshAllData(m.value, selectedBranch);
+                                        }}
+                                        className={`text-left px-2.5 py-1.5 text-xs rounded-lg transition-colors cursor-pointer flex items-center justify-between ${
+                                          isSelected
+                                            ? 'bg-[#2864E8] text-white font-bold shadow-xs'
+                                            : 'bg-slate-50 hover:bg-blue-50 hover:text-[#2864E8] dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-medium'
+                                        }`}
+                                      >
+                                        <span className="truncate">{m.label}</span>
+                                        {isCurrent && (
+                                          <span className={`text-[9px] px-1 py-0.2 rounded font-bold uppercase tracking-wider ${
+                                            isSelected ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400'
+                                          }`}>
+                                            Now
+                                          </span>
+                                        )}
+                                      </button>
+                                    );
+                                  })}
                                 </div>
                               </div>
-                            </div>
 
-                            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
-                              <Button
-                                type="button"
-                                size="sm"
-                                variant="outline"
-                                onClick={() => {
-                                  setCustomStartDate('');
-                                  setCustomEndDate('');
-                                  setIsCalendarOpen(false);
-                                  refreshAllData(selectedMonth, selectedBranch);
-                                }}
-                                className="text-xs h-8 px-3 rounded-lg cursor-pointer"
-                              >
-                                Clear
-                              </Button>
-                              <Button
-                                type="button"
-                                size="sm"
-                                onClick={() => {
-                                  setIsCalendarOpen(false);
-                                  const startM = customStartDate ? customStartDate.slice(0, 7) : selectedMonth;
-                                  const endM = customEndDate ? customEndDate.slice(0, 7) : selectedMonth;
-                                  if (startM && endM && startM === endM) {
-                                    setBranchReportMode('monthly');
-                                    setSelectedMonth(startM);
-                                    refreshAllData(startM, selectedBranch);
-                                  } else {
-                                    setBranchReportMode('yearly');
-                                    refreshAllData(selectedMonth, selectedBranch);
-                                  }
-                                }}
-                                className="text-xs h-8 px-4 rounded-lg bg-[#2864E8] hover:bg-blue-600 text-white font-bold cursor-pointer"
-                              >
-                                Apply Range
-                              </Button>
+                              {/* 2. Custom Month Range ("kisi month se kisi month ka") */}
+                              <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+                                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                  Select Month Range
+                                </span>
+                                <div className="grid grid-cols-2 gap-2">
+                                  <div>
+                                    <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">From Month</label>
+                                    <select
+                                      value={reportStartMonth || monthOptions[0]?.value || '2026-04'}
+                                      onChange={(e) => setReportStartMonth(e.target.value)}
+                                      className="w-full text-xs font-semibold px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#2864E8]"
+                                    >
+                                      {monthOptions.map(m => (
+                                        <option key={m.value} value={m.value}>{m.label}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                  <div>
+                                    <label className="text-[10px] font-bold text-slate-500 uppercase block mb-1">To Month</label>
+                                    <select
+                                      value={reportEndMonth || monthOptions[monthOptions.length - 1]?.value || '2026-11'}
+                                      onChange={(e) => setReportEndMonth(e.target.value)}
+                                      className="w-full text-xs font-semibold px-2 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-[#2864E8]"
+                                    >
+                                      {monthOptions.map(m => (
+                                        <option key={m.value} value={m.value}>{m.label}</option>
+                                      ))}
+                                    </select>
+                                  </div>
+                                </div>
+
+                                <div className="flex items-center justify-end gap-2 pt-1">
+                                  <Button
+                                    type="button"
+                                    size="sm"
+                                    onClick={() => {
+                                      setIsCalendarOpen(false);
+                                      const sM = reportStartMonth || monthOptions[0]?.value || '2026-04';
+                                      const eM = reportEndMonth || monthOptions[monthOptions.length - 1]?.value || '2026-11';
+                                      if (sM === eM) {
+                                        setReportStartMonth('');
+                                        setReportEndMonth('');
+                                        setSelectedMonth(sM);
+                                        refreshAllData(sM, selectedBranch);
+                                      } else {
+                                        setBranchReportMode('yearly');
+                                      }
+                                    }}
+                                    className="text-xs h-7 px-3.5 rounded-lg bg-[#2864E8] hover:bg-blue-600 text-white font-bold cursor-pointer"
+                                  >
+                                    Apply Range
+                                  </Button>
+                                </div>
+                              </div>
                             </div>
-                          </div>
+                          ) : (
+                            /* YEARLY REPORT: ONLY YEAR / SESSION SELECTION */
+                            <div className="space-y-3">
+                              <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
+                                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                                  <Calendar className="w-3.5 h-3.5 text-[#2864E8]" /> Select Academic Year
+                                </span>
+                              </div>
+
+                              <div className="space-y-1.5">
+                                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                                  Academic Sessions
+                                </span>
+                                <div className="space-y-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setReportSession('2026-27');
+                                      setReportStartMonth('');
+                                      setReportEndMonth('');
+                                      setIsCalendarOpen(false);
+                                    }}
+                                    className="w-full text-left p-2.5 rounded-xl border border-blue-200 dark:border-blue-900 bg-blue-50/40 dark:bg-blue-950/20 text-slate-900 dark:text-white transition-all cursor-pointer flex items-center justify-between"
+                                  >
+                                    <div>
+                                      <div className="text-xs font-bold text-[#2864E8] dark:text-blue-400">
+                                        Session 2026–27
+                                      </div>
+                                      <p className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                        Active: 01 April 2026 – 30 November 2026
+                                      </p>
+                                    </div>
+                                    <span className="text-[9.5px] font-bold px-2 py-0.5 rounded-full bg-[#2864E8] text-white">
+                                      Current
+                                    </span>
+                                  </button>
+                                </div>
+                              </div>
+
+                              <p className="text-[10px] text-slate-400 dark:text-slate-500 pt-1 border-t border-slate-100 dark:border-slate-800 leading-normal">
+                                Reports include data strictly up to the current month (Nov 2026). Future months cannot be selected.
+                              </p>
+                            </div>
+                          )}
                         </PopoverContent>
                       </Popover>
                     </CardDescription>
@@ -6166,6 +6682,8 @@ export function FeesClient({
                         data-report-toggle="monthly"
                         onClick={() => {
                           setBranchReportMode('monthly');
+                          setReportStartMonth('');
+                          setReportEndMonth('');
                           refreshAllData(selectedMonth, selectedBranch);
                         }}
                         className={`h-7 flex items-center gap-1.5 px-3 rounded-lg text-xs transition-all cursor-pointer ${
@@ -6237,25 +6755,7 @@ export function FeesClient({
                         <div className="space-y-6">
                           {/* 1. Monthly Financial Executive Summary Cards */}
                           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
-                            {/* Card 1: Active Students */}
-                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
-                              <div className="flex items-center justify-between">
-                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Active Students</span>
-                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                                  <Users className="w-3.5 h-3.5" />
-                                </div>
-                              </div>
-                              <div className="mt-2.5">
-                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
-                                  {totalStudents}
-                                </div>
-                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
-                                  Across all {allBranchesSorted.length} centers
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Card 2: Expected Revenue */}
+                            {/* Card 1: Expected Revenue */}
                             <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Expected Revenue</span>
@@ -6273,7 +6773,7 @@ export function FeesClient({
                               </div>
                             </div>
 
-                            {/* Card 3: Collected Revenue */}
+                            {/* Card 2: Collected Revenue */}
                             <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Collected Revenue</span>
@@ -6291,7 +6791,7 @@ export function FeesClient({
                               </div>
                             </div>
 
-                            {/* Card 4: Pending Balance */}
+                            {/* Card 3: Pending Balance */}
                             <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Pending Balance</span>
@@ -6305,6 +6805,24 @@ export function FeesClient({
                                 </div>
                                 <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
                                   Outstanding dues
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 4: Active Students (Placed after Pending Balance) */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Active Students</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <Users className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  {totalStudents}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  Across all {allBranchesSorted.length} centers
                                 </p>
                               </div>
                             </div>
@@ -6463,25 +6981,7 @@ export function FeesClient({
                         <div className="space-y-6">
                           {/* 1. Branch Monthly KPI Metric Cards */}
                           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
-                            {/* Card 1: Active Students */}
-                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
-                              <div className="flex items-center justify-between">
-                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Active Students</span>
-                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                                  <Users className="w-3.5 h-3.5" />
-                                </div>
-                              </div>
-                              <div className="mt-2.5">
-                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
-                                  {studentCount}
-                                </div>
-                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
-                                  {branchName} Center
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Card 2: Monthly Expected Fee */}
+                            {/* Card 1: Monthly Expected Fee */}
                             <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Monthly Expected</span>
@@ -6499,7 +6999,7 @@ export function FeesClient({
                               </div>
                             </div>
 
-                            {/* Card 3: Monthly Collected Fee */}
+                            {/* Card 2: Monthly Collected Fee */}
                             <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Monthly Collected</span>
@@ -6517,7 +7017,7 @@ export function FeesClient({
                               </div>
                             </div>
 
-                            {/* Card 4: Monthly Pending Dues */}
+                            {/* Card 3: Monthly Pending Dues */}
                             <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Pending Dues</span>
@@ -6531,6 +7031,24 @@ export function FeesClient({
                                 </div>
                                 <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
                                   Remaining this month
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 4: Active Students (Placed after Pending Dues) */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Active Students</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <Users className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  {studentCount}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  {branchName} Center
                                 </p>
                               </div>
                             </div>
@@ -6641,25 +7159,7 @@ export function FeesClient({
                       <div className="space-y-6">
                         {/* 1. Institute-wide Annual Executive Summary Cards */}
                         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
-                          {/* Card 1: Enrolled Students */}
-                          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
-                            <div className="flex items-center justify-between">
-                              <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Enrolled Students</span>
-                              <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                                <Users className="w-3.5 h-3.5" />
-                              </div>
-                            </div>
-                            <div className="mt-2.5">
-                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
-                                {yearlyReport.totals.activeStudents}
-                              </div>
-                              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
-                                Session 2026–27 total
-                              </p>
-                            </div>
-                          </div>
-
-                          {/* Card 2: Annual Expected */}
+                          {/* Card 1: Annual Expected */}
                           <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                             <div className="flex items-center justify-between">
                               <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Annual Expected</span>
@@ -6672,12 +7172,12 @@ export function FeesClient({
                                 ₹{yearlyReport.totals.annualExpected.toLocaleString('en-IN')}
                               </div>
                               <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
-                                12-Month academic session
+                                {yearlyReport.sessionLabel || 'Session 2026–27 (Apr – Nov)'}
                               </p>
                             </div>
                           </div>
 
-                          {/* Card 3: Annual Collected */}
+                          {/* Card 2: Annual Collected */}
                           <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                             <div className="flex items-center justify-between">
                               <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Annual Collected</span>
@@ -6695,7 +7195,7 @@ export function FeesClient({
                             </div>
                           </div>
 
-                          {/* Card 4: Annual Pending */}
+                          {/* Card 3: Annual Pending */}
                           <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                             <div className="flex items-center justify-between">
                               <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Annual Pending</span>
@@ -6709,6 +7209,24 @@ export function FeesClient({
                               </div>
                               <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
                                 Session balance due
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Card 4: Enrolled Students (Placed after Annual Pending) */}
+                          <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                            <div className="flex items-center justify-between">
+                              <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Enrolled Students</span>
+                              <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                <Users className="w-3.5 h-3.5" />
+                              </div>
+                            </div>
+                            <div className="mt-2.5">
+                              <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                {yearlyReport.totals.activeStudents}
+                              </div>
+                              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                Session 2026–27 total
                               </p>
                             </div>
                           </div>
@@ -6745,7 +7263,7 @@ export function FeesClient({
                               </span>
                             </div>
                             <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                              April 2026 – March 2027
+                              {yearlyReport.sessionLabel || 'April 2026 – November 2026'}
                             </span>
                           </div>
 
@@ -6850,25 +7368,7 @@ export function FeesClient({
                         <div className="space-y-6">
                           {/* 1. Branch Annual KPI Metric Cards */}
                           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
-                            {/* Card 1: Enrolled Students */}
-                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
-                              <div className="flex items-center justify-between">
-                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Enrolled Students</span>
-                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                                  <Users className="w-3.5 h-3.5" />
-                                </div>
-                              </div>
-                              <div className="mt-2.5">
-                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
-                                  {curBranchYearly.activeStudents}
-                                </div>
-                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
-                                  {branchName} Center
-                                </p>
-                              </div>
-                            </div>
-
-                            {/* Card 2: Annual Expected */}
+                            {/* Card 1: Annual Expected */}
                             <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Annual Expected</span>
@@ -6881,12 +7381,12 @@ export function FeesClient({
                                   ₹{curBranchYearly.annualExpected.toLocaleString('en-IN')}
                                 </div>
                                 <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
-                                  Session 2026–27 expected
+                                  {yearlyReport?.sessionLabel || 'Session 2026–27 (Apr – Nov)'}
                                 </p>
                               </div>
                             </div>
 
-                            {/* Card 3: Annual Collected */}
+                            {/* Card 2: Annual Collected */}
                             <div className="rounded-xl border border-emerald-200/60 dark:border-emerald-950/60 bg-emerald-50/20 dark:bg-emerald-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-emerald-700 dark:text-emerald-400 uppercase">Annual Collected</span>
@@ -6904,7 +7404,7 @@ export function FeesClient({
                               </div>
                             </div>
 
-                            {/* Card 4: Annual Pending */}
+                            {/* Card 3: Annual Pending */}
                             <div className="rounded-xl border border-amber-200/60 dark:border-amber-950/60 bg-amber-50/20 dark:bg-amber-950/10 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
                               <div className="flex items-center justify-between">
                                 <span className="text-[11px] font-semibold tracking-wider text-amber-700 dark:text-amber-400 uppercase">Annual Pending</span>
@@ -6918,6 +7418,24 @@ export function FeesClient({
                                 </div>
                                 <p className="text-[11px] text-amber-600/80 dark:text-amber-400/80 mt-0.5 truncate">
                                   Session balance due
+                                </p>
+                              </div>
+                            </div>
+
+                            {/* Card 4: Enrolled Students (Placed after Annual Pending) */}
+                            <div className="rounded-xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900/90 p-3.5 sm:p-4 shadow-2xs flex flex-col justify-between">
+                              <div className="flex items-center justify-between">
+                                <span className="text-[11px] font-semibold tracking-wider text-slate-500 dark:text-slate-400 uppercase">Enrolled Students</span>
+                                <div className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
+                                  <Users className="w-3.5 h-3.5" />
+                                </div>
+                              </div>
+                              <div className="mt-2.5">
+                                <div className="text-xl sm:text-2xl font-bold font-mono tracking-tight text-slate-900 dark:text-white tabular-nums">
+                                  {curBranchYearly.activeStudents}
+                                </div>
+                                <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 truncate">
+                                  {branchName} Center
                                 </p>
                               </div>
                             </div>
@@ -6954,7 +7472,7 @@ export function FeesClient({
                                 </span>
                               </div>
                               <span className="text-[11px] font-medium text-slate-400 dark:text-slate-500">
-                                Academic Session 2026-27 (Apr 2026 – Mar 2027)
+                                {yearlyReport?.sessionLabel || 'Academic Session 2026-27 (Apr 2026 – Nov 2026)'}
                               </span>
                             </div>
 
@@ -7063,7 +7581,7 @@ export function FeesClient({
                   <Input
                     placeholder="e.g. Class 9, Class 10"
                     value={classForm.name}
-                    onChange={e => setClassForm({ ...classForm, name: e.target.value })}
+                    onChange={e => setClassForm({ ...classForm, name: capitalizeFirstLetter(e.target.value) })}
                     required
                     className={FORM_CARD_FIELD_CLS}
                   />
@@ -7076,7 +7594,7 @@ export function FeesClient({
                   <Input
                     placeholder="e.g. CBSE, FOUNDATION"
                     value={classForm.division}
-                    onChange={e => setClassForm({ ...classForm, division: e.target.value })}
+                    onChange={e => setClassForm({ ...classForm, division: e.target.value.toUpperCase() })}
                     className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
@@ -7273,7 +7791,7 @@ export function FeesClient({
                 <Input
                   placeholder="e.g. Alpha, Batch A1"
                   value={batchForm.name}
-                  onChange={e => setBatchForm({ ...batchForm, name: e.target.value })}
+                  onChange={e => setBatchForm({ ...batchForm, name: capitalizeFirstLetter(e.target.value) })}
                   required
                   className={FORM_CARD_FIELD_CLS}
                 />
@@ -7286,25 +7804,33 @@ export function FeesClient({
                     Batch Start Date
                   </Label>
                   <Input
-                    type={batchForm.startDate ? "date" : "text"}
-                    placeholder="DD/MM/YYYY"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="DD-MM-YYYY"
                     value={batchForm.startDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
                     onChange={e => {
-                      const newStart = e.target.value;
-                      const durationStr = newStart && batchForm.endDate
-                        ? `${formatBatchDateString(newStart)} – ${formatBatchDateString(batchForm.endDate)}`
-                        : newStart ? `From ${formatBatchDateString(newStart)}` : '';
-                      setBatchForm({
-                        ...batchForm,
-                        startDate: newStart,
+                      const formatted = handleDateTyping(e.target.value, batchForm.startDate);
+                      const durationStr = formatted && batchForm.endDate
+                        ? `${formatBatchDateString(formatted)} – ${formatBatchDateString(batchForm.endDate)}`
+                        : formatted ? `From ${formatBatchDateString(formatted)}` : '';
+                      setBatchForm(prev => ({
+                        ...prev,
+                        startDate: formatted,
                         duration: durationStr,
-                      });
+                      }));
                     }}
-                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
+                    onBlur={e => {
+                      const normalized = normalizeDateBlur(e.target.value);
+                      const durationStr = normalized && batchForm.endDate
+                        ? `${formatBatchDateString(normalized)} – ${formatBatchDateString(batchForm.endDate)}`
+                        : normalized ? `From ${formatBatchDateString(normalized)}` : '';
+                      setBatchForm(prev => ({
+                        ...prev,
+                        startDate: normalized,
+                        duration: durationStr,
+                      }));
+                    }}
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
@@ -7313,25 +7839,33 @@ export function FeesClient({
                     Batch End Date
                   </Label>
                   <Input
-                    type={batchForm.endDate ? "date" : "text"}
-                    placeholder="DD/MM/YYYY"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="DD-MM-YYYY"
                     value={batchForm.endDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
                     onChange={e => {
-                      const newEnd = e.target.value;
-                      const durationStr = batchForm.startDate && newEnd
-                        ? `${formatBatchDateString(batchForm.startDate)} – ${formatBatchDateString(newEnd)}`
-                        : newEnd ? `Till ${formatBatchDateString(newEnd)}` : '';
-                      setBatchForm({
-                        ...batchForm,
-                        endDate: newEnd,
+                      const formatted = handleDateTyping(e.target.value, batchForm.endDate);
+                      const durationStr = batchForm.startDate && formatted
+                        ? `${formatBatchDateString(batchForm.startDate)} – ${formatBatchDateString(formatted)}`
+                        : formatted ? `Till ${formatBatchDateString(formatted)}` : '';
+                      setBatchForm(prev => ({
+                        ...prev,
+                        endDate: formatted,
                         duration: durationStr,
-                      });
+                      }));
                     }}
-                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
+                    onBlur={e => {
+                      const normalized = normalizeDateBlur(e.target.value);
+                      const durationStr = batchForm.startDate && normalized
+                        ? `${formatBatchDateString(batchForm.startDate)} – ${formatBatchDateString(normalized)}`
+                        : normalized ? `Till ${formatBatchDateString(normalized)}` : '';
+                      setBatchForm(prev => ({
+                        ...prev,
+                        endDate: normalized,
+                        duration: durationStr,
+                      }));
+                    }}
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
@@ -7447,7 +7981,7 @@ export function FeesClient({
                     ref={batchSubjectInputRef}
                     placeholder="e.g. Physics, Maths"
                     value={newBatchSubjectInput}
-                    onChange={e => setNewBatchSubjectInput(e.target.value)}
+                    onChange={e => setNewBatchSubjectInput(toTitleCase(e.target.value))}
                     onKeyDown={e => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
@@ -7616,7 +8150,7 @@ export function FeesClient({
                 <Input
                   placeholder="e.g. Alpha, Batch A1"
                   value={editBatchForm.name}
-                  onChange={e => setEditBatchForm({ ...editBatchForm, name: e.target.value })}
+                  onChange={e => setEditBatchForm({ ...editBatchForm, name: capitalizeFirstLetter(e.target.value) })}
                   required
                   className={FORM_CARD_FIELD_CLS}
                 />
@@ -7629,25 +8163,33 @@ export function FeesClient({
                     Batch Start Date
                   </Label>
                   <Input
-                    type={editBatchForm.startDate ? "date" : "text"}
-                    placeholder="DD/MM/YYYY"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="DD-MM-YYYY"
                     value={editBatchForm.startDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
                     onChange={e => {
-                      const newStart = e.target.value;
-                      const durationStr = newStart && editBatchForm.endDate
-                        ? `${formatBatchDateString(newStart)} – ${formatBatchDateString(editBatchForm.endDate)}`
-                        : newStart ? `From ${formatBatchDateString(newStart)}` : '';
-                      setEditBatchForm({
-                        ...editBatchForm,
-                        startDate: newStart,
+                      const formatted = handleDateTyping(e.target.value, editBatchForm.startDate);
+                      const durationStr = formatted && editBatchForm.endDate
+                        ? `${formatBatchDateString(formatted)} – ${formatBatchDateString(editBatchForm.endDate)}`
+                        : formatted ? `From ${formatBatchDateString(formatted)}` : '';
+                      setEditBatchForm(prev => ({
+                        ...prev,
+                        startDate: formatted,
                         duration: durationStr,
-                      });
+                      }));
                     }}
-                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
+                    onBlur={e => {
+                      const normalized = normalizeDateBlur(e.target.value);
+                      const durationStr = normalized && editBatchForm.endDate
+                        ? `${formatBatchDateString(normalized)} – ${formatBatchDateString(editBatchForm.endDate)}`
+                        : normalized ? `From ${formatBatchDateString(normalized)}` : '';
+                      setEditBatchForm(prev => ({
+                        ...prev,
+                        startDate: normalized,
+                        duration: durationStr,
+                      }));
+                    }}
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
 
@@ -7656,25 +8198,33 @@ export function FeesClient({
                     Batch End Date
                   </Label>
                   <Input
-                    type={editBatchForm.endDate ? "date" : "text"}
-                    placeholder="DD/MM/YYYY"
+                    type="text"
+                    inputMode="numeric"
+                    placeholder="DD-MM-YYYY"
                     value={editBatchForm.endDate || ''}
-                    onFocus={e => (e.target.type = 'date')}
-                    onBlur={e => {
-                      if (!e.target.value) e.target.type = 'text';
-                    }}
                     onChange={e => {
-                      const newEnd = e.target.value;
-                      const durationStr = editBatchForm.startDate && newEnd
-                        ? `${formatBatchDateString(editBatchForm.startDate)} – ${formatBatchDateString(newEnd)}`
-                        : newEnd ? `Till ${formatBatchDateString(newEnd)}` : '';
-                      setEditBatchForm({
-                        ...editBatchForm,
-                        endDate: newEnd,
+                      const formatted = handleDateTyping(e.target.value, editBatchForm.endDate);
+                      const durationStr = editBatchForm.startDate && formatted
+                        ? `${formatBatchDateString(editBatchForm.startDate)} – ${formatBatchDateString(formatted)}`
+                        : formatted ? `Till ${formatBatchDateString(formatted)}` : '';
+                      setEditBatchForm(prev => ({
+                        ...prev,
+                        endDate: formatted,
                         duration: durationStr,
-                      });
+                      }));
                     }}
-                    className={`${FORM_CARD_FIELD_CLS} cursor-pointer`}
+                    onBlur={e => {
+                      const normalized = normalizeDateBlur(e.target.value);
+                      const durationStr = editBatchForm.startDate && normalized
+                        ? `${formatBatchDateString(editBatchForm.startDate)} – ${formatBatchDateString(normalized)}`
+                        : normalized ? `Till ${formatBatchDateString(normalized)}` : '';
+                      setEditBatchForm(prev => ({
+                        ...prev,
+                        endDate: normalized,
+                        duration: durationStr,
+                      }));
+                    }}
+                    className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
               </div>
@@ -7790,7 +8340,7 @@ export function FeesClient({
                     ref={editBatchSubjectInputRef}
                     placeholder="e.g. Physics, Maths"
                     value={newEditBatchSubjectInput}
-                    onChange={e => setNewEditBatchSubjectInput(e.target.value)}
+                    onChange={e => setNewEditBatchSubjectInput(toTitleCase(e.target.value))}
                     onKeyDown={e => {
                       if (e.key === 'Enter') {
                         e.preventDefault();
@@ -7863,7 +8413,7 @@ export function FeesClient({
                   <Input
                     placeholder="e.g. Class 9, Class 10"
                     value={editClassForm.name}
-                    onChange={e => setEditClassForm({ ...editClassForm, name: e.target.value })}
+                    onChange={e => setEditClassForm({ ...editClassForm, name: capitalizeFirstLetter(e.target.value) })}
                     required
                     className={FORM_CARD_FIELD_CLS}
                   />
@@ -7876,7 +8426,7 @@ export function FeesClient({
                   <Input
                     placeholder="e.g. CBSE, FOUNDATION"
                     value={editClassForm.division || ''}
-                    onChange={e => setEditClassForm({ ...editClassForm, division: e.target.value })}
+                    onChange={e => setEditClassForm({ ...editClassForm, division: e.target.value.toUpperCase() })}
                     className={FORM_CARD_FIELD_CLS}
                   />
                 </div>
@@ -9650,6 +10200,222 @@ export function FeesClient({
                 </div>
               </div>
             )}
+          </DialogContent>
+        </Dialog>
+
+        {/* -------------------------------------------------------------------- */}
+        {/* MODAL 7B: STUDENT FEE STATEMENT & ACCOUNT HISTORY VIEW */}
+        {/* -------------------------------------------------------------------- */}
+        <Dialog
+          open={isStatementModalOpen}
+          onOpenChange={open => {
+            setIsStatementModalOpen(open);
+            if (!open) {
+              setActiveStatement(null);
+              setIsStatementLoading(false);
+            }
+          }}
+        >
+          <DialogContent className="max-w-[960px] w-[95vw] rounded-2xl p-4 sm:p-6 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[92vh] flex flex-col font-['Inter_Tight',sans-serif]">
+            {/* Accessible Radix UI Header */}
+            <DialogHeader className="sr-only">
+              <DialogTitle>
+                {activeStatement ? `${activeStatement.student.name} - Official Student Fee Statement` : 'Student Fee Statement'}
+              </DialogTitle>
+              <DialogDescription>
+                Complete month-by-month fee breakdown and transaction ledger from admission to current month.
+              </DialogDescription>
+            </DialogHeader>
+
+            {isStatementLoading && !activeStatement ? (
+              <div className="flex flex-col items-center justify-center py-20 space-y-3">
+                <div className="w-9 h-9 border-[3px] border-[#2864E8] border-t-transparent rounded-full animate-spin" />
+                <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">
+                  Loading Official Fee Statement...
+                </p>
+                <p className="text-xs text-slate-400">
+                  Fetching verified payment ledger records from admission to current month.
+                </p>
+              </div>
+            ) : activeStatement ? (
+              <div className="flex flex-col flex-1 min-h-0 overflow-hidden space-y-3.5">
+                {/* Header: Student Details & Download Actions */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[#2864E8] shrink-0" />
+                      <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
+                        <span>{activeStatement.student.name}</span>
+                        <span className="text-xs font-normal font-mono text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
+                          {activeStatement.student.rollNumber || activeStatement.student.id}
+                        </span>
+                      </div>
+                    </div>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 flex items-center gap-2 flex-wrap">
+                      <span>{activeStatement.className}</span>
+                      <span>•</span>
+                      <span>{activeStatement.batchName}</span>
+                      <span>•</span>
+                      <span className="text-slate-600 dark:text-slate-300 font-medium">{activeStatement.branchName}</span>
+                      <span>•</span>
+                      <span className="text-[#2864E8] font-medium font-mono">
+                        {activeStatement.startMonthLabel} — {activeStatement.endMonthLabel} ({activeStatement.totalMonths} Months)
+                      </span>
+                    </p>
+                  </div>
+
+                  {/* Actions: Download PDF Icon & Print Icon (padded right to clear close X button) */}
+                  <div className="flex items-center gap-2 shrink-0 mr-8 sm:mr-10">
+                    <button
+                      type="button"
+                      onClick={() => handleDownloadStatementPDF(activeStatement)}
+                      className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                      title="Download PDF Statement"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => window.print()}
+                      className="h-8 w-8 rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 flex items-center justify-center transition-colors cursor-pointer"
+                      title="Print Statement"
+                    >
+                      <Printer className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* 4 Summary KPI Cards */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 shrink-0">
+                  <div className="p-2.5 rounded-xl bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800">
+                    <span className="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Total Billed</span>
+                    <div className="text-base font-bold text-slate-900 dark:text-white font-mono mt-0.5">
+                      ₹{activeStatement.totals.totalBilled.toLocaleString('en-IN')}
+                    </div>
+                    <span className="text-[10.5px] text-slate-400 mt-0.5 block">
+                      {activeStatement.totals.activeMonthsCount ?? activeStatement.totalMonths} active billable cycles{activeStatement.totals.disabledMonthsCount ? ` (${activeStatement.totals.disabledMonthsCount} paused)` : ''}
+                    </span>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40">
+                    <span className="text-[10px] uppercase font-bold text-emerald-600 dark:text-emerald-400 block tracking-wider">Scholarship / Disc.</span>
+                    <div className="text-base font-bold text-emerald-700 dark:text-emerald-300 font-mono mt-0.5">
+                      ₹{activeStatement.totals.totalDiscounts.toLocaleString('en-IN')}
+                    </div>
+                    <span className="text-[10.5px] text-emerald-600/80 mt-0.5 block">{activeStatement.student.scholarshipPercent || 0}% concession</span>
+                  </div>
+
+                  <div className="p-2.5 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/40">
+                    <span className="text-[10px] uppercase font-bold text-[#2864E8] dark:text-blue-400 block tracking-wider">Total Paid</span>
+                    <div className="text-base font-bold text-[#2864E8] dark:text-blue-300 font-mono mt-0.5">
+                      ₹{activeStatement.totals.totalPaid.toLocaleString('en-IN')}
+                    </div>
+                    <span className="text-[10.5px] text-blue-600/80 mt-0.5 block">{activeStatement.totals.paidMonthsCount} cycles paid</span>
+                  </div>
+
+                  <div className={`p-2.5 rounded-xl border ${activeStatement.totals.totalBalance <= 0 ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200/60 dark:border-emerald-900/40' : 'bg-rose-50/50 dark:bg-rose-950/20 border-rose-200/60 dark:border-rose-900/40'}`}>
+                    <span className={`text-[10px] uppercase font-bold block tracking-wider ${activeStatement.totals.totalBalance <= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>Net Outstanding</span>
+                    <div className={`text-base font-bold font-mono mt-0.5 ${activeStatement.totals.totalBalance <= 0 ? 'text-emerald-700' : 'text-rose-700 dark:text-rose-300'}`}>
+                      ₹{activeStatement.totals.totalBalance.toLocaleString('en-IN')}
+                    </div>
+                    <span className={`text-[10.5px] mt-0.5 block ${activeStatement.totals.totalBalance <= 0 ? 'text-emerald-600/80' : 'text-rose-600/80'}`}>
+                      {activeStatement.totals.totalBalance <= 0 ? 'All cleared' : `${activeStatement.totals.pendingMonthsCount} cycles with dues`}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Statement Table */}
+                <div className="flex-1 min-h-0 overflow-y-auto border border-slate-200/80 dark:border-slate-800 rounded-xl">
+                  <table className="w-full text-left text-xs border-collapse">
+                    <thead className="sticky top-0 bg-slate-100 dark:bg-slate-900 z-10 border-b border-slate-200 dark:border-slate-800 text-[11px] font-semibold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
+                      <tr>
+                        <th className="py-2.5 px-3 text-center w-10">#</th>
+                        <th className="py-2.5 px-3">Billing Month</th>
+                        <th className="py-2.5 px-3">Due Date</th>
+                        <th className="py-2.5 px-3 text-right">Net Due</th>
+                        <th className="py-2.5 px-3 text-right">Arrears</th>
+                        <th className="py-2.5 px-3 text-right">Payable</th>
+                        <th className="py-2.5 px-3 text-right">Paid</th>
+                        <th className="py-2.5 px-3 text-right">Balance</th>
+                        <th className="py-2.5 px-3">Receipt / Ref</th>
+                        <th className="py-2.5 px-3 text-center">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
+                      {activeStatement.rows.map((row, idx) => {
+                        const isRowDisabled = row.isStudentDisabled || row.status === 'DISABLED' || row.status === 'PAUSED';
+                        return (
+                          <tr
+                            key={row.month}
+                            className={`hover:bg-slate-50/70 dark:hover:bg-slate-900/50 transition-colors ${
+                              isRowDisabled ? 'bg-slate-50/50 dark:bg-slate-900/40 text-slate-400' : ''
+                            }`}
+                          >
+                            <td className="py-2.5 px-3 text-center font-mono text-slate-400 text-[11px]">{idx + 1}</td>
+                            <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap">
+                              <span>{row.monthLabel}</span>
+                              {isRowDisabled && (
+                                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-normal ml-1.5">(Paused)</span>
+                              )}
+                            </td>
+                            <td className="py-2.5 px-3 font-mono text-slate-500 whitespace-nowrap">
+                              {formatAdmDate(row.dueDate)}
+                            </td>
+                            <td className="py-2.5 px-3 text-right font-mono text-slate-700 dark:text-slate-200 whitespace-nowrap">
+                              ₹{row.netDueAmount.toLocaleString('en-IN')}
+                            </td>
+                            <td className={`py-2.5 px-3 text-right font-mono whitespace-nowrap ${row.carriedForwardDue > 0 ? 'text-rose-600 dark:text-rose-400 font-medium' : 'text-slate-400'}`}>
+                              ₹{row.carriedForwardDue.toLocaleString('en-IN')}
+                            </td>
+                            <td className="py-2.5 px-3 text-right font-mono font-bold text-slate-900 dark:text-white whitespace-nowrap">
+                              ₹{row.totalPayable.toLocaleString('en-IN')}
+                            </td>
+                            <td className="py-2.5 px-3 text-right font-mono font-semibold text-emerald-600 dark:text-emerald-400 whitespace-nowrap">
+                              ₹{row.paidAmount.toLocaleString('en-IN')}
+                            </td>
+                            <td className={`py-2.5 px-3 text-right font-mono font-bold whitespace-nowrap ${row.balanceAmount > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                              ₹{row.balanceAmount.toLocaleString('en-IN')}
+                            </td>
+                            <td className="py-2.5 px-3 text-slate-500 font-mono text-[11px] truncate max-w-[140px]" title={row.receiptNumber || row.lastPaymentDate || '—'}>
+                              {row.receiptNumber || (row.lastPaymentDate ? formatAdmDate(row.lastPaymentDate) : '—')}
+                            </td>
+                            <td className="py-2.5 px-3 text-center whitespace-nowrap">
+                              <span className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
+                                row.status === 'PAID'
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-800/40'
+                                  : row.status === 'OVERDUE'
+                                  ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200/60 dark:border-rose-800/40'
+                                  : row.status === 'PARTIAL'
+                                  ? 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200/60 dark:border-amber-800/40'
+                                  : isRowDisabled
+                                  ? 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 border border-slate-200/80 dark:border-slate-700'
+                                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+                              }`}>
+                                {row.status}
+                              </span>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                    <tfoot className="sticky bottom-0 bg-slate-50 dark:bg-slate-900 border-t-2 border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-900 dark:text-white">
+                      <tr>
+                        <td colSpan={3} className="py-2.5 px-3 uppercase text-[11px] tracking-wider text-slate-500">Total Billed & Paid</td>
+                        <td className="py-2.5 px-3 text-right font-mono">₹{activeStatement.totals.totalBilled.toLocaleString('en-IN')}</td>
+                        <td className="py-2.5 px-3 text-right font-mono text-slate-400">—</td>
+                        <td className="py-2.5 px-3 text-right font-mono">—</td>
+                        <td className="py-2.5 px-3 text-right font-mono text-emerald-600 dark:text-emerald-400">₹{activeStatement.totals.totalPaid.toLocaleString('en-IN')}</td>
+                        <td className="py-2.5 px-3 text-right font-mono text-rose-600 dark:text-rose-400">₹{activeStatement.totals.totalBalance.toLocaleString('en-IN')}</td>
+                        <td colSpan={2} className="py-2.5 px-3 text-right text-[11px] font-normal text-slate-400">
+                          {isStatementLoading ? 'Synchronizing...' : 'Statement Verified'}
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+            ) : null}
           </DialogContent>
         </Dialog>
 

@@ -33,6 +33,8 @@ import type {
   BranchYearlyReportResult,
   BranchYearlyData,
   BranchYearlyMonthPoint,
+  StudentFeeStatement,
+  StudentFeeStatementMonthRow,
 } from '@/types/fee-management';
 import { IDL_BRANCHES, getStudentStatusForMonth, getActiveAdditionalSubjectsForMonth } from '@/types/fee-management';
 import {
@@ -2047,11 +2049,8 @@ export async function toggleStudentStatus(
       if (newStatus === 'disabled') {
         student.disabledAt = now;
         student.statusNotes = options?.note || `Paused from ${monthLabel} onwards.`;
-        // Remove unpaid ledger entry for targetMonth so fee is not counted
-        const lIdx = dbData.ledger.findIndex(l => l.studentId === id && l.month === targetMonth);
-        if (lIdx !== -1 && dbData.ledger[lIdx].paidAmount === 0) {
-          dbData.ledger.splice(lIdx, 1);
-        }
+        // Remove unpaid ledger entries from targetMonth onwards so fee is not counted
+        dbData.ledger = dbData.ledger.filter(l => !(l.studentId === id && l.month >= targetMonth && l.paidAmount === 0));
       } else {
         student.enabledAt = now;
         student.statusNotes = options?.note || `Re-activated from ${monthLabel} onwards.`;
@@ -2255,22 +2254,23 @@ export async function getMonthlyLedger(
         }
 
         let entry = dbData.ledger.find(l => l.studentId === student.id && l.month === curM);
-        const prevM = getPreviousMonth(curM);
+        // Find latest prior active ledger entry before curM to accurately carry forward any unpaid balance
         let carriedForward = 0;
         let advanceFromPrev = 0;
+        const priorActiveEntries = dbData.ledger
+          .filter(l => l.studentId === student.id && l.month < curM && l.month >= joiningMonth)
+          .sort((a, b) => b.month.localeCompare(a.month));
+        const prevEntry = priorActiveEntries[0];
 
-        if (prevM >= joiningMonth) {
-          const prevEntry = dbData.ledger.find(l => l.studentId === student.id && l.month === prevM);
-          if (prevEntry) {
-            carriedForward = Math.max(0, prevEntry.balanceAmount);
-            advanceFromPrev = Math.max(0, prevEntry.advanceAmount);
-            if (carriedForward > 0 && !prevEntry.forwardedToNextMonth) {
-              const curMLabel = await getMonthLabel(curM);
-              prevEntry.forwardedToNextMonth = true;
-              prevEntry.forwardedMonthLabel = curMLabel;
-              prevEntry.forwardedAmount = carriedForward;
-              modified = true;
-            }
+        if (prevEntry) {
+          carriedForward = Math.max(0, prevEntry.balanceAmount);
+          advanceFromPrev = Math.max(0, prevEntry.advanceAmount);
+          if (carriedForward > 0 && !prevEntry.forwardedToNextMonth) {
+            const curMLabel = await getMonthLabel(curM);
+            prevEntry.forwardedToNextMonth = true;
+            prevEntry.forwardedMonthLabel = curMLabel;
+            prevEntry.forwardedAmount = carriedForward;
+            modified = true;
           }
         }
 
@@ -3184,7 +3184,11 @@ export async function getFeeDashboardStats(
  */
 export async function getBranchYearlyReport(
   session = '2026-27',
-  options?: { forceFresh?: boolean }
+  options?: {
+    forceFresh?: boolean;
+    startMonth?: string;
+    endMonth?: string;
+  }
 ): Promise<{
   success: boolean;
   data: BranchYearlyReportResult;
@@ -3193,12 +3197,20 @@ export async function getBranchYearlyReport(
     const adminCtx = await getServerAdminContext();
     const dbData = await loadDatabase({ forceFresh: options?.forceFresh });
 
+    // Current active system month strictly enforced (no future months beyond current month)
+    const currentActiveMonth = '2026-11';
+
     // Full Academic Session 2026-27 (12 months: April 2026 to March 2027)
-    const sessionMonths = [
+    const fullSessionMonths = [
       '2026-04', '2026-05', '2026-06', '2026-07',
       '2026-08', '2026-09', '2026-10', '2026-11',
       '2026-12', '2027-01', '2027-02', '2027-03',
     ];
+
+    // Filter strictly between startMonth and endMonth, and never beyond currentActiveMonth
+    const startM = options?.startMonth || '2026-04';
+    const endM = options?.endMonth && options.endMonth <= currentActiveMonth ? options.endMonth : currentActiveMonth;
+    const sessionMonths = fullSessionMonths.filter(m => m >= startM && m <= endM && m <= currentActiveMonth);
 
     const targetBranches = IDL_BRANCHES.filter(b => {
       if (b.id === 'all') return false;
@@ -3300,11 +3312,18 @@ export async function getBranchYearlyReport(
     };
     totals.annualRate = totals.annualExpected > 0 ? Math.round((totals.annualReceived / totals.annualExpected) * 100) : 0;
 
+    const firstM = sessionMonths[0] || '2026-04';
+    const lastM = sessionMonths[sessionMonths.length - 1] || '2026-11';
+    const formatSessionMonth = (mStr: string) => {
+      const [y, mo] = mStr.split('-').map(Number);
+      return new Date(y, mo - 1, 1).toLocaleString('en-US', { month: 'short', year: 'numeric' });
+    };
+
     return {
       success: true,
       data: {
         session,
-        sessionLabel: `Session ${session} (Apr 2026 - Mar 2027)`,
+        sessionLabel: `Session ${session} (${formatSessionMonth(firstM)} – ${formatSessionMonth(lastM)})`,
         branches,
         totals,
       },
@@ -3441,3 +3460,219 @@ export async function getFeeDashboardBundle(
     return { success: false, message: error.message || 'Failed to fetch fee dashboard bundle.' };
   }
 }
+
+/**
+ * Generates an end-to-end comprehensive fee statement for any student from their initial admission
+ * / batch start month up to the current active billing month.
+ */
+export async function getStudentFeeStatement(
+  studentId: string,
+  options?: { targetMonth?: string }
+): Promise<{ success: boolean; data?: StudentFeeStatement; message?: string }> {
+  try {
+    const dbData = await loadDatabase({ forceFresh: false });
+    const student = dbData.students.find(s => s.id === studentId);
+    if (!student) {
+      return { success: false, message: 'Student record not found.' };
+    }
+
+    const currentMonth = await getCurrentMonth();
+    const effectiveEndMonth = options?.targetMonth
+      ? (options.targetMonth > currentMonth ? currentMonth : options.targetMonth)
+      : currentMonth;
+
+    const todayStr = new Date().toISOString().split('T')[0];
+    const currentMonthLabel = await getMonthLabel(effectiveEndMonth);
+
+    // Fast targeted ledger sync for this student specifically (instant < 10ms)
+    syncMonthlyStudentLedgersAndPriorPayments({
+      dbData,
+      student,
+      currentMonth: effectiveEndMonth,
+      todayStr,
+      currentMonthLabel,
+    });
+
+    const batch = dbData.batches.find(b => b.id === student.batchId);
+    const cls = dbData.classes.find(c => c.id === student.classId);
+    const branch = IDL_BRANCHES.find(b => b.id === student.branchId);
+
+    // Safely extract YYYY-MM from YYYY-MM-DD or DD-MM-YYYY
+    const extractYearMonth = (dateStr?: string): string | null => {
+      if (!dateStr) return null;
+      const pure = dateStr.trim().split('T')[0].replace(/\//g, '-');
+      const parts = pure.split('-');
+      if (parts.length === 3) {
+        if (parts[0].length === 4) return `${parts[0]}-${parts[1].padStart(2, '0')}`;
+        if (parts[2].length === 4) return `${parts[2]}-${parts[1].padStart(2, '0')}`;
+      }
+      if (parts.length === 2 && parts[0].length === 4) {
+        return `${parts[0]}-${parts[1].padStart(2, '0')}`;
+      }
+      return null;
+    };
+
+    const studentJoinMonth = extractYearMonth(student.joiningDate);
+    const batchStartMonth = extractYearMonth(batch?.startDate);
+
+    let startMonth = '2026-04';
+    if (studentJoinMonth && batchStartMonth) {
+      startMonth = studentJoinMonth < batchStartMonth ? studentJoinMonth : batchStartMonth;
+    } else if (studentJoinMonth) {
+      startMonth = studentJoinMonth;
+    } else if (batchStartMonth) {
+      startMonth = batchStartMonth;
+    }
+
+    if (startMonth > effectiveEndMonth) {
+      startMonth = effectiveEndMonth;
+    }
+
+    const monthSeq = getMonthSequence(startMonth, effectiveEndMonth);
+    const rows: StudentFeeStatementMonthRow[] = [];
+
+    let totalBilled = 0;
+    let totalDiscounts = 0;
+    let totalPaid = 0;
+    let paidMonthsCount = 0;
+    let pendingMonthsCount = 0;
+    let activeMonthsCount = 0;
+    let disabledMonthsCount = 0;
+
+    let rollingArrears = 0;
+
+    for (const curM of monthSeq) {
+      const curLabel = await getMonthLabel(curM);
+      const isExcluded = student.excludedMonths?.includes(curM);
+      const studentStatusThisMonth = getStudentStatusForMonth(student, curM);
+      const isStudentDisabled = studentStatusThisMonth === 'disabled';
+
+      const entry = dbData.ledger.find(l => l.studentId === student.id && l.month === curM);
+      let payments = dbData.payments.filter(p => p.studentId === student.id && p.month === curM);
+
+      // If yearly package student, check master payment
+      if (payments.length === 0 && (student.feeType === 'yearly_package' || Boolean(student.yearlyPackage?.totalYearlyFee))) {
+        payments = dbData.payments.filter(
+          p => p.studentId === student.id && (p.transactionRef === 'YEARLY-PACKAGE-LUMPSUM' || (p.monthLabel || '').includes('Yearly Package'))
+        );
+      }
+
+      const activeAddl = getActiveAdditionalSubjectsForMonth(student, curM);
+      const addlFee = activeAddl.reduce((sum, s) => sum + (Number(s.fee) || 0), 0);
+      const paidAmount = entry ? entry.paidAmount : payments.reduce((sum, p) => sum + (Number(p.amount) || 0), 0);
+
+      let baseAmount = 0;
+      let discountAmount = 0;
+      let netDueAmount = 0;
+      let carriedForwardDue = 0;
+      let totalPayable = 0;
+      let balanceAmount = 0;
+      let rowStatus: StatementMonthStatus = 'PENDING';
+      let dueDate = '';
+      let effectivePaidAmount = 0;
+
+      if (isStudentDisabled) {
+        disabledMonthsCount++;
+        // Disabled / paused month: displays standard net amount & due date, but 0 payable, 0 paid, 0 balance
+        baseAmount = student.baseFee + addlFee;
+        discountAmount = student.discountAmount || 0;
+        netDueAmount = Math.max(0, student.baseFee - (student.discountAmount || 0)) + addlFee;
+        carriedForwardDue = 0;
+        totalPayable = 0; // Paused month: 0 payable
+        effectivePaidAmount = 0; // Paused month: 0 paid
+        balanceAmount = 0; // zero balance/arrears
+        rowStatus = 'DISABLED';
+        dueDate = entry?.dueDate || clampDueDateForMonth(curM, student.dueDayOfMonth || 5);
+      } else {
+        activeMonthsCount++;
+        effectivePaidAmount = paidAmount;
+        baseAmount = entry ? entry.baseAmount : (student.baseFee + addlFee);
+        discountAmount = entry ? entry.discountAmount : (student.discountAmount || 0);
+
+        // Pure monthly net due without carry-forward arrears
+        const monthlyPureNet = entry
+          ? (entry.netDueAmount - (entry.carriedForwardDue || 0))
+          : Math.max(0, student.baseFee - (student.discountAmount || 0)) + addlFee;
+        netDueAmount = monthlyPureNet;
+
+        // Use entry.carriedForwardDue if existing, otherwise rollingArrears
+        carriedForwardDue = entry?.carriedForwardDue !== undefined ? entry.carriedForwardDue : rollingArrears;
+        totalPayable = netDueAmount + carriedForwardDue;
+        balanceAmount = entry ? entry.balanceAmount : Math.max(0, totalPayable - effectivePaidAmount);
+        rollingArrears = balanceAmount;
+
+        rowStatus = entry?.status || (balanceAmount <= 0 ? 'PAID' : 'PENDING');
+        if (isExcluded) {
+          rowStatus = 'PENDING';
+        }
+
+        if (rowStatus === 'PAID') paidMonthsCount++;
+        if (balanceAmount > 0) pendingMonthsCount++;
+
+        totalBilled += netDueAmount;
+        totalDiscounts += discountAmount;
+        totalPaid += effectivePaidAmount;
+        dueDate = entry?.dueDate || clampDueDateForMonth(curM, student.dueDayOfMonth || 5);
+      }
+
+      const lastPaymentDate = !isStudentDisabled ? (entry?.lastPaymentDate || payments[payments.length - 1]?.paymentDate || payments[0]?.paymentDate) : undefined;
+      const receiptNumber = !isStudentDisabled ? (payments.map(p => p.receiptNumber).filter(Boolean).join(', ') || undefined) : undefined;
+      const paymentMode = !isStudentDisabled ? (payments.map(p => p.paymentMode.toUpperCase()).filter(Boolean).join(', ') || undefined) : undefined;
+      const transactionRef = !isStudentDisabled ? (payments.map(p => p.transactionRef).filter(Boolean).join(', ') || undefined) : undefined;
+
+      rows.push({
+        month: curM,
+        monthLabel: curLabel,
+        dueDate,
+        baseAmount,
+        additionalSubjectFee: addlFee,
+        discountAmount,
+        netDueAmount,
+        carriedForwardDue,
+        totalPayable,
+        paidAmount: effectivePaidAmount,
+        balanceAmount,
+        status: rowStatus,
+        isStudentDisabled,
+        lastPaymentDate,
+        receiptNumber,
+        paymentMode,
+        transactionRef,
+      });
+    }
+
+    const latestActiveRow = [...rows].reverse().find(r => !r.isStudentDisabled);
+    const netOutstanding = latestActiveRow ? latestActiveRow.balanceAmount : 0;
+
+    const statement: StudentFeeStatement = {
+      student,
+      className: cls?.name || 'Class',
+      batchName: batch?.name || 'Batch',
+      batchStartDate: batch?.startDate,
+      branchName: branch?.name || student.branchId,
+      startMonth,
+      endMonth: effectiveEndMonth,
+      startMonthLabel: await getMonthLabel(startMonth),
+      endMonthLabel: await getMonthLabel(effectiveEndMonth),
+      totalMonths: monthSeq.length,
+      rows,
+      totals: {
+        totalBilled,
+        totalDiscounts,
+        totalPaid,
+        totalBalance: netOutstanding,
+        paidMonthsCount,
+        pendingMonthsCount,
+        activeMonthsCount,
+        disabledMonthsCount,
+      },
+      generatedAt: new Date().toISOString(),
+    };
+
+    return { success: true, data: statement };
+  } catch (error: any) {
+    console.error('Error generating student fee statement:', error);
+    return { success: false, message: error.message || 'Failed to generate student fee statement.' };
+  }
+}
+

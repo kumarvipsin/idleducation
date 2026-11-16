@@ -318,3 +318,51 @@ export interface BranchYearlyReportResult {
   };
 }
 
+export type StatementMonthStatus = LedgerStatus | 'DISABLED' | 'PAUSED';
+
+export interface StudentFeeStatementMonthRow {
+  month: string; // e.g. "2026-04"
+  monthLabel: string; // e.g. "April 2026"
+  dueDate: string; // "DD-MM-YYYY" or "YYYY-MM-DD"
+  baseAmount: number;
+  additionalSubjectFee: number;
+  discountAmount: number;
+  netDueAmount: number;
+  carriedForwardDue: number;
+  totalPayable: number;
+  paidAmount: number;
+  balanceAmount: number;
+  status: StatementMonthStatus;
+  isStudentDisabled?: boolean;
+  lastPaymentDate?: string;
+  receiptNumber?: string;
+  paymentMode?: string;
+  transactionRef?: string;
+}
+
+export interface StudentFeeStatement {
+  student: FeeStudent;
+  className: string;
+  batchName: string;
+  batchStartDate?: string;
+  branchName: string;
+  startMonth: string;
+  endMonth: string;
+  startMonthLabel: string;
+  endMonthLabel: string;
+  totalMonths: number;
+  rows: StudentFeeStatementMonthRow[];
+  totals: {
+    totalBilled: number;
+    totalDiscounts: number;
+    totalPaid: number;
+    totalBalance: number;
+    paidMonthsCount: number;
+    pendingMonthsCount: number;
+    activeMonthsCount?: number;
+    disabledMonthsCount?: number;
+  };
+  generatedAt: string;
+}
+
+

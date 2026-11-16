@@ -106,6 +106,10 @@ export function syncMonthlyStudentLedgersAndPriorPayments(params: {
 
   for (const curM of monthSeq) {
     if (student.excludedMonths?.includes(curM) || getStudentStatusForMonth(student, curM) === 'disabled') {
+      const exIdx = dbData.ledger.findIndex(l => l.studentId === student.id && l.month === curM);
+      if (exIdx !== -1 && dbData.ledger[exIdx].paidAmount === 0) {
+        dbData.ledger.splice(exIdx, 1);
+      }
       continue;
     }
     const curMonthLabel = resolveMonthLabel(curM);
