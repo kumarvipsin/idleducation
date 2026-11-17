@@ -123,7 +123,7 @@ export function syncMonthlyStudentLedgersAndPriorPayments(params: {
     const existingIdx = dbData.ledger.findIndex(l => l.studentId === student.id && l.month === curM);
 
     if (curM < currentMonth) {
-      // Strictly prior months (< currentMonth): auto-collect missing months on their monthly due date.
+      // Strictly prior months (< currentMonth): auto-collect missing or unpaid prior months on their monthly due date.
       if (existingIdx === -1) {
         const priorLedger: FeeLedgerEntry = {
           id: `led-${student.id}-${curM}`,
@@ -149,32 +149,60 @@ export function syncMonthlyStudentLedgersAndPriorPayments(params: {
         };
         dbData.ledger.unshift(priorLedger);
         priorMonthsAutoPaid += 1;
-
-        if (monthlyNet > 0 && !dbData.payments.some(p => p.studentId === student.id && p.month === curM)) {
-          const receiptNo = `REC-${curM.replace('-', '')}-${String(dbData.payments.length + 1).padStart(4, '0')}`;
-          dbData.payments.unshift({
-            id: `pay-prior-${student.id}-${curM}`,
-            receiptNumber: receiptNo,
-            studentId: student.id,
-            studentName: student.name,
-            rollNumber: student.rollNumber,
-            branchId: student.branchId,
-            classId: student.classId,
-            batchId: student.batchId,
-            month: curM,
-            monthLabel: curMonthLabel,
-            amount: monthlyNet,
-            paymentMode: 'cash',
-            transactionRef: 'AUTO-PRIOR-MONTH',
-            paymentDate: dueDate,
-            collectedBy: 'Admin Desk',
-            remarks: `Auto-collected prior month (${curMonthLabel}) on due date (${dueDate})`,
-            createdAt: new Date().toISOString(),
-          });
+      } else {
+        const existing = dbData.ledger[existingIdx];
+        if (
+          existing.status !== 'PAID' ||
+          existing.paidAmount < monthlyNet ||
+          existing.balanceAmount > 0 ||
+          (existing.carriedForwardDue || 0) > 0
+        ) {
+          dbData.ledger[existingIdx] = {
+            ...existing,
+            baseAmount: monthlyBase,
+            discountAmount: student.discountAmount,
+            netDueAmount: monthlyNet,
+            carriedForwardDue: 0,
+            paidAmount: monthlyNet,
+            balanceAmount: 0,
+            advanceAmount: 0,
+            dueDate,
+            lastPaymentDate: existing.lastPaymentDate || dueDate,
+            status: 'PAID',
+            isOverdue: false,
+            remarks: existing.remarks || `Auto-collected prior month (${curMonthLabel}) on due date`,
+            updatedAt: new Date().toISOString(),
+          };
+          priorMonthsAutoPaid += 1;
         }
+      }
+
+      // Ensure FeePayment receipt exists for this prior month
+      if (monthlyNet > 0 && !dbData.payments.some(p => p.studentId === student.id && p.month === curM)) {
+        const receiptNo = `REC-${curM.replace('-', '')}-${String(dbData.payments.length + 1).padStart(4, '0')}`;
+        dbData.payments.unshift({
+          id: `pay-prior-${student.id}-${curM}`,
+          receiptNumber: receiptNo,
+          studentId: student.id,
+          studentName: student.name,
+          rollNumber: student.rollNumber,
+          branchId: student.branchId,
+          classId: student.classId,
+          batchId: student.batchId,
+          month: curM,
+          monthLabel: curMonthLabel,
+          amount: monthlyNet,
+          paymentMode: 'cash',
+          transactionRef: 'AUTO-PRIOR-MONTH',
+          paymentDate: dueDate,
+          collectedBy: 'Admin Desk',
+          remarks: `Auto-collected prior month (${curMonthLabel}) on due date (${dueDate})`,
+          createdAt: new Date().toISOString(),
+        });
       }
     } else {
       // curM === currentMonth: NEVER auto-collect. Keep unpaid until manual or website collection.
+      // Carried forward due from prior settled months (< currentMonth) is ALWAYS 0!
       if (existingIdx === -1) {
         const currentLedger: FeeLedgerEntry = {
           id: `led-${student.id}-${curM}`,
@@ -198,12 +226,14 @@ export function syncMonthlyStudentLedgersAndPriorPayments(params: {
         };
         dbData.ledger.unshift(currentLedger);
       } else {
+        const existing = dbData.ledger[existingIdx];
+        // For curM === currentMonth, carriedForward from prior auto-settled months is ALWAYS 0.
+        // For curM > currentMonth (future months), carriedForward is prevEntry's balance.
         const prevM = getPreviousMonth(curM);
         const prevEntry = prevM >= rawJoiningMonth
           ? dbData.ledger.find(l => l.studentId === student.id && l.month === prevM)
           : undefined;
-        const carriedForward = prevEntry ? Math.max(0, prevEntry.balanceAmount) : 0;
-        const existing = dbData.ledger[existingIdx];
+        const carriedForward = (curM > currentMonth && prevEntry) ? Math.max(0, prevEntry.balanceAmount) : 0;
         const newNetDue = monthlyNet + carriedForward;
         const newBalance = Math.max(0, newNetDue - existing.paidAmount);
         const newAdvance = Math.max(0, existing.paidAmount - newNetDue);

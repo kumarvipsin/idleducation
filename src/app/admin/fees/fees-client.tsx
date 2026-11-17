@@ -2970,24 +2970,60 @@ export function FeesClient({
       // Header top bar
       pdf.setFillColor(40, 100, 232); // #2864E8
       pdf.rect(margin, y, pageWidth - margin * 2, 2.5, 'F');
-      y += 8;
+      y += 6;
 
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(16);
-      pdf.setTextColor(15, 23, 42); // slate-900
-      pdf.text('IDL EDUCATION', margin, y);
+      // Authentic Brand Logo on Left
+      const logoW = 22;
+      const logoH = 19.4;
+      try {
+        pdf.addImage(IDL_RECEIPT_LOGO_DATA_URL, 'PNG', margin, y, logoW, logoH);
+      } catch {
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(15);
+        pdf.setTextColor(40, 100, 232);
+        pdf.text('IDL Education', margin, y + 10);
+      }
 
+      // Contact Details Block on Right (Strictly Left-aligned icons & text)
+      const contactX = 153;
+      let contactY = y + 3.5;
+
+      pdf.setDrawColor(100, 116, 139);
+      pdf.setTextColor(100, 116, 139);
       pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(8);
+
+      // 1. Phone Icon & Number
+      pdf.setLineWidth(0.22);
+      pdf.roundedRect(contactX, contactY - 2.4, 2.2, 3.2, 0.4, 0.4, 'S');
+      pdf.circle(contactX + 1.1, contactY - 0.5, 0.25, 'S');
+      pdf.line(contactX + 0.6, contactY - 2.0, contactX + 1.6, contactY - 2.0);
+      pdf.text('011 45035713', contactX + 4.5, contactY);
+
+      contactY += 5;
+
+      // 2. Email Icon & Address
+      pdf.roundedRect(contactX, contactY - 2.4, 3.2, 2.4, 0.3, 0.3, 'S');
+      pdf.line(contactX, contactY - 2.4, contactX + 1.6, contactY - 1.2);
+      pdf.line(contactX + 3.2, contactY - 2.4, contactX + 1.6, contactY - 1.2);
+      pdf.text('info@idleducation.in', contactX + 4.5, contactY);
+
+      contactY += 5;
+
+      // 3. Website / Globe Icon & Domain
+      pdf.circle(contactX + 1.5, contactY - 1.2, 1.4, 'S');
+      pdf.line(contactX + 0.1, contactY - 1.2, contactX + 2.9, contactY - 1.2);
+      pdf.ellipse(contactX + 1.5, contactY - 1.2, 0.7, 1.4, 'S');
+      pdf.text('idleducation.in', contactX + 4.5, contactY);
+
+      y += Math.max(logoH, 18) + 3;
+
+      // Centered Statement Heading in Gray
+      pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(8.5);
       pdf.setTextColor(100, 116, 139);
-      pdf.text('Helpline: 011 45035713 • Email: info@idleducation.in • Website: idleducation.in', pageWidth - margin, y - 1, { align: 'right' });
-      y += 5;
-
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.setTextColor(40, 100, 232);
-      pdf.text('OFFICIAL STUDENT FEE STATEMENT & ACCOUNT HISTORY', margin, y);
-      y += 4;
+      pdf.text('OFFICIAL STUDENT FEE STATEMENT & ACCOUNT HISTORY', pageWidth / 2, y, { align: 'center' });
+      y += 3.5;
 
       // Divider
       pdf.setDrawColor(226, 232, 240);
@@ -3000,7 +3036,7 @@ export function FeesClient({
       pdf.setDrawColor(226, 232, 240);
       pdf.roundedRect(margin, y, pageWidth - margin * 2, 28, 2, 2, 'FD');
 
-      pdf.setFontSize(9);
+      pdf.setFontSize(8.5);
 
       // Column 1
       pdf.setFont('helvetica', 'bold');
@@ -3032,34 +3068,34 @@ export function FeesClient({
       pdf.text(st.student.fatherContact || st.student.contact1 || '—', margin + 30, y + 24);
 
       // Column 2
-      const col2X = margin + 100;
+      const col2X = margin + 96;
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(71, 85, 105);
       pdf.text('Class & Batch:', col2X, y + 6);
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(15, 23, 42);
-      pdf.text(`${st.className} • ${st.batchName}`, col2X + 26, y + 6);
+      pdf.text(`${st.className} • ${st.batchName}`, col2X + 32, y + 6);
 
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(71, 85, 105);
       pdf.text('Branch Center:', col2X, y + 12);
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(15, 23, 42);
-      pdf.text(st.branchName, col2X + 26, y + 12);
+      pdf.text(st.branchName, col2X + 32, y + 12);
 
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(71, 85, 105);
       pdf.text('Admission Date:', col2X, y + 18);
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(15, 23, 42);
-      pdf.text(formatAdmDate(st.student.joiningDate), col2X + 26, y + 18);
+      pdf.text(formatAdmDate(st.student.joiningDate), col2X + 32, y + 18);
 
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(71, 85, 105);
       pdf.text('Statement Period:', col2X, y + 24);
       pdf.setFont('helvetica', 'normal');
       pdf.setTextColor(15, 23, 42);
-      pdf.text(`${st.startMonthLabel} to ${st.endMonthLabel} (${st.totalMonths} Mos)`, col2X + 26, y + 24);
+      pdf.text(`${st.startMonthLabel} to ${st.endMonthLabel} (${st.totalMonths} Mos)`, col2X + 32, y + 24);
 
       y += 33;
 
@@ -3387,6 +3423,29 @@ export function FeesClient({
             };
           })
         );
+        setSelectedStudentProfile(prev => {
+          if (!prev || prev.id !== student.id) return prev;
+          const updatedHistory = [...(prev.statusHistory || [])];
+          if (mode === 'all_months') {
+            return {
+              ...prev,
+              status: targetStatus,
+              statusHistory: [{ month: '2026-04', status: targetStatus, updatedAt: new Date().toISOString() }],
+            };
+          }
+          const existingHIdx = updatedHistory.findIndex(h => h.month === selectedMonth);
+          if (existingHIdx !== -1) {
+            updatedHistory[existingHIdx] = { month: selectedMonth, status: targetStatus, updatedAt: new Date().toISOString() };
+          } else {
+            updatedHistory.push({ month: selectedMonth, status: targetStatus, updatedAt: new Date().toISOString() });
+          }
+          updatedHistory.sort((a, b) => a.month.localeCompare(b.month));
+          return {
+            ...prev,
+            statusHistory: updatedHistory,
+            status: targetStatus === 'active' ? 'active' : prev.status,
+          };
+        });
         if (targetStatus === 'disabled') {
           if (mode === 'all_months') {
             setLedger(prev => prev.filter(l => !(l.studentId === student.id && l.paidAmount === 0)));
@@ -6734,7 +6793,7 @@ export function FeesClient({
                           const sStatus = selectedMonth ? getStudentStatusForMonth(student, selectedMonth) : student.status;
                           const studentLedgerEntry = ledger.find(l => l.studentId === student.id && (!selectedMonth || l.month === selectedMonth));
                           const dueDateStr = studentLedgerEntry ? studentLedgerEntry.dueDate : `2026-11-${String(student.dueDayOfMonth || 5).padStart(2, '0')}`;
-                          const isOver = studentLedgerEntry ? ((studentLedgerEntry.isOverdue || studentLedgerEntry.status === 'OVERDUE') && studentLedgerEntry.status !== 'PAID') : false;
+                          const isOver = sStatus !== 'disabled' && (studentLedgerEntry ? ((studentLedgerEntry.isOverdue || studentLedgerEntry.status === 'OVERDUE') && studentLedgerEntry.status !== 'PAID') : false);
                           const isYearlyFee = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage);
                           const genderLabel = student.gender
                             ? student.gender.charAt(0).toUpperCase() + student.gender.slice(1).toLowerCase()
@@ -6778,6 +6837,16 @@ export function FeesClient({
                                   </span>
                                 </div>
                                 {(() => {
+                                  if (sStatus === 'disabled') {
+                                    return (
+                                      <div className="text-[11.5px] font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center text-amber-600 dark:text-amber-400">
+                                        <span className="inline-block w-[64px] shrink-0">Due Date :</span>
+                                        <span className="font-medium tabular-nums w-[72px] shrink-0 text-amber-700 dark:text-amber-400">
+                                          — (Paused)
+                                        </span>
+                                      </div>
+                                    );
+                                  }
                                   const effectiveDueDate = (student.feeType === 'yearly_package' || Boolean(student.yearlyPackage))
                                     ? (student.joiningDate || dueDateStr)
                                     : dueDateStr;
@@ -10268,15 +10337,12 @@ export function FeesClient({
                 {/* Header: Student Name + Highlighted ID & Joined Date */}
                 <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0">
                   <div>
-                    <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 leading-snug pr-8">
-                      <span>{selectedStudentProfile.name}</span>
-                      {(selectedStudentProfile.feeType === 'yearly_package' || Boolean(selectedStudentProfile.yearlyPackage)) && (
-                        <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-1">
-                          <span className="w-2 h-2 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_7px_2px_rgba(139,92,246,0.75)] animate-pulse" />
-                        </span>
-                      )}
-                    </DialogTitle>
                     {(() => {
+                      const profileStatus = selectedMonth
+                        ? getStudentStatusForMonth(selectedStudentProfile, selectedMonth)
+                        : selectedStudentProfile.status;
+                      const isPausedForMonth = profileStatus === 'disabled';
+
                       const profileLedgerEntry = ledger.find(l => l.studentId === selectedStudentProfile.id && (!selectedMonth || l.month === selectedMonth));
                       const today = new Date();
                       const currentMonthStr = String(today.getMonth() + 1).padStart(2, '0');
@@ -10287,34 +10353,63 @@ export function FeesClient({
 
                       const oDays = getOverdueDays(effectiveDueDate);
                       const studentLedger = profileLedgerEntry || ledger.find(l => l.studentId === selectedStudentProfile.id && l.month === (selectedMonth || '2026-11'));
-                      const isOver = oDays > 0 && studentLedger && (studentLedger.balanceAmount > 0 || studentLedger.status === 'OVERDUE');
+                      const isOver = !isPausedForMonth && oDays > 0 && studentLedger && (studentLedger.balanceAmount > 0 || studentLedger.status === 'OVERDUE');
 
                       return (
-                        <div className="text-[11.5px] text-slate-500 font-mono mt-1.5 flex items-center flex-wrap gap-x-1.5 gap-y-1">
-                          <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
-                            <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">ID:</span>
-                            <span className="font-medium text-slate-700 dark:text-slate-200">
-                              {selectedStudentProfile.rollNumber || selectedStudentProfile.id}
-                            </span>
-                          </span>
-                          <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                          <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
-                            <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">JOIN:</span>
-                            <span className="font-medium text-slate-700 dark:text-slate-300 tabular-nums">
-                              {formatAdmDate(selectedStudentProfile.joiningDate)}
-                            </span>
-                          </span>
-                          <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
-                          <span className="inline-flex items-center whitespace-nowrap shrink-0">
-                            <span className="inline-flex items-center gap-1">
-                              <span className={`text-[10px] uppercase tracking-wider font-medium ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>DUE:</span>
-                              <span className={`font-medium tabular-nums ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}>
-                                {formatAdmDate(effectiveDueDate)}
+                        <>
+                          <div className="flex items-center justify-between pr-8">
+                            <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 leading-snug">
+                              <span>{selectedStudentProfile.name}</span>
+                              {isPausedForMonth ? (
+                                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800 shrink-0">
+                                  PAUSED
+                                </span>
+                              ) : (
+                                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                                  ACTIVE
+                                </span>
+                              )}
+                              {(selectedStudentProfile.feeType === 'yearly_package' || Boolean(selectedStudentProfile.yearlyPackage)) && (
+                                <span title="Yearly Package Student" className="inline-flex items-center justify-center shrink-0 ml-1">
+                                  <span className="w-2 h-2 rounded-full bg-violet-600 dark:bg-violet-400 shadow-[0_0_7px_2px_rgba(139,92,246,0.75)] animate-pulse" />
+                                </span>
+                              )}
+                            </DialogTitle>
+                          </div>
+
+                          <div className="text-[11.5px] text-slate-500 font-mono mt-1.5 flex items-center flex-wrap gap-x-1.5 gap-y-1">
+                            <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                              <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">ID:</span>
+                              <span className="font-medium text-slate-700 dark:text-slate-200">
+                                {selectedStudentProfile.rollNumber || selectedStudentProfile.id}
                               </span>
                             </span>
-                            {isOver && renderOverdueDaysBadge(oDays, 'ml-1.5')}
-                          </span>
-                        </div>
+                            <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                            <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                              <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">JOIN:</span>
+                              <span className="font-medium text-slate-700 dark:text-slate-300 tabular-nums">
+                                {formatAdmDate(selectedStudentProfile.joiningDate)}
+                              </span>
+                            </span>
+                            <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                            {isPausedForMonth ? (
+                              <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                                <span className="text-[10px] uppercase tracking-wider font-medium text-amber-500">DUE:</span>
+                                <span className="font-medium text-amber-700 dark:text-amber-400">— (Paused)</span>
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center whitespace-nowrap shrink-0">
+                                <span className="inline-flex items-center gap-1">
+                                  <span className={`text-[10px] uppercase tracking-wider font-medium ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-400 dark:text-slate-500"}`}>DUE:</span>
+                                  <span className={`font-medium tabular-nums ${isOver ? "text-rose-600 dark:text-rose-400" : "text-slate-700 dark:text-slate-300"}`}>
+                                    {formatAdmDate(effectiveDueDate)}
+                                  </span>
+                                </span>
+                                {isOver && renderOverdueDaysBadge(oDays, 'ml-1.5')}
+                              </span>
+                            )}
+                          </div>
+                        </>
                       );
                     })()}
                   </div>
@@ -10486,14 +10581,31 @@ export function FeesClient({
 
                     <div className="flex justify-between items-baseline pt-1.5 border-t border-slate-100 dark:border-slate-800">
                       <span className="font-semibold text-slate-900 dark:text-white text-[12.5px] tracking-tight">Net Payable Fee:</span>
-                      <span className="text-[#2864E8] font-bold text-[16px] font-mono tabular-nums tracking-tight">
-                        ₹{Number((selectedStudentProfile.feeType === "yearly_package"
-                          ? (selectedStudentProfile.yearlyPackage?.totalYearlyFee || ((selectedStudentProfile.netFee ?? selectedStudentProfile.baseFee ?? 0) * 12))
-                          : (selectedStudentProfile.netFee ?? selectedStudentProfile.baseFee)) ?? 0).toLocaleString('en-IN')}
-                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 ml-0.5">
-                          {selectedStudentProfile.feeType === "yearly_package" ? "/year" : "/month"}
-                        </span>
-                      </span>
+                      {(() => {
+                        const curStatus = selectedMonth
+                          ? getStudentStatusForMonth(selectedStudentProfile, selectedMonth)
+                          : selectedStudentProfile.status;
+                        if (curStatus === 'disabled') {
+                          return (
+                            <span className="text-amber-600 dark:text-amber-400 font-bold text-[13px] font-mono tabular-nums tracking-tight flex items-center gap-1.5">
+                              <span>₹0</span>
+                              <span className="text-[9.5px] font-medium text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-200/80 dark:border-amber-800/60">
+                                Paused for {selectedMonthLabel}
+                              </span>
+                            </span>
+                          );
+                        }
+                        return (
+                          <span className="text-[#2864E8] font-bold text-[16px] font-mono tabular-nums tracking-tight">
+                            ₹{Number((selectedStudentProfile.feeType === "yearly_package"
+                              ? (selectedStudentProfile.yearlyPackage?.totalYearlyFee || ((selectedStudentProfile.netFee ?? selectedStudentProfile.baseFee ?? 0) * 12))
+                              : (selectedStudentProfile.netFee ?? selectedStudentProfile.baseFee)) ?? 0).toLocaleString('en-IN')}
+                            <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 ml-0.5">
+                              {selectedStudentProfile.feeType === "yearly_package" ? "/year" : "/month"}
+                            </span>
+                          </span>
+                        );
+                      })()}
                     </div>
                   </div>
 
@@ -10611,29 +10723,35 @@ export function FeesClient({
                 {/* Bottom Actions: Minimal icon-only action bar with no background or border */}
                 <div className="pt-2 mt-1 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-end gap-1 w-full shrink-0">
                   {/* Pause / Re-activate Toggle */}
-                  <button
-                    type="button"
-                    title={(selectedMonth ? getStudentStatusForMonth(selectedStudentProfile, selectedMonth) : selectedStudentProfile.status) === "active" ? "Pause Student" : "Re-activate Student"}
-                    onClick={() => {
-                      const stu = selectedStudentProfile;
-                      const curSt = selectedMonth ? getStudentStatusForMonth(stu, selectedMonth) : stu.status;
-                      setStatusOptionsModal({
-                        isOpen: true,
-                        student: stu,
-                        targetStatus: curSt === "active" ? "disabled" : "active",
-                      });
-                    }}
-                    className={`h-8 w-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer focus:outline-none bg-transparent hover:bg-slate-100/70 dark:hover:bg-slate-800/70 ${(selectedMonth ? getStudentStatusForMonth(selectedStudentProfile, selectedMonth) : selectedStudentProfile.status) === "active"
-                      ? "text-slate-400 hover:text-amber-500 active:text-amber-600 dark:text-slate-500 dark:hover:text-amber-400"
-                      : "text-slate-400 hover:text-emerald-500 active:text-emerald-600 dark:text-slate-500 dark:hover:text-emerald-400"
-                      }`}
-                  >
-                    {(selectedMonth ? getStudentStatusForMonth(selectedStudentProfile, selectedMonth) : selectedStudentProfile.status) === "active" ? (
-                      <PowerOff className="w-4 h-4" />
-                    ) : (
-                      <Power className="w-4 h-4" />
-                    )}
-                  </button>
+                  {(() => {
+                    const curSt = (selectedMonth ? getStudentStatusForMonth(selectedStudentProfile, selectedMonth) : selectedStudentProfile.status);
+                    const isActive = curSt === "active";
+                    return (
+                      <button
+                        type="button"
+                        title={isActive ? "Pause Student (Click to pause billing)" : "Re-activate Student (Click to enable billing)"}
+                        onClick={() => {
+                          const stu = selectedStudentProfile;
+                          setStatusOptionsModal({
+                            isOpen: true,
+                            student: stu,
+                            targetStatus: isActive ? "disabled" : "active",
+                          });
+                        }}
+                        className={`h-8 w-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer focus:outline-none ${
+                          isActive
+                            ? "text-slate-400 hover:text-amber-500 hover:bg-amber-50/60 dark:hover:bg-slate-800/70 dark:text-slate-500 dark:hover:text-amber-400"
+                            : "text-amber-600 bg-amber-50/80 border border-amber-200/60 hover:text-emerald-600 hover:bg-emerald-50/80 dark:bg-amber-950/40 dark:text-amber-400 dark:hover:text-emerald-400"
+                        }`}
+                      >
+                        {isActive ? (
+                          <PowerOff className="w-4 h-4" />
+                        ) : (
+                          <Power className="w-4 h-4" />
+                        )}
+                      </button>
+                    );
+                  })()}
 
                   {/* Delete Student */}
                   <button
@@ -10719,7 +10837,6 @@ export function FeesClient({
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 shrink-0">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="w-2.5 h-2.5 rounded-full bg-[#2864E8] shrink-0" />
                       <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
                         <span>{activeStatement.student.name}</span>
                         <span className="text-xs font-normal font-mono text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md">
@@ -10831,9 +10948,6 @@ export function FeesClient({
                             <td className="py-2.5 px-3 text-center font-mono text-slate-400 text-[11px]">{idx + 1}</td>
                             <td className="py-2.5 px-3 font-semibold text-slate-900 dark:text-slate-100 whitespace-nowrap">
                               <span>{row.monthLabel}</span>
-                              {isRowDisabled && (
-                                <span className="text-[10px] text-slate-400 dark:text-slate-500 font-normal ml-1.5">(Paused)</span>
-                              )}
                             </td>
                             <td className="py-2.5 px-3 font-mono text-slate-500 whitespace-nowrap">
                               {formatAdmDate(row.dueDate)}

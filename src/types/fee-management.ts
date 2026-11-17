@@ -137,8 +137,14 @@ export function getStudentStatusForMonth(
   month: string
 ): StudentStatus {
   if (student.statusHistory && student.statusHistory.length > 0) {
-    // Sort descending by month
-    const sorted = [...student.statusHistory].sort((a, b) => b.month.localeCompare(a.month));
+    // Sort descending by month, and if same month, by latest updatedAt
+    const sorted = [...student.statusHistory].sort((a, b) => {
+      const mCmp = b.month.localeCompare(a.month);
+      if (mCmp !== 0) return mCmp;
+      const tA = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+      const tB = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+      return tB - tA;
+    });
     const entry = sorted.find(e => e.month <= month);
     if (entry) {
       return entry.status;

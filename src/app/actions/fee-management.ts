@@ -2055,6 +2055,14 @@ export async function toggleStudentStatus(
       } else {
         student.enabledAt = now;
         student.statusNotes = options?.note || `Re-activated from ${monthLabel} onwards.`;
+        // Immediately sync/initialize fee ledger for active student
+        syncMonthlyStudentLedgersAndPriorPayments({
+          dbData,
+          student,
+          currentMonth: currentM,
+          todayStr: now.split('T')[0],
+          currentMonthLabel: await getMonthLabel(currentM),
+        });
       }
 
       // Fallback status is latest in history
@@ -2063,7 +2071,7 @@ export async function toggleStudentStatus(
     }
 
     student.updatedAt = now;
-    await saveDatabase(dbData, ['students', 'ledger']);
+    await saveDatabase(dbData, ['students', 'ledger', 'payments']);
 
     const actionWord = newStatus === 'disabled' ? 'PAUSED' : 'ACTIVATED';
     const scopeWord = mode === 'all_months' ? 'sabhi mahino ke liye' : `${monthLabel} se aage ke liye`;
@@ -2218,7 +2226,7 @@ export async function getMonthlyLedger(
         continue;
       }
 
-      // If student is disabled in effectiveMonth, remove unpaid ledger entry & skip fee billing
+      // If student is disabled in effectiveMonth, remove unpaid ledger entry for effectiveMonth & sync prior active months
       const statusThisMonth = getStudentStatusForMonth(student, effectiveMonth);
       if (statusThisMonth === 'disabled') {
         const exIdx = dbData.ledger.findIndex(l => l.studentId === student.id && l.month === effectiveMonth);
@@ -2226,186 +2234,79 @@ export async function getMonthlyLedger(
           dbData.ledger.splice(exIdx, 1);
           modified = true;
         }
+        // Still ensure historical active months up to the month before disable are synced and collected
+        const syncRes = syncMonthlyStudentLedgersAndPriorPayments({
+          dbData,
+          student,
+          currentMonth,
+          todayStr,
+          currentMonthLabel: monthLabel,
+        });
+        if (syncRes.priorMonthsAutoPaid > 0) {
+          modified = true;
+        }
         continue;
       }
 
-      // Process sequence from admission month to effectiveMonth to compute accurate carry-forward
-      const monthSeq = getMonthSequence(joiningMonth, effectiveMonth);
-
-      for (const curM of monthSeq) {
-        // If student was disabled in curM, skip fee billing for that month
-        const curMStatus = getStudentStatusForMonth(student, curM);
-        if (curMStatus === 'disabled') {
-          const exIdx = dbData.ledger.findIndex(l => l.studentId === student.id && l.month === curM);
-          if (exIdx !== -1 && dbData.ledger[exIdx].paidAmount === 0) {
-            dbData.ledger.splice(exIdx, 1);
-            modified = true;
-          }
-          continue;
-        }
-
-        // If student was deleted / excluded from this specific month, skip ledger creation and remove if exists
-        if (student.excludedMonths?.includes(curM)) {
-          const exIdx = dbData.ledger.findIndex(l => l.studentId === student.id && l.month === curM);
-          if (exIdx !== -1) {
-            dbData.ledger.splice(exIdx, 1);
-            modified = true;
-          }
-          continue;
-        }
-
-        let entry = dbData.ledger.find(l => l.studentId === student.id && l.month === curM);
-        // Find latest prior active ledger entry before curM to accurately carry forward any unpaid balance
-        let carriedForward = 0;
-        let advanceFromPrev = 0;
-        const priorActiveEntries = dbData.ledger
-          .filter(l => l.studentId === student.id && l.month < curM && l.month >= joiningMonth)
-          .sort((a, b) => b.month.localeCompare(a.month));
-        const prevEntry = priorActiveEntries[0];
-
-        if (prevEntry) {
-          carriedForward = Math.max(0, prevEntry.balanceAmount);
-          advanceFromPrev = Math.max(0, prevEntry.advanceAmount);
-          if (carriedForward > 0 && !prevEntry.forwardedToNextMonth) {
-            const curMLabel = await getMonthLabel(curM);
-            prevEntry.forwardedToNextMonth = true;
-            prevEntry.forwardedMonthLabel = curMLabel;
-            prevEntry.forwardedAmount = carriedForward;
-            modified = true;
-          }
-        }
-
-        const addlFeeForMonth = getActiveAdditionalSubjectsForMonth(student, curM).reduce(
-          (sum, s) => sum + (Number(s.fee) || 0),
-          0
-        );
-        const monthlyBase = student.baseFee + addlFeeForMonth;
-        const monthlyNet = Math.max(0, student.baseFee - student.discountAmount) + addlFeeForMonth;
-
-        if (!entry) {
-          const curMLabel = await getMonthLabel(curM);
-          const dueDate = clampDueDateForMonth(curM, student.dueDayOfMonth || 5);
-
-          let paidAmount = 0;
-          let advanceAmount = 0;
-          let balanceAmount = monthlyNet + carriedForward;
-
-          if (advanceFromPrev > 0) {
-            if (advanceFromPrev >= balanceAmount) {
-              paidAmount = balanceAmount;
-              advanceAmount = advanceFromPrev - balanceAmount;
-              balanceAmount = 0;
-            } else {
-              paidAmount = advanceFromPrev;
-              balanceAmount -= advanceFromPrev;
-              advanceAmount = 0;
-            }
-          }
-
-          let status: LedgerStatus = 'PENDING';
-          if (balanceAmount === 0 && advanceAmount > 0) status = 'ADVANCE';
-          else if (balanceAmount === 0 && paidAmount > 0) status = 'PAID';
-          else if (paidAmount > 0 && balanceAmount > 0) status = 'PARTIAL';
-          else if (todayStr > dueDate && balanceAmount > 0) status = 'OVERDUE';
-
-          const newEntry: FeeLedgerEntry = {
-            id: `led-${student.id}-${curM}`,
-            studentId: student.id,
-            branchId: student.branchId,
-            classId: student.classId,
-            batchId: student.batchId,
-            month: curM,
-            monthLabel: curMLabel,
-            baseAmount: monthlyBase,
-            discountAmount: student.discountAmount,
-            netDueAmount: monthlyNet + carriedForward,
-            carriedForwardDue: carriedForward,
-            paidAmount,
-            balanceAmount,
-            advanceAmount,
-            dueDate,
-            status,
-            isOverdue: todayStr > dueDate && balanceAmount > 0,
-            updatedAt: new Date().toISOString(),
-          };
-          entry = newEntry;
-
-          if (!dbData.ledger.some(l => l.id === newEntry.id || (l.studentId === student.id && l.month === curM))) {
-            dbData.ledger.push(newEntry);
-            modified = true;
-          }
-        } else {
-          // If unpaid entry exists, keep netDueAmount synced with additional fee for that month
-          if (entry.paidAmount === 0 && entry.status !== 'PAID') {
-            const expectedNetDue = monthlyNet + carriedForward;
-            if (entry.netDueAmount !== expectedNetDue || entry.baseAmount !== monthlyBase) {
-              entry.baseAmount = monthlyBase;
-              entry.netDueAmount = expectedNetDue;
-              entry.balanceAmount = Math.max(0, expectedNetDue - entry.paidAmount);
-              modified = true;
-            }
-          }
-          // Keep carriedForwardDue and netDueAmount accurately in sync
-          if (entry.carriedForwardDue !== carriedForward) {
-            entry.carriedForwardDue = carriedForward;
-            entry.netDueAmount = monthlyNet + carriedForward;
-            entry.balanceAmount = Math.max(0, entry.netDueAmount - entry.paidAmount);
-            entry.advanceAmount = Math.max(0, entry.paidAmount - entry.netDueAmount);
-            if (entry.balanceAmount === 0 && entry.advanceAmount > 0) entry.status = 'ADVANCE';
-            else if (entry.balanceAmount === 0 && entry.paidAmount > 0) entry.status = 'PAID';
-            else if (entry.paidAmount > 0 && entry.balanceAmount > 0) entry.status = 'PARTIAL';
-            else if (todayStr > entry.dueDate && entry.balanceAmount > 0) entry.status = 'OVERDUE';
-            else entry.status = 'PENDING';
-            entry.isOverdue = todayStr > entry.dueDate && entry.balanceAmount > 0;
-            modified = true;
-          }
-        }
-
-        // Yearly package student consistency: Admission Date, Due Date, and Paid Date are always synchronized
-        const isYearlyStudent = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage?.totalYearlyFee);
-        if (isYearlyStudent) {
+      const isYearlyStudent = student.feeType === 'yearly_package' || Boolean(student.yearlyPackage?.totalYearlyFee);
+      if (isYearlyStudent) {
+        const monthSeq = getMonthSequence(joiningMonth, effectiveMonth);
+        for (const curM of monthSeq) {
+          let entry = dbData.ledger.find(l => l.studentId === student.id && l.month === curM);
           const joinDateStr = student.joiningDate || '2026-11-01';
           const joinDay = parseInt(joinDateStr.split('-')[2], 10) || 1;
           const expectedDueDate = `${curM}-${String(joinDay).padStart(2, '0')}`;
-          if (entry.dueDate !== expectedDueDate) {
-            entry.dueDate = expectedDueDate;
+          const curMLabel = await getMonthLabel(curM);
+          if (!entry) {
+            entry = {
+              id: `led-${student.id}-${curM}`,
+              studentId: student.id,
+              branchId: student.branchId,
+              classId: student.classId,
+              batchId: student.batchId,
+              month: curM,
+              monthLabel: curMLabel,
+              baseAmount: student.baseFee,
+              discountAmount: student.discountAmount,
+              netDueAmount: student.netFee,
+              carriedForwardDue: 0,
+              paidAmount: student.netFee,
+              balanceAmount: 0,
+              advanceAmount: 0,
+              dueDate: expectedDueDate,
+              lastPaymentDate: joinDateStr,
+              status: 'PAID',
+              isOverdue: false,
+              updatedAt: new Date().toISOString(),
+            };
+            dbData.ledger.unshift(entry);
             modified = true;
-          }
-          if (!entry.lastPaymentDate) {
-            entry.lastPaymentDate = joinDateStr;
-            modified = true;
-          }
-          if (entry.paidAmount === 0 || entry.status !== 'PAID') {
-            entry.paidAmount = entry.netDueAmount;
-            entry.balanceAmount = 0;
-            entry.status = 'PAID';
-            entry.isOverdue = false;
-            modified = true;
-          }
-        } else if (entry.paidAmount > 0 && !entry.lastPaymentDate) {
-          const p = dbData.payments.find(pay => pay.studentId === student.id && pay.month === curM);
-          if (p?.paymentDate) {
-            entry.lastPaymentDate = p.paymentDate;
-            modified = true;
+          } else {
+            if (entry.paidAmount === 0 || entry.status !== 'PAID') {
+              entry.paidAmount = entry.netDueAmount;
+              entry.balanceAmount = 0;
+              entry.status = 'PAID';
+              entry.isOverdue = false;
+              modified = true;
+            }
           }
         }
-
-        // If this month is before currentMonth and has pending balance, mark next-month forwarding info
-        if (curM < currentMonth && entry.balanceAmount > 0) {
-          const nextM = getNextMonth(curM);
-          const nextMLabel = await getMonthLabel(nextM);
-          if (!entry.forwardedToNextMonth || entry.forwardedMonthLabel !== nextMLabel) {
-            entry.forwardedToNextMonth = true;
-            entry.forwardedMonthLabel = nextMLabel;
-            entry.forwardedAmount = entry.balanceAmount;
-            modified = true;
-          }
+      } else {
+        const syncRes = syncMonthlyStudentLedgersAndPriorPayments({
+          dbData,
+          student,
+          currentMonth,
+          todayStr,
+          currentMonthLabel: monthLabel,
+        });
+        if (syncRes.priorMonthsAutoPaid > 0) {
+          modified = true;
         }
       }
     }
 
     if (modified) {
-      await saveDatabase(dbData, ['ledger']);
+      await saveDatabase(dbData, ['ledger', 'payments']);
     }
 
     // Filter ledgers
@@ -3486,13 +3387,16 @@ export async function getStudentFeeStatement(
     const currentMonthLabel = await getMonthLabel(effectiveEndMonth);
 
     // Fast targeted ledger sync for this student specifically (instant < 10ms)
-    syncMonthlyStudentLedgersAndPriorPayments({
+    const syncRes = syncMonthlyStudentLedgersAndPriorPayments({
       dbData,
       student,
       currentMonth: effectiveEndMonth,
       todayStr,
       currentMonthLabel,
     });
+    if (syncRes.priorMonthsAutoPaid > 0) {
+      await saveDatabase(dbData, ['ledger', 'payments']);
+    }
 
     const batch = dbData.batches.find(b => b.id === student.batchId);
     const cls = dbData.classes.find(c => c.id === student.classId);
