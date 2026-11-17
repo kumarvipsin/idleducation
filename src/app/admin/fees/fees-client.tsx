@@ -273,6 +273,28 @@ export function FeesClient({
   const [ledgerClassFilter, setLedgerClassFilter] = useState<string>('all');
   const [ledgerBatchFilter, setLedgerBatchFilter] = useState<string>('all');
 
+  // Academic Year / Session Architecture
+  const [classSessionFilter, setClassSessionFilter] = useState<string>('2026-27');
+  const [studentSessionFilter, setStudentSessionFilter] = useState<string>('all');
+  const [ledgerSessionFilter, setLedgerSessionFilter] = useState<string>('all');
+  const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState<boolean>(false);
+  const [newSessionInput, setNewSessionInput] = useState<string>('');
+
+  // Academic Session Duration formatting helper (April of year N to March of year N+1)
+  const getSessionDurationText = (sessionStr: string = '2026-27') => {
+    const sess = (sessionStr || '2026-27').trim();
+    const parts = sess.split('-');
+    const y1 = parseInt(parts[0], 10) || 2026;
+    let y2 = y1 + 1;
+    if (parts[1]) {
+      const p2 = parseInt(parts[1], 10);
+      if (!isNaN(p2)) {
+        y2 = p2 < 100 ? Math.floor(y1 / 100) * 100 + p2 : p2;
+      }
+    }
+    return `01 Apr ${y1} – 31 Mar ${y2}`;
+  };
+
   const dedupeLedgerRows = (rows: (FeeLedgerEntry & { student: FeeStudent })[]) => {
     const seen = new Set<string>();
     const out: (FeeLedgerEntry & { student: FeeStudent })[] = [];
@@ -3892,15 +3914,18 @@ export function FeesClient({
     });
   }, [students, selectedBranch, selectedMonth, hasBranchSelection]);
 
-  // Open Create Class Modal (pre-fills branch if a single branch is active in toolbar)
-  const openCreateClassModal = () => {
+  // Open Create Class Modal (pre-fills branch and session)
+  const openCreateClassModal = (targetSession?: string | React.MouseEvent) => {
     const defaultBranchId = isBranchAdmin && branchAdminBranchId
       ? branchAdminBranchId
       : (selectedBranch && selectedBranch !== 'all' && selectedBranch !== 'none' ? selectedBranch : '');
+    const sessionToUse = typeof targetSession === 'string'
+      ? targetSession
+      : (classSessionFilter !== 'all' ? classSessionFilter : '2026-27');
     setClassForm({
       ...EMPTY_CLASS_FORM,
       branchId: defaultBranchId,
-      academicSession: '2026-27',
+      academicSession: sessionToUse,
     });
     setIsClassModalOpen(true);
   };
@@ -4047,6 +4072,47 @@ export function FeesClient({
     }
   };
 
+  // All discovered & standard Academic Sessions
+  const allSessionsList = React.useMemo(() => {
+    const sessionMap = new Map<string, { id: string; label: string; durationText: string; isCurrent: boolean; classCount: number; studentCount: number }>();
+
+    // Baseline standard sessions
+    const baseline = ['2026-27', '2027-28', '2028-29'];
+    for (const b of baseline) {
+      sessionMap.set(b, {
+        id: b,
+        label: b,
+        durationText: getSessionDurationText(b),
+        isCurrent: b === '2026-27',
+        classCount: 0,
+        studentCount: 0,
+      });
+    }
+
+    // Dynamic sessions from classes
+    for (const c of classes) {
+      const sess = (c.academicSession || '2026-27').trim();
+      if (!sessionMap.has(sess)) {
+        sessionMap.set(sess, {
+          id: sess,
+          label: sess,
+          durationText: getSessionDurationText(sess),
+          isCurrent: sess === '2026-27',
+          classCount: 0,
+          studentCount: 0,
+        });
+      }
+      const item = sessionMap.get(sess)!;
+      const matchesBranch = !selectedBranch || selectedBranch === 'all' || branchIdsMatch(c.branchId, selectedBranch);
+      if (matchesBranch) {
+        item.classCount += 1;
+        item.studentCount += (c.studentCount || 0);
+      }
+    }
+
+    return Array.from(sessionMap.values()).sort((a, b) => a.id.localeCompare(b.id));
+  }, [classes, selectedBranch]);
+
   // Filtered classes matching active branch selection, arranged by order number
   const filteredClasses = React.useMemo(() => {
     if (!hasBranchSelection) return [];
@@ -4067,7 +4133,19 @@ export function FeesClient({
     });
   }, [classes, selectedBranch, hasBranchSelection]);
 
-  // Filtered batches for student directory filter (respects selected branch & class filter)
+  // Available classes for Student Directory (respects student session filter)
+  const availableClassesForStudentFilter = React.useMemo(() => {
+    if (studentSessionFilter === 'all') return filteredClasses;
+    return filteredClasses.filter(c => (c.academicSession || '2026-27').trim() === studentSessionFilter);
+  }, [filteredClasses, studentSessionFilter]);
+
+  // Available classes for Fee Collection Ledger (respects ledger session filter)
+  const availableClassesForLedgerFilter = React.useMemo(() => {
+    if (ledgerSessionFilter === 'all') return filteredClasses;
+    return filteredClasses.filter(c => (c.academicSession || '2026-27').trim() === ledgerSessionFilter);
+  }, [filteredClasses, ledgerSessionFilter]);
+
+  // Filtered batches for student directory filter (respects selected branch, class filter & session filter)
   const availableBatchesForStudentFilter = React.useMemo(() => {
     if (!hasBranchSelection) return [];
     let list = batches;
@@ -4080,6 +4158,12 @@ export function FeesClient({
           classes.some(c => c.id === b.classId && (c.branchId === selectedBranch || (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri')))
       );
     }
+    if (studentSessionFilter !== 'all') {
+      list = list.filter(b => {
+        const cls = classes.find(c => c.id === b.classId);
+        return (cls?.academicSession || '2026-27').trim() === studentSessionFilter;
+      });
+    }
     if (classFilter !== 'all') {
       list = list.filter(b => b.classId === classFilter);
     }
@@ -4089,9 +4173,9 @@ export function FeesClient({
       if (ordA !== ordB) return ordA - ordB;
       return a.name.localeCompare(b.name, undefined, { numeric: true });
     });
-  }, [batches, selectedBranch, classFilter, classes, hasBranchSelection]);
+  }, [batches, selectedBranch, classFilter, classes, hasBranchSelection, studentSessionFilter]);
 
-  // Filtered batches for fee collection filter (respects selected branch & ledger class filter)
+  // Filtered batches for fee collection filter (respects selected branch, ledger class filter & session filter)
   const availableBatchesForLedgerFilter = React.useMemo(() => {
     if (!hasBranchSelection) return [];
     let list = batches;
@@ -4104,6 +4188,12 @@ export function FeesClient({
           classes.some(c => c.id === b.classId && (c.branchId === selectedBranch || (selectedBranch === 'mangolpuri' && c.branchId === 'mangol-puri')))
       );
     }
+    if (ledgerSessionFilter !== 'all') {
+      list = list.filter(b => {
+        const cls = classes.find(c => c.id === b.classId);
+        return (cls?.academicSession || '2026-27').trim() === ledgerSessionFilter;
+      });
+    }
     if (ledgerClassFilter !== 'all') {
       list = list.filter(b => b.classId === ledgerClassFilter);
     }
@@ -4113,7 +4203,7 @@ export function FeesClient({
       if (ordA !== ordB) return ordA - ordB;
       return a.name.localeCompare(b.name, undefined, { numeric: true });
     });
-  }, [batches, selectedBranch, ledgerClassFilter, classes, hasBranchSelection]);
+  }, [batches, selectedBranch, ledgerClassFilter, classes, hasBranchSelection, ledgerSessionFilter]);
 
   const formatAdmDate = (d?: string) => {
     if (!d) return '—';
@@ -4570,6 +4660,14 @@ export function FeesClient({
   const filteredStudents = students.filter(s => {
     if (!hasBranchSelection) return false;
     if (selectedBranch !== 'all' && !branchIdsMatch(s.branchId, selectedBranch)) return false;
+
+    // Academic Session filter
+    if (studentSessionFilter !== 'all') {
+      const sClass = classes.find(c => c.id === s.classId);
+      const sSession = (sClass?.academicSession || '2026-27').trim();
+      if (sSession !== studentSessionFilter) return false;
+    }
+
     if (classFilter !== 'all' && s.classId !== classFilter) return false;
     if (batchFilter !== 'all' && s.batchId !== batchFilter) return false;
 
@@ -5439,8 +5537,34 @@ export function FeesClient({
                     </CardDescription>
                   </div>
 
-                  {/* Filter Row: [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
+                  {/* Filter Row: [ SESSION ] [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
                   <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
+                    {/* 0. SESSION */}
+                    <Select
+                      value={ledgerSessionFilter}
+                      onValueChange={(val) => {
+                        setLedgerSessionFilter(val);
+                        setLedgerClassFilter('all');
+                        setLedgerBatchFilter('all');
+                      }}
+                    >
+                      <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                        <SelectValue placeholder="SESSION">
+                          {ledgerSessionFilter === 'all'
+                            ? 'SESSION'
+                            : `SESSION: ${ledgerSessionFilter}`}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all" className="text-xs font-semibold">All Sessions</SelectItem>
+                        {allSessionsList.map(s => (
+                          <SelectItem key={s.id} value={s.id} className="text-xs">
+                            Session {s.label} {s.isCurrent && '(Current)'}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
                     {/* 1. CLASS (No icon, all capital, compact & refined) */}
                     <Select
                       value={ledgerClassFilter}
@@ -5453,12 +5577,12 @@ export function FeesClient({
                         <SelectValue placeholder="CLASS">
                           {ledgerClassFilter === 'all'
                             ? 'CLASS'
-                            : filteredClasses.find(c => c.id === ledgerClassFilter)?.name.toUpperCase() || 'CLASS'}
+                            : availableClassesForLedgerFilter.find(c => c.id === ledgerClassFilter)?.name.toUpperCase() || 'CLASS'}
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all" className="text-xs font-semibold">All Classes</SelectItem>
-                        {filteredClasses.map(c => (
+                        {availableClassesForLedgerFilter.map(c => (
                           <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
                         ))}
                       </SelectContent>
@@ -5622,6 +5746,11 @@ export function FeesClient({
                         const filteredLedger = !hasBranchSelection
                           ? []
                           : ledger.filter(entry => {
+                              if (ledgerSessionFilter !== 'all') {
+                                const entryClass = classes.find(c => c.id === entry.classId || c.id === entry.student?.classId);
+                                const entrySession = (entryClass?.academicSession || '2026-27').trim();
+                                if (entrySession !== ledgerSessionFilter) return false;
+                              }
                               if (ledgerClassFilter !== 'all') {
                                 const matchesClass = entry.classId === ledgerClassFilter || entry.student?.classId === ledgerClassFilter;
                                 if (!matchesClass) return false;
@@ -5870,217 +5999,490 @@ export function FeesClient({
                 <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No branch selected</p>
                 <p className="text-[11px] text-slate-400 mt-0.5">Please select a branch from the top dropdown to view classes and batches.</p>
               </div>
-            ) : filteredClasses.length === 0 ? (
-              <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
-                <School className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
-                <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes added yet</p>
-                <p className="text-[11px] text-slate-400 mt-0.5">Click + Class above to create classes and batches for this branch.</p>
-              </div>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-                {filteredClasses.map(cls => {
-                  const clsBatches = batches
-                    .filter(b => b.classId === cls.id)
-                    .sort((a, b) => {
-                      const ordA = a.order !== undefined && a.order !== null ? Number(a.order) : 999999;
-                      const ordB = b.order !== undefined && b.order !== null ? Number(b.order) : 999999;
-                      if (ordA !== ordB) return ordA - ordB;
-                      return a.name.localeCompare(b.name, undefined, { numeric: true });
-                    });
-                  const branch = IDL_BRANCHES.find(b => b.id === cls.branchId);
-                  const activeBatchId = selectedBatchPerClass[cls.id] || clsBatches[0]?.id;
-                  const activeBatch = clsBatches.find(b => b.id === activeBatchId) || clsBatches[0];
+            ) : (() => {
+              // Helper to render an individual class card
+              const renderClassCard = (cls: FeeClass) => {
+                const clsBatches = batches
+                  .filter(b => b.classId === cls.id)
+                  .sort((a, b) => {
+                    const ordA = a.order !== undefined && a.order !== null ? Number(a.order) : 999999;
+                    const ordB = b.order !== undefined && b.order !== null ? Number(b.order) : 999999;
+                    if (ordA !== ordB) return ordA - ordB;
+                    return a.name.localeCompare(b.name, undefined, { numeric: true });
+                  });
+                const branch = IDL_BRANCHES.find(b => b.id === cls.branchId);
+                const activeBatchId = selectedBatchPerClass[cls.id] || clsBatches[0]?.id;
+                const activeBatch = clsBatches.find(b => b.id === activeBatchId) || clsBatches[0];
 
-                  return (
-                    <Card
-                      key={cls.id}
-                      className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-md hover:border-slate-300/80 transition-all overflow-hidden flex flex-col justify-between"
-                    >
-                      <div>
-                        {/* 1. Header: Branch Name primary, Edit & Delete top-right, Compact metadata row, Subtle stats */}
-                        <div className="p-3.5 sm:p-4 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1">
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center gap-1.5 min-w-0">
-                              <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                              <h3 className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
-                                {branch?.name.replace(' Branch', '') || cls.branchId}
-                              </h3>
-                            </div>
-
-                            <div className="flex items-center gap-1 shrink-0">
-                              <button
-                                type="button"
-                                onClick={() => openEditClassModal(cls)}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-[#2864E8] hover:bg-blue-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Edit Class Details"
-                              >
-                                <Edit className="w-3.5 h-3.5" />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setDeleteTarget({ type: 'class', id: cls.id, name: cls.name })}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Delete Class"
-                              >
-                                <Trash2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
+                return (
+                  <Card
+                    key={cls.id}
+                    className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:shadow-md hover:border-slate-300/80 transition-all overflow-hidden flex flex-col justify-between"
+                  >
+                    <div>
+                      {/* 1. Header: Branch Name primary, Edit & Delete top-right, Compact metadata row, Subtle stats */}
+                      <div className="p-3.5 sm:p-4 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-800/40 space-y-1">
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <Building2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                            <h3 className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
+                              {branch?.name.replace(' Branch', '') || cls.branchId}
+                            </h3>
                           </div>
 
-                          {/* Metadata Row: Class Name • Course/Stream • Academic Year */}
-                          <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium flex-wrap">
-                            <span className="font-semibold text-slate-800 dark:text-slate-200">{cls.name}</span>
-                            {cls.division && !cls.name.toLowerCase().includes(cls.division.toLowerCase()) && (
-                              <>
-                                <span className="text-slate-300 dark:text-slate-600">•</span>
-                                <span className="uppercase text-slate-600 dark:text-slate-300 font-semibold">{cls.division}</span>
-                              </>
-                            )}
-                            <span className="text-slate-300 dark:text-slate-600">•</span>
-                            <span className="tabular-nums">{cls.academicSession || '2026-27'}</span>
-                          </div>
-
-                          {/* 2. Compact Statistics */}
-                          <div className="flex items-center gap-3 pt-1 text-[11px] text-slate-500 dark:text-slate-400">
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#2864E8]" />
-                              <span>Batches:</span>
-                              <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{clsBatches.length}</span>
-                            </div>
-                            <span className="text-slate-300 dark:text-slate-700">•</span>
-                            <div className="flex items-center gap-1.5">
-                              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                              <span>Enrolled Students:</span>
-                              <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{cls.studentCount || 0}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        {/* 3. Batches Content Area */}
-                        <div className="p-3.5 sm:p-4 space-y-3">
-                          {/* Batch Navigation Header */}
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex items-center shrink-0">
-                              <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                                Batches
-                              </span>
-                            </div>
-
-                            {/* Batch text tabs */}
-                            {clsBatches.length > 0 && (
-                              <div className="flex-1 flex items-center overflow-x-auto no-scrollbar mx-2 py-0.5">
-                                <div className="inline-flex items-center gap-3">
-                                  {clsBatches.map(b => {
-                                    const isActive = b.id === activeBatch?.id;
-                                    return (
-                                      <button
-                                        key={b.id}
-                                        type="button"
-                                        onClick={() => setSelectedBatchPerClass(prev => ({ ...prev, [cls.id]: b.id }))}
-                                        className={`text-[12px] transition-colors cursor-pointer shrink-0 whitespace-nowrap bg-transparent p-0 ${isActive
-                                          ? "font-bold text-[#2864E8] dark:text-[#4B82F6]"
-                                          : "font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                                          }`}
-                                      >
-                                        {b.name}
-                                      </button>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            )}
-
-                            {/* Add Batch Button */}
+                          <div className="flex items-center gap-1 shrink-0">
                             <button
                               type="button"
-                              onClick={() => openCreateBatchModal(cls.id)}
-                              className="h-7 w-7 rounded-lg text-[#2864E8] hover:text-[#1E4ED8] hover:bg-blue-50 dark:hover:bg-blue-950/40 flex items-center justify-center transition-colors cursor-pointer shrink-0"
-                              title="Add Batch"
-                              aria-label="Add Batch"
+                              onClick={() => openEditClassModal(cls)}
+                              className="h-7 w-7 rounded-lg text-slate-400 hover:text-[#2864E8] hover:bg-blue-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                              title="Edit Class Details"
                             >
-                              <Plus className="w-4 h-4" />
+                              <Edit className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setDeleteTarget({ type: 'class', id: cls.id, name: cls.name })}
+                              className="h-7 w-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                              title="Delete Class"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
                             </button>
                           </div>
+                        </div>
 
-                          {clsBatches.length === 0 ? (
-                            <div
-                              onClick={() => openCreateBatchModal(cls.id)}
-                              className="py-5 px-3 rounded-xl text-center cursor-pointer transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80"
-                            >
-                              <Layers className="w-7 h-7 mx-auto text-slate-300 dark:text-slate-700 mb-1.5" />
-                              <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No batches added yet</p>
-                              <p className="text-[11px] text-slate-400 mt-0.5">Click + above to create a batch for this class.</p>
-                            </div>
-                          ) : activeBatch ? (
-                            <div className="border-t border-slate-100 dark:border-slate-800/80 pt-2.5 space-y-2">
-                              {/* 4. Selected Batch Top Row: Batch Name & Students Count on left, Fee & Actions on right */}
-                              <div className="flex items-center justify-between gap-2">
-                                <div className="flex items-center gap-1.5 min-w-0">
-                                  <span className="text-[13.5px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
-                                    {activeBatch.name}
-                                  </span>
-                                  <span className="text-slate-300 dark:text-slate-600">•</span>
-                                  <span className="text-[11px] text-slate-500 dark:text-slate-400 font-normal tabular-nums whitespace-nowrap">
-                                    {students.filter(s => s.batchId === activeBatch.id).length} students
-                                  </span>
-                                </div>
+                        {/* Metadata Row: Class Name • Course/Stream • Academic Year */}
+                        <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400 font-medium flex-wrap">
+                          <span className="font-semibold text-slate-800 dark:text-slate-200">{cls.name}</span>
+                          {cls.division && !cls.name.toLowerCase().includes(cls.division.toLowerCase()) && (
+                            <>
+                              <span className="text-slate-300 dark:text-slate-600">•</span>
+                              <span className="uppercase text-slate-600 dark:text-slate-300 font-semibold">{cls.division}</span>
+                            </>
+                          )}
+                          <span className="text-slate-300 dark:text-slate-600">•</span>
+                          <span className="tabular-nums font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-1.5 py-0.5 rounded text-[11px]">
+                            Session {cls.academicSession || '2026-27'}
+                          </span>
+                        </div>
 
-                                <div className="flex items-center gap-2 shrink-0">
-                                  <span className="font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums tracking-tight">
-                                    ₹{Number(activeBatch.monthlyFee || 0).toLocaleString('en-IN')}<span className="text-[10.5px] text-slate-400 font-normal ml-0.5">/mo</span>
-                                  </span>
-                                  <div className="flex items-center gap-0.5 border-l border-slate-200/80 dark:border-slate-700/60 pl-1.5">
-                                    <button
-                                      type="button"
-                                      onClick={() => openEditBatchModal(activeBatch)}
-                                      className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-[#2864E8] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                      title="Edit Batch"
-                                    >
-                                      <Edit className="w-3 h-3" />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      onClick={() => setDeleteTarget({ type: 'batch', id: activeBatch.id, name: activeBatch.name })}
-                                      className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                      title="Delete Batch"
-                                    >
-                                      <Trash2 className="w-3 h-3" />
-                                    </button>
-                                  </div>
-                                </div>
-                              </div>
-
-                              {/* Second Section: Timing, Dates, Subjects */}
-                              <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">
-                                {/* Schedule Row */}
-                                {(activeBatch.classTime || activeBatch.duration) && (
-                                  <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
-                                    <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                                    <span>{activeBatch.classTime || ''}</span>
-                                    {activeBatch.duration && <span className="text-slate-400 font-normal">• {activeBatch.duration}</span>}
-                                  </div>
-                                )}
-
-                                {/* Subjects */}
-                                {activeBatch.subjects && activeBatch.subjects.length > 0 && (
-                                  <div className="flex items-center gap-1.5 text-[11px] pt-0.5">
-                                    <span className="text-slate-400 font-normal shrink-0">Subjects:</span>
-                                    <span className="text-slate-700 dark:text-slate-300 font-medium truncate" title={activeBatch.subjects.join(', ')}>
-                                      {activeBatch.subjects.join(', ')}
-                                    </span>
-                                  </div>
-                                )}
-                              </div>
-                            </div>
-                          ) : null}
+                        {/* 2. Compact Statistics */}
+                        <div className="flex items-center gap-3 pt-1 text-[11px] text-slate-500 dark:text-slate-400">
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#2864E8]" />
+                            <span>Batches:</span>
+                            <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{clsBatches.length}</span>
+                          </div>
+                          <span className="text-slate-300 dark:text-slate-700">•</span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                            <span>Enrolled Students:</span>
+                            <span className="font-semibold text-slate-900 dark:text-white tabular-nums">{cls.studentCount || 0}</span>
+                          </div>
                         </div>
                       </div>
-                    </Card>
-                  );
-                })}
-              </div>
-            )}
+
+                      {/* 3. Batches Content Area */}
+                      <div className="p-3.5 sm:p-4 space-y-3">
+                        {/* Batch Navigation Header */}
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex items-center shrink-0">
+                            <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                              Batches
+                            </span>
+                          </div>
+
+                          {/* Batch text tabs */}
+                          {clsBatches.length > 0 && (
+                            <div className="flex-1 flex items-center overflow-x-auto no-scrollbar mx-2 py-0.5">
+                              <div className="inline-flex items-center gap-3">
+                                {clsBatches.map(b => {
+                                  const isActive = b.id === activeBatch?.id;
+                                  return (
+                                    <button
+                                      key={b.id}
+                                      type="button"
+                                      onClick={() => setSelectedBatchPerClass(prev => ({ ...prev, [cls.id]: b.id }))}
+                                      className={`text-[12px] transition-colors cursor-pointer shrink-0 whitespace-nowrap bg-transparent p-0 ${isActive
+                                        ? "font-bold text-[#2864E8] dark:text-[#4B82F6]"
+                                        : "font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                                        }`}
+                                    >
+                                      {b.name}
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Add Batch Button */}
+                          <button
+                            type="button"
+                            onClick={() => openCreateBatchModal(cls.id)}
+                            className="h-7 w-7 rounded-lg text-[#2864E8] hover:text-[#1E4ED8] hover:bg-blue-50 dark:hover:bg-blue-950/40 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                            title="Add Batch"
+                            aria-label="Add Batch"
+                          >
+                            <Plus className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        {clsBatches.length === 0 ? (
+                          <div
+                            onClick={() => openCreateBatchModal(cls.id)}
+                            className="py-5 px-3 rounded-xl text-center cursor-pointer transition-colors hover:bg-slate-50/80 dark:hover:bg-slate-800/40 border border-slate-100 dark:border-slate-800/80"
+                          >
+                            <Layers className="w-7 h-7 mx-auto text-slate-300 dark:text-slate-700 mb-1.5" />
+                            <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No batches added yet</p>
+                            <p className="text-[11px] text-slate-400 mt-0.5">Click + above to create a batch for this class.</p>
+                          </div>
+                        ) : activeBatch ? (
+                          <div className="border-t border-slate-100 dark:border-slate-800/80 pt-2.5 space-y-2">
+                            {/* 4. Selected Batch Top Row: Batch Name & Students Count on left, Fee & Actions on right */}
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="flex items-center gap-1.5 min-w-0">
+                                <span className="text-[13.5px] font-bold text-slate-900 dark:text-white tracking-tight truncate">
+                                  {activeBatch.name}
+                                </span>
+                                <span className="text-slate-300 dark:text-slate-600">•</span>
+                                <span className="text-[11px] text-slate-500 dark:text-slate-400 font-normal tabular-nums whitespace-nowrap">
+                                  {students.filter(s => s.batchId === activeBatch.id).length} students
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-2 shrink-0">
+                                <span className="font-bold text-emerald-600 dark:text-emerald-400 text-[13px] tabular-nums tracking-tight">
+                                  ₹{Number(activeBatch.monthlyFee || 0).toLocaleString('en-IN')}<span className="text-[10.5px] text-slate-400 font-normal ml-0.5">/mo</span>
+                                </span>
+                                <div className="flex items-center gap-0.5 border-l border-slate-200/80 dark:border-slate-700/60 pl-1.5">
+                                  <button
+                                    type="button"
+                                    onClick={() => openEditBatchModal(activeBatch)}
+                                    className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-[#2864E8] hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                                    title="Edit Batch"
+                                  >
+                                    <Edit className="w-3 h-3" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => setDeleteTarget({ type: 'batch', id: activeBatch.id, name: activeBatch.name })}
+                                    className="h-6.5 w-6.5 rounded-md text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
+                                    title="Delete Batch"
+                                  >
+                                    <Trash2 className="w-3 h-3" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Second Section: Timing, Dates, Subjects */}
+                            <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 space-y-1.5 text-[11px] text-slate-500 dark:text-slate-400">
+                              {/* Schedule Row */}
+                              {(activeBatch.classTime || activeBatch.duration) && (
+                                <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
+                                  <Clock className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                                  <span>{activeBatch.classTime || ''}</span>
+                                  {activeBatch.duration && <span className="text-slate-400 font-normal">• {activeBatch.duration}</span>}
+                                </div>
+                              )}
+
+                              {/* Subjects */}
+                              {activeBatch.subjects && activeBatch.subjects.length > 0 && (
+                                <div className="flex items-center gap-1.5 text-[11px] pt-0.5">
+                                  <span className="text-slate-400 font-normal shrink-0">Subjects:</span>
+                                  <span className="text-slate-700 dark:text-slate-300 font-medium truncate" title={activeBatch.subjects.join(', ')}>
+                                    {activeBatch.subjects.join(', ')}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </Card>
+                );
+              };
+
+              const sessionFilteredClasses = classSessionFilter === 'all'
+                ? filteredClasses
+                : filteredClasses.filter(c => (c.academicSession || '2026-27').trim() === classSessionFilter);
+
+              return (
+                <div className="space-y-4">
+                  {/* Academic Session Selector Bar */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider pr-1 sm:border-r border-slate-200 dark:border-slate-800">
+                        <GraduationCap className="w-4 h-4 text-[#2864E8]" />
+                        <span>Session:</span>
+                      </div>
+
+                      {allSessionsList.map(s => {
+                        const isSelected = classSessionFilter === s.id;
+                        return (
+                          <button
+                            key={s.id}
+                            type="button"
+                            onClick={() => setClassSessionFilter(s.id)}
+                            className={`h-7 px-3 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                              isSelected
+                                ? 'bg-[#2864E8] text-white font-semibold shadow-sm'
+                                : 'bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-600 dark:text-slate-300 font-medium'
+                            }`}
+                          >
+                            <span>{s.label}</span>
+                            {s.isCurrent && (
+                              <span
+                                className={`text-[9.5px] px-1 py-0.2 rounded font-bold uppercase tracking-wider ${
+                                  isSelected
+                                    ? 'bg-white/20 text-white'
+                                    : 'bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300'
+                                }`}
+                              >
+                                Current
+                              </span>
+                            )}
+                            {s.classCount > 0 && (
+                              <span
+                                className={`text-[10px] tabular-nums font-semibold px-1 rounded-full ${
+                                  isSelected ? 'bg-white/20 text-white' : 'bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                                }`}
+                              >
+                                {s.classCount}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })}
+
+                      {/* All Sessions button */}
+                      <button
+                        type="button"
+                        onClick={() => setClassSessionFilter('all')}
+                        className={`h-7 px-3 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                          classSessionFilter === 'all'
+                            ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold shadow-sm'
+                            : 'bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-600 dark:text-slate-300 font-medium'
+                        }`}
+                      >
+                        <span>All Sessions</span>
+                      </button>
+
+                      {/* + New Session button */}
+                      <button
+                        type="button"
+                        onClick={() => setIsAddSessionDialogOpen(true)}
+                        className="h-7 px-2.5 rounded-lg text-xs border border-dashed border-slate-300 dark:border-slate-700 hover:border-[#2864E8] text-slate-500 hover:text-[#2864E8] dark:hover:text-[#4B82F6] font-medium transition-colors flex items-center gap-1"
+                        title="Add New Academic Year/Session"
+                      >
+                        <Plus className="w-3 h-3" />
+                        <span>New Session</span>
+                      </button>
+                    </div>
+
+                    {/* Active Session Info & Quick Action */}
+                    <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 self-end sm:self-auto">
+                      {classSessionFilter !== 'all' ? (
+                        <>
+                          <div className="hidden md:flex items-center gap-1 text-[11px] text-slate-500">
+                            <Clock className="w-3.5 h-3.5 text-slate-400" />
+                            <span>{getSessionDurationText(classSessionFilter)}</span>
+                          </div>
+                          <Button
+                            size="sm"
+                            onClick={() => openCreateClassModal(classSessionFilter)}
+                            className="h-7 px-2.5 rounded-lg text-xs bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-medium flex items-center gap-1 cursor-pointer"
+                          >
+                            <Plus className="w-3 h-3" />
+                            <span>Add Class</span>
+                          </Button>
+                        </>
+                      ) : (
+                        <Button
+                          size="sm"
+                          onClick={() => openCreateClassModal()}
+                          className="h-7 px-2.5 rounded-lg text-xs bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-medium flex items-center gap-1 cursor-pointer"
+                        >
+                          <Plus className="w-3 h-3" />
+                          <span>Add Class</span>
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Mode 1: Grouped view when 'all' is selected */}
+                  {classSessionFilter === 'all' ? (
+                    <div className="space-y-6">
+                      {allSessionsList.map(sess => {
+                        const sessClasses = filteredClasses.filter(c => (c.academicSession || '2026-27').trim() === sess.id);
+                        if (sessClasses.length === 0 && sess.id !== '2026-27') return null;
+
+                        return (
+                          <div key={sess.id} className="space-y-3">
+                            {/* Session Group Header */}
+                            <div className="flex items-center justify-between pb-1 border-b border-slate-200/80 dark:border-slate-800">
+                              <div className="flex items-center gap-2">
+                                <GraduationCap className="w-4 h-4 text-[#2864E8]" />
+                                <span className="font-bold text-sm sm:text-base text-slate-900 dark:text-white">
+                                  Academic Session {sess.label}
+                                </span>
+                                <span className="text-xs text-slate-500 font-medium">({sess.durationText})</span>
+                                {sess.isCurrent && (
+                                  <span className="px-1.5 py-0.5 rounded text-[10px] font-semibold bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+                                    Current
+                                  </span>
+                                )}
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs text-slate-400 font-normal">
+                                  {sessClasses.length} {sessClasses.length === 1 ? 'class' : 'classes'}
+                                </span>
+                                <button
+                                  type="button"
+                                  onClick={() => openCreateClassModal(sess.id)}
+                                  className="text-xs font-semibold text-[#2864E8] hover:underline flex items-center gap-1"
+                                >
+                                  <Plus className="w-3.5 h-3.5" /> Add Class
+                                </button>
+                              </div>
+                            </div>
+
+                            {sessClasses.length === 0 ? (
+                              <div className="p-4 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400 flex items-center justify-center gap-2">
+                                <span>No classes created yet in Session {sess.label}.</span>
+                                <button
+                                  type="button"
+                                  onClick={() => openCreateClassModal(sess.id)}
+                                  className="font-semibold text-[#2864E8] hover:underline"
+                                >
+                                  + Add First Class
+                                </button>
+                              </div>
+                            ) : (
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                                {sessClasses.map(cls => renderClassCard(cls))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ) : sessionFilteredClasses.length === 0 ? (
+                    /* Mode 2: Empty state for single session */
+                    <div className="w-full py-12 px-4 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 text-center">
+                      <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-950/60 flex items-center justify-center text-[#2864E8] mb-3">
+                        <GraduationCap className="w-6 h-6" />
+                      </div>
+                      <p className="font-bold text-sm text-slate-800 dark:text-slate-200">
+                        No classes found for Session {classSessionFilter}
+                      </p>
+                      <p className="text-xs text-slate-400 mt-1 max-w-md">
+                        This academic session ({getSessionDurationText(classSessionFilter)}) does not have any classes or batches yet. Start by adding the first class.
+                      </p>
+                      <Button
+                        size="sm"
+                        onClick={() => openCreateClassModal(classSessionFilter)}
+                        className="mt-4 bg-[#2864E8] hover:bg-[#1E4ED8] text-white text-xs font-semibold h-8 px-4 rounded-lg flex items-center gap-1.5"
+                      >
+                        <Plus className="w-3.5 h-3.5" />
+                        <span>+ Add First Class for {classSessionFilter}</span>
+                      </Button>
+                    </div>
+                  ) : (
+                    /* Mode 3: Grid of cards for selected single session */
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                      {sessionFilteredClasses.map(cls => renderClassCard(cls))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </TabsContent>
+
+          {/* Dialog: Add New Academic Session */}
+          <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
+            <DialogContent className={`${FORM_CARD_DIALOG_CLS} !pt-4 !pb-4 !px-4 sm:!px-5 max-w-md`}>
+              <DialogHeader className={`${FORM_CARD_HEADER_CLS} !pb-2`}>
+                <div>
+                  <DialogTitle className={FORM_CARD_TITLE_CLS}>
+                    Add New Academic Session
+                  </DialogTitle>
+                  <DialogDescription className={FORM_CARD_DESC_CLS}>
+                    Define a new yearly cycle (e.g. 2027-28 for April 2027 to March 2028).
+                  </DialogDescription>
+                </div>
+              </DialogHeader>
+
+              <div className="space-y-3 pt-1">
+                <div className="space-y-1">
+                  <Label className={FORM_CARD_LABEL_CLS}>Session Code / Year</Label>
+                  <Input
+                    placeholder="e.g. 2027-28"
+                    value={newSessionInput}
+                    onChange={e => setNewSessionInput(e.target.value.trim())}
+                    className={FORM_CARD_FIELD_CLS}
+                  />
+                  {newSessionInput && (
+                    <p className="text-[11px] text-blue-600 dark:text-blue-400 font-medium pt-1">
+                      Cycle: {getSessionDurationText(newSessionInput)}
+                    </p>
+                  )}
+                </div>
+
+                <div className="space-y-1">
+                  <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">Quick Suggestions:</p>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    {['2026-27', '2027-28', '2028-29', '2029-30'].map(preset => (
+                      <button
+                        key={preset}
+                        type="button"
+                        onClick={() => setNewSessionInput(preset)}
+                        className={`px-2.5 py-1 text-xs rounded-md border transition-colors cursor-pointer ${
+                          newSessionInput === preset
+                            ? 'bg-blue-50 border-blue-300 text-blue-700 font-semibold dark:bg-blue-950 dark:border-blue-700 dark:text-blue-300'
+                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400'
+                        }`}
+                      >
+                        {preset}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <DialogFooter className="pt-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    setIsAddSessionDialogOpen(false);
+                    setNewSessionInput('');
+                  }}
+                  className="text-xs"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  type="button"
+                  disabled={!newSessionInput.trim()}
+                  onClick={() => {
+                    const formatted = newSessionInput.trim();
+                    setClassSessionFilter(formatted);
+                    setIsAddSessionDialogOpen(false);
+                    setNewSessionInput('');
+                    toast({
+                      title: `Session ${formatted} Selected`,
+                      description: `Now viewing classes and batches for Academic Session ${formatted} (${getSessionDurationText(formatted)}).`,
+                    });
+                  }}
+                  className="bg-[#2864E8] hover:bg-[#1E4ED8] text-white text-xs font-semibold px-4 cursor-pointer"
+                >
+                  Select & Start Session
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
 
           {/* ------------------------------------------------------------------ */}
           {/* TAB 4: STUDENT DIRECTORY & PROFILES */}
@@ -6098,8 +6500,34 @@ export function FeesClient({
                     </CardDescription>
                   </div>
 
-                  {/* Filter Row: [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
+                  {/* Filter Row: [ SESSION ] [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
                   <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
+                    {/* 0. SESSION */}
+                    <Select
+                      value={studentSessionFilter}
+                      onValueChange={(val) => {
+                        setStudentSessionFilter(val);
+                        setClassFilter('all');
+                        setBatchFilter('all');
+                      }}
+                    >
+                      <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                        <SelectValue placeholder="SESSION">
+                          {studentSessionFilter === 'all'
+                            ? 'SESSION'
+                            : `SESSION: ${studentSessionFilter}`}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all" className="text-xs font-semibold">All Sessions</SelectItem>
+                        {allSessionsList.map(s => (
+                          <SelectItem key={s.id} value={s.id} className="text-xs">
+                            Session {s.label} {s.isCurrent && '(Current)'}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+
                     {/* 1. CLASS (No icon, all capital, compact & refined) */}
                     <Select
                       value={classFilter}
@@ -6112,12 +6540,12 @@ export function FeesClient({
                         <SelectValue placeholder="CLASS">
                           {classFilter === 'all'
                             ? 'CLASS'
-                            : filteredClasses.find(c => c.id === classFilter)?.name.toUpperCase() || 'CLASS'}
+                            : availableClassesForStudentFilter.find(c => c.id === classFilter)?.name.toUpperCase() || 'CLASS'}
                         </SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="all" className="text-xs font-semibold">All Classes</SelectItem>
-                        {filteredClasses.map(c => (
+                        {availableClassesForStudentFilter.map(c => (
                           <SelectItem key={c.id} value={c.id} className="text-xs">{c.name}</SelectItem>
                         ))}
                       </SelectContent>
@@ -7627,16 +8055,39 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-0.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Academic Session
-                  </Label>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Academic Session
+                    </Label>
+                    {classForm.academicSession && (
+                      <span className="text-[10.5px] text-blue-600 dark:text-blue-400 font-medium">
+                        {getSessionDurationText(classForm.academicSession)}
+                      </span>
+                    )}
+                  </div>
                   <Input
                     placeholder="e.g. 2026-27"
                     value={classForm.academicSession}
                     onChange={e => setClassForm({ ...classForm, academicSession: e.target.value })}
                     className={FORM_CARD_FIELD_CLS}
                   />
+                  <div className="flex items-center gap-1.5 pt-0.5 flex-wrap">
+                    {allSessionsList.map(s => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setClassForm({ ...classForm, academicSession: s.id })}
+                        className={`px-2 py-0.5 text-[11px] rounded border transition-colors cursor-pointer ${
+                          classForm.academicSession === s.id
+                            ? 'bg-blue-50 border-blue-300 text-blue-700 font-semibold dark:bg-blue-950 dark:border-blue-700 dark:text-blue-300'
+                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400'
+                        }`}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -7765,6 +8216,7 @@ export function FeesClient({
                         const listToRender = branchScoped.length > 0 ? branchScoped : allAvailable;
                         return listToRender.map(c => {
                           const brLabel = IDL_BRANCHES.find(b => branchIdsMatch(b.id, c.branchId))?.name.replace(' Branch', '');
+                          const sessBadge = c.academicSession ? ` • ${c.academicSession}` : '';
                           return (
                             <SelectItem
                               key={c.id}
@@ -7772,8 +8224,8 @@ export function FeesClient({
                               className={FORM_CARD_SELECT_ITEM_CLS}
                             >
                               {(!batchForm.branchId || batchForm.branchId === 'all' || branchScoped.length === 0) && brLabel
-                                ? `${c.name} (${brLabel})`
-                                : c.name}
+                                ? `${c.name} (${brLabel})${sessBadge}`
+                                : `${c.name}${sessBadge}`}
                             </SelectItem>
                           );
                         });
@@ -8124,6 +8576,7 @@ export function FeesClient({
                         const listToRender = branchScoped.length > 0 ? branchScoped : allAvailable;
                         return listToRender.map(c => {
                           const brLabel = IDL_BRANCHES.find(b => branchIdsMatch(b.id, c.branchId))?.name.replace(' Branch', '');
+                          const sessBadge = c.academicSession ? ` • ${c.academicSession}` : '';
                           return (
                             <SelectItem
                               key={c.id}
@@ -8131,8 +8584,8 @@ export function FeesClient({
                               className={FORM_CARD_SELECT_ITEM_CLS}
                             >
                               {(!editBatchForm.branchId || editBatchForm.branchId === 'all' || branchScoped.length === 0) && brLabel
-                                ? `${c.name} (${brLabel})`
-                                : c.name}
+                                ? `${c.name} (${brLabel})${sessBadge}`
+                                : `${c.name}${sessBadge}`}
                             </SelectItem>
                           );
                         });
@@ -8459,16 +8912,39 @@ export function FeesClient({
                   </Select>
                 </div>
 
-                <div className="space-y-0.5">
-                  <Label className={FORM_CARD_LABEL_CLS}>
-                    Academic Session
-                  </Label>
+                <div className="space-y-1">
+                  <div className="flex items-center justify-between">
+                    <Label className={FORM_CARD_LABEL_CLS}>
+                      Academic Session
+                    </Label>
+                    {editClassForm.academicSession && (
+                      <span className="text-[10.5px] text-blue-600 dark:text-blue-400 font-medium">
+                        {getSessionDurationText(editClassForm.academicSession)}
+                      </span>
+                    )}
+                  </div>
                   <Input
                     placeholder="e.g. 2026-27"
                     value={editClassForm.academicSession}
                     onChange={e => setEditClassForm({ ...editClassForm, academicSession: e.target.value })}
                     className={FORM_CARD_FIELD_CLS}
                   />
+                  <div className="flex items-center gap-1.5 pt-0.5 flex-wrap">
+                    {allSessionsList.map(s => (
+                      <button
+                        key={s.id}
+                        type="button"
+                        onClick={() => setEditClassForm({ ...editClassForm, academicSession: s.id })}
+                        className={`px-2 py-0.5 text-[11px] rounded border transition-colors cursor-pointer ${
+                          editClassForm.academicSession === s.id
+                            ? 'bg-blue-50 border-blue-300 text-blue-700 font-semibold dark:bg-blue-950 dark:border-blue-700 dark:text-blue-300'
+                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400'
+                        }`}
+                      >
+                        {s.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 

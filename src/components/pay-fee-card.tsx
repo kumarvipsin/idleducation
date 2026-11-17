@@ -76,12 +76,12 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
     const queryPhone = phoneInput.trim();
 
     if (!queryId) {
-      setErrorMessage('Kripya apna Registration ID enter karein.');
+      setErrorMessage('Kripya apna Admission No. enter karein.');
       return;
     }
 
     if (!queryPhone || queryPhone.replace(/\D/g, '').length < 10) {
-      setErrorMessage('Kripya apna 10-digit Primary Mobile number enter karein.');
+      setErrorMessage('Kripya apna 10-digit Mobile No. enter karein.');
       return;
     }
 
@@ -95,7 +95,7 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
       if (res.success && res.data) {
         setStudentData(res.data);
       } else {
-        setErrorMessage(res.message || 'Verification fail ho gaya. Kripya Registration ID aur Primary Mobile number check karein.');
+        setErrorMessage(res.message || 'Verification fail ho gaya. Kripya Admission No. aur Mobile No. check karein.');
       }
     } catch (err: any) {
       setErrorMessage(err.message || 'Lookup failed. Kripya dobara try karein.');
@@ -257,10 +257,10 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
         {/* Step 1: Input Search Form (Shown when no student data and no success) */}
         {!studentData && !successData && (
           <form onSubmit={handleSearch} className="space-y-3">
-            {/* Registration ID */}
+            {/* Admission No. */}
             <div>
               <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-200 mb-1">
-                Registration ID
+                Admission No.
               </label>
               <input
                 type="text"
@@ -275,10 +275,10 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
               />
             </div>
 
-            {/* Primary Mobile */}
+            {/* Mobile No. */}
             <div>
               <label className="block text-[11px] font-semibold text-slate-700 dark:text-slate-200 mb-1">
-                Primary Mobile
+                Mobile No.
               </label>
               <input
                 type="tel"
@@ -303,7 +303,7 @@ export function PayFeeCard({ onClose, isMobile = false }: PayFeeCardProps) {
                   YOUR DETAILS ARE SECURE
                 </span>
                 <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
-                  Your Student ID and registered mobile number must match to securely access your fee details.
+                  Your Admission No. and register number must match to securely access your fee details.
                 </p>
               </div>
             </div>

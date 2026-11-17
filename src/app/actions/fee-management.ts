@@ -35,6 +35,7 @@ import type {
   BranchYearlyMonthPoint,
   StudentFeeStatement,
   StudentFeeStatementMonthRow,
+  StatementMonthStatus,
 } from '@/types/fee-management';
 import { IDL_BRANCHES, getStudentStatusForMonth, getActiveAdditionalSubjectsForMonth } from '@/types/fee-management';
 import {
@@ -2489,11 +2490,11 @@ export async function lookupStudentForFeePayment(
     const qPhone = (phoneNumberQuery || '').replace(/\D/g, '');
 
     if (!qId) {
-      return { success: false, message: 'Kripya apna Student ID ya Roll Number enter karein.' };
+      return { success: false, message: 'Kripya apna Admission No. enter karein.' };
     }
 
     if (!qPhone || qPhone.length < 10) {
-      return { success: false, message: 'Kripya apna 10-digit registered primary mobile number enter karein.' };
+      return { success: false, message: 'Kripya apna 10-digit Mobile No. enter karein.' };
     }
 
     const dbData = await loadDatabase();
@@ -2533,7 +2534,7 @@ export async function lookupStudentForFeePayment(
     if (!isPhoneMatched) {
       return {
         success: false,
-        message: 'Student ID aur Registered Phone Number match nahi hua. Kripya apna registered primary mobile number enter karein.',
+        message: 'Admission No. aur Mobile No. match nahi hua. Kripya apna registered number check karein.',
       };
     }
 
@@ -3467,10 +3468,10 @@ export async function getFeeDashboardBundle(
  */
 export async function getStudentFeeStatement(
   studentId: string,
-  options?: { targetMonth?: string }
+  options?: { targetMonth?: string; forceFresh?: boolean }
 ): Promise<{ success: boolean; data?: StudentFeeStatement; message?: string }> {
   try {
-    const dbData = await loadDatabase({ forceFresh: false });
+    const dbData = await loadDatabase({ forceFresh: options?.forceFresh || false });
     const student = dbData.students.find(s => s.id === studentId);
     if (!student) {
       return { success: false, message: 'Student record not found.' };
@@ -3538,14 +3539,16 @@ export async function getStudentFeeStatement(
     let pendingMonthsCount = 0;
     let activeMonthsCount = 0;
     let disabledMonthsCount = 0;
+    let preAdmissionMonthsCount = 0;
 
     let rollingArrears = 0;
 
     for (const curM of monthSeq) {
       const curLabel = await getMonthLabel(curM);
       const isExcluded = student.excludedMonths?.includes(curM);
+      const isPreAdmission = Boolean(studentJoinMonth && curM < studentJoinMonth);
       const studentStatusThisMonth = getStudentStatusForMonth(student, curM);
-      const isStudentDisabled = studentStatusThisMonth === 'disabled';
+      const isStudentDisabled = !isPreAdmission && studentStatusThisMonth === 'disabled';
 
       const entry = dbData.ledger.find(l => l.studentId === student.id && l.month === curM);
       let payments = dbData.payments.filter(p => p.studentId === student.id && p.month === curM);
@@ -3571,7 +3574,18 @@ export async function getStudentFeeStatement(
       let dueDate = '';
       let effectivePaidAmount = 0;
 
-      if (isStudentDisabled) {
+      if (isPreAdmission) {
+        preAdmissionMonthsCount++;
+        baseAmount = 0;
+        discountAmount = 0;
+        netDueAmount = 0;
+        carriedForwardDue = 0;
+        totalPayable = 0;
+        effectivePaidAmount = 0;
+        balanceAmount = 0;
+        rowStatus = 'PRE-ADMISSION';
+        dueDate = '—';
+      } else if (isStudentDisabled) {
         disabledMonthsCount++;
         // Disabled / paused month: displays standard net amount & due date, but 0 payable, 0 paid, 0 balance
         baseAmount = student.baseFee + addlFee;
@@ -3615,17 +3629,17 @@ export async function getStudentFeeStatement(
         dueDate = entry?.dueDate || clampDueDateForMonth(curM, student.dueDayOfMonth || 5);
       }
 
-      const lastPaymentDate = !isStudentDisabled ? (entry?.lastPaymentDate || payments[payments.length - 1]?.paymentDate || payments[0]?.paymentDate) : undefined;
-      const receiptNumber = !isStudentDisabled ? (payments.map(p => p.receiptNumber).filter(Boolean).join(', ') || undefined) : undefined;
-      const paymentMode = !isStudentDisabled ? (payments.map(p => p.paymentMode.toUpperCase()).filter(Boolean).join(', ') || undefined) : undefined;
-      const transactionRef = !isStudentDisabled ? (payments.map(p => p.transactionRef).filter(Boolean).join(', ') || undefined) : undefined;
+      const lastPaymentDate = !isStudentDisabled && !isPreAdmission ? (entry?.lastPaymentDate || payments[payments.length - 1]?.paymentDate || payments[0]?.paymentDate) : undefined;
+      const receiptNumber = !isStudentDisabled && !isPreAdmission ? (payments.map(p => p.receiptNumber).filter(Boolean).join(', ') || undefined) : undefined;
+      const paymentMode = !isStudentDisabled && !isPreAdmission ? (payments.map(p => p.paymentMode.toUpperCase()).filter(Boolean).join(', ') || undefined) : undefined;
+      const transactionRef = !isStudentDisabled && !isPreAdmission ? (payments.map(p => p.transactionRef).filter(Boolean).join(', ') || undefined) : undefined;
 
       rows.push({
         month: curM,
         monthLabel: curLabel,
         dueDate,
         baseAmount,
-        additionalSubjectFee: addlFee,
+        additionalSubjectFee: isPreAdmission ? 0 : addlFee,
         discountAmount,
         netDueAmount,
         carriedForwardDue,
@@ -3634,6 +3648,7 @@ export async function getStudentFeeStatement(
         balanceAmount,
         status: rowStatus,
         isStudentDisabled,
+        isPreAdmission,
         lastPaymentDate,
         receiptNumber,
         paymentMode,
@@ -3641,7 +3656,7 @@ export async function getStudentFeeStatement(
       });
     }
 
-    const latestActiveRow = [...rows].reverse().find(r => !r.isStudentDisabled);
+    const latestActiveRow = [...rows].reverse().find(r => !r.isStudentDisabled && !r.isPreAdmission);
     const netOutstanding = latestActiveRow ? latestActiveRow.balanceAmount : 0;
 
     const statement: StudentFeeStatement = {
@@ -3665,6 +3680,7 @@ export async function getStudentFeeStatement(
         pendingMonthsCount,
         activeMonthsCount,
         disabledMonthsCount,
+        preAdmissionMonthsCount,
       },
       generatedAt: new Date().toISOString(),
     };

@@ -318,7 +318,7 @@ export interface BranchYearlyReportResult {
   };
 }
 
-export type StatementMonthStatus = LedgerStatus | 'DISABLED' | 'PAUSED';
+export type StatementMonthStatus = LedgerStatus | 'DISABLED' | 'PAUSED' | 'PRE-ADMISSION';
 
 export interface StudentFeeStatementMonthRow {
   month: string; // e.g. "2026-04"
@@ -334,6 +334,7 @@ export interface StudentFeeStatementMonthRow {
   balanceAmount: number;
   status: StatementMonthStatus;
   isStudentDisabled?: boolean;
+  isPreAdmission?: boolean;
   lastPaymentDate?: string;
   receiptNumber?: string;
   paymentMode?: string;
@@ -361,6 +362,7 @@ export interface StudentFeeStatement {
     pendingMonthsCount: number;
     activeMonthsCount?: number;
     disabledMonthsCount?: number;
+    preAdmissionMonthsCount?: number;
   };
   generatedAt: string;
 }
