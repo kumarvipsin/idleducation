@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useAttendance } from '@/context/attendance-context';
 import {
@@ -17,8 +17,10 @@ import {
   Globe,
   Check,
   ChevronDown,
+  GraduationCap,
 } from 'lucide-react';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -104,6 +106,26 @@ export default function ClassesAndBatchesPage() {
   const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState(false);
 
+  // Academic Year / Session Architecture (matches Fee Dashboard)
+  const [classSessionFilter, setClassSessionFilter] = useState<string>('2026-27');
+  const [customSessions, setCustomSessions] = useState<string[]>([]);
+  const [isAddSessionDialogOpen, setIsAddSessionDialogOpen] = useState<boolean>(false);
+  const [newSessionInput, setNewSessionInput] = useState<string>('');
+
+  const getSessionDurationText = (sessionStr: string = '2026-27') => {
+    const sess = (sessionStr || '2026-27').trim();
+    const parts = sess.split('-');
+    const y1 = parseInt(parts[0], 10) || 2026;
+    let y2 = y1 + 1;
+    if (parts[1]) {
+      const p2 = parseInt(parts[1], 10);
+      if (!isNaN(p2)) {
+        y2 = p2 < 100 ? Math.floor(y1 / 100) * 100 + p2 : p2;
+      }
+    }
+    return `01 Apr ${y1} – 31 Mar ${y2}`;
+  };
+
   // Selected Batch per Class Card
   const [selectedBatchPerClass, setSelectedBatchPerClass] = useState<Record<string, string>>({});
 
@@ -187,17 +209,76 @@ export default function ClassesAndBatchesPage() {
       return a.name.localeCompare(b.name, undefined, { numeric: true });
     });
 
+  // All Academic Sessions (Baseline + Custom + Dynamic from Classes)
+  const allSessionsList = useMemo(() => {
+    const sessionMap = new Map<
+      string,
+      { id: string; label: string; durationText: string; isCurrent: boolean; classCount: number }
+    >();
+
+    const baseline = ['2026-27', '2027-28', '2028-29', ...customSessions];
+    for (const b of baseline) {
+      const id = b.trim();
+      if (!id) continue;
+      if (!sessionMap.has(id)) {
+        sessionMap.set(id, {
+          id,
+          label: id,
+          durationText: getSessionDurationText(id),
+          isCurrent: id === '2026-27',
+          classCount: 0,
+        });
+      }
+    }
+
+    for (const c of filteredClasses) {
+      const sess = (c.academicSession || '2026-27').trim();
+      if (!sessionMap.has(sess)) {
+        sessionMap.set(sess, {
+          id: sess,
+          label: sess,
+          durationText: getSessionDurationText(sess),
+          isCurrent: sess === '2026-27',
+          classCount: 0,
+        });
+      }
+      sessionMap.get(sess)!.classCount += 1;
+    }
+
+    return Array.from(sessionMap.values()).sort((a, b) => a.id.localeCompare(b.id));
+  }, [filteredClasses, customSessions]);
+
+  const sessionFilteredClasses = useMemo(() => {
+    if (classSessionFilter === 'all') return filteredClasses;
+    return filteredClasses.filter(c => (c.academicSession || '2026-27').trim() === classSessionFilter);
+  }, [filteredClasses, classSessionFilter]);
+
   // Open Create Class Modal
-  const openCreateClassModal = () => {
+  const openCreateClassModal = (defaultSession?: string) => {
     setClassForm({
       name: '',
       division: '',
       branchId: selectedBranch !== 'all' ? selectedBranch : 'budh-vihar',
-      academicSession: '2026-27',
+      academicSession: defaultSession || (classSessionFilter !== 'all' ? classSessionFilter : '2026-27'),
       order: '',
     });
     setIsClassModalOpen(true);
   };
+
+  // Auto-open Add Class / Add Batch modal when navigated via tab bar quick actions
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const action = params.get('action');
+    if (action === 'add-class') {
+      openCreateClassModal();
+      window.history.replaceState({}, '', '/admin/attendance/classes');
+    } else if (action === 'add-batch') {
+      openCreateBatchModal();
+      window.history.replaceState({}, '', '/admin/attendance/classes');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Open Edit Class Modal
   const openEditClassModal = (cls: TClass) => {
@@ -419,16 +500,29 @@ export default function ClassesAndBatchesPage() {
     setEditingBatch(null);
   };
 
+  const classMetrics = useMemo(() => {
+    const scopedClasses = filteredClasses;
+    const scopedBatches = filteredClasses.flatMap(c => c.batches || []);
+    const totalClasses = scopedClasses.length;
+    const totalBatches = scopedBatches.length;
+    const totalStudents = students.filter(s => {
+      if (s.status === 'archived') return false;
+      return scopedClasses.some(c => c.id === s.classId);
+    }).length;
+    const avgPerBatch = totalBatches > 0 ? Math.round(totalStudents / totalBatches) : 0;
+    return { totalClasses, totalBatches, totalStudents, avgPerBatch };
+  }, [filteredClasses, students]);
+
   return (
-    <div className="space-y-0 font-['Inter_Tight',sans-serif] max-w-7xl mx-auto">
+    <div className="min-h-[calc(100svh-68px)] flex-1 flex flex-col overflow-x-hidden">
       {/* ------------------------------------------------------------------ */}
-      {/* SECTION 1: TOP TOOLBAR — Branch Only (Matches Fee System Toolbar) */}
+      {/* SECTION 1: TOP TOOLBAR — Branch + Quick Actions (Fee System Style) */}
       {/* ------------------------------------------------------------------ */}
       <section
         aria-label="Attendance classes toolbar"
-        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800"
+        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-0 z-40"
       >
-        <div className="py-2.5 flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between flex-wrap gap-4 sm:gap-6 min-w-0">
           {/* Branch Selector (Fee System Style — compact, borderless, icon + text + chevron + Popover) */}
           <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
             <PopoverTrigger asChild>
@@ -451,7 +545,7 @@ export default function ClassesAndBatchesPage() {
             <PopoverContent
               align="start"
               sideOffset={8}
-              className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+              className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
             >
               {/* First Option: All Branches */}
               <button
@@ -516,59 +610,211 @@ export default function ClassesAndBatchesPage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* SECTION 2: CLASS/BATCH Tab + Quick Actions (Matches Fee System Nav) */}
+      {/* MAIN CONTENT CONTAINER (Fee Dashboard Proportion & Spacing)        */}
       {/* ------------------------------------------------------------------ */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#2864E8] pb-2 sm:pb-2.5 pt-3">
-        {/* Left: CLASS/BATCH label */}
-        <div className="overflow-x-auto no-scrollbar -mx-1 px-1">
-          <div className="flex items-center gap-1 sm:gap-6 min-w-max">
-            <span className="flex items-center gap-1.5 py-1 px-2 text-[12px] sm:text-[12.5px] font-semibold tracking-[0.3px] text-[#2864E8] uppercase">
-              <School className="w-[15px] h-[15px] shrink-0" />
-              <span>CLASS/BATCH</span>
-            </span>
+      <div className="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl flex-1 space-y-6 pb-12">
+        {/* KPI Summary Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
+          {/* 1. Classes */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.4px]">
+                  Total Classes
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {classMetrics.totalClasses}
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Academic levels
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 2. Active Batches */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-[0.4px]">
+                  Active Batches
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {classMetrics.totalBatches}
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Active study groups
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 3. Enrolled Students */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-[0.4px]">
+                  Enrolled Students
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-emerald-600 dark:text-emerald-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {classMetrics.totalStudents}
+              </div>
+              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80 font-normal mt-0.5 truncate">
+                Assigned students
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 4. Avg Batch Size */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-[0.4px]">
+                  Avg Batch Size
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-amber-600 dark:text-amber-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {classMetrics.avgPerBatch}
+              </div>
+              <p className="text-[11px] text-amber-700/80 dark:text-amber-400/80 font-normal mt-0.5 truncate">
+                Students per batch
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Unified Attendance Dashboard Navigation Tabs (with Fee Dashboard Quick Actions) */}
+        <AttendanceDashboardTabs
+          onAddClass={() => openCreateClassModal()}
+          onAddBatch={() => openCreateBatchModal()}
+        />
+
+        {/* ------------------------------------------------------------------ */}
+        {/* ACADEMIC SESSION SELECTOR BAR (Exact match with Fee Dashboard)     */}
+        {/* ------------------------------------------------------------------ */}
+        <div className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 sm:p-3.5 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider pr-2 sm:border-r border-slate-200 dark:border-slate-800">
+                <GraduationCap className="w-4 h-4 text-[#2864E8]" />
+                <span>Session:</span>
+              </div>
+
+              {allSessionsList.map(s => {
+                const isSelected = classSessionFilter === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => setClassSessionFilter(s.id)}
+                    className={`h-7 px-3 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                      isSelected
+                        ? 'bg-[#2864E8] text-white font-semibold shadow-sm'
+                        : 'bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-600 dark:text-slate-300 font-medium'
+                    }`}
+                  >
+                    <span>{s.label}</span>
+                    {s.isCurrent && (
+                      <span
+                        className={`text-[9.5px] px-1 py-0.2 rounded font-bold uppercase tracking-wider ${
+                          isSelected
+                            ? 'bg-white/20 text-white'
+                            : 'bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300'
+                        }`}
+                      >
+                        Current
+                      </span>
+                    )}
+                    {s.classCount > 0 && (
+                      <span
+                        className={`text-[10px] tabular-nums font-semibold px-1.5 rounded-full ${
+                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-200/80 dark:bg-slate-700 text-slate-600 dark:text-slate-300'
+                        }`}
+                      >
+                        {s.classCount}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+
+              {/* All Sessions button */}
+              <button
+                type="button"
+                onClick={() => setClassSessionFilter('all')}
+                className={`h-7 px-3 rounded-lg text-xs transition-all cursor-pointer flex items-center gap-1.5 ${
+                  classSessionFilter === 'all'
+                    ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-semibold shadow-sm'
+                    : 'bg-slate-100 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700/90 text-slate-600 dark:text-slate-300 font-medium'
+                }`}
+              >
+                <span>All Sessions</span>
+              </button>
+
+              {/* + New Session button */}
+              <button
+                type="button"
+                onClick={() => setIsAddSessionDialogOpen(true)}
+                className="h-7 px-2.5 rounded-lg text-xs border border-dashed border-slate-300 dark:border-slate-700 hover:border-[#2864E8] text-slate-500 hover:text-[#2864E8] dark:hover:text-[#4B82F6] font-medium transition-colors flex items-center gap-1 cursor-pointer"
+                title="Add New Academic Year/Session"
+              >
+                <Plus className="w-3 h-3" />
+                <span>New Session</span>
+              </button>
+            </div>
+
+            {/* Active Session Info & Quick Action */}
+            <div className="flex items-center gap-2.5 text-xs text-slate-500 dark:text-slate-400 self-end sm:self-auto shrink-0">
+              {classSessionFilter !== 'all' && (
+                <div className="hidden md:flex items-center gap-1 text-[11px] text-slate-500">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" />
+                  <span>{getSessionDurationText(classSessionFilter)}</span>
+                </div>
+              )}
+              <Button
+                size="sm"
+                onClick={() => openCreateClassModal(classSessionFilter !== 'all' ? classSessionFilter : undefined)}
+                className="h-7 px-2.5 rounded-lg text-xs bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-medium flex items-center gap-1 cursor-pointer shadow-none"
+              >
+                <Plus className="w-3 h-3" />
+                <span>Add Class</span>
+              </Button>
+            </div>
           </div>
-        </div>
 
-        {/* Right: Quick Action Controls — ⊕ CLASS, ⊕ BATCH (circular outline icons) */}
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0 px-1">
-          <button
-            type="button"
-            onClick={() => openCreateClassModal()}
-            className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
-            title="Add Class"
-          >
-            <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
-              <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
-            </span>
-            <span>CLASS</span>
-          </button>
-          <button
-            type="button"
-            onClick={() => openCreateBatchModal()}
-            className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
-            title="Add Batch"
-          >
-            <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
-              <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
-            </span>
-            <span>BATCH</span>
-          </button>
-        </div>
-      </div>
-
-      {/* ------------------------------------------------------------------ */}
-      {/* 2-COLUMN CLASS & BATCH CARDS (Exact match with Fees Management) */}
-      {/* ------------------------------------------------------------------ */}
-      <div className="pt-4">
-      {filteredClasses.length === 0 ? (
-        <div className="w-full h-40 sm:h-48 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
-          <School className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
-          <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">No classes found</p>
-          <p className="text-[11px] text-slate-400 mt-0.5">Click + CLASS above to create classes and batches for this branch.</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
-          {filteredClasses.map(cls => {
+          {/* ------------------------------------------------------------------ */}
+          {/* 2-COLUMN CLASS & BATCH CARDS (Exact match with Fees Management)    */}
+          {/* ------------------------------------------------------------------ */}
+          {sessionFilteredClasses.length === 0 ? (
+            <div className="w-full py-12 flex flex-col items-center justify-center rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 text-center px-4">
+              <School className="w-8 h-8 text-slate-300 dark:text-slate-700 mb-2" />
+              <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
+                {classSessionFilter === 'all'
+                  ? 'No classes found'
+                  : `No classes in Academic Session ${classSessionFilter}`}
+              </p>
+              <p className="text-[11px] text-slate-400 mt-0.5 max-w-md">
+                {classSessionFilter === 'all'
+                  ? 'Click + Add Class above to create classes and batches for this branch.'
+                  : `This academic session (${getSessionDurationText(classSessionFilter)}) does not have any classes or batches yet. Start by adding the first class.`}
+              </p>
+              <Button
+                size="sm"
+                onClick={() => openCreateClassModal(classSessionFilter !== 'all' ? classSessionFilter : undefined)}
+                className="mt-3 h-7 px-3 rounded-lg text-xs bg-[#2864E8] hover:bg-[#1E4ED8] text-white font-medium flex items-center gap-1 cursor-pointer shadow-none"
+              >
+                <Plus className="w-3 h-3" />
+                <span>Add Class</span>
+              </Button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+              {sessionFilteredClasses.map(cls => {
             const clsBatches = batches
               .filter(b => b.classId === cls.id)
               .sort((a, b) => {
@@ -781,6 +1027,7 @@ export default function ClassesAndBatchesPage() {
           })}
         </div>
       )}
+      </div>
       </div>
 
       {/* -------------------------------------------------------------------- */}
@@ -1711,6 +1958,91 @@ export default function ClassesAndBatchesPage() {
           }
         }}
       />
+
+      {/* Dialog: Add New Academic Session */}
+      <Dialog open={isAddSessionDialogOpen} onOpenChange={setIsAddSessionDialogOpen}>
+        <DialogContent className="rounded-2xl max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-base font-bold text-slate-900 dark:text-white">
+              Add New Academic Session
+            </DialogTitle>
+            <DialogDescription className="text-xs text-slate-500">
+              Define a new yearly cycle (e.g. 2027-28 for April 2027 to March 2028).
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-3 pt-1">
+            <div className="space-y-1">
+              <Label className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                Session Code / Year
+              </Label>
+              <Input
+                placeholder="e.g. 2029-30"
+                value={newSessionInput}
+                onChange={e => setNewSessionInput(e.target.value.trim())}
+                className="h-9 text-xs"
+              />
+              {newSessionInput && (
+                <p className="text-[11px] text-[#2864E8] dark:text-blue-400 font-medium pt-1">
+                  Cycle: {getSessionDurationText(newSessionInput)}
+                </p>
+              )}
+            </div>
+
+            <div className="space-y-1.5">
+              <p className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                Quick Suggestions:
+              </p>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                {['2026-27', '2027-28', '2028-29', '2029-30'].map(preset => (
+                  <button
+                    key={preset}
+                    type="button"
+                    onClick={() => setNewSessionInput(preset)}
+                    className={`px-2.5 py-1 text-xs rounded-md border transition-colors cursor-pointer ${
+                      newSessionInput === preset
+                        ? 'bg-blue-50 border-blue-300 text-[#2864E8] font-semibold dark:bg-blue-950 dark:border-blue-700 dark:text-blue-300'
+                        : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-400'
+                    }`}
+                  >
+                    {preset}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <DialogFooter className="pt-2">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => {
+                setIsAddSessionDialogOpen(false);
+                setNewSessionInput('');
+              }}
+              className="text-xs h-8"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              disabled={!newSessionInput.trim()}
+              onClick={() => {
+                const formatted = newSessionInput.trim();
+                if (!customSessions.includes(formatted)) {
+                  setCustomSessions(prev => [...prev, formatted]);
+                }
+                setClassSessionFilter(formatted);
+                setIsAddSessionDialogOpen(false);
+                setNewSessionInput('');
+              }}
+              className="bg-[#2864E8] hover:bg-[#1E4ED8] text-white text-xs font-semibold h-8 px-4 cursor-pointer"
+            >
+              Select &amp; Start Session
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

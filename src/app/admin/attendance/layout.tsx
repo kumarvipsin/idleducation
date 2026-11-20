@@ -1,8 +1,17 @@
 'use client';
 
 import React from 'react';
+import { usePathname } from 'next/navigation';
+import { Inter } from 'next/font/google';
 import { AttendanceProvider, useAttendance } from '@/context/attendance-context';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  weight: ['300', '400', '500', '600', '700', '800'],
+  display: 'swap',
+});
 
 function ToastContainer() {
   const { toasts, removeToast } = useAttendance();
@@ -52,9 +61,23 @@ function ToastContainer() {
 }
 
 function MainAttendanceShell({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isEdgeToEdge =
+    pathname === '/admin/attendance' ||
+    pathname?.startsWith('/admin/attendance/reports') ||
+    pathname?.startsWith('/admin/attendance/live') ||
+    pathname?.startsWith('/admin/attendance/classes') ||
+    pathname?.startsWith('/admin/attendance/students');
+
   return (
-    <div className="min-h-[calc(100svh-68px)] flex-1 min-w-0 bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 antialiased">
-      <div className="flex-1 min-w-0 overflow-x-hidden p-4 sm:p-6 lg:p-8">
+    <div
+      className={`${inter.variable} ${inter.className} min-h-[calc(100svh-68px)] flex-1 min-w-0 bg-slate-50 dark:bg-slate-950 flex flex-col font-sans text-slate-900 dark:text-slate-100 antialiased`}
+      style={{
+        fontFamily: `'Inter', ${inter.style.fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`,
+        ['--font-sans' as string]: `'Inter', ${inter.style.fontFamily}, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`,
+      }}
+    >
+      <div className={`flex-1 min-w-0 overflow-x-hidden ${isEdgeToEdge ? 'p-0' : 'p-4 sm:p-6 lg:p-8'}`}>
         {children}
       </div>
       <ToastContainer />

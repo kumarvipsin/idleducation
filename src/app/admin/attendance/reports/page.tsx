@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import Link from 'next/link';
 import { useAttendance } from '@/context/attendance-context';
 import {
@@ -31,11 +31,20 @@ import {
   X,
   ExternalLink,
   Info,
+  Eye,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Popover,
   PopoverContent,
@@ -78,13 +87,13 @@ interface CoachingWeek {
   }[];
 }
 
-// Predefined Coaching Weeks around Sep 2026
+// Predefined Coaching Weeks around Sep 2026 (Mon – Sun)
 const COACHING_WEEKS: CoachingWeek[] = [
   {
     id: 'week-current',
-    label: '07 Sep – 12 Sep 2026 (Current Week)',
+    label: '07 Sep – 13 Sep 2026 (Current Week)',
     startDate: '2026-09-07',
-    endDate: '2026-09-12',
+    endDate: '2026-09-13',
     days: [
       { date: '2026-09-07', dayName: 'Mon', dayNum: '07', formatted: '07 Sep' },
       { date: '2026-09-08', dayName: 'Tue', dayNum: '08', formatted: '08 Sep' },
@@ -92,13 +101,14 @@ const COACHING_WEEKS: CoachingWeek[] = [
       { date: '2026-09-10', dayName: 'Thu', dayNum: '10', formatted: '10 Sep' },
       { date: '2026-09-11', dayName: 'Fri', dayNum: '11', formatted: '11 Sep' },
       { date: '2026-09-12', dayName: 'Sat', dayNum: '12', formatted: '12 Sep' },
+      { date: '2026-09-13', dayName: 'Sun', dayNum: '13', formatted: '13 Sep' },
     ],
   },
   {
     id: 'week-prev-1',
-    label: '31 Aug – 05 Sep 2026 (Previous Week)',
+    label: '31 Aug – 06 Sep 2026 (Previous Week)',
     startDate: '2026-08-31',
-    endDate: '2026-09-05',
+    endDate: '2026-09-06',
     days: [
       { date: '2026-08-31', dayName: 'Mon', dayNum: '31', formatted: '31 Aug' },
       { date: '2026-09-01', dayName: 'Tue', dayNum: '01', formatted: '01 Sep' },
@@ -106,13 +116,14 @@ const COACHING_WEEKS: CoachingWeek[] = [
       { date: '2026-09-03', dayName: 'Thu', dayNum: '03', formatted: '03 Sep' },
       { date: '2026-09-04', dayName: 'Fri', dayNum: '04', formatted: '04 Sep' },
       { date: '2026-09-05', dayName: 'Sat', dayNum: '05', formatted: '05 Sep' },
+      { date: '2026-09-06', dayName: 'Sun', dayNum: '06', formatted: '06 Sep' },
     ],
   },
   {
     id: 'week-prev-2',
-    label: '24 Aug – 29 Aug 2026 (2 Weeks Ago)',
+    label: '24 Aug – 30 Aug 2026 (2 Weeks Ago)',
     startDate: '2026-08-24',
-    endDate: '2026-08-29',
+    endDate: '2026-08-30',
     days: [
       { date: '2026-08-24', dayName: 'Mon', dayNum: '24', formatted: '24 Aug' },
       { date: '2026-08-25', dayName: 'Tue', dayNum: '25', formatted: '25 Aug' },
@@ -120,6 +131,7 @@ const COACHING_WEEKS: CoachingWeek[] = [
       { date: '2026-08-27', dayName: 'Thu', dayNum: '27', formatted: '27 Aug' },
       { date: '2026-08-28', dayName: 'Fri', dayNum: '28', formatted: '28 Aug' },
       { date: '2026-08-29', dayName: 'Sat', dayNum: '29', formatted: '29 Aug' },
+      { date: '2026-08-30', dayName: 'Sun', dayNum: '30', formatted: '30 Aug' },
     ],
   },
 ];
@@ -145,6 +157,11 @@ export default function UnifiedAttendanceReportsPage() {
   // Top Filter States
   const [selectedBranch, setSelectedBranch] = useState<string>('all');
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState(false);
+  const [isPeriodPickerOpen, setIsPeriodPickerOpen] = useState(false);
+  const [isModePickerOpen, setIsModePickerOpen] = useState(false);
+
+  const toolbarControlClass =
+    'h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0';
 
   // View Mode: 'weekly' or 'monthly'
   const [reportMode, setReportMode] = useState<'weekly' | 'monthly'>('weekly');
@@ -155,6 +172,8 @@ export default function UnifiedAttendanceReportsPage() {
 
   // Search & Secondary Filters
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
   const [selectedClassId, setSelectedClassId] = useState<string>('all');
   const [selectedBatchId, setSelectedBatchId] = useState<string>('all');
   const [attendanceRateFilter, setAttendanceRateFilter] = useState<'all' | 'high' | 'avg' | 'low'>('all');
@@ -270,6 +289,24 @@ export default function UnifiedAttendanceReportsPage() {
     const dayOfWeek = new Date(dateStr).getDay(); // 0 is Sun
 
     if (dayOfWeek === 0) {
+      // Check if this student's class/batch has an active Sunday schedule or special session
+      const hasSundayClass = schedules.some(
+        s => (s.classId === student.classId || s.batchId === student.batchId) &&
+             (s.dayOfWeek === 0 || s.date === dateStr) &&
+             s.status !== 'Cancelled' && s.status !== 'Holiday'
+      );
+      // Support realistic Sunday special classes / tests
+      const hasSpecialSundaySession = hasSundayClass || (dateNum === 13 && (roll % 2 === 1));
+
+      if (hasSpecialSundaySession) {
+        return {
+          status: 'Present' as const,
+          checkIn: '10:00 AM',
+          checkOut: '01:00 PM',
+          duration: '3h',
+          subject: 'Sunday Special Class',
+        };
+      }
       return { status: 'Off' as const, checkIn: '—', checkOut: '—', duration: '0h', subject: 'Sunday Off' };
     }
 
@@ -443,7 +480,7 @@ export default function UnifiedAttendanceReportsPage() {
         const query = searchQuery.toLowerCase();
         const matchesName = st.name.toLowerCase().includes(query);
         const matchesFather = item.fatherName.toLowerCase().includes(query);
-        const matchesRoll = String(st.rollNo).includes(query);
+        const matchesRoll = String((st as any).rollNumber || st.rollNo || st.id).toLowerCase().includes(query);
         const matchesPhone = item.contactPhone.includes(query) || item.parentPhone.includes(query);
         if (!matchesName && !matchesFather && !matchesRoll && !matchesPhone) return false;
       }
@@ -465,7 +502,7 @@ export default function UnifiedAttendanceReportsPage() {
       if (attendanceRateFilter === 'low' && currentPct >= 75) return false;
 
       return true;
-    });
+    }).sort((a, b) => a.student.name.localeCompare(b.student.name, undefined, { sensitivity: 'base' }));
   }, [studentReports, searchQuery, selectedClassId, selectedBatchId, attendanceRateFilter, reportMode]);
 
   // Top Statistics for currently displayed branch / scope
@@ -504,16 +541,10 @@ export default function UnifiedAttendanceReportsPage() {
   // Export CSV
   const handleExportCSV = () => {
     const headers = [
-      'Roll No',
       'Student Name',
       'Father Name',
       'Class',
       'Batch',
-      'Branch',
-      'Join Date',
-      'Fee Due Date',
-      'Student Phone',
-      'Parent Phone',
       'Working Days',
       'Present',
       'Absent',
@@ -526,16 +557,10 @@ export default function UnifiedAttendanceReportsPage() {
       const metrics = reportMode === 'weekly' ? r.weekly : r.monthly;
       const statusText = metrics.percent >= 85 ? 'Excellent' : metrics.percent >= 75 ? 'Good' : 'Needs Attention';
       return [
-        r.student.rollNo,
         `"${r.student.name}"`,
         `"${r.fatherName}"`,
         `"${r.student.className}"`,
         `"${r.student.batchName}"`,
-        `"${r.branchName}"`,
-        r.effectiveJoinDate,
-        r.effectiveDueDate,
-        r.contactPhone,
-        r.parentPhone,
         metrics.workingDays,
         metrics.present,
         metrics.absent,
@@ -570,32 +595,37 @@ export default function UnifiedAttendanceReportsPage() {
   }, [selectedStudentForReport, studentReports]);
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-10">
+    <div className="min-h-[calc(100svh-68px)] flex-1 flex flex-col overflow-x-hidden">
       {/* ------------------------------------------------------------- */}
-      {/* TOP TOOLBAR (Exact Fee Management & Overview UI Style)         */}
+      {/* TOP TOOLBAR (Exact Fee Management 100% Edge-to-Edge Style)    */}
       {/* ------------------------------------------------------------- */}
-      <section className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl px-4 py-3 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          {/* Left: Branch Selector + Mode Segmented Toggle + Period Selector */}
-          <div className="flex items-center gap-3 sm:gap-4 flex-wrap">
-            {/* 1. Branch Selector Popover */}
+      <section
+        aria-label="Attendance reports toolbar"
+        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-0 z-40"
+      >
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between flex-wrap gap-4 sm:gap-6 min-w-0">
+          {/* Left: Branch Selector + Period Selector + Report Mode */}
+          <div className="flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
+            {/* 1. Branch Selector */}
             <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
               <PopoverTrigger asChild>
                 <button
                   type="button"
                   aria-label="Select branch"
-                  className="h-8 px-2.5 py-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] hover:border-blue-300 dark:hover:text-blue-400 inline-flex items-center gap-2 transition-colors cursor-pointer select-none focus:outline-none"
+                  className={toolbarControlClass}
                 >
                   {selectedBranch === 'all' ? (
                     <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   ) : (
                     <Building2 className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   )}
-                  <span className="whitespace-nowrap font-medium">
-                    {IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'All Branches'}
+                  <span className="whitespace-nowrap">
+                    {selectedBranch === 'all'
+                      ? 'All Branches'
+                      : IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'All Branches'}
                   </span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
                   />
                 </button>
               </PopoverTrigger>
@@ -664,520 +694,647 @@ export default function UnifiedAttendanceReportsPage() {
               </PopoverContent>
             </Popover>
 
-            {/* 2. Unified Report Mode Segmented Switcher (Weekly / Monthly) */}
-            <div className="inline-flex items-center p-1 bg-slate-100 dark:bg-slate-800 rounded-lg border border-slate-200/80 dark:border-slate-700">
-              <button
-                type="button"
-                onClick={() => setReportMode('weekly')}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
-                  reportMode === 'weekly'
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <CalendarDays className="h-3.5 w-3.5" />
-                <span>Weekly Report</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setReportMode('monthly')}
-                className={`flex items-center gap-1.5 px-3 py-1 rounded-md text-xs font-bold transition-all cursor-pointer ${
-                  reportMode === 'monthly'
-                    ? 'bg-blue-600 text-white shadow-xs'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <Calendar className="h-3.5 w-3.5" />
-                <span>Monthly Report</span>
-              </button>
+            {/* 2. Date / Period Selector with Prev/Next Navigation */}
+            <div className="inline-flex items-center gap-1.5">
+              <Popover open={isPeriodPickerOpen} onOpenChange={setIsPeriodPickerOpen}>
+                <PopoverTrigger asChild>
+                  <button
+                    type="button"
+                    aria-label="Select period"
+                    className={toolbarControlClass}
+                  >
+                    <Calendar className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                    <span className="whitespace-nowrap">
+                      {reportMode === 'weekly' ? currentWeek.label : currentMonth.label}
+                    </span>
+                    <ChevronDown
+                      className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isPeriodPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                    />
+                  </button>
+                </PopoverTrigger>
+                <PopoverContent
+                  align="start"
+                  sideOffset={8}
+                  className="w-[260px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
+                >
+                  <div className="px-2 py-1.5 mb-1.5 border-b border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
+                    <span>{reportMode === 'weekly' ? 'Select Coaching Week' : 'Select Coaching Month'}</span>
+                  </div>
+                  <div className="space-y-0.5 max-h-56 overflow-y-auto">
+                    {reportMode === 'weekly' ? (
+                      COACHING_WEEKS.map((w, idx) => {
+                        const isSelected = selectedWeekIndex === idx;
+                        return (
+                          <button
+                            key={w.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedWeekIndex(idx);
+                              setIsPeriodPickerOpen(false);
+                            }}
+                            className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                              isSelected
+                                ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
+                                : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800'
+                            }`}
+                          >
+                            <span className="truncate">{w.label}</span>
+                            {isSelected && <Check className="w-3.5 h-3.5 text-[#2864E8] shrink-0" />}
+                          </button>
+                        );
+                      })
+                    ) : (
+                      COACHING_MONTHS.map((m, idx) => {
+                        const isSelected = selectedMonthIndex === idx;
+                        return (
+                          <button
+                            key={m.id}
+                            type="button"
+                            onClick={() => {
+                              setSelectedMonthIndex(idx);
+                              setIsPeriodPickerOpen(false);
+                            }}
+                            className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                              isSelected
+                                ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
+                                : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800'
+                            }`}
+                          >
+                            <span className="truncate">{m.label}</span>
+                            {isSelected && <Check className="w-3.5 h-3.5 text-[#2864E8] shrink-0" />}
+                          </button>
+                        );
+                      })
+                    )}
+                  </div>
+                </PopoverContent>
+              </Popover>
+
+              {/* Clean Prev / Next Navigation */}
+              <div className="inline-flex items-center gap-0.5 ml-1 bg-slate-100/80 dark:bg-slate-800/60 rounded-md p-0.5 border border-slate-200/70 dark:border-slate-700/60">
+                <button
+                  type="button"
+                  disabled={reportMode === 'weekly' ? selectedWeekIndex >= COACHING_WEEKS.length - 1 : selectedMonthIndex >= COACHING_MONTHS.length - 1}
+                  onClick={() => {
+                    if (reportMode === 'weekly') {
+                      setSelectedWeekIndex(prev => Math.min(COACHING_WEEKS.length - 1, prev + 1));
+                    } else {
+                      setSelectedMonthIndex(prev => Math.min(COACHING_MONTHS.length - 1, prev + 1));
+                    }
+                  }}
+                  className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:text-slate-900 hover:bg-white dark:hover:bg-slate-700 dark:hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  title="Previous week"
+                  aria-label="Previous week"
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  disabled={reportMode === 'weekly' ? selectedWeekIndex <= 0 : selectedMonthIndex <= 0}
+                  onClick={() => {
+                    if (reportMode === 'weekly') {
+                      setSelectedWeekIndex(prev => Math.max(0, prev - 1));
+                    } else {
+                      setSelectedMonthIndex(prev => Math.max(0, prev - 1));
+                    }
+                  }}
+                  className="w-5 h-5 flex items-center justify-center rounded text-slate-500 hover:text-slate-900 hover:bg-white dark:hover:bg-slate-700 dark:hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:cursor-not-allowed cursor-pointer transition-colors"
+                  title="Next week"
+                  aria-label="Next week"
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
 
-            {/* 3. Period Navigator (Prev / Next & Quick Select) */}
-            {reportMode === 'weekly' ? (
-              <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs">
+            {/* 3. Report Mode Selector */}
+            <Popover open={isModePickerOpen} onOpenChange={setIsModePickerOpen}>
+              <PopoverTrigger asChild>
                 <button
                   type="button"
-                  disabled={selectedWeekIndex >= COACHING_WEEKS.length - 1}
-                  onClick={() => setSelectedWeekIndex(prev => Math.min(COACHING_WEEKS.length - 1, prev + 1))}
-                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                  title="Previous Week"
+                  aria-label="Select report mode"
+                  className={toolbarControlClass}
                 >
-                  <ChevronLeft className="h-3.5 w-3.5" />
+                  <CalendarDays className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
+                  <span className="whitespace-nowrap">
+                    {reportMode === 'weekly' ? 'Weekly Report' : 'Monthly Report'}
+                  </span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isModePickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                  />
                 </button>
-                <span className="font-semibold text-slate-800 dark:text-slate-200 px-1 whitespace-nowrap">
-                  {currentWeek.label}
-                </span>
-                <button
-                  type="button"
-                  disabled={selectedWeekIndex <= 0}
-                  onClick={() => setSelectedWeekIndex(prev => Math.max(0, prev - 1))}
-                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                  title="Next Week"
-                >
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ) : (
-              <div className="flex items-center gap-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs">
-                <button
-                  type="button"
-                  disabled={selectedMonthIndex >= COACHING_MONTHS.length - 1}
-                  onClick={() => setSelectedMonthIndex(prev => Math.min(COACHING_MONTHS.length - 1, prev + 1))}
-                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                  title="Previous Month"
-                >
-                  <ChevronLeft className="h-3.5 w-3.5" />
-                </button>
-                <span className="font-semibold text-slate-800 dark:text-slate-200 px-1 whitespace-nowrap">
-                  {currentMonth.label}
-                </span>
-                <button
-                  type="button"
-                  disabled={selectedMonthIndex <= 0}
-                  onClick={() => setSelectedMonthIndex(prev => Math.max(0, prev - 1))}
-                  className="p-1 hover:bg-slate-200 dark:hover:bg-slate-700 rounded text-slate-600 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                  title="Next Month"
-                >
-                  <ChevronRight className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            )}
+              </PopoverTrigger>
+              <PopoverContent
+                align="start"
+                sideOffset={8}
+                className="w-[200px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
+              >
+                <div className="space-y-0.5">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setReportMode('weekly');
+                      setIsModePickerOpen(false);
+                    }}
+                    className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                      reportMode === 'weekly'
+                        ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
+                        : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <CalendarDays className="w-3.5 h-3.5 text-[#2864E8]" />
+                      <span>Weekly Report</span>
+                    </span>
+                    {reportMode === 'weekly' && <Check className="w-3.5 h-3.5 text-[#2864E8]" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setReportMode('monthly');
+                      setIsModePickerOpen(false);
+                    }}
+                    className={`h-8 w-full px-2.5 rounded-lg text-xs flex items-center justify-between gap-2 transition-colors cursor-pointer select-none ${
+                      reportMode === 'monthly'
+                        ? 'bg-blue-50/90 dark:bg-blue-950/40 text-[#2864E8] dark:text-blue-400 font-semibold'
+                        : 'text-slate-700 dark:text-slate-200 font-medium hover:bg-slate-100 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    <span className="flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-[#2864E8]" />
+                      <span>Monthly Report</span>
+                    </span>
+                    {reportMode === 'monthly' && <Check className="w-3.5 h-3.5 text-[#2864E8]" />}
+                  </button>
+                </div>
+              </PopoverContent>
+            </Popover>
           </div>
 
-          {/* Right Actions: Export CSV + Print Report */}
-          <div className="flex items-center gap-2">
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={handleExportCSV}
-              className="text-xs font-semibold h-8 gap-1.5 border-slate-200 hover:bg-slate-50 text-slate-700 cursor-pointer"
-            >
-              <Download className="h-3.5 w-3.5 text-blue-600" />
-              <span>Export CSV</span>
-            </Button>
-            <Button
-              size="sm"
-              variant="outline"
+          {/* Right Action: Print (Icon Only, Matches Fee Dashboard Height) */}
+          <div className="flex items-center shrink-0">
+            <button
+              type="button"
               onClick={() => window.print()}
-              className="text-xs font-semibold h-8 gap-1.5 border-slate-200 hover:bg-slate-50 text-slate-700 cursor-pointer"
+              className="h-7 w-7 rounded-md flex items-center justify-center text-slate-500 hover:text-[#2864E8] dark:text-slate-400 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              title="Print Report"
+              aria-label="Print Report"
             >
-              <Printer className="h-3.5 w-3.5 text-slate-600" />
-              <span>Print All</span>
-            </Button>
+              <Printer className="w-3.5 h-3.5 shrink-0" />
+            </button>
           </div>
         </div>
       </section>
 
       {/* ------------------------------------------------------------- */}
-      {/* SUMMARY KPI CARDS                                             */}
+      {/* MAIN CONTENT CONTAINER (Fee Dashboard Proportion & Spacing)   */}
       {/* ------------------------------------------------------------- */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-        {/* Total Students */}
-        <Card className="border-slate-200 shadow-xs">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Students
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                <Users className="h-3.5 w-3.5" />
+      <div className="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl flex-1 space-y-6 pb-12">
+        {/* TOP SUMMARY METRICS CARDS (EXACT FEE DASHBOARD KPI STYLE & PROPORTIONS) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
+          {/* 1. Students */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.4px]">
+                  Students
+                </span>
               </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-slate-900">{summaryStats.totalStudents}</span>
-              <span className="text-[11px] text-slate-500 font-medium">In branch</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Avg Attendance */}
-        <Card className="border-slate-200 shadow-xs border-l-4 border-l-emerald-500">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
-                Avg Attendance
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <Percent className="h-3.5 w-3.5" />
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {summaryStats.totalStudents}
               </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-emerald-600">{summaryStats.avgPercent}%</span>
-              <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 font-bold text-[10px]">
-                {summaryStats.avgPercent >= 75 ? 'Compliant' : 'Low'}
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Active enrolled in branch
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Total Present */}
-        <Card className="border-slate-200 shadow-xs">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Total Present
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <CheckCircle2 className="h-3.5 w-3.5" />
+          {/* 2. Avg Attendance */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-[0.4px]">
+                  Avg Attendance
+                </span>
               </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-slate-900">{summaryStats.totalPresent}</span>
-              <span className="text-[11px] text-slate-500 font-medium">Sessions</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Total Absent */}
-        <Card className="border-slate-200 shadow-xs">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-rose-600 uppercase tracking-wider">
-                Total Absent
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
-                <XCircle className="h-3.5 w-3.5" />
+              <div className="text-[24px] sm:text-[25px] font-bold text-emerald-600 dark:text-emerald-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {summaryStats.avgPercent}%
               </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-rose-600">{summaryStats.totalAbsent}</span>
-              <span className="text-[11px] text-rose-500 font-medium">{summaryStats.atRiskCount} at risk (&lt;75%)</span>
-            </div>
-          </CardContent>
-        </Card>
+              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80 font-normal mt-0.5 truncate">
+                {summaryStats.avgPercent >= 75 ? 'Compliant this period' : 'Below 75% target'}
+              </p>
+            </CardContent>
+          </Card>
 
-        {/* Approved Leave */}
-        <Card className="border-slate-200 shadow-xs col-span-2 sm:col-span-1">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider">
-                Approved Leaves
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-                <PlaneTakeoff className="h-3.5 w-3.5" />
+          {/* 3. Total Present */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2864E8] shrink-0" />
+                <span className="text-[11.5px] font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-[0.4px]">
+                  Total Present
+                </span>
               </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-amber-600">{summaryStats.totalLeave}</span>
-              <span className="text-[11px] text-amber-700 font-medium">Informed</span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-[#2864E8] dark:text-blue-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {summaryStats.totalPresent}
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Present sessions recorded
+              </p>
+            </CardContent>
+          </Card>
 
-      {/* ------------------------------------------------------------- */}
-      {/* FILTER & SEARCH BAR                                           */}
-      {/* ------------------------------------------------------------- */}
-      <div className="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2.5 flex-1 min-w-[260px] max-w-md">
-          <div className="relative w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-            <Input
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              placeholder="Search by student name, father name, phone, roll..."
-              className="pl-9 h-8 text-xs bg-slate-50/70 border-slate-200 focus-visible:ring-1 focus-visible:ring-blue-500"
-            />
-          </div>
-          {searchQuery && (
-            <Button
-              size="sm"
-              variant="ghost"
-              onClick={() => setSearchQuery('')}
-              className="h-8 px-2 text-xs text-slate-400 hover:text-slate-600"
-            >
-              Clear
-            </Button>
-          )}
+          {/* 4. Total Absent */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${summaryStats.totalAbsent > 0 ? 'bg-rose-500 animate-pulse' : 'bg-slate-400'}`} />
+                <span className={`text-[11.5px] font-semibold uppercase tracking-[0.4px] ${summaryStats.totalAbsent > 0 ? 'text-rose-700 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                  Total Absent
+                </span>
+              </div>
+              <div className={`text-[24px] sm:text-[25px] font-bold mt-1.5 tracking-tight tabular-nums leading-tight ${summaryStats.totalAbsent > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                {summaryStats.totalAbsent}
+              </div>
+              <p className={`text-[11px] font-normal mt-0.5 truncate ${summaryStats.totalAbsent > 0 ? 'text-rose-600/80 dark:text-rose-400/80' : 'text-slate-400'}`}>
+                {summaryStats.atRiskCount} {summaryStats.atRiskCount === 1 ? 'student' : 'students'} at risk (&lt;75%)
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 5. Approved Leaves */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-[0.4px]">
+                  Approved Leaves
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-amber-600 dark:text-amber-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {summaryStats.totalLeave}
+              </div>
+              <p className="text-[11px] text-amber-700/80 dark:text-amber-400/80 font-normal mt-0.5 truncate">
+                Leave requests approved
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Dropdown Filters */}
-        <div className="flex items-center gap-2 flex-wrap">
-          {/* Class Filter */}
-          <select
-            value={selectedClassId}
-            onChange={e => {
-              setSelectedClassId(e.target.value);
-              setSelectedBatchId('all'); // reset batch on class change
-            }}
-            className="h-8 px-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-          >
-            <option value="all">All Classes</option>
-            {classes.map(c => (
-              <option key={c.id} value={c.name}>
-                Class {c.name}
-              </option>
-            ))}
-          </select>
-
-          {/* Batch Filter */}
-          <select
-            value={selectedBatchId}
-            onChange={e => setSelectedBatchId(e.target.value)}
-            className="h-8 px-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-          >
-            <option value="all">All Batches</option>
-            {batches
-              .filter(b => selectedClassId === 'all' || b.className === selectedClassId || b.classId === selectedClassId)
-              .map(b => (
-                <option key={b.id} value={b.name}>
-                  Batch {b.name}
-                </option>
-              ))}
-          </select>
-
-          {/* Attendance Threshold Filter */}
-          <select
-            value={attendanceRateFilter}
-            onChange={e => setAttendanceRateFilter(e.target.value as any)}
-            className="h-8 px-2.5 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-blue-500 cursor-pointer"
-          >
-            <option value="all">All Attendance</option>
-            <option value="high">Above 85% (Excellent)</option>
-            <option value="avg">75% - 84% (Good)</option>
-            <option value="low">Below 75% (Critical Alert)</option>
-          </select>
-        </div>
-      </div>
+        {/* Unified Attendance Dashboard Navigation Tabs */}
+        <AttendanceDashboardTabs />
 
       {/* ------------------------------------------------------------- */}
       {/* STUDENT ATTENDANCE REPORT TABLE                               */}
       {/* ------------------------------------------------------------- */}
-      <Card className="border-slate-200 shadow-sm overflow-hidden">
-        <CardHeader className="p-4 sm:p-5 flex flex-row items-center justify-between border-b border-slate-100 bg-slate-50/50">
-          <div>
-            <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <FileText className="h-4 w-4 text-blue-600" />
-              <span>
+      <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
+        <CardHeader className="py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+              <CardTitle className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white tracking-[-0.015em] leading-snug uppercase">
                 {reportMode === 'weekly'
-                  ? `Student Weekly Attendance Matrix (${currentWeek.label})`
-                  : `Student Monthly Attendance Register (${currentMonth.label})`}
-              </span>
-            </CardTitle>
-            <CardDescription className="text-xs text-slate-500 mt-0.5">
-              Comprehensive student report including parent details, admission date, fee due date, and attendance records.
-            </CardDescription>
+                  ? `STUDENT WEEKLY ATTENDANCE MATRIX (${filteredReports.length})`
+                  : `STUDENT MONTHLY ATTENDANCE REGISTER (${filteredReports.length})`}
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 font-normal leading-relaxed mt-0.5">
+                Comprehensive student report including parent details and attendance records.
+              </CardDescription>
+            </div>
+
+            {/* Filter Row: [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
+            <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
+              {/* 1. CLASS */}
+              <Select
+                value={selectedClassId}
+                onValueChange={(val) => {
+                  setSelectedClassId(val);
+                  setSelectedBatchId('all');
+                }}
+              >
+                <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                  <SelectValue placeholder="CLASS">
+                    {selectedClassId === 'all'
+                      ? 'CLASS'
+                      : classes.find(c => c.name === selectedClassId || c.id === selectedClassId)?.name.toUpperCase() || selectedClassId.toUpperCase()}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all" className="text-xs font-semibold">All Classes</SelectItem>
+                  {classes.map(c => (
+                    <SelectItem key={c.id} value={c.name} className="text-xs">Class {c.name}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              {/* 2. BATCH */}
+              <Select value={selectedBatchId} onValueChange={setSelectedBatchId}>
+                <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                  <SelectValue placeholder="BATCH">
+                    {selectedBatchId === 'all'
+                      ? 'BATCH'
+                      : batches.find(b => b.name === selectedBatchId || b.id === selectedBatchId)?.name.toUpperCase() || selectedBatchId.toUpperCase()}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all" className="text-xs font-semibold">All Batches</SelectItem>
+                  {batches
+                    .filter(b => selectedClassId === 'all' || b.className === selectedClassId || b.classId === selectedClassId)
+                    .map(b => (
+                      <SelectItem key={b.id} value={b.name} className="text-xs">Batch {b.name}</SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+
+              {/* 3. STATUS */}
+              <Select value={attendanceRateFilter} onValueChange={(val: any) => setAttendanceRateFilter(val)}>
+                <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                  <SelectValue placeholder="STATUS">
+                    {attendanceRateFilter === 'all'
+                      ? 'STATUS'
+                      : attendanceRateFilter === 'high'
+                      ? '> 85%'
+                      : attendanceRateFilter === 'avg'
+                      ? '75 - 84%'
+                      : '< 75%'}
+                  </SelectValue>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all" className="text-xs font-semibold">All Status</SelectItem>
+                  <SelectItem value="high" className="text-xs">Above 85% (Excellent)</SelectItem>
+                  <SelectItem value="avg" className="text-xs">75% - 84% (Good)</SelectItem>
+                  <SelectItem value="low" className="text-xs">Below 75% (Critical Alert)</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {/* 4. Search Bar (Rightmost, 100% round, expands right-to-left) */}
+              <div className="relative flex items-center justify-end">
+                <div
+                  onClick={() => {
+                    if (!isSearchOpen && !searchQuery) {
+                      setIsSearchOpen(true);
+                      setTimeout(() => searchInputRef.current?.focus(), 150);
+                    }
+                  }}
+                  className={`flex items-center rounded-full transition-all duration-300 ease-in-out border ${
+                    isSearchOpen || searchQuery
+                      ? 'w-48 sm:w-60 h-7 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700 shadow-xs px-2.5'
+                      : 'w-7 h-7 bg-slate-100/90 hover:bg-slate-200/80 dark:bg-slate-800 dark:hover:bg-slate-700 border-transparent justify-center cursor-pointer'
+                  }`}
+                >
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (!isSearchOpen && !searchQuery) {
+                        setIsSearchOpen(true);
+                        setTimeout(() => searchInputRef.current?.focus(), 150);
+                      } else if (isSearchOpen && !searchQuery) {
+                        setIsSearchOpen(false);
+                      }
+                    }}
+                    className={`shrink-0 flex items-center justify-center text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white transition-colors cursor-pointer ${
+                      isSearchOpen || searchQuery ? 'w-4 h-4' : 'w-7 h-7 rounded-full'
+                    }`}
+                    title="Search students"
+                  >
+                    <Search className="w-3.5 h-3.5" />
+                  </button>
+
+                  <input
+                    ref={searchInputRef}
+                    type="text"
+                    placeholder="Search name, roll..."
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    onFocus={() => setIsSearchOpen(true)}
+                    onBlur={() => {
+                      if (!searchQuery.trim()) {
+                        setIsSearchOpen(false);
+                      }
+                    }}
+                    onKeyDown={e => {
+                      if (e.key === 'Escape') {
+                        setSearchQuery('');
+                        setIsSearchOpen(false);
+                      }
+                    }}
+                    className={`text-xs bg-transparent border-none outline-none focus:outline-none focus:ring-0 text-slate-800 dark:text-white placeholder:text-slate-400 transition-all duration-300 ${
+                      isSearchOpen || searchQuery ? 'w-full ml-1.5 opacity-100' : 'w-0 ml-0 opacity-0 pointer-events-none'
+                    }`}
+                  />
+
+                  {(isSearchOpen || searchQuery) && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSearchQuery('');
+                        setIsSearchOpen(false);
+                      }}
+                      className="shrink-0 p-0.5 ml-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors cursor-pointer"
+                      title="Clear & close search"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <Badge variant="outline" className="text-xs font-semibold border-slate-200 bg-white text-slate-700">
-            {filteredReports.length} {filteredReports.length === 1 ? 'Student' : 'Students'}
-          </Badge>
         </CardHeader>
 
-        <CardContent className="p-0 overflow-x-auto">
-          {filteredReports.length === 0 ? (
-            <div className="py-16 px-4 text-center space-y-3">
-              <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
-                <Users className="h-6 w-6" />
-              </div>
-              <h3 className="text-sm font-bold text-slate-800">No students found</h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                No students match your filter criteria for this branch or class. Try selecting another branch or clearing your search.
-              </p>
-            </div>
-          ) : (
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50/80 border-b border-slate-200/80 text-[11px] font-bold text-slate-600 uppercase tracking-wider">
-                  <th className="py-3 px-3.5 text-center w-12">#</th>
-                  <th className="py-3 px-3 min-w-[210px]">Student &amp; Father Details</th>
-                  <th className="py-3 px-3 min-w-[120px]">Class &amp; Batch</th>
-                  <th className="py-3 px-3 min-w-[110px]">Branch</th>
-                  <th className="py-3 px-3 min-w-[100px]">Join Date</th>
-                  <th className="py-3 px-3 min-w-[100px]">Fee Due Date</th>
-                  <th className="py-3 px-3 min-w-[150px]">Contact Numbers</th>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs sm:text-sm">
+              <thead className="bg-slate-50/90 dark:bg-slate-900/70 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-[0.06em] text-[10.5px] border-b border-slate-200/80 dark:border-slate-800/80">
+                <tr>
+                  <th className="py-3 px-3.5 pl-5 whitespace-nowrap min-w-[240px]">STUDENT NAME &amp; DETAILS</th>
+                  <th className="py-3 px-3.5 whitespace-nowrap min-w-[170px]">CLASS/BATCH</th>
                   {reportMode === 'weekly' ? (
-                    <th className="py-3 px-3 min-w-[240px] text-center">
-                      Weekly Matrix (Mon – Sat)
-                    </th>
+                    <th className="py-3 px-3.5 text-center whitespace-nowrap min-w-[280px]">WEEKLY MATRIX (MON – SUN)</th>
                   ) : (
-                    <th className="py-3 px-3 min-w-[200px]">
-                      Monthly Summary (P / A / L)
-                    </th>
+                    <th className="py-3 px-3.5 whitespace-nowrap min-w-[220px]">MONTHLY SUMMARY (P / A / L)</th>
                   )}
-                  <th className="py-3 px-3 text-center min-w-[110px]">Attendance %</th>
-                  <th className="py-3 px-3.5 text-right min-w-[110px]">Action</th>
+                  <th className="py-3 px-3.5 text-center whitespace-nowrap w-[110px] min-w-[100px]">ATTENDANCE %</th>
+                  <th className="py-3 px-3.5 text-right pr-5 whitespace-nowrap min-w-[85px]">ACTIONS</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
-                {filteredReports.map((item, index) => {
-                  const st = item.student;
-                  const metrics = reportMode === 'weekly' ? item.weekly : item.monthly;
-                  const isCritical = metrics.percent < 75;
-                  const isExcellent = metrics.percent >= 85;
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                {filteredReports.length === 0 ? (
+                  <tr>
+                    <td colSpan={5} className="py-12 text-center text-slate-400">
+                      <Users className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
+                      <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
+                        {selectedClassId !== 'all' || selectedBatchId !== 'all' || attendanceRateFilter !== 'all' || searchQuery.trim()
+                          ? 'No matching students'
+                          : 'No students found'}
+                      </p>
+                      <p className="text-[11px] text-slate-400 mt-0.5">
+                        {selectedClassId !== 'all' || selectedBatchId !== 'all' || attendanceRateFilter !== 'all' || searchQuery.trim()
+                          ? 'Try adjusting your class, batch, status or search filter.'
+                          : 'No students enrolled for this selection.'}
+                      </p>
+                    </td>
+                  </tr>
+                ) : (
+                  filteredReports.map((item) => {
+                    const st = item.student;
+                    const metrics = reportMode === 'weekly' ? item.weekly : item.monthly;
+                    const isCritical = metrics.percent < 75;
+                    const isExcellent = metrics.percent >= 85;
 
-                  return (
-                    <tr
-                      key={st.id}
-                      className="hover:bg-blue-50/30 transition-colors group"
-                    >
-                      {/* # Index / Roll */}
-                      <td className="py-3 px-3.5 text-center font-mono text-slate-500 font-semibold">
-                        {st.rollNo || index + 1}
-                      </td>
-
-                      {/* Student Name & Father Name */}
-                      <td className="py-3 px-3">
-                        <div className="flex items-center gap-2.5">
-                          <div className="h-8 w-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs shrink-0">
-                            {st.name.charAt(0)}
+                    return (
+                      <tr
+                        key={st.id}
+                        className="bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40 transition-colors duration-150"
+                      >
+                        {/* Student Name & Details */}
+                        <td className="py-3 px-3.5 pl-5 whitespace-nowrap align-middle">
+                          <div className="font-bold text-slate-900 dark:text-white text-[13.5px] sm:text-[14px] tracking-tight leading-tight">
+                            {st.name}
                           </div>
-                          <div className="min-w-0">
-                            <span className="font-bold text-slate-900 block truncate text-[13px] group-hover:text-blue-600 transition-colors">
-                              {st.name}
-                            </span>
-                            <span className="text-[11px] text-slate-500 truncate block">
-                              {item.fatherName}
-                            </span>
+                          <div className="text-[12px] font-medium text-slate-600 dark:text-slate-300 leading-tight mt-1 flex items-center">
+                            <span className="text-slate-400 dark:text-slate-500 font-normal mr-1">Father:</span>
+                            <span className="capitalize">{item.fatherName || '—'}</span>
                           </div>
-                        </div>
-                      </td>
-
-                      {/* Class & Batch */}
-                      <td className="py-3 px-3">
-                        <div className="space-y-0.5">
-                          <span className="font-semibold text-slate-800 block text-xs">
-                            Class {st.className}
-                          </span>
-                          <span className="text-[11px] text-slate-500 block">
-                            Batch {st.batchName}
-                          </span>
-                        </div>
-                      </td>
-
-                      {/* Branch */}
-                      <td className="py-3 px-3">
-                        <Badge variant="outline" className="bg-slate-50 text-slate-700 border-slate-200 text-[11px] font-medium inline-flex items-center gap-1">
-                          <Building2 className="h-3 w-3 text-slate-400" />
-                          <span>{item.branchName}</span>
-                        </Badge>
-                      </td>
-
-                      {/* Join Date */}
-                      <td className="py-3 px-3 text-slate-600 font-mono text-[11.5px]">
-                        {formatDateDisplay(item.effectiveJoinDate)}
-                      </td>
-
-                      {/* Due Date */}
-                      <td className="py-3 px-3">
-                        <span className="inline-flex items-center gap-1 text-[11.5px] font-mono font-medium text-slate-700 bg-amber-50/80 text-amber-800 px-2 py-0.5 rounded border border-amber-200/80">
-                          <Calendar className="h-3 w-3 text-amber-600" />
-                          <span>{formatDateDisplay(item.effectiveDueDate)}</span>
-                        </span>
-                      </td>
-
-                      {/* Contact Numbers */}
-                      <td className="py-3 px-3">
-                        <div className="space-y-0.5 text-[11px]">
-                          <div className="flex items-center gap-1 text-slate-700">
-                            <span className="text-slate-400 font-mono text-[10px]">St:</span>
-                            <span className="font-mono">{item.contactPhone}</span>
-                          </div>
-                          <div className="flex items-center gap-1 text-slate-500">
-                            <span className="text-slate-400 font-mono text-[10px]">Pa:</span>
-                            <span className="font-mono">{item.parentPhone}</span>
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* Weekly Matrix OR Monthly Summary */}
-                      {reportMode === 'weekly' ? (
-                        <td className="py-3 px-3">
-                          <div className="flex items-center justify-center gap-1.5">
-                            {item.weekly.days.map(d => {
-                              let badgeColor = 'bg-slate-100 text-slate-400 border-slate-200';
-                              let title = `${d.formatted}: Holiday / No Class`;
-
-                              if (d.status === 'Present') {
-                                badgeColor = 'bg-emerald-500 text-white border-emerald-600';
-                                title = `${d.formatted} (${d.dayName}): Present (Check-in ${d.checkIn})`;
-                              } else if (d.status === 'Absent') {
-                                badgeColor = 'bg-rose-500 text-white border-rose-600';
-                                title = `${d.formatted} (${d.dayName}): Absent`;
-                              } else if (d.status === 'Leave') {
-                                badgeColor = 'bg-amber-500 text-white border-amber-600';
-                                title = `${d.formatted} (${d.dayName}): Approved Leave`;
-                              }
-
-                              return (
-                                <div
-                                  key={d.date}
-                                  title={title}
-                                  className={`w-6 h-6 rounded flex items-center justify-center font-bold text-[10px] border shadow-xs cursor-help ${badgeColor}`}
-                                >
-                                  {d.status === 'Present'
-                                    ? 'P'
-                                    : d.status === 'Absent'
-                                    ? 'A'
-                                    : d.status === 'Leave'
-                                    ? 'L'
-                                    : '—'}
-                                </div>
-                              );
-                            })}
-                            <span className="text-[11px] font-mono text-slate-500 ml-1.5 font-semibold">
-                              {item.weekly.present}/{item.weekly.workingDays}d
-                            </span>
+                          <div className="text-[11px] font-mono font-medium text-slate-500 dark:text-slate-400 leading-tight mt-1 flex items-center">
+                            <span className="text-slate-400 dark:text-slate-500 font-sans font-normal mr-1">Admission No.:</span>
+                            <span>{(st as any).rollNumber || st.rollNo || st.id}</span>
                           </div>
                         </td>
-                      ) : (
-                        <td className="py-3 px-3">
-                          <div className="space-y-1">
-                            <div className="flex items-center justify-between text-[11px]">
-                              <span className="font-medium text-slate-600">
-                                <b className="text-emerald-700">{item.monthly.present}P</b> •{' '}
-                                <b className="text-rose-600">{item.monthly.absent}A</b> •{' '}
-                                <b className="text-amber-700">{item.monthly.leave}L</b>
-                              </span>
-                              <span className="text-slate-400 font-mono text-[10px]">
-                                {item.monthly.workingDays} working days
+
+                        {/* Class & Batch */}
+                        <td className="py-3 px-3.5 whitespace-nowrap align-middle">
+                          <div className="flex items-center gap-1.5 leading-none">
+                            <span className="text-[13px] font-bold text-slate-800 dark:text-slate-200">
+                              Class {st.className}
+                            </span>
+                            {st.batchName && (
+                              <>
+                                <span className="inline-block w-px h-3.5 bg-slate-200 dark:bg-slate-700 mx-1 shrink-0" aria-hidden="true" />
+                                <span className="text-[12.5px] font-medium text-slate-600 dark:text-slate-400">
+                                  Batch {st.batchName.replace(/^batch\s+/i, '')}
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </td>
+
+                        {/* Weekly Matrix OR Monthly Summary */}
+                        {reportMode === 'weekly' ? (
+                          <td className="py-3 px-3.5 align-middle">
+                            <div className="flex items-center justify-center gap-1.5">
+                              {item.weekly.days.map(d => {
+                                let badgeColor = 'bg-slate-100 text-slate-400 border border-slate-200/70 dark:bg-slate-800/80 dark:text-slate-500 dark:border-slate-700/60';
+                                let title = `${d.formatted}: Holiday / No Class`;
+
+                                if (d.status === 'Present') {
+                                  badgeColor = 'bg-emerald-500 text-white border border-emerald-600/30 shadow-xs';
+                                  title = `${d.formatted} (${d.dayName}): Present (Check-in ${d.checkIn})`;
+                                } else if (d.status === 'Absent') {
+                                  badgeColor = 'bg-rose-500 text-white border border-rose-600/30 shadow-xs';
+                                  title = `${d.formatted} (${d.dayName}): Absent`;
+                                } else if (d.status === 'Leave') {
+                                  badgeColor = 'bg-amber-500 text-white border border-amber-600/30 shadow-xs';
+                                  title = `${d.formatted} (${d.dayName}): Approved Leave`;
+                                }
+
+                                return (
+                                  <div
+                                    key={d.date}
+                                    title={title}
+                                    className={`w-6 h-6 sm:w-[26px] sm:h-[26px] rounded-[6px] flex items-center justify-center font-bold text-[11px] cursor-help ${badgeColor}`}
+                                  >
+                                    {d.status === 'Present'
+                                      ? 'P'
+                                      : d.status === 'Absent'
+                                      ? 'A'
+                                      : d.status === 'Leave'
+                                      ? 'L'
+                                      : '—'}
+                                  </div>
+                                );
+                              })}
+                              <span className="text-[11.5px] sm:text-[12px] font-mono text-slate-600 dark:text-slate-400 ml-2 font-semibold whitespace-nowrap">
+                                {item.weekly.present}/{item.weekly.workingDays}d
                               </span>
                             </div>
-                            <Progress value={item.monthly.percent} className="h-1.5 bg-slate-100" />
+                          </td>
+                        ) : (
+                          <td className="py-3 px-3.5 align-middle">
+                            <div className="space-y-1">
+                              <div className="flex items-center justify-between text-[11px]">
+                                <span className="font-medium text-slate-600 dark:text-slate-300">
+                                  <b className="text-emerald-600 dark:text-emerald-400">{item.monthly.present}P</b> •{' '}
+                                  <b className="text-rose-600 dark:text-rose-400">{item.monthly.absent}A</b> •{' '}
+                                  <b className="text-amber-600 dark:text-amber-400">{item.monthly.leave}L</b>
+                                </span>
+                                <span className="text-slate-400 dark:text-slate-500 font-mono text-[10px]">
+                                  {item.monthly.workingDays} working days
+                                </span>
+                              </div>
+                              <Progress value={item.monthly.percent} className="h-1.5 bg-slate-100 dark:bg-slate-800" />
+                            </div>
+                          </td>
+                        )}
+
+                        {/* Attendance % Badge */}
+                        <td className="py-3 px-3.5 text-center whitespace-nowrap align-middle">
+                          <div className="flex flex-col items-center justify-center">
+                            <span
+                              className={`h-7 min-w-[62px] px-2.5 inline-flex items-center justify-center text-[11.5px] font-mono font-bold tracking-tight rounded-lg whitespace-nowrap ${
+                                isCritical
+                                  ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200/90 dark:border-rose-800/60'
+                                  : isExcellent
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/90 dark:border-emerald-800/60'
+                                  : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200/90 dark:border-blue-800/60'
+                              }`}
+                            >
+                              {metrics.percent}%
+                            </span>
                           </div>
                         </td>
-                      )}
 
-                      {/* Attendance % Badge */}
-                      <td className="py-3 px-3 text-center">
-                        <Badge
-                          className={`font-mono font-bold text-xs px-2.5 py-0.5 ${
-                            isCritical
-                              ? 'bg-rose-100 text-rose-800 border-rose-200'
-                              : isExcellent
-                              ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
-                              : 'bg-blue-100 text-blue-800 border-blue-200'
-                          }`}
-                        >
-                          {metrics.percent}%
-                        </Badge>
-                      </td>
-
-                      {/* Action: Open Individual Report */}
-                      <td className="py-3 px-3.5 text-right">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          onClick={() => handleOpenStudentModal(st)}
-                          className="h-7 text-xs font-bold text-blue-600 hover:text-blue-700 hover:bg-blue-50 px-2 gap-1 cursor-pointer"
-                        >
-                          <FileText className="h-3.5 w-3.5" />
-                          <span>View Report</span>
-                        </Button>
-                      </td>
-                    </tr>
-                  );
-                })}
+                        {/* Action: Open Individual Report */}
+                        <td className="py-3 px-3.5 text-right pr-5 whitespace-nowrap align-middle">
+                          <div className="flex items-center justify-end">
+                            <button
+                              type="button"
+                              onClick={() => handleOpenStudentModal(st)}
+                              className="h-7 px-2.5 inline-flex items-center justify-center gap-1.5 text-[11px] font-bold tracking-wider rounded-lg border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-200 hover:text-[#2864E8] dark:hover:text-blue-400 hover:border-blue-200 dark:hover:border-blue-800 hover:bg-blue-50/50 dark:hover:bg-slate-800 transition-colors cursor-pointer uppercase shadow-none"
+                              title="View Details"
+                            >
+                              <span>VIEW</span>
+                              <Eye className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
               </tbody>
             </table>
-          )}
+          </div>
         </CardContent>
       </Card>
+      </div>
 
       {/* ------------------------------------------------------------- */}
       {/* INDIVIDUAL STUDENT REPORT MODAL (Drilldown)                    */}
       {/* ------------------------------------------------------------- */}
       <Dialog open={isIndividualModalOpen} onOpenChange={setIsIndividualModalOpen}>
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto p-0 gap-0 rounded-2xl border-slate-200 bg-white">
+          <DialogHeader className="sr-only">
+            <DialogTitle>{selectedStudentItem?.student?.name || 'Student Attendance Report'}</DialogTitle>
+            <DialogDescription>
+              {selectedStudentItem
+                ? `Attendance details for ${selectedStudentItem.student.name}`
+                : 'Student detailed attendance report'}
+            </DialogDescription>
+          </DialogHeader>
           {selectedStudentItem && (
             <div>
               {/* Modal Header */}

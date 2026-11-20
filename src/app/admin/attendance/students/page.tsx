@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useAttendance } from '@/context/attendance-context';
@@ -24,8 +24,13 @@ import {
   Globe,
   Check,
   ChevronDown,
+  Eye,
+  FileSpreadsheet,
+  Power,
+  PowerOff,
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from '@/components/ui/card';
+import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -76,6 +81,7 @@ export default function StudentsDirectoryPage() {
     students,
     classes,
     batches,
+    attendanceSessions,
     currentRole,
     isDemoData,
     getDependencySummary,
@@ -100,9 +106,65 @@ export default function StudentsDirectoryPage() {
   const [isBranchPickerOpen, setIsBranchPickerOpen] = useState<boolean>(false);
 
   // Filter States
+  const [sessionFilter, setSessionFilter] = useState<string>('all');
   const [classFilter, setClassFilter] = useState('all');
   const [batchFilter, setBatchFilter] = useState('all');
   const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'archived'>('all');
+
+  // View Profile Popup State (Fee Dashboard style)
+  const [selectedStudentProfile, setSelectedStudentProfile] = useState<TStudent | null>(null);
+  const activeProfileStudent = useMemo(() => {
+    if (!selectedStudentProfile) return null;
+    return students.find(s => s.id === selectedStudentProfile.id) || selectedStudentProfile;
+  }, [selectedStudentProfile, students]);
+
+  // Format date helper (YYYY-MM-DD -> 01 Apr 2026)
+  const formatAdmDate = (dateStr?: string) => {
+    if (!dateStr) return '—';
+    const d = new Date(dateStr);
+    if (isNaN(d.getTime())) return dateStr;
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  };
+
+  // All Academic Sessions list for filter
+  const allSessionsList = useMemo(() => {
+    const set = new Set<string>(['2026-27', '2027-28', '2028-29']);
+    classes.forEach(c => {
+      if (c.academicSession) set.add(c.academicSession.trim());
+    });
+    return Array.from(set)
+      .sort((a, b) => a.localeCompare(b))
+      .map(id => ({ id, label: id, isCurrent: id === '2026-27' }));
+  }, [classes]);
+
+  // Per-student attendance summary map from live sessions
+  const studentAttendanceMap = useMemo(() => {
+    const map: Record<string, { present: number; absent: number; leave: number; total: number; percent: number | null }> = {};
+    for (const session of attendanceSessions) {
+      if (!session.studentRecords) continue;
+      for (const rec of Object.values(session.studentRecords)) {
+        if (!rec || rec.isVoided) continue;
+        if (!map[rec.studentId]) {
+          map[rec.studentId] = { present: 0, absent: 0, leave: 0, total: 0, percent: null };
+        }
+        if (rec.status === 'present' || rec.status === 'late' || rec.status === 'live' || rec.status === 'left') {
+          map[rec.studentId].present += 1;
+          map[rec.studentId].total += 1;
+        } else if (rec.status === 'absent') {
+          map[rec.studentId].absent += 1;
+          map[rec.studentId].total += 1;
+        } else if (rec.status === 'leave') {
+          map[rec.studentId].leave += 1;
+          map[rec.studentId].total += 1;
+        }
+      }
+    }
+    for (const key of Object.keys(map)) {
+      const m = map[key];
+      m.percent = m.total > 0 ? Math.round((m.present / m.total) * 100) : null;
+    }
+    return map;
+  }, [attendanceSessions]);
 
   // Search State (Rightmost round expandable search bar)
   const [studentSearch, setStudentSearch] = useState('');
@@ -121,6 +183,18 @@ export default function StudentsDirectoryPage() {
       setClassFilter(urlClassId);
     }
   }, [urlBatchId, urlClassId, batches.length, classes.length]);
+
+  // Auto-open Add Student modal when navigated via tab bar quick action
+  useEffect(() => {
+    if (searchParams.get('action') === 'add-student') {
+      resetForm();
+      setIsAddStudentOpen(true);
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', '/admin/attendance/students');
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   // Multi-select bulk actions
   const [selectedStudentIds, setSelectedStudentIds] = useState<string[]>([]);
@@ -210,6 +284,13 @@ export default function StudentsDirectoryPage() {
         (s.parentPhone && s.parentPhone.includes(q)) ||
         String(s.rollNo) === q;
       if (!match) return false;
+    }
+
+    // 2.5. Academic Session Filter
+    if (sessionFilter !== 'all') {
+      const clsObj = classes.find(c => c.id === s.classId);
+      const clsSession = (clsObj?.academicSession || '2026-27').trim();
+      if (clsSession !== sessionFilter) return false;
     }
 
     // 3. Class Filter
@@ -343,16 +424,25 @@ export default function StudentsDirectoryPage() {
     setSelectedStudentIds([]);
   };
 
+  const studentMetrics = useMemo(() => {
+    const scopedStudents = filteredStudents;
+    const total = scopedStudents.length;
+    const active = scopedStudents.filter(s => s.status !== 'archived').length;
+    const archived = scopedStudents.filter(s => s.status === 'archived').length;
+    const uniqueBatches = new Set(scopedStudents.map(s => s.batchId || s.batchName)).size;
+    return { total, active, archived, uniqueBatches };
+  }, [filteredStudents]);
+
   return (
-    <div className="space-y-0 font-['Inter_Tight',sans-serif] max-w-7xl mx-auto">
+    <div className="min-h-[calc(100svh-68px)] flex-1 flex flex-col overflow-x-hidden">
       {/* ------------------------------------------------------------------ */}
-      {/* SECTION 1: TOP TOOLBAR — Branch Only (Matches Fee System Toolbar) */}
+      {/* SECTION 1: TOP TOOLBAR — Branch + Quick Action (Fee System Style)  */}
       {/* ------------------------------------------------------------------ */}
       <section
         aria-label="Attendance students toolbar"
-        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800"
+        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-0 z-40"
       >
-        <div className="py-2.5 flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between flex-wrap gap-4 sm:gap-6 min-w-0">
           {/* Branch Selector (Fee System Style — compact, borderless, icon + text + chevron + Popover) */}
           <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
             <PopoverTrigger asChild>
@@ -375,7 +465,7 @@ export default function StudentsDirectoryPage() {
             <PopoverContent
               align="start"
               sideOffset={8}
-              className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+              className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
             >
               {/* First Option: All Branches */}
               <button
@@ -440,49 +530,96 @@ export default function StudentsDirectoryPage() {
       </section>
 
       {/* ------------------------------------------------------------------ */}
-      {/* SECTION 2: STUDENTS Tab + Quick Action (Matches Class/Batch Bar) */}
+      {/* MAIN CONTENT CONTAINER (Fee Dashboard Proportion & Spacing)        */}
       {/* ------------------------------------------------------------------ */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-[#2864E8] pb-2 sm:pb-2.5 pt-3">
-        {/* Left: STUDENTS tab */}
-        <div className="overflow-x-auto no-scrollbar -mx-1 px-1">
-          <div className="flex items-center gap-1 sm:gap-6 min-w-max">
-            <span className="flex items-center gap-1.5 py-1 px-2 text-[12px] sm:text-[12.5px] font-semibold tracking-[0.3px] text-[#2864E8] uppercase">
-              <span
-                className="text-[13px] leading-none inline-flex items-center justify-center select-none shrink-0"
-                style={{ filter: 'grayscale(100%)', opacity: 0.75 }}
-                aria-hidden="true"
-              >
-                🧑‍🎓
-              </span>
-              <span>STUDENTS</span>
-            </span>
-          </div>
+      <div className="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl flex-1 space-y-6 pb-12">
+        {/* KPI Summary Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5 sm:gap-4">
+          {/* 1. Total Students */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.4px]">
+                  Total Students
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {studentMetrics.total}
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Enrolled in filter
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 2. Active Students */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-[0.4px]">
+                  Active Students
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-emerald-600 dark:text-emerald-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {studentMetrics.active}
+              </div>
+              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80 font-normal mt-0.5 truncate">
+                Active status
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 3. Archived */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-[0.4px]">
+                  Archived
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-amber-600 dark:text-amber-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {studentMetrics.archived}
+              </div>
+              <p className="text-[11px] text-amber-700/80 dark:text-amber-400/80 font-normal mt-0.5 truncate">
+                Archived records
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 4. Total Batches */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-[0.4px]">
+                  Total Batches
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {studentMetrics.uniqueBatches}
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Batches represented
+              </p>
+            </CardContent>
+          </Card>
         </div>
 
-        {/* Right: + STUDENT button with circular outline icon */}
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0 px-1">
-          <button
-            type="button"
-            onClick={() => {
-              resetForm();
-              setIsAddStudentOpen(true);
-            }}
-            className="group flex items-center gap-1.5 text-[12px] sm:text-[12.5px] font-semibold text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200 uppercase tracking-[0.3px] transition-colors bg-transparent border-0 p-0 cursor-pointer focus:outline-none focus:ring-0 shadow-none"
-            title="Add Student"
-          >
-            <span className="w-[18px] h-[18px] rounded-full border border-slate-300 dark:border-slate-600 group-hover:border-slate-500 dark:group-hover:border-slate-400 flex items-center justify-center shrink-0 transition-colors">
-              <Plus className="w-2.5 h-2.5 text-slate-500 dark:text-slate-400 group-hover:text-slate-800 dark:group-hover:text-slate-200 transition-colors" strokeWidth={2.5} />
-            </span>
-            <span>STUDENT</span>
-          </button>
-        </div>
-      </div>
+        {/* Unified Attendance Dashboard Navigation Tabs */}
+        <AttendanceDashboardTabs
+          onAddStudent={() => {
+            resetForm();
+            setIsAddStudentOpen(true);
+          }}
+        />
 
-      {/* ------------------------------------------------------------------ */}
-      {/* SECTION 3: STUDENT DIRECTORY CARD & FILTERS */}
-      {/* ------------------------------------------------------------------ */}
-      <div className="pt-4">
-        <Card className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] font-['Inter_Tight',sans-serif] overflow-hidden">
+        {/* ------------------------------------------------------------------ */}
+        {/* SECTION 3: STUDENT DIRECTORY CARD & FILTERS                        */}
+        {/* ------------------------------------------------------------------ */}
+        <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] overflow-hidden">
           <CardHeader className="py-2.5 sm:py-3 px-4 sm:px-6 border-b border-slate-100 dark:border-slate-800/80">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
               <div>
@@ -494,8 +631,34 @@ export default function StudentsDirectoryPage() {
                 </CardDescription>
               </div>
 
-              {/* Filter Row: [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
+              {/* Filter Row: [ SESSION ] [ CLASS ] [ BATCH ] [ STATUS ] [ Search (Rightmost, Round) ] */}
               <div className="flex items-center gap-2 sm:gap-2.5 flex-wrap justify-end">
+                {/* 0. SESSION */}
+                <Select
+                  value={sessionFilter}
+                  onValueChange={(val) => {
+                    setSessionFilter(val);
+                    setClassFilter('all');
+                    setBatchFilter('all');
+                  }}
+                >
+                  <SelectTrigger className="h-7 !border-0 !border-b-0 !shadow-none !ring-0 !outline-none px-1 text-[11px] font-semibold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white focus:!outline-none focus:!ring-0 focus:!ring-offset-0 focus:!shadow-none data-[state=open]:!shadow-none data-[state=open]:!border-b-0 gap-1 cursor-pointer w-auto [&>span]:line-clamp-none [&>svg]:w-3 [&>svg]:h-3 [&>svg]:opacity-60 tracking-wider uppercase">
+                    <SelectValue placeholder="SESSION">
+                      {sessionFilter === 'all'
+                        ? 'SESSION'
+                        : `SESSION: ${sessionFilter}`}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all" className="text-xs font-semibold">All Sessions</SelectItem>
+                    {allSessionsList.map(s => (
+                      <SelectItem key={s.id} value={s.id} className="text-xs">
+                        Session {s.label} {s.isCurrent && '(Current)'}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
                 {/* 1. CLASS (No icon, all capital, compact & refined) */}
                 <Select
                   value={classFilter}
@@ -670,27 +833,17 @@ export default function StudentsDirectoryPage() {
               </div>
             )}
 
-            {/* Students Table */}
+            {/* Students Table (Exact Fee Dashboard UI & Features) */}
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs sm:text-sm">
                 <thead className="bg-slate-50/80 dark:bg-slate-900/60 text-slate-500 dark:text-slate-400 font-semibold uppercase tracking-wider text-[10.5px] border-b border-slate-200/70 dark:border-slate-800/80">
                   <tr>
-                    <th className="py-2.5 sm:py-3 px-3 w-10 text-center">
-                      <input
-                        type="checkbox"
-                        checked={
-                          selectedStudentIds.length === sortedStudents.length &&
-                          sortedStudents.length > 0
-                        }
-                        onChange={e => handleSelectAll(e.target.checked)}
-                        className="rounded border-slate-300 text-[#2864E8] focus:ring-[#2864E8] cursor-pointer"
-                      />
-                    </th>
-                    <th className="py-2.5 sm:py-3 px-3.5 pl-3 whitespace-nowrap min-w-[240px]">STUDENT NAME & DETAILS</th>
-                    <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap w-[200px] min-w-[200px]">CLASS / BATCH</th>
-                    <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap w-[160px] min-w-[160px]">CONTACT</th>
+                    <th className="py-2.5 sm:py-3 px-3.5 pl-5 whitespace-nowrap w-[260px] min-w-[260px]">STUDENT NAME & DETAILS</th>
+                    <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap w-[220px] min-w-[220px]">CLASS/BATCH</th>
+                    <th className="py-2.5 sm:py-3 px-3.5 whitespace-nowrap w-[150px] min-w-[150px]">CONTACT</th>
+                    <th className="py-2.5 sm:py-3 px-3.5 text-right whitespace-nowrap min-w-[130px]">ATTENDANCE</th>
                     <th className="py-2.5 sm:py-3 px-3.5 text-center whitespace-nowrap w-[110px] min-w-[100px]">STATUS</th>
-                    <th className="py-2.5 sm:py-3 px-3.5 text-right pr-5 whitespace-nowrap min-w-[120px]">ACTIONS</th>
+                    <th className="py-2.5 sm:py-3 px-3.5 text-right pr-5 whitespace-nowrap min-w-[125px]">ACTIONS</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
@@ -699,156 +852,149 @@ export default function StudentsDirectoryPage() {
                       <td colSpan={6} className="py-12 text-center text-slate-400">
                         <Users className="w-8 h-8 mx-auto text-slate-300 dark:text-slate-700 mb-2" />
                         <p className="font-semibold text-xs text-slate-600 dark:text-slate-300">
-                          {classFilter !== 'all' || batchFilter !== 'all' || statusFilter !== 'all' || studentSearch.trim()
-                            ? 'No matching students found'
+                          {sessionFilter !== 'all' || classFilter !== 'all' || batchFilter !== 'all' || statusFilter !== 'all' || studentSearch.trim()
+                            ? 'No matching students'
                             : 'No students enrolled yet'}
                         </p>
                         <p className="text-[11px] text-slate-400 mt-0.5">
-                          {classFilter !== 'all' || batchFilter !== 'all' || statusFilter !== 'all' || studentSearch.trim()
-                            ? 'Try adjusting your class, batch, status or search query.'
+                          {sessionFilter !== 'all' || classFilter !== 'all' || batchFilter !== 'all' || statusFilter !== 'all' || studentSearch.trim()
+                            ? 'Try adjusting your session, class, batch, status or search filter.'
                             : 'Click + STUDENT above to enroll students.'}
                         </p>
                       </td>
                     </tr>
                   ) : (
                     sortedStudents.map(st => {
-                      const isSelected = selectedStudentIds.includes(st.id);
                       const isArchived = st.status === 'archived';
+                      const cls = classes.find(c => c.id === st.classId);
+                      const batch = batches.find(b => b.id === st.batchId);
+                      const branchId = st.branchId || batch?.branchId || cls?.branchId || 'budh-vihar';
+                      const branchName =
+                        IDL_BRANCHES.find(b => b.id === branchId || branchId.toLowerCase().includes(b.id))?.name ||
+                        'Budh Vihar';
+                      const att = studentAttendanceMap[st.id] || { present: 0, absent: 0, leave: 0, total: 0, percent: null };
+                      const pctColor =
+                        att.percent === null
+                          ? 'text-slate-400 dark:text-slate-500'
+                          : att.percent >= 85
+                            ? 'text-emerald-600 dark:text-emerald-400'
+                            : att.percent >= 75
+                              ? 'text-[#2864E8] dark:text-blue-400'
+                              : 'text-rose-600 dark:text-rose-400';
 
                       return (
                         <tr
                           key={st.id}
-                          className={`transition-colors duration-150 ${
-                            isSelected ? 'bg-blue-50/40 dark:bg-blue-950/20' : 'hover:bg-slate-50/70 dark:hover:bg-slate-800/40'
-                          } ${isArchived ? 'opacity-60 bg-slate-50/40 dark:bg-slate-900/40' : ''}`}
+                          className={`transition-colors duration-150 bg-white hover:bg-slate-50/60 dark:bg-slate-900 dark:hover:bg-slate-800/40 ${
+                            isArchived ? 'opacity-70 bg-slate-50/40 dark:bg-slate-900/40' : ''
+                          }`}
                         >
-                          {/* Checkbox */}
-                          <td className="py-3 px-3 text-center">
-                            <input
-                              type="checkbox"
-                              checked={isSelected}
-                              onChange={() => handleToggleStudent(st.id)}
-                              className="rounded border-slate-300 text-[#2864E8] focus:ring-[#2864E8] cursor-pointer"
-                            />
-                          </td>
-
-                          {/* Student Name & Details */}
-                          <td className="py-3 px-3.5 pl-3">
-                            <div className="flex flex-col">
-                              <div className="flex items-center gap-1.5">
-                                <Link
-                                  href={`/admin/attendance/students/${st.id}`}
-                                  className="text-[13px] font-bold text-slate-900 dark:text-white hover:text-[#2864E8] dark:hover:text-blue-400 transition-colors"
-                                >
-                                  {st.name}
-                                </Link>
-                                <span className="text-[10.5px] px-1.5 py-0.2 rounded font-mono font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                                  #{st.rollNo}
-                                </span>
-                              </div>
-                              <div className="flex items-center gap-1 text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
-                                {st.parentName && <span>{st.parentName}</span>}
-                                {st.parentName && st.admissionDate && <span>•</span>}
-                                {st.admissionDate && <span>Joined: {st.admissionDate}</span>}
-                              </div>
-                            </div>
-                          </td>
-
-                          {/* Class / Batch */}
-                          <td className="py-3 px-3.5">
-                            <div className="flex flex-col">
-                              <span className="text-xs font-semibold text-slate-800 dark:text-slate-200">
-                                {st.className?.startsWith('Class') ? st.className : `Class ${st.className || '-'}`}
-                              </span>
-                              <span className="text-[11px] text-slate-500 dark:text-slate-400">
-                                {st.batchName?.startsWith('Batch') ? st.batchName : `Batch ${st.batchName || '-'}`}
-                              </span>
-                            </div>
-                          </td>
-
-                          {/* Contact */}
-                          <td className="py-3 px-3.5">
-                            <div className="flex flex-col text-[11px]">
-                              <span className="font-medium text-slate-700 dark:text-slate-300 tabular-nums">
-                                {st.parentPhone || st.phone}
-                              </span>
-                              {st.parentPhone && st.phone && st.parentPhone !== st.phone && (
-                                <span className="text-slate-400 tabular-nums">
-                                  {st.phone}
-                                </span>
-                              )}
-                            </div>
-                          </td>
-
-                          {/* Status */}
-                          <td className="py-3 px-3.5 text-center">
-                            <span
-                              className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10.5px] font-bold uppercase tracking-wider ${
-                                st.status === 'active'
-                                  ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-800/60'
-                                  : 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-                              }`}
+                          {/* 1. Student Name & Details */}
+                          <td className="py-3 px-3.5 pl-5 whitespace-nowrap align-middle">
+                            <button
+                              type="button"
+                              onClick={() => setSelectedStudentProfile(st)}
+                              className="font-semibold text-slate-900 dark:text-white hover:text-[#2864E8] dark:hover:text-blue-400 text-[13.5px] sm:text-[14px] flex items-center gap-1.5 whitespace-nowrap tracking-tight leading-none h-[18px] transition-colors cursor-pointer bg-transparent border-0 p-0 text-left"
                             >
-                              {st.status}
-                            </span>
+                              <span>{st.name}</span>
+                            </button>
+                            <div className="text-[11.5px] text-slate-500 dark:text-slate-400 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
+                              Father : <span className="font-medium text-slate-700 dark:text-slate-300 capitalize ml-1">{st.parentName || '—'}</span>
+                            </div>
+                            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
+                              Admission No. : <span className="font-mono font-medium text-slate-600 dark:text-slate-400 ml-1">{st.rollNo || st.id}</span>
+                            </div>
                           </td>
 
-                          {/* Actions */}
-                          <td className="py-3 px-3.5 text-right pr-5">
-                            <div className="flex items-center justify-end gap-1">
-                              {/* Edit Button */}
-                              <button
-                                type="button"
-                                onClick={() => openEditModal(st)}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-[#2864E8] hover:bg-blue-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Edit Student"
-                              >
-                                <Edit className="w-3.5 h-3.5" />
-                              </button>
-
-                              {/* Transfer Batch Button */}
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setTransferStudentItem(st);
-                                  const destBatches = batches.filter(b => b.id !== st.batchId);
-                                  if (destBatches.length > 0) setTransferToBatch(destBatches[0].id);
-                                }}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Transfer Batch"
-                              >
-                                <ArrowRightLeft className="w-3.5 h-3.5" />
-                              </button>
-
-                              {/* Archive / Restore Button */}
-                              {st.status === 'active' ? (
-                                <button
-                                  type="button"
-                                  onClick={() => archiveStudent(st.id)}
-                                  className="h-7 w-7 rounded-lg text-slate-400 hover:text-amber-600 hover:bg-amber-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                  title="Archive Student"
-                                >
-                                  <Archive className="w-3.5 h-3.5" />
-                                </button>
-                              ) : (
-                                <button
-                                  type="button"
-                                  onClick={() => restoreStudent(st.id)}
-                                  className="h-7 w-7 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-emerald-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                  title="Restore Student"
-                                >
-                                  <RotateCcw className="w-3.5 h-3.5" />
-                                </button>
+                          {/* 2. Class / Batch */}
+                          <td className="py-3 px-3.5 whitespace-nowrap align-middle">
+                            <div className="flex items-center gap-1 font-medium text-slate-700 dark:text-slate-200 text-[13px] whitespace-nowrap tracking-tight leading-none h-[18px]">
+                              <span>{st.className?.startsWith('Class') ? st.className : `Class ${st.className || '-'}`}</span>
+                              {st.batchName && (
+                                <>
+                                  <span className="inline-block w-px h-3 bg-slate-200 dark:bg-slate-700 mx-1.5 shrink-0" aria-hidden="true" />
+                                  <span className="font-medium text-slate-700 dark:text-slate-200">
+                                    {st.batchName.startsWith('Batch') ? st.batchName : `Batch ${st.batchName}`}
+                                  </span>
+                                </>
                               )}
+                            </div>
+                            <div className="text-[11.5px] text-slate-400 dark:text-slate-500 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
+                              <span className="inline-block w-[64px] shrink-0">Join Date :</span>
+                              <span className="font-mono font-medium text-slate-600 dark:text-slate-400 tabular-nums">
+                                {formatAdmDate(st.admissionDate)}
+                              </span>
+                            </div>
+                            <div className="text-[11.5px] text-slate-400 dark:text-slate-500 font-normal whitespace-nowrap mt-1 leading-none h-[16px] flex items-center">
+                              <span className="inline-block w-[64px] shrink-0">Branch :</span>
+                              <span className="font-medium text-slate-600 dark:text-slate-400 truncate max-w-[130px]">
+                                {branchName}
+                              </span>
+                            </div>
+                          </td>
 
-                              {/* Delete Button */}
+                          {/* 3. Contact */}
+                          <td className="py-3 px-3.5 whitespace-nowrap align-middle">
+                            <div className="font-medium text-slate-700 dark:text-slate-300 text-[13px] font-mono tabular-nums whitespace-nowrap tracking-tight leading-none h-[18px] flex items-center" title="Parent Contact">
+                              {st.parentPhone || st.phone || '—'}
+                            </div>
+                            {st.parentPhone && st.phone && st.parentPhone !== st.phone ? (
+                              <div className="text-[11px] text-slate-400 dark:text-slate-500 font-mono tabular-nums whitespace-nowrap mt-1 leading-none h-[16px] flex items-center" title="Student Contact">
+                                {st.phone}
+                              </div>
+                            ) : null}
+                          </td>
+
+                          {/* 4. Attendance Summary */}
+                          <td className="py-3 px-3.5 text-right whitespace-nowrap align-middle">
+                            <div className={`font-semibold text-[13.5px] font-mono tabular-nums tracking-tight whitespace-nowrap leading-none h-[18px] flex items-center justify-end ${pctColor}`}>
+                              {att.percent !== null ? `${att.percent}%` : '—'}
+                            </div>
+                            <div className="text-[11px] font-medium text-slate-400 dark:text-slate-500 mt-1 tabular-nums whitespace-nowrap leading-none h-[16px] flex items-center justify-end gap-1.5">
+                              <span className="text-emerald-600 dark:text-emerald-400">{att.present}P</span>
+                              <span className="text-slate-300 dark:text-slate-700">·</span>
+                              <span className="text-rose-500 dark:text-rose-400">{att.absent}A</span>
+                              <span className="text-slate-300 dark:text-slate-700">·</span>
+                              <span className="text-amber-600 dark:text-amber-400">{att.leave}L</span>
+                            </div>
+                          </td>
+
+                          {/* 5. Status */}
+                          <td className="py-3 px-3.5 text-center whitespace-nowrap align-middle">
+                            <div className="flex flex-col items-center justify-center gap-1">
+                              <span
+                                className={`h-[28px] min-w-[78px] px-2.5 inline-flex items-center justify-center text-[11px] font-semibold tracking-wider rounded-md whitespace-nowrap uppercase ${
+                                  st.status === 'active'
+                                    ? 'bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-700 dark:text-emerald-400 border border-emerald-200/70 dark:border-emerald-800/40'
+                                    : 'bg-amber-50/80 dark:bg-amber-950/30 text-amber-700 dark:text-amber-400 border border-amber-200/70 dark:border-amber-800/40'
+                                }`}
+                              >
+                                {st.status === 'active' ? 'ACTIVE' : 'DISABLED'}
+                              </span>
+                            </div>
+                          </td>
+
+                          {/* 6. Actions (All Report Icon + VIEW Profile Button — Exact Fee Dashboard UI) */}
+                          <td className="py-3 px-3.5 text-right pr-5 whitespace-nowrap align-middle">
+                            <div className="flex items-center justify-end">
+                              {/* All Report Icon (Left of View) */}
+                              <Link
+                                href={`/admin/attendance/students/${st.id}`}
+                                className="h-[28px] w-[28px] rounded-md border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-500 hover:text-[#2864E8] dark:hover:text-blue-400 hover:border-blue-300 dark:hover:border-blue-700 hover:bg-blue-50/40 dark:hover:bg-slate-800 flex items-center justify-center cursor-pointer transition-colors shadow-none mr-1.5 shrink-0"
+                                title="Full Attendance Report"
+                              >
+                                <FileSpreadsheet className="w-3.5 h-3.5 text-slate-600 dark:text-slate-300 hover:text-[#2864E8]" />
+                              </Link>
+
+                              {/* View Profile Popup Button */}
                               <button
                                 type="button"
-                                onClick={() => setDeleteStudentConfirm(st)}
-                                className="h-7 w-7 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50/80 dark:hover:bg-slate-800 flex items-center justify-center transition-colors cursor-pointer"
-                                title="Delete Student"
+                                onClick={() => setSelectedStudentProfile(st)}
+                                className="h-[28px] min-w-[78px] px-2.5 inline-flex items-center justify-center gap-1.5 text-[11px] font-semibold tracking-wider rounded-md border border-slate-200/80 dark:border-slate-700/80 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:text-[#2864E8] dark:hover:text-blue-400 hover:border-[#2864E8]/50 hover:bg-blue-50/40 dark:hover:bg-slate-800 transition-colors cursor-pointer uppercase shadow-none"
+                                title="View Details"
                               >
-                                <Trash2 className="w-3.5 h-3.5" />
+                                <span>VIEW</span>
+                                <Eye className="w-3.5 h-3.5 shrink-0" />
                               </button>
                             </div>
                           </td>
@@ -1306,6 +1452,366 @@ export default function StudentsDirectoryPage() {
       </Dialog>
 
       {/* -------------------------------------------------------------------- */}
+      {/* VIEW STUDENT PROFILE POPUP MODAL (Exact Fee Dashboard UI & Actions)  */}
+      {/* -------------------------------------------------------------------- */}
+      <Dialog
+        open={!!activeProfileStudent}
+        onOpenChange={open => {
+          if (!open) setSelectedStudentProfile(null);
+        }}
+      >
+        <DialogContent className="max-w-[480px] sm:max-w-[500px] w-[94vw] rounded-2xl p-4 sm:p-5 bg-white dark:bg-slate-950 text-left border border-slate-200/80 dark:border-slate-800 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.12),0_4px_16px_rgba(15,23,42,0.04)] overflow-hidden max-h-[88vh] flex flex-col">
+          {activeProfileStudent && (() => {
+            const cls = classes.find(c => c.id === activeProfileStudent.classId);
+            const batch = batches.find(b => b.id === activeProfileStudent.batchId);
+            const branchId = activeProfileStudent.branchId || batch?.branchId || cls?.branchId || 'budh-vihar';
+            const branchName =
+              IDL_BRANCHES.find(b => b.id === branchId || branchId.toLowerCase().includes(b.id))?.name ||
+              'Budh Vihar';
+            const isActive = activeProfileStudent.status === 'active';
+            const att = studentAttendanceMap[activeProfileStudent.id] || {
+              present: 0,
+              absent: 0,
+              leave: 0,
+              total: 0,
+              percent: null,
+            };
+            const enrolledSubjects = batch?.subjects || [];
+
+            return (
+              <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+                {/* Header: Student Name + Status Badge + ID / Join / Attendance */}
+                <DialogHeader className="pb-2.5 border-b border-slate-100 dark:border-slate-800/80 shrink-0 text-left">
+                  <div>
+                    <div className="flex items-center justify-between pr-8">
+                      <DialogTitle className="text-[16px] sm:text-[17px] font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 leading-snug">
+                        <span>{activeProfileStudent.name}</span>
+                        {isActive ? (
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800 shrink-0">
+                            ACTIVE
+                          </span>
+                        ) : (
+                          <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800 shrink-0">
+                            DISABLED
+                          </span>
+                        )}
+                      </DialogTitle>
+                    </div>
+
+                    <div className="text-[11.5px] text-slate-500 font-mono mt-1.5 flex items-center flex-wrap gap-x-1.5 gap-y-1">
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">ID:</span>
+                        <span className="font-medium text-slate-700 dark:text-slate-200">
+                          {activeProfileStudent.rollNo || activeProfileStudent.id}
+                        </span>
+                      </span>
+                      <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">JOIN:</span>
+                        <span className="font-medium text-slate-700 dark:text-slate-300 tabular-nums">
+                          {formatAdmDate(activeProfileStudent.admissionDate)}
+                        </span>
+                      </span>
+                      <span className="text-slate-300 dark:text-slate-700 shrink-0 select-none">•</span>
+                      <span className="inline-flex items-center gap-1 whitespace-nowrap shrink-0">
+                        <span className="text-[10px] uppercase tracking-wider font-medium text-slate-400 dark:text-slate-500">ATTENDANCE:</span>
+                        <span
+                          className={`font-semibold tabular-nums ${
+                            att.percent === null
+                              ? 'text-slate-500'
+                              : att.percent >= 85
+                                ? 'text-emerald-600 dark:text-emerald-400'
+                                : att.percent >= 75
+                                  ? 'text-[#2864E8] dark:text-blue-400'
+                                  : 'text-rose-600 dark:text-rose-400'
+                          }`}
+                        >
+                          {att.percent !== null ? `${att.percent}%` : '—'}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </DialogHeader>
+
+                {/* Scrollable Body */}
+                <div className="flex-1 overflow-y-auto pr-1 pb-1 space-y-2.5 pt-2">
+                  {/* Personal Information Grid (Exact Fee Dashboard 3-col layout) */}
+                  <div className="py-2 border-b border-slate-100 dark:border-slate-800/80 space-y-2 text-xs">
+                    {/* Row 1: Father/Guardian Name, Date of Birth, Gender */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5">
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block truncate">
+                          Father / Guardian Name
+                        </span>
+                        <div className="text-[12.5px] font-medium text-slate-700 dark:text-slate-200 mt-0.5 truncate capitalize">
+                          {activeProfileStudent.parentName || '—'}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Date of Birth
+                        </span>
+                        <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
+                          {formatAdmDate(activeProfileStudent.dob)}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Gender
+                        </span>
+                        <div className="text-[12.5px] font-medium text-slate-700 dark:text-slate-200 mt-0.5">
+                          {activeProfileStudent.gender
+                            ? activeProfileStudent.gender.charAt(0).toUpperCase() +
+                              activeProfileStudent.gender.slice(1).toLowerCase()
+                            : '—'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 2: Primary Contact, Secondary Contact, Session */}
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5 pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Primary Contact
+                        </span>
+                        <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
+                          {activeProfileStudent.parentPhone || activeProfileStudent.phone || '—'}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Student Contact
+                        </span>
+                        <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
+                          {activeProfileStudent.phone || '—'}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Academic Session
+                        </span>
+                        <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 font-mono tabular-nums mt-0.5">
+                          {cls?.academicSession || '2026-27'}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Row 3: Residential Address */}
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60">
+                      <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                        Residential Address
+                      </span>
+                      <div className="text-[12px] font-medium text-slate-700 dark:text-slate-200 mt-0.5 leading-snug">
+                        {activeProfileStudent.address || '—'}
+                      </div>
+                    </div>
+
+                    {/* Row 4: Academic Details (Branch, Class, Batch) */}
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800/60 grid grid-cols-1 sm:grid-cols-3 gap-x-4 gap-y-1.5">
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Branch
+                        </span>
+                        <div className="text-[12.5px] font-medium text-slate-700 dark:text-slate-200 mt-0.5 truncate">
+                          {branchName}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Class
+                        </span>
+                        <div className="text-[12.5px] font-medium text-slate-700 dark:text-slate-200 mt-0.5 truncate">
+                          {activeProfileStudent.className?.startsWith('Class')
+                            ? activeProfileStudent.className
+                            : `Class ${activeProfileStudent.className || '—'}`}
+                        </div>
+                      </div>
+
+                      <div>
+                        <span className="text-[11px] font-normal text-slate-400 dark:text-slate-500 block">
+                          Batch
+                        </span>
+                        <div className="text-[12.5px] font-medium text-slate-700 dark:text-slate-200 mt-0.5 truncate">
+                          {activeProfileStudent.batchName?.startsWith('Batch')
+                            ? activeProfileStudent.batchName
+                            : `Batch ${activeProfileStudent.batchName || '—'}`}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Attendance Summary Card (Mirrors Fee Dashboard's FEE BREAKDOWN card) */}
+                  <div className="p-3 rounded-xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-100 dark:border-slate-800/80 space-y-2 text-xs">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                        ATTENDANCE SUMMARY
+                      </span>
+                      <Link
+                        href={`/admin/attendance/students/${activeProfileStudent.id}`}
+                        className="text-[11px] font-semibold text-[#2864E8] dark:text-blue-400 hover:underline inline-flex items-center gap-1"
+                      >
+                        <span>All Report</span>
+                        <ArrowRight className="w-3 h-3" />
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-2 pt-0.5">
+                      <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-center">
+                        <span className="text-[10px] font-medium text-slate-400 uppercase block">Total</span>
+                        <span className="text-sm font-bold text-slate-800 dark:text-slate-100 tabular-nums">{att.total}</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-center">
+                        <span className="text-[10px] font-medium text-emerald-600/80 uppercase block">Present</span>
+                        <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 tabular-nums">{att.present}</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-center">
+                        <span className="text-[10px] font-medium text-rose-500/80 uppercase block">Absent</span>
+                        <span className="text-sm font-bold text-rose-600 dark:text-rose-400 tabular-nums">{att.absent}</span>
+                      </div>
+                      <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-center">
+                        <span className="text-[10px] font-medium text-amber-600/80 uppercase block">Leave</span>
+                        <span className="text-sm font-bold text-amber-600 dark:text-amber-400 tabular-nums">{att.leave}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Enrolled Subjects (Blue-dot list matching Fee Dashboard) */}
+                  <div className="py-1.5 border-b border-slate-100 dark:border-slate-800/70 space-y-1.5 text-xs">
+                    <span className="text-[10.5px] uppercase font-semibold tracking-wider text-slate-900 dark:text-white block">
+                      ENROLLED SUBJECTS ({enrolledSubjects.length})
+                    </span>
+                    <div className="flex flex-wrap items-center gap-x-3.5 gap-y-1 pt-0.5">
+                      {enrolledSubjects.length > 0 ? (
+                        enrolledSubjects.map(sub => (
+                          <span
+                            key={sub}
+                            className="inline-flex items-center gap-1.5 text-[12px] font-medium text-slate-700 dark:text-slate-200"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500/80 dark:bg-blue-400/80 shrink-0" />
+                            <span>{sub}</span>
+                          </span>
+                        ))
+                      ) : (
+                        <span className="text-slate-400 font-normal italic text-[11.5px]">No subjects assigned to batch</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Transfer History (if any) */}
+                  {Boolean(activeProfileStudent.batchHistory && activeProfileStudent.batchHistory.length > 0) && (
+                    <div className="py-1.5 space-y-1 text-xs">
+                      <span className="text-[10.5px] uppercase font-bold tracking-wider text-slate-500 dark:text-slate-400 block">
+                        TRANSFER HISTORY ({activeProfileStudent.batchHistory?.length || 0})
+                      </span>
+                      <div className="space-y-1 pt-0.5">
+                        {activeProfileStudent.batchHistory?.map((tr, idx) => (
+                          <div
+                            key={`${tr.transferredAt}-${idx}`}
+                            className="p-2 rounded-lg bg-blue-50/30 dark:bg-blue-950/20 border border-blue-100 dark:border-blue-900/40 text-xs"
+                          >
+                            <div className="flex items-center justify-between font-semibold text-slate-900 dark:text-slate-100">
+                              <span className="flex items-center gap-1.5 flex-wrap">
+                                <span>{tr.fromBatchName}</span>
+                                <ArrowRight className="w-3 h-3 text-[#2864E8] shrink-0" />
+                                <span className="text-[#2864E8] font-bold">{tr.toBatchName}</span>
+                              </span>
+                              <span className="text-[10px] text-slate-400 font-mono shrink-0 ml-2">{tr.effectiveDate}</span>
+                            </div>
+                            {tr.reason && (
+                              <div className="text-[10.5px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                Note: {tr.reason}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Bottom Actions: Exact Fee Dashboard minimal icon-only action bar */}
+                <div className="pt-2 mt-1 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2 w-full shrink-0">
+                  <Link
+                    href={`/admin/attendance/students/${activeProfileStudent.id}`}
+                    className="h-8 px-2.5 rounded-lg inline-flex items-center gap-1.5 text-[11.5px] font-semibold text-slate-600 dark:text-slate-300 hover:text-[#2864E8] dark:hover:text-blue-400 hover:bg-blue-50/60 dark:hover:bg-slate-800/70 transition-colors"
+                    title="Open Full Attendance Report"
+                  >
+                    <FileSpreadsheet className="w-3.5 h-3.5" />
+                    <span>All Report</span>
+                  </Link>
+
+                  <div className="flex items-center justify-end gap-1">
+                    {/* Disable / Re-activate Toggle */}
+                    <button
+                      type="button"
+                      title={isActive ? 'Disable Student' : 'Re-activate Student'}
+                      onClick={() => {
+                        if (isActive) {
+                          archiveStudent(activeProfileStudent.id);
+                        } else {
+                          restoreStudent(activeProfileStudent.id);
+                        }
+                      }}
+                      className={`h-8 w-8 rounded-lg flex items-center justify-center transition-colors cursor-pointer focus:outline-none ${
+                        isActive
+                          ? 'text-slate-400 hover:text-amber-500 hover:bg-amber-50/60 dark:hover:bg-slate-800/70 dark:text-slate-500 dark:hover:text-amber-400'
+                          : 'text-amber-600 bg-amber-50/80 border border-amber-200/60 hover:text-emerald-600 hover:bg-emerald-50/80 dark:bg-amber-950/40 dark:text-amber-400 dark:hover:text-emerald-400'
+                      }`}
+                    >
+                      {isActive ? <PowerOff className="w-4 h-4" /> : <Power className="w-4 h-4" />}
+                    </button>
+
+                    {/* Delete Student */}
+                    <button
+                      type="button"
+                      title="Delete Student"
+                      onClick={() => {
+                        setDeleteStudentConfirm(activeProfileStudent);
+                      }}
+                      className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-rose-500 active:text-rose-600 hover:bg-rose-50/60 dark:hover:bg-slate-800/70 dark:text-slate-500 dark:hover:text-rose-400 transition-colors cursor-pointer bg-transparent focus:outline-none"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+
+                    {/* Transfer Student (Batch / Branch) */}
+                    <button
+                      type="button"
+                      title="Transfer Student (Batch / Branch)"
+                      onClick={() => {
+                        setTransferStudentItem(activeProfileStudent);
+                        const destBatches = batches.filter(b => b.id !== activeProfileStudent.batchId);
+                        if (destBatches.length > 0) setTransferToBatch(destBatches[0].id);
+                      }}
+                      className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-[#2864E8] active:text-[#1E4ED8] hover:bg-blue-50/60 dark:hover:bg-slate-800/70 dark:text-slate-500 dark:hover:text-blue-400 transition-colors cursor-pointer bg-transparent focus:outline-none"
+                    >
+                      <ArrowRightLeft className="w-4 h-4" />
+                    </button>
+
+                    {/* Edit Student Details */}
+                    <button
+                      type="button"
+                      title="Edit Student Details"
+                      onClick={() => {
+                        openEditModal(activeProfileStudent);
+                      }}
+                      className="h-8 w-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-[#2864E8] active:text-[#1E4ED8] hover:bg-blue-50/60 dark:hover:bg-slate-800/70 dark:text-slate-500 dark:hover:text-blue-400 transition-colors cursor-pointer bg-transparent focus:outline-none"
+                    >
+                      <Edit className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </DialogContent>
+      </Dialog>
+
+      {/* -------------------------------------------------------------------- */}
       {/* SMART DELETE CONFIRMATION */}
       {/* -------------------------------------------------------------------- */}
       {deleteStudentConfirm && (
@@ -1323,8 +1829,12 @@ export default function StudentsDirectoryPage() {
             setDeleteStudentConfirm(null);
           }}
           onForceDelete={(reason) => {
-            forceDeleteStudent(deleteStudentConfirm.id, reason);
+            const deletedId = deleteStudentConfirm.id;
+            forceDeleteStudent(deletedId, reason);
             setDeleteStudentConfirm(null);
+            if (selectedStudentProfile?.id === deletedId) {
+              setSelectedStudentProfile(null);
+            }
           }}
         />
       )}

@@ -2,7 +2,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, initializeFirestore, type Firestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 export const firebaseConfig = {
@@ -19,7 +19,14 @@ export const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
 const auth = getAuth(app);
-const db = getFirestore(app);
+let db: Firestore;
+try {
+  db = initializeFirestore(app, {
+    experimentalAutoDetectLongPolling: true,
+  });
+} catch {
+  db = getFirestore(app);
+}
 const storage = getStorage(app);
 
 export { app, auth, db, storage };

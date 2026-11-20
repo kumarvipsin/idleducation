@@ -30,6 +30,7 @@ import {
   Check,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { AttendanceDashboardTabs } from '@/components/attendance/attendance-dashboard-tabs';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
@@ -155,8 +156,8 @@ export default function AttendanceDashboard() {
   const filteredTodayClasses = useMemo(() => {
     return dashboardStats.todayClassesOverview.filter(item => {
       if (selectedBranch === 'all') return true;
-      const parentClass = classes.find(c => c.id === item.classId);
-      const parentBatch = batches.find(b => b.id === item.batchId);
+      const parentClass = classes.find(c => c.id === (item as any).classId || c.name === item.className);
+      const parentBatch = batches.find(b => b.id === (item as any).batchId || b.name === item.batchName);
       return (
         parentClass?.branchId === selectedBranch ||
         parentBatch?.branchId === selectedBranch
@@ -251,20 +252,28 @@ export default function AttendanceDashboard() {
   const ongoingClassesCount = schedules.filter(s => s.status === 'Ongoing').length;
   const upcomingClassesCount = schedules.filter(s => s.status === 'Upcoming').length;
 
+  const toolbarControlClass =
+    'h-7 px-0.5 py-0.5 bg-transparent hover:bg-transparent border-0 rounded-none shadow-none ring-0 outline-none focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer shrink-0';
+
   return (
-    <div className="space-y-6 max-w-7xl mx-auto">
-      {/* Top Toolbar (Exact Fee Dashboard style: Branch Selector, Date Selector, Live Attendance) */}
-      <section className="bg-white dark:bg-slate-900 border border-slate-200/90 dark:border-slate-800 rounded-xl px-4 py-2.5 shadow-[0_1px_3px_rgba(15,23,42,0.04)]">
-        <div className="flex items-center justify-between flex-wrap gap-3">
+    <div className="min-h-[calc(100svh-68px)] flex-1 flex flex-col overflow-x-hidden">
+      {/* ------------------------------------------------------------- */}
+      {/* TOP TOOLBAR (Exact Fee Management 100% Edge-to-Edge Style)    */}
+      {/* ------------------------------------------------------------- */}
+      <section
+        aria-label="Attendance overview toolbar"
+        className="w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-[#E5EAF2] dark:border-slate-800 md:sticky md:top-0 z-40"
+      >
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between flex-wrap gap-4 sm:gap-6 min-w-0">
           {/* Left: Branch Selector + Date Selector */}
-          <div className="flex items-center gap-4 sm:gap-6 flex-wrap">
+          <div className="flex items-center justify-start flex-wrap gap-4 sm:gap-6 min-w-0">
             {/* 1. Branch Selector */}
             <Popover open={isBranchPickerOpen} onOpenChange={setIsBranchPickerOpen}>
               <PopoverTrigger asChild>
                 <button
                   type="button"
                   aria-label="Select branch"
-                  className="h-7 px-0.5 py-0.5 bg-transparent border-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer select-none focus:outline-none group"
+                  className={toolbarControlClass}
                 >
                   {selectedBranch === 'all' ? (
                     <Globe className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
@@ -275,14 +284,14 @@ export default function AttendanceDashboard() {
                     {IDL_BRANCHES.find(b => b.id === selectedBranch)?.name || 'All Branches'}
                   </span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isBranchPickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
                   />
                 </button>
               </PopoverTrigger>
               <PopoverContent
                 align="start"
                 sideOffset={8}
-                className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white"
+                className="w-[212px] p-2 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-xl bg-white dark:bg-slate-900 text-slate-900 dark:text-white z-50"
               >
                 {/* First Option: All Branches */}
                 <button
@@ -350,12 +359,12 @@ export default function AttendanceDashboard() {
                 <button
                   type="button"
                   aria-label="Select date"
-                  className="h-7 px-0.5 py-0.5 bg-transparent border-0 text-xs sm:text-[13px] font-semibold text-[#172033] dark:text-slate-100 hover:text-[#2864E8] dark:hover:text-blue-400 inline-flex items-center gap-1.5 transition-colors cursor-pointer select-none focus:outline-none group"
+                  className={toolbarControlClass}
                 >
                   <Calendar className="w-3.5 h-3.5 text-[#2864E8] dark:text-blue-400 shrink-0" />
                   <span className="whitespace-nowrap">{formatDateDisplay(todayDate)}</span>
                   <ChevronDown
-                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-150 shrink-0 ${isDatePickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 shrink-0 ${isDatePickerOpen ? 'rotate-180 text-slate-700 dark:text-slate-200' : ''}`}
                   />
                 </button>
               </PopoverTrigger>
@@ -416,11 +425,11 @@ export default function AttendanceDashboard() {
             </Popover>
           </div>
 
-          {/* Right: Live Attendance (Ongoing) */}
-          <div>
+          {/* Right: Live Attendance Link */}
+          <div className="flex items-center gap-2 shrink-0">
             <Link href="/admin/attendance/live">
-              <Button className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs h-8 px-3.5 gap-2 shadow-xs rounded-lg cursor-pointer">
-                <Radio className="h-3.5 w-3.5 animate-pulse text-white" />
+              <Button className="h-7 px-2.5 rounded-lg text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-xs gap-1.5 cursor-pointer">
+                <Radio className="w-3.5 h-3.5 animate-pulse text-white" />
                 <span>Live Attendance (Ongoing)</span>
               </Button>
             </Link>
@@ -428,165 +437,160 @@ export default function AttendanceDashboard() {
         </div>
       </section>
 
-      {/* Top Stat Cards (Real-time dynamic data) */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
-        {/* Total Students */}
-        <Card className="border-slate-200 shadow-sm hover:shadow transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Total Students
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center">
-                <Users className="h-3.5 w-3.5" />
+      {/* ------------------------------------------------------------- */}
+      {/* MAIN CONTENT CONTAINER (Fee Dashboard Proportion & Spacing)   */}
+      {/* ------------------------------------------------------------- */}
+      <div className="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl flex-1 space-y-6 pb-12">
+        {/* Top Summary Stat Cards (Exact Fee Dashboard Proportions) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5 sm:gap-4">
+          {/* 1. Total Students */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-slate-400 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-[0.4px]">
+                  Students
+                </span>
               </div>
-            </div>
-            <div className="mt-2 flex items-baseline gap-2">
-              <span className="text-2xl font-black text-slate-900">{dashboardStats.totalStudents}</span>
-              <span className="text-[10px] text-slate-500 font-semibold">Active Enrolled</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Today's Classes */}
-        <Card className="border-slate-200 shadow-sm hover:shadow transition-shadow">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">
-                Today&apos;s Classes
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center">
-                <CalendarDays className="h-3.5 w-3.5" />
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {dashboardStats.totalStudents}
               </div>
-            </div>
-            <div className="mt-2">
-              <span className="text-2xl font-black text-slate-900">{dashboardStats.todayClassesCount}</span>
-              <div className="text-[10px] text-slate-500 font-medium mt-0.5 flex gap-1.5 flex-wrap">
-                <span className="text-emerald-600 font-semibold">{dashboardStats.completedClassesCount} Completed</span>
-                <span>•</span>
-                <span className="text-blue-600 font-semibold">{dashboardStats.ongoingClassesCount} Ongoing</span>
-                <span>•</span>
-                <span className="text-amber-600 font-semibold">{dashboardStats.upcomingClassesCount} Up</span>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Present Today */}
-        <Card className="border-slate-200 shadow-sm hover:shadow transition-shadow border-l-4 border-l-emerald-500">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider">
-                Present Today
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center">
-                <UserCheck className="h-3.5 w-3.5" />
-              </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-emerald-600">{dashboardStats.todayPresentCount}</span>
-              <Badge className="bg-emerald-100 text-emerald-800 border-emerald-200 font-bold text-[10px]">
-                {dashboardStats.todayPresentPercent}%
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Absent Today */}
-        <Card className="border-slate-200 shadow-sm hover:shadow transition-shadow border-l-4 border-l-rose-500">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-rose-700 uppercase tracking-wider">
-                Absent Today
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center">
-                <UserX className="h-3.5 w-3.5" />
-              </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-rose-600">{dashboardStats.todayAbsentCount}</span>
-              <Badge className="bg-rose-100 text-rose-800 border-rose-200 font-bold text-[10px]">
-                {dashboardStats.todayAbsentPercent}%
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* On Leave */}
-        <Card className="border-slate-200 shadow-sm hover:shadow transition-shadow border-l-4 border-l-amber-500 col-span-2 sm:col-span-1">
-          <CardContent className="p-4">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold text-amber-700 uppercase tracking-wider">
-                On Leave
-              </span>
-              <div className="h-7 w-7 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center">
-                <PlaneTakeoff className="h-3.5 w-3.5" />
-              </div>
-            </div>
-            <div className="mt-2 flex items-baseline justify-between">
-              <span className="text-2xl font-black text-amber-600">{dashboardStats.todayLeaveCount}</span>
-              <Badge className="bg-amber-100 text-amber-800 border-amber-200 font-bold text-[10px]">
-                {dashboardStats.todayLeavePercent}%
-              </Badge>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Main Section: Today's Class Overview Table (Exact match from reference panel 1) */}
-      <Card className="border-slate-200 shadow-sm">
-        <CardHeader className="p-4 sm:p-5 flex flex-row items-center justify-between border-b border-slate-100">
-          <div>
-            <CardTitle className="text-base font-bold text-slate-900 flex items-center gap-2">
-              <CalendarDays className="h-4 w-4 text-blue-600" />
-              Today&apos;s Class Overview
-            </CardTitle>
-            <CardDescription className="text-xs text-slate-500 mt-0.5">
-              Live schedule and real-time attendance counts for today&apos;s classes
-            </CardDescription>
-          </div>
-          <Link
-            href="/admin/attendance/schedule"
-            className="text-xs font-bold text-blue-600 hover:text-blue-700 flex items-center gap-1"
-          >
-            View Full Schedule <ChevronRight className="h-3.5 w-3.5" />
-          </Link>
-        </CardHeader>
-
-        <CardContent className="p-0 overflow-x-auto">
-          {filteredTodayClasses.length === 0 ? (
-            <div className="py-12 px-4 text-center space-y-3">
-              <div className="h-12 w-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
-                <CalendarDays className="h-6 w-6" />
-              </div>
-              <p className="text-sm font-bold text-slate-800">No classes scheduled for today</p>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                Schedule a regular class or add an extra session to begin live attendance tracking.
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                Active enrolled
               </p>
-              <Button
-                size="sm"
-                onClick={() => setIsAddClassOpen(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs h-8"
-              >
-                + Add Class Session
-              </Button>
+            </CardContent>
+          </Card>
+
+          {/* 2. Today's Classes */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-blue-700 dark:text-blue-400 uppercase tracking-[0.4px]">
+                  Today&apos;s Classes
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-slate-900 dark:text-white tracking-tight mt-1.5 tabular-nums leading-tight">
+                {dashboardStats.todayClassesCount}
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-normal mt-0.5 truncate">
+                {dashboardStats.completedClassesCount} Completed • {dashboardStats.ongoingClassesCount} Ongoing
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 3. Present Today */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-emerald-700 dark:text-emerald-400 uppercase tracking-[0.4px]">
+                  Present Today
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-emerald-600 dark:text-emerald-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {dashboardStats.todayPresentCount}
+              </div>
+              <p className="text-[11px] text-emerald-700/80 dark:text-emerald-400/80 font-normal mt-0.5 truncate">
+                {dashboardStats.todayPresentPercent}% attended
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 4. Absent Today */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${dashboardStats.todayAbsentCount > 0 ? 'bg-rose-500 animate-pulse' : 'bg-slate-400'}`} />
+                <span className={`text-[11.5px] font-semibold uppercase tracking-[0.4px] ${dashboardStats.todayAbsentCount > 0 ? 'text-rose-700 dark:text-rose-400' : 'text-slate-500 dark:text-slate-400'}`}>
+                  Absent Today
+                </span>
+              </div>
+              <div className={`text-[24px] sm:text-[25px] font-bold mt-1.5 tracking-tight tabular-nums leading-tight ${dashboardStats.todayAbsentCount > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                {dashboardStats.todayAbsentCount}
+              </div>
+              <p className={`text-[11px] font-normal mt-0.5 truncate ${dashboardStats.todayAbsentCount > 0 ? 'text-rose-600/80 dark:text-rose-400/80' : 'text-slate-400'}`}>
+                {dashboardStats.todayAbsentPercent}% absent
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* 5. On Leave */}
+          <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] hover:border-slate-300/80 dark:hover:border-slate-700 transition-all h-full flex flex-col justify-between">
+            <CardContent className="p-3.5 sm:p-4 flex flex-col justify-between h-full">
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" />
+                <span className="text-[11.5px] font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-[0.4px]">
+                  On Leave
+                </span>
+              </div>
+              <div className="text-[24px] sm:text-[25px] font-bold text-amber-600 dark:text-amber-400 tracking-tight mt-1.5 tabular-nums leading-tight">
+                {dashboardStats.todayLeaveCount}
+              </div>
+              <p className="text-[11px] text-amber-700/80 dark:text-amber-400/80 font-normal mt-0.5 truncate">
+                {dashboardStats.todayLeavePercent}% approved leave
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Unified Attendance Dashboard Navigation Tabs */}
+        <AttendanceDashboardTabs />
+
+        {/* Main Section: Today's Class Overview Table */}
+        <Card className="rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)]">
+          <CardHeader className="py-3 px-4 sm:px-6 flex flex-row items-center justify-between border-b border-slate-100 dark:border-slate-800/80">
+            <div>
+              <CardTitle className="text-base sm:text-[17px] font-bold text-slate-900 dark:text-white uppercase flex items-center gap-2">
+                <CalendarDays className="h-4 w-4 text-[#2864E8]" />
+                Today&apos;s Class Overview
+              </CardTitle>
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Live schedule and real-time attendance counts for today&apos;s classes
+              </CardDescription>
             </div>
-          ) : (
-            <table className="w-full text-left text-xs border-collapse">
-              <thead>
-                <tr className="bg-slate-50/80 text-slate-600 font-bold border-b border-slate-200 text-[11px] uppercase tracking-wider">
-                  <th className="py-3 px-4">Time</th>
-                  <th className="py-3 px-3">Class</th>
-                  <th className="py-3 px-3">Batch</th>
-                  <th className="py-3 px-4">Subject</th>
-                  <th className="py-3 px-4">Teacher</th>
-                  <th className="py-3 px-3">Duration</th>
-                  <th className="py-3 px-3">Status</th>
-                  <th className="py-3 px-3 text-center">Present / Total</th>
-                  <th className="py-3 px-4 text-right">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
+            <Link
+              href="/admin/attendance/schedule"
+              className="text-xs font-semibold text-[#2864E8] hover:underline flex items-center gap-1"
+            >
+              View Full Schedule <ChevronRight className="h-3.5 w-3.5" />
+            </Link>
+          </CardHeader>
+
+          <CardContent className="p-0 overflow-x-auto">
+            {filteredTodayClasses.length === 0 ? (
+              <div className="py-12 px-4 text-center space-y-3">
+                <div className="h-12 w-12 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+                  <CalendarDays className="h-6 w-6" />
+                </div>
+                <p className="text-sm font-bold text-slate-800 dark:text-slate-200">No classes scheduled for today</p>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                  Schedule a regular class or add an extra session to begin live attendance tracking.
+                </p>
+                <Button
+                  size="sm"
+                  onClick={() => setIsAddClassOpen(true)}
+                  className="bg-[#2864E8] hover:bg-blue-700 text-white font-bold text-xs h-8"
+                >
+                  + Add Class Session
+                </Button>
+              </div>
+            ) : (
+              <table className="w-full text-left text-xs sm:text-sm border-collapse">
+                <thead className="bg-slate-50/90 dark:bg-slate-900/70 text-slate-500 dark:text-slate-400 font-bold uppercase tracking-[0.06em] text-[10.5px] border-b border-slate-200/80 dark:border-slate-800/80">
+                  <tr>
+                    <th className="py-3 px-4 pl-5">Time</th>
+                    <th className="py-3 px-3">Class</th>
+                    <th className="py-3 px-3">Batch</th>
+                    <th className="py-3 px-4">Subject</th>
+                    <th className="py-3 px-4">Teacher</th>
+                    <th className="py-3 px-3">Duration</th>
+                    <th className="py-3 px-3">Status</th>
+                    <th className="py-3 px-3 text-center">Present / Total</th>
+                    <th className="py-3 px-4 pr-5 text-right">Action</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
                 {filteredTodayClasses.map((item: TDashboardStats['todayClassesOverview'][0]) => {
                   const isOngoing = item.status === 'Ongoing';
                   const isCompleted = item.status === 'Completed';
@@ -667,20 +671,20 @@ export default function AttendanceDashboard() {
       {/* Two Column Grid: Today's Absent Students & Attendance Trend Graph */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Today's Absent Students (5 Cols) */}
-        <Card className="lg:col-span-5 border-slate-200 shadow-sm flex flex-col">
-          <CardHeader className="p-4 sm:p-5 flex flex-row items-center justify-between border-b border-slate-100">
+        <Card className="lg:col-span-5 rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] flex flex-col">
+          <CardHeader className="py-3 px-4 sm:px-6 flex flex-row items-center justify-between border-b border-slate-100 dark:border-slate-800/80">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
+              <CardTitle className="text-sm font-bold text-slate-900 dark:text-white uppercase flex items-center gap-2">
                 <AlertTriangle className="h-4 w-4 text-rose-500" />
                 Today&apos;s Absent Students
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500">
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Follow up with parents and log contact remarks
               </CardDescription>
             </div>
             <Link
               href="/admin/attendance/leave?tab=followup"
-              className="text-xs font-bold text-blue-600 hover:text-blue-700"
+              className="text-xs font-semibold text-[#2864E8] hover:underline"
             >
               View All →
             </Link>
@@ -692,7 +696,7 @@ export default function AttendanceDashboard() {
                 <div className="h-10 w-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center">
                   <CheckCircle2 className="h-5 w-5" />
                 </div>
-                <p className="text-xs font-bold text-slate-800">No absences recorded today</p>
+                <p className="text-xs font-bold text-slate-800 dark:text-slate-200">No absences recorded today</p>
                 <p className="text-[11px] text-slate-500 max-w-xs">
                   All students attended their scheduled classes or no session was conducted yet.
                 </p>
@@ -703,16 +707,16 @@ export default function AttendanceDashboard() {
                 return (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/60 hover:bg-slate-50 transition-colors"
+                    className="flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 hover:bg-slate-50 dark:hover:bg-slate-800/70 transition-colors"
                   >
                     <div className="space-y-0.5">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-xs text-slate-900">{item.studentName}</span>
+                        <span className="font-bold text-xs text-slate-900 dark:text-slate-100">{item.studentName}</span>
                         <span className="text-[10px] text-slate-500 font-semibold">
                           {item.className} {item.subject}
                         </span>
                       </div>
-                      <div className="flex items-center gap-2 text-[11px] text-slate-500">
+                      <div className="flex items-center gap-2 text-[11px] text-slate-500 dark:text-slate-400">
                         <span className="text-rose-600 font-bold">{item.missedHours} Missed</span>
                         <span>•</span>
                         <span>{item.contactNumber}</span>
@@ -723,8 +727,8 @@ export default function AttendanceDashboard() {
                       <Badge
                         className={`text-[10px] font-bold ${
                           isContacted
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/60 dark:text-emerald-300'
+                            : 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/60 dark:text-rose-300 animate-pulse'
                         }`}
                       >
                         {item.callStatus}
@@ -738,7 +742,7 @@ export default function AttendanceDashboard() {
                           setParentReason(item.parentReason || '');
                           setCallRemark(item.remark || '');
                         }}
-                        className="h-7 px-2.5 text-xs font-bold bg-blue-600 hover:bg-blue-700 text-white gap-1"
+                        className="h-7 px-2.5 text-xs font-bold bg-[#2864E8] hover:bg-blue-700 text-white gap-1"
                       >
                         <PhoneCall className="h-3 w-3" />
                         Call
@@ -752,20 +756,20 @@ export default function AttendanceDashboard() {
         </Card>
 
         {/* Attendance Trend Graph (7 Cols) */}
-        <Card className="lg:col-span-7 border-slate-200 shadow-sm flex flex-col">
-          <CardHeader className="p-4 sm:p-5 flex flex-row items-center justify-between border-b border-slate-100">
+        <Card className="lg:col-span-7 rounded-2xl border border-[#E9EEF5] dark:border-slate-800 bg-white dark:bg-slate-900 shadow-[0_1px_3px_rgba(15,23,42,0.03)] flex flex-col">
+          <CardHeader className="py-3 px-4 sm:px-6 flex flex-row items-center justify-between border-b border-slate-100 dark:border-slate-800/80">
             <div>
-              <CardTitle className="text-sm font-bold text-slate-900 flex items-center gap-2">
-                <TrendingUp className="h-4 w-4 text-blue-600" />
+              <CardTitle className="text-sm font-bold text-slate-900 dark:text-white uppercase flex items-center gap-2">
+                <TrendingUp className="h-4 w-4 text-[#2864E8]" />
                 Attendance Trend (This Month)
               </CardTitle>
-              <CardDescription className="text-xs text-slate-500">
+              <CardDescription className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Daily institute-wide student attendance rate across all batches
               </CardDescription>
             </div>
             <div className="text-right">
               <span className="text-[11px] text-slate-500 font-medium block">Average</span>
-              <span className="text-lg font-black text-emerald-600">
+              <span className="text-lg font-black text-emerald-600 dark:text-emerald-400">
                 {dashboardStats.trendAverage > 0 ? `${dashboardStats.trendAverage}%` : '—'}
               </span>
             </div>
@@ -824,6 +828,7 @@ export default function AttendanceDashboard() {
             )}
           </CardContent>
         </Card>
+      </div>
       </div>
 
       {/* Call Parent Modal */}

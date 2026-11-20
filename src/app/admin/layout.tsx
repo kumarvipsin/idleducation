@@ -319,34 +319,22 @@ function AdminLayout({
                         <ChevronDown className="ml-auto h-4 w-4 shrink-0 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                     </SidebarMenuSubButton>
                     <SidebarMenuSubItem>
-                        <SidebarMenuButton asChild isActive={pathname === '/admin/attendance'}>
+                        <SidebarMenuButton
+                            asChild
+                            isActive={
+                                pathname === '/admin/attendance' ||
+                                pathname.startsWith('/admin/attendance/classes') ||
+                                pathname.startsWith('/admin/attendance/students') ||
+                                pathname.startsWith('/admin/attendance/student/') ||
+                                pathname.startsWith('/admin/attendance/live') ||
+                                pathname.startsWith('/admin/attendance/reports') ||
+                                pathname.startsWith('/admin/attendance/weekly') ||
+                                pathname.startsWith('/admin/attendance/monthly')
+                            }
+                        >
                             <Link href="/admin/attendance">
                                 <SlidersHorizontal />
-                                <span>Overview</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/classes')}>
-                            <Link href="/admin/attendance/classes">
-                                <BookMarked />
-                                <span>Classes & Batches</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/students') || pathname.startsWith('/admin/attendance/student/')}>
-                            <Link href="/admin/attendance/students">
-                                <Users />
-                                <span>Students</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/live')}>
-                            <Link href="/admin/attendance/live">
-                                <Radio />
-                                <span>Live Attendance</span>
-                            </Link>
-                        </SidebarMenuButton>
-                        <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/reports') || pathname.startsWith('/admin/attendance/weekly') || pathname.startsWith('/admin/attendance/monthly')}>
-                            <Link href="/admin/attendance/reports">
-                                <FileText />
-                                <span>Weekly & Monthly Reports</span>
+                                <span>Attendance Dashboard</span>
                             </Link>
                         </SidebarMenuButton>
                         <SidebarMenuButton asChild isActive={pathname.startsWith('/admin/attendance/schedule')}>
